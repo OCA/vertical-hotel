@@ -5,3 +5,4 @@ http://doc.openerp.com/v6.0/developer/3_10_wizard/index.html#guidelines-on-how-t
 3. Make sure the models have search view added.
 4. Make sure each menu opens the right view and no menu refers to dead reference.
 5. Basic level of Code Optimization.
+6. Make sure each view opens and there is no error of views.
