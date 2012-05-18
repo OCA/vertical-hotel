@@ -1,0 +1,6 @@
+Migration Todos:
+1. Rename the __terp__.py to be __openerp__.py
+2. Remove any wizard of type wizard.interface to be designed as osv.osv_memory wizard.
+3. Make sure the models have search view added.
+4. Make sure each menu opens the right view and no menu refers to dead reference.
+5. Basic level of Code Optimization.
