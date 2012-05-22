@@ -22,7 +22,6 @@
 from osv import fields
 from osv import osv
 import time
-import ir
 from mx import DateTime
 import netsvc
 import datetime
@@ -48,7 +47,7 @@ class hotel_menucard_type(osv.osv):
     _description='amenities Type'
     _inherits = {'product.category':'menu_id'}
     _columns = {
-        'menu_id':fields.many2one('product.category','category',required=True),
+        'menu_id':fields.many2one('product.category','category',required=True, ondelete='cascade'),
        }
     _defaults = {
         'ismenutype': lambda *a: 1,

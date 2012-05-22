@@ -18,6 +18,23 @@
 				</form>
 			</field>
 		</record>
+		
+		<record model="ir.ui.view" id="view_hotel_restaurant_tables_search">
+            <field name="name">hotel_restaurant_tables.search</field>
+            <field name="model">hotel.restaurant.tables</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Tables Detail">
+                    <field name="name"/>
+                    <field name="capacity"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter name="capacity" string="Capacity" icon="terp-stock_symbol-selection" context="{'group_by':'capacity'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+		
 		<record model="ir.ui.view" id="view_hotel_restaurant_tables_tree">
 			<field name="name">hotel_restaurant_tables.tree</field>
 			<field name="model">hotel.restaurant.tables</field>
@@ -58,15 +75,16 @@
 					<field name="end_date"/>
 					<field name="cname" on_change="onchange_partner_id(cname)"/>
 					<field name="partner_address_id"/>
-					<field name="tableno" colspan="4"/>
+					<separator colspan='4' string="Table List"/>
+					<field name="tableno" colspan="4" nolabel='1'/>
 					<newline/>
 					<field name="state"/>
 					<group col="5" colspan="2">
-					<button string="Confirm" name="confirm" states="draft" type="workflow" />
-					<button string="Done" name="done" states="confirm" type="workflow"/>
-					<button string="Cancel" name="cancel" states="confirm" type="workflow" />
-					<button string="Set to Draft" name="action_set_to_draft" states="cancel" type="object"/>
-					<button string="Create Order" name="create_order" type="object" states="done"/>
+					<button string="Confirm" name="confirm" states="draft" type="workflow" icon="gtk-ok"/>
+					<button string="Done" name="done" states="confirm" type="workflow" icon="gtk-apply"/>
+					<button string="Cancel" name="cancel" states="confirm" type="workflow" icon="gtk-cancel"/>
+					<button string="Set to Draft" name="action_set_to_draft" states="cancel" type="object" icon="gtk-file"/>
+					<button string="Create Order" name="create_order" type="object" states="done" icon="gtk-new"/>
 					</group>
 
 				</form>
@@ -117,9 +135,11 @@
 					<field name="date1" />
 					<field name="waitername"/>
 					<newline/>
-					<field name="table_no" colspan="4"/>
+					<separator colspan='4' string='Table List'/>
+					<field name="table_no" colspan="4" nolabel='1'/>
 					<newline/>
-					<field name="order_list" colspan="4" >
+					<separator colspan='4' string='Order List'/>
+					<field name="order_list" colspan="4" nolabel='1'>
 						<form string="Order List">
 							<field name="name" on_change="on_change_item_name(name)"/>
 							<field name="item_qty"/>
@@ -138,7 +158,7 @@
 						<field name="amount_subtotal"/>
 						<field name="tax"/>
 						<field name="amount_total"/>
-						<button string="Generate KOT" name="reservation_generate_kot" type="object"/>
+						<button string="Generate KOT" name="reservation_generate_kot" type="object" icon="gtk-go-forward"/>
 					</group>
 				</form>
 			</field>
@@ -188,9 +208,11 @@
 					<field name="room_no"/>
 					<field name="waiter_name"/>
 					<newline/>
-					<field name="table_no" colspan="4"/>
+					<separator colspan='4' string='Table List'/>
+                    <field name="table_no" colspan="4" nolabel='1'/>
 					<newline/>
-					<field name="order_list" colspan="4" >
+                    <separator colspan='4' string='Order List'/>
+                    <field name="order_list" colspan="4" nolabel='1'>
 						<form string="Order List">
 							<field name="name" on_change="on_change_item_name(name)"/>
 							<field name="item_qty"/>
@@ -210,7 +232,7 @@
 						<field name="amount_subtotal"/>
 						<field name="tax"/>
 						<field name="amount_total"/>
-						<button string="Generate KOT" name="generate_kot" type="object"/>
+						<button string="Generate KOT" name="generate_kot" type="object" icon="gtk-go-forward"/>
 					</group>
 				</form>
 			</field>
@@ -260,9 +282,11 @@
 					<field name="room_no" select="1"/>
 					<field name="w_name"/>
 					<newline/>
-					<field name="tableno" select="1" colspan="4"/>
+					<separator colspan='4' string='Table List'/>
+					<field name="tableno" select="1" colspan="4" nolabel='1'/>
 					<newline/>
-					<field name="kot_list" colspan="4">
+					<separator colspan='4' string='Order List'/>
+					<field name="kot_list" colspan="4" nolabel='1'>
 						<form string="Order List">
 							<field name="name" on_change="on_change_item_name(name)"/>
 							<field name="item_qty"/>
@@ -340,10 +364,11 @@
 			<field name="view_type">form</field>
 			<field name="view_mode">tree,form</field>
 	   	</record>
+	   	<menuitem  id="menu_hotel_food_item" name="Food Item" parent="hotel.hotel_configuration_menu" sequence="2"/>
 		<menuitem name="FoodItem Types"
 				  id="menu_action_hotel_menucard_type_view_form"
 				  action="action_hotel_menucard_type_view_form"
-				  parent="hotel.hotel_configuration_menu"/>
+				  parent="menu_hotel_food_item" sequence="12"/>
 
 		<record model="ir.ui.view" id="view_hotel_menucard_form">
 			<field name="name">hotel.menucard.form</field>
@@ -401,6 +426,20 @@
 				</form>
 			</field>
 		</record>
+		
+		<record model="ir.ui.view" id="view_hotel_menucard_search">
+            <field name="name">hotel.menucard.search</field>
+            <field name="model">hotel.menucard</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Hotel Menucard" >
+                    <field name="name" />
+                    <field name="categ_id" select="1"/>
+                    <field name="list_price" string="Item Rate"/>
+                </search>
+            </field>
+        </record>
+		
 		<record model="ir.ui.view" id="view_hotel_menucard_tree">
 			<field name="name">hotel.menucard.tree</field>
 			<field name="model">hotel.menucard</field>
@@ -423,7 +462,7 @@
 		<menuitem name="Food Items"
 					 id="menu_open_hotel_menucard_form"
 					 action="action_hotel_menucard_form"
-					 parent="menu_action_hotel_menucard_type_view_form"/>
+					 parent="menu_hotel_food_item"/>
 
 
 	</data>
