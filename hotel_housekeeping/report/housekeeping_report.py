@@ -32,10 +32,10 @@ class activity_report(report_sxw.rml_parse):
             'get_room_no': self.get_room_no,
             
         })
-        self.context=context
-        
+        print "context",context
+                
     def get_activity_detail(self,date_start,date_end,room_no):
-        
+
         self.cr.execute("select hh.current_date,ppt.name as Activity,pt.name as Room,rs.login,hha.clean_start_time,hha.clean_end_time,(hha.clean_end_time-hha.clean_start_time) as duration  from hotel_housekeeping as hh " \
                         "inner join hotel_housekeeping_activities as hha on hha.a_list=hh.id " \
                         "inner join h_activity as ha on ha.id=hha.activity_name " \
@@ -50,6 +50,7 @@ class activity_report(report_sxw.rml_parse):
                         )
                      
         res=self.cr.dictfetchall()
+        print "resss",res
         return res
    
     def get_room_no(self,room_no):
