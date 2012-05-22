@@ -70,8 +70,8 @@
 			<field name="view_mode">graph,tree</field>
 			<field name = "view_id" ref="view_hotel_reservation_status_graph_bar"/>
  	</record>
-	<menuitem name = "Hotel Management/Reports/This Month"
-			  id = "menu_hotel_reservation_this_month"/>
+	<menuitem name = "This Month"
+			  id = "menu_hotel_reservation_this_month" parent= "hotel.hotel_report_menu"/>
 
  	<menuitem name="States By Reservation"
 		          action="action_report_hotel_reservation_status_tree_graph_bar"
