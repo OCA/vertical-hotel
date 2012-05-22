@@ -39,7 +39,7 @@ class hotel_housekeeping_activity_type(osv.osv):
     _inherits = {'product.category':'activity_id'}
     
     _columns = {
-        'activity_id':fields.many2one('product.category','category',required=True),
+        'activity_id':fields.many2one('product.category','category',required=True,ondelete='cascade'),
     }
     
 hotel_housekeeping_activity_type()
