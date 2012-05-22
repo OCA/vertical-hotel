@@ -62,9 +62,6 @@
 		<field name="view_mode">graph,tree</field>
 
 	</record>
-	<menuitem name = "This Month"
-			  parent="hotel.hotel_report_menu"
-			  id = "menu_hotel_restaurant_this_month"/>
 
 	<record model="ir.actions.act_window" id="action_report_hotel_restaurant_status_tree_graph_bar">
 			<field name="name">States By Restaurant</field>
@@ -79,6 +76,6 @@
 		          action="action_report_hotel_restaurant_status_tree_graph_bar"
 		          id="menu_hotel_restaurant_status_tree_graph_bar"
 		          sequence="33"
-		          parent = "menu_hotel_restaurant_this_month"/>
+		          parent = "report_hotel_reservation.menu_hotel_reservation_this_month"/>
 </data>
 </openerp>
