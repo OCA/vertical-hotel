@@ -7,7 +7,7 @@
 			name="activity.detail"
 			rml="hotel_housekeeping/report/activity_detail.rml"
 			auto="False"
-			menu="False"/>
+			menu="False"/>       
 	</data>
 </openerp>
 			
