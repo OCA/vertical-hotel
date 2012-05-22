@@ -1,3 +1,5 @@
+
+
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #    
@@ -20,48 +22,32 @@
 ##############################################################################
 
 import wizard
+from osv import osv, fields
 
-activity_res_form= """<?xml version="1.0"?>
-<form string="Activity List">
-     <field name="date_start" />
-     <field name="date_end" />
-     <field name="room_no" />
-</form>
-"""
-
-activity_res_field= {
-    'date_start': {'string':'Start Date','type':'datetime','required': True},
-    'date_end': {'string':'End Date','type':'datetime','required': True},
-    'room_no': {'string': 'Room No.', 'type': 'many2one', 'relation': 'hotel.room','required':True},
+class hotel_housekeeping_wizard(osv.osv_memory):
+    _name = 'hotel.housekeeping.wizard'
     
-}
-
-activity_result_form = """<?xml version="1.0"?>
-<form string="Activity List">
-    <separator string="Activity List" />
-</form>"""
-
-activity_fields = {}
-
-class get_housekeeping_activity_list(wizard.interface):
-
-    states = {
-        'init' : {
-            'actions' : [],
-            'result' : {'type' : 'form',
-                    'arch' : activity_res_form,
-                    'fields' : activity_res_field,
-                    'state' : [('print_activity_list','Activity List'),('end', 'Cancel')]}
-        },
-        'print_activity_list': {
-            'action' : [],
-            'result' : {'type' : 'print',
-                    'report':'activity.detail',
-                    'state' : 'end'}             
-        },    
-    
-       
+    _columns = {
+        'date_start' :fields.date('Start Date',required=True),
+        'date_end': fields.date('End Date',required=True),
+        'room_no':fields.many2one('hotel.room', 'Room No.', required=True),
     }
-get_housekeeping_activity_list("hotel.housekeeping.activity_list")     
+    
+    def print_report(self,cr,uid,ids,context=None):    
+        if context is None:
+            context = {}
+        print context
+        datas = {'ids':{},'model':'hotel.housekeeping'}
+        res = self.read(cr, uid, ids, context=context)
+        res = res and res[0] or {}
+        datas['form'] = res
+        print "++++++++++++++",res, datas
+        return {
+            'type': 'ir.actions.report.xml',
+            'report_name': 'activity.detail',
+            'datas': datas,
+        }
+    
+hotel_housekeeping_wizard()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
