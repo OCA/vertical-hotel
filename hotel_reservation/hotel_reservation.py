@@ -22,7 +22,6 @@
 from osv import fields
 from osv import osv
 import time
-import ir
 from mx import DateTime
 import datetime
 import pooler
