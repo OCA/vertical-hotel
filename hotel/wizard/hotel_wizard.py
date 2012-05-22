@@ -1,5 +1,3 @@
-
-
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #    
@@ -21,33 +19,36 @@
 #
 ##############################################################################
 
-import wizard
-from osv import osv, fields
+from osv import osv,fields
 
-class hotel_housekeeping_wizard(osv.osv_memory):
-    _name = 'hotel.housekeeping.wizard'
+class folio_report_wizard(osv.osv_memory):
     
+    _name = 'folio.report.wizard'
+    
+    _rec_name = 'date_start'
     _columns = {
-        'date_start' :fields.date('Start Date',required=True),
-        'date_end': fields.date('End Date',required=True),
-        'room_no':fields.many2one('hotel.room', 'Room No.', required=True),
-    }
+                'date_start':fields.datetime('Start Date'),
+                'date_end':fields.datetime('End Date')
+                }
     
-    def print_report(self,cr,uid,ids,context=None):    
+    def print_report(self,cr,uid,ids,context=None):
+        
         if context is None:
             context = {}
-        print context
-        datas = {'ids':{},'model':'hotel.housekeeping'}
+            
+        datas = {'ids': context.get('active_ids', [])}
         res = self.read(cr, uid, ids, context=context)
         res = res and res[0] or {}
         datas['form'] = res
-        print "++++++++++++++",res, datas
+
         return {
             'type': 'ir.actions.report.xml',
-            'report_name': 'activity.detail',
+            'report_name': 'folio.total',
             'datas': datas,
         }
-    
-hotel_housekeeping_wizard()
+
+        
+folio_report_wizard()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+

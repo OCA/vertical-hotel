@@ -1,5 +1,3 @@
-
-
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #    
@@ -21,33 +19,6 @@
 #
 ##############################################################################
 
-import wizard
-from osv import osv, fields
-
-class hotel_housekeeping_wizard(osv.osv_memory):
-    _name = 'hotel.housekeeping.wizard'
-    
-    _columns = {
-        'date_start' :fields.date('Start Date',required=True),
-        'date_end': fields.date('End Date',required=True),
-        'room_no':fields.many2one('hotel.room', 'Room No.', required=True),
-    }
-    
-    def print_report(self,cr,uid,ids,context=None):    
-        if context is None:
-            context = {}
-        print context
-        datas = {'ids':{},'model':'hotel.housekeeping'}
-        res = self.read(cr, uid, ids, context=context)
-        res = res and res[0] or {}
-        datas['form'] = res
-        print "++++++++++++++",res, datas
-        return {
-            'type': 'ir.actions.report.xml',
-            'report_name': 'activity.detail',
-            'datas': datas,
-        }
-    
-hotel_housekeeping_wizard()
+import hotel_report
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

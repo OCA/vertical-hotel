@@ -21,7 +21,6 @@
 from osv import fields
 from osv import osv
 import time
-import ir
 from mx import DateTime
 import datetime
 import pooler
@@ -29,120 +28,102 @@ from tools import config
 import wizard
 import netsvc
 
-
-room_res_form= """<?xml version="1.0"?>
-<form string="Reservation List">
-     <field name="date_start" />
-     <field name="date_end" />
-</form>
-"""
-
-room_res_field= {
-    'date_start': {'string':'Start Date','type':'datetime','required': True},
-    'date_end': {'string':'End Date','type':'datetime','required': True},
+class hotel_reservation_wizard(osv.osv_memory):
     
-}
-
-room_result_form = """<?xml version="1.0"?>
-<form string="Room Reservation">
-    <separator string="Reservation List" />
-</form>"""
-
-result_fields = {}
-
-class get_reservation_room_list(wizard.interface):
-
-    states = {
-        'init' : {
-            'actions' : [],
-            'result' : {'type' : 'form',
-                    'arch' : room_res_form,
-                    'fields' : room_res_field,
-                    'state' : [('print_report', 'Reservation List'),('print_checkin', 'CheckIn List'),('print_checkout', 'CheckOut List'),('print_room_used','Room Used Maximum'),('end', 'Cancel')]}
-        },
-        'print_report' : {
-            'actions' : [],
-            'result' : {'type' : 'print',
-                    'report':'reservation.detail',
-                    'state' : 'end'}
-        },
-         'print_checkin' : {
-            'actions' : [],
-            'result' : {'type' : 'print',
-                    'report':'checkin.detail',
-                    'state' : 'end'}
-        },
-         'print_checkout' : {
-            'actions' : [],
-            'result' : {'type' : 'print',
-                    'report':'checkout.detail',
-                    'state' : 'end'}
-        },
-        'print_room_used': {
-            'action' : [],
-            'result' : {'type' : 'print',
-                    'report':'maxroom.detail',
-                    'state' : 'end'}             
-        },    
+    _name = 'hotel.reservation.wizard'
     
-       
+    _columns = {
+        'date_start' :fields.datetime('Start Date',required=True),
+        'date_end': fields.datetime('End Date',required=True),        
     }
-get_reservation_room_list("hotel.reservation.report_reservation")     
-
-folio_form = """<?xml version="1.0"?>
-<form string="Create Folio">
-    <separator colspan="4" string="Do you really want to create the Folio ?" />
-    <field name="grouped" />
-</form>
-"""
-folio_fields = {
-    'grouped' : {'string':'Group the Folios', 'type':'boolean', 'default': lambda x,y,z: False}
-}
-
-ack_form = """<?xml version="1.0"?>
-<form string="Create Folios">
-    <separator string="Folios created" />
-</form>"""
-
-ack_fields = {}
-
-def _makeFolios(self, cr, uid, data, context):
     
+    def report_reservation_detail(self,cr,uid,ids,context=None):    
+        if context is None:
+            context = {}
+            
+        datas = {'ids': context.get('active_ids', [])}
+        res = self.read(cr, uid, ids, context=context)
+        res = res and res[0] or {}
+        datas['form'] = res
+        return {
+            'type': 'ir.actions.report.xml',
+            'report_name': 'reservation.detail',
+            'datas': datas,
+        }
     
-    order_obj = pooler.get_pool(cr.dbname).get('hotel.reservation')
-    newinv = []
-    for o in order_obj.browse(cr, uid, data['ids'], context):
-        for i in o.folio_id:
-           newinv.append(i.id)
-    return {
-        'domain': "[('id','in', ["+','.join(map(str,newinv))+"])]",
-        'name': 'Folios',
-        'view_type': 'form',
-        'view_mode': 'tree,form',
-        'res_model': 'hotel.folio',
-        'view_id': False,
-        'type': 'ir.actions.act_window'
-         
-    }
-    return {}
+    def report_checkin_detail(self,cr,uid,ids,context=None):    
+        if context is None:
+            context = {}
+            
+        datas = {'ids': context.get('active_ids', [])}
+        res = self.read(cr, uid, ids, context=context)
+        res = res and res[0] or {}
+        datas['form'] = res
+        return {
+            'type': 'ir.actions.report.xml',
+            'report_name': 'checkin.detail',
+            'datas': datas,
+        }
+    
+    def report_checkout_detail(self,cr,uid,ids,context=None):    
+        if context is None:
+            context = {}
+            
+        datas = {'ids': context.get('active_ids', [])}
+        res = self.read(cr, uid, ids, context=context)
+        res = res and res[0] or {}
+        datas['form'] = res
+        return {
+            'type': 'ir.actions.report.xml',
+            'report_name': 'checkout.detail',
+            'datas': datas,
+        }
+        
+    def report_maxroom_detail(self,cr,uid,ids,context=None):    
+        if context is None:
+            context = {}
+            
+        datas = {'ids': context.get('active_ids', [])}
+        res = self.read(cr, uid, ids, context=context)
+        res = res and res[0] or {}
+        datas['form'] = res
+        return {
+            'type': 'ir.actions.report.xml',
+            'report_name': 'maxroom.detail',
+            'datas': datas,
+        }
+      
+hotel_reservation_wizard()
 
-class make_folio(wizard.interface):
-    states = {
-        'init' : {
-            'actions' : [],
-            'result' : {'type' : 'form',
-                    'arch' : folio_form,
-                    'fields' : folio_fields,
-                    'state' : [('end', 'Cancel'),('folio', 'Create Folios') ]}
-        },
-        'folio' : {
-            'actions' : [_makeFolios],
-            'result' : {'type' : 'action',
-                    'action' : _makeFolios,
-                    'state' : 'end'}
-        },
+class make_folio_wizard(osv.osv_memory):
+    
+    _name = 'wizard.make.folio'
+    
+    _columns = {
+        'grouped':fields.boolean('Group the Folios'),
     }
-make_folio("hotel.folio.make_folio")
+    
+    _defaults = {  
+        'grouped': False,
+    }
+    
+    def makeFolios(self, cr, uid, data, context):
+        order_obj = self.pool.get('hotel.reservation')
+        newinv = []
+        for o in order_obj.browse(cr, uid, context['active_ids'], context):
+            for i in o.folio_id:
+               newinv.append(i.id)
+        return {
+            'domain': "[('id','in', ["+','.join(map(str,newinv))+"])]",
+            'name': 'Folios',
+            'view_type': 'form',
+            'view_mode': 'tree,form',
+            'res_model': 'hotel.folio',
+            'view_id': False,
+            'type': 'ir.actions.act_window'
+        }
 
+    
+make_folio_wizard()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
