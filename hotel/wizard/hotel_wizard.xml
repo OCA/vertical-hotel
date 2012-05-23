@@ -12,6 +12,7 @@
 					<field name="date_end" required="1"/>
 					<newline/>
 					<separator colspan='4'/>
+					<newline/>
 					<button icon="gtk-cancel" string="Cancel" special="cancel"/>
 					<button icon="gtk-print" name="print_report" string="Print" type="object"/>
 				</form>
