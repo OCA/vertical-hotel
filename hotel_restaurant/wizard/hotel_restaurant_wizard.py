@@ -39,14 +39,12 @@ class wizard_hotel_restaurant(osv.osv_memory):
         'date_end': fields.datetime('End Date',required=True),        
     }
     
-    def print_report(self,cr,uid,ids,context=None):    
-        if context is None:
-            context = {}
-            
-        datas = {'ids':{},'model':'hotel.restaurant.reservation'}
-        res = self.read(cr, uid, ids, context=context)
-        res = res and res[0] or {}
-        datas['form'] = res
+    def print_report(self,cr,uid,ids,context=None):
+        datas = {
+             'ids': ids,
+             'model': 'hotel.restaurant.reservation',
+             'form': self.read(cr, uid, ids)[0]
+        }
         return {
             'type': 'ir.actions.report.xml',
             'report_name': 'hotel.table.res',
@@ -54,79 +52,5 @@ class wizard_hotel_restaurant(osv.osv_memory):
         }
 
 wizard_hotel_restaurant()
-#
-#kot_form = """<?xml version="1.0"?>
-#<form string="Create Kot">
-#    <separator colspan="4" string="Do you really want to create the Kot?" />
-#    <field name="grouped" />
-#</form>
-#"""
-#kot_fields = {
-#    'grouped' : {'string':'Group the kots', 'type':'boolean', 'default': lambda x,y,z: False}
-#}
-#
-#ack_form = """<?xml version="1.0"?>
-#<form string="Create Kots">
-#    <separator string="Kots created" />
-#</form>"""
-#
-#ack_fields = {}
-#
-#res_form= """<?xml version="1.0"?>
-#<form string="Reservation List">
-#     <field name="date_start" />
-#     <field name="date_end" />
-#</form>
-#"""
-#
-#res_field= {
-#    'date_start': {'string':'Start Date','type':'datetime','required': True},
-#    'date_end': {'string':'End Date','type':'datetime','required': True},
-#
-#}
-#
-#result_form = """<?xml version="1.0"?>
-#<form string="Create Kots">
-#    <separator string="Reservation List" />
-#</form>"""
-#
-#result_fields = {}
-#
-#class make_kot(wizard.interface):
-#    states = {
-#        'init' : {
-#            'actions' : [],
-#            'result' : {'type' : 'form',
-#                    'arch' : kot_form,
-#                    'fields' : kot_fields,
-#                    'state' : [('end', 'Cancel'),('kot', 'Create Kots') ]}
-#        },
-#        'kot' : {
-#            'actions' : [],
-#            'result' : {'type' : 'action',
-#                    'state' : 'end'}
-#        },
-#    }
-#make_kot("hotel.kot.make_kot")
-#
-#class get_reservation_list(wizard.interface):
-#
-#    states = {
-#        'init' : {
-#            'actions' : [],
-#            'result' : {'type' : 'form',
-#                    'arch' : res_form,
-#                    'fields' : res_field,
-#                    'state' : [('end', 'Cancel'),('print_report', 'Reservation List') ]}
-#        },
-#        'print_report' : {
-#            'actions' : [],
-#            'result' : {'type' : 'print',
-#                    'report':'hotel.table.res',
-#                    'state' : 'end'}
-#        },
-#    }
-#get_reservation_list("hotel.table.reservation")
-
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
