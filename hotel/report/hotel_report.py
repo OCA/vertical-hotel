@@ -32,9 +32,8 @@ class folio_report(report_sxw.rml_parse):
             'get_Total' : self.getTotal,
             'get_total': self.gettotal,
         })
-        self.context=context
         self.temp = 0.0
-        
+
     def get_data(self,date_start,date_end):
         tids = self.pool.get('hotel.folio').search(self.cr,self.uid,[('checkin_date', '>=', date_start),('checkout_date', '<=', date_end)])
         res = self.pool.get('hotel.folio').browse(self.cr,self.uid,tids)
