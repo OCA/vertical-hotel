@@ -33,20 +33,17 @@ class hotel_housekeeping_wizard(osv.osv_memory):
         'room_no':fields.many2one('hotel.room', 'Room No.', required=True),
     }
     
-    def print_report(self,cr,uid,ids,context=None):    
-        if context is None:
-            context = {}
-        print context
-        datas = {'ids':{},'model':'hotel.housekeeping'}
-        res = self.read(cr, uid, ids, context=context)
-        res = res and res[0] or {}
-        datas['form'] = res
-        print "++++++++++++++",res, datas
+    def print_report(self,cr,uid,ids,context=None):
+        datas = {
+             'ids': ids,
+             'model': 'hotel.housekeeping',
+             'form': self.read(cr, uid, ids)[0]
+        }
         return {
             'type': 'ir.actions.report.xml',
             'report_name': 'activity.detail',
             'datas': datas,
-        }
+        }        
     
 hotel_housekeeping_wizard()
 
