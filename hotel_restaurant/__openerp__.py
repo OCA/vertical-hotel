@@ -40,9 +40,9 @@
     ],
     "update_xml" : [
                     "hotel_restaurant_view.xml",
-                    "hotel_restaurant_report.xml",
+                    "report/hotel_restaurant_report.xml",
                     "hotel_restaurant_workflow.xml",
-                    "hotel_restaurant_wizard.xml",
+                    "wizard/hotel_restaurant_wizard.xml",
                     "hotel_restaurant_sequence.xml",
                     "security/ir.model.access.csv",
     ],
