@@ -32,7 +32,6 @@ class activity_report(report_sxw.rml_parse):
             'get_room_no': self.get_room_no,
             
         })
-        print "context",context
                 
     def get_activity_detail(self,date_start,date_end,room_no):
 
@@ -50,7 +49,6 @@ class activity_report(report_sxw.rml_parse):
                         )
                      
         res=self.cr.dictfetchall()
-        print "resss",res
         return res
    
     def get_room_no(self,room_no):
