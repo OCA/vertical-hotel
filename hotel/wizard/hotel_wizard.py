@@ -31,16 +31,12 @@ class folio_report_wizard(osv.osv_memory):
                 'date_end':fields.datetime('End Date')
                 }
     
-    def print_report(self,cr,uid,ids,context=None):
-        
-        if context is None:
-            context = {}
-            
-        datas = {'ids': context.get('active_ids', [])}
-        res = self.read(cr, uid, ids, context=context)
-        res = res and res[0] or {}
-        datas['form'] = res
-
+    def print_report(self, cr, uid, ids, context=None):
+        datas = {
+             'ids': ids,
+             'model': 'hotel.folio',
+             'form': self.read(cr, uid, ids)[0]
+        }
         return {
             'type': 'ir.actions.report.xml',
             'report_name': 'folio.total',
