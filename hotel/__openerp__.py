@@ -43,7 +43,7 @@
                     "hotel_view.xml",
                     "hotel_data.xml",
                     "hotel_folio_workflow.xml",
-                    "hotel_report.xml",
+                    "report/hotel_report.xml",
                     "wizard/hotel_wizard.xml",
                     "security/hotel_security.xml",
                     "security/ir.model.access.csv",
