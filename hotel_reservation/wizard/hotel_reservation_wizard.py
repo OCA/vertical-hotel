@@ -38,41 +38,35 @@ class hotel_reservation_wizard(osv.osv_memory):
     }
     
     def report_reservation_detail(self,cr,uid,ids,context=None):    
-        if context is None:
-            context = {}
-            
-        datas = {'ids': context.get('active_ids', [])}
-        res = self.read(cr, uid, ids, context=context)
-        res = res and res[0] or {}
-        datas['form'] = res
+        datas = {
+             'ids': ids,
+             'model': 'hotel.reservation',
+             'form': self.read(cr, uid, ids)[0]
+        }
         return {
             'type': 'ir.actions.report.xml',
             'report_name': 'reservation.detail',
             'datas': datas,
-        }
+        }        
     
     def report_checkin_detail(self,cr,uid,ids,context=None):    
-        if context is None:
-            context = {}
-            
-        datas = {'ids': context.get('active_ids', [])}
-        res = self.read(cr, uid, ids, context=context)
-        res = res and res[0] or {}
-        datas['form'] = res
+        datas = {
+             'ids': ids,
+             'model': 'hotel.reservation',
+             'form': self.read(cr, uid, ids)[0]
+        }
         return {
             'type': 'ir.actions.report.xml',
             'report_name': 'checkin.detail',
             'datas': datas,
         }
-    
+        
     def report_checkout_detail(self,cr,uid,ids,context=None):    
-        if context is None:
-            context = {}
-            
-        datas = {'ids': context.get('active_ids', [])}
-        res = self.read(cr, uid, ids, context=context)
-        res = res and res[0] or {}
-        datas['form'] = res
+        datas = {
+             'ids': ids,
+             'model': 'hotel.reservation',
+             'form': self.read(cr, uid, ids)[0]
+        }
         return {
             'type': 'ir.actions.report.xml',
             'report_name': 'checkout.detail',
@@ -80,13 +74,11 @@ class hotel_reservation_wizard(osv.osv_memory):
         }
         
     def report_maxroom_detail(self,cr,uid,ids,context=None):    
-        if context is None:
-            context = {}
-            
-        datas = {'ids': context.get('active_ids', [])}
-        res = self.read(cr, uid, ids, context=context)
-        res = res and res[0] or {}
-        datas['form'] = res
+        datas = {
+             'ids': ids,
+             'model': 'hotel.reservation',
+             'form': self.read(cr, uid, ids)[0]
+        }
         return {
             'type': 'ir.actions.report.xml',
             'report_name': 'maxroom.detail',
