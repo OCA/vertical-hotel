@@ -39,8 +39,8 @@
     "update_xml" : [
                     "hotel_housekeeping_view.xml",
                     "hotel_housekeeping_workflow.xml",
-                    "hotel_housekeeping_report.xml",
-                    "hotel_housekeeping_wizard.xml",
+                    "report/hotel_housekeeping_report.xml",
+                    "wizard/hotel_housekeeping_wizard.xml",
                     "security/ir.model.access.csv",
     ],
     "active": False,
