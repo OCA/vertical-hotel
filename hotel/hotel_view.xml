@@ -500,14 +500,14 @@
 											<separator string="Automatic Declaration" colspan="4"/>
 											<field name="product_uom_qty"
 												on_change="product_id_change(parent.pricelist_id,product_id,product_uom_qty,product_uom,product_uos_qty,product_uos,name,parent.partner_id, 'lang' in context and context['lang'], False, parent.date_order)"
-												context="{'partner_id':'parent.partner_id','quantity':'product_uom_qty','pricelist':'parent.pricelist_id','shop':'parent.shop_id','uom':'product_uom'}"
+												context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'shop':parent.shop_id,'uom':product_uom}"
 												invisible="1"/>
 											<field name="product_uom"
 												on_change="product_uom_change(parent.pricelist_id,product_id,product_uom_qty,product_uom,product_uos_qty,product_uos,name,parent.partner_id, 'lang' in context and context['lang'], False, parent.date_order)"
 												string="Rent(UOM)"/>
 											<field name="product_id"
 												on_change="product_id_change(parent.pricelist_id,product_id,product_uom_qty,product_uom,product_uos_qty,product_uos,name,parent.partner_id, 'lang' in context and context['lang'], True, parent.date_order)"
-												context="{'partner_id':'parent.partner_id','quantity':'product_uom_qty','pricelist':'parent.pricelist_id','shop':'parent.shop_id','uom':'product_uom'}"
+												context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'shop':parent.shop_id,'uom':product_uom}"
 												colspan="4" select="1" domain="[('isroom','=',True)]" string="Room No"/>
 											<separator string="Manual Description"
 												colspan="4"/>
@@ -556,14 +556,14 @@
 											<separator string="Automatic Declaration" colspan="4"/>
 											<field name="product_uom_qty"
 												on_change="product_id_change(parent.pricelist_id,product_id,product_uom_qty,product_uom,product_uos_qty,product_uos,name,parent.partner_id, 'lang' in context and context['lang'], False, parent.date_order)"
-												context="{'partner_id':'parent.partner_id','quantity':'product_uom_qty','pricelist':'parent.pricelist_id','shop':'parent.shop_id','uom':'product_uom'}"
+												context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'shop':parent.shop_id,'uom':product_uom}"
 												select="1"/>
 											<field name="product_uom"
 												on_change="product_uom_change(parent.pricelist_id,product_id,product_uom_qty,product_uom,product_uos_qty,product_uos,name,parent.partner_id, 'lang' in context and context['lang'], False, parent.date_order)"
 												/>
 											<field name="product_id"
 												on_change="product_id_change(parent.pricelist_id,product_id,product_uom_qty,product_uom,product_uos_qty,product_uos,name,parent.partner_id, 'lang' in context and context['lang'], True, parent.date_order)"
-												context="{'partner_id':'parent.partner_id','quantity':'product_uom_qty','pricelist':'parent.pricelist_id','shop':'parent.shop_id','uom':'product_uom'}"
+												context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'shop':parent.shop_id,'uom':product_uom}"
 												colspan="4" select="1" domain="[('isservice','=',True)]"/>
 											<separator string="Manual Description"
 												colspan="4"/>
