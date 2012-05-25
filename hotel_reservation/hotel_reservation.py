@@ -30,6 +30,7 @@ from tools import config
 
 class hotel_reservation(osv.osv):
     _name = "hotel.reservation"
+    _rec_name = "reservation_no"
     _description = "Reservation"
     _columns = {
                 
