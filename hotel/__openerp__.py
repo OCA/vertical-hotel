@@ -35,7 +35,7 @@ Module for Hotel/Resort/Rooms/Property management. You can manage:
 
 Different reports are also provided, mainly for hotel statistics.
     """,
-    "depends" : ["base","product","sale"],
+    "depends" : ["sale"],
     "init_xml" : [],
     "demo_xml" : [
     ],
