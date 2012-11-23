@@ -14,7 +14,6 @@
 		<record model="ir.ui.view" id="view_hotel_floor_form">
 			<field name="name">hotel.floor.form</field>
 			<field name="model">hotel.floor</field>
-			<field name="type">form</field>
 			<field name="arch" type="xml">
 				<form string=" Hotel Floor">
 					<field name="name" colspan="1"/>
@@ -25,7 +24,6 @@
 		<record model="ir.ui.view" id="view_hotel_floor_tree">
 			<field name="name">hotel.floor.tree</field>
 			<field name="model">hotel.floor</field>
-			<field name="type">tree</field>
 			<field name="arch" type="xml">
 				<tree string=" Hotel Floors">
 					<field name="name" colspan="1"/>
@@ -52,7 +50,6 @@
 		<record model="ir.ui.view" id="view_hotel_room_amenities_type_form">
 			<field name="name">hotel.room_amenities_type_form</field>
 			<field name="model">hotel.room_amenities_type</field>
-			<field name="type">form</field>
 			<field name="arch" type="xml">
 				<form string="Hotel Room Amenities Type">
 					<field name="name"/>
@@ -63,7 +60,6 @@
 		<record model="ir.ui.view" id="view_hotel_room_amenities_type_list">
 			<field name="name">hotel.room_amenities_type_list</field>
 			<field name="model">hotel.room_amenities_type</field>
-			<field name="type">tree</field>
 			<field name="arch" type="xml">
 				<tree string="Hotel Room Amenities Type">
 					<field name="complete_name"/>
@@ -88,11 +84,14 @@
 
 	<!--===============================================================
 								Room Amenities
-		===============================================================-->
+        ===============================================================-->
+
+
+
+
 		<record model="ir.ui.view" id="view_hotel_room_amenities_search">
             <field name="name">hotel.room_amenities_search</field>
             <field name="model">hotel.room_amenities</field>
-            <field name="type">search</field>
             <field name="arch" type="xml">
                 <search string="Hotel Room Amenities">
                     <field name="name" />
@@ -109,7 +108,6 @@
 		<record model="ir.ui.view" id="view_hotel_room_amenities_list">
 			<field name="name">hotel.room_amenities_list</field>
 			<field name="model">hotel.room_amenities</field>
-			<field name="type">tree</field>
 			<field name="arch" type="xml">
 				<tree string="Hotel Room Amenities">
 					<field name="name" />
@@ -137,24 +135,22 @@
 		========================================================-->
 		<record model="ir.ui.view" id="view_hotel_room_type_form">
 			<field name="name">hotel.room_type.form</field>
-			<field name="model">hotel.room_type</field>
-			<field name="type">form</field>
-			<field name="arch" type="xml">
-				<form string=" Hotel Room Type">
-					<field name="name" select="1"/>
-					<field name="parent_id" domain="[('isroomtype','=',True)]" select="1"/>
-				</form>
-			</field>
-		</record>
-		<record model="ir.ui.view" id="view_hotel_room_type_tree">
-			<field name="name">hotel.room_type.tree</field>
-			<field name="model">hotel.room_type</field>
-			<field name="type">tree</field>
-			<field name="arch" type="xml">
-				<tree string=" Hotel Room Type">
-					<field name="complete_name"/>
-				</tree>
-			</field>
+            <field name="model">hotel.room_type</field>
+           <field name="arch" type="xml">
+                   <form string=" Hotel Room Type">
+                           <field name="name" select="1"/>
+                           <field name="parent_id" domain="[('isroomtype','=',True)]" select="1"/>
+                       </form>
+               </field>
+       </record>
+       <record model="ir.ui.view" id="view_hotel_room_type_tree">
+                <field name="name">hotel.room_type.tree</field>
+                <field name="model">hotel.room_type</field>
+                <field name="arch" type="xml">
+                    <tree string=" Hotel Room Type">
+                        <field name="complete_name"/>
+                    </tree>
+                </field>
 		</record>
 		<record model="ir.actions.act_window" id="open_hotel_room_type_form_tree">
 			<field name="name">Room Type</field>
@@ -176,7 +172,6 @@
 		<record model="ir.ui.view" id="view_hotel_room_form">
 			<field name="name">hotel.room.form</field>
 			<field name="model">hotel.room</field>
-			<field name="type">form</field>
 			<field name="arch" type="xml">
 				<form string="Hotel Room">
 				<notebook>
@@ -225,7 +220,6 @@
         <record model="ir.ui.view" id="view_hotel_room_search">
             <field name="name">hotel.room.search</field>
             <field name="model">hotel.room</field>
-            <field name="type">search</field>
             <field name="arch" type="xml">
                 <search string="Hotel Room" >
                     <field name="name" />
@@ -242,7 +236,6 @@
 		<record model="ir.ui.view" id="view_hotel_room_tree">
 			<field name="name">hotel.room.tree</field>
 			<field name="model">hotel.room</field>
-			<field name="type">tree</field>
 			<field name="arch" type="xml">
 				<tree string="Hotel Room" >
 					<field name="name" />
@@ -269,7 +262,6 @@
 		<record model="ir.ui.view" id="view_hotel_service_type_form">
 			<field name="name">hotel.service_type.form</field>
 			<field name="model">hotel.service_type</field>
-			<field name="type">form</field>
 			<field name="arch" type="xml">
 				<form string="Service Type">
 					<field name="name" select="1"/>
@@ -280,7 +272,6 @@
 		<record model="ir.ui.view" id="view_hotel_service_type_tree">
 			<field name="name">hotel.service_type.tree</field>
 			<field name="model">hotel.service_type</field>
-			<field name="type">tree</field>
 			<field name="arch" type="xml">
 				<tree string="Service Type">
 					<field name="complete_name"/>
@@ -304,7 +295,6 @@
         <record model="ir.ui.view" id="view_hotel_services_search">
             <field name="name">hotel.services.search</field>
             <field name="model">hotel.services</field>
-            <field name="type">search</field>
             <field name="arch" type="xml">
                 <search string="Hotel Services" >
                     <field name="name" />
@@ -321,7 +311,6 @@
 		<record model="ir.ui.view" id="view_hotel_services_tree">
 			<field name="name">hotel.services.tree</field>
 			<field name="model">hotel.services</field>
-			<field name="type">tree</field>
 			<field name="arch" type="xml">
 				<tree string="Hotel Services" >
 					<field name="name" />
@@ -350,8 +339,6 @@
 		<record model="ir.ui.view" id="view_hotel_folio1_tree">
 			<field name="name">hotel.folio.tree</field>
 			<field name="model">hotel.folio</field>
-			<field name="type">tree</field>
-			 
 			<field name="arch" type="xml">
 				<tree string="Hotel Folio1">
 					
@@ -368,7 +355,6 @@
 		<record model="ir.ui.view" id="hotel_folio_calendar_view">
 	        <field name="name">Hotel- Folios Calendar</field>
 	        <field name="model">hotel.folio</field>
-	        <field name="type">calendar</field>
 	        <field name="arch" type="xml">
 	            <calendar string="Folios" date_start="checkin_date" color="user_id" date_stop="checkout_date">
 	                <field name="name"/>
