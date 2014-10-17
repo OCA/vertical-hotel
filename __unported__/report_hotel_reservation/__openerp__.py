@@ -35,7 +35,7 @@
     "demo_xml" : [],
     "update_xml" : ["security/ir.model.access.csv","report_hotel_reservation_view.xml"],
     "active": False,
-    "installable": True
+    'installable': False
 }
 
 

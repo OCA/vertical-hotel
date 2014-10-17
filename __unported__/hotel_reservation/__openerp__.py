@@ -18,37 +18,34 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.     
 #
 ##############################################################################
-
 {
-    "name" : "Hotel Restaurant Management",
+    "name" : "Hotel Reservation Management",
     "version" : "1.0",
     "author" : "Tiny",
-    "category" : "Generic Modules/Hotel Restaurant",
+    "category" : "Generic Modules/Hotel Reservation",
     "description": """
-    Module for Hotel/Resort/Restaurant management. You can manage:
-    * Configure Property
-    * Restaurant Configuration
-    * table reservation
-    * Generate and process Kitchen Order ticket,
-    * Payment
+Module for Hotel/Resort/Property management. You can manage:
 
-    Different reports are also provided, mainly for Restaurant.
+* Guest Reservation
+* Group Reservartion
+
+Different reports are also provided, mainly for hotel statistics.
     """,
-    "depends" : ["base","hotel"],
+    "depends" : ["hotel"],
     "init_xml" : [],
-    "demo_xml" : ["hotel_restaurant_data.xml",
+    "demo_xml" : [
+        #'hotel_reservation_data.xml',
     ],
     "update_xml" : [
-                    "hotel_restaurant_view.xml",
-                    "report/hotel_restaurant_report.xml",
-                    "hotel_restaurant_workflow.xml",
-                    "wizard/hotel_restaurant_wizard.xml",
-                    "hotel_restaurant_sequence.xml",
+                    "hotel_reservation_view.xml",
+                    "hotel_reservation_sequence.xml",
+                    "hotel_reservation_workflow.xml",
+                    "wizard/hotel_reservation_wizard.xml",
+                    "report/hotel_reservation_report.xml",
                     "security/ir.model.access.csv",
     ],
     "active": False,
-    "installable": True
+    'installable': False
 }
-
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
