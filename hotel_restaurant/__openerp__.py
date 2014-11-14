@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
-#    
+#
 #    OpenERP, Open Source Management Solution
 #    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>).
 #
@@ -15,15 +15,15 @@
 #    GNU Affero General Public License for more details.
 #
 #    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.     
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
 
 {
-    "name" : "Hotel Restaurant Management",
-    "version" : "1.0",
-    "author" : "Tiny",
-    "category" : "Generic Modules/Hotel Restaurant",
+    "name": "Hotel Restaurant Management",
+    "version": "1.0",
+    "author": "Tiny",
+    "category": "Generic Modules/Hotel Restaurant",
     "description": """
     Module for Hotel/Resort/Restaurant management. You can manage:
     * Configure Property
@@ -34,17 +34,17 @@
 
     Different reports are also provided, mainly for Restaurant.
     """,
-    "depends" : ["base","hotel"],
-    "init_xml" : [],
-    "demo_xml" : ["hotel_restaurant_data.xml",
-    ],
-    "update_xml" : [
-                    "hotel_restaurant_view.xml",
-                    "report/hotel_restaurant_report.xml",
-                    "hotel_restaurant_workflow.xml",
-                    "wizard/hotel_restaurant_wizard.xml",
-                    "hotel_restaurant_sequence.xml",
-                    "security/ir.model.access.csv",
+    "depends": ["base", "hotel"],
+    "init_xml": [],
+    "demo_xml": ["hotel_restaurant_data.xml",
+                 ],
+    "update_xml": [
+        "hotel_restaurant_view.xml",
+        "report/hotel_restaurant_report.xml",
+        "hotel_restaurant_workflow.xml",
+        "wizard/hotel_restaurant_wizard.xml",
+        "hotel_restaurant_sequence.xml",
+        "security/ir.model.access.csv",
     ],
     "active": False,
     "installable": True

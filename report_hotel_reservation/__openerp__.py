@@ -21,19 +21,19 @@
 ##############################################################################
 
 {
-    "name" : "Hotel Reservation Management - Reporting",
-    "version" : "1.0",
-    "author" : "Tiny",
-    "depends" : ["hotel_reservation"],
-    "category" : "Generic Modules/Hotel Reservation",
-     "description": """
+    "name": "Hotel Reservation Management - Reporting",
+    "version": "1.0",
+    "author": "Tiny",
+    "depends": ["hotel_reservation"],
+    "category": "Generic Modules/Hotel Reservation",
+    "description": """
     Module shows the status of room reservation
      * Current status of reserved room
      * List status of room as draft or done state
     """,
-    "init_xml" : [],
-    "demo_xml" : [],
-    "update_xml" : ["security/ir.model.access.csv","report_hotel_reservation_view.xml"],
+    "init_xml": [],
+    "demo_xml": [],
+    "update_xml": ["security/ir.model.access.csv", "report_hotel_reservation_view.xml"],
     "active": False,
     "installable": True
 }
