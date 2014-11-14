@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
-#    
+#
 #    OpenERP, Open Source Management Solution
 #    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>).
 #
@@ -15,14 +15,14 @@
 #    GNU Affero General Public License for more details.
 #
 #    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.     
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
 {
-    "name" : "Hotel Reservation Management",
-    "version" : "1.0",
-    "author" : "Tiny",
-    "category" : "Generic Modules/Hotel Reservation",
+    "name": "Hotel Reservation Management",
+    "version": "1.0",
+    "author": "Tiny",
+    "category": "Generic Modules/Hotel Reservation",
     "description": """
 Module for Hotel/Resort/Property management. You can manage:
 
@@ -31,18 +31,18 @@ Module for Hotel/Resort/Property management. You can manage:
 
 Different reports are also provided, mainly for hotel statistics.
     """,
-    "depends" : ["hotel"],
-    "init_xml" : [],
-    "demo_xml" : [
+    "depends": ["hotel"],
+    "init_xml": [],
+    "demo_xml": [
         #'hotel_reservation_data.xml',
     ],
-    "update_xml" : [
-                    "hotel_reservation_view.xml",
-                    "hotel_reservation_sequence.xml",
-                    "hotel_reservation_workflow.xml",
-                    "wizard/hotel_reservation_wizard.xml",
-                    "report/hotel_reservation_report.xml",
-                    "security/ir.model.access.csv",
+    "update_xml": [
+        "hotel_reservation_view.xml",
+        "hotel_reservation_sequence.xml",
+        "hotel_reservation_workflow.xml",
+        "wizard/hotel_reservation_wizard.xml",
+        "report/hotel_reservation_report.xml",
+        "security/ir.model.access.csv",
     ],
     "active": False,
     "installable": True

@@ -21,20 +21,20 @@
 ##############################################################################
 
 {
-    "name" : "Restaurant Management - Reporting",
-    "version" : "1.0",
-    "author" : "Tiny",
-    "depends" : ["hotel_restaurant"],
-    "category" : "Generic Modules/Hotel Restaurant",
+    "name": "Restaurant Management - Reporting",
+    "version": "1.0",
+    "author": "Tiny",
+    "depends": ["hotel_restaurant"],
+    "category": "Generic Modules/Hotel Restaurant",
     "description": """
     Module shows the status of resturant reservation
      * Current status of reserved tables
      * List status of tables as draft or done state
     """,
 
-    "init_xml" : [],
-    "demo_xml" : [],
-    "update_xml" : ["security/ir.model.access.csv","report_hotel_restaurant_view.xml"],
+    "init_xml": [],
+    "demo_xml": [],
+    "update_xml": ["security/ir.model.access.csv", "report_hotel_restaurant_view.xml"],
     "active": False,
     "installable": True
 }

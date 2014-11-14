@@ -20,26 +20,27 @@
 #
 ##############################################################################
 
-from osv import fields,osv
+from osv import fields, osv
 
 AVAILABLE_STATES = [
-    ('draft','Draft'),
-    ('confirm','Confirm'),
+    ('draft', 'Draft'),
+    ('confirm', 'Confirm'),
     ('done', 'Done')
- 
+
 ]
+
 
 class report_hotel_restaurant_status(osv.osv):
     _name = "report.hotel.restaurant.status"
     _description = "Reservation By State"
     _auto = False
     _columns = {
-       
-        'reservation_id':fields.char('Reservation No',size=64,readonly=True),
+
+        'reservation_id': fields.char('Reservation No', size=64, readonly=True),
         'nbr': fields.integer('Reservation', readonly=True),
         'state': fields.selection(AVAILABLE_STATES, 'State', size=16, readonly=True),
-        }
-    
+    }
+
     def init(self, cr):
         cr.execute("""
             create or replace view report_hotel_restaurant_status as (
