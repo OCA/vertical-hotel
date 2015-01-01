@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from .import hotel
+from . import hotel
 from . import wizard
 from . import report
 
