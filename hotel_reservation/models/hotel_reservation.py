@@ -19,20 +19,20 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>
 #
 ##############################################################################
-from openerp.osv import fields, osv
+from openerp.osv import orm, fields
 import time
 import datetime
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMAT
 from openerp.tools.translate import _
 
-class hotel_folio(osv.Model):
+class hotel_folio(orm.Model):
     _inherit = 'hotel.folio'
     _order = 'reservation_id desc'
     _columns = {
         'reservation_id': fields.many2one('hotel.reservation', 'Reservation Id'),
     }
 
-class hotel_reservation(osv.Model):
+class hotel_reservation(orm.Model):
     _name = "hotel.reservation"
     _rec_name = "reservation_no"
     _description = "Reservation"
@@ -161,7 +161,7 @@ class hotel_reservation(osv.Model):
             self.write(cr, uid, ids, {'state': 'done'}, context=context)
         return True
 
-class hotel_reservation_line(osv.Model):
+class hotel_reservation_line(orm.Model):
     _name = "hotel_reservation.line"
     _description = "Reservation Line"
     _columns = {
@@ -188,7 +188,7 @@ class hotel_reservation_line(osv.Model):
         domain = {'reserve': [('id', 'in', room_ids)]}
         return {'domain': domain}
 
-class hotel_room_reservation_line(osv.Model):
+class hotel_room_reservation_line(orm.Model):
     _name = 'hotel.room.reservation.line'
     _description = 'Hotel Room Reservation'
     _rec_name = 'room_id'
@@ -203,7 +203,7 @@ class hotel_room_reservation_line(osv.Model):
 hotel_room_reservation_line()
 
 
-class hotel_room(osv.Model):
+class hotel_room(orm.Model):
     _inherit = 'hotel.room'
     _description = 'Hotel Room'
     _columns = {
@@ -226,7 +226,7 @@ class hotel_room(osv.Model):
             self.write(cr, uid, [room.id], status, context=context)
         return True
 
-# class room_reservation_summary(osv.Model):
+# class room_reservation_summary(orm.Model):
 #     _name = 'room.reservation.summary'
 #     _description = 'Room reservation summary'
 #     _columns = {

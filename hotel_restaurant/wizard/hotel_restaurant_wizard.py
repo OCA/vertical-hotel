@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, osv
+from openerp.osv import orm, fields
 
 class wizard_hotel_restaurant(osv.TransientModel):
     _name = 'wizard.hotel.restaurant'

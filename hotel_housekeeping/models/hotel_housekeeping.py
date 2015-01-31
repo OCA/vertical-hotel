@@ -20,11 +20,11 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, osv
+from openerp.osv import orm, fields
 import time
 from openerp import netsvc
 
-class product_category(osv.Model):
+class product_category(orm.Model):
     _inherit = "product.category"
     _columns = {
         'isactivitytype': fields.boolean('Is Activity Type'),
@@ -33,7 +33,7 @@ class product_category(osv.Model):
         'isactivitytype': lambda *a: True,
     }
 
-class hotel_housekeeping_activity_type(osv.Model):
+class hotel_housekeeping_activity_type(orm.Model):
     _name = 'hotel.housekeeping.activity.type'
     _description = 'Activity Type'
     _inherits = {'product.category':'activity_id'}
@@ -41,7 +41,7 @@ class hotel_housekeeping_activity_type(osv.Model):
         'activity_id': fields.many2one('product.category', 'Category', required=True, ondelete='cascade'),
     }
 
-class hotel_activity(osv.Model):
+class hotel_activity(orm.Model):
     _name = 'hotel.activity'
     _inherits = {'product.product': 'h_id'}
     _description = 'Housekeeping Activity'
@@ -49,7 +49,7 @@ class hotel_activity(osv.Model):
         'h_id': fields.many2one('product.product', 'Product', required=True, ondelete='cascade'),
     }
 
-class hotel_housekeeping(osv.Model):
+class hotel_housekeeping(orm.Model):
 
     _name = "hotel.housekeeping"
     _description = "Reservation"
@@ -99,7 +99,7 @@ class hotel_housekeeping(osv.Model):
         })
         return True
 
-class hotel_housekeeping_activities(osv.Model):
+class hotel_housekeeping_activities(orm.Model):
     _name = "hotel.housekeeping.activities"
     _description = "Housekeeping Activities "
     _columns = {

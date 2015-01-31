@@ -20,23 +20,23 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, osv
+from openerp.osv import orm, fields
 from openerp import netsvc
 from openerp.tools.translate import _
 
-class product_category(osv.Model):
+class product_category(orm.Model):
     _inherit = "product.category"
     _columns = {
         'ismenutype': fields.boolean('Is Menu Type'),
     }
 
-class product_product(osv.Model):
+class product_product(orm.Model):
     _inherit = "product.product"
     _columns = {
         'ismenucard': fields.boolean('Is Menucard'),
     }
 
-class hotel_menucard_type(osv.Model):
+class hotel_menucard_type(orm.Model):
     _name = 'hotel.menucard.type'
     _description = 'Amenities Type'
     _inherits = {'product.category':'menu_id'}
@@ -47,7 +47,7 @@ class hotel_menucard_type(osv.Model):
         'ismenutype': 1,
     }
 
-class hotel_menucard(osv.Model):
+class hotel_menucard(orm.Model):
     _name = 'hotel.menucard'
     _inherits = {'product.product':'product_id'}
     _description = 'Hotel Menucard'
@@ -59,7 +59,7 @@ class hotel_menucard(osv.Model):
         'ismenucard': 1,
     }
 
-class hotel_restaurant_tables(osv.Model):
+class hotel_restaurant_tables(orm.Model):
     _name = "hotel.restaurant.tables"
     _description = "Includes Hotel Restaurant Table"
     _columns = {
@@ -67,7 +67,7 @@ class hotel_restaurant_tables(osv.Model):
         'capacity':fields.integer('Capacity'),
     }
 
-class hotel_restaurant_reservation(osv.Model):
+class hotel_restaurant_reservation(orm.Model):
 
     def create_order(self, cr, uid, ids, context=None):
         proxy = self.pool.get('hotel.reservation.order')
@@ -147,7 +147,7 @@ class hotel_restaurant_reservation(osv.Model):
     ]
 
 
-class hotel_restaurant_kitchen_order_tickets(osv.Model):
+class hotel_restaurant_kitchen_order_tickets(orm.Model):
     _name = "hotel.restaurant.kitchen.order.tickets"
     _description = "Includes Hotel Restaurant Order"
     _columns = {
@@ -161,7 +161,7 @@ class hotel_restaurant_kitchen_order_tickets(osv.Model):
     }
 
 
-class hotel_restaurant_order(osv.Model):
+class hotel_restaurant_order(orm.Model):
 
     def _sub_total(self, cr, uid, ids, field_name, arg, context=None):
         res = {}
@@ -213,7 +213,7 @@ class hotel_restaurant_order(osv.Model):
      'order_no': lambda obj, cr, uid, context: obj.pool.get('ir.sequence').get(cr, uid, 'hotel.restaurant.order'),
      }
 
-class hotel_reservation_order(osv.Model):
+class hotel_reservation_order(orm.Model):
 
     def _sub_total(self, cr, uid, ids, field_name, arg, context):
         res = {}
@@ -268,7 +268,7 @@ class hotel_reservation_order(osv.Model):
     }
 
 
-class hotel_restaurant_order_list(osv.Model):
+class hotel_restaurant_order_list(orm.Model):
 
     def _sub_total(self, cr, uid, ids, field_name, arg, context):
         res = {}

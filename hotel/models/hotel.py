@@ -20,13 +20,13 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, osv
+from openerp.osv import orm, fields
 import time
 from openerp import netsvc
 import datetime
 from openerp.tools.translate import _
 
-class hotel_floor(osv.Model):
+class hotel_floor(orm.Model):
     _name = "hotel.floor"
     _description = "Floor"
     _columns = {
@@ -34,7 +34,7 @@ class hotel_floor(osv.Model):
         'sequence': fields.integer('Sequence', size=64),
     }
 
-class product_category(osv.Model):
+class product_category(orm.Model):
     _inherit = "product.category"
     _columns = {
         'isroomtype':fields.boolean('Is Room Type'),
@@ -42,7 +42,7 @@ class product_category(osv.Model):
         'isservicetype':fields.boolean('Is Service Type'),
     }
 
-class hotel_room_type(osv.Model):
+class hotel_room_type(orm.Model):
     _name = "hotel.room.type"
     _inherits = {'product.category': 'cat_id'}
     _description = "Room Type"
@@ -53,7 +53,7 @@ class hotel_room_type(osv.Model):
         'isroomtype': 1,
     }
 
-class product_product(osv.Model):
+class product_product(orm.Model):
     _inherit = "product.product"
     _columns = {
         'isroom':fields.boolean('Is Room'),
@@ -61,7 +61,7 @@ class product_product(osv.Model):
         'isservice':fields.boolean('Is Service id'),
     }
 
-class hotel_room_amenities_type(osv.Model):
+class hotel_room_amenities_type(orm.Model):
     _name = 'hotel.room.amenities.type'
     _description = 'amenities Type'
     _inherits = {'product.category':'cat_id'}
@@ -72,7 +72,7 @@ class hotel_room_amenities_type(osv.Model):
         'isamenitytype': 1,
     }
 
-class hotel_room_amenities(osv.Model):
+class hotel_room_amenities(orm.Model):
     _name = 'hotel.room.amenities'
     _description = 'Room amenities'
     _inherits = {'product.product':'room_categ_id'}
@@ -85,7 +85,7 @@ class hotel_room_amenities(osv.Model):
     }
 
 
-class hotel_room(osv.Model):
+class hotel_room(orm.Model):
     _name = 'hotel.room'
     _inherits = {'product.product': 'product_id'}
     _description = 'Hotel Room'
@@ -113,7 +113,7 @@ class hotel_room(osv.Model):
         return self.write(cr, uid, ids, {'status': 'available'}, context=context)
 
 
-# class room_rent(osv.Model):
+# class room_rent(orm.Model):
 #     _name = 'room.rent'
 #     _columns = {
 #         'rent_id': fields.many2one('hotel.room', 'Room Rent'),
@@ -127,7 +127,7 @@ class hotel_room(osv.Model):
 #         'sun': fields.boolean('Sunday'),
 #     }
 
-class hotel_folio(osv.Model):
+class hotel_folio(orm.Model):
 
     def copy(self, cr, uid, id, default=None, context=None):
         return self.pool.get('sale.order').copy(cr, uid, id, default=None, context=None)
@@ -334,7 +334,7 @@ class hotel_folio(osv.Model):
             self.log(cr, uid, id, message)
         return True
 
-class hotel_folio_line(osv.Model):
+class hotel_folio_line(orm.Model):
 
     def copy(self, cr, uid, id, default=None, context=None):
         return self.pool.get('sale.order.line').copy(cr, uid, id, default=None, context=context)
@@ -433,7 +433,7 @@ class hotel_folio_line(osv.Model):
         line_id = self.browse(cr, uid, id).order_line_id.id
         return self.pool.get('sale.order.line').copy_data(cr, uid, line_id, default=None, context=context)
 
-class hotel_service_line(osv.Model):
+class hotel_service_line(orm.Model):
 
     def copy(self, cr, uid, id, default=None, context=None):
         line_id = self.browse(cr, uid, id).service_line_id.id
@@ -513,7 +513,7 @@ class hotel_service_line(osv.Model):
         return self.pool.get('sale.order.line').copy_data(cr, uid, line_id, default=default, context=context)
 
 
-class hotel_service_type(osv.Model):
+class hotel_service_type(orm.Model):
     _name = "hotel.service.type"
     _inherits = {'product.category':'ser_id'}
     _description = "Service Type"
@@ -524,7 +524,7 @@ class hotel_service_type(osv.Model):
         'isservicetype': 1,
     }
 
-class hotel_services(osv.Model):
+class hotel_services(orm.Model):
     _name = 'hotel.services'
     _description = 'Hotel Services and its charges'
     _inherits = {'product.product':'service_id'}
@@ -535,7 +535,7 @@ class hotel_services(osv.Model):
         'isservice': 1,
     }
 
-class res_company(osv.Model):
+class res_company(orm.Model):
     _inherit = 'res.company'
     _columns = {
         'additional_hours': fields.integer('Additional Hours', help="Provide the min hours value for check in, checkout days, whatever the hours will be provided here based on that extra days will be calculated."),

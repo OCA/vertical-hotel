@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, osv
+from openerp.osv import orm, fields
 
 AVAILABLE_STATES = [
     ('draft', 'Draft'),
@@ -28,7 +28,7 @@ AVAILABLE_STATES = [
     ('done', 'Done')
 ]
 
-class report_hotel_restaurant_status(osv.Model):
+class report_hotel_restaurant_status(orm.Model):
     _name = "report.hotel.restaurant.status"
     _description = "Reservation By State"
     _auto = False

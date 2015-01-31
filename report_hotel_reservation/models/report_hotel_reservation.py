@@ -19,14 +19,14 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>
 #
 ##############################################################################
-from openerp.osv import fields, osv
+from openerp.osv import orm, fields
 
 AVAILABLE_STATES = [
     ('draft', 'Draft'),
     ('confirm', 'Confirm'),
     ('done', 'Done')]
 
-class report_hotel_reservation_status(osv.Model):
+class report_hotel_reservation_status(orm.Model):
     _name = "report.hotel.reservation.status"
     _description = "Reservation By State"
     _auto = False
