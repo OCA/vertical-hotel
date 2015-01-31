@@ -29,7 +29,7 @@
             <field name="name">hotel.floor.form</field>
             <field name="model">hotel.floor</field>
             <field name="arch" type="xml">
-                <form string=" Hotel Floor" version="7.0">
+                <form string=" Hotel Floor" >
                  <sheet>
                    <group>
                     <field name="name" colspan="1"/>
@@ -72,7 +72,7 @@
             <field name="name">hotel.room_amenities_type_form</field>
             <field name="model">hotel.room.amenities.type</field>
             <field name="arch" type="xml">
-                <form string="Hotel Room Amenities Type" version="7.0">
+                <form string="Hotel Room Amenities Type" >
                   <sheet>
                    <group>
                     <field name="name"/>
@@ -113,7 +113,7 @@
             <field name="name">hotel.room.amenities.form</field>
             <field name="model">hotel.room.amenities</field>
             <field name="arch" type="xml">
-                <form string="Hotel Room Amenities" version="7.0">
+                <form string="Hotel Room Amenities" >
                   <sheet>
                     <h1>
                         <label string="Amenity" />
@@ -219,7 +219,7 @@
             <field name="name">hotel.room_type.form</field>
             <field name="model">hotel.room.type</field>
             <field name="arch" type="xml">
-                <form string=" Hotel Room Type" version="7.0">
+                <form string=" Hotel Room Type" >
                   <sheet>
                    <group>
                     <field name="name" select="1"/>
@@ -259,7 +259,7 @@
             <field name="name">hotel.room.form</field>
             <field name="model">hotel.room</field>
             <field name="arch" type="xml">
-                <form string="Hotel Room" version="7.0">
+                <form string="Hotel Room" >
                 <header>
                     <field name="state" string="Room Status" widget='statusbar'/>
                 </header>
@@ -306,7 +306,7 @@
 <!--                             <newline/> -->
 <!--                             <separator string="Room Rent" /> -->
 <!--                               <field name="room_rent_ids" colspan="4" nolabel='1' > -->
-<!--                                 <form string="Room Rent" version="7.0"> -->
+<!--                                 <form string="Room Rent" > -->
 <!--                                     <group colspan="4" col="2"> -->
 <!--                                    		<field name="price"/> -->
 <!--                                    	</group> -->
@@ -444,7 +444,7 @@
 			<field name="name">hotel.service_type.form</field>
 			<field name="model">hotel.service.type</field>
 			<field name="arch" type="xml">
-				<form string="Service Type" version="7.0">
+				<form string="Service Type" >
                   <sheet>
                    <group>
                     <field name="name" select="1"/>
@@ -480,7 +480,7 @@
             <field name="name">.hotel.services.form</field>
             <field name="model">hotel.services</field>
             <field name="arch" type="xml">
-                <form string="Hotel Services" version="7.0">
+                <form string="Hotel Services" >
                 <sheet>
                 <h1>
                     <label string="Service" />
@@ -586,7 +586,7 @@
             <field name="name">hotel.folio.form</field>
             <field name="model">hotel.folio</field>
             <field name="arch" type="xml">
-                <form string="Folio" version="7.0">
+                <form string="Folio" >
                  <header>
                      <button name="order_confirm" string="Confirm Folio" states="draft" icon="gtk-apply" class="oe_highlight"/>
                      <button name="invoice_recreate" string="Recreate Invoice" states="invoice_except" icon="gtk-redo" class="oe_highlight"/>
@@ -629,7 +629,7 @@
                             </group>
                             <separator string="Room Lines" colspan="4"/>
                             <field name="room_lines"  colspan="4" string="Room Line" default_get="{'checkin_date': checkin_date,'checkout_date':checkout_date}" nolabel="1">
-                                <form string="Room Line"  version="7.0">
+                                <form string="Room Line"  >
                                     <notebook>
                                         <page string="Folio Line">
                                             <group>
@@ -687,7 +687,7 @@
                             </field>
                             <separator string="Service Lines" colspan="4"/>
                             <field name="service_lines"  colspan="4" string = "Service Line" nolabel="1">
-                                <form string="Service Line"  version="7.0">
+                                <form string="Service Line"  >
                                     <notebook>
                                         <page string="Service Line">
                                             <separator string="Automatic Declaration" colspan="4"/>

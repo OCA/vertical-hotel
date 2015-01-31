@@ -9,7 +9,7 @@
             <field name="name">hotel_restaurant_tables.form</field>
             <field name="model">hotel.restaurant.tables</field>
             <field name="arch" type="xml">
-                <form string="Tables Detail" version="7.0">
+                <form string="Tables Detail" >
                     <sheet>
                         <group>
                             <field name="name" colspan="1" select="1"/>
@@ -64,7 +64,7 @@
             <field name="name">hotel_restaurant_reservation.form</field>
             <field name="model">hotel.restaurant.reservation</field>
             <field name="arch" type="xml">
-                <form string="Table Reservation" version="7.0">
+                <form string="Table Reservation" >
                     <header>
                         <button string="Confirm" name="confirm" states="draft" type="workflow" icon="gtk-ok"/>
                         <button string="Done" name="done" states="confirm" type="workflow" icon="gtk-apply"/>
@@ -133,7 +133,7 @@
             <field name="name">hotel_reservation_order.form</field>
             <field name="model">hotel.reservation.order</field>
             <field name="arch" type="xml">
-                <form string="Order" version="7.0">
+                <form string="Order" >
                     <header>
                         <button string="Generate KOT" name="reservation_generate_kot" type="object" icon="gtk-go-forward"/>
                     </header>
@@ -221,7 +221,7 @@
             <field name="name">hotel_restaurant_order.form</field>
             <field name="model">hotel.restaurant.order</field>
             <field name="arch" type="xml">
-                <form string="Order" version="7.0">
+                <form string="Order" >
                     <header>
                         <button string="Generate KOT" name="generate_kot" type="object" icon="gtk-go-forward"/>
                     </header>
@@ -308,7 +308,7 @@
             <field name="name">hotel_restaurant_kitchen_order_tickets.form</field>
             <field name="model">hotel.restaurant.kitchen.order.tickets</field>
             <field name="arch" type="xml">
-                <form string="KOT List" version="7.0">
+                <form string="KOT List" >
                     <sheet>
                         <group>
                             <group colspan="4">
@@ -378,7 +378,7 @@
             <field name="name">hotel_menucard_type_form</field>
             <field name="model">hotel.menucard.type</field>
             <field name="arch" type="xml">
-                <form string="Hotel Food Items Type" version="7.0">
+                <form string="Hotel Food Items Type" >
                     <sheet>
                         <group>
                             <field name="name"/>
@@ -413,7 +413,7 @@
             <field name="name">hotel.menucard.form</field>
             <field name="model">hotel.menucard</field>
             <field name="arch" type="xml">
-                <form string="Hotel Menucard" version="7.0">
+                <form string="Hotel Menucard" >
                     <sheet>
                         <field name="image" widget="image" class="oe_avatar oe_left"/>
                         <div class="oe_title">
@@ -505,7 +505,7 @@
             <field name="name">Menucard Kanban</field>
             <field name="model">hotel.menucard</field>
             <field name="arch" type="xml">
-                <kanban class="oe_kanban_quickcreate_textarea" version="7.0">
+                <kanban class="oe_kanban_quickcreate_textarea" >
                     <field name="name"/>
                     <field name="image"/>
                     <field name="list_price"/>

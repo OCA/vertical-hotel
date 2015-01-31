@@ -7,7 +7,7 @@
             <field name="name">hotel.housekeeping.form</field>
             <field name="model">hotel.housekeeping</field>
             <field name="arch" type="xml">
-                <form string="Housekeeping" version="7.0">
+                <form string="Housekeeping" >
                     <header>
 
                         <field name="state" widget="statusbar" />
@@ -106,7 +106,7 @@
             <field name="name">hotel_housekeeping_activity_type_form</field>
             <field name="model">hotel.housekeeping.activity.type</field>
             <field name="arch" type="xml">
-                <form string="Housekeeping Activity Types" version="7.0">
+                <form string="Housekeeping Activity Types" >
                     <sheet>
                         <group>
                             <field name="name" select="1" />
@@ -143,7 +143,7 @@
             <field name="name">hotel.activity.form</field>
             <field name="model">hotel.activity</field>
             <field name="arch" type="xml">
-                <form string="Housekeeping Activity" version="7.0">
+                <form string="Housekeeping Activity" >
                     <sheet>
                         <group>
                             <field name="name" select="1" />
