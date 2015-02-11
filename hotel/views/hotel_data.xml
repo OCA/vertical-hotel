@@ -24,7 +24,6 @@
 		
 
 		<record id="hotel_room_amenities_type_0" model="hotel.room.amenities.type">
-			<field name="parent_id" ref="null" />
 			<field name="name">All Aminities</field>
 		</record>
 		
@@ -48,7 +47,6 @@
 	<!-- hotel_room_type	-->
 		
 		<record id="hotel_room_type_0" model="hotel.room.type">
-			<field name="parent_id" ref="null" />
 			<field name="name">All Rooms</field>
 		</record>
 		
@@ -68,7 +66,6 @@
 		<!-- hotel_service_type	-->
 		
 		<record id="hotel_service_type_0" model="hotel.service.type">
-			<field name="parent_id" ref="null" />
 			<field name="name">All Services</field>
 		</record>
 		<record id="hotel_service_type_1" model="hotel.service.type">

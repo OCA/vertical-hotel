@@ -408,7 +408,7 @@ class hotel_folio_line(orm.Model):
             checkout_date = time.strftime('%Y-%m-%d %H:%M:%S')
         qty = 1
         if checkout_date < checkin_date:
-            raise osv.except_osv(_('Error !'), _('Checkout must be greater or equal checkin date'))
+            raise orm.except_orm(_('Error !'), _('Checkout must be greater or equal checkin date'))
         if checkin_date:
             diffDate = datetime.datetime(*time.strptime(checkout_date, '%Y-%m-%d %H:%M:%S')[:5]) - datetime.datetime(*time.strptime(checkin_date, '%Y-%m-%d %H:%M:%S')[:5])
             qty = diffDate.days
@@ -490,7 +490,7 @@ class hotel_service_line(orm.Model):
             checkout_date = time.strftime('%Y-%m-%d %H:%M:%S')
         qty = 1
         if checkout_date < checkin_date:
-            raise osv.except_osv(_('Error !'), _('Checkout must be greater or equal checkin date'))
+            raise orm.except_orm(_('Error !'), _('Checkout must be greater or equal checkin date'))
         if checkin_date:
             diffDate = datetime.datetime(*time.strptime(checkout_date, '%Y-%m-%d %H:%M:%S')[:5]) - datetime.datetime(*time.strptime(checkin_date, '%Y-%m-%d %H:%M:%S')[:5])
             qty = diffDate.days

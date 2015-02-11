@@ -65,14 +65,14 @@ class hotel_reservation(orm.Model):
     def on_change_checkin(self, cr, uid, ids, date_order, checkin_date=time.strftime('%Y-%m-%d %H:%M:%S'), context=None):
         if date_order and checkin_date:
             if checkin_date < date_order:
-                raise osv.except_osv(_('Warning'), _('Checkin date should be greater than the current date.'))
+                raise orm.except_orm(_('Warning'), _('Checkin date should be greater than the current date.'))
         return {'value':{}}
 
     def on_change_checkout(self, cr, uid, ids, checkin_date=time.strftime('%Y-%m-%d %H:%M:%S'), checkout_date=time.strftime('%Y-%m-%d %H:%M:%S'), context=None):
         if not (checkout_date and checkin_date):
             return {'value':{}}
         if checkout_date < checkin_date:
-            raise osv.except_osv(_('Warning'), _('Checkout date should be greater than the Checkin date.'))
+            raise orm.except_orm(_('Warning'), _('Checkout date should be greater than the Checkin date.'))
         delta = datetime.timedelta(days=1)
         addDays = datetime.datetime(*time.strptime(checkout_date, '%Y-%m-%d %H:%M:%S')[:5]) + delta
         val = {'value':{'dummy':addDays.strftime('%Y-%m-%d %H:%M:%S')}}
@@ -104,7 +104,7 @@ class hotel_reservation(orm.Model):
             res = cr.fetchone()
             roomcount = res and res[0] or 0.0
             if roomcount:
-                raise osv.except_osv(_('Warning'), _('You tried to confirm reservation with room those already reserved in this reservation period'))
+                raise orm.except_orm(_('Warning'), _('You tried to confirm reservation with room those already reserved in this reservation period'))
             else:
                 self.write(cr, uid, ids, {'state':'confirm'}, context=context)
                 for line_id in reservation.reservation_line:
@@ -127,7 +127,7 @@ class hotel_reservation(orm.Model):
             folio_lines = []
             checkin_date, checkout_date = reservation['checkin'], reservation['checkout']
             if not checkin_date < checkout_date:
-                raise osv.except_osv(_('Error'), _('Invalid values in reservation.\nCheckout date should be greater than the Checkin date.'))
+                raise orm.except_orm(_('Error'), _('Invalid values in reservation.\nCheckout date should be greater than the Checkin date.'))
             duration_vals = hotel_folio_obj.onchange_dates(cr, uid, [], checkin_date=checkin_date, checkout_date=checkout_date, duration=False)
             duration = duration_vals.get('value', False) and duration_vals['value'].get('duration') or 0.0
             folio_vals = {
@@ -177,7 +177,7 @@ class hotel_reservation_line(orm.Model):
         assigned = False
         room_ids = []
         if not checkin:
-            raise osv.except_osv(_('No Checkin date Defined!'), _('Before choosing a room,\n You have to select a Check in date or a Check out date in the reservation form.'))
+            raise orm.except_orm(_('No Checkin date Defined!'), _('Before choosing a room,\n You have to select a Check in date or a Check out date in the reservation form.'))
         for room in hotel_room_obj.browse(cr, uid, hotel_room_ids, context=context):
             assigned = False
             for line in room.room_reservation_line_ids:
@@ -265,7 +265,7 @@ class hotel_room(orm.Model):
 #         summary_header_list = ['Rooms']
 #         if date_from and date_to:
 #             if date_from > date_to:
-#                 raise osv.except_osv(_('User Error!'), _('Please Check Time period Date From can\'t be greater than Date To !'))
+#                 raise orm.except_orm(_('User Error!'), _('Please Check Time period Date From can\'t be greater than Date To !'))
 #             d_frm_obj = datetime.datetime.strptime(date_from, DEFAULT_SERVER_DATETIME_FORMAT)
 #             d_to_obj = datetime.datetime.strptime(date_to, DEFAULT_SERVER_DATETIME_FORMAT)
 #             temp_date = d_frm_obj

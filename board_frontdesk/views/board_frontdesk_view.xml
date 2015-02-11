@@ -40,12 +40,15 @@
 			<field name="view_id" ref="board_frontdesk_form"/>
 		</record>
 		
+		<menuitem id="menu_hotel_reporting" name="Hotel Management System" parent="base.menu_reporting" />
+		
 		<menuitem
 			name="Hotel FrontDesk Board"
 			action="open_board_frontdesk"
 			sequence="1"
 			id="menu_board_frontdesk" icon="terp-graph"
-			parent="base.menu_dashboard_admin"/>
+			parent="menu_hotel_reporting"/>
+<!-- 			parent="base.menu_dashboard_admin"/> -->
 			
 	</data>
 </openerp>

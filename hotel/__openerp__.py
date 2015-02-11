@@ -47,7 +47,7 @@
 #        "hotel_scheduler.xml",
         "report/hotel_report.xml",
         "views/hotel_view.xml",
-       # "hotel_data.xml",
+        "views/hotel_data.xml",
         "wizard/hotel_wizard.xml",
         "views/hotel_report.xml",
         "views/report_hotel_management.xml",

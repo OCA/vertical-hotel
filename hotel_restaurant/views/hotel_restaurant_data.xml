@@ -26,7 +26,6 @@
 		<!--  Food Item Category -->
 			
 		<record id="hotel_menucard_type_0" model="hotel.menucard.type">
-			<field name="parent_id"  ref="null" />
 			<field name="name">All FoodItems</field>
 
 		</record>

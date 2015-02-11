@@ -107,7 +107,7 @@ class hotel_restaurant_reservation(orm.Model):
             res = cr.fetchone()
             roomcount = res and res[0] or 0.0
             if roomcount:
-                raise osv.except_osv(_('Warning'), _('You tried to confirm reservation with table those already reserved in this reservation period'))
+                raise orm.except_orm(_('Warning'), _('You tried to confirm reservation with table those already reserved in this reservation period'))
             else:
                 self.write(cr, uid, ids, {'state':'confirm'})
             return True

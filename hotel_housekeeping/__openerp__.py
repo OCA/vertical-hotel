@@ -34,7 +34,8 @@
     """,
     "website": ["http://www.serpentcs.com", "http://www.openerp.com"],
     "depends" : ["hotel"],
-    "demo" : ["hotel_housekeeping_data.xml",
+    "demo" : [
+        "views/hotel_housekeeping_data.xml",
     ],
     "data" : [
         "security/ir.model.access.csv",

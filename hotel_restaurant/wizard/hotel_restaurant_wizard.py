@@ -22,7 +22,7 @@
 
 from openerp.osv import orm, fields
 
-class wizard_hotel_restaurant(osv.TransientModel):
+class wizard_hotel_restaurant(orm.TransientModel):
     _name = 'wizard.hotel.restaurant'
     _columns = {
         'date_start' :fields.datetime('Start Date', required=True),
