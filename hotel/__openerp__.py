@@ -22,7 +22,7 @@
 {
     "name" : "Hotel Management",
     "version" : "1.0",
-    "author" : "Tiny",
+    "author" : "Tiny,Odoo Community Association (OCA)",
     "category" : "Generic Modules/Hotel Management",
     "description": """
     Module for Hotel/Resort/Property management. You can manage:

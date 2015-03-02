@@ -21,7 +21,7 @@
 {
     "name" : "Hotel Reservation Management",
     "version" : "1.0",
-    "author" : "Tiny",
+    "author" : "Tiny,Odoo Community Association (OCA)",
     "category" : "Generic Modules/Hotel Reservation",
     "description": """
     Module for Hotel/Resort/Property management. You can manage:

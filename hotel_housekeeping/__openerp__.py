@@ -23,7 +23,7 @@
 {
     "name" : "Hotel Housekeeping Management",
     "version" : "1.0",
-    "author" : "Tiny",
+    "author" : "Tiny,Odoo Community Association (OCA)",
     "category" : "Generic Modules/Hotel Housekeeping",
     "description": """
     Module for Hotel/Hotel Housekeeping. You can manage:
