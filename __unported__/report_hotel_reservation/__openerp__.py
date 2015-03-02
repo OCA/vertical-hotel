@@ -23,7 +23,7 @@
 {
     "name" : "Hotel Reservation Management - Reporting",
     "version" : "1.0",
-    "author" : "Tiny",
+    "author" : "Tiny,Odoo Community Association (OCA)",
     "depends" : ["hotel_reservation"],
     "category" : "Generic Modules/Hotel Reservation",
      "description": """

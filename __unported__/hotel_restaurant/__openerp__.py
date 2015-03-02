@@ -22,7 +22,7 @@
 {
     "name" : "Hotel Restaurant Management",
     "version" : "1.0",
-    "author" : "Tiny",
+    "author" : "Tiny,Odoo Community Association (OCA)",
     "category" : "Generic Modules/Hotel Restaurant",
     "description": """
     Module for Hotel/Resort/Restaurant management. You can manage:

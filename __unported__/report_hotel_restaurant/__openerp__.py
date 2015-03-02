@@ -23,7 +23,7 @@
 {
     "name" : "Restaurant Management - Reporting",
     "version" : "1.0",
-    "author" : "Tiny",
+    "author" : "Tiny,Odoo Community Association (OCA)",
     "depends" : ["hotel_restaurant"],
     "category" : "Generic Modules/Hotel Restaurant",
     "description": """
