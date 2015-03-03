@@ -2,6 +2,10 @@
  Version Change Log (hotel)
 ============================================================================================================================
 
+0.10 on 2015-03-03 by Dhwani Vora
+    * Corrected the Services type relation with product category to correct the demo data,
+    * Corrected the rooms and amenities and services data.
+
 0.09 on 2015-03-03 by Dhwani Vora
     * Corrected the amenity type relation with product category to correct the demo data.
 
