@@ -3,16 +3,26 @@ language: python
 python:
   - "2.7"
 
+addons:
+  apt:
+    packages:
+      - expect-dev  # provides unbuffer utility
+      - python-lxml  # because pip installation is slow
+
 env:
-  - VERSION="7.0" LINT_CHECK="1"
-  - VERSION="7.0" ODOO_REPO="odoo/odoo" LINT_CHECK="0"
-  - VERSION="7.0" ODOO_REPO="OCA/OCB" LINT_CHECK="0"
-# either use the two lines above or the two below. Don't change the default if
-# it's not necessary (it is only necessary if modules in your repository can't
-# be installed in the same database. And you get a huge speed penalty in your
-# tests)
-#  - VERSION="7.0" ODOO_REPO="odoo/odoo" UNIT_TEST="1" LINT_CHECK="0"
-#  - VERSION="7.0" ODOO_REPO="OCA/OCB" UNIT_TEST="1" LINT_CHECK="0"
+  global:
+  - VERSION="7.0" TESTS="1" LINT_CHECK="1" TRANSIFEX="1"
+  - TRANSIFEX_USER='transbot@odoo-community.org'
+  # This line contains the encrypted transifex password
+  # To encrypt transifex password, use
+  # $ travis encrypt TRANSIFEX_PASSWORD=your-password -r owner/project
+  - secure: iEu9C9a2Gwd1rKLwZLKjzmp5fayNkaeS3BA/NiD9qgwdgcIVyLuoRr2mBSTkZci60xmK7b/K6DsFIxBE2Fs0TsuGB2ROY6PFJZm5hDszm3ayBGEAwiAcboRx3YSd11dEMoa8SLtzcEsZPyPXMcSjkIci5OIIOZndFwHp8Fx5p1A=
+
+  matrix:
+  - LINT_CHECK="1"
+  - TRANSIFEX="1"
+  - TESTS="1" ODOO_REPO="odoo/odoo"
+  - TESTS="1" ODOO_REPO="OCA/OCB"
 
 virtualenv:
   system_site_packages: true
