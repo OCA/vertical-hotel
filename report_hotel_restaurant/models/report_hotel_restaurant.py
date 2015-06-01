@@ -20,25 +20,24 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, fields
-
+from openerp import models,fields,api,_
+ 
 AVAILABLE_STATES = [
     ('draft', 'Draft'),
     ('confirm', 'Confirm'),
     ('done', 'Done')
 ]
 
-class report_hotel_restaurant_status(orm.Model):
+class report_hotel_restaurant_status(models.Model):
     _name = "report.hotel.restaurant.status"
     _description = "Reservation By State"
     _auto = False
-    _columns = {
-        'reservation_id':fields.char('Reservation No', size=64, readonly=True),
-        'nbr': fields.integer('Reservation', readonly=True),
-        'state': fields.selection(AVAILABLE_STATES, 'State', size=16, readonly=True),
-        }
 
-    def init(self, cr):
+    reservation_id = fields.Char('Reservation No', size=64, readonly=True)
+    nbr = fields.Integer('Reservation', readonly=True)
+    state = fields.Selection(AVAILABLE_STATES, 'State', size=16, readonly=True)
+
+    def init(self,cr):
         cr.execute("""
             create or replace view report_hotel_restaurant_status as (
                 select

@@ -20,101 +20,97 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models,fields,api,_
 import time
 from openerp import netsvc
 
-class product_category(orm.Model):
+class product_category(models.Model):
     _inherit = "product.category"
-    _columns = {
-        'isactivitytype': fields.boolean('Is Activity Type'),
-    }
-    _defaults = {
-        'isactivitytype': lambda *a: True,
-    }
+    
+    isactivitytype = fields.Boolean('Is Activity Type',default=lambda *a: True)
 
-class hotel_housekeeping_activity_type(orm.Model):
+class hotel_housekeeping_activity_type(models.Model):
     _name = 'hotel.housekeeping.activity.type'
     _description = 'Activity Type'
-    _inherits = {'product.category':'activity_id'}
-    _columns = {
-        'activity_id': fields.many2one('product.category', 'Category', required=True, ondelete='cascade'),
-    }
+    
+    activity_id = fields.Many2one('product.category','Category',required=True, delegate=True, ondelete='cascade')
 
-class hotel_activity(orm.Model):
+class hotel_activity(models.Model):
     _name = 'hotel.activity'
-    _inherits = {'product.product': 'h_id'}
     _description = 'Housekeeping Activity'
-    _columns = {
-        'h_id': fields.many2one('product.product', 'Product', required=True, ondelete='cascade'),
-    }
+    _inherits = {'product.product': 'h_id'}
 
-class hotel_housekeeping(orm.Model):
+    h_id = fields.Many2one('product.product','Product',required=True, delegate=True, ondelete='cascade')
+
+class hotel_housekeeping(models.Model):
 
     _name = "hotel.housekeeping"
     _description = "Reservation"
-    _columns = {
-        'current_date':fields.date("Today's Date", required=True),
-        'clean_type':fields.selection([('daily', 'Daily'), ('checkin', 'Check-In'), ('checkout', 'Check-Out')], 'Clean Type', required=True),
-        'room_no':fields.many2one('hotel.room', 'Room No', required=True),
-        'activity_lines':fields.one2many('hotel.housekeeping.activities', 'a_list', 'Activities', help='Details of housekeeping activities.'),
-        'inspector':fields.many2one('res.users', 'Inspector', required=True),
-        'inspect_date_time':fields.datetime('Inspect Date Time', required=True),
-        'quality':fields.selection([('bad', 'Bad'), ('good', 'Good'), ('ok', 'Ok')], 'Quality', required=True, help='Inspector inspect the room and mark as Bad, Good or Ok. '),
-        'state': fields.selection([('dirty', 'Dirty'), ('clean', 'Clean'), ('inspect', 'Inspect'), ('done', 'Done'), ('cancel', 'Cancelled')], 'State', select=True, required=True, readonly=True),
-    }
-    _defaults = {
-        'state': lambda *a: 'dirty',
-        'current_date':lambda *a: time.strftime('%Y-%m-%d'),
-    }
+                
+    current_date = fields.Date("Today's Date", required=True,default=lambda *a: time.strftime('%Y-%m-%d')) #here in v8 default value is written in field declaration so no more need of _defaults dictionary.. 
+    clean_type = fields.Selection([('daily', 'Daily'), ('checkin', 'Check-In'), ('checkout', 'Check-Out')], 'Clean Type', required=True)
+    room_no = fields.Many2one('hotel.room','Room No',required=True)
+    activity_lines =fields.One2many('hotel.housekeeping.activities','a_list','Activities',help='Details of housekeeping activities.')
+    inspector = fields.Many2one('res.users','Inspector' ,required=True)
+    inspect_date_time =fields.Datetime('Inspect Date Time', required=True)
+    quality = fields.Selection([('bad', 'Bad'), ('good', 'Good'), ('ok', 'Ok')], 'Quality', required=True, help='Inspector inspect the room and mark as Bad, Good or Ok. ')
+    state = fields.Selection([('dirty', 'Dirty'), ('clean', 'Clean'), ('inspect', 'Inspect'), ('done', 'Done'), ('cancel', 'Cancelled')], 'State', select=True, required=True, readonly=True,default=lambda *a: 'dirty')
 
-    def action_set_to_dirty(self, cr, uid, ids, *args):
-        self.write(cr, uid, ids, {'state': 'dirty'})
+    @api.multi
+    def action_set_to_dirty(self):
+        self.write({'state': 'dirty'})
         wf_service = netsvc.LocalService('workflow')
-        for id in ids:
-            wf_service.trg_create(uid, self._name, id, cr)
+        for id in self.ids:
+            wf_service.trg_create(self._uid, self._name, self.id, self._cr)
         return True
 
-    def room_cancel(self, cr, uid, ids, *args):
-        self.write(cr, uid, ids, {
-            'state':'cancel'
-        })
+    @api.multi
+    def room_cancel(self):
+        self.write({'state':'cancel'})
         return True
 
-    def room_done(self, cr, uid, ids, *args):
-        self.write(cr, uid, ids, {
-            'state':'done'
-        })
+    @api.multi
+    def room_done(self):
+        self.write({'state':'done'})
         return True
 
-    def room_inspect(self, cr, uid, ids, *args):
-        self.write(cr, uid, ids, {
-            'state':'inspect'
-        })
+    @api.multi    
+    def room_inspect(self):
+        self.write({'state':'inspect'})
         return True
 
-    def room_clean(self, cr, uid, ids, *args):
-        self.write(cr, uid, ids, {
-            'state':'clean'
-        })
+    @api.multi    
+    def room_clean(self):
+        self.write({'state':'clean'})
         return True
 
-class hotel_housekeeping_activities(orm.Model):
+class hotel_housekeeping_activities(models.Model):
     _name = "hotel.housekeeping.activities"
     _description = "Housekeeping Activities "
-    _columns = {
-        'a_list':fields.many2one('hotel.housekeeping', 'Reservation'),
-        'room_id':fields.many2one('hotel.room', 'Room No'),
-        'today_date':fields.date('Today Date'),
-        'activity_name':fields.many2one('hotel.activity', 'Housekeeping Activity'),
-        'housekeeper':fields.many2one('res.users', 'Housekeeper', required=True),
-        'clean_start_time':fields.datetime('Clean Start Time', required=True),
-        'clean_end_time':fields.datetime('Clean End Time', required=True),
-        'dirty':fields.boolean('Dirty', help='Checked if the housekeeping activity results as Dirty.'),
-        'clean':fields.boolean('Clean', help='Checked if the housekeeping activity results as Clean.'),
-    }
 
-    def default_get(self, cr, uid, fields, context=None):
+    a_list = fields.Many2one('hotel.housekeeping',string='Reservation')
+    room_id = fields.Many2one('hotel.room',string='Room No')
+    today_date = fields.Date('Today Date')
+    activity_name = fields.Many2one('hotel.activity',string='Housekeeping Activity')
+    housekeeper = fields.Many2one('res.users',string='Housekeeper' ,required=True)
+    clean_start_time = fields.Datetime('Clean Start Time', required=True)
+    clean_end_time = fields.Datetime('Clean End Time', required=True)
+    dirty = fields.Boolean('Dirty', help='Checked if the housekeeping activity results as Dirty.')
+    clean = fields.Boolean('Clean', help='Checked if the housekeeping activity results as Clean.')
+
+#    _sql_constraints = [
+#        ('check_dates', 'CHECK (clean_start_time<=clean_end_time)', 'Start Date Should be less than the End Date!'),
+#    ]
+
+    @api.constrains('clean_start_time','clean_end_time')
+    def check_clean_start_time(self):
+            if self.clean_start_time >= self.clean_end_time:
+                raise except_orm(_('Warning'),_('Start Date Should be less than the End Date!'))
+
+
+
+    @api.model
+    def default_get(self,fields):
         """ To get default values for the object.
         @param self: The object pointer.
         @param cr: A database cursor
@@ -123,13 +119,13 @@ class hotel_housekeeping_activities(orm.Model):
         @param context: A standard dictionary 
         @return: A dictionary which of fields with values. 
         """ 
-        if context is None:
-            context = {}
-        res = super(hotel_housekeeping_activities, self).default_get(cr, uid, fields, context=context)
-        if context.get('room_id', False):
-            res.update({'room_id':context['room_id']})
-        if context.get('today_date', False):
-            res.update({'today_date':context['today_date']})
+        if self._context is None:
+            self._context = {}
+        res = super(hotel_housekeeping_activities, self).default_get(fields)
+        if self._context.get('room_id', False):
+            res.update({'room_id':self._context['room_id']})
+        if self._context.get('today_date', False):
+            res.update({'today_date':self._context['today_date']})
         return res
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -2,7 +2,7 @@
 <openerp>
     <data>
         <menuitem  id="hotel_restaurant_menu" name="Restaurant" parent="hotel.hotel_management_menu" sequence="3"/>
-        <!-- ==============================
+    	<!-- ==============================
         Table Master
         ============================== -->
         <record model="ir.ui.view" id="view_hotel_restaurant_tables_form">
@@ -54,8 +54,8 @@
         id="menu_open_view_hotel_restaurant_tables_form_tree"
         action="open_view_hotel_restaurant_tables_form_tree"
         parent="hotel.hotel_configuration_menu"/>
-
-        <!--
+        
+		<!--
         ==============================
         Table Reservation
         ==============================
@@ -86,7 +86,7 @@
                             <group colspan="4" col="4">
                                 <field name="start_date"/>
                                 <field name="end_date"/>
-                                <field name="cname" on_change="onchange_partner_id(cname)"/>
+                                <field name="cname"/><!-- on_change="onchange_partner_id(cname)"-->
                                 <field name="partner_address_id"/>
                             </group>
                             <group colspan="4">
@@ -124,7 +124,7 @@
         action="open_view_hotel_restaurant_reservation_form_tree"
         parent="hotel_restaurant_menu"/>
 
-        <!--
+		<!--
         ======================
         Orders for Reservation
         ======================
@@ -156,29 +156,29 @@
                             <newline/>
                             <separator colspan='4' string='Order List' />
                             <field name="order_list" colspan="4" nolabel='1'>
-                                <form string="Order List">
+                            <form string="Order List">
                                     <group>
-                                    <field name="name" on_change="on_change_item_name(name)"/>
+                                    <field name="name"/>
                                     <field name="item_qty"/>
-                                    <field name="item_rate"/>
+                                    <field name="item_rate"/>  
                                     </group>
 
                                 </form>
                                 <tree string="Order List">
                                     <field name="name" />
                                     <field name="item_qty"/>
-                                    <field name="item_rate"/>
-                                    <field name="price_subtotal"/>
+                                    <field name="item_rate"/> 
+                                	<field name="price_subtotal"/> 
                                 </tree>
-                            </field>
+                            </field> 
                             <newline/>
                             <group colspan="2" class="oe_subtotal_footer oe_right">
-                                <field name="amount_subtotal" widget='monetary'/>
+                                <field name="amount_subtotal" widget='monetary'/> 
                                 <field name="tax" widget='monetary'/>
                                 <div class="oe_subtotal_footer_separator oe_inline">
-                                    <label for="amount_total" />
+                                    <label for="amount_total" /> 
                                 </div>
-                                <field name="amount_total" nolabel="1" widget='monetary'/>
+                               <field name="amount_total" nolabel="1" widget='monetary'/> 
                             </group>
                         </group>
                     </sheet>
@@ -195,7 +195,7 @@
                     <field name="date1"/>
                     <field name="waitername"/>
                     <field name="table_no"/>
-                    <field name="order_list" />
+               		<field name="order_list" /> 
 
                 </tree>
             </field>
@@ -210,9 +210,9 @@
         <menuitem name="Orders"
         id="menu_open_view_hotel_reservation_order_form_tree"
         action="open_view_hotel_reservation_order_form_tree"
-        parent="hotel_restaurant_menu"/>
-
-        <!--
+        parent="hotel_restaurant_menu"/>	
+			
+		<!--
         ==============================
         Table Order
         ==============================
@@ -243,30 +243,30 @@
                             <field name="table_no" colspan="4" nolabel='1'/>
                             <newline/>
                             <separator colspan='4' string='Order List'/>
-                            <field name="order_list" colspan="4" nolabel='1'>
+                           <field name="order_list" colspan="4" nolabel='1'>
                                 <form string="Order List">
                                     <group>
-                                    <field name="name" on_change="on_change_item_name(name)"/>
+                                    <field name="name"/> 
                                     <field name="item_qty"/>
-                                    <field name="item_rate"/>
+                                    <field name="item_rate"/> 
                                     </group>
                                 </form>
                                 <tree string="Order List">
                                     <field name="name" />
                                     <field name="item_qty"/>
-                                    <field name="item_rate"/>
-                                    <field name="price_subtotal"/>
+                                    <field name="item_rate"/> 
+                                    <field name="price_subtotal"/>  
                                 </tree>
                             </field>
                         </group>
                         <newline/>
                         <group col="2" class="oe_subtotal_footer oe_right">
-                            <field name="amount_subtotal" widget="monetary"/>
+                            <field name="amount_subtotal" widget="monetary"/> 
                             <field name="tax" widget='monetary'/>
                             <div class="oe_subtotal_footer_separator oe_inline">
-                                <label for="amount_total" />
+                              <label for="amount_total" />  
                             </div>
-                            <field name="amount_total" nolabel="1" widget='monetary'/>
+                            <field name="amount_total" nolabel="1" widget='monetary'/>  
                         </group>
                         <div class="oe_clear"/>
                     </sheet>
@@ -283,7 +283,7 @@
                     <field name="table_no"/>
                     <field name="room_no"/>
                     <field name="waiter_name"/>
-                    <field name="order_list"/>
+                    <field name="order_list"/> 
 
                 </tree>
             </field>
@@ -327,12 +327,12 @@
                             <field name="tableno" select="1" colspan="4" nolabel='1'/>
                             <newline/>
                             <separator colspan='4' string='Order List'/>
-                            <field name="kot_list" colspan="4" nolabel='1'>
+                           <field name="kot_list" colspan="4" nolabel='1'>
                                 <form string="Order List">
                                     <group>
-                                        <field name="name" on_change="on_change_item_name(name)"/>
+                                        <field name="name"/>
                                         <field name="item_qty"/>
-                                        <field name="item_rate"/>
+                                        <field name="item_rate"/> 
                                     </group>    
                                 </form>
                                 <tree string="Order List">
@@ -357,7 +357,7 @@
                     <field name="room_no"/>
                     <field name="w_name"/>
                     <field name="tableno"/>
-                    <!-- <field name="kot_list"/> -->
+                    <field name="kot_list"/>  
                 </tree>
             </field>
         </record>
@@ -381,7 +381,7 @@
                 <form string="Hotel Food Items Type" >
                     <sheet>
                         <group>
-                            <field name="name"/>
+                            <field name="name" string="Item Name"/>
                             <field name="parent_id" domain="[('ismenutype','=',True)]"/>
                         </group>
                     </sheet>
@@ -401,6 +401,7 @@
         <record model="ir.actions.act_window" id="action_hotel_menucard_type_view_form">
             <field name="name">Hotel Food Item Type</field>
             <field name="res_model">hotel.menucard.type</field>
+            <field name="context">{'default_ismenutype':1}</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
@@ -432,8 +433,8 @@
                             <page string="Information">
                                 <group colspan="4" col="2">
                                     <group colspan="4" col="4">
-                                        <field name="type" select="2"/>
-                                        <field name="product_manager" select="2"/>
+                                        <field name="type" select="2" string="Food Type"/>
+                                        <field name="product_manager" select="2" string="Food Manager"/>
                                         <!-- <field name="procure_method"/> -->
                                         <!-- </group>
                                         <group colspan="4" col="4"> -->
@@ -479,7 +480,9 @@
                 </form>
             </field>
         </record>
-        <record model="ir.ui.view" id="view_hotel_menucard_search">
+       
+	<!-- 
+		<record model="ir.ui.view" id="view_hotel_menucard_search">
             <field name="name">hotel.menucard.search</field>
             <field name="model">hotel.menucard</field>
             <field name="arch" type="xml">
@@ -487,20 +490,43 @@
                     <field name="name" />
                     <field name="categ_id" select="1"/>
                     <field name="list_price" string="Item Rate"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter name="categ_id" string="Category" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'categ_id'}" />
+                    </group>
                 </search>
             </field>
-        </record>
+	
+        </record> -->
+		
+		<record id="view_hotel_menucard_search_new" model="ir.ui.view">
+            <field name="name">hotel.menucard.search</field>
+            <field name="model">hotel.menucard</field>
+            <field name="arch" type="xml">
+                <search string="Hotel Menucard">
+                    <field name="name"/>
+                    <field name="categ_id"/>
+                    <field name="list_price"/>
+                	<separator/>
+				    <group expand="0" string="Group By">
+                        <filter string="Categoty" domain="[]" context="{'group_by':'categ_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>	
+
         <record model="ir.ui.view" id="view_hotel_menucard_tree">
             <field name="name">hotel.menucard.tree</field>
             <field name="model">hotel.menucard</field>
             <field name="arch" type="xml">
                 <tree string="Hotel Menucard" >
                     <field name="name" />
-                    <field name="categ_id" select="1"/>
+                    <field name="categ_id"/>
                     <field name="list_price" string="Item Rate"/>
                 </tree>
             </field>
         </record>
+        
         <record model="ir.ui.view" id="hotel_manucard_kanban_view">
             <field name="name">Menucard Kanban</field>
             <field name="model">hotel.menucard</field>
@@ -541,43 +567,7 @@
                             </div>
                         </t>
                     </templates>
-                    <!-- <templates>
-                    <t t-name="kanban-box">
-
-                    <t t-set="record.group_fancy" t-value="1"  groups="note.group_note_fancy"/>
-
-                    <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_global_click_edit oe_semantic_html_override oe_kanban_card #{record.group_fancy==1 ? 'oe_kanban_card_fancy' : ''}">
-                    <div class="oe_dropdown_kanban">
-
-                    dropdown menu
-                    <span class="oe_dropdown_toggle">
-                    <span class="oe_e">í</span>
-                    <ul class="oe_dropdown_menu">
-                    <li><a type="delete">Delete</a></li>
-                    <li><ul class="oe_kanban_colorpicker" data-field="color"/></li>
-                    </ul>
-                    </span>
-                    <div style="display: inline">
-                    <a name="onclick_note_is_done" type="object" t-if="record.open.raw_value" class="oe_e">W</a>
-                    <a name="onclick_note_not_done" type="object" t-if="!record.open.raw_value" class="oe_e">W</a>
-                    </div>
-                    </div>
-                    kanban note
-                    <div t-attf-class="oe_kanban_content #{record.open.raw_value ? '' : 'note_text_line_through'}">
-                    title
-                    <field name="name"/>
-                    </div>
-                    <div class="oe_clear"></div>
-                    <field name="tag_ids"/>
-                    <div class="oe_right">
-                    <t t-foreach="record.message_follower_ids.raw_value" t-as="follower">
-                    <img t-if="record.current_partner_id.raw_value!=follower" t-att-src="kanban_image('res.partner', 'image_small', follower)" width="24" height="24" class="oe_kanban_avatar" t-att-data-member_id="follower"/>
-                    </t>
-                    </div>
-                    <div class="oe_clear"></div>
-                    </div>
-                    </t>
-                    </templates> -->
+                   
 
                 </kanban>
             </field>
@@ -586,12 +576,14 @@
             <field name="name">Hotel Menucard</field>
             <field name="res_model">hotel.menucard</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,kanban</field>
+            <field name="context">{'default_ismenucard':1}</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="search_view_id" ref="view_hotel_menucard_search_new"/>
         </record>
         <menuitem name="Food Items"
         id="menu_open_hotel_menucard_form"
         action="action_hotel_menucard_form"
         parent="menu_hotel_food_item"/>
 
-    </data>
+	</data>
 </openerp>

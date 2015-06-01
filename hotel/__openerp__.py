@@ -37,17 +37,17 @@
     """,
     "website": ["http://www.serpentcs.com", "http://www.openerp.com"],
     "depends" : ["sale_stock", "report_extended"],
-    "demo" : [
-    ],
+#    "demo" : ["views/hotel_data.xml"
+#    ],
     "data": [
         "security/hotel_security.xml",
         "security/ir.model.access.csv",
         "views/hotel_sequence.xml",
         "views/hotel_folio_workflow.xml",
-#        "hotel_scheduler.xml",
-        "report/hotel_report.xml",
-        "views/hotel_view.xml",
-        "views/hotel_data.xml",
+##        "hotel_scheduler.xml",
+#        "report/hotel_report.xml",
+       "views/hotel_view.xml",
+#        "views/hotel_data.xml",
         "wizard/hotel_wizard.xml",
         "views/hotel_report.xml",
         "views/report_hotel_management.xml",

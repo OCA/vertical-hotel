@@ -12,12 +12,12 @@
                     		</h2>
 	                    </div>
 
-	                    <div class="row mt32 mb32">
+	                   <div class="row mt32 mb32">
 		                    <div class="text-center">
 		                        <strong>From:</strong>
-		                        <font t-esc="formatLang(data['form']['date_start'],date=True)"/>
+		                        <span t-esc="formatLang(data['form']['date_start'],date=True)"/>
 		                        <strong>To:</strong>
-		                        <font t-esc="formatLang(data['form']['date_end'],date=True)"/>
+		                        <span t-esc="formatLang(data['form']['date_end'],date=True)"/>
 		                    </div>
 	                	</div>
 	                	<div class="row">
@@ -39,7 +39,7 @@
                                 <th class="text-right"><strong>Duration</strong></th>
                             </tr>
                         </thead>
-                        <tbody>
+                    <tbody>
                             <tr t-foreach="get_room_activity_detail(data['form']['date_start'],data['form']['date_end'],data['form']['room_no'])" t-as="detail">
                                 <td class="text-right" style="white-space: nowrap;">
                                     <span t-esc="detail.get('current_date')"/>
@@ -60,8 +60,8 @@
                                     <span t-att-style="style" t-esc="detail.get('duration')"/>
                                 </td>
                             </tr>
-                        </tbody>
-                    </table>
+                        </tbody> 
+                   	</table>
 
                 </div>
             </t>

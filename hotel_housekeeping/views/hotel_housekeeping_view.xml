@@ -109,7 +109,7 @@
                 <form string="Housekeeping Activity Types" >
                     <sheet>
                         <group>
-                            <field name="name" select="1" />
+                            <field name="name" select="1" string="Activity Name"/>
                             <field name="parent_id" domain="[('isactivitytype','=',True)]" />
                         </group>
                     </sheet>
@@ -146,9 +146,8 @@
                 <form string="Housekeeping Activity" >
                     <sheet>
                         <group>
-                            <field name="name" select="1" />
-                            <field name="categ_id" select="1"
-                            domain="[('isactivitytype','=',True)]" />
+                            <field name="name" select="1" string="Activity Name"/>
+                            <field name="categ_id" select="1" domain="[('isactivitytype','=',True)]" />
                         </group>
                     </sheet>
                 </form>
@@ -159,7 +158,7 @@
             <field name="model">hotel.activity</field>
             <field name="arch" type="xml">
                 <search string="Housekeeping Activity">
-                    <field name="name" />
+                    <field name="name"/>
                     <field name="categ_id" select="1" />
                     <newline />
                     <group expand="0" string="Group By...">

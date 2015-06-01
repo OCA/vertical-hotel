@@ -56,6 +56,7 @@ class reservation_detail_report(report_sxw.rml_parse):
 
     def get_data(self, date_start, date_end):
         reservation_obj = self.pool.get('hotel.reservation')
+        print "get data--------------------"
         tids = reservation_obj.search(self.cr, self.uid, [('checkin', '>=', date_start), ('checkout', '<=', date_end)])
         res = reservation_obj.browse(self.cr, self.uid, tids)
         return res
@@ -73,6 +74,7 @@ class reservation_detail_report(report_sxw.rml_parse):
         return res
 
     def _get_room_used_detail(self, date_start, date_end):
+        
         room_used_details = []
         hotel_room_obj = self.pool.get('hotel.room')
         room_ids = hotel_room_obj.search(self.cr, self.uid, [])

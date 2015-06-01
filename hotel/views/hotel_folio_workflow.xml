@@ -226,6 +226,7 @@
 			<field name="act_from" ref="act_ship_except"/>
 			<field name="act_to" ref="act_ship"/>
 			<field name="signal">ship_recreate</field>
+
 		</record>
 		<record model="workflow.transition" id="trans_ship_except_ship_end">
 			<field name="act_from" ref="act_ship_except"/>

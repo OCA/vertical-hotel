@@ -39,10 +39,10 @@ class folio_report(report_sxw.rml_parse):
         folio_obj = self.pool.get('hotel.folio')
         partner_obj = self.pool.get('res.partner')
         tids = folio_obj.search(self.cr, self.uid, [('checkin_date', '>=', date_start), ('checkout_date', '<=', date_end)])
-        res = folio_obj.browse(self.cr, self.uid, 1)
-        res1 = partner_obj.browse(self.cr, self.uid, 1)
+        res = folio_obj.browse(self.cr, self.uid, tids)    
+        res1 = partner_obj.browse(self.cr, self.uid, tids)
         return res
-
+        
     def gettotal(self, total):
         self.temp = self.temp + float(total)
         return total
