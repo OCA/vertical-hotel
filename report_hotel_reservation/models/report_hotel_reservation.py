@@ -19,7 +19,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>
 #
 ##############################################################################
-from openerp import models,fields,api,_
+from openerp import models,fields
 
 AVAILABLE_STATES = [
     ('draft', 'Draft'),
@@ -27,6 +27,7 @@ AVAILABLE_STATES = [
     ('done', 'Done')]
 
 class report_hotel_reservation_status(models.Model):
+
     _name = "report.hotel.reservation.status"
     _description = "Reservation By State"
     _auto = False
@@ -35,8 +36,7 @@ class report_hotel_reservation_status(models.Model):
     nbr = fields.Integer('Reservation', readonly=True)
     state = fields.Selection(AVAILABLE_STATES, 'State', size=16, readonly=True)
 
-    
-    def init(self, cr):
+    def init(self,cr):
         cr.execute("""
             create or replace view report_hotel_reservation_status as (
                 select

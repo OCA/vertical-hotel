@@ -21,7 +21,7 @@
 ##############################################################################
 
 import time
-from openerp.osv import osv
+from openerp import models
 from openerp.report import report_sxw
 
 class folio_report(report_sxw.rml_parse):
@@ -50,7 +50,7 @@ class folio_report(report_sxw.rml_parse):
     def getTotal(self):
         return self.temp
     
-class report_lunchorder(osv.AbstractModel):
+class report_lunchorder(models.AbstractModel):
     _name = 'report.hotel.report_hotel_folio'
     _inherit = 'report.abstract_report'
     _template = 'hotel.report_hotel_folio'

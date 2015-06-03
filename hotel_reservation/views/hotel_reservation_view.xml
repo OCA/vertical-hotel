@@ -39,7 +39,7 @@
                                 <field name="adults"/>
                                 <field name="children"/>
                             </group>
-                            <field name="dummy" invisible="True"/>
+                               <field name="dummy" invisible="True"/>
                         </group>
                         <notebook>
                             <page string='Reservation Line'>

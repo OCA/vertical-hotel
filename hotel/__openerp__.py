@@ -44,7 +44,7 @@
         "security/ir.model.access.csv",
         "views/hotel_sequence.xml",
         "views/hotel_folio_workflow.xml",
-##        "hotel_scheduler.xml",
+        "hotel_scheduler.xml",
 #        "report/hotel_report.xml",
        "views/hotel_view.xml",
 #        "views/hotel_data.xml",

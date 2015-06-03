@@ -19,29 +19,33 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>
 #
 ##############################################################################
-
+from openerp.exceptions import except_orm, Warning
 from openerp import models,fields,api,_
 from openerp import netsvc
-from openerp.exceptions import except_orm, Warning, RedirectWarning
+
 
 class product_category(models.Model):
+
     _inherit = "product.category"
-    
+
     ismenutype = fields.Boolean('Is Menu Type')
 
 class product_product(models.Model):
+
     _inherit = "product.product"
  
     ismenucard = fields.Boolean('Is Menucard')
 
 class hotel_menucard_type(models.Model):
+
     _name = 'hotel.menucard.type'
     _description = 'Amenities Type'
-    
+
     menu_id = fields.Many2one('product.category','Category',required=True, delegate=True, ondelete='cascade')
-    
+
 
 class hotel_menucard(models.Model):
+
     _name = 'hotel.menucard'
     _description = 'Hotel Menucard'
 
@@ -50,6 +54,7 @@ class hotel_menucard(models.Model):
 
 
 class hotel_restaurant_tables(models.Model):
+
     _name = "hotel.restaurant.tables"
     _description = "Includes Hotel Restaurant Table"
 
@@ -57,15 +62,15 @@ class hotel_restaurant_tables(models.Model):
     capacity = fields.Integer('Capacity')
 
 class hotel_restaurant_reservation(models.Model):
- 
+
 #when table is booked and create order button is clicked then this method is called and order is created.
 #you can see this created order in "Orders"
- 
+
     @api.multi
     def create_order(self):
         proxy = self.env['hotel.reservation.order']
-        for record in self:   
-            table_ids = [tableno.id for tableno in self.tableno]
+        for record in self:
+            table_ids = [tableno.id for tableno in record.tableno]
             values = {
                 'reservationno':record.reservation_id,
                 'date1':record.start_date,
@@ -90,7 +95,7 @@ class hotel_restaurant_reservation(models.Model):
         wf_service = netsvc.LocalService('workflow')
         for id in self.ids:
             wf_service.trg_create(self._uid, self._name, self.id, self._cr)
-        return True        
+        return True
 
     #when CONFIRM BUTTON is clicked this method is called (table booking)...!!
     @api.multi
@@ -103,7 +108,7 @@ class hotel_restaurant_reservation(models.Model):
                        "and rt.name in (select rt.name from hotel_restaurant_reservation as hrr " \
                        "inner join reservation_table as rt on rt.reservation_table_id = hrr.id " \
                        "where hrr.id= %s) " \
-                        , (self.start_date, self.end_date, reservation.id, reservation.id))
+                        , (reservation.start_date, reservation.end_date, reservation.id, reservation.id))
             res = self._cr.fetchone()
             roomcount = res and res[0] or 0.0
             if roomcount:
@@ -125,7 +130,7 @@ class hotel_restaurant_reservation(models.Model):
 
     _name = "hotel.restaurant.reservation"
     _description = "Includes Hotel Restaurant Reservation"
-                                                                                
+
     reservation_id = fields.Char('Reservation No', size=64, required=True, default=lambda obj: obj.env['ir.sequence'].get('hotel.restaurant.reservation'))
     room_no = fields.Many2one('hotel.room', string='Room No', size=64)
     start_date = fields.Datetime('Start Time', required=True)
@@ -135,17 +140,15 @@ class hotel_restaurant_reservation(models.Model):
     tableno = fields.Many2many('hotel.restaurant.tables',relation='reservation_table',column1='reservation_table_id',column2='name',string='Table Number',help="Table reservation detail. ")
     state = fields.Selection([('draft', 'Draft'), ('confirm', 'Confirmed'), ('done', 'Done'), ('cancel', 'Cancelled')], 'state', select=True, required=True, readonly=True,default=lambda * a: 'draft')
 
-#    _sql_constraints = [
-#        ('check_dates', 'CHECK (start_date<=end_date)', 'Start Date Should be less than the End Date!'),
-#    ]
-    
+
     @api.constrains('start_date','end_date')
-    def check_dates(self):
+    def check_start_dates(self):
             if self.start_date >= self.end_date:
                 raise except_orm(_('Warning'),_('Start Date Should be less than the End Date!'))
 
 
 class hotel_restaurant_kitchen_order_tickets(models.Model):
+
     _name = "hotel.restaurant.kitchen.order.tickets"
     _description = "Includes Hotel Restaurant Order"
 
@@ -176,7 +179,7 @@ class hotel_restaurant_order(models.Model):
         for line in self:
             res[line.id] = line.amount_subtotal + (line.amount_subtotal * line.tax) / 100
         self.amount_total = res[line.id]
-        return res  
+        return res
     
     @api.multi
     def generate_kot(self):
@@ -199,13 +202,12 @@ class hotel_restaurant_order(models.Model):
                 }
                 restaurant_order_list_obj.create(o_line)
         return True
-    
 
     _name = "hotel.restaurant.order"
     _description = "Includes Hotel Restaurant Order"
-    
+
     _rec_name="order_no"
-    
+
     order_no = fields.Char('Order Number', size=64, required=True,default=lambda obj: obj.env['ir.sequence'].get('hotel.restaurant.order'))
     o_date = fields.Datetime('Date', required=True)
     room_no = fields.Many2one('hotel.room','Room No')
@@ -279,25 +281,20 @@ class hotel_reservation_order(models.Model):
 
 
 class hotel_restaurant_order_list(models.Model):
+
     @api.one
     @api.depends('item_rate')
     def _sub_total(self):
         self.price_subtotal=self.item_rate * int(self.item_qty)
 
-#   def _sub_total(self, cr, uid, ids, field_name, arg, context):
-#        res = {}
-#        for line in self.browse(cr, uid, ids):
-#            res[line.id] = line.item_rate * int(line.item_qty)
-#        return res
-     
     #item rate will display on change of item name     
     @api.onchange('name')
-    def on_change_item_name(self):   
+    def on_change_item_name(self):
         if not self.name:
             return {'value':{}}
         temp = self.env['hotel.menucard'].browse(self.name.id)
         if temp.name:
-            self.item_rate=temp.list_price     
+            self.item_rate=temp.list_price
 
     _name = "hotel.restaurant.order.list"
     _description = "Includes Hotel Restaurant Order"

@@ -20,7 +20,6 @@
 #
 ##############################################################################
 
-#from openerp.osv import osv, fields
 from openerp import models,fields,api,_
 
 class hotel_housekeeping_wizard(models.TransientModel):
@@ -37,7 +36,6 @@ class hotel_housekeeping_wizard(models.TransientModel):
             'model': 'hotel.housekeeping',
             'form': self.read(['date_start', 'date_end', 'room_no'])[0]
         }
-        print "data=====",data
         return self.env['report'].get_action(self,'hotel_housekeeping.report_housekeeping', data=data)
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

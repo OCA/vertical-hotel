@@ -19,23 +19,27 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>
 #
 ##############################################################################
-
+from openerp.exceptions import except_orm, Warning
 from openerp import models,fields,api,_
-import time
 from openerp import netsvc
+import time
+
 
 class product_category(models.Model):
+
     _inherit = "product.category"
-    
+
     isactivitytype = fields.Boolean('Is Activity Type',default=lambda *a: True)
 
 class hotel_housekeeping_activity_type(models.Model):
+
     _name = 'hotel.housekeeping.activity.type'
     _description = 'Activity Type'
-    
+
     activity_id = fields.Many2one('product.category','Category',required=True, delegate=True, ondelete='cascade')
 
 class hotel_activity(models.Model):
+
     _name = 'hotel.activity'
     _description = 'Housekeeping Activity'
     _inherits = {'product.product': 'h_id'}
@@ -46,7 +50,7 @@ class hotel_housekeeping(models.Model):
 
     _name = "hotel.housekeeping"
     _description = "Reservation"
-                
+
     current_date = fields.Date("Today's Date", required=True,default=lambda *a: time.strftime('%Y-%m-%d')) #here in v8 default value is written in field declaration so no more need of _defaults dictionary.. 
     clean_type = fields.Selection([('daily', 'Daily'), ('checkin', 'Check-In'), ('checkout', 'Check-Out')], 'Clean Type', required=True)
     room_no = fields.Many2one('hotel.room','Room No',required=True)
@@ -74,17 +78,18 @@ class hotel_housekeeping(models.Model):
         self.write({'state':'done'})
         return True
 
-    @api.multi    
+    @api.multi
     def room_inspect(self):
         self.write({'state':'inspect'})
         return True
 
-    @api.multi    
+    @api.multi
     def room_clean(self):
         self.write({'state':'clean'})
         return True
 
 class hotel_housekeeping_activities(models.Model):
+
     _name = "hotel.housekeeping.activities"
     _description = "Housekeeping Activities "
 
@@ -98,16 +103,10 @@ class hotel_housekeeping_activities(models.Model):
     dirty = fields.Boolean('Dirty', help='Checked if the housekeeping activity results as Dirty.')
     clean = fields.Boolean('Clean', help='Checked if the housekeeping activity results as Clean.')
 
-#    _sql_constraints = [
-#        ('check_dates', 'CHECK (clean_start_time<=clean_end_time)', 'Start Date Should be less than the End Date!'),
-#    ]
-
     @api.constrains('clean_start_time','clean_end_time')
     def check_clean_start_time(self):
             if self.clean_start_time >= self.clean_end_time:
                 raise except_orm(_('Warning'),_('Start Date Should be less than the End Date!'))
-
-
 
     @api.model
     def default_get(self,fields):

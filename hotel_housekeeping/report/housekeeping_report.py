@@ -21,10 +21,9 @@
 ##############################################################################
 
 import time
-from openerp.osv import osv
+from openerp import models
 from openerp.report import report_sxw
 from datetime import datetime
-from openerp import models, api, _, fields
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 class activity_report(report_sxw.rml_parse):
@@ -57,7 +56,8 @@ class activity_report(report_sxw.rml_parse):
     def get_room_no(self, room_no):
         return self.pool.get('hotel.room').browse(self.cr, self.uid, room_no).name
 
-class report_lunchorder(osv.AbstractModel):
+class report_lunchorder(models.AbstractModel):
+
     _name = 'report.hotel_housekeeping.report_housekeeping'
     _inherit = 'report.abstract_report'
     _template = 'hotel_housekeeping.report_housekeeping'

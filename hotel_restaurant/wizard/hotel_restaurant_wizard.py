@@ -20,9 +20,10 @@
 #
 ##############################################################################
 
-from openerp import models,fields,api,_
+from openerp import models,fields,api
 
 class wizard_hotel_restaurant(models.TransientModel):
+
     _name = 'wizard.hotel.restaurant'
 
     date_start = fields.Datetime('Start Date', required=True)
@@ -35,13 +36,8 @@ class wizard_hotel_restaurant(models.TransientModel):
             'model': 'hotel.restaurant.reservation',
             'form': self.read(['date_start', 'date_end'])[0]
         }
-#        return {
-#            'type': 'ir.actions.report.xml',
-#            'report_name': 'hotel.table.res',
-#            'datas': values,
-#        }
         return self.env['report'].get_action(self, 'hotel_restaurant.report_res_table',data=data)
-    
+
 wizard_hotel_restaurant()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
