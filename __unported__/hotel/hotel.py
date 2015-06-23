@@ -18,63 +18,55 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.     
 #
 ##############################################################################
-from osv import fields, osv
+from openerp.osv import fields
 import time
-import netsvc
+from openerp import netsvc, models, fields, api
 #import ir
 from mx import DateTime
 import datetime
-from tools import config
+from openerp.tools import config
 
-class hotel_floor(osv.osv):
+class hotel_floor(models.Model):
     _name = "hotel.floor"
     _description = "Floor"
-    _columns = { 
-        'name': fields.char('Floor Name', size=64, required=True, select=True),
-        'sequence' : fields.integer('Sequence', size=64),
-        }    
+    name = fields.Char('Floor Name', size=64, required=True, select=True)
+    sequence = fields.Integer('Sequence', size=64)
+         
 hotel_floor()
 
-class product_category(osv.osv):
+class product_category(models.Model):
     _inherit = "product.category"
-    _columns = {
-        'isroomtype':fields.boolean('Is Room Type'),
-        'isamenitype':fields.boolean('Is amenities Type'),
-        'isservicetype':fields.boolean('Is Service Type'),
-    }
+    isroomtype = fields.Boolean('Is Room Type')
+    isamenitype = fields.Boolean('Is amenities Type')
+    isservicetype = fields.Boolean('Is Service Type')
+    
 product_category()
 
-class hotel_room_type(osv.osv):
+class hotel_room_type(models.Model):
     _name = "hotel.room_type"
     _inherits = {'product.category':'cat_id'}
     _description = "Room Type"
-    _columns = { 
-        'cat_id':fields.many2one('product.category', 'category', required=True, select=True, ondelete='cascade'),
-   
-    }
+    cat_id = fields.Many2one('product.category', 'category', required=True, select=True, ondelete='cascade')
+
     _defaults = {
         'isroomtype': lambda * a: 1,
     }    
 hotel_room_type()
 
 
-class product_product(osv.osv):
+class product_product(models.Model):
     _inherit = "product.product"
-    _columns = {
-        'isroom':fields.boolean('Is Room'),
-        'iscategid':fields.boolean('Is categ id'),
-        'isservice':fields.boolean('Is Service id'),
-                
-    }
+    isroom = fields.Boolean('Is Room')
+    iscategid = fields.Boolean('Is categ id')
+    isservice = fields.Boolean('Is Service id')
+
 product_product()
 
-class hotel_room_amenities_type(osv.osv):
+class hotel_room_amenities_type(models.Model):
     _name = 'hotel.room_amenities_type'
     _description = 'amenities Type'
     _inherits = {'product.category':'cat_id'}
-    _columns = {
-        'cat_id':fields.many2one('product.category', 'category', required=True, ondelete='cascade'),
-       }
+    cat_id = fields.Many2one('product.category', 'category', required=True, ondelete='cascade')
     _defaults = {
         'isamenitype': lambda * a: 1,
         
@@ -82,35 +74,31 @@ class hotel_room_amenities_type(osv.osv):
 
 hotel_room_amenities_type()
 
-class hotel_room_amenities(osv.osv):
+class hotel_room_amenities(models.Model):
     _name = 'hotel.room_amenities'
     _description = 'Room amenities'
     _inherits = {'product.product':'room_categ_id'}
-    _columns = {
-         'room_categ_id':fields.many2one('product.product', 'Product Category', required=True, ondelete='cascade'),
-         'rcateg_id':fields.many2one('hotel.room_amenities_type', 'Amenity Catagory'),
-         'amenity_rate':fields.integer('Amenity Rate'),
-        }
+    room_categ_id = fields.Many2one('product.product', 'Product Category', required=True, ondelete='cascade')
+    rcateg_id = fields.Many2one('hotel.room_amenities_type', 'Amenity Category')
+    amenity_rate = fields.Integer('Amenity Rate')
+
     _defaults = {
         'iscategid': lambda * a: 1,
         }
         
 hotel_room_amenities()
 
-class hotel_room(osv.osv):
+class hotel_room(models.Model):
   
     _name = 'hotel.room'
     _inherits = {'product.product':'product_id'}
     _description = 'Hotel Room'
-    _columns = {
-
-        'product_id': fields.many2one('product.product', 'Product_id', required=True, ondelete='cascade'),
-        'floor_id':fields.many2one('hotel.floor', 'Floor No'),
-        'max_adult':fields.integer('Max Adult'),
-        'max_child':fields.integer('Max Child'),
-        'avail_status':fields.selection([('assigned', 'Assigned'), (' unassigned', 'Unassigned')], 'Room Status'),
-        'room_amenities':fields.many2many('hotel.room_amenities', 'temp_tab', 'room_amenities', 'rcateg_id', 'Room Amenities'),
-        }
+    product_id = fields.Many2one('product.product', 'Product_id', required=True, ondelete='cascade')
+    floor_id = fields.Many2one('hotel.floor', 'Floor No')
+    max_adult = fields.Integer('Max Adult')
+    max_child = fields.Integer('Max Child')
+    avail_status = fields.Selection([('assigned', 'Assigned'), (' unassigned', 'Unassigned')], 'Room Status')
+    room_amenities = fields.Many2many('hotel.room_amenities', 'temp_tab', 'room_amenities', 'rcateg_id', 'Room Amenities')
     _defaults = {
         'isroom': lambda * a: 1,
         'rental': lambda * a: 1,
@@ -118,28 +106,62 @@ class hotel_room(osv.osv):
 
 hotel_room()
 
-class hotel_folio(osv.osv):
+class hotel_folio(models.Model):
     
-    def _incoterm_get(self, cr, uid, context={}):
-        return  self.pool.get('sale.order')._incoterm_get(cr, uid, context={})
+    @api.model
+    def _incoterm_get(self):
+        #return  self.pool.get('sale.order')._incoterm_get(cr, uid, context={})
+        return  self.env['sale.order']._incoterm_get()
     
-    def copy(self, cr, uid, id, default=None, context={}):
-        return  self.pool.get('sale.order').copy(cr, uid, id, default=None, context={})
+    '''@api.one
+    def copy(self):
+        return  self.pool.get('sale.order').copy(cr, uid, id, default=None, context={})'''
+    @api.one
+    def copy(self):
+        copy = self.env['sale.order'].browse(id)
+        return  copy.copy(self)
     
-    def _invoiced(self, cursor, user, ids, name, arg, context=None):
-        return  self.pool.get('sale.order')._invoiced(cursor, user, ids, name, arg, context=None)
+    
+    '''@api.multi
+    def _invoiced(self, cursor, user, name, arg):
+        return  self.pool.get('sale.order')._invoiced(cursor, user, ids, name, arg, context=None)'''
+    
+    @api.multi
+    def _invoiced(self, cursor, user, name, arg):
+        invoiced = self.env['sale.order'].browse(ids)
+        return  invoiced._invoiced(cursor, user, name, arg)
 
+    @api.model
     def _invoiced_search(self, cursor, user, obj, name, args):
-        return  self.pool.get('sale.order')._invoiced_search(cursor, user, obj, name, args)
+        #return  self.pool.get('sale.order')._invoiced_search(cursor, user, obj, name, args)
+        return  self.env['sale.order']._invoiced_search(cursor, user, obj, name, args)
     
-    def _amount_untaxed(self, cr, uid, ids, field_name, arg, context):
-        return self.pool.get('sale.order')._amount_untaxed(cr, uid, ids, field_name, arg, context)
+    @api.multi
+    def _amount_untaxed(self, field_name, arg):
+        sales = self.env['sale.order'].browse(self.ids)
+        return sales._amount_untaxed(field_name, arg)
     
-    def _amount_tax(self, cr, uid, ids, field_name, arg, context):
-        return self.pool.get('sale.order')._amount_tax(cr, uid, ids, field_name, arg, context)
+    '''@api.multi
+    def _amount_untaxed(self, field_name, arg):
+       return self.pool.get('sale.order')._amount_untaxed(cr, uid, ids, field_name, arg, context)'''
     
-    def _amount_total(self, cr, uid, ids, field_name, arg, context):
-        return self.pool.get('sale.order')._amount_total(cr, uid, ids, field_name, arg, context)
+    @api.multi
+    def _amount_tax(self, field_name, arg):
+        amoun_tax = self.env['sale.order'].browse(ids)
+        return amount_tax._amount_tax(field_name, arg)
+    
+    '''@api.multi
+    def _amount_tax(self, field_name, arg, context):
+        return self.pool.get('sale.order')._amount_tax(cr, uid, ids, field_name, arg, context)'''
+    
+    @api.multi
+    def _amount_total(self, field_name, arg):
+        amount = sel.env['sale.order'].browse(ids)
+        return amount._amount_total(field_name, arg)
+    
+    '''@api.multi
+    def _amount_total(self, field_name, arg, context):
+        return self.pool.get('sale.order')._amount_total(cr, uid, ids, field_name, arg, context)'''
     
     _name = 'hotel.folio'
     
@@ -149,16 +171,14 @@ class hotel_folio(osv.osv):
     
     _rec_name = 'order_id'
     
-    _columns = {
-          'order_id':fields.many2one('sale.order', 'order_id', required=True, ondelete='cascade'),
-          'checkin_date': fields.datetime('Check In', required=True, readonly=True, states={'draft':[('readonly', False)]}),
-          'checkout_date': fields.datetime('Check Out', required=True, readonly=True, states={'draft':[('readonly', False)]}),
-          'room_lines': fields.one2many('hotel_folio.line', 'folio_id'),
-          'service_lines': fields.one2many('hotel_service.line', 'folio_id'),
-          'hotel_policy':fields.selection([('prepaid', 'On Booking'), ('manual', 'On Check In'), ('picking', 'On Checkout')], 'Hotel Policy', required=True),
-          'duration':fields.float('Duration'),
-    }
-    
+    order_id = fields.Many2one('sale.order', 'order_id', required=True, ondelete='cascade')
+    checkin_date = fields.Datetime('Check In', required=True, readonly=True, states={'draft':[('readonly', False)]})
+    checkout_date = fields.Datetime('Check Out', required=True, readonly=True, states={'draft':[('readonly', False)]})
+    room_lines = fields.One2many('hotel_folio.line', 'folio_id')
+    service_lines = fields.One2many('hotel_service.line', 'folio_id')
+    hotel_policy = fields.Selection([('prepaid', 'On Booking'), ('manual', 'On Check In'), ('picking', 'On Checkout')], 'Hotel Policy', required=True)
+    duration = fields.Float('Duration')
+    #tus
     _defaults = {
                  'hotel_policy':'manual'
                  }
@@ -167,8 +187,10 @@ class hotel_folio(osv.osv):
                         ('check_in_out', 'CHECK (checkin_date<=checkout_date)', 'Check in Date Should be less than the Check Out Date!'),
                        ]
     
-    def _check_room_vacant(self, cr, uid, ids, context=None):
-        folio = self.browse(cr, uid, ids[0], context=context)
+    @api.multi
+    def _check_room_vacant(self):
+        #folio = self.browse(cr, uid, ids[0], context=context)
+        folio = self.browse(ids[0])
         rooms = [] 
         for room in folio.room_lines:
             if room.product_id in rooms:
@@ -180,7 +202,8 @@ class hotel_folio(osv.osv):
             (_check_room_vacant, 'You can not allocate the same room twice!', ['room_lines'])
     ]
     
-    def onchange_dates(self, cr, uid, ids, checkin_date=False, checkout_date=False, duration=False):
+    @api.multi
+    def onchange_dates(self, checkin_date=False, checkout_date=False, duration=False):
         value = {}
         if not duration:
             duration = 0
@@ -198,13 +221,15 @@ class hotel_folio(osv.osv):
                 value.update({'value':{'checkout_date':checkout_date}})
         return value
     
-    def create(self, cr, uid, vals, context=None, check=True):
+    @api.model
+    def create(self, vals, check=True):
         tmp_room_lines = vals.get('room_lines', [])
         tmp_service_lines = vals.get('service_lines', [])
         vals['order_policy'] = vals.get('hotel_policy', 'manual')
         if not vals.has_key("folio_id"):
             vals.update({'room_lines':[], 'service_lines':[]})
-            folio_id = super(hotel_folio, self).create(cr, uid, vals, context)
+            #folio_id = super(hotel_folio, self).create(cr, uid, vals, context)
+            folio_id = super(hotel_folio, self).create(vals)
             for line in tmp_room_lines:
                 line[2].update({'folio_id':folio_id})
             for line in tmp_service_lines:
@@ -215,18 +240,38 @@ class hotel_folio(osv.osv):
             folio_id = super(hotel_folio, self).create(cr, uid, vals, context)
         return folio_id
     
-   
-    def onchange_shop_id(self, cr, uid, ids, shop_id):
-        return  self.pool.get('sale.order').onchange_shop_id(cr, uid, ids, shop_id)
+    @api.multi
+    def onchange_shop_id(self, shop_id):
+        shop_id = self.env['sale.order'].browse(ids)
+        return  shop_id.onchange_shop_id(shop_id)
     
-    def onchange_partner_id(self, cr, uid, ids, part):
-        return  self.pool.get('sale.order').onchange_partner_id(cr, uid, ids, part)
+    '''@api.multi
+    def onchange_shop_id(self, shop_id):
+        return  self.pool.get('sale.order').onchange_shop_id(cr, uid, ids, shop_id)'''
     
-    def button_dummy(self, cr, uid, ids, context={}):
-        return  self.pool.get('sale.order').button_dummy(cr, uid, ids, context={})
+    @api.multi
+    def onchange_partner_id(self, part):
+        partner_id = self.env['sale.order'].browse(ids)
+        return  partner_id.onchange_partner_id(part)
     
-    def action_invoice_create(self, cr, uid, ids, grouped=False, states=['confirmed', 'done']):
-        i = self.pool.get('sale.order').action_invoice_create(cr, uid, ids, grouped=False, states=['confirmed', 'done'])
+    '''@api.multi
+    def onchange_partner_id(self, part):
+        return  self.pool.get('sale.order').onchange_partner_id(cr, uid, ids, part)'''
+    
+    @api.multi
+    def button_dummy(self):
+        dummy = self.env['sale.order'].browse(ids)
+        return  dummy.button_dummy()
+    
+    '''@api.multi
+    def button_dummy(self):
+        return  self.pool.get('sale.order').button_dummy(cr, uid, ids, context={})'''
+    
+    @api.multi
+    def action_invoice_create(self, grouped=False, states=['confirmed', 'done']):
+       # i = self.pool.get('sale.order').action_invoice_create(cr, uid, ids, grouped=False, states=['confirmed', 'done'])
+        i = self.env['sale.order'].browse(ids)
+        i.action_invoice_create(grouped=False, states=['confirmed', 'done'])
         for line in self.browse(cr, uid, ids, context={}):
             self.write(cr, uid, [line.id], {'invoiced':True})
             if grouped:
@@ -235,19 +280,29 @@ class hotel_folio(osv.osv):
                self.write(cr, uid, [line.id], {'state' : 'progress'})
         return i 
 
-   
-    def action_invoice_cancel(self, cr, uid, ids, context={}):
-        res = self.pool.get('sale.order').action_invoice_cancel(cr, uid, ids, context={})
-        for sale in self.browse(cr, uid, ids):
+    @api.multi
+    def action_invoice_cancel(self):
+        #res = self.pool.get('sale.order').action_invoice_cancel(cr, uid, ids, context={})
+        res = self.env['sale.order'].browse(ids)
+        res.action_invoice_cancel()
+        #for sale in self.browse(cr, uid, ids):
+        for sale in self.browse(ids):
             for line in sale.order_line:
-                self.pool.get('sale.order.line').write(cr, uid, [line.id], {'invoiced': invoiced})
+                #self.pool.get('sale.order.line').write(cr, uid, [line.id], {'invoiced': invoiced})
+                self.env['sale.order.line'].write(cr, uid, [line.id], {'invoiced': invoiced})
         self.write(cr, uid, ids, {'state':'invoice_except', 'invoice_id':False})
         return res  
-    def action_cancel(self, cr, uid, ids, context={}):
-        c = self.pool.get('sale.order').action_cancel(cr, uid, ids, context={})
+    
+    @api.multi
+    def action_cancel(self):
+        #c = self.pool.get('sale.order').action_cancel(cr, uid, ids, context={})
+        c = self.env['sale.order'].browse(ids)
+        c.action_cancel()
         ok = True
-        for sale in self.browse(cr, uid, ids):
-            for r in self.read(cr, uid, ids, ['picking_ids']):
+        #for sale in self.browse(cr, uid, ids):ç
+        for sale in self.browse(ids):
+            #for r in self.read(cr, uid, ids, ['picking_ids']):
+            for r in self.read(['picking_ids']):
                 for pick in r['picking_ids']:
                     wf_service = netsvc.LocalService("workflow")
                     wf_service.trg_validate(uid, 'stock.picking', pick, 'button_cancel', cr)
@@ -256,67 +311,123 @@ class hotel_folio(osv.osv):
                     wf_service = netsvc.LocalService("workflow")
                     wf_service.trg_validate(uid, 'account.invoice', inv, 'invoice_cancel', cr)
             
-        self.write(cr, uid, ids, {'state':'cancel'})
+        #self.write(cr, uid, ids, {'state':'cancel'})
+        self.write({'state':'cancel'})
         return c
     
-    def action_wait(self, cr, uid, ids, *args):
-        res = self.pool.get('sale.order').action_wait(cr, uid, ids, *args)
-        for o in self.browse(cr, uid, ids):
+    @api.multi
+    def action_wait(self, *args):
+        #res = self.pool.get('sale.order').action_wait(cr, uid, ids, *args)
+        res = self.env['sale.order']
+        res.action_wait(*args)
+        #for o in self.browse(cr, uid, ids):
+        for o in self.browse(ids):
             if (o.order_policy == 'manual') and (not o.invoice_ids):
                 self.write(cr, uid, [o.id], {'state': 'manual'})
             else:
                 self.write(cr, uid, [o.id], {'state': 'progress'})
         return res
-    def test_state(self, cr, uid, ids, mode, *args):
+    
+    @api.multi
+    def test_state(self, mode, *args):
         write_done_ids = []
         write_cancel_ids = []
-        res = self.pool.get('sale.order').test_state(cr, uid, ids, mode, *args)
+        #res = self.pool.get('sale.order').test_state(cr, uid, ids, mode, *args)
+        res = self.env['sale.order']
+        res.test_state(mode, *args)
         if write_done_ids:
-            self.pool.get('sale.order.line').write(cr, uid, write_done_ids, {'state': 'done'})
+            #self.pool.get('sale.order.line').write(cr, uid, write_done_ids, {'state': 'done'})ç
+            self.env['sale.order.line'].write(write_done_ids, {'state': 'done'})
         if write_cancel_ids:
-            self.pool.get('sale.order.line').write(cr, uid, write_cancel_ids, {'state': 'cancel'})
+            #self.pool.get('sale.order.line').write(cr, uid, write_cancel_ids, {'state': 'cancel'})
+            self.env['sale.order.line'].write(write_cancel_ids, {'state': 'cancel'})
         return res 
-    def procurement_lines_get(self, cr, uid, ids, *args):
-        res = self.pool.get('sale.order').procurement_lines_get(cr, uid, ids, *args)
+    
+    @api.multi
+    def procurement_lines_get(self, *args):
+        #res = self.pool.get('sale.order').procurement_lines_get(cr, uid, ids, *args)
+        res = self.env['sale.order'].brose(ids).procurement_lines_get(*args)
         return  res
-    def action_ship_create(self, cr, uid, ids, *args):
-        res = self.pool.get('sale.order').action_ship_create(cr, uid, ids, *args)
+    
+    @api.multi
+    def action_ship_create(self, *args):
+        #res = self.pool.get('sale.order').action_ship_create(cr, uid, ids, *args)
+        res = self.env['sale.order'].browse(ids).action_ship_create(*args)
         return res
-    def action_ship_end(self, cr, uid, ids, context={}):
-        res = self.pool.get('sale.order').action_ship_end(cr, uid, ids, context={})
-        for order in self.browse(cr, uid, ids):
+    
+    @api.multi
+    def action_ship_end(self):
+        #res = self.pool.get('sale.order').action_ship_end(cr, uid, ids, context={})
+        res = self.env['sale.order'].browse(ids).action_ship_end()
+        #for order in self.browse(cr, uid, ids):
+        for order in self.browse(ids):
             val = {'shipped':True}
             self.write(cr, uid, [order.id], val)
         return res 
-    def _log_event(self, cr, uid, ids, factor=0.7, name='Open Order'):
-        return  self.pool.get('sale.order')._log_event(cr, uid, ids, factor=0.7, name='Open Order')
-    def has_stockable_products(self, cr, uid, ids, *args):
-        return  self.pool.get('sale.order').has_stockable_products(cr, uid, ids, *args)
-    def action_cancel_draft(self, cr, uid, ids, *args):
-        d = self.pool.get('sale.order').action_cancel_draft(cr, uid, ids, *args)
+    
+    @api.multi
+    def _log_event(self, factor=0.7, name='Open Order'):
+       # return  self.pool.get('sale.order')._log_event(cr, uid, ids, factor=0.7, name='Open Order')
+       event = self.env['sale.order'].browse(ids)
+       return  event._log_event(factor=0.7, name='Open Order')
+    
+    @api.multi
+    def has_stockable_products(self, *args):
+        #return  self.pool.get('sale.order').has_stockable_products(cr, uid, ids, *args)
+        products = self.env['sale.order'].browse(ids)
+        return products.has_stockable_products(*args)
+    
+    @api.multi
+    def action_cancel_draft(self, *args):
+        ''''d = self.pool.get('sale.order').action_cancel_draft(cr, uid, ids, *args)
         self.write(cr, uid, ids, {'state':'draft', 'invoice_ids':[], 'shipped':0})
-        self.pool.get('sale.order.line').write(cr, uid, ids, {'invoiced':False, 'state':'draft', 'invoice_lines':[(6, 0, [])]})
+        self.pool.get('sale.order.line').write(cr, uid, ids, {'invoiced':False, 'state':'draft', 'invoice_lines':[(6, 0, [])]})'''
+        d = self.env['sale.order'].browse(ids).action_cancel_draft(*args)
+        self.write({'state':'draft', 'invoice_ids':[], 'shipped':0})
+        self.env['sale.order.line'].write({'invoiced':False, 'state':'draft', 'invoice_lines':[(6, 0, [])]})
         return d
   
 hotel_folio()
 
-class hotel_folio_line(osv.osv):
+class hotel_folio_line(models.Model):
     
-    def copy(self, cr, uid, id, default=None, context={}):
-        return  self.pool.get('sale.order.line').copy(cr, uid, id, default=None, context={})
-    def _amount_line_net(self, cr, uid, ids, field_name, arg, context):
-        return  self.pool.get('sale.order.line')._amount_line_net(cr, uid, ids, field_name, arg, context)
-    def _amount_line(self, cr, uid, ids, field_name, arg, context):
-        return  self.pool.get('sale.order.line')._amount_line(cr, uid, ids, field_name, arg, context)
-    def _number_packages(self, cr, uid, ids, field_name, arg, context):
-        return  self.pool.get('sale.order.line')._number_packages(cr, uid, ids, field_name, arg, context)
-    def _get_1st_packaging(self, cr, uid, context={}):
-        return  self.pool.get('sale.order.line')._get_1st_packaging(cr, uid, context={})
-    def _get_checkin_date(self, cr, uid, context={}):
+    @api.one
+    def copy(self, default=None):
+        #return  self.pool.get('sale.order.line').copy(cr, uid, id, default=None, context={})
+        copy = self.env['sale.order.line'].browse(id)
+        return  copy.copy(default=None)
+    
+    @api.multi
+    def _amount_line_net(self, field_name, arg):
+        #return  self.pool.get('sale.order.line')._amount_line_net(cr, uid, ids, field_name, arg, context)
+        amount_line = self.env['sale.order.line'].browse(ids)
+        return  amount_line._amount_line_net(field_name, arg)
+    
+    @api.multi
+    def _amount_line(self, field_name, arg):
+        #return  self.pool.get('sale.order.line')._amount_line(cr, uid, ids, field_name, arg, context)
+        amount_line = self.env['sale.order.line'].browse(ids)
+        return  amount_line._amount_line(field_name, arg)
+    
+    @api.multi
+    def _number_packages(self, field_name, arg):
+        #return  self.pool.get('sale.order.line')._number_packages(cr, uid, ids, field_name, arg, context)
+        packages = self.env['sale.order.line'].browse(ids)
+        return  packages._number_packages(field_name, arg)
+    
+    @api.model
+    def _get_1st_packaging(self):
+        #return  self.pool.get('sale.order.line')._get_1st_packaging(cr, uid, context={})
+        return  self.env['sale.order.line']._get_1st_packaging()
+    
+    @api.model
+    def _get_checkin_date(self):
         if 'checkin_date' in context:
             return context['checkin_date']
         return time.strftime('%Y-%m-%d %H:%M:%S')
-    def _get_checkout_date(self, cr, uid, context={}):
+    
+    @api.model
+    def _get_checkout_date(self):
         if 'checkin_date' in context:
             return context['checkout_date']
         return time.strftime('%Y-%m-%d %H:%M:%S')
@@ -324,45 +435,60 @@ class hotel_folio_line(osv.osv):
     _name = 'hotel_folio.line'
     _description = 'hotel folio1 room line'
     _inherits = {'sale.order.line':'order_line_id'}
-    _columns = {
-          'order_line_id':fields.many2one('sale.order.line', 'order_line_id', required=True, ondelete='cascade'),
-          'folio_id':fields.many2one('hotel.folio', 'folio_id', ondelete='cascade'),
-          'checkin_date': fields.datetime('Check In', required=True),
-          'checkout_date': fields.datetime('Check Out', required=True),
-    }
+    order_line_id = fields.Many2one('sale.order.line', 'order_line_id', required=True, ondelete='cascade')
+    folio_id = fields.Many2one('hotel.folio', 'folio_id', ondelete='cascade')
+    checkin_date = fields.Datetime('Check In', required=True)
+    checkout_date = fields.Datetime('Check Out', required=True)
+
     _defaults = {
        'checkin_date':_get_checkin_date,
        'checkout_date':_get_checkout_date,
        
     }
     
-    def create(self, cr, uid, vals, context=None, check=True):
+    @api.model
+    def create(self, vals, check=True):
         if not context:
             context = {}
         if vals.has_key("folio_id"):
-            folio = self.pool.get("hotel.folio").browse(cr, uid, [vals['folio_id']])[0]
+            #folio = self.pool.get("hotel.folio").browse(cr, uid, [vals['folio_id']])[0]
+            folio = self.env['hotel.folio'].browse([vals['folio_id']])[0]
             vals.update({'order_id':folio.order_id.id})
-        roomline = super(osv.osv, self).create(cr, uid, vals, context)
+        #roomline = super(models.Model, self).create(cr, uid, vals, context)
+        roomline = super(models.Model, self).create(vals)
         return roomline
     
-    def uos_change(self, cr, uid, ids, product_uos, product_uos_qty=0, product_id=None):
-        return  self.pool.get('sale.order.line').uos_change(cr, uid, ids, product_uos, product_uos_qty=0, product_id=None)
+    @api.multi
+    def uos_change(self, product_uos, product_uos_qty=0, product_id=None):
+        #return  self.pool.get('sale.order.line').uos_change(cr, uid, ids, product_uos, product_uos_qty=0, product_id=None)
+        change = self.env['sale.order.line']
+        return  change.uos_change(product_uos, product_uos_qty=0, product_id=None)
     
-    def product_id_change(self, cr, uid, ids, pricelist, product, qty=0,
+    @api.multi
+    def product_id_change(self, pricelist, product, qty=0,
             uom=False, qty_uos=0, uos=False, name='', partner_id=False,
             lang=False, update_tax=True, date_order=False):
-        return  self.pool.get('sale.order.line').product_id_change(cr, uid, ids, pricelist, product, qty=0,
-            uom=False, qty_uos=0, uos=False, name='', partner_id=partner_id,
-            lang=False, update_tax=True, date_order=False)
-        
-    def product_uom_change(self, cursor, user, ids, pricelist, product, qty=0,
+        #return  self.pool.get('sale.order.line').product_id_change(cr, uid, ids, pricelist, product, qty=0,
+         #   uom=False, qty_uos=0, uos=False, name='', partner_id=partner_id,
+          #  lang=False, update_tax=True, date_order=False)
+          
+        return  self.env['sale.order.line'].browse(ids).product_id_change(pricelist, product, qty=0,
+        uom=False, qty_uos=0, uos=False, name='', partner_id=partner_id,
+        lang=False, update_tax=True, date_order=False)
+    
+    @api.multi    
+    def product_uom_change(self, cursor, user, pricelist, product, qty=0,
             uom=False, qty_uos=0, uos=False, name='', partner_id=False,
             lang=False, update_tax=True, date_order=False):
-        return  self.pool.get('sale.order.line').product_uom_change(cursor, user, ids, pricelist, product, qty=0,
+        '''return  self.pool.get('sale.order.line').product_uom_change(cursor, user, ids, pricelist, product, qty=0,
+            uom=False, qty_uos=0, uos=False, name='', partner_id=partner_id,
+            lang=False, update_tax=True, date_order=False) '''
+        return  self.env['sale.order.line'].browse(ids).product_uom_change(cursor, user, pricelist, product, qty=0,
             uom=False, qty_uos=0, uos=False, name='', partner_id=partner_id,
             lang=False, update_tax=True, date_order=False)
-        
-    def on_change_checkout(self, cr, uid, ids, checkin_date=time.strftime('%Y-%m-%d %H:%M:%S'), checkout_date=time.strftime('%Y-%m-%d %H:%M:%S'), context=None):
+    
+    @api.multi    
+    def on_change_checkout(self, checkin_date=time.strftime('%Y-%m-%d %H:%M:%S'), checkout_date=time.strftime('%Y-%m-%d %H:%M:%S')):
         qty = 1
         if checkout_date < checkin_date:
             raise osv.except_osv ('Error !', 'Checkout must be greater or equal checkin date')
@@ -373,75 +499,120 @@ class hotel_folio_line(osv.osv):
                 qty = 1
         return {'value':{'product_uom_qty':qty}}
     
-    def button_confirm(self, cr, uid, ids, context={}):
-       
-        return  self.pool.get('sale.order.line').button_confirm(cr, uid, ids, context={})
-    def button_done(self, cr, uid, ids, context={}):
-        res = self.pool.get('sale.order.line').button_done(cr, uid, ids, context={})
+    @api.multi
+    def button_confirm(self):
+        #return  self.pool.get('sale.order.line').button_confirm(cr, uid, ids, context={})
+        confirm = self.env['sale.order.line'].browse(ids)
+        return  confirm.button_confirm()
+    
+    @api.multi
+    def button_done(self):
+        #res = self.pool.get('sale.order.line').button_done(cr, uid, ids, context={})
+        res = self.env['sale.order.line'].browse(ids).button_done()
         wf_service = netsvc.LocalService("workflow")
-        res = self.write(cr, uid, ids, {'state':'done'})
-        for line in self.browse(cr, uid, ids, context):
+        #res = self.write(cr, uid, ids, {'state':'done'})
+        res = self.write({'state':'done'})
+        #for line in self.browse(cr, uid, ids, context):
+        for line in self.browse(ids):
             wf_service.trg_write(uid, 'sale.order', line.order_id.id, cr)
         return res
 
-        
-    def uos_change(self, cr, uid, ids, product_uos, product_uos_qty=0, product_id=None):
-        return  self.pool.get('sale.order.line').uos_change(cr, uid, ids, product_uos, product_uos_qty=0, product_id=None)
-    def copy(self, cr, uid, id, default=None, context={}):
-        return  self.pool.get('sale.order.line').copy(cr, uid, id, default=None, context={})
+    @api.multi    
+    def uos_change(self, product_uos, product_uos_qty=0, product_id=None):
+        #return  self.pool.get('sale.order.line').uos_change(cr, uid, ids, product_uos, product_uos_qty=0, product_id=None)
+        change = self.env['sale.order.line'].browse(ids)
+        return  change.uos_change(product_uos, product_uos_qty=0, product_id=None)
+    
+    @api.one
+    def copy(self, default=None):
+        #return  self.pool.get('sale.order.line').copy(cr, uid, id, default=None, context={})
+        copy = self.env['sale.order.line'].browse(id)
+        return  copy.copy(default=None)
     
         
 
 hotel_folio_line()
 
-class hotel_service_line(osv.osv):
+class hotel_service_line(models.Model):
     
-    def copy(self, cr, uid, id, default=None, context={}):
-        return  self.pool.get('sale.order.line').copy(cr, uid, id, default=None, context={})
-    def _amount_line_net(self, cr, uid, ids, field_name, arg, context):
-        return  self.pool.get('sale.order.line')._amount_line_net(cr, uid, ids, field_name, arg, context)
-    def _amount_line(self, cr, uid, ids, field_name, arg, context):
-        return  self.pool.get('sale.order.line')._amount_line(cr, uid, ids, field_name, arg, context)
-    def _number_packages(self, cr, uid, ids, field_name, arg, context):
-        return  self.pool.get('sale.order.line')._number_packages(cr, uid, ids, field_name, arg, context)
-    def _get_1st_packaging(self, cr, uid, context={}):
-        return  self.pool.get('sale.order.line')._get_1st_packaging(cr, uid, context={})
+    @api.one
+    def copy(self, default=None):
+        #return  self.pool.get('sale.order.line').copy(cr, uid, id, default=None, context={})
+        copy = self.env['sale.order.line'].browse(id)
+        return  copy.copy(default=None)
+    
+    @api.multi
+    def _amount_line_net(self, field_name, arg):
+        #return  self.pool.get('sale.order.line')._amount_line_net(cr, uid, ids, field_name, arg, context)
+        amount_line = self.env['sale.order.line'].browse(ids)
+        return  amount_line._amount_line_net(field_name, arg)
+    
+    @api.multi
+    def _amount_line(self, field_name, arg):
+        #return  self.pool.get('sale.order.line')._amount_line(cr, uid, ids, field_name, arg, context)
+        amount_line = self.env['sale.order.line'].browse(ids)
+        return  amount_line._amount_line(field_name, arg)
+    
+    @api.multi
+    def _number_packages(self, field_name, arg):
+        #return  self.pool.get('sale.order.line')._number_packages(cr, uid, ids, field_name, arg, context)
+        packages = self.env['sale.order.line'].browse(ids)
+        return  packages._number_packages(field_name, arg)
+    
+    @api.model
+    def _get_1st_packaging(self):
+        #return  self.pool.get('sale.order.line')._get_1st_packaging(cr, uid, context={})
+        return  self.env['sale.order.line']._get_1st_packaging()
    
  
     _name = 'hotel_service.line'
     _description = 'hotel Service line'
     _inherits = {'sale.order.line':'service_line_id'}
-    _columns = {
-          'service_line_id':fields.many2one('sale.order.line', 'service_line_id', required=True, ondelete='cascade'),
-          'folio_id':fields.many2one('hotel.folio', 'folio_id', ondelete='cascade'),
-         
-    }
-
-    def create(self, cr, uid, vals, context=None, check=True):
+    service_line_id = fields.Many2one('sale.order.line', 'service_line_id', required=True, ondelete='cascade')
+    folio_id = fields.Many2one('hotel.folio', 'folio_id', ondelete='cascade')
+    
+    @api.model
+    def create(self, vals, check=True):
         if not context:
             context = {}
         if vals.has_key("folio_id"):
-            folio = self.pool.get("hotel.folio").browse(cr, uid, [vals['folio_id']])[0]
+            #folio = self.pool.get("hotel.folio").browse(cr, uid, [vals['folio_id']])[0]
+            folio = self.env['hotel.folio'].browse([vals['folio_id']])[0]
             vals.update({'order_id':folio.order_id.id})
-        roomline = super(osv.osv, self).create(cr, uid, vals, context)
+        #roomline = super(models.Model, self).create(cr, uid, vals, context)
+        roomline = super(models.Model, self).create(vals)
         return roomline
     
-    def uos_change(self, cr, uid, ids, product_uos, product_uos_qty=0, product_id=None):
-        return  self.pool.get('sale.order.line').uos_change(cr, uid, ids, product_uos, product_uos_qty=0, product_id=None)
+    @api.multi
+    def uos_change(self, product_uos, product_uos_qty=0, product_id=None):
+        #return  self.pool.get('sale.order.line').uos_change(cr, uid, ids, product_uos, product_uos_qty=0, product_id=None)
+        change = self.env['sale.order.line'].browse(ids)
+        return  change.uos_change(product_uos, product_uos_qty=0, product_id=None)
     
-    def product_id_change(self, cr, uid, ids, pricelist, product, qty=0,
+    @api.multi
+    def product_id_change(self, pricelist, product, qty=0,
             uom=False, qty_uos=0, uos=False, name='', partner_id=False,
             lang=False, update_tax=True, date_order=False):
-        return  self.pool.get('sale.order.line').product_id_change(cr, uid, ids, pricelist, product, qty=0,
+        '''return  self.pool.get('sale.order.line').product_id_change(cr, uid, ids, pricelist, product, qty=0,
+            uom=False, qty_uos=0, uos=False, name='', partner_id=partner_id,
+            lang=False, update_tax=True, date_order=False)'''
+        return  self.env['sale.order.line'].browse(ids).product_id_change(pricelist, product, qty=0,
             uom=False, qty_uos=0, uos=False, name='', partner_id=partner_id,
             lang=False, update_tax=True, date_order=False)
-    def product_uom_change(self, cursor, user, ids, pricelist, product, qty=0,
+        
+    @api.multi    
+    def product_uom_change(self, cursor, user, pricelist, product, qty=0,
             uom=False, qty_uos=0, uos=False, name='', partner_id=False,
             lang=False, update_tax=True, date_order=False):
-        return  self.pool.get('sale.order.line').product_uom_change(cursor, user, ids, pricelist, product, qty=0,
+        '''return  self.pool.get('sale.order.line').product_uom_change(cursor, user, ids, pricelist, product, qty=0,
+            uom=False, qty_uos=0, uos=False, name='', partner_id=partner_id,
+            lang=False, update_tax=True, date_order=False)'''
+        return  self.env['sale.order.line'].browse(ids).product_uom_change(cursor, user, pricelist, product, qty=0,
             uom=False, qty_uos=0, uos=False, name='', partner_id=partner_id,
             lang=False, update_tax=True, date_order=False)
-    def on_change_checkout(self, cr, uid, ids, checkin_date=time.strftime('%Y-%m-%d %H:%M:%S'), checkout_date=time.strftime('%Y-%m-%d %H:%M:%S'), context=None):
+        
+    @api.multi    
+    def on_change_checkout(self, checkin_date=time.strftime('%Y-%m-%d %H:%M:%S'), checkout_date=time.strftime('%Y-%m-%d %H:%M:%S')):
         qty = 1
         if checkout_date < checkin_date:
             raise osv.except_osv ('Error !', 'Checkout must be greater or equal checkin date')
@@ -450,42 +621,50 @@ class hotel_service_line(osv.osv):
             qty = diffDate.days
         return {'value':{'product_uom_qty':qty}}
     
-    def button_confirm(self, cr, uid, ids, context={}):
-       
-        return  self.pool.get('sale.order.line').button_confirm(cr, uid, ids, context={})
-    def button_done(self, cr, uid, ids, context={}):
-        return  self.pool.get('sale.order.line').button_done(cr, uid, ids, context={})
-    def uos_change(self, cr, uid, ids, product_uos, product_uos_qty=0, product_id=None):
-        return  self.pool.get('sale.order.line').uos_change(cr, uid, ids, product_uos, product_uos_qty=0, product_id=None)
-    def copy(self, cr, uid, id, default=None, context={}):
-        return  self.pool.get('sale.order.line').copy(cr, uid, id, default=None, context={})
+    @api.multi
+    def button_confirm(self):
+        #return  self.pool.get('sale.order.line').button_confirm(cr, uid, ids, context={})
+        button = self.env['sale.order.line'].browse(ids)
+        return  button.button_confirm()
+    
+    @api.multi
+    def button_done(self):
+        #return  self.pool.get('sale.order.line').button_done(cr, uid, ids, context={})
+        button = self.env['sale.order.line'].browse(ids)
+        return  button.button_done()
+    
+    @api.multi
+    def uos_change(self, product_uos, product_uos_qty=0, product_id=None):
+        change = self.env['sale.order.line'].browse(ids)
+        return  change.uos_change(product_uos, product_uos_qty=0, product_id=None)
+        #return  self.pool.get('sale.order.line').uos_change(cr, uid, ids, product_uos, product_uos_qty=0, product_id=None)
+    
+    @api.one
+    def copy(self, default=None):
+        #return  self.pool.get('sale.order.line').copy(cr, uid, id, default=None, context={})
+        copy = self.env['sale.order.line'].browse(id)
+        return copy.copy(default=None)
     
         
 
 hotel_service_line()
 
-class hotel_service_type(osv.osv):
+class hotel_service_type(models.Model):
     _name = "hotel.service_type"
     _inherits = {'product.category':'ser_id'}
-    _description = "Service Type"
-    _columns = { 
-        'ser_id':fields.many2one('product.category', 'category', required=True, select=True, ondelete='cascade'),
-        
-    }
+    _description = "Service Type" 
+    ser_id = fields.Many2one('product.category', 'category', required=True, select=True, ondelete='cascade')
     _defaults = {
         'isservicetype': lambda * a: 1,
     }    
 hotel_service_type()
 
-class hotel_services(osv.osv):
+class hotel_services(models.Model):
     
     _name = 'hotel.services'
     _description = 'Hotel Services and its charges'
     _inherits = {'product.product':'service_id'}
-    _columns = {
-        'service_id': fields.many2one('product.product', 'Service_id', required=True, ondelete='cascade'),
-       
-        }
+    service_id = fields.Many2one('product.product', 'Service_id', required=True, ondelete='cascade')
     _defaults = {
         'isservice': lambda * a: 1,
         }

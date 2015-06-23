@@ -19,19 +19,21 @@
 #
 ##############################################################################
 
-from osv import osv,fields
+from openerp.osv import fields
+from openerp import netsvc, models, fields, api
+from mx import DateTime
 
-class folio_report_wizard(osv.osv_memory):
+#class folio_report_wizard(osv.osv_memory):
+class folio_report_wizard(models.TransientModel):
     
     _name = 'folio.report.wizard'
     
     _rec_name = 'date_start'
-    _columns = {
-                'date_start':fields.datetime('Start Date'),
-                'date_end':fields.datetime('End Date')
-                }
-    
-    def print_report(self, cr, uid, ids, context=None):
+    date_start = fields.Datetime('Start Date')
+    date_end = fields.Datetime('End Date')
+
+    @api.multi
+    def print_report(self):
         datas = {
              'ids': ids,
              'model': 'hotel.folio',

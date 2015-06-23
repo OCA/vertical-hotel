@@ -50,7 +50,7 @@ Different reports are also provided, mainly for hotel statistics.
 
     ],
     "active": False,
-    'installable': False,
+    'installable': True,
     'application': True,
 }
 
