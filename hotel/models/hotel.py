@@ -26,21 +26,18 @@ from mx import DateTime
 import datetime
 from openerp.tools import config
 
+
 class hotel_floor(models.Model):
     _name = "hotel.floor"
     _description = "Floor"
     name = fields.Char('Floor Name', size=64, required=True, select=True)
     sequence = fields.Integer('Sequence', size=64)
-         
-hotel_floor()
 
 class product_category(models.Model):
     _inherit = "product.category"
     isroomtype = fields.Boolean('Is Room Type')
     isamenitype = fields.Boolean('Is amenities Type')
     isservicetype = fields.Boolean('Is Service Type')
-    
-product_category()
 
 class hotel_room_type(models.Model):
     _name = "hotel.room_type"
@@ -50,9 +47,7 @@ class hotel_room_type(models.Model):
 
     _defaults = {
         'isroomtype': lambda * a: 1,
-    }    
-hotel_room_type()
-
+    }
 
 class product_product(models.Model):
     _inherit = "product.product"
@@ -60,7 +55,6 @@ class product_product(models.Model):
     iscategid = fields.Boolean('Is categ id')
     isservice = fields.Boolean('Is Service id')
 
-product_product()
 
 class hotel_room_amenities_type(models.Model):
     _name = 'hotel.room_amenities_type'
@@ -72,7 +66,6 @@ class hotel_room_amenities_type(models.Model):
         
     }
 
-hotel_room_amenities_type()
 
 class hotel_room_amenities(models.Model):
     _name = 'hotel.room_amenities'
@@ -85,8 +78,6 @@ class hotel_room_amenities(models.Model):
     _defaults = {
         'iscategid': lambda * a: 1,
         }
-        
-hotel_room_amenities()
 
 class hotel_room(models.Model):
   
@@ -104,7 +95,6 @@ class hotel_room(models.Model):
         'rental': lambda * a: 1,
         }
 
-hotel_room()
 
 class hotel_folio(models.Model):
     
@@ -386,8 +376,6 @@ class hotel_folio(models.Model):
         self.write({'state':'draft', 'invoice_ids':[], 'shipped':0})
         self.env['sale.order.line'].write({'invoiced':False, 'state':'draft', 'invoice_lines':[(6, 0, [])]})
         return d
-  
-hotel_folio()
 
 class hotel_folio_line(models.Model):
     
@@ -528,10 +516,6 @@ class hotel_folio_line(models.Model):
         #return  self.pool.get('sale.order.line').copy(cr, uid, id, default=None, context={})
         copy = self.env['sale.order.line'].browse(id)
         return  copy.copy(default=None)
-    
-        
-
-hotel_folio_line()
 
 class hotel_service_line(models.Model):
     
@@ -644,31 +628,29 @@ class hotel_service_line(models.Model):
         #return  self.pool.get('sale.order.line').copy(cr, uid, id, default=None, context={})
         copy = self.env['sale.order.line'].browse(id)
         return copy.copy(default=None)
-    
-        
 
-hotel_service_line()
 
 class hotel_service_type(models.Model):
     _name = "hotel.service_type"
     _inherits = {'product.category':'ser_id'}
     _description = "Service Type" 
-    ser_id = fields.Many2one('product.category', 'category', required=True, select=True, ondelete='cascade')
+    ser_id = fields.Many2one(
+        'product.category',
+        string='Category',
+        required=True,
+        select=True,
+        ondelete='cascade')
     _defaults = {
         'isservicetype': lambda * a: 1,
-    }    
-hotel_service_type()
+    }
 
 class hotel_services(models.Model):
     
     _name = 'hotel.services'
     _description = 'Hotel Services and its charges'
     _inherits = {'product.product':'service_id'}
-    service_id = fields.Many2one('product.product', 'Service_id', required=True, ondelete='cascade')
+    service_id = fields.Many2one('product.product', string='Service', required=True, ondelete='cascade')
     _defaults = {
         'isservice': lambda * a: 1,
         }
-hotel_services()
 
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
