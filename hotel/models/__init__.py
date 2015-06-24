@@ -19,3 +19,5 @@
 #
 ##############################################################################
 from . import hotel
+from . import hotel_folio
+from . import hotel_service

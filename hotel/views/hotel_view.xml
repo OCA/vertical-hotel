@@ -445,12 +445,24 @@
                     <group colspan="4" col="4">
                         <field name="date_order"/>
                         <field name="invoiced"/> 
-                      <!--   <field name="warehouse_id" string="Branch"/> -->
+                      <!--  <field name="warehouse_id" string="Branch"/> -->
                     </group>
                     <notebook colspan="4">
                         <page string="Folio">
                          <group colspan="4" col="4">
-                            <field name="partner_id"  string="Guest Name" required="1"/> 
+                            <field name="partner_id"  string="Guest Name" required="1"/> <!--on_change="onchange_partner_id(partner_id)"-->
+                            <field name="partner_invoice_id"  domain="[('parent_id','=',partner_id)]"/>
+                            <field name="pricelist_id"  domain="[('type','=','sale')]" />
+                            <field name="project_id"/>
+                            <field name="partner_shipping_id" domain="[('parent_id','=',partner_id)]" />
+                         </group>
+                            <newline/>
+                            <group colspan="4" col="6">
+                                <field name="checkin_date"/> 
+                                <field name="checkout_date"/>
+                            </group>
+                            <group>
+                            	<field name="duration"/> <!--on_change="onchange_dates(checkin_date,False,duration)"-->
                             </group>
                             <separator string="Room Lines" colspan="4"/>
                             <field name="room_lines"  colspan="4" string="Room Line" default_get="{'checkin_date': checkin_date,'checkout_date':checkout_date}" nolabel="1">
