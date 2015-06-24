@@ -23,7 +23,6 @@ from openerp.osv import fields
 from openerp import netsvc, models, fields, api
 from mx import DateTime
 
-#class folio_report_wizard(osv.osv_memory):
 class folio_report_wizard(models.TransientModel):
     
     _name = 'folio.report.wizard'
@@ -35,9 +34,9 @@ class folio_report_wizard(models.TransientModel):
     @api.multi
     def print_report(self):
         datas = {
-             'ids': ids,
+             'ids': self.ids,
              'model': 'hotel.folio',
-             'form': self.read(cr, uid, ids)[0]
+             'form': self.read(self.ids)[0]
         }
         return {
             'type': 'ir.actions.report.xml',
@@ -45,8 +44,4 @@ class folio_report_wizard(models.TransientModel):
             'datas': datas,
         }
 
-        
-folio_report_wizard()
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 

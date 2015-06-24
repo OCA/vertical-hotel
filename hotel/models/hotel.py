@@ -53,7 +53,7 @@ class hotel_room_amenities(models.Model):
     _description = 'Room amenities'
     _inherits = {'product.product':'room_categ_id'}
     room_categ_id = fields.Many2one('product.product', 'Product Category', required=True, ondelete='cascade')
-    rcateg_id = fields.Many2one('hotel.room_amenities_type', 'Amenity Category')
+    rcateg_id = fields.Many2one('hotel.room.amenities.type', 'Amenity Category')
     amenity_rate = fields.Integer('Amenity Rate')
 
     _defaults = {
@@ -70,7 +70,7 @@ class hotel_room(models.Model):
     max_adult = fields.Integer('Max Adult')
     max_child = fields.Integer('Max Child')
     avail_status = fields.Selection([('assigned', 'Assigned'), (' unassigned', 'Unassigned')], 'Room Status')
-    room_amenities = fields.Many2many('hotel.room_amenities', 'temp_tab', 'room_amenities', 'rcateg_id', 'Room Amenities')
+    room_amenities = fields.Many2many('hotel.room.amenities', 'temp_tab', 'room_amenities', 'rcateg_id', 'Room Amenities')
     _defaults = {
         'isroom': lambda * a: 1,
         'rental': lambda * a: 1,
@@ -123,8 +123,8 @@ class hotel_folio(models.Model):
     order_id = fields.Many2one('sale.order', 'order_id', required=True, ondelete='cascade')
     checkin_date = fields.Datetime('Check In', required=True, readonly=True, states={'draft':[('readonly', False)]})
     checkout_date = fields.Datetime('Check Out', required=True, readonly=True, states={'draft':[('readonly', False)]})
-    room_lines = fields.One2many('hotel_folio.line', 'folio_id')
-    service_lines = fields.One2many('hotel_service.line', 'folio_id')
+    room_lines = fields.One2many('hotel.folio.line', 'folio_id')
+    service_lines = fields.One2many('hotel.service.line', 'folio_id')
     hotel_policy = fields.Selection([('prepaid', 'On Booking'), ('manual', 'On Check In'), ('picking', 'On Checkout')], 'Hotel Policy', required=True)
     duration = fields.Float('Duration')
 
@@ -304,22 +304,22 @@ class hotel_folio_line(models.Model):
     
     @api.one
     def copy(self, default=None):
-        copy = self.env['sale.order.line'].browse(id)
+        copy = self.env['sale.order.line'].browse(self.id)
         return  copy.copy(default=None)
     
     @api.multi
     def _amount_line_net(self, field_name, arg):
-        amount_line = self.env['sale.order.line'].browse(ids)
+        amount_line = self.env['sale.order.line'].browse(self.ids)
         return  amount_line._amount_line_net(field_name, arg)
     
     @api.multi
     def _amount_line(self, field_name, arg):
-        amount_line = self.env['sale.order.line'].browse(ids)
+        amount_line = self.env['sale.order.line'].browse(self.ids)
         return  amount_line._amount_line(field_name, arg)
     
     @api.multi
     def _number_packages(self, field_name, arg):
-        packages = self.env['sale.order.line'].browse(ids)
+        packages = self.env['sale.order.line'].browse(self.ids)
         return  packages._number_packages(field_name, arg)
     
     @api.model
@@ -328,17 +328,17 @@ class hotel_folio_line(models.Model):
     
     @api.model
     def _get_checkin_date(self):
-        if 'checkin_date' in context:
-            return context['checkin_date']
+        if 'checkin_date' in self._context:
+            return self._context['checkin_date']
         return time.strftime('%Y-%m-%d %H:%M:%S')
     
     @api.model
     def _get_checkout_date(self):
-        if 'checkin_date' in context:
-            return context['checkout_date']
+        if 'checkin_date' in self._context:
+            return self._context['checkout_date']
         return time.strftime('%Y-%m-%d %H:%M:%S')
  
-    _name = 'hotel_folio.line'
+    _name = 'hotel.folio.line'
     _description = 'hotel folio1 room line'
     _inherits = {'sale.order.line':'order_line_id'}
     order_line_id = fields.Many2one('sale.order.line', 'order_line_id', required=True, ondelete='cascade')
@@ -349,7 +349,6 @@ class hotel_folio_line(models.Model):
     _defaults = {
        'checkin_date':_get_checkin_date,
        'checkout_date':_get_checkout_date,
-       
     }
     
     @api.model
@@ -364,25 +363,30 @@ class hotel_folio_line(models.Model):
     
     @api.multi
     def uos_change(self, product_uos, product_uos_qty=0, product_id=None):
-        change = self.env['sale.order.line']
+        line_ids = [folio.order_line_id.id for folio in self]
+        change = self.env['sale.order.line'].browse(line_ids)
         return  change.uos_change(product_uos, product_uos_qty=0, product_id=None)
     
     @api.multi
     def product_id_change(self, pricelist, product, qty=0,
             uom=False, qty_uos=0, uos=False, name='', partner_id=False,
             lang=False, update_tax=True, date_order=False):
-        return  self.env['sale.order.line'].browse(ids).product_id_change(pricelist, product, qty=0,
-        uom=False, qty_uos=0, uos=False, name='', partner_id=partner_id,
-        lang=False, update_tax=True, date_order=False)
+        line_ids = [folio.order_line_id.id for folio in self]
+        if product:
+            return self.env['sale.order.line'].browse(line_ids).product_id_change(pricelist, 
+                product, qty=0, uom=False, qty_uos=0, uos=False, name='', partner_id=partner_id,
+                lang=False, update_tax=True, date_order=False)
     
     @api.multi    
     def product_uom_change(self, cursor, user, pricelist, product, qty=0,
             uom=False, qty_uos=0, uos=False, name='', partner_id=False,
             lang=False, update_tax=True, date_order=False):
-        return  self.env['sale.order.line'].browse(ids).product_uom_change(cursor, user, pricelist, product, qty=0,
-            uom=False, qty_uos=0, uos=False, name='', partner_id=partner_id,
-            lang=False, update_tax=True, date_order=False)
-    
+        print qty
+        if product:
+            return self.product_id_change(cursor, user, pricelist, product, qty=0,
+                uom=False, qty_uos=0, uos=False, name='', partner_id=partner_id,
+                lang=False, update_tax=True, date_order=False)
+
     @api.multi    
     def on_change_checkout(self, checkin_date=time.strftime('%Y-%m-%d %H:%M:%S'), checkout_date=time.strftime('%Y-%m-%d %H:%M:%S')):
         qty = 1
@@ -397,12 +401,12 @@ class hotel_folio_line(models.Model):
     
     @api.multi
     def button_confirm(self):
-        confirm = self.env['sale.order.line'].browse(ids)
+        confirm = self.env['sale.order.line'].browse(selfids)
         return  confirm.button_confirm()
     
     @api.multi
     def button_done(self):
-        res = self.env['sale.order.line'].browse(ids).button_done()
+        res = self.env['sale.order.line'].browse(self.ids).button_done()
         wf_service = netsvc.LocalService("workflow")
         res = self.write({'state':'done'})
         for line in self.browse(ids):
@@ -411,12 +415,12 @@ class hotel_folio_line(models.Model):
 
     @api.multi    
     def uos_change(self, product_uos, product_uos_qty=0, product_id=None):
-        change = self.env['sale.order.line'].browse(ids)
+        change = self.env['sale.order.line'].browse(self.ids)
         return  change.uos_change(product_uos, product_uos_qty=0, product_id=None)
     
     @api.one
     def copy(self, default=None):
-        copy = self.env['sale.order.line'].browse(id)
+        copy = self.env['sale.order.line'].browse(self.id)
         return  copy.copy(default=None)
 
 class hotel_service_line(models.Model):
@@ -428,24 +432,24 @@ class hotel_service_line(models.Model):
     
     @api.multi
     def _amount_line_net(self, field_name, arg):
-        amount_line = self.env['sale.order.line'].browse(ids)
+        amount_line = self.env['sale.order.line'].browse(self.ids)
         return  amount_line._amount_line_net(field_name, arg)
     
     @api.multi
     def _amount_line(self, field_name, arg):
-        amount_line = self.env['sale.order.line'].browse(ids)
+        amount_line = self.env['sale.order.line'].browse(self.ids)
         return  amount_line._amount_line(field_name, arg)
     
     @api.multi
     def _number_packages(self, field_name, arg):
-        packages = self.env['sale.order.line'].browse(ids)
+        packages = self.env['sale.order.line'].browse(self.ids)
         return  packages._number_packages(field_name, arg)
     
     @api.model
     def _get_1st_packaging(self):
         return  self.env['sale.order.line']._get_1st_packaging()
 
-    _name = 'hotel_service.line'
+    _name = 'hotel.service.line'
     _description = 'hotel Service line'
     _inherits = {'sale.order.line':'service_line_id'}
     service_line_id = fields.Many2one('sale.order.line', 'service_line_id', required=True, ondelete='cascade')
@@ -463,14 +467,16 @@ class hotel_service_line(models.Model):
     
     @api.multi
     def uos_change(self, product_uos, product_uos_qty=0, product_id=None):
-        change = self.env['sale.order.line'].browse(ids)
+        change = self.env['sale.order.line'].browse(self.ids)
         return  change.uos_change(product_uos, product_uos_qty=0, product_id=None)
     
     @api.multi
     def product_id_change(self, pricelist, product, qty=0,
             uom=False, qty_uos=0, uos=False, name='', partner_id=False,
             lang=False, update_tax=True, date_order=False):
-        return  self.env['sale.order.line'].browse(ids).product_id_change(pricelist, product, qty=0,
+        line_ids = [folio.order_line_id.id for folio in self]
+        if product:
+            return self.env['sale.order.line'].browse(line_ids).product_id_change(pricelist, product, qty=0,
             uom=False, qty_uos=0, uos=False, name='', partner_id=partner_id,
             lang=False, update_tax=True, date_order=False)
         
@@ -478,7 +484,8 @@ class hotel_service_line(models.Model):
     def product_uom_change(self, cursor, user, pricelist, product, qty=0,
             uom=False, qty_uos=0, uos=False, name='', partner_id=False,
             lang=False, update_tax=True, date_order=False):
-        return  self.env['sale.order.line'].browse(ids).product_uom_change(cursor, user, pricelist, product, qty=0,
+        if product:
+            return  self.product_id_change(cursor, user, pricelist, product, qty=0,
             uom=False, qty_uos=0, uos=False, name='', partner_id=partner_id,
             lang=False, update_tax=True, date_order=False)
         
@@ -494,22 +501,22 @@ class hotel_service_line(models.Model):
     
     @api.multi
     def button_confirm(self):
-        button = self.env['sale.order.line'].browse(ids)
+        button = self.env['sale.order.line'].browse(self.ids)
         return  button.button_confirm()
     
     @api.multi
     def button_done(self):
-        button = self.env['sale.order.line'].browse(ids)
+        button = self.env['sale.order.line'].browse(self.ids)
         return  button.button_done()
     
     @api.multi
     def uos_change(self, product_uos, product_uos_qty=0, product_id=None):
-        change = self.env['sale.order.line'].browse(ids)
+        change = self.env['sale.order.line'].browse(self.ids)
         return  change.uos_change(product_uos, product_uos_qty=0, product_id=None)
     
     @api.one
     def copy(self, default=None):
-        copy = self.env['sale.order.line'].browse(id)
+        copy = self.env['sale.order.line'].browse(self.id)
         return copy.copy(default=None)
 
 
