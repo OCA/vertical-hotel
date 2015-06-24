@@ -378,12 +378,12 @@ class hotel_folio_line(models.Model):
                 lang=False, update_tax=True, date_order=False)
     
     @api.multi    
-    def product_uom_change(self, cursor, user, pricelist, product, qty=0,
+    def product_uom_change(self, pricelist, product, qty=0,
             uom=False, qty_uos=0, uos=False, name='', partner_id=False,
             lang=False, update_tax=True, date_order=False):
         print qty
         if product:
-            return self.product_id_change(cursor, user, pricelist, product, qty=0,
+            return self.product_id_change( pricelist, product, qty=0,
                 uom=False, qty_uos=0, uos=False, name='', partner_id=partner_id,
                 lang=False, update_tax=True, date_order=False)
 
