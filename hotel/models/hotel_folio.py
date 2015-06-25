@@ -13,17 +13,17 @@ class hotel_folio(models.Model):
 
     @api.one
     def copy(self):
-        copy = self.env['sale.order'].browse(id)
+        copy = self.env['sale.order'].browse(self.id)
         return  copy.copy(self)
     
     @api.multi
     def _invoiced(self, cursor, user, name, arg):
-        invoiced = self.env['sale.order'].browse(ids)
+        invoiced = self.env['sale.order'].browse(self.ids)
         return  invoiced._invoiced(cursor, user, name, arg)
 
     @api.model
-    def _invoiced_search(self, cursor, user, obj, name, args):
-        return  self.env['sale.order']._invoiced_search(cursor, user, obj, name, args)
+    def _invoiced_search(self, obj, name, args):
+        return  self.env['sale.order']._invoiced_search(obj, name, args)
 
     @api.multi
     def _amount_untaxed(self, field_name, arg):
@@ -32,12 +32,12 @@ class hotel_folio(models.Model):
     
     @api.multi
     def _amount_tax(self, field_name, arg):
-        amoun_tax = self.env['sale.order'].browse(ids)
+        amoun_tax = self.env['sale.order'].browse(self.ids)
         return amount_tax._amount_tax(field_name, arg)
     
     @api.multi
     def _amount_total(self, field_name, arg):
-        amount = sel.env['sale.order'].browse(ids)
+        amount = sel.env['sale.order'].browse(self.ids)
         return amount._amount_total(field_name, arg)
     
     _name = 'hotel.folio'
@@ -97,24 +97,6 @@ class hotel_folio(models.Model):
                 value.update({'value':{'checkout_date':checkout_date}})
         return value
     
-   
-    '''def create(self, vals, check=True):
-        tmp_room_lines = vals.get('room_lines', [])
-        tmp_service_lines = vals.get('service_lines', [])
-        vals['order_policy'] = vals.get('hotel_policy', 'manual')
-        if not vals.has_key("folio_id"):
-            vals.update({'room_lines':[], 'service_lines':[]})
-            folio_id = super(hotel_folio, self).create(vals)
-            for line in tmp_room_lines:
-                line[2].update({'folio_id':folio_id})
-            for line in tmp_service_lines:
-                line[2].update({'folio_id':folio_id})
-            vals.update({'room_lines':tmp_room_lines, 'service_lines':tmp_service_lines})
-            super(hotel_folio, self).write([folio_id], vals)
-        else:
-            folio_id = super(hotel_folio, self).create(vals)
-        return folio_id '''
-    
     @api.model
     def create(self, vals, check=True):
         tmp_room_lines = vals.get('room_lines', [])
@@ -132,55 +114,55 @@ class hotel_folio(models.Model):
     
     @api.multi
     def onchange_shop_id(self, shop_id):
-        shop_id = self.env['sale.order'].browse(ids)
+        shop_id = self.env['sale.order'].browse(self.ids)
         return  shop_id.onchange_shop_id(shop_id)
     
     @api.multi
     def onchange_partner_id(self, part):
-        partner_id = self.env['sale.order'].browse(ids)
+        partner_id = self.env['sale.order'].browse(self.ids)
         return  partner_id.onchange_partner_id(part)
     
     @api.multi
     def button_dummy(self):
-        dummy = self.env['sale.order'].browse(ids)
+        dummy = self.env['sale.order'].browse(self.ids)
         return  dummy.button_dummy()
     
     @api.multi
     def action_invoice_create(self, grouped=False, states=['confirmed', 'done']):
-        i = self.env['sale.order'].browse(ids)
+        i = self.env['sale.order'].browse(self.ids)
         i.action_invoice_create(grouped=False, states=['confirmed', 'done'])
-        for line in self.browse(cr, uid, ids, context={}):
-            self.write(cr, uid, [line.id], {'invoiced':True})
+        for line in self.browse(ids):
+            self.write([line.id], {'invoiced':True})
             if grouped:
-               self.write(cr, uid, [line.id], {'state' : 'progress'})
+               self.write([line.id], {'state' : 'progress'})
             else:
-               self.write(cr, uid, [line.id], {'state' : 'progress'})
+               self.write([line.id], {'state' : 'progress'})
         return i 
 
     @api.multi
     def action_invoice_cancel(self):
-        res = self.env['sale.order'].browse(ids)
+        res = self.env['sale.order'].browse(self.ids)
         res.action_invoice_cancel()
         for sale in self.browse(ids):
             for line in sale.order_line:
-                self.env['sale.order.line'].write(cr, uid, [line.id], {'invoiced': invoiced})
-        self.write(cr, uid, ids, {'state':'invoice_except', 'invoice_id':False})
+                self.env['sale.order.line'].write([line.id], {'invoiced': invoiced})
+        self.write(ids, {'state':'invoice_except', 'invoice_id':False})
         return res  
     
     @api.multi
     def action_cancel(self):
-        c = self.env['sale.order'].browse(ids)
+        c = self.env['sale.order'].browse(self.ids)
         c.action_cancel()
         ok = True
         for sale in self.browse(ids):
             for r in self.read(['picking_ids']):
                 for pick in r['picking_ids']:
                     wf_service = netsvc.LocalService("workflow")
-                    wf_service.trg_validate(uid, 'stock.picking', pick, 'button_cancel', cr)
-            for r in self.read(cr, uid, ids, ['invoice_ids']):
+                    wf_service.trg_validate('stock.picking', pick, 'button_cancel')
+            for r in self.read(['invoice_ids']):
                 for inv in r['invoice_ids']:
                     wf_service = netsvc.LocalService("workflow")
-                    wf_service.trg_validate(uid, 'account.invoice', inv, 'invoice_cancel', cr)
+                    wf_service.trg_validate('account.invoice', inv, 'invoice_cancel')
             
         self.write({'state':'cancel'})
         return c
@@ -191,9 +173,9 @@ class hotel_folio(models.Model):
         res.action_wait(*args)
         for o in self.browse(ids):
             if (o.order_policy == 'manual') and (not o.invoice_ids):
-                self.write(cr, uid, [o.id], {'state': 'manual'})
+                self.write([o.id], {'state': 'manual'})
             else:
-                self.write(cr, uid, [o.id], {'state': 'progress'})
+                self.write([o.id], {'state': 'progress'})
         return res
     
     @api.multi
@@ -210,35 +192,35 @@ class hotel_folio(models.Model):
     
     @api.multi
     def procurement_lines_get(self, *args):
-        res = self.env['sale.order'].brose(ids).procurement_lines_get(*args)
+        res = self.env['sale.order'].browse(self.ids).procurement_lines_get(*args)
         return  res
     
     @api.multi
     def action_ship_create(self, *args):
-        res = self.env['sale.order'].browse(ids).action_ship_create(*args)
+        res = self.env['sale.order'].browse(self.ids).action_ship_create(*args)
         return res
     
     @api.multi
     def action_ship_end(self):
-        res = self.env['sale.order'].browse(ids).action_ship_end()
+        res = self.env['sale.order'].browse(self.ids).action_ship_end()
         for order in self.browse(ids):
             val = {'shipped':True}
-            self.write(cr, uid, [order.id], val)
+            self.write([order.id], val)
         return res 
     
     @api.multi
     def _log_event(self, factor=0.7, name='Open Order'):
-       event = self.env['sale.order'].browse(ids)
+       event = self.env['sale.order'].browse(self.ids)
        return  event._log_event(factor=0.7, name='Open Order')
     
     @api.multi
     def has_stockable_products(self, *args):
-        products = self.env['sale.order'].browse(ids)
+        products = self.env['sale.order'].browse(self.ids)
         return products.has_stockable_products(*args)
     
     @api.multi
     def action_cancel_draft(self, *args):
-        d = self.env['sale.order'].browse(ids).action_cancel_draft(*args)
+        d = self.env['sale.order'].browse(self.ids).action_cancel_draft(*args)
         self.write({'state':'draft', 'invoice_ids':[], 'shipped':0})
         self.env['sale.order.line'].write({'invoiced':False, 'state':'draft', 'invoice_lines':[(6, 0, [])]})
         return d
