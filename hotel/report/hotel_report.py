@@ -20,11 +20,14 @@
 ##############################################################################
 
 import time
-from report import report_sxw
+from openerp.report import report_sxw
 import datetime
-import pooler
+from openerp import pooler, api
+
 class folio_report(report_sxw.rml_parse):
-    def __init__(self, cr, uid, name, context):
+    
+    @api.one
+    def __init__(self):
         super(folio_report, self).__init__(cr, uid, name, context)
         self.localcontext.update( {
             'time': time,
@@ -33,16 +36,19 @@ class folio_report(report_sxw.rml_parse):
             'get_total': self.gettotal,
         })
         self.temp = 0.0
-
-    def get_data(self,date_start,date_end):
+    
+    @api.one
+    def get_data(self, date_start, date_end):
         tids = self.pool.get('hotel.folio').search(self.cr,self.uid,[('checkin_date', '>=', date_start),('checkout_date', '<=', date_end)])
         res = self.pool.get('hotel.folio').browse(self.cr,self.uid,tids)
         return res
     
-    def gettotal(self,total):
+    @api.one
+    def gettotal(self, total):
         self.temp = self.temp + float(total)
         return total
     
+    @api.one
     def getTotal(self):
         return self.temp
         
