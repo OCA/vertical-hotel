@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+
+		<record model="ir.ui.view" id="view_hotel_room_type_form">
+			<field name="name">hotel.room_type.form</field>
+			<field name="model">hotel.room.type</field>
+			<field name="arch" type="xml">
+				<form string=" Hotel Room Type">
+					<sheet>
+						<group>
+							<field name="name" select="1" />
+							<field name="parent_id" domain="[('isroomtype','=',True)]"
+								select="1" />
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record model="ir.ui.view" id="view_hotel_room_type_tree">
+			<field name="name">hotel.room_type.tree</field>
+			<field name="model">hotel.room.type</field>
+			<field name="arch" type="xml">
+				<tree string=" Hotel Room Type">
+					<field name="complete_name" />
+				</tree>
+			</field>
+		</record>
+		<record model="ir.actions.act_window" id="open_hotel_room_type_form_tree">
+			<field name="name">Room Type</field>
+			<field name="res_model">hotel.room.type</field>
+			<field name="view_type">form</field>
+			<field name="context">{'default_isroomtype':1}</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		<menuitem id="menu_hotel_room" name="Room"
+			parent="hotel.hotel_configuration_menu" sequence="2" />
+		<menuitem name="Room Types" id="menu_open_hotel_room_type_form_tree"
+			action="open_hotel_room_type_form_tree" sequence="6"
+			parent="hotel.menu_hotel_room" />
+
+	</data>
+</openerp>
