@@ -70,6 +70,7 @@ class HotelFolio(models.Model):
                 self.checkout_date,
                 DEFAULT_SERVER_DATETIME_FORMAT) 
             duration_date = checkin_date - checkout_date
+            duration = duration_date.days
             if self.duration != duration:
                 self.duration = duration 
     
@@ -81,7 +82,7 @@ class HotelFolio(models.Model):
                 checkin_date,
                 DEFAULT_SERVER_DATETIME_FORMAT)
             duration = datetime.timedelta(days=self.duration)
-            checkout_date += duration
+            checkout_date = checkin_date + duration
             checkout_date = datetime.datetime.strftime(
                 checkout_date,
                 DEFAULT_SERVER_DATETIME_FORMAT)
