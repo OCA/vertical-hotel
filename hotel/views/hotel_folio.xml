@@ -47,7 +47,7 @@
 						<notebook colspan="4">
 							<page string="Folio">
 								<group colspan="4" col="4">
-									<field name="partner_id" string="Guest Name" required="1" /> <!--on_change="onchange_partner_id(partner_id)" -->
+									<field name="partner_id" string="Guest Name" required="1" /> 
 									<field name="partner_invoice_id" domain="[('parent_id','=',partner_id)]" />
 									<field name="pricelist_id" domain="[('type','=','sale')]" />
 									<field name="project_id" />
@@ -59,7 +59,7 @@
 									<field name="checkout_date" />
 								</group>
 								<group>
-									<field name="duration" /> <!--on_change="onchange_dates(checkin_date,False,duration)" -->
+									<field name="duration" /> 
 								</group>
 								<separator string="Room Lines" colspan="4" />
 								<field name="room_ids" colspan="4" string="Room Line"

@@ -63,32 +63,6 @@ class HotelFolioRoom(models.Model):
         vals.update({'order_id':folio.order_id.id})
         return super(HotelFolioRoom, self).create(vals)
     
-    ''''
-    @api.multi
-    def uos_change(self, product_uos, product_uos_qty=0, product_id=None):
-        line_ids = [folio.order_line_id.id for folio in self]
-        change = self.env['sale.order.line'].browse(line_ids)
-        return  change.uos_change(product_uos, product_uos_qty=0, product_id=None)
-    
-    @api.multi
-    def product_id_change(self, pricelist, product, qty=0,
-            uom=False, qty_uos=0, uos=False, name='', partner_id=False,
-            lang=False, update_tax=True, date_order=False):
-        line_ids = [folio.order_line_id.id for folio in self]
-        if product:
-            return self.env['sale.order.line'].browse(line_ids).product_id_change(pricelist, 
-                product, qty=0, uom=False, qty_uos=0, uos=False, name='', partner_id=partner_id,
-                lang=False, update_tax=True, date_order=False)
-    
-    @api.multi    
-    def product_uom_change(self, pricelist, product, qty=0,
-            uom=False, qty_uos=0, uos=False, name='', partner_id=False,
-            lang=False, update_tax=True, date_order=False):
-        if product:
-            return self.product_id_change( pricelist, product, qty=0,
-                uom=False, qty_uos=0, uos=False, name='', partner_id=partner_id,
-                lang=False, update_tax=True, date_order=False)
-    '''
     
     @api.onchange('product_id')
     def onchange_product_id(self):
