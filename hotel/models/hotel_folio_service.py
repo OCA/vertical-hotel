@@ -49,6 +49,18 @@ class HotelFolioService(models.Model):
         change = self.env['sale.order.line'].browse(self.ids)
         return  change.uos_change(product_uos, product_uos_qty=0, product_id=None)
     
+    @api.onchange('product_id')
+    def onchange_product_id(self):
+        self.product_uom_qty = 1
+        self.name = self.product_id.product_tmpl_id.name
+        self.product_uom = self.product_id.uom_id
+        self.price_unit = self.product_id.list_price
+        tax_lines = []
+        for tax_data in self.product_id.taxes_id: 
+            tax_lines.append((6, 0, tax_data.id))           
+        self.tax_id = tax_lines 
+    
+    '''
     @api.multi
     def product_id_change(self, pricelist, product, qty=0,
             uom=False, qty_uos=0, uos=False, name='', partner_id=False,
@@ -77,6 +89,8 @@ class HotelFolioService(models.Model):
             diffDate = datetime.datetime(*time.strptime(checkout_date, '%Y-%m-%d %H:%M:%S')[:5]) - datetime.datetime(*time.strptime(checkin_date, '%Y-%m-%d %H:%M:%S')[:5])
             qty = diffDate.days
         return {'value':{'product_uom_qty':qty}}
+    '''
+    
     
     @api.multi
     def button_confirm(self):
