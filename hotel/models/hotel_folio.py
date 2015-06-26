@@ -55,7 +55,7 @@ class HotelFolio(models.Model):
     @api.constrains('room_ids')
     def _check_room_vacant(self):
         rooms = []
-        for room in folio.room_ids:
+        for room in self.room_ids:
             if room.product_id in rooms:
                 raise ValidationError('You can not allocate the same room twice!')
             rooms.append(room.product_id)
