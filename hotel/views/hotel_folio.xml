@@ -400,9 +400,10 @@
 			<field name="view_type">tree</field>
 			<field name="view_id" ref="product.product_category_tree_view" />
 		</record>
+		<!--  
 		<menuitem name="Room by Type" id="menu_hotel_room_category_action"
 			action="hotel_room_category_action" sequence="7" parent="hotel.menu_hotel_room" />
-
+	  -->
 		<record model="ir.actions.act_window" id="hotel_ty_category_action">
 			<field name="name">Amenities by Category</field>
 			<field name="type">ir.actions.act_window</field>
