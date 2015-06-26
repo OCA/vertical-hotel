@@ -44,6 +44,8 @@ class HotelFolio(models.Model):
         required=True)
     duration = fields.Float(
         string='Duration')
+    warehouse_id = fields.Many2one('stock.warehouse')
+
 
     
     _sql_constraints = [
@@ -90,10 +92,12 @@ class HotelFolio(models.Model):
                 self.checkout_date = checkout_date
 
     
-    @api.multi
-    def onchange_partner_id(self, part):
-        partner_id = self.env['sale.order'].browse(self.ids)
-        return  partner_id.onchange_partner_id(part)
+    @api.onchange('partner_id')
+    def onchange_partner_id(self):
+        self.partner_invoice_id = self.partner_id.id
+        self.partner_shipping_id = self.partner_id.id
+        #partner_id = self.env['sale.order'].browse(self.ids)
+        #return  partner_id.onchange_partner_id(part)
     
     @api.multi
     def button_dummy(self):

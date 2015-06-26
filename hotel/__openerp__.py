@@ -13,6 +13,12 @@
     ],
     "data" : [
         "views/hotel_view.xml",
+        "views/hotel_amenities_type.xml",
+        "views/hotel_floor.xml",
+        "views/hotel_folio.xml",
+        "views/hotel_room_amenities.xml",
+        "views/hotel_room_type.xml",
+        "views/hotel_room.xml",
         "data/hotel_data.xml",
         "data/hotel_folio_workflow.xml",
         "report/hotel_report.xml",
