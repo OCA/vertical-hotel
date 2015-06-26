@@ -62,14 +62,14 @@ class HotelFolio(models.Model):
 
     @api.onchange('checkin_date', 'checkout_date')
     def _onchange_dates(self):
-        if self.checkin_date and checkout_date:
+        if self.checkin_date and self.checkout_date:
             checkin_date = datetime.datetime.strptime(
                 self.checkin_date,
                 DEFAULT_SERVER_DATETIME_FORMAT)
             checkout_date = datetime.datetime.strptime(
                 self.checkout_date,
                 DEFAULT_SERVER_DATETIME_FORMAT) 
-            duration_date = checkin_date - checkout_date
+            duration_date = checkout_date - checkin_date
             duration = duration_date.days
             if self.duration != duration:
                 self.duration = duration 
@@ -79,7 +79,7 @@ class HotelFolio(models.Model):
     def _onchange_duration(self):
         if self.checkin_date and self.duration:
             checkin_date = datetime.datetime.strptime(
-                checkin_date,
+                self.checkin_date,
                 DEFAULT_SERVER_DATETIME_FORMAT)
             duration = datetime.timedelta(days=self.duration)
             checkout_date = checkin_date + duration
@@ -144,7 +144,7 @@ class HotelFolio(models.Model):
     def action_wait(self, *args):
         res = self.env['sale.order']
         res.action_wait(*args)
-        for o in self.browse(ids):
+        for o in self.browse(self.ids):
             if (o.order_policy == 'manual') and (not o.invoice_ids):
                 self.write([o.id], {'state': 'manual'})
             else:
