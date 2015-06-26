@@ -1,5 +1,4 @@
 # -*- encoding: utf-8 -*-
-
 from openerp.osv import fields
 import time
 from openerp import netsvc, models, fields, api
@@ -74,6 +73,31 @@ class hotel_room(models.Model):
     _defaults = {
         'isroom': lambda * a: 1,
         'rental': lambda * a: 1,
+        }
+
+
+class hotel_service_type(models.Model):
+    _name = "hotel.service.type"
+    _inherits = {'product.category':'ser_id'}
+    _description = "Service Type" 
+    ser_id = fields.Many2one(
+        'product.category',
+        string='Category',
+        required=True,
+        select=True,
+        ondelete='cascade')
+    _defaults = {
+        'isservicetype': lambda * a: 1,
+    }
+
+class hotel_services(models.Model):
+    
+    _name = 'hotel.services'
+    _description = 'Hotel Services and its charges'
+    _inherits = {'product.product':'service_id'}
+    service_id = fields.Many2one('product.product', string='Service', required=True, ondelete='cascade')
+    _defaults = {
+        'isservice': lambda * a: 1,
         }
 
 
