@@ -465,7 +465,7 @@
                             	<field name="duration"/> <!--on_change="onchange_dates(checkin_date,False,duration)"-->
                             </group>
                             <separator string="Room Lines" colspan="4"/>
-                            <field name="room_lines"  colspan="4" string="Room Line" default_get="{'checkin_date': checkin_date,'checkout_date':checkout_date}" nolabel="1">
+                            <field name="room_ids"  colspan="4" string="Room Line" default_get="{'checkin_date': checkin_date,'checkout_date':checkout_date}" nolabel="1">
                                 <form string="Room Line"  >
                                     <notebook>
                                         <page string="Folio Line">
@@ -520,7 +520,7 @@
                                 </tree>
                             </field>
                             <separator string="Service Lines" colspan="4"/>
-                            <field name="service_lines"  colspan="4" string = "Service Line" nolabel="1">
+                            <field name="service_ids"  colspan="4" string = "Service Line" nolabel="1">
                                 <form string="Service Line"  >
                                     <notebook>
                                         <page string="Service Line">
