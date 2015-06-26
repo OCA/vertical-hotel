@@ -49,34 +49,18 @@ class HotelFolioService(models.Model):
         change = self.env['sale.order.line'].browse(self.ids)
         return  change.uos_change(product_uos, product_uos_qty=0, product_id=None)
     
-    @api.multi
-    def product_id_change(self, pricelist, product, qty=0,
-            uom=False, qty_uos=0, uos=False, name='', partner_id=False,
-            lang=False, update_tax=True, date_order=False):
-        line_ids = [folio.order_line_id.id for folio in self]
-        if product:
-            return self.env['sale.order.line'].browse(line_ids).product_id_change(pricelist, product, qty=0,
-            uom=False, qty_uos=0, uos=False, name='', partner_id=partner_id,
-            lang=False, update_tax=True, date_order=False)
-        
-    @api.multi    
-    def product_uom_change(self, pricelist, product, qty=0,
-            uom=False, qty_uos=0, uos=False, name='', partner_id=False,
-            lang=False, update_tax=True, date_order=False):
-        if product:
-            return  self.product_id_change(pricelist, product, qty=0,
-            uom=False, qty_uos=0, uos=False, name='', partner_id=partner_id,
-            lang=False, update_tax=True, date_order=False)
-        
-    @api.multi    
-    def on_change_checkout(self, checkin_date=time.strftime('%Y-%m-%d %H:%M:%S'), checkout_date=time.strftime('%Y-%m-%d %H:%M:%S')):
-        qty = 1
-        if checkout_date < checkin_date:
-            raise osv.except_osv ('Error !', 'Checkout must be greater or equal checkin date')
-        if checkin_date:
-            diffDate = datetime.datetime(*time.strptime(checkout_date, '%Y-%m-%d %H:%M:%S')[:5]) - datetime.datetime(*time.strptime(checkin_date, '%Y-%m-%d %H:%M:%S')[:5])
-            qty = diffDate.days
-        return {'value':{'product_uom_qty':qty}}
+    @api.onchange('product_id')
+    def onchange_product_id(self):
+        self.product_uom_qty = 1
+        self.name = self.product_id.product_tmpl_id.name
+        self.product_uom = self.product_id.uom_id
+        self.price_unit = self.product_id.list_price
+        tax_lines = []
+        for tax_data in self.product_id.taxes_id: 
+            tax_lines.append((6, 0, tax_data.id))           
+        self.tax_id = tax_lines 
+    
+    
     
     @api.multi
     def button_confirm(self):

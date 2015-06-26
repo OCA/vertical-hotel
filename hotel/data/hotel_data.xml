@@ -25,7 +25,6 @@
 
 		<record id="hotel_room_amenities_type_0" model="hotel.room.amenities.type">
 			<field name="name">All Aminities</field>
-
 		</record>
 		<record id="hotel_room_amenities_type_1" model="hotel.room.amenities.type">
 			<field name="parent_id" ref="hotel_room_amenities_type_0"/>
@@ -85,17 +84,14 @@
 
 			
 	<!-- hotel_room	-->
-	
-		<record id="hotel_room_6" model="hotel.room">
-			<field name="name">No Room Available</field>
-			<field name="categ_id" ref="hotel_room_type_3"/> 
-			<field name="list_price">0.00</field>
-		</record>
 		<record id="hotel_room_0" model="hotel.room">
 			<field name="name">Single-101</field>
 			<field name="categ_id" ref="hotel_room_type_1"/> 
 			<field name="list_price">100.00</field>
 		</record>
+	
+	
+		
 		
 		<record id="hotel_room_1" model="hotel.room">
 			<field name="name">Single-102</field>
@@ -127,6 +123,8 @@
 		    <field name="categ_id" ref="hotel_room_type_3"/> 
 		    <field name="list_price">0.00</field>
 		</record>
+		
+		
 
 		<!-- hotel_services	-->
 
