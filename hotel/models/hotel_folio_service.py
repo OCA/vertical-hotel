@@ -52,14 +52,15 @@ class HotelFolioService(models.Model):
     @api.onchange('product_id')
     def onchange_product_id(self):
         self.product_uom_qty = 1
-        self.name = self.product_id.product_tmpl_id.name
+        if self.product_id.description:
+            self.name = self.product_id.description
+        else: self.name = self.product_id.name
         self.product_uom = self.product_id.uom_id
         self.price_unit = self.product_id.list_price
         tax_lines = []
         for tax_data in self.product_id.taxes_id: 
             tax_lines.append((6, 0, tax_data.id))           
         self.tax_id = tax_lines 
-    
     
     
     @api.multi
