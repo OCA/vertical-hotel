@@ -9,6 +9,7 @@ class HotelFolio(models.Model):
     _name = 'hotel.folio'
     _description = 'Hotel Folio'
     _inherits = {'sale.order':'order_id'}
+    _inherit = ['mail.thread'] 
     _rec_name = 'order_id'
     _order_id = 'id desc'
     
@@ -45,7 +46,6 @@ class HotelFolio(models.Model):
     duration = fields.Float(
         string='Duration')
     warehouse_id = fields.Many2one('stock.warehouse')
-
 
     
     _sql_constraints = [
@@ -105,6 +105,10 @@ class HotelFolio(models.Model):
         return  dummy.button_dummy()
     
     @api.multi
+    def action_button_confirm(self):
+        self.env['sale.order'].browse(self.ids).action_button_confirm()
+    
+    @api.multi
     def action_invoice_create(self, grouped=False, states=['confirmed', 'done']):
         i = self.env['sale.order'].browse(self.ids)
         i.action_invoice_create(grouped=False, states=['confirmed', 'done'])
@@ -131,7 +135,7 @@ class HotelFolio(models.Model):
         c = self.env['sale.order'].browse(self.ids)
         c.action_cancel()
         ok = True
-        for sale in self.browse(ids):
+        for sale in self.browse(self.ids):
             for r in self.read(['picking_ids']):
                 for pick in r['picking_ids']:
                     wf_service = netsvc.LocalService('workflow')
