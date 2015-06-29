@@ -5,11 +5,17 @@
 		<record model="ir.ui.view" id="view_hotel_folio1_form">
 			<field name="name">hotel.folio.form</field>
 			<field name="model">hotel.folio</field>
+			<field name="inherit_id" ref="sale.view_order_form" />
 			<field name="arch" type="xml">
-				<form string="Folio">
-					<header>
+			<xpath expr="//form[@string='Sales Order']/header/button[@name='action_view_invoice']" position="replace">
+				<button name="action_view_invoice" string="View Invoice" type="object" class="oe_highlight"
+                            attrs="{'invisible': 1}" groups="base.group_user"/>
+			
+			</xpath>
+				<!-- <form string="Folio">
+					  <header>
 						<button name="order_confirm" string="Confirm Folio" states="draft"
-							icon="gtk-apply" class="oe_highlight" />
+							icon="gtk-apply" />
 						<button name="invoice_recreate" string="Recreate Invoice"
 							states="invoice_except" icon="gtk-redo" class="oe_highlight" />
 						<button name="invoice_corrected" string="Invoice Corrected"
@@ -27,12 +33,13 @@
 						<button name="action_cancel" string="Cancel Folio" states="manual,progress"
 							type="object" icon="gtk-cancel" class="oe_highlight" />
 						<button name="cancel" string="Cancel Folio" states="draft"
-							icon="gtk-cancel" class="oe_highlight" />
+							icon="gtk-cancel" />
 						<button name="invoice_cancel" string="Cancel Folio" states="invoice_except"
 							icon="gtk-cancel" class="oe_highlight" />
 						<field name="state" select="2" widget="statusbar"
 							statusbar_visible="draft,sent,invoiced,done" />
-					</header>
+					</header> -->
+					<xpath expr="//form[@string='Sales Order']/sheet" position="replace">
 					<sheet>
 						<label string="Folio Number" />
 						<h1>
@@ -208,9 +215,12 @@
 							</page>
 						</notebook>
 					</sheet>
-				</form>
+				</xpath>
+				<!-- </form>  -->
 			</field>
 		</record>
+		
+		
 		<record model="ir.ui.view" id="view_hotel_folio1_tree">
 			<field name="name">hotel.folio.tree</field>
 			<field name="model">hotel.folio</field>
@@ -245,6 +255,7 @@
 			<field name="res_model">hotel.folio</field>
 			<field name="view_type">form</field>
 			<field name="view_mode">tree,form,calendar</field>
+			<field name="view_id" ref="hotel.view_hotel_folio1_form" />
 		</record>
 
 		<menuitem id="menu_all_folio" name="Folio"
