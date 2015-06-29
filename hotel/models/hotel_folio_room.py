@@ -46,12 +46,13 @@ class HotelFolioRoom(models.Model):
         if 'checkin_date' in self._context:
             return self._context['checkout_date']
         return time.strftime('%Y-%m-%d %H:%M:%S')
- 
+    
+    
     order_line_id = fields.Many2one('sale.order.line', 'order_line_id', required=True, ondelete='cascade')
     folio_id = fields.Many2one('hotel.folio', 'folio_id', ondelete='cascade', required=True)
     checkin_date = fields.Datetime('Check In', required=True)
     checkout_date = fields.Datetime('Check Out', required=True)
-
+    
     _defaults = {
        'checkin_date':_get_checkin_date,
        'checkout_date':_get_checkout_date,

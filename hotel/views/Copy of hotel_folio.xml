@@ -5,17 +5,11 @@
 		<record model="ir.ui.view" id="view_hotel_folio1_form">
 			<field name="name">hotel.folio.form</field>
 			<field name="model">hotel.folio</field>
-			<field name="inherit_id" ref="sale.view_order_form" />
 			<field name="arch" type="xml">
-			<xpath expr="//form[@string='Sales Order']/header/button[@name='action_view_invoice']" position="replace">
-				<button name="action_view_invoice" string="View Invoice" type="object" class="oe_highlight"
-                            attrs="{'invisible': 1}" groups="base.group_user"/>
-			
-			</xpath>
-				<!-- <form string="Folio">
-					  <header>
+				<form string="Folio">
+					<header>
 						<button name="order_confirm" string="Confirm Folio" states="draft"
-							icon="gtk-apply" />
+							icon="gtk-apply" class="oe_highlight" />
 						<button name="invoice_recreate" string="Recreate Invoice"
 							states="invoice_except" icon="gtk-redo" class="oe_highlight" />
 						<button name="invoice_corrected" string="Invoice Corrected"
@@ -33,13 +27,12 @@
 						<button name="action_cancel" string="Cancel Folio" states="manual,progress"
 							type="object" icon="gtk-cancel" class="oe_highlight" />
 						<button name="cancel" string="Cancel Folio" states="draft"
-							icon="gtk-cancel" />
+							icon="gtk-cancel" class="oe_highlight" />
 						<button name="invoice_cancel" string="Cancel Folio" states="invoice_except"
 							icon="gtk-cancel" class="oe_highlight" />
 						<field name="state" select="2" widget="statusbar"
 							statusbar_visible="draft,sent,invoiced,done" />
-					</header> -->
-					<xpath expr="//form[@string='Sales Order']/sheet" position="replace">
+					</header>
 					<sheet>
 						<label string="Folio Number" />
 						<h1>
@@ -71,13 +64,12 @@
 								<separator string="Room Lines" colspan="4" />
 								<field name="room_ids" colspan="4" string="Room Line"
 									default_get="{'checkin_date': checkin_date,'checkout_date':checkout_date}"
-									context="{'checkin_date':checkin_date, 'checkout_date':checkout_date}"
 									nolabel="1">
 									<form string="Room Line">
 										<notebook>
 											<page string="Folio Line">
 												<group>
-													<field name="checkin_date"  />
+													<field name="checkin_date" />
 													<field name="checkout_date" />
 													<separator string="Automatic Declaration"
 														colspan="4" />
@@ -216,12 +208,9 @@
 							</page>
 						</notebook>
 					</sheet>
-				</xpath>
-				<!-- </form>  -->
+				</form>
 			</field>
 		</record>
-		
-		
 		<record model="ir.ui.view" id="view_hotel_folio1_tree">
 			<field name="name">hotel.folio.tree</field>
 			<field name="model">hotel.folio</field>
@@ -256,7 +245,6 @@
 			<field name="res_model">hotel.folio</field>
 			<field name="view_type">form</field>
 			<field name="view_mode">tree,form,calendar</field>
-			<field name="view_id" ref="hotel.view_hotel_folio1_form" />
 		</record>
 
 		<menuitem id="menu_all_folio" name="Folio"

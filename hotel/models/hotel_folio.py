@@ -46,12 +46,50 @@ class HotelFolio(models.Model):
     duration = fields.Float(
         string='Duration')
     warehouse_id = fields.Many2one('stock.warehouse')
-
+    amount_untaxed = fields.Float(compute='_amount_untaxed')
+    amount_tax = fields.Float(compute='_amount_tax')
+    amount_total = fields.Float(compute='_amount_total')
     
     _sql_constraints = [
         ('check_in_out',
          'CHECK (checkin_date<=checkout_date)',
          'Check in Date Should be less than the Check Out Date!'),]
+    
+    @api.one
+    def _amount_untaxed(self):
+        total_net = 0
+        for room in  self.room_ids:
+            checkin_date = datetime.datetime.strptime(
+                room.checkin_date,
+                DEFAULT_SERVER_DATETIME_FORMAT)
+            checkout_date = datetime.datetime.strptime(
+                room.checkout_date,
+                DEFAULT_SERVER_DATETIME_FORMAT) 
+            duration_date = checkout_date - checkin_date
+            duration = duration_date.days
+            total_net += room.price_unit * duration
+        self.amount_untaxed = total_net
+    
+    @api.one
+    def _amount_tax(self):
+        total_taxes = 0
+        for room in  self.room_ids:
+            checkin_date = datetime.datetime.strptime(
+                room.checkin_date,
+                DEFAULT_SERVER_DATETIME_FORMAT)
+            checkout_date = datetime.datetime.strptime(
+                room.checkout_date,
+                DEFAULT_SERVER_DATETIME_FORMAT) 
+            duration_date = checkout_date - checkin_date
+            duration = duration_date.days
+            for tax in room.tax_id:    
+                total_taxes += (room.price_unit*tax.amount) * duration
+        self.amount_tax = total_taxes
+    
+    @api.one
+    def _amount_total(self):
+        total = self.amount_untaxed + self.amount_tax
+        self.amount_total = total
     
     @api.one
     @api.constrains('room_ids')
@@ -99,10 +137,30 @@ class HotelFolio(models.Model):
         #partner_id = self.env['sale.order'].browse(self.ids)
         #return  partner_id.onchange_partner_id(part)
     
+   
+    
     @api.multi
     def button_dummy(self):
         dummy = self.env['sale.order'].browse(self.ids)
         return  dummy.button_dummy()
+        '''
+        total_net = 0
+        total_taxes = 0
+        for room in  self.room_ids:
+            checkin_date = datetime.datetime.strptime(
+                room.checkin_date,
+                DEFAULT_SERVER_DATETIME_FORMAT)
+            checkout_date = datetime.datetime.strptime(
+                room.checkout_date,
+                DEFAULT_SERVER_DATETIME_FORMAT) 
+            duration_date = checkout_date - checkin_date
+            duration = duration_date.days
+            total_net += room.price_unit * duration
+            print total_net
+        self.amount_total = total_net
+        return self.button_dummy()
+        '''    
+             
     
     @api.multi
     def action_button_confirm(self):
