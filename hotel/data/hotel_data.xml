@@ -86,40 +86,61 @@
 	<!-- hotel_room	-->
 		<record id="hotel_room_0" model="hotel.room">
 			<field name="name">Single-101</field>
+			<field name="type">service</field>
+			<field name="uom_po_id">6</field>
+			<field name="uom_id">6</field>
 			<field name="categ_id" ref="hotel_room_type_1"/> 
 			<field name="list_price">100.00</field>
 		</record>
 	
 	
 		
-		
+	 
 		<record id="hotel_room_1" model="hotel.room">
 			<field name="name">Single-102</field>
+			<field name="type">service</field>
+			<field name="uom_po_id">6</field>
+			<field name="uom_id">6</field>
 			<field name="categ_id" ref="hotel_room_type_1"/> 
 			<field name="list_price">100.00</field>
 		</record>
 		<record id="hotel_room_2" model="hotel.room">
 			<field name="name">Single-103</field>
+			<field name="type">service</field>
+			<field name="uom_po_id">6</field>
+			<field name="uom_id">6</field>
 			<field name="categ_id" ref="hotel_room_type_1"/> 
 			<field name="list_price">100.00</field>
 		</record>
 		<record id="hotel_room_3" model="hotel.room">
 			<field name="name">Double-201</field>
+			<field name="type">service</field>
+			<field name="uom_po_id">6</field>
+			<field name="uom_id">6</field>
 			<field name="categ_id" ref="hotel_room_type_2"/> 
 			<field name="list_price">200.00</field>
 		</record>
 		<record id="hotel_room_4" model="hotel.room">
 			<field name="name">Double-202</field>
+			<field name="type">service</field>
+			<field name="uom_po_id">6</field>
+			<field name="uom_id">6</field>
 			<field name="categ_id" ref="hotel_room_type_2"/> 
 			<field name="list_price">200.00</field>
 		</record>
 		<record id="hotel_room_5" model="hotel.room">
 			<field name="name">Double-203</field>
+			<field name="type">service</field>
+			<field name="uom_po_id">6</field>
+			<field name="uom_id">6</field>
 			<field name="categ_id" ref="hotel_room_type_2"/> 
 			<field name="list_price">200.00</field>
 		</record>
 		<record id="hotel_room_6" model="hotel.room">
 		    <field name="name">No Room Record</field>
+		    <field name="type">service</field>
+		    <field name="uom_po_id">6</field>
+			<field name="uom_id">6</field>
 		    <field name="categ_id" ref="hotel_room_type_3"/> 
 		    <field name="list_price">0.00</field>
 		</record>
@@ -131,16 +152,19 @@
 	
 		<record id="hotel_service_6" model="hotel.services">
 			<field name="name">Internet</field>
+			<field name="type">service</field>
 			<field name="categ_id" ref="hotel_service_type_1"/> 
 			<field name="list_price">200.00</field>
 		</record>
 		<record id="hotel_service_0" model="hotel.services">
 			<field name="name">Taxi</field>
+			<field name="type">service</field>
 			<field name="categ_id" ref="hotel_service_type_2"/> 
 			<field name="list_price">500.00</field>
 		</record>
 		<record id="hotel_service_1" model="hotel.services">
 			<field name="name">Laundry</field>
+			<field name="type">service</field>
 			<field name="categ_id" ref="hotel_service_type_1"/> 
 			<field name="list_price">150.00</field>
 		</record>

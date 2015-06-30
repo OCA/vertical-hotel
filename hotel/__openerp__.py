@@ -7,7 +7,7 @@
                 "Serpent Consulting Services Pvt. Ltd.",
                 "OpenERP SA" ],
     "category" : "Generic Modules/Hotel Management",
-    "depends" : ["sale"],
+    "depends" : ["sale_stock"],
     "init_xml" : [],
     "demo_xml" : [
     ],

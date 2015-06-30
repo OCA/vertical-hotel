@@ -3,6 +3,7 @@ import time
 from openerp import netsvc, models, fields, api
 from mx import DateTime
 import datetime
+from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from openerp.tools import config
 
 
@@ -67,7 +68,10 @@ class HotelFolioRoom(models.Model):
     
     @api.onchange('product_id')
     def onchange_product_id(self):
-        self.product_uom_qty = 1
+        if self.checkin_date and self.checkout_date:
+            self.product_uom_qty = self._date_dif()
+        else:
+            self.product_uom_qty = 1
         if self.product_id.description:
             self.name = self.product_id.description
         else: self.name = self.product_id.name
@@ -77,6 +81,61 @@ class HotelFolioRoom(models.Model):
         for tax_data in self.product_id.taxes_id: 
             tax_lines.append((6, 0, tax_data.id))           
         self.tax_id = tax_lines 
+    
+    @api.onchange('checkin_date', 'checkout_date')
+    def _onchange_dates(self):
+        if self.checkin_date and self.checkout_date:
+            duration = self._date_dif()
+            if self.product_uom_qty != duration:
+                self.product_uom_qty = duration
+        
+        if self.product_id.name != False:
+            room_name = self.product_id.name
+            room_checkin = datetime.datetime.strptime(
+                self.checkin_date,
+                DEFAULT_SERVER_DATETIME_FORMAT)
+            room_checkout = datetime.datetime.strptime(
+                self.checkout_date,
+                DEFAULT_SERVER_DATETIME_FORMAT)
+            print room_name
+            print room_checkin
+            print room_checkout
+            self.env.cr.execute("SELECT sale.name, folio.checkin_date, folio.checkout_date \
+                FROM sale_order_line sale, hotel_folio_room folio \
+                WHERE sale.id = folio.order_line_id AND sale.name=%s \
+                AND %s BETWEEN folio.checkin_date AND folio.checkout_date \
+                OR %s BETWEEN folio.checkin_date AND folio.checkout_date",(room_name,room_checkin,room_checkout))
+            results = self.env.cr.fetchall()
+            print results
+        
+    
+    @api.onchange('product_uom_qty')
+    def _onchange_duration(self):
+        if self.checkin_date and self.product_uom_qty:
+            checkin_date = datetime.datetime.strptime(
+                self.checkin_date,
+                DEFAULT_SERVER_DATETIME_FORMAT)
+            duration = datetime.timedelta(days=self.product_uom_qty)
+            checkout_date = checkin_date + duration
+            checkout_date = datetime.datetime.strftime(
+                checkout_date,
+                DEFAULT_SERVER_DATETIME_FORMAT)
+            if self.checkout_date != checkout_date:
+                self.checkout_date = checkout_date
+    
+    
+    def _date_dif(self):
+        checkin_date = datetime.datetime.strptime(
+                self.checkin_date,
+                DEFAULT_SERVER_DATETIME_FORMAT)
+        checkout_date = datetime.datetime.strptime(
+                self.checkout_date,
+                DEFAULT_SERVER_DATETIME_FORMAT) 
+        duration_date = checkout_date - checkin_date
+        duration = duration_date.days
+        return duration
+    
+    
     
     
     @api.multi    
