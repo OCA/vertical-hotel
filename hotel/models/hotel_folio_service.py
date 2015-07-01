@@ -36,7 +36,7 @@ class HotelFolioService(models.Model):
 
     service_line_id = fields.Many2one('sale.order.line', 'service_line_id', required=True, ondelete='cascade')
     folio_id = fields.Many2one('hotel.folio', 'folio_id', ondelete='cascade', required=True)
-    
+    room_id = fields.Many2one('product.product','associated room')
 
     @api.model
     def create(self, vals, check=True):

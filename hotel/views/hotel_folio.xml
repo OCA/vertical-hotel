@@ -145,7 +145,7 @@
 													/>
 
 													<field name="product_uom"/>
-
+													<field name="room_id" domain="[('isroom','=',True)]" />
 													<field name="product_id" select="1"
 														domain="[('isservice','=',True)]"
 														context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'hotel':parent.warehouse_id,'uom':product_uom}"
