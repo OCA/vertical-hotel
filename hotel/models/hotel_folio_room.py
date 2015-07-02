@@ -6,6 +6,7 @@ import datetime
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from openerp.tools import config
 from openerp.exceptions import except_orm, Warning, RedirectWarning
+from openerp.tools.translate import _
 
 
 class HotelFolioRoom(models.Model):
@@ -103,7 +104,8 @@ class HotelFolioRoom(models.Model):
             
             if self.is_reserved(results):
                 print 'Room is reserved'
-                
+                raise Warning(_('Your Check In date for that room is reserved. Please choose another day.'))
+   
             #Checkin excluded, checkout included
             results = self.search([
                 ('name','=',room_name),
@@ -113,6 +115,7 @@ class HotelFolioRoom(models.Model):
             
             if self.is_reserved(results):
                 print 'Room is reserved'
+                raise Warning(_('Your Check Out date for that room is reserved. Please choose another day.'))
             
             #Checkin and checkout partially included
             results = self.search([
@@ -122,6 +125,7 @@ class HotelFolioRoom(models.Model):
             
             if self.is_reserved(results):
                 print 'Room is reserved'
+                raise Warning(_('That room is reserved for that days. Please choose another dates.'))
                 
             #Checkin and checkout included
             results = self.search([
@@ -131,6 +135,7 @@ class HotelFolioRoom(models.Model):
             
             if self.is_reserved(results):
                 print 'Room is reserved'
+                raise Warning(_('That room is reserved for that days. Please choose another dates.'))
         
                 
     @api.model
