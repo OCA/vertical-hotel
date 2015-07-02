@@ -4,6 +4,8 @@ from openerp import netsvc, models, fields, api
 import datetime
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from openerp.tools import config
+from openerp.exceptions import except_orm, Warning, RedirectWarning
+from openerp.tools.translate import _
 
 class HotelFolio(models.Model):
     _name = 'hotel.folio'
@@ -74,6 +76,8 @@ class HotelFolio(models.Model):
             duration = duration_date.days
             if self.duration != duration:
                 self.duration = duration 
+            if self.checkout_date < self.checkin_date:
+                raise Warning(_('Check Out date can`t be previous than Check In date.'))
     
     
     @api.onchange('duration')
