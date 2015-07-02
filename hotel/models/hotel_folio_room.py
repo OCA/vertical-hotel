@@ -5,6 +5,7 @@ from mx import DateTime
 import datetime
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from openerp.tools import config
+from openerp.exceptions import except_orm, Warning, RedirectWarning
 
 
 class HotelFolioRoom(models.Model):
@@ -82,6 +83,7 @@ class HotelFolioRoom(models.Model):
             tax_lines.append((6, 0, tax_data.id))           
         self.tax_id = tax_lines 
     
+    
     @api.onchange('checkin_date', 'checkout_date')
     def _onchange_dates(self):
         if self.checkin_date and self.checkout_date:
@@ -91,23 +93,52 @@ class HotelFolioRoom(models.Model):
         
         if self.product_id.name != False:
             room_name = self.product_id.name
-            room_checkin = datetime.datetime.strptime(
-                self.checkin_date,
-                DEFAULT_SERVER_DATETIME_FORMAT)
-            room_checkout = datetime.datetime.strptime(
-                self.checkout_date,
-                DEFAULT_SERVER_DATETIME_FORMAT)
-            print room_name
-            print room_checkin
-            print room_checkout
-            self.env.cr.execute("SELECT sale.name, folio.checkin_date, folio.checkout_date \
-                FROM sale_order_line sale, hotel_folio_room folio \
-                WHERE sale.id = folio.order_line_id AND sale.name=%s \
-                AND %s BETWEEN folio.checkin_date AND folio.checkout_date \
-                OR %s BETWEEN folio.checkin_date AND folio.checkout_date",(room_name,room_checkin,room_checkout))
-            results = self.env.cr.fetchall()
-            print results
+            
+            #Checkin included, checkout excluded
+            results = self.search([
+                ('name','=',room_name),
+                ('checkin_date','<=',self.checkin_date),
+                ('checkout_date','<=',self.checkout_date),
+                ('checkout_date','>=',self.checkin_date)])
+            
+            if self.is_reserved(results):
+                print 'Room is reserved'
+                
+            #Checkin excluded, checkout included
+            results = self.search([
+                ('name','=',room_name),
+                ('checkin_date','>=',self.checkin_date),
+                ('checkout_date','>=',self.checkout_date),
+                ('checkin_date','<=',self.checkout_date)]) 
+            
+            if self.is_reserved(results):
+                print 'Room is reserved'
+            
+            #Checkin and checkout partially included
+            results = self.search([
+                ('name','=',room_name),
+                ('checkin_date','>=',self.checkin_date),
+                ('checkout_date','<=',self.checkout_date)]) 
+            
+            if self.is_reserved(results):
+                print 'Room is reserved'
+                
+            #Checkin and checkout included
+            results = self.search([
+                ('name','=',room_name),
+                ('checkin_date','<=',self.checkin_date),
+                ('checkout_date','>=',self.checkout_date)])
+            
+            if self.is_reserved(results):
+                print 'Room is reserved'
         
+                
+    @api.model
+    def is_reserved(self, results):
+        if results:
+            return True
+        return False
+
     
     @api.onchange('product_uom_qty')
     def _onchange_duration(self):
@@ -136,8 +167,6 @@ class HotelFolioRoom(models.Model):
         return duration
     
     
-    
-    
     @api.multi    
     def on_change_checkout(self, checkin_date=time.strftime('%Y-%m-%d %H:%M:%S'), checkout_date=time.strftime('%Y-%m-%d %H:%M:%S')):
         qty = 1
@@ -150,10 +179,12 @@ class HotelFolioRoom(models.Model):
                 qty = 1
         return {'value':{'product_uom_qty':qty}}
     
+    
     @api.multi
     def button_confirm(self):
         confirm = self.env['sale.order.line'].browse(selfids)
         return  confirm.button_confirm()
+    
     
     @api.multi
     def button_done(self):
@@ -163,11 +194,13 @@ class HotelFolioRoom(models.Model):
         for line in self.browse(ids):
             wf_service.trg_write(uid, 'sale.order', line.order_id.id, cr)
         return res
+    
 
     @api.multi    
     def uos_change(self, product_uos, product_uos_qty=0, product_id=None):
         change = self.env['sale.order.line'].browse(self.ids)
         return  change.uos_change(product_uos, product_uos_qty=0, product_id=None)
+    
     
     @api.one
     def copy(self, default=None):
