@@ -9,6 +9,7 @@ from openerp.exceptions import except_orm, Warning, RedirectWarning
 from openerp.tools.translate import _
 
 
+
 class HotelFolioRoom(models.Model):
     _name = 'hotel.folio.room'
     _description = 'Hotel Folio Room'
@@ -51,10 +52,22 @@ class HotelFolioRoom(models.Model):
         return time.strftime('%Y-%m-%d %H:%M:%S')
     
     
-    order_line_id = fields.Many2one('sale.order.line', 'order_line_id', required=True, ondelete='cascade')
-    folio_id = fields.Many2one('hotel.folio', 'folio_id', ondelete='cascade', required=True)
-    checkin_date = fields.Datetime('Check In', required=True)
-    checkout_date = fields.Datetime('Check Out', required=True)
+    order_line_id = fields.Many2one(
+        'sale.order.line',
+        'order_line_id',
+        required=True,
+        ondelete='cascade')
+    folio_id = fields.Many2one(
+        'hotel.folio',
+        'folio_id',
+        ondelete='cascade',
+        required=True)
+    checkin_date = fields.Datetime(
+        'Check In',
+        required=True)
+    checkout_date = fields.Datetime(
+        'Check Out',
+        required=True)
     
     _defaults = {
        'checkin_date':_get_checkin_date,
@@ -92,7 +105,7 @@ class HotelFolioRoom(models.Model):
             if self.product_uom_qty != duration:
                 self.product_uom_qty = duration
         
-        if self.product_id.name != False:
+        '''if self.product_id.name != False:
             room_name = self.product_id.name
             
             #Checkin included, checkout excluded
@@ -135,14 +148,57 @@ class HotelFolioRoom(models.Model):
             
             if self.is_reserved(results):
                 print 'Room is reserved'
+                raise Warning(_('That room is reserved for that days. Please choose another dates.'))'''
+
+
+    @api.one
+    @api.constrains('checkin_date','checkout_date')
+    def _check_room_dates(self):
+        print 'Entra en la constraint'
+        if self.product_id.name != False:
+            room_name = self.product_id.name
+            
+            #Checkin included, checkout excluded
+            results = self.search([
+                ('name','=',room_name),
+                ('checkin_date','<=',self.checkin_date),
+                ('checkout_date','<=',self.checkout_date),
+                ('checkout_date','>=',self.checkin_date)])
+            
+            if results:
+                print 'Room is reserved'
+                raise Warning(_('Your Check In date for that room is reserved. Please choose another day.'))
+
+            #Checkin excluded, checkout included
+            results = self.search([
+                ('name','=',room_name),
+                ('checkin_date','>=',self.checkin_date),
+                ('checkout_date','>=',self.checkout_date),
+                ('checkin_date','<=',self.checkout_date)]) 
+            
+            if results:
+                print 'Room is reserved'
+                raise Warning(_('Your Check Out date for that room is reserved. Please choose another day.'))
+            
+            #Checkin and checkout partially included
+            results = self.search([
+                ('name','=',room_name),
+                ('checkin_date','>=',self.checkin_date),
+                ('checkout_date','<=',self.checkout_date)]) 
+            
+            if results:
+                print 'Room is reserved'
                 raise Warning(_('That room is reserved for that days. Please choose another dates.'))
-        
                 
-    @api.model
-    def is_reserved(self, results):
-        if results:
-            return True
-        return False
+            #Checkin and checkout included
+            results = self.search([
+                ('name','=',room_name),
+                ('checkin_date','<=',self.checkin_date),
+                ('checkout_date','>=',self.checkout_date)])
+            
+            if results:
+                print 'Room is reserved'
+                raise Warning(_('That room is reserved for that days. Please choose another dates.'))
 
     
     @api.onchange('product_uom_qty')
@@ -187,7 +243,7 @@ class HotelFolioRoom(models.Model):
     
     @api.multi
     def button_confirm(self):
-        confirm = self.env['sale.order.line'].browse(selfids)
+        confirm = self.env['sale.order.line'].browse(self.ids)
         return  confirm.button_confirm()
     
     

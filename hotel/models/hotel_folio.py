@@ -47,21 +47,22 @@ class HotelFolio(models.Model):
         required=True)
     duration = fields.Float(
         string='Duration')
-    warehouse_id = fields.Many2one('stock.warehouse')
+    warehouse_id = fields.Many2one(
+        'stock.warehouse')
     
     _sql_constraints = [
         ('check_in_out',
          'CHECK (checkin_date<=checkout_date)',
          'Check in Date Should be less than the Check Out Date!'),]
     
-    @api.one
+    '''@api.one
     @api.constrains('room_ids')
     def _check_room_vacant(self):
         rooms = []
         for room in self.room_ids:
             if room.product_id in rooms:
                 raise ValidationError('You can not allocate the same room twice!')
-            rooms.append(room.product_id)
+            rooms.append(room.product_id)'''
 
     @api.onchange('checkin_date', 'checkout_date')
     def _onchange_dates(self):

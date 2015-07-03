@@ -3,21 +3,21 @@
 	<data>
 
 		<record model="ir.ui.view" id="view_hotel_room_amenities_type_form">
-			<field name="name">hotel.room_amenities_type_form</field>
+			<field name="name">hotel.room.amenities.type.form</field>
 			<field name="model">hotel.room.amenities.type</field>
 			<field name="arch" type="xml">
 				<form string="Hotel Room Amenities Type">
 					<sheet>
 						<group>
 							<field name="name" string="Amenity Type" />
-							<field name="parent_id" domain="[('isamenitytype','=',True)]" />
+							<field name="parent_id" domain="[('isamenitype','=',True)]" />
 						</group>
 					</sheet>
 				</form>
 			</field>
 		</record>
 		<record model="ir.ui.view" id="view_hotel_room_amenities_type_list">
-			<field name="name">hotel.room_amenities_type_list</field>
+			<field name="name">hotel.room.amenities.type.list</field>
 			<field name="model">hotel.room.amenities.type</field>
 			<field name="arch" type="xml">
 				<tree string="Hotel Room Amenities Type">
