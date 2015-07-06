@@ -104,51 +104,8 @@ class HotelFolioRoom(models.Model):
             duration = self._date_dif()
             if self.product_uom_qty != duration:
                 self.product_uom_qty = duration
-        
-        '''if self.product_id.name != False:
-            room_name = self.product_id.name
-            
-            #Checkin included, checkout excluded
-            results = self.search([
-                ('name','=',room_name),
-                ('checkin_date','<=',self.checkin_date),
-                ('checkout_date','<=',self.checkout_date),
-                ('checkout_date','>=',self.checkin_date)])
-            
-            if self.is_reserved(results):
-                print 'Room is reserved'
-                raise Warning(_('Your Check In date for that room is reserved. Please choose another day.'))
-   
-            #Checkin excluded, checkout included
-            results = self.search([
-                ('name','=',room_name),
-                ('checkin_date','>=',self.checkin_date),
-                ('checkout_date','>=',self.checkout_date),
-                ('checkin_date','<=',self.checkout_date)]) 
-            
-            if self.is_reserved(results):
-                print 'Room is reserved'
-                raise Warning(_('Your Check Out date for that room is reserved. Please choose another day.'))
-            
-            #Checkin and checkout partially included
-            results = self.search([
-                ('name','=',room_name),
-                ('checkin_date','>=',self.checkin_date),
-                ('checkout_date','<=',self.checkout_date)]) 
-            
-            if self.is_reserved(results):
-                print 'Room is reserved'
-                raise Warning(_('That room is reserved for that days. Please choose another dates.'))
-                
-            #Checkin and checkout included
-            results = self.search([
-                ('name','=',room_name),
-                ('checkin_date','<=',self.checkin_date),
-                ('checkout_date','>=',self.checkout_date)])
-            
-            if self.is_reserved(results):
-                print 'Room is reserved'
-                raise Warning(_('That room is reserved for that days. Please choose another dates.'))'''
+            if self.checkin_date > self.checkout_date:
+                raise Warning(_('Check In can`t be higher than Check Out.'))
 
 
     @api.one
@@ -167,7 +124,8 @@ class HotelFolioRoom(models.Model):
             
             if results:
                 print 'Room is reserved'
-                raise Warning(_('Your Check In date for that room is reserved. Please choose another day.'))
+                raise Warning(_('Your Check In date for '+room_name+ ' is \
+                reserved. Please choose another day.'))
 
             #Checkin excluded, checkout included
             results = self.search([
@@ -178,7 +136,8 @@ class HotelFolioRoom(models.Model):
             
             if results:
                 print 'Room is reserved'
-                raise Warning(_('Your Check Out date for that room is reserved. Please choose another day.'))
+                raise Warning(_('Your Check Out date for '+room_name+ ' is \
+                reserved. Please choose another day.'))
             
             #Checkin and checkout partially included
             results = self.search([
@@ -188,7 +147,8 @@ class HotelFolioRoom(models.Model):
             
             if results:
                 print 'Room is reserved'
-                raise Warning(_('That room is reserved for that days. Please choose another dates.'))
+                raise Warning(_(+room_name+' room is reserved for those days. \
+                Please choose another dates.'))
                 
             #Checkin and checkout included
             results = self.search([
@@ -198,7 +158,8 @@ class HotelFolioRoom(models.Model):
             
             if results:
                 print 'Room is reserved'
-                raise Warning(_('That room is reserved for that days. Please choose another dates.'))
+                raise Warning(_(+room_name+' is reserved for those days. \
+                Please choose another dates.'))
 
     
     @api.onchange('product_uom_qty')
@@ -229,10 +190,13 @@ class HotelFolioRoom(models.Model):
     
     
     @api.multi    
-    def on_change_checkout(self, checkin_date=time.strftime('%Y-%m-%d %H:%M:%S'), checkout_date=time.strftime('%Y-%m-%d %H:%M:%S')):
+    def on_change_checkout(self, 
+                           checkin_date=time.strftime('%Y-%m-%d %H:%M:%S'),
+                           checkout_date=time.strftime('%Y-%m-%d %H:%M:%S')):
         qty = 1
         if checkout_date < checkin_date:
-            raise osv.except_osv ('Error !', 'Checkout must be greater or equal checkin date')
+            raise osv.except_osv ('Error !', 'Checkout must be greater or \
+            equal checkin date')
         if checkin_date:
             diffDate = datetime.datetime(*time.strptime(checkout_date, '%Y-%m-%d %H:%M:%S')[:5]) - datetime.datetime(*time.strptime(checkin_date, '%Y-%m-%d %H:%M:%S')[:5])
             qty = diffDate.days
