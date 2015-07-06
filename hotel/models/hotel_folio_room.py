@@ -9,6 +9,7 @@ from openerp.exceptions import except_orm, Warning, RedirectWarning
 from openerp.tools.translate import _
 
 
+
 class HotelFolioRoom(models.Model):
     _name = 'hotel.folio.room'
     _description = 'Hotel Folio Room'
@@ -51,10 +52,22 @@ class HotelFolioRoom(models.Model):
         return time.strftime('%Y-%m-%d %H:%M:%S')
     
     
-    order_line_id = fields.Many2one('sale.order.line', 'order_line_id', required=True, ondelete='cascade')
-    folio_id = fields.Many2one('hotel.folio', 'folio_id', ondelete='cascade', required=True)
-    checkin_date = fields.Datetime('Check In', required=True)
-    checkout_date = fields.Datetime('Check Out', required=True)
+    order_line_id = fields.Many2one(
+        'sale.order.line',
+        'order_line_id',
+        required=True,
+        ondelete='cascade')
+    folio_id = fields.Many2one(
+        'hotel.folio',
+        'folio_id',
+        ondelete='cascade',
+        required=True)
+    checkin_date = fields.Datetime(
+        'Check In',
+        required=True)
+    checkout_date = fields.Datetime(
+        'Check Out',
+        required=True)
     
     _defaults = {
        'checkin_date':_get_checkin_date,
@@ -91,7 +104,14 @@ class HotelFolioRoom(models.Model):
             duration = self._date_dif()
             if self.product_uom_qty != duration:
                 self.product_uom_qty = duration
-        
+            if self.checkin_date > self.checkout_date:
+                raise Warning(_('Check In can`t be higher than Check Out.'))
+
+
+    @api.one
+    @api.constrains('checkin_date','checkout_date')
+    def _check_room_dates(self):
+        print 'Entra en la constraint'
         if self.product_id.name != False:
             room_name = self.product_id.name
             
@@ -102,10 +122,11 @@ class HotelFolioRoom(models.Model):
                 ('checkout_date','<=',self.checkout_date),
                 ('checkout_date','>=',self.checkin_date)])
             
-            if self.is_reserved(results):
+            if results:
                 print 'Room is reserved'
-                raise Warning(_('Your Check In date for that room is reserved. Please choose another day.'))
-   
+                raise Warning(_('Your Check In date for '+room_name+ ' is \
+                reserved. Please choose another day.'))
+
             #Checkin excluded, checkout included
             results = self.search([
                 ('name','=',room_name),
@@ -113,9 +134,10 @@ class HotelFolioRoom(models.Model):
                 ('checkout_date','>=',self.checkout_date),
                 ('checkin_date','<=',self.checkout_date)]) 
             
-            if self.is_reserved(results):
+            if results:
                 print 'Room is reserved'
-                raise Warning(_('Your Check Out date for that room is reserved. Please choose another day.'))
+                raise Warning(_('Your Check Out date for '+room_name+ ' is \
+                reserved. Please choose another day.'))
             
             #Checkin and checkout partially included
             results = self.search([
@@ -123,9 +145,10 @@ class HotelFolioRoom(models.Model):
                 ('checkin_date','>=',self.checkin_date),
                 ('checkout_date','<=',self.checkout_date)]) 
             
-            if self.is_reserved(results):
+            if results:
                 print 'Room is reserved'
-                raise Warning(_('That room is reserved for that days. Please choose another dates.'))
+                raise Warning(_(+room_name+' room is reserved for those days. \
+                Please choose another dates.'))
                 
             #Checkin and checkout included
             results = self.search([
@@ -133,16 +156,10 @@ class HotelFolioRoom(models.Model):
                 ('checkin_date','<=',self.checkin_date),
                 ('checkout_date','>=',self.checkout_date)])
             
-            if self.is_reserved(results):
+            if results:
                 print 'Room is reserved'
-                raise Warning(_('That room is reserved for that days. Please choose another dates.'))
-        
-                
-    @api.model
-    def is_reserved(self, results):
-        if results:
-            return True
-        return False
+                raise Warning(_(+room_name+' is reserved for those days. \
+                Please choose another dates.'))
 
     
     @api.onchange('product_uom_qty')
@@ -173,10 +190,13 @@ class HotelFolioRoom(models.Model):
     
     
     @api.multi    
-    def on_change_checkout(self, checkin_date=time.strftime('%Y-%m-%d %H:%M:%S'), checkout_date=time.strftime('%Y-%m-%d %H:%M:%S')):
+    def on_change_checkout(self, 
+                           checkin_date=time.strftime('%Y-%m-%d %H:%M:%S'),
+                           checkout_date=time.strftime('%Y-%m-%d %H:%M:%S')):
         qty = 1
         if checkout_date < checkin_date:
-            raise osv.except_osv ('Error !', 'Checkout must be greater or equal checkin date')
+            raise osv.except_osv ('Error !', 'Checkout must be greater or \
+            equal checkin date')
         if checkin_date:
             diffDate = datetime.datetime(*time.strptime(checkout_date, '%Y-%m-%d %H:%M:%S')[:5]) - datetime.datetime(*time.strptime(checkin_date, '%Y-%m-%d %H:%M:%S')[:5])
             qty = diffDate.days
@@ -187,7 +207,7 @@ class HotelFolioRoom(models.Model):
     
     @api.multi
     def button_confirm(self):
-        confirm = self.env['sale.order.line'].browse(selfids)
+        confirm = self.env['sale.order.line'].browse(self.ids)
         return  confirm.button_confirm()
     
     
