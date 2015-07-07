@@ -111,57 +111,32 @@ class HotelFolioRoom(models.Model):
     @api.one
     @api.constrains('checkin_date','checkout_date')
     def _check_room_dates(self):
-        print 'Entra en la constraint'
         if self.product_id.name != False:
             room_name = self.product_id.name
             
-            #Checkin included, checkout excluded
-            results = self.search([
-                ('name','=',room_name),
-                ('checkin_date','<=',self.checkin_date),
-                ('checkout_date','<=',self.checkout_date),
-                ('checkout_date','>=',self.checkin_date)])
+            results= self.env['sale.order.line'].search([
+                ('name','=',room_name)])
             
-            if results:
-                print 'Room is reserved'
-                raise Warning(_('Your Check In date for '+room_name+ ' is \
-                reserved. Please choose another day.'))
-
-            #Checkin excluded, checkout included
-            results = self.search([
-                ('name','=',room_name),
-                ('checkin_date','>=',self.checkin_date),
-                ('checkout_date','>=',self.checkout_date),
-                ('checkin_date','<=',self.checkout_date)]) 
-            
-            if results:
-                print 'Room is reserved'
-                raise Warning(_('Your Check Out date for '+room_name+ ' is \
-                reserved. Please choose another day.'))
-            
-            #Checkin and checkout partially included
-            results = self.search([
-                ('name','=',room_name),
-                ('checkin_date','>=',self.checkin_date),
-                ('checkout_date','<=',self.checkout_date)]) 
-            
-            if results:
-                print 'Room is reserved'
-                raise Warning(_(+room_name+' room is reserved for those days. \
-                Please choose another dates.'))
+            for res in results:
+                rs = self.env['hotel.folio.room'].search_count([
+                    ('order_line_id','=',res.id),
+                    ('checkin_date','<=',self.checkin_date),
+                    ('checkout_date','>=',self.checkin_date),
+                    '|',
+                    ('order_line_id','=',res.id), 
+                    ('checkout_date','>=',self.checkout_date),
+                    ('checkin_date','<=',self.checkout_date),
+                    '|',
+                    ('order_line_id','=',res.id),
+                    ('checkin_date','>=',self.checkin_date),
+                    ('checkout_date','<=',self.checkout_date)])
+                print rs
                 
-            #Checkin and checkout included
-            results = self.search([
-                ('name','=',room_name),
-                ('checkin_date','<=',self.checkin_date),
-                ('checkout_date','>=',self.checkout_date)])
-            
-            if results:
-                print 'Room is reserved'
-                raise Warning(_(+room_name+' is reserved for those days. \
-                Please choose another dates.'))
+                if rs > 0:
+                    raise Warning(_(room_name+' is reserved for those days. \
+                    Please choose another dates.'))
 
-    
+
     @api.onchange('product_uom_qty')
     def _onchange_duration(self):
         if self.checkin_date and self.product_uom_qty:
@@ -219,6 +194,13 @@ class HotelFolioRoom(models.Model):
         for line in self.browse(ids):
             wf_service.trg_write(uid, 'sale.order', line.order_id.id, cr)
         return res
+    
+    @api.multi
+    def unlink(self):
+        for rma in self:
+            if rma != 'draft':
+                raise Warning('Error!'),('Esta reserva no se puede borrar!')
+            return super(rma,self).unlink()
     
 
     @api.multi    
