@@ -109,32 +109,31 @@ class HotelFolioRoom(models.Model):
 
 
     @api.one
-    @api.constrains('checkin_date','checkout_date')
+    @api.constrains('checkin_date','checkout_date','product_id')
     def _check_room_dates(self):
         if self.product_id.name != False:
-            room_name = self.product_id.name
+            room_id = self.product_id.id
             
-            results= self.env['sale.order.line'].search([
-                ('name','=',room_name)])
-            
-            for res in results:
-                rs = self.env['hotel.folio.room'].search_count([
-                    ('order_line_id','=',res.id),
-                    ('checkin_date','<=',self.checkin_date),
-                    ('checkout_date','>=',self.checkin_date),
-                    '|',
-                    ('order_line_id','=',res.id), 
-                    ('checkout_date','>=',self.checkout_date),
-                    ('checkin_date','<=',self.checkout_date),
-                    '|',
-                    ('order_line_id','=',res.id),
-                    ('checkin_date','>=',self.checkin_date),
-                    ('checkout_date','<=',self.checkout_date)])
-                print rs
-                
-                if rs > 0:
-                    raise Warning(_(room_name+' is reserved for those days. \
-                    Please choose another dates.'))
+            rs = self.env['hotel.folio.room'].search_count([
+                    '|', '&',
+                    ('product_id', '=', room_id),
+                    '&',
+                    ('checkin_date', '<=', self.checkin_date),
+                    ('checkout_date', '>=', self.checkin_date),
+                    '|', '&',
+                    ('product_id', '=', room_id),
+                    '&',
+                    ('checkout_date', '>=', self.checkout_date),
+                    ('checkin_date', '<=', self.checkout_date),
+                    '&',
+                    ('product_id', '=', room_id),
+                    '&',
+                    ('checkin_date', '>=', self.checkin_date),
+                    ('checkout_date', '<=', self.checkout_date)])
+                    
+            if rs > 1:    
+                raise Warning(_('Your selected rooms are reserved for those days. \
+                Please choose another dates.'))
 
 
     @api.onchange('product_uom_qty')
