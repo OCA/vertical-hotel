@@ -56,7 +56,7 @@ class hotel_room_amenities(models.Model):
     amenity_rate = fields.Integer('Amenity Rate')
 
     _defaults = {
-        'iscategid': lambda * a: 1,
+        'isamenitype': lambda * a: 1,
         }
 
 class hotel_room(models.Model):

@@ -29,7 +29,7 @@
 		<record model="ir.actions.act_window" id="action_hotel_room_amenities_type_view_form">
 			<field name="name">Hotel Room Amenities Type</field>
 			<field name="res_model">hotel.room.amenities.type</field>
-			<field name="context">{'default_isamenitytype':1}</field>
+			<field name="context">{'default_isamenitype':1}</field>
 			<field name="view_type">form</field>
 			<field name="view_mode">tree,form</field>
 		</record>

@@ -8,8 +8,8 @@
 			<field name="type">form</field>
 			<field name="arch" type="xml">
 			 	<form string="Folio Report">
-					<field name="date_start" required="1"/>
-					<field name="date_end" required="1"/>
+					<field name="date_start" string="From Date" required="1" />
+					<field name="date_end" string="To Date" required="1" />
 					<newline/>
 					<separator colspan='4'/>
 					<newline/>

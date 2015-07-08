@@ -55,14 +55,6 @@ class HotelFolio(models.Model):
          'CHECK (checkin_date<=checkout_date)',
          'Check in Date Should be less than the Check Out Date!'),]
     
-    '''@api.one
-    @api.constrains('room_ids')
-    def _check_room_vacant(self):
-        rooms = []
-        for room in self.room_ids:
-            if room.product_id in rooms:
-                raise ValidationError('You can not allocate the same room twice!')
-            rooms.append(room.product_id)'''
 
     @api.onchange('checkin_date', 'checkout_date')
     def _onchange_dates(self):
