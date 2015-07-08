@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <menuitem id="hotel_management_menu" name="Hotel Management" />
+
+        <menuitem id="hotel_folio_menu" name="Folio" sequence="10"
+            parent="hotel_management_menu" />
+        <menuitem id="hotel_report_menu" name="Reports" sequence="100"
+            parent="hotel_management_menu" />
+        <menuitem id="hotel_configuration_menu" name="Configuration"
+            sequence="110" parent="hotel_management_menu" />
+    </data>
+</openerp>

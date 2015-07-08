@@ -12,8 +12,9 @@
     "demo_xml" : [
     ],
     "data" : [
-        "views/hotel_view.xml",
+        "views/hotel_menu_view.xml",
         "views/hotel_amenities_type.xml",
+        "views/hotel_services.xml",
         "views/hotel_floor.xml",
         "views/hotel_folio.xml",
         "views/hotel_room_amenities.xml",
@@ -21,8 +22,6 @@
         "views/hotel_room.xml",
         "data/hotel_data.xml",
         "data/hotel_folio_workflow.xml",
-        "report/hotel_report.xml",
-        "wizard/hotel_wizard.xml",
         "security/hotel_security.xml",
         "security/ir.model.access.csv",
     ],
