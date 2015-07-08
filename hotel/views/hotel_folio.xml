@@ -7,39 +7,16 @@
 			<field name="model">hotel.folio</field>
 			<field name="inherit_id" ref="sale.view_order_form" />
 			<field name="arch" type="xml">
-			<xpath expr="//form[@string='Sales Order']/header/button[@name='action_view_invoice']" position="replace">
-				<button name="action_view_invoice" string="View Invoice" type="object" class="oe_highlight"
-                            attrs="{'invisible': 1}" groups="base.group_user"/>
-			
-			</xpath>
-				<!-- <form string="Folio">
-					  <header>
-						<button name="order_confirm" string="Confirm Folio" states="draft"
-							icon="gtk-apply" />
-						<button name="invoice_recreate" string="Recreate Invoice"
-							states="invoice_except" icon="gtk-redo" class="oe_highlight" />
-						<button name="invoice_corrected" string="Invoice Corrected"
-							states="invoice_except" icon="gtk-paste-v" class="oe_highlight" />
-						<button name="ship_recreate" string="Recreate Procurement"
-							states="shipping_except" icon="gtk-redo" class="oe_highlight" />
-						<button name="ship_corrected" string="Procurement Corrected"
-							states="shipping_except" icon="gtk-paste-v" class="oe_highlight" />
-						<button name="manual_invoice" states="manual" string="Create Invoice"
-							icon="gtk-new" class="oe_highlight" />
-						<button name="ship_cancel" string="Cancel Folio" states="shipping_except"
-							icon="gtk-cancel" class="oe_highlight oe_highlight" />
-						<button name="action_cancel_draft" states="cancel" string="Set to Draft"
-							type="object" icon="gtk-file" class="oe_highlight" />
-						<button name="action_cancel" string="Cancel Folio" states="manual,progress"
-							type="object" icon="gtk-cancel" class="oe_highlight" />
-						<button name="cancel" string="Cancel Folio" states="draft"
-							icon="gtk-cancel" />
-						<button name="invoice_cancel" string="Cancel Folio" states="invoice_except"
-							icon="gtk-cancel" class="oe_highlight" />
-						<field name="state" select="2" widget="statusbar"
-							statusbar_visible="draft,sent,invoiced,done" />
-					</header> -->
-					<xpath expr="//form[@string='Sales Order']/sheet" position="replace">
+				<xpath
+					expr="//form[@string='Sales Order']/header/button[@name='action_view_invoice']"
+					position="replace">
+					<button name="action_view_invoice" string="View Invoice"
+						type="object" class="oe_highlight" attrs="{'invisible': 1}"
+						groups="base.group_user" />
+
+				</xpath>
+
+				<xpath expr="//form[@string='Sales Order']/sheet" position="replace">
 					<sheet>
 						<label string="Folio Number" />
 						<h1>
@@ -49,16 +26,17 @@
 						<group colspan="4" col="4">
 							<field name="date_order" />
 							<field name="invoiced" />
-							<field name="warehouse_id" string="Branch" invisible="1"/>
+							<field name="warehouse_id" string="Branch" invisible="1" />
 						</group>
 						<notebook colspan="4">
 							<page string="Folio">
 								<group colspan="4" col="4">
-									<field name="partner_id" string="Guest Name" required="1" /> 
+									<field name="partner_id" string="Guest Name" required="1" />
 									<field name="partner_invoice_id" domain="[('parent_id','=',partner_id)]" />
 									<field name="pricelist_id" domain="[('type','=','sale')]" />
 									<field name="project_id" />
-									<field name="partner_shipping_id" domain="[('parent_id','=',partner_id)]" invisible="1"/>
+									<field name="partner_shipping_id" domain="[('parent_id','=',partner_id)]"
+										invisible="1" />
 								</group>
 								<newline />
 								<group colspan="4" col="6">
@@ -66,7 +44,7 @@
 									<field name="checkout_date" />
 								</group>
 								<group>
-									<field name="duration" /> 
+									<field name="duration" />
 								</group>
 								<separator string="Room Lines" colspan="4" />
 								<field name="room_ids" colspan="4" string="Room Line"
@@ -77,22 +55,20 @@
 										<notebook>
 											<page string="Folio Line">
 												<group>
-													<field name="checkin_date"  />
+													<field name="checkin_date" />
 													<field name="checkout_date" />
 													<separator string="Automatic Declaration"
 														colspan="4" />
 													<field name="product_uom_qty"
 														context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'uom':product_uom}"
-														invisible="0"
-													/>
+														invisible="0" />
 
-													<field name="product_uom" string="Rent(UOM)"/>
-													
+													<field name="product_uom" string="Rent(UOM)" />
+
 													<field name="product_id"
 														context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'uom':product_uom}"
 														colspan="4" select="1" domain="[('isroom','=',True)]"
-														string="Room No"
-													/>												
+														string="Room No" />
 
 												</group>
 												<separator string="Manual Description" colspan="4" />
@@ -141,15 +117,13 @@
 												<separator string="Automatic Declaration" colspan="4" />
 												<group>
 													<field name="product_uom_qty" select="1"
-														context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'hotel':parent.warehouse_id,'uom':product_uom}"
-													/>
+														context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'hotel':parent.warehouse_id,'uom':product_uom}" />
 
-													<field name="product_uom"/>
+													<field name="product_uom" />
 													<field name="room_id" domain="[('isroom','=',True)]" />
 													<field name="product_id" select="1"
 														domain="[('isservice','=',True)]"
-														context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'hotel':parent.warehouse_id,'uom':product_uom}"
-													 />
+														context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'hotel':parent.warehouse_id,'uom':product_uom}" />
 
 												</group>
 												<separator string="Manual Description" colspan="4" />
@@ -217,11 +191,11 @@
 						</notebook>
 					</sheet>
 				</xpath>
-				<!-- </form>  -->
+				<!-- </form> -->
 			</field>
 		</record>
-		
-		
+
+
 		<record model="ir.ui.view" id="view_hotel_folio1_tree">
 			<field name="name">hotel.folio.tree</field>
 			<field name="model">hotel.folio</field>
@@ -410,10 +384,9 @@
 			<field name="view_type">tree</field>
 			<field name="view_id" ref="product.product_category_tree_view" />
 		</record>
-		<!--  
-		<menuitem name="Room by Type" id="menu_hotel_room_category_action"
-			action="hotel_room_category_action" sequence="7" parent="hotel.menu_hotel_room" />
-	  -->
+		<!-- <menuitem name="Room by Type" id="menu_hotel_room_category_action" 
+			action="hotel_room_category_action" sequence="7" parent="hotel.menu_hotel_room" 
+			/> -->
 		<record model="ir.actions.act_window" id="hotel_ty_category_action">
 			<field name="name">Amenities by Category</field>
 			<field name="type">ir.actions.act_window</field>
