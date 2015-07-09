@@ -41,17 +41,15 @@
                                         <field name="checkout_date" />
                                         <separator string="Automatic Declaration"
                                             colspan="4" />
+                                        <field name="product_id"
+                                            context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'uom':product_uom}"
+                                            select="1"
+                                            domain="[('isroom','=',True)]"
+                                            string="Room No" />
                                         <field name="product_uom_qty"
                                             context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'uom':product_uom}"
                                             invisible="0" />
-
                                         <field name="product_uom" string="Rent(UOM)" />
-
-                                        <field name="product_id"
-                                            context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'uom':product_uom}"
-                                            colspan="4" select="1"
-                                            domain="[('isroom','=',True)]"
-                                            string="Room No" />
 
                                     </group>
                                     <separator string="Manual Description"
@@ -71,28 +69,13 @@
                                         <field name="invoiced" select="2" />
                                     </group>
                                 </page>
-                                <page string="Extra Info">
-                                    <group>
-                                        <field name="product_uos_qty" />
-                                        <field name="product_uos" />
-                                        <field name="address_allotment_id"
-                                            select="2" />
-                                    </group>
-                                </page>
-                                <page string="History">
-                                    <separator string="Invoice Lines"
-                                        colspan="4" />
-                                    <field name="invoice_lines" colspan="4"
-                                        nolabel="1" />
-                                </page>
                             </notebook>
                         </form>
-                        <tree string="Room Line">
-                            <field name="name" />
+                        <tree string="Room Line" editable="bottom">
+                        	<field name="product_id" string="Room No" />
                             <field name="checkin_date" />
                             <field name="checkout_date" />
-                            <field name="product_id" string="Room No" />
-                            <field name="product_uom" string="Rent(UOM)" />
+                            <field name="name" />
                             <field name="price_unit" string="Rent" />
                             <field name="price_subtotal" />
                             <field name="state" />
@@ -107,17 +90,15 @@
                                     <separator string="Automatic Declaration"
                                         colspan="4" />
                                     <group>
+                                    	<field name="product_id" select="1"
+                                            domain="[('isservice','=',True)]"
+                                            context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'hotel':parent.warehouse_id,'uom':product_uom}" />
                                         <field name="product_uom_qty"
                                             select="1"
                                             context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'hotel':parent.warehouse_id,'uom':product_uom}" />
-
                                         <field name="product_uom" />
                                         <field name="room_id"
                                             domain="[('isroom','=',True)]" />
-                                        <field name="product_id" select="1"
-                                            domain="[('isservice','=',True)]"
-                                            context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'hotel':parent.warehouse_id,'uom':product_uom}" />
-
                                     </group>
                                     <separator string="Manual Description"
                                         colspan="4" />
@@ -136,26 +117,12 @@
                                         <field name="invoiced" select="2" />
                                     </group>
                                 </page>
-                                <page string="Extra Info">
-                                    <group>
-                                        <field name="product_uos_qty" />
-                                        <field name="product_uos" />
-                                        <field name="address_allotment_id"
-                                            select="2" />
-                                    </group>
-                                </page>
-                                <page string="History">
-                                    <separator string="Invoice Lines"
-                                        colspan="4" />
-                                    <field name="invoice_lines" colspan="4"
-                                        nolabel="1" />
-                                </page>
                             </notebook>
                         </form>
-                        <tree string="Service Line">
-                            <field name="name" />
-                            <field name="product_id" />
+                        <tree string="Service Line" editable="bottom">
+                        	<field name="product_id" />
                             <field name="product_uom_qty" />
+                             <field name="name" />
                             <field name="price_unit" />
                             <field name="price_subtotal" />
                             <field name="state" />
