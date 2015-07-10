@@ -70,6 +70,7 @@ class hotel_room(models.Model):
     max_child = fields.Integer('Max Child')
     avail_status = fields.Selection([('assigned', 'Assigned'), (' unassigned', 'Unassigned')], 'Room Status')
     room_amenities = fields.Many2many('hotel.room.amenities', 'temp_tab', 'room_amenities', 'rcateg_id', 'Room Amenities')
+    folio_id = fields.One2many('hotel.folio', 'room_id', 'Graph test')
     _defaults = {
         'isroom': lambda * a: 1,
         'rental': lambda * a: 1,

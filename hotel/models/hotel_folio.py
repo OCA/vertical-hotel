@@ -50,6 +50,8 @@ class HotelFolio(models.Model):
         string='Duration')
     warehouse_id = fields.Many2one(
         'stock.warehouse')
+    room_id = fields.Many2one('hotel.room',
+                             'Room ID')
 
     _sql_constraints = [
         ('check_in_out',
