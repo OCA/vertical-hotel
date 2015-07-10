@@ -20,7 +20,7 @@ class HotelFolio(models.Model):
         'sale.order',
         string='Order',
         required=True,
-        ondelete='cascade')
+        ondelete='cascade')   
     checkin_date = fields.Datetime(
         string='Check In',
         required=True,
