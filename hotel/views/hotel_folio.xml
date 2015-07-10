@@ -76,6 +76,7 @@
                             <field name="checkin_date" />
                             <field name="checkout_date" />
                             <field name="name" />
+                            <field name="product_uom_qty" />
                             <field name="price_unit" string="Rent" />
                             <field name="price_subtotal" />
                             <field name="state" />
@@ -210,7 +211,7 @@
                         <filter string="Order Month" domain="[]"
                             context="{'group_by':'date_order'}" />
                         <filter string="Room" domain="[]"
-                            context="{'group_by':'product_id'}" />
+                            context="{'group_by':'room_id'}" />
                         <filter string="Check In" domain="[]"
                             context="{'group_by':'checkin_date'}" />
                         <filter string="Check Out" domain="[]"
