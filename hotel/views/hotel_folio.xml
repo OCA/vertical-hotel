@@ -70,12 +70,12 @@
                                     </group>
                                 </page>
                             </notebook>
-                        </form>
-                        <tree string="Room Line" editable="bottom">
+                        </form>  
+                        <tree string="Room Line" editable="top">
                         	<field name="product_id" string="Room No" />
+                        	<field name="name" />
                             <field name="checkin_date" />
                             <field name="checkout_date" />
-                            <field name="name" />
                             <field name="product_uom_qty" />
                             <field name="price_unit" string="Rent" />
                             <field name="price_subtotal" />
@@ -85,7 +85,7 @@
                     <separator string="Service Lines" colspan="4" />
                     <field name="service_ids" colspan="4" string="Service Line"
                         nolabel="1">
-                        <form string="Service Line">
+                       <form string="Service Line">
                             <notebook>
                                 <page string="Service Line">
                                     <separator string="Automatic Declaration"
@@ -120,13 +120,13 @@
                                 </page>
                             </notebook>
                         </form>
-                        <tree string="Service Line" editable="bottom">
-                        	<field name="product_id" />
+                        <tree string="Service Line" editable="top">
+                            <field name="product_id" />
                             <field name="product_uom_qty" />
-                             <field name="name" />
+                            <field name="name" />
                             <field name="price_unit" />
                             <field name="price_subtotal" />
-                            <field name="state" />
+                            <field name="state" />  
                         </tree>
                     </field>
                 </field>
@@ -208,10 +208,10 @@
                             context="{'group_by':'user_id'}" />
                         <filter string="Customer" domain="[]"
                             context="{'group_by':'partner_id'}" />
+                        <filter string="Order ID" domain="[]"
+                            context="{'group_by':'order_id'}" />    
                         <filter string="Order Month" domain="[]"
                             context="{'group_by':'date_order'}" />
-                        <filter string="Room" domain="[]"
-                            context="{'group_by':'room_id'}" />
                         <filter string="Check In" domain="[]"
                             context="{'group_by':'checkin_date'}" />
                         <filter string="Check Out" domain="[]"
