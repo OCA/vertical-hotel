@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>	
+	
+	<record id="action_folio_graph" model="ir.ui.view">
+    	<field name="name">Action Folio Graph</field>
+    	<field name="model">hotel.folio</field>
+    	<field name="inherit_id" ref="hotel.hotel_sale_order_graph_view"/>
+    	<field name="arch" type="xml">
+    	<xpath expr="//graph" position="replace">
+			<graph string="Sales Orders" type="bar">
+				<field name="partner_id" type="row"/>
+				<field name="amount_total" type="measure"/>
+			</graph>
+    	</xpath>
+    	</field>
+    </record>
+	
+	<record id="action_folio_filter" model="ir.ui.view">
+    	<field name="name">Action Folio Filter</field>
+    	<field name="model">hotel.folio</field>
+    	<field name="inherit_id" ref="hotel.view_hotel_folio_filter"/>
+    	<field name="arch" type="xml">
+    	<xpath expr="//search/group/filter[@string='Customer']" position="after">
+			<filter string="Room ID" domain="[]"
+                            context="{'group_by':'room_id'}" />
+    	</xpath>
+    	</field>
+    </record>
+	
+</data>
+</openerp>
