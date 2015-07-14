@@ -72,14 +72,36 @@
                             </notebook>
                         </form>  
                         <tree string="Room Line" editable="top">
-                        	<field name="product_id" string="Room No" />
+                        	<!-- <field name="product_id" string="Room No" domain="[('isroom','=',True)]"/>
                         	<field name="name" />
                             <field name="checkin_date" />
                             <field name="checkout_date" />
                             <field name="product_uom_qty" />
                             <field name="price_unit" string="Rent" />
                             <field name="price_subtotal" />
-                            <field name="state" />
+                            <field name="state" /> -->
+                            <field name="sequence" widget="handle"/>
+                                    <field name="state" invisible="1"/>
+                                    <field name="th_weight" invisible="1"/>
+                                    <field name="product_id"
+                                        groups="base.group_user"
+                                        domain="[('isroom','=',True)]"/>
+                                    <field name="checkin_date" />
+                            		<field name="checkout_date" />
+                                    <field name="name"/>
+                                    <field name="product_uom_qty"
+                                        context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom}"
+                                        on_change="product_id_change(parent.pricelist_id, product_id, product_uom_qty, product_uom, product_uos_qty, product_uos, name, parent.partner_id, False, False, parent.date_order, False, parent.fiscal_position, True, context)"/>
+                                    <field name="product_uom"
+                                        on_change="product_uom_change(parent.pricelist_id, product_id, product_uom_qty, product_uom, product_uos_qty, product_uos, name, parent.partner_id, False, False, parent.date_order, context)"
+                                        groups="product.group_uom" options='{"no_open": True}' invisible="1"/>
+                                    <field name="product_uos_qty" groups="product.group_uos" invisible="1"/>
+                                    <field name="product_uos" string="UoS" groups="product.group_uos" invisible="1"/>
+                                    <field name="price_unit"/>
+                                    <field name="tax_id" widget="many2many_tags" domain="[('parent_id','=',False),('type_tax_use','&lt;&gt;','purchase')]"/>
+                                    <field name="discount" groups="sale.group_discount_per_so_line"/>
+                                    <field name="price_subtotal"/>
+                                    
                         </tree>
                     </field>
                     <separator string="Service Lines" colspan="4" />
@@ -121,7 +143,7 @@
                             </notebook>
                         </form>
                         <tree string="Service Line" editable="top">
-                            <field name="product_id" />
+                            <field name="product_id" domain="[('isservice','=',True)]"/>
                             <field name="product_uom_qty" />
                             <field name="name" />
                             <field name="price_unit" />
