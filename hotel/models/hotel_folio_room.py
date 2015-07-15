@@ -84,19 +84,6 @@ class HotelFolioRoom(models.Model):
     
     @api.onchange('product_id')
     def onchange_product_id(self):
-        '''if self.checkin_date and self.checkout_date:
-            self.product_uom_qty = self._date_dif()
-        else:
-            self.product_uom_qty = 1
-        if self.product_id.description:
-            self.name = self.product_id.description
-        else: self.name = self.product_id.name
-        self.product_uom = self.product_id.uom_id
-        self.price_unit = self.product_id.list_price
-        tax_lines = []
-        for tax_data in self.product_id.taxes_id: 
-            tax_lines.append((6, 0, tax_data.id))           
-        self.tax_id = tax_lines '''
         if self.product_id:
             if self.checkin_date and self.checkout_date:
                 self.product_uom_qty = self._date_dif()
@@ -121,7 +108,8 @@ class HotelFolioRoom(models.Model):
                                         True, 
                                         self.folio_id.date_order, 
                                         False, 
-                                        self.folio_id.partner_id.property_account_position.id, 
+                                        self.folio_id.partner_id
+                                        .property_account_position.id, 
                                         False)
     
     
