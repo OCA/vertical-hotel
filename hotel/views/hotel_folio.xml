@@ -162,17 +162,6 @@
                 </calendar>
             </field>
         </record>
-        
-        <record model="ir.ui.view" id="hotel_sale_order_graph_view">
-            <field name="name">Hotel - Folios Graph</field>
-            <field name="model">hotel.folio</field>
-            <field name="arch" type="xml">
-                <graph string="Sales Orders" type="bar">
-                    <field name="partner_id" type="row"/>
-                    <field name="amount_total" type="measure"/>
-                </graph>
-            </field>
-        </record>
 
         <!-- TODO: Hacer una vista heredada -->
         <record id="view_hotel_folio_filter" model="ir.ui.view">
@@ -226,7 +215,7 @@
             <field name="name">Folios</field>
             <field name="res_model">hotel.folio</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,calendar,graph</field>
+            <field name="view_mode">tree,form,calendar</field>
             <field name="view_id" ref="view_hotel_folio_tree"/>
             <field name="search_view_id" ref="view_hotel_folio_filter"/>
             <field name="help" type="html">
