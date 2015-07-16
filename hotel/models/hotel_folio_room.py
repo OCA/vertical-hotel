@@ -13,8 +13,6 @@ from openerp.tools.translate import _
 class HotelFolioRoom(models.Model):
     _name = 'hotel.folio.room'
     _description = 'Hotel Folio Room'
-    _inherits = {'sale.order.line':'order_line_id'}
-    _inherit = ['sale.order.line']
     
     @api.one
     def copy(self, default=None):
@@ -57,7 +55,8 @@ class HotelFolioRoom(models.Model):
         'sale.order.line',
         'order_line_id',
         required=True,
-        ondelete='cascade')
+        ondelete='cascade',
+        delegate=True)
     folio_id = fields.Many2one(
         'hotel.folio',
         'folio_id',
@@ -196,8 +195,7 @@ class HotelFolioRoom(models.Model):
     
     @api.multi
     def button_confirm(self):
-        confirm = self.env['sale.order.line'].browse(self.ids)
-        return  confirm.button_confirm()
+        return  self.button_confirm()
     
     
     @api.multi
@@ -211,11 +209,10 @@ class HotelFolioRoom(models.Model):
     
     @api.multi
     def unlink(self):
-        for rma in self:
-            if rma != 'draft':
-                raise Warning('Error!'),('Esta reserva no se puede borrar!')
-            return super(rma,self).unlink()
-    
+        if self.state not in ['draft', 'cancel']:
+            raise Warning(_('Invalid Action!'),_('Cannot delete a sales order line which is in state "%s".') %(self.state,))
+        return super(HotelFolioRoom,self).unlink()
+
 
     @api.multi    
     def uos_change(self, product_uos, product_uos_qty=0, product_id=None):

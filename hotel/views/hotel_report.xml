@@ -32,11 +32,11 @@
                 <field name="user_id"/>
                 <group expand="0" string="Extended Filters">
                     <field name="categ_id"/>
-                    <field name="company_id" groups="base.group_multi_company"/>
                 </group>
                 <group expand="1" string="Group By">
                     <filter string="Salesperson" name="User" context="{'group_by':'user_id'}"/>
                     <filter string="Room" name="Room" context="{'group_by':'product_id'}"/>
+                    <filter strong="Order" name="Order" context="{'group_by':'order_id'}"/>
                     <filter string="Customer" name="Customer" context="{'group_by':'partner_id'}"/>
                     <filter string="Checkin Date" name="Checkin" context="{'group_by':'checkin_date'}"/>
                     <filter string="Checkout Date" name="Checkout" context="{'group_by':'checkout_date'}"/>
