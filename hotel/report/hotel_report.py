@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from openerp import fields
 from openerp import models
 from openerp import tools
@@ -36,10 +37,6 @@ class hotel_report(models.Model):
                                'Category of Product',
                                readonly=True)
     
-    company_id = fields.Many2one('res.company',
-                                 'Company',
-                                 readonly=True)
-    
     product_uom = fields.Many2one('product.uom',
                                   'Unit of Measure',
                                   readonly=True)
@@ -47,56 +44,27 @@ class hotel_report(models.Model):
     product_uom_qty = fields.Float('# of Qty',
                                    readonly=True)
     
-    analytic_account_id = fields.Many2one('account.analytic.account',
-                                          'Analytic Account',
-                                          readonly=True)
-    
-    section_id = fields.Many2one('crm.case.section',
-                                  'Sales Team')
-    
-
-    '''def init(self,cr):
-        room_array = []
-        query = """SELECT o.partner_id as Customer_ID, o.name, ol.product_id as product_id, r.checkin_date, \
-                    r.checkout_date \
-                    FROM hotel_folio_room r, \
-                    sale_order_line ol, \
-                    sale_order o, \
-                    hotel_folio f \
-                    where r.order_line_id = ol.id \
-                    and o.id = ol.order_id \
-                    and f.order_id = o.id"""
-        
-        cr.execute(query)
-        res = cr.fetchall()
-        for row in res:
-            room_array.append(row[2])
-        #print room_array
-        
-        self._room_array(room_array)
-
-    
-    def _room_array(self, array):
-
-        return array'''
+    order_id = fields.Many2one('sale.order',
+                               'Order',
+                               readonly=True)
     
     def _select(self):
         select_str = """
              SELECT min(ol.id) as id,
                     ol.product_id as product_id,
+                    t.uom_id as product_uom,
                     r.checkin_date,
                     r.checkout_date,
-                    sum(ol.product_uom_qty / u.factor * u2.factor) as product_uom_qty,
-                    sum(ol.product_uom_qty * ol.price_unit * (100.0-ol.discount) / 100.0) as price_total,
+                    sum(ol.product_uom_qty / u.factor * u2.factor) \
+                    as product_uom_qty,
+                    sum(ol.product_uom_qty * ol.price_unit * (100.0-ol.discount)\
+                     / 100.0) as price_total,
                     s.date_order as date_order,
                     s.partner_id as partner_id,
                     s.user_id as user_id,
-                    s.company_id as company_id,
                     ol.state,
-                    t.categ_id as categ_id,
-                    s.pricelist_id as pricelist_id,
-                    s.project_id as analytic_account_id,
-                    s.section_id as section_id
+                    ol.order_id,
+                    s.pricelist_id as pricelist_id
         """
         return select_str
 
@@ -106,7 +74,8 @@ class hotel_report(models.Model):
                     sale_order_line ol
                     join sale_order s on (ol.order_id=s.id)
                         left join product_product p on (ol.product_id=p.id)
-                            left join product_template t on (p.product_tmpl_id=t.id)
+                            left join product_template t on \
+                            (p.product_tmpl_id=t.id)
                     left join product_uom u on (u.id=ol.product_uom)
                     left join product_uom u2 on (u2.id=t.uom_id),
                     hotel_folio f
@@ -114,8 +83,7 @@ class hotel_report(models.Model):
                     and s.id = ol.order_id
                     and f.order_id = s.id
         """
-        '''order con folio
-        orderline con folio room right join?'''
+
         return from_str
 
     def _group_by(self):
@@ -128,12 +96,10 @@ class hotel_report(models.Model):
                      s.date_order,
                      s.partner_id,
                      s.user_id,
-                     s.company_id,
+                     t.uom_id,
                      ol.state,
-                     t.categ_id,
-                     s.pricelist_id,
-                     s.project_id,
-                     s.section_id
+                     ol.order_id,
+                     s.pricelist_id
               
         """
         return group_by_str
