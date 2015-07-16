@@ -53,20 +53,20 @@ class HotelFolioRoom(models.Model):
     
     order_line_id = fields.Many2one(
         'sale.order.line',
-        'order_line_id',
+        string='Order Line',
         required=True,
         ondelete='cascade',
         delegate=True)
     folio_id = fields.Many2one(
         'hotel.folio',
-        'folio_id',
+        string='Folio',
         ondelete='cascade',
         required=True)
     checkin_date = fields.Datetime(
-        'Check In',
+        string='Check In',
         required=True)
     checkout_date = fields.Datetime(
-        'Check Out',
+        string='Check Out',
         required=True)
     
     _defaults = {
@@ -94,7 +94,10 @@ class HotelFolioRoom(models.Model):
             self.tax_id = self.product_id.taxes_id
             self.price_unit = self.product_id.list_price
             
-            return super(HotelFolioRoom,self).product_id_change(
+            return self.pool['sale.order.line'].product_id_change(
+                                        self._cr, 
+                                        self._uid, 
+                                        self._ids,
                                         self.folio_id.pricelist_id.id,
                                         self.product_id.id,
                                         self.product_uom_qty,
@@ -109,7 +112,8 @@ class HotelFolioRoom(models.Model):
                                         False, 
                                         self.folio_id.partner_id
                                         .property_account_position.id, 
-                                        False)
+                                        False, 
+                                        self._context)
     
     
     @api.onchange('checkin_date', 'checkout_date')
