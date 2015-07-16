@@ -72,14 +72,21 @@
                             </notebook>
                         </form>  
                         <tree string="Room Line" editable="top">
-                        	<field name="product_id" string="Room No" />
-                        	<field name="name" />
+                            <field name="sequence" widget="handle"/>
+                            <field name="state" invisible="1"/>
+                            <field name="th_weight" invisible="1"/>
+                            <field name="product_id" groups="base.group_user" domain="[('isroom','=',True)]"/>
                             <field name="checkin_date" />
                             <field name="checkout_date" />
+                            <field name="name"/>
                             <field name="product_uom_qty" />
-                            <field name="price_unit" string="Rent" />
-                            <field name="price_subtotal" />
-                            <field name="state" />
+                            <field name="product_uom"  invisible="1"/>
+                            <field name="product_uos_qty" groups="product.group_uos" invisible="1"/>
+                            <field name="product_uos" string="UoS" groups="product.group_uos" invisible="1"/>
+                            <field name="price_unit"/>
+                            <field name="tax_id" widget="many2many_tags" domain="[('parent_id','=',False),('type_tax_use','&lt;&gt;','purchase')]"/>
+                            <field name="discount" groups="sale.group_discount_per_so_line"/>
+                            <field name="price_subtotal"/>     
                         </tree>
                     </field>
                     <separator string="Service Lines" colspan="4" />
@@ -121,12 +128,19 @@
                             </notebook>
                         </form>
                         <tree string="Service Line" editable="top">
-                            <field name="product_id" />
+                            <field name="sequence" widget="handle"/>
+                            <field name="state" invisible="1"/>
+                            <field name="th_weight" invisible="1"/>
+                            <field name="product_id" groups="base.group_user" domain="[('isservice','=',True)]"/>
+                            <field name="name"/>
                             <field name="product_uom_qty" />
-                            <field name="name" />
-                            <field name="price_unit" />
-                            <field name="price_subtotal" />
-                            <field name="state" />  
+                            <field name="product_uom"  invisible="1"/>
+                            <field name="product_uos_qty" groups="product.group_uos" invisible="1"/>
+                            <field name="product_uos" string="UoS" groups="product.group_uos" invisible="1"/>
+                            <field name="price_unit"/>
+                            <field name="tax_id" widget="many2many_tags" domain="[('parent_id','=',False),('type_tax_use','&lt;&gt;','purchase')]"/>
+                            <field name="discount" groups="sale.group_discount_per_so_line"/>
+                            <field name="price_subtotal"/>    
                         </tree>
                     </field>
                 </field>
