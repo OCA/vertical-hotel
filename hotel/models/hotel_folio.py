@@ -1,17 +1,20 @@
-from openerp.osv import fields
 import time
-from openerp import netsvc, models, fields, api
+from openerp import netsvc
+from openerp import models
+from openerp import fields
+from openerp import api
 import datetime
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from openerp.tools import config
-from openerp.exceptions import except_orm, Warning, RedirectWarning
+from openerp.exceptions import except_orm
+from openerp.exceptions import Warning
+from openerp.exceptions import RedirectWarning
 from openerp.tools.translate import _
 
 
 class HotelFolio(models.Model):
     _name = 'hotel.folio'
     _description = 'Hotel Folio'
-    _inherits = {'sale.order': 'order_id'}
     _inherit = ['mail.thread']
     _rec_name = 'order_id'
     _order_id = 'id desc'
@@ -20,7 +23,8 @@ class HotelFolio(models.Model):
         'sale.order',
         string='Order',
         required=True,
-        ondelete='cascade')   
+        ondelete='cascade',
+        delegate=True)   
     checkin_date = fields.Datetime(
         string='Check In',
         required=True,
@@ -50,8 +54,6 @@ class HotelFolio(models.Model):
         string='Duration')
     warehouse_id = fields.Many2one(
         'stock.warehouse')
-    room_id = fields.Many2one('hotel.room',
-                             'Room ID')
 
     _sql_constraints = [
         ('check_in_out',
@@ -93,8 +95,7 @@ class HotelFolio(models.Model):
     def onchange_partner_id(self):
         self.partner_invoice_id = self.partner_id.id
         self.partner_shipping_id = self.partner_id.id
-        #partner_id = self.env['sale.order'].browse(self.ids)
-        # return  partner_id.onchange_partner_id(part)
+
 
     @api.multi
     def button_dummy(self):

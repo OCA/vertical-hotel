@@ -1,6 +1,8 @@
-from openerp.osv import fields
 import time
-from openerp import netsvc, models, fields, api
+from openerp import netsvc
+from openerp import models
+from openerp import fields
+from openerp import api
 from mx import DateTime
 import datetime
 from openerp.tools import config
@@ -8,7 +10,6 @@ from openerp.tools import config
 class HotelFolioService(models.Model):
     _name = 'hotel.folio.service'
     _description = 'Hotel Folio Service'
-    _inherits = {'sale.order.line':'service_line_id'}
     
     @api.one
     def copy(self, default=None):
@@ -34,8 +35,15 @@ class HotelFolioService(models.Model):
     def _get_1st_packaging(self):
         return  self.env['sale.order.line']._get_1st_packaging()
 
-    service_line_id = fields.Many2one('sale.order.line', 'service_line_id', required=True, ondelete='cascade')
-    folio_id = fields.Many2one('hotel.folio', 'folio_id', ondelete='cascade', required=True)
+    service_line_id = fields.Many2one('sale.order.line',
+                                      'service_line_id',
+                                      required=True,
+                                      ondelete='cascade',
+                                      delegate=True)
+    folio_id = fields.Many2one('hotel.folio',
+                               'folio_id',
+                               ondelete='cascade',
+                               required=True)
     room_id = fields.Many2one('product.product','associated room')
 
     @api.model
