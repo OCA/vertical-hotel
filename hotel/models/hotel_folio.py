@@ -10,6 +10,7 @@ from openerp.exceptions import except_orm
 from openerp.exceptions import Warning
 from openerp.exceptions import RedirectWarning
 from openerp.tools.translate import _
+from numpy.ma.core import ids
 
 
 class HotelFolio(models.Model):
@@ -275,4 +276,22 @@ class HotelFolio(models.Model):
                                                              uid,
                                                              ids[0],
                                                              context=context)
+        
+    def print_quotation(self, cr, uid, ids, context=None):
+        folios = self.read(cr, uid, ids, ['order_id'], context=context)
+        order_ids = [folio['order_id'] for folio in folios]
+        ids = [x[0] for x in order_ids]
+        return self.pool['sale.order'].print_quotation(cr, 
+                                                       uid, 
+                                                       ids, 
+                                                       context=None)
+        
+    def action_quotation_send(self, cr, uid, ids, context=None):
+        folios = self.read(cr, uid, ids, ['order_id'], context=context)
+        order_ids = [folio['order_id'] for folio in folios]
+        ids = [x[0] for x in order_ids]
+        return self.pool['sale.order'].action_quotation_send(cr, 
+                                                       uid, 
+                                                       ids, 
+                                                       context=None)
                                                             
