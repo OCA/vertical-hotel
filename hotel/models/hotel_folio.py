@@ -91,13 +91,7 @@ class HotelFolio(models.Model):
                 DEFAULT_SERVER_DATETIME_FORMAT)
             if self.checkout_date != checkout_date:
                 self.checkout_date = checkout_date
-
-    @api.onchange('partner_id')
-    def onchange_partner_id(self):
-        self.partner_invoice_id = self.partner_id.id
-        self.partner_shipping_id = self.partner_id.id
-
-
+    
     @api.multi
     def button_dummy(self):
         dummy = self.env['sale.order'].browse(self.ids)
@@ -230,6 +224,7 @@ class HotelFolio(models.Model):
         return d
 
     # INHERIT METHODS FOR VIEWS
+    @api.onchange('partner_id')
     def onchange_partner_id(self, cr, uid, ids, part, context=None):
         return self.pool['sale.order'].onchange_partner_id(cr,
                                                            uid,
