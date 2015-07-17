@@ -9,40 +9,46 @@ from openerp.exceptions import except_orm, Warning, RedirectWarning
 from openerp.tools.translate import _
 
 
-
 class HotelFolioRoom(models.Model):
     _name = 'hotel.folio.room'
     _description = 'Hotel Folio Room'
+    
     
     @api.one
     def copy(self, default=None):
         copy = self.env['sale.order.line'].browse(self.id)
         return  copy.copy(default=None)
     
+    
     @api.multi
     def _amount_line_net(self, field_name, arg):
         amount_line = self.env['sale.order.line'].browse(self.ids)
         return  amount_line._amount_line_net(field_name, arg)
+    
     
     @api.multi
     def _amount_line(self, field_name, arg):
         amount_line = self.env['sale.order.line'].browse(self.ids)
         return  amount_line._amount_line(field_name, arg)
     
+    
     @api.multi
     def _number_packages(self, field_name, arg):
         packages = self.env['sale.order.line'].browse(self.ids)
         return  packages._number_packages(field_name, arg)
     
+    
     @api.model
     def _get_1st_packaging(self):
         return  self.env['sale.order.line']._get_1st_packaging()
+    
     
     @api.model
     def _get_checkin_date(self):
         if 'checkin_date' in self._context:
             return self._context['checkin_date']
         return time.strftime('%Y-%m-%d %H:%M:%S')
+    
     
     @api.model
     def _get_checkout_date(self):
@@ -73,6 +79,7 @@ class HotelFolioRoom(models.Model):
        'checkin_date':_get_checkin_date,
        'checkout_date':_get_checkout_date,
     }
+    
     
     @api.model
     def create(self, vals, check=True):
@@ -150,8 +157,8 @@ class HotelFolioRoom(models.Model):
                     ('checkout_date', '<=', self.checkout_date)])
                     
             if rs > 1:    
-                raise Warning(_('Your selected rooms are reserved for those days. \
-                Please choose another dates.'))
+                raise Warning(_('Your selected rooms are reserved for those \
+                days. Please choose another dates.'))
 
 
     @api.onchange('product_uom_qty')
@@ -190,7 +197,10 @@ class HotelFolioRoom(models.Model):
             raise osv.except_osv ('Error !', 'Checkout must be greater or \
             equal checkin date')
         if checkin_date:
-            diffDate = datetime.datetime(*time.strptime(checkout_date, '%Y-%m-%d %H:%M:%S')[:5]) - datetime.datetime(*time.strptime(checkin_date, '%Y-%m-%d %H:%M:%S')[:5])
+            diffDate = datetime.datetime(*time.strptime(checkout_date, 
+                                                    '%Y-%m-%d %H:%M:%S')[:5]) 
+            - datetime.datetime(*time.strptime(
+                                        checkin_date,'%Y-%m-%d %H:%M:%S')[:5])                         
             qty = diffDate.days
             if qty == 0:
                 qty = 1
@@ -211,20 +221,24 @@ class HotelFolioRoom(models.Model):
             wf_service.trg_write(uid, 'sale.order', line.order_id.id, cr)
         return res
     
+    
     @api.multi
     def unlink(self):
         if self.state not in ['draft', 'cancel']:
-            raise Warning(_('Invalid Action!'),_('Cannot delete a sales order line which is in state "%s".') %(self.state,))
+            raise Warning(_('Invalid Action!'),_('Cannot delete a sales order \
+            line which is in state "%s".') %(self.state,))
         return super(HotelFolioRoom,self).unlink()
 
 
     @api.multi    
     def uos_change(self, product_uos, product_uos_qty=0, product_id=None):
         change = self.env['sale.order.line'].browse(self.ids)
-        return  change.uos_change(product_uos, product_uos_qty=0, product_id=None)
+        return  change.uos_change(product_uos, 
+                                  product_uos_qty=0, 
+                                  product_id=None)
     
     
     @api.one
     def copy(self, default=None):
         copy = self.env['sale.order.line'].browse(self.id)
-        return  copy.copy(default=None)
+        return copy.copy(default=None)

@@ -67,6 +67,7 @@ class hotel_report(models.Model):
                     s.pricelist_id as pricelist_id
         """
         return select_str
+    
 
     def _from(self):
         from_str = """
@@ -85,6 +86,7 @@ class hotel_report(models.Model):
         """
 
         return from_str
+    
 
     def _group_by(self):
         group_by_str = """
@@ -103,6 +105,7 @@ class hotel_report(models.Model):
               
         """
         return group_by_str
+    
 
     def init(self, cr):
         #self._table = hotel_report
