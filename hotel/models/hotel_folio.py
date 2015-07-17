@@ -132,34 +132,11 @@ class HotelFolio(models.Model):
 
     @api.multi
     def action_invoice_cancel(self):
-        res = self.env['sale.order'].browse(self.ids)
-        res.action_invoice_cancel()
-        for sale in self.browse(ids):
-            for line in sale.order_line:
-                self.env['sale.order.line'].write(
-                    [line.id], {'invoiced': invoiced})
-        self.write(ids, {'state': 'invoice_except', 'invoice_id': False})
-        return res
+        self.env['sale.order'].browse(self.ids).action_invoice_cancel()
 
     @api.multi
     def action_cancel(self):
-        c = self.env['sale.order'].browse(self.ids)
-        c.action_cancel()
-        ok = True
-        for sale in self.browse(self.ids):
-            for r in self.read(['picking_ids']):
-                for pick in r['picking_ids']:
-                    wf_service = netsvc.LocalService('workflow')
-                    wf_service.trg_validate(
-                        'stock.picking', pick, 'button_cancel')
-            for r in self.read(['invoice_ids']):
-                for inv in r['invoice_ids']:
-                    wf_service = netsvc.LocalService('workflow')
-                    wf_service.trg_validate(
-                        'account.invoice', inv, 'invoice_cancel')
-
-        self.write({'state': 'cancel'})
-        return c
+        self.env['sale.order'].browse(self.ids).action_cancel()
 
     @api.multi
     def action_wait(self, *args):
