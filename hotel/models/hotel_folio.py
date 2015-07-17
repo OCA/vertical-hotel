@@ -54,7 +54,8 @@ class HotelFolio(models.Model):
         string='Duration')
     warehouse_id = fields.Many2one(
         'stock.warehouse')
-
+    room_id = fields.Many2one('hotel.room',
+                              'Room ID')
     _sql_constraints = [
         ('check_in_out',
          'CHECK (checkin_date<=checkout_date)',
@@ -274,7 +275,9 @@ class HotelFolio(models.Model):
     def action_view_invoice(self, cr, uid, ids, context=None):
         folios = self.read(cr, uid, ids, ['order_id'], context=context)
         order_ids = [folio['order_id'] for folio in folios]
+        ids = [x[0] for x in order_ids]
         return self.pool['sale.order'].action_view_invoice(cr,
                                                              uid,
-                                                             order_ids,
+                                                             ids[0],
                                                              context=context)
+                                                            
