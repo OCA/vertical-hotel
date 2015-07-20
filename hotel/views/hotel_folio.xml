@@ -6,7 +6,7 @@
             <field name="name">hotel.folio.form</field>
             <field name="model">hotel.folio</field>
             <field name="mode">primary</field>
-            <field eval="7" name="priority"/>
+            <field eval="7" name="priority" />
             <field name="inherit_id" ref="sale.view_order_form" />
             <field name="arch" type="xml">
                 <xpath expr="//form" position="attributes">
@@ -18,9 +18,9 @@
                 </xpath>
 
                 <field name="date_order" position="before">
-                        <field name="checkin_date" />
-                        <field name="checkout_date" />
-                        <field name="duration" />
+                    <field name="checkin_date" />
+                    <field name="checkout_date" />
+                    <field name="duration" />
                 </field>
 
                 <field name="order_line" position="attributes">
@@ -33,114 +33,49 @@
                         default_get="{'checkin_date': checkin_date,'checkout_date':checkout_date}"
                         context="{'checkin_date':checkin_date, 'checkout_date':checkout_date}"
                         nolabel="1">
-                        <form string="Room Line">
-                            <notebook>
-                                <page string="Folio Line">
-                                    <group>
-                                        <field name="checkin_date" />
-                                        <field name="checkout_date" />
-                                        <separator string="Automatic Declaration"
-                                            colspan="4" />
-                                        <field name="product_id"
-                                            context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'uom':product_uom}"
-                                            select="1"
-                                            domain="[('isroom','=',True)]"
-                                            string="Room No" />
-                                        <field name="product_uom_qty"
-                                            context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'uom':product_uom}"
-                                            invisible="0" />
-                                        <field name="product_uom" string="Rent(UOM)" />
-
-                                    </group>
-                                    <separator string="Manual Description"
-                                        colspan="4" />
-                                    <field name="name" colspan="4" select="2"
-                                        placeholder="---Description---" />
-                                    <group>
-                                        <field name="price_unit" select="2"
-                                            string="Rent" />
-                                        <field name="discount" />
-                                        <newline />
-                                        <field name="tax_id" colspan="4"
-                                            nolabel="1" />
-                                        <separator string="States"
-                                            colspan="4" />
-                                        <field name="state" select="2" />
-                                        <field name="invoiced" select="2" />
-                                    </group>
-                                </page>
-                            </notebook>
-                        </form>  
                         <tree string="Room Line" editable="top">
-                            <field name="sequence" widget="handle"/>
-                            <field name="state" invisible="1"/>
-                            <field name="th_weight" invisible="1"/>
-                            <field name="product_id" groups="base.group_user" domain="[('isroom','=',True)]"/>
+                            <field name="sequence" widget="handle" />
+                            <field name="state" invisible="1" />
+                            <field name="th_weight" invisible="1" />
+                            <field name="product_id" groups="base.group_user"
+                                domain="[('isroom','=',True)]" />
+                            <field name="name" />
                             <field name="checkin_date" />
                             <field name="checkout_date" />
-                            <field name="name"/>
                             <field name="product_uom_qty" />
-                            <field name="product_uom"  invisible="1"/>
-                            <field name="product_uos_qty" groups="product.group_uos" invisible="1"/>
-                            <field name="product_uos" string="UoS" groups="product.group_uos" invisible="1"/>
-                            <field name="price_unit"/>
-                            <field name="tax_id" widget="many2many_tags" domain="[('parent_id','=',False),('type_tax_use','&lt;&gt;','purchase')]"/>
-                            <field name="discount" groups="sale.group_discount_per_so_line"/>
-                            <field name="price_subtotal"/>     
+                            <field name="product_uom" invisible="1" />
+                            <field name="product_uos_qty" groups="product.group_uos"
+                                invisible="1" />
+                            <field name="product_uos" string="UoS"
+                                groups="product.group_uos" invisible="1" />
+                            <field name="price_unit" />
+                            <field name="tax_id" widget="many2many_tags"
+                                domain="[('parent_id','=',False),('type_tax_use','&lt;&gt;','purchase')]" />
+                            <field name="discount" groups="sale.group_discount_per_so_line" />
+                            <field name="price_subtotal" />
                         </tree>
                     </field>
                     <separator string="Service Lines" colspan="4" />
                     <field name="service_ids" colspan="4" string="Service Line"
                         nolabel="1">
-                       <form string="Service Line">
-                            <notebook>
-                                <page string="Service Line">
-                                    <separator string="Automatic Declaration"
-                                        colspan="4" />
-                                    <group>
-                                    	<field name="product_id" select="1"
-                                            domain="[('isservice','=',True)]"
-                                            context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'hotel':parent.warehouse_id,'uom':product_uom}" />
-                                        <field name="product_uom_qty"
-                                            select="1"
-                                            context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'hotel':parent.warehouse_id,'uom':product_uom}" />
-                                        <field name="product_uom" />
-                                        <field name="room_id"
-                                            domain="[('isroom','=',True)]" />
-                                    </group>
-                                    <separator string="Manual Description"
-                                        colspan="4" />
-                                    <field name="name" colspan="4" select="2"
-                                        placeholder="---Description---" />
-                                    <group>
-                                        <field name="price_unit" select="2" />
-                                        <field name="discount" />
-                                    </group>
-                                    <newline />
-                                    <field name="tax_id" colspan="4" />
-                                    <group>
-                                        <separator string="States"
-                                            colspan="4" />
-                                        <field name="state" select="2" />
-                                        <field name="invoiced" select="2" />
-                                    </group>
-                                </page>
-                            </notebook>
-                        </form>
                         <tree string="Service Line" editable="top">
-                            <field name="sequence" widget="handle"/>
-                            <field name="state" invisible="1"/>
-                            <field name="th_weight" invisible="1"/>
-                            <field name="product_id" groups="base.group_user" domain="[('isservice','=',True)]"/>
-                            <field name="name"/>
+                            <field name="sequence" widget="handle" />
+                            <field name="state" invisible="1" />
+                            <field name="th_weight" invisible="1" />
+                            <field name="product_id" groups="base.group_user"
+                                domain="[('isservice','=',True)]" />
+                            <field name="name" />
                             <field name="product_uom_qty" />
-                            <field name="product_uom"  invisible="1"/>
-                            <field name="product_uos_qty" groups="product.group_uos" invisible="1"/>
-                            <field name="product_uos" string="UoS" groups="product.group_uos" invisible="1"/>
-                            <field name="price_unit"/>
-                            <field name="tax_id" widget="many2many_tags" domain="[('parent_id','=',False),('type_tax_use','&lt;&gt;','purchase')]"/>
-                            <field name="discount" groups="sale.group_discount_per_so_line"/>
-                            <field name="price_subtotal"/>    
+                            <field name="product_uom" invisible="1" />
+                            <field name="product_uos_qty" groups="product.group_uos"
+                                invisible="1" />
+                            <field name="product_uos" string="UoS"
+                                groups="product.group_uos" invisible="1" />
+                            <field name="price_unit" />
+                            <field name="tax_id" widget="many2many_tags"
+                                domain="[('parent_id','=',False),('type_tax_use','&lt;&gt;','purchase')]" />
+                            <field name="discount" groups="sale.group_discount_per_so_line" />
+                            <field name="price_subtotal" />
                         </tree>
                     </field>
                 </field>
@@ -212,7 +147,7 @@
                         <filter string="Customer" domain="[]"
                             context="{'group_by':'partner_id'}" />
                         <filter string="Order ID" domain="[]"
-                            context="{'group_by':'order_id'}" />    
+                            context="{'group_by':'order_id'}" />
                         <filter string="Order Month" domain="[]"
                             context="{'group_by':'date_order'}" />
                         <filter string="Check In" domain="[]"
@@ -223,21 +158,22 @@
                 </search>
             </field>
         </record>
-        
+
 
         <record id="action_folio_tree" model="ir.actions.act_window">
             <field name="name">Folios</field>
             <field name="res_model">hotel.folio</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form,calendar</field>
-            <field name="view_id" ref="view_hotel_folio_tree"/>
-            <field name="search_view_id" ref="view_hotel_folio_filter"/>
+            <field name="view_id" ref="view_hotel_folio_tree" />
+            <field name="search_view_id" ref="view_hotel_folio_filter" />
             <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                Click to define a new folio.
-              </p><p>
-                You must define a folio...
-              </p>
+                <p class="oe_view_nocontent_create">
+                    Click to define a new folio.
+                </p>
+                <p>
+                    You must define a folio...
+                </p>
             </field>
         </record>
 

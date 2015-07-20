@@ -10,7 +10,6 @@ from openerp.exceptions import except_orm
 from openerp.exceptions import Warning
 from openerp.exceptions import RedirectWarning
 from openerp.tools.translate import _
-from numpy.ma.core import ids
 
 
 class HotelFolio(models.Model):

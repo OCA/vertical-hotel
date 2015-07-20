@@ -57,8 +57,10 @@
     </record>
 	
     
-    <menuitem name="Report" id="menu_open_hotel_folio1_report"
-            action="action_folio_report" sequence="10" parent="hotel.hotel_folio_menu" />
+    <menuitem id="menu_hotel_reporting" name="Hotel" parent="base.menu_reporting" sequence="15"/>
+    
+    <menuitem name="Folio Room Analysis" id="menu_open_hotel_folio1_report"
+            action="action_folio_report" sequence="10" parent="hotel.menu_hotel_reporting" />
     
 	
 </data>
