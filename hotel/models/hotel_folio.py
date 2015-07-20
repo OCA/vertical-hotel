@@ -25,7 +25,7 @@ class HotelFolio(models.Model):
         string='Order',
         required=True,
         ondelete='cascade',
-        delegate=True)   
+        delegate=True)
     checkin_date = fields.Datetime(
         string='Check In',
         required=True,
@@ -92,7 +92,7 @@ class HotelFolio(models.Model):
                 DEFAULT_SERVER_DATETIME_FORMAT)
             if self.checkout_date != checkout_date:
                 self.checkout_date = checkout_date
-    
+
     @api.multi
     def button_dummy(self):
         dummy = self.env['sale.order'].browse(self.ids)
@@ -106,7 +106,7 @@ class HotelFolio(models.Model):
                 DEFAULT_SERVER_DATETIME_FORMAT)
             checkout_date = datetime.datetime.strptime(
                 room.checkout_date,
-                DEFAULT_SERVER_DATETIME_FORMAT) 
+                DEFAULT_SERVER_DATETIME_FORMAT)
             duration_date = checkout_date - checkin_date
             duration = duration_date.days
             total_net += room.price_unit * duration
@@ -253,22 +253,21 @@ class HotelFolio(models.Model):
                                                              uid,
                                                              ids[0],
                                                              context=context)
-        
+
     def print_quotation(self, cr, uid, ids, context=None):
         folios = self.read(cr, uid, ids, ['order_id'], context=context)
         order_ids = [folio['order_id'] for folio in folios]
         ids = [x[0] for x in order_ids]
-        return self.pool['sale.order'].print_quotation(cr, 
-                                                       uid, 
-                                                       ids, 
+        return self.pool['sale.order'].print_quotation(cr,
+                                                       uid,
+                                                       ids,
                                                        context=None)
-        
+
     def action_quotation_send(self, cr, uid, ids, context=None):
         folios = self.read(cr, uid, ids, ['order_id'], context=context)
         order_ids = [folio['order_id'] for folio in folios]
         ids = [x[0] for x in order_ids]
-        return self.pool['sale.order'].action_quotation_send(cr, 
-                                                       uid, 
-                                                       ids, 
+        return self.pool['sale.order'].action_quotation_send(cr,
+                                                       uid,
+                                                       ids,
                                                        context=None)
-                                                            
