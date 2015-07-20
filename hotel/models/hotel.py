@@ -17,6 +17,7 @@ class hotel_floor(models.Model):
                        size=64,
                        required=True,
                        select=True)
+    
     sequence = fields.Integer('Sequence',
                               size=64)
 
