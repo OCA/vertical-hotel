@@ -25,7 +25,7 @@ class HotelFolio(models.Model):
         string='Order',
         required=True,
         ondelete='cascade',
-        delegate=True)
+        delegate=True)   
     checkin_date = fields.Datetime(
         string='Check In',
         required=True,
@@ -61,6 +61,7 @@ class HotelFolio(models.Model):
         ('check_in_out',
          'CHECK (checkin_date<=checkout_date)',
          'Check in Date Should be less than the Check Out Date!'), ]
+    
 
     @api.onchange('checkin_date', 'checkout_date')
     def _onchange_dates(self):
@@ -78,6 +79,7 @@ class HotelFolio(models.Model):
             if self.checkout_date < self.checkin_date:
                 raise Warning(
                     _('Check Out date can`t be previous than Check In date.'))
+                
 
     @api.onchange('duration')
     def _onchange_duration(self):
@@ -92,35 +94,21 @@ class HotelFolio(models.Model):
                 DEFAULT_SERVER_DATETIME_FORMAT)
             if self.checkout_date != checkout_date:
                 self.checkout_date = checkout_date
-
+                
+    
     @api.multi
     def button_dummy(self):
         dummy = self.env['sale.order'].browse(self.ids)
         return dummy.button_dummy()
-        '''
-        total_net = 0
-        total_taxes = 0
-        for room in  self.room_ids:
-            checkin_date = datetime.datetime.strptime(
-                room.checkin_date,
-                DEFAULT_SERVER_DATETIME_FORMAT)
-            checkout_date = datetime.datetime.strptime(
-                room.checkout_date,
-                DEFAULT_SERVER_DATETIME_FORMAT)
-            duration_date = checkout_date - checkin_date
-            duration = duration_date.days
-            total_net += room.price_unit * duration
-            print total_net
-        self.amount_total = total_net
-        return self.button_dummy()
-        '''
+        
 
     @api.multi
     def action_button_confirm(self):
         self.env['sale.order'].browse(self.ids).action_button_confirm()
+        
 
     @api.multi
-    def action_invoice_create(self, grouped=False, states=['confirmed', 'done']):
+    def action_invoice_create(self, grouped=False, states=['confirmed','done']):
         i = self.env['sale.order'].browse(self.ids)
         i.action_invoice_create(grouped=False, states=['confirmed', 'done'])
         for line in self.browse(ids):
@@ -130,14 +118,17 @@ class HotelFolio(models.Model):
             else:
                 self.write([line.id], {'state': 'progress'})
         return i
+    
 
     @api.multi
     def action_invoice_cancel(self):
         self.env['sale.order'].browse(self.ids).action_invoice_cancel()
+        
 
     @api.multi
     def action_cancel(self):
         self.env['sale.order'].browse(self.ids).action_cancel()
+        
 
     @api.multi
     def action_wait(self, *args):
@@ -149,6 +140,7 @@ class HotelFolio(models.Model):
             else:
                 self.write([o.id], {'state': 'progress'})
         return res
+    
 
     @api.multi
     def test_state(self, mode, *args):
@@ -163,17 +155,20 @@ class HotelFolio(models.Model):
             self.env['sale.order.line'].write(
                 write_cancel_ids, {'state': 'cancel'})
         return res
+    
 
     @api.multi
     def procurement_lines_get(self, *args):
         res = self.env['sale.order'].browse(
             self.ids).procurement_lines_get(*args)
         return res
+    
 
     @api.multi
     def action_ship_create(self, *args):
         res = self.env['sale.order'].browse(self.ids).action_ship_create(*args)
         return res
+    
 
     @api.multi
     def action_ship_end(self):
@@ -182,16 +177,19 @@ class HotelFolio(models.Model):
             val = {'shipped': True}
             self.write([order.id], val)
         return res
+    
 
     @api.multi
     def _log_event(self, factor=0.7, name='Open Order'):
         event = self.env['sale.order'].browse(self.ids)
         return event._log_event(factor=0.7, name='Open Order')
+    
 
     @api.multi
     def has_stockable_products(self, *args):
         products = self.env['sale.order'].browse(self.ids)
         return products.has_stockable_products(*args)
+    
 
     @api.multi
     def action_cancel_draft(self, *args):
@@ -200,6 +198,7 @@ class HotelFolio(models.Model):
         self.env['sale.order.line'].write(
             {'invoiced': False, 'state': 'draft', 'invoice_lines': [(6, 0, [])]})
         return d
+    
 
     # INHERIT METHODS FOR VIEWS
     @api.onchange('partner_id')
@@ -209,6 +208,7 @@ class HotelFolio(models.Model):
                                                            [],
                                                            part,
                                                            context=context)
+        
 
     def onchange_delivery_id(self, cr, uid, ids, company_id, partner_id,
                              delivery_id, fiscal_position, context=None):
@@ -220,6 +220,7 @@ class HotelFolio(models.Model):
                                                             delivery_id,
                                                             fiscal_position,
                                                             context=context)
+        
 
     def onchange_pricelist_id(self, cr, uid, ids, pricelist_id,
                               order_lines, context=None):
@@ -229,6 +230,7 @@ class HotelFolio(models.Model):
                                                              pricelist_id,
                                                              order_lines,
                                                              context=context)
+        
 
     def onchange_fiscal_position(self, cr, uid, ids, fiscal_position,
                                  order_lines, context=None):
@@ -238,6 +240,7 @@ class HotelFolio(models.Model):
                                                                 fiscal_position,
                                                                 order_lines,
                                                                 context=context)
+        
 
     def onchange_warehouse_id(self, cr, uid, ids, warehouse_id, context=None):
         return self.pool['sale.order'].onchange_warehouse_id(cr,
@@ -245,6 +248,8 @@ class HotelFolio(models.Model):
                                                              [],
                                                              warehouse_id,
                                                              context=context)
+        
+        
     def action_view_invoice(self, cr, uid, ids, context=None):
         folios = self.read(cr, uid, ids, ['order_id'], context=context)
         order_ids = [folio['order_id'] for folio in folios]
@@ -253,21 +258,24 @@ class HotelFolio(models.Model):
                                                              uid,
                                                              ids[0],
                                                              context=context)
-
+        
+        
     def print_quotation(self, cr, uid, ids, context=None):
         folios = self.read(cr, uid, ids, ['order_id'], context=context)
         order_ids = [folio['order_id'] for folio in folios]
         ids = [x[0] for x in order_ids]
-        return self.pool['sale.order'].print_quotation(cr,
-                                                       uid,
-                                                       ids,
+        return self.pool['sale.order'].print_quotation(cr, 
+                                                       uid, 
+                                                       ids, 
                                                        context=None)
-
+        
+        
     def action_quotation_send(self, cr, uid, ids, context=None):
         folios = self.read(cr, uid, ids, ['order_id'], context=context)
         order_ids = [folio['order_id'] for folio in folios]
         ids = [x[0] for x in order_ids]
-        return self.pool['sale.order'].action_quotation_send(cr,
-                                                       uid,
-                                                       ids,
+        return self.pool['sale.order'].action_quotation_send(cr, 
+                                                       uid, 
+                                                       ids, 
                                                        context=None)
+                                                            
