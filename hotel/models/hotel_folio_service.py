@@ -76,10 +76,11 @@ class HotelFolioService(models.Model):
         else: self.name = self.product_id.name
         self.product_uom = self.product_id.uom_id
         self.price_unit = self.product_id.list_price
-        tax_lines = []
+        '''tax_lines = []
         for tax_data in self.product_id.taxes_id: 
             tax_lines.append((6, 0, tax_data.id))           
-        self.tax_id = tax_lines 
+        self.tax_id = tax_lines'''
+	self.tax_id=self.product_id.taxes_id 
     
     
     @api.multi
