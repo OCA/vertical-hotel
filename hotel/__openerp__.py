@@ -21,7 +21,7 @@
         "views/hotel_room_type.xml",
         "views/hotel_room.xml",
         "report/hotel_report.xml",
-        "data/hotel_data.xml",
+        #"data/hotel_data.xml",
         "data/hotel_folio_workflow.xml",
         "security/hotel_security.xml",
         "security/ir.model.access.csv",
@@ -30,4 +30,3 @@
     'installable': True,
     'application': True,
 }
-
