@@ -9,14 +9,11 @@ class TestHotelFolio(TransactionCase):
 
     def setUp(self):
         super(TestHotelFolio, self).setUp()
-        # self.folio_model = self.registry('hotel.folio')
         self.folioObj = self.env['hotel.folio']
         self.saleOrderObj = self.env['sale.order']
         self.saleOrderLineObj = self.env['sale.order.line']
         self.invoiceObj = self.env['account.invoice']
         self.voucherObj = self.env['account.voucher']
-        self.product_product = self.registry('product.product')
-        self.product_pricelist = self.registry('product.pricelist')
         self.uom = self.env['product.uom']
 
     @mute_logger('openerp.addons.base.ir.ir_model', 'openerp.models')
@@ -92,34 +89,38 @@ class TestHotelFolio(TransactionCase):
         '''Check if the order has been confirmed correctly'''
         self.assertEqual(self.saleOrderObj.browse(folio1.id).state,
                          'manual',
-                         'Folio is in wrong state')
+                         'Folio is in wrong state (Confirm button)')
 
         self.saleOrderObj.browse(folio1.id).action_invoice_create()
         '''Check if order has invoice created'''
         self.assertEqual(self.saleOrderObj.browse(folio1.id).state,
                          'progress',
-                         'Folio is in wrong state')
+                         'Folio is in wrong state (Invoice create)')
 
         self.cr.execute('SELECT invoice_id \
                          FROM sale_order_invoice_rel \
-                         WHERE order_id = cast(%s as integer)',
-                        (str(folio1.id)))
+                         WHERE order_id = '+str(folio1.id))
         res = self.cr.fetchone()
-        print res
+
         self.invoiceObj.browse(res).invoice_validate()
         '''Check if invoice is validated'''
         self.assertEqual(self.invoiceObj.browse(res).state,
                          'open',
-                         'Folio is in wrong state')
+                         'Invoice is in wrong state (Invoice validate)')
 
         self.invoiceObj.browse(res).invoice_pay_customer()
         self.cr.execute("""SELECT voucher_id
-                         FROM account_voucher_line as v, account_invoice_line as i
+                         FROM account_voucher_line as v,
+                         account_invoice_line as i
                          WHERE v.voucher_id = i.invoice_id""")
         res2 = self.cr.fetchone()
-        print res2
+
         self.voucherObj.browse(res2).button_proforma_voucher()
         '''Check if invoice has been paid'''
-        self.assertEqual(self.invoiceObj.browse(res).state,
+        self.assertEqual(self.invoiceObj.browse(res2).state,
                          'paid',
-                         'Folio is in wrong state')
+                         'Invoice is in wrong state (Pay)')
+        print self.saleOrderObj.browse(folio1.id).state
+        self.assertEqual(self.saleOrderObj.browse(folio1.id).state,
+                         'done',
+                         'Folio is in wrong state (Done)')
