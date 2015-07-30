@@ -92,6 +92,7 @@ class HotelFolioRoom(models.Model):
 
 
     @api.onchange('product_id')
+    @api.depends('product_id')
     def onchange_product_id(self):
         if self.product_id:
             if self.checkin_date and self.checkout_date:
