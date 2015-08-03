@@ -1,17 +1,17 @@
 # -*- encoding: utf-8 -*-
 
 {
-    "name" : "Hotel Management Base",
-    "version" : "1.0",
-    "author" : ["Domatix",
-                "Serpent Consulting Services Pvt. Ltd.",
-                "OpenERP SA" ],
-    "category" : "Generic Modules/Hotel Management",
-    "depends" : ["sale_stock"],
-    "init_xml" : [],
-    "demo_xml" : [
+    "name": "Hotel Management Base",
+    "version": "1.0",
+    "author": ["Domatix",
+               "Serpent Consulting Services Pvt. Ltd.",
+               "OpenERP SA"],
+    "category": "Generic Modules/Hotel Management",
+    "depends": ["sale_stock"],
+    "init_xml": [],
+    "demo_xml": [
     ],
-    "data" : [
+    "data": [
         "views/hotel_menu_view.xml",
         "views/hotel_amenities_type.xml",
         "views/hotel_services.xml",

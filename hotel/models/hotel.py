@@ -12,12 +12,12 @@ from openerp.tools import config
 class hotel_floor(models.Model):
     _name = "hotel.floor"
     _description = "Floor"
-    
+
     name = fields.Char('Floor Name',
                        size=64,
                        required=True,
                        select=True)
-    
+
     sequence = fields.Integer('Sequence',
                               size=64)
 
@@ -32,7 +32,7 @@ class product_category(models.Model):
 class hotel_room_type(models.Model):
     _name = "hotel.room.type"
     _description = "Room Type"
-    cat_id = fields.Many2one('product.category', 
+    cat_id = fields.Many2one('product.category',
                              'category',
                              required=True,
                              select=True,
@@ -61,7 +61,7 @@ class hotel_room_amenities_type(models.Model):
                              delegate=True)
     _defaults = {
         'isamenitype': lambda * a: 1,
-        
+
     }
 
 
@@ -74,7 +74,7 @@ class hotel_room_amenities(models.Model):
                                     ondelete='cascade',
                                     delegate=True)
     amenity_categ = fields.Many2one('hotel.room.amenities.type',
-                                'Amenity Category')
+                                    'Amenity Category')
     amenity_rate = fields.Integer('Amenity Rate')
 
     _defaults = {
@@ -82,10 +82,10 @@ class hotel_room_amenities(models.Model):
         }
 
 
-class hotel_room(models.Model): 
+class hotel_room(models.Model):
     _name = 'hotel.room'
     _description = 'Hotel Room'
-    
+
     product_id = fields.Many2one('product.product',
                                  'Product_id',
                                  required=True,
@@ -103,10 +103,7 @@ class hotel_room(models.Model):
                                       'room_amenities',
                                       'amenity_categ',
                                       'Room Amenities')
-    folio_id = fields.One2many('hotel.folio',
-                               'room_id',
-                               'Graph test')
-    
+
     _defaults = {
         'isroom': lambda * a: 1,
         'rental': lambda * a: 1,
@@ -115,8 +112,8 @@ class hotel_room(models.Model):
 
 class hotel_service_type(models.Model):
     _name = "hotel.service.type"
-    _description = "Service Type" 
-    
+    _description = "Service Type"
+
     ser_id = fields.Many2one(
         'product.category',
         string='Category',
@@ -124,7 +121,7 @@ class hotel_service_type(models.Model):
         select=True,
         ondelete='cascade',
         delegate=True)
-    
+
     _defaults = {
         'isservicetype': lambda * a: 1,
     }
@@ -133,16 +130,13 @@ class hotel_service_type(models.Model):
 class hotel_services(models.Model):
     _name = 'hotel.services'
     _description = 'Hotel Services and its charges'
-    
+
     service_id = fields.Many2one('product.product',
                                  string='Service',
                                  required=True,
                                  ondelete='cascade',
                                  delegate=True)
-    
+
     _defaults = {
         'isservice': lambda * a: 1,
         }
-
-
-

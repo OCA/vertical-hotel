@@ -1,5 +1,6 @@
 from openerp.tests.common import TransactionCase
-from openerp.tools import mute_logger, float_round
+from openerp.tools import mute_logger
+from openerp.tools import float_round
 from openerp.exceptions import ValidationError
 from openerp.exceptions import except_orm
 
