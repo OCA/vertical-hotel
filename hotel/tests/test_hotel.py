@@ -23,7 +23,7 @@ class TestHotel(TransactionCase):
         # Getting data for two users
         # ----------------------------------------------------------------------
         self.admin = self.partnerObj.browse(3)
-        self.testUser = self.partnerObj.browse(10)
+        self.testUser = self.partnerObj.browse(1)
 
         # ----------------------------------------------------------------------
         # Getting data for two rooms
@@ -106,7 +106,6 @@ class TestHotel(TransactionCase):
             'delay': 0,
             'state': 'draft',
             'sequence': 10,
-            'price_unit': 200.00,
             'product_uom_qty': folio1.duration
         })
 
@@ -146,7 +145,6 @@ class TestHotel(TransactionCase):
                 'delay': 0,
                 'state': 'draft',
                 'sequence': 10,
-                'price_unit': 200.00,
                 'product_uom_qty': folio1.duration
             })
 
@@ -187,7 +185,6 @@ class TestHotel(TransactionCase):
             'delay': 0,
             'state': 'draft',
             'sequence': 10,
-            'price_unit': 200.00,
             'product_uom_qty': folio1.duration
         })
         self.assertEqual(folio1.order_id,
@@ -248,3 +245,23 @@ class TestHotel(TransactionCase):
         self.assertEqual(folio1.state,
                          'manual',
                          'Confirmed folios should be in "manual" state!')
+
+        # ----------------------------------------------------------------------
+        # checkign if service is created and booked correctly
+        # ----------------------------------------------------------------------
+        service_lines1 = self.servicelineObj.create({
+            'folio_id': folio1.id,
+            'product_id': self.service1.service_id.id,
+            'name': self.service1.name,
+            'checkin_date': '2016-07-20 11:04:38',
+            'checkout_date': '2016-07-28 11:04:38',
+            'price_unit': self.service1.list_price,
+            'product_uom': self.service1.uom_id.id,
+            'delay': 0,
+            'state': 'draft',
+            'sequence': 10,
+            'product_uom_qty': folio1.duration
+        })
+        self.assertEqual(folio1.order_id,
+                         service_lines1.service_line_id.order_id,
+                         'Fail to book room for the previously created folio')

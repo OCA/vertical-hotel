@@ -9,3 +9,5 @@ access_hotel_room,hotel.room,model_hotel_room,hotel.group_hotel_user,1,1,0,0
 access_hotel_folio,hotel.folio,model_hotel_folio,hotel.group_hotel_user,1,1,1,1
 acess_hotel_service_type,hotel.service.type,model_hotel_service_type,hotel.group_hotel_user,1,1,0,0
 access_hotel_services,hotel.services,model_hotel_services,hotel.group_hotel_user,1,1,0,0
+access_hotel_folio_room,hotel.folio.room,model_hotel_folio_room,hotel.group_hotel_user,1,1,1,1
+access_hotel_folio_service,hotel.folio.service,model_hotel_folio_service,hotel.group_hotel_user,1,1,1,1
