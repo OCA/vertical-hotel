@@ -39,6 +39,7 @@ Contributors
 
 * Carlos Alba <carlos.alba@domatix.com>
 * Angel Moya <angel.moya@domatix.com>
+* Alex Fraseniuc <imasd@domatix.com>
 
 Maintainer
 ----------
