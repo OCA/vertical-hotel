@@ -35,16 +35,12 @@ class TestHotel(TransactionCase):
         self.room2 = self.env['hotel.room'].browse(self.room2_id)
 
         # ----------------------------------------------------------------------
-        # Getting data for two services
+        # Getting servie data
         # ----------------------------------------------------------------------
         self.service1_id = self.ModelDataObj.xmlid_to_res_id(
             'hotel.hotel_service_6'
         )
         self.service1 = self.env['hotel.services'].browse(self.service1_id)
-        self.service2_id = self.ModelDataObj.xmlid_to_res_id(
-            'hotel.hotel_service_0'
-        )
-        self.service2 = self.env['hotel.services'].browse(self.service2_id)
 
     @mute_logger('openerp.addons.base.ir.ir_model', 'openerp.models')
     def test_folio_create(self):
@@ -213,7 +209,7 @@ class TestHotel(TransactionCase):
         # ----------------------------------------------------------------------
         # Test _onchange_dates() and _date_dif
         # ----------------------------------------------------------------------
-        # change checkin date such that duration is now one day less
+        # change checking date such that duration is now one day less
         folio1.room_ids.checkin_date = '2016-07-21 11:04:38'
         folio1.room_ids._onchange_dates()
         self.assertEqual(folio1.room_ids.product_uom_qty,
@@ -248,7 +244,7 @@ class TestHotel(TransactionCase):
                          'Confirmed folios should be in "manual" state!')
 
         # ----------------------------------------------------------------------
-        # checkign if service is created and booked correctly
+        # checking if service is created and booked correctly
         # ----------------------------------------------------------------------
         service_lines1 = self.servicelineObj.create({
             'folio_id': folio1.id,

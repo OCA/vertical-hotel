@@ -17,6 +17,9 @@
                     <attribute name="string">Folio</attribute>
                 </xpath>
 
+                <xpath expr="//field[@name='warehouse_id']" position="replace">
+                  <field name="warehouse_id" on_change="onchange_warehouse_id(warehouse_id)" options="{'no_create': True}" groups="stock.group_locations" invisible="1"/>
+                </xpath>
                 <field name="date_order" position="before">
                     <field name="checkin_date" string="Check In"/>
                     <field name="checkout_date" string="Check Out"/>
