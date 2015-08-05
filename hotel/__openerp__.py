@@ -24,7 +24,7 @@
         "data/hotel_data.xml",
         "data/hotel_folio_workflow.xml",
         "security/hotel_security.xml",
-        "security/ir.model.access.csv",
+        "security/ir.model.access.csv"
     ],
     "active": False,
     'installable': True,
