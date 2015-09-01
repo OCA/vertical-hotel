@@ -2,16 +2,12 @@
 <openerp>
 	<data>
 
-<!--		<record model="board.note.type" id="note_frontdesk_type">-->
-<!--			<field name="name">FrontDesk</field>-->
-<!--		</record>-->
-	
 		<record model="ir.actions.act_window" id="action_view_frontdesk_cal">
 			<field name="name">FrontDesk</field>
-			<field name="res_model">hotel.reservation</field>
+			<field name="res_model">hotel.folio</field>
 			<field name="view_type">form</field>
 			<field name="view_mode">calendar,form</field>
-			<field name="view_id" ref="hotel_reservation.hotel_calendar_view" />
+			<field name="view_id" ref="hotel.hotel_folio_calendar_view" />
 		</record>
 	
 		<record model="ir.ui.view" id="board_frontdesk_form">
@@ -45,7 +41,7 @@
 			action="open_board_frontdesk"
 			sequence="1"
 			id="menu_board_frontdesk" icon="terp-graph"
-			parent="base.menu_dashboard_admin"/>
+			parent="board.board_my_dash_view"/>
 			
 	</data>
 </openerp>
