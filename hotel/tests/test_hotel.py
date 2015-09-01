@@ -1,8 +1,6 @@
 from openerp.tests.common import TransactionCase
 from openerp.tools import mute_logger
-from openerp.tools import float_round
 from openerp.exceptions import ValidationError
-from openerp.exceptions import except_orm
 
 
 class TestHotel(TransactionCase):
@@ -144,6 +142,10 @@ class TestHotel(TransactionCase):
                 'sequence': 10,
                 'product_uom_qty': folio1.duration
             })
+
+        self.assertEqual(folio2.order_id,
+                         room_lines2.order_line_id.order_id,
+                         'Fail to book room for the previously created folio')
 
     @mute_logger('openerp.addons.base.ir.ir_model', 'openerp.models')
     def test_state_onchange(self):

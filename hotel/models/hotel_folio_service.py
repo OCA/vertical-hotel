@@ -1,11 +1,6 @@
-import time
-from openerp import netsvc
 from openerp import models
 from openerp import fields
 from openerp import api
-from mx import DateTime
-import datetime
-from openerp.tools import config
 
 
 class HotelFolioService(models.Model):
