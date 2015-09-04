@@ -1,14 +1,10 @@
-import time
-from openerp import netsvc
+# -*- coding: utf-8 -*-
 from openerp import models
 from openerp import fields
 from openerp import api
 import datetime
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
-from openerp.tools import config
-from openerp.exceptions import except_orm
 from openerp.exceptions import Warning
-from openerp.exceptions import RedirectWarning
 from openerp.tools.translate import _
 
 
@@ -152,7 +148,7 @@ class HotelFolio(models.Model):
     @api.multi
     def action_ship_end(self):
         res = self.env['sale.order'].browse(self.ids).action_ship_end()
-        for order in self.browse(ids):
+        for order in self:
             val = {'shipped': True}
             self.write([order.id], val)
         return res

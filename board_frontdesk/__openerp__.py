@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
-#    
+#
 #    OpenERP, Open Source Management Solution
 #    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>).
 #
@@ -15,25 +15,26 @@
 #    GNU Affero General Public License for more details.
 #
 #    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.     
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
 {
-    "name":"Board for Hotel FrontDesk",
-    "version":"1.0",
+    "name": "Board for Hotel FrontDesk",
+    "version": "8.0.1.0.0",
     "author": "Tiny,Odoo Community Association (OCA)",
-    "category":"Board/Hotel FrontDesk",
-    "depends":[
+    "category": "Board/Hotel FrontDesk",
+    "depends": [
         "board",
+        "hotel",
     ],
-    "demo_xml":[],
-    "update_xml":["board_frontdesk_view.xml"],
+    "demo_xml": [],
+    "data": ["views/board_frontdesk_view.xml"],
     "description": """
 This module implements a dashboard for hotel FrontDesk that includes:
     * Calendar view of Today's Check-In and Check-Out
     * Calendar view of Weekly Check-In and Check-Out
     * Calendar view of Monthly Check-In and Check-Out
     """,
-    "active":False,
-    "installable":True,
+    "active": False,
+    "installable": True,
 }

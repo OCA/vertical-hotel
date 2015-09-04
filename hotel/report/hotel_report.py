@@ -2,8 +2,6 @@
 from openerp import fields
 from openerp import models
 from openerp import tools
-from openerp.tools.translate import _
-from mx import DateTime
 
 
 class hotel_report(models.Model):

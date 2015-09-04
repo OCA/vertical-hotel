@@ -1,16 +1,11 @@
-from openerp.osv import fields
+# -*- coding: utf-8 -*-
 import time
-from openerp import netsvc
 from openerp import models
 from openerp import fields
 from openerp import api
-from mx import DateTime
 import datetime
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
-from openerp.tools import config
-from openerp.exceptions import except_orm
 from openerp.exceptions import Warning
-from openerp.exceptions import RedirectWarning
 from openerp.exceptions import ValidationError
 from openerp.tools.translate import _
 
@@ -18,11 +13,6 @@ from openerp.tools.translate import _
 class HotelFolioRoom(models.Model):
     _name = 'hotel.folio.room'
     _description = 'Hotel Folio Room'
-
-    @api.one
-    def copy(self, default=None):
-        copy = self.env['sale.order.line'].browse(self.id)
-        return copy.copy(default=None)
 
     @api.multi
     def _amount_line_net(self, field_name, arg):
@@ -68,15 +58,12 @@ class HotelFolioRoom(models.Model):
         required=True)
     checkin_date = fields.Datetime(
         string='Check In',
-        required=True)
+        required=True,
+        default=_get_checkin_date)
     checkout_date = fields.Datetime(
         string='Check Out',
-        required=True)
-
-    _defaults = {
-       'checkin_date': _get_checkin_date,
-       'checkout_date': _get_checkout_date,
-    }
+        required=True,
+        default=_get_checkout_date)
 
     @api.model
     def create(self, vals, check=True):
@@ -85,7 +72,6 @@ class HotelFolioRoom(models.Model):
         return super(HotelFolioRoom, self).create(vals)
 
     @api.onchange('product_id')
-    @api.depends('product_id')
     def onchange_product_id(self):
         if self.product_id:
             if self.checkin_date and self.checkout_date:
@@ -137,21 +123,21 @@ class HotelFolioRoom(models.Model):
             room_id = self.product_id.id
 
             rs = self.env['hotel.folio.room'].search_count([
-                    '|', '&',
-                    ('product_id', '=', room_id),
-                    '&',
-                    ('checkin_date', '<=', self.checkin_date),
-                    ('checkout_date', '>=', self.checkin_date),
-                    '|', '&',
-                    ('product_id', '=', room_id),
-                    '&',
-                    ('checkout_date', '>=', self.checkout_date),
-                    ('checkin_date', '<=', self.checkout_date),
-                    '&',
-                    ('product_id', '=', room_id),
-                    '&',
-                    ('checkin_date', '>=', self.checkin_date),
-                    ('checkout_date', '<=', self.checkout_date)])
+                '|', '&',
+                ('product_id', '=', room_id),
+                '&',
+                ('checkin_date', '<=', self.checkin_date),
+                ('checkout_date', '>=', self.checkin_date),
+                '|', '&',
+                ('product_id', '=', room_id),
+                '&',
+                ('checkout_date', '>=', self.checkout_date),
+                ('checkin_date', '<=', self.checkout_date),
+                '&',
+                ('product_id', '=', room_id),
+                '&',
+                ('checkin_date', '>=', self.checkin_date),
+                ('checkout_date', '<=', self.checkout_date)])
 
             if rs > 1:
                 raise ValidationError(_('Your selected rooms are \
@@ -174,11 +160,11 @@ class HotelFolioRoom(models.Model):
 
     def _date_dif(self):
         checkin_date = datetime.datetime.strptime(
-                self.checkin_date,
-                DEFAULT_SERVER_DATETIME_FORMAT)
+            self.checkin_date,
+            DEFAULT_SERVER_DATETIME_FORMAT)
         checkout_date = datetime.datetime.strptime(
-                self.checkout_date,
-                DEFAULT_SERVER_DATETIME_FORMAT)
+            self.checkout_date,
+            DEFAULT_SERVER_DATETIME_FORMAT)
         duration_date = checkout_date - checkin_date
         duration = duration_date.days
         return duration
@@ -189,7 +175,7 @@ class HotelFolioRoom(models.Model):
                            checkout_date=time.strftime('%Y-%m-%d %H:%M:%S')):
         qty = 1
         if checkout_date < checkin_date:
-            raise osv.except_osv('Error !', 'Checkout must be greater or \
+            raise Warning('Error !', 'Checkout must be greater or \
             equal checkin date')
         if checkin_date:
             diffDate = datetime.datetime(
@@ -204,15 +190,6 @@ class HotelFolioRoom(models.Model):
     @api.multi
     def button_confirm(self):
         return self.button_confirm()
-
-    @api.multi
-    def button_done(self):
-        res = self.env['sale.order.line'].browse(self.ids).button_done()
-        wf_service = netsvc.LocalService("workflow")
-        res = self.write({'state': 'done'})
-        for line in self.browse(ids):
-            wf_service.trg_write(uid, 'sale.order', line.order_id.id, cr)
-        return res
 
     @api.multi
     def unlink(self):

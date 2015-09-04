@@ -11,3 +11,5 @@ acess_hotel_service_type,hotel.service.type,model_hotel_service_type,hotel.group
 access_hotel_services,hotel.services,model_hotel_services,hotel.group_hotel_user,1,1,0,0
 access_hotel_folio_room,hotel.folio.room,model_hotel_folio_room,hotel.group_hotel_user,1,1,1,1
 access_hotel_folio_service,hotel.folio.service,model_hotel_folio_service,hotel.group_hotel_user,1,1,1,1
+access_hotel_report,hotel.report,model_hotel_report,hotel.group_hotel_user,1,1,0,0
+access_sale_advance_payment,sale.advance.payment.inv,model_sale_advance_payment_inv,hotel.group_hotel_user,1,1,0,0
