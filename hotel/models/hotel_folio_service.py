@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from openerp import models
 from openerp import fields
 from openerp import api
@@ -6,11 +7,6 @@ from openerp import api
 class HotelFolioService(models.Model):
     _name = 'hotel.folio.service'
     _description = 'Hotel Folio Service'
-
-    @api.one
-    def copy(self, default=None):
-        copy = self.env['sale.order.line'].browse(id)
-        return copy.copy(default=None)
 
     @api.multi
     def _amount_line_net(self, field_name, arg):
@@ -46,13 +42,6 @@ class HotelFolioService(models.Model):
         folio = self.env['hotel.folio'].browse([vals['folio_id']])[0]
         vals.update({'order_id': folio.order_id.id})
         return super(HotelFolioService, self).create(vals)
-
-    @api.multi
-    def uos_change(self, product_uos, product_uos_qty=0, product_id=None):
-        change = self.env['sale.order.line'].browse(self.ids)
-        return change.uos_change(product_uos,
-                                 product_uos_qty=0,
-                                 product_id=None)
 
     @api.onchange('product_id')
     def onchange_product_id(self):

@@ -2,10 +2,10 @@
 
 {
     "name": "Hotel Management Base",
-    "version": "1.0",
+    "version": "8.0.1.0.0",
     "author": ["Domatix",
                "Serpent Consulting Services Pvt. Ltd.",
-               "OpenERP SA"],
+               "Odoo Community Association (OCA)"],
     "category": "Generic Modules/Hotel Management",
     "depends": ["sale_stock"],
     "init_xml": [],

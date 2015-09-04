@@ -20,7 +20,7 @@
 ##############################################################################
 {
     "name": "Board for Hotel FrontDesk",
-    "version": "1.0",
+    "version": "8.0.1.0.0",
     "author": "Tiny,Odoo Community Association (OCA)",
     "category": "Board/Hotel FrontDesk",
     "depends": [
@@ -28,7 +28,7 @@
         "hotel",
     ],
     "demo_xml": [],
-    "update_xml": ["board_frontdesk_view.xml"],
+    "data": ["views/board_frontdesk_view.xml"],
     "description": """
 This module implements a dashboard for hotel FrontDesk that includes:
     * Calendar view of Today's Check-In and Check-Out

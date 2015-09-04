@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
 from openerp.tests.common import TransactionCase
 from openerp.tools import mute_logger
 from openerp.exceptions import ValidationError
+import datetime
 
 
 class TestHotel(TransactionCase):
@@ -11,8 +13,6 @@ class TestHotel(TransactionCase):
         self.folioObj = self.env['hotel.folio']
         self.saleOrderObj = self.env['sale.order']
         self.saleOrderLineObj = self.env['sale.order.line']
-        self.invoiceObj = self.env['account.invoice']
-        self.voucherObj = self.env['account.voucher']
         self.roomlineObj = self.env['hotel.folio.room']
         self.servicelineObj = self.env['hotel.folio.service']
         self.ModelDataObj = self.env['ir.model.data']
@@ -40,6 +40,14 @@ class TestHotel(TransactionCase):
         )
         self.service1 = self.env['hotel.services'].browse(self.service1_id)
 
+        # ----------------------------------------------------------------------
+        # Generating dates
+        # ----------------------------------------------------------------------
+        self.date1 = datetime.datetime.today()
+        self.ten_days = datetime.timedelta(days=10)
+        self.one_day = datetime.timedelta(days=1)
+        self.date2 = self.date1 + self.ten_days
+
     @mute_logger('openerp.addons.base.ir.ir_model', 'openerp.models')
     def test_folio_create(self):
         '''Creates a new folio'''
@@ -50,11 +58,11 @@ class TestHotel(TransactionCase):
             'partner_id': self.admin.id,
             'partner_invoice_id': self.admin.id,
             'partner_shipping_id': self.admin.id,
-            'checkin_date': '2015-07-20 11:04:38',
-            'checkout_date': '2015-07-28 11:04:38',
+            'checkin_date': self.date1,
+            'checkout_date': self.date2,
             'duration': 8,
             'name': 'SSS0',
-            'date_order': '2015-07-20 11:04:54.09324',
+            'date_order': self.date1,
             'pricelist_id': 1,
             'order_policy': 'manual',
             'picking_policy': 'direct',
@@ -74,11 +82,11 @@ class TestHotel(TransactionCase):
             'partner_id': self.admin.id,
             'partner_invoice_id': self.admin.id,
             'partner_shipping_id': self.admin.id,
-            'checkin_date': '2016-07-20 11:04:38',
-            'checkout_date': '2016-07-28 11:04:38',
+            'checkin_date': self.date1,
+            'checkout_date': self.date2,
             'duration': 8,
             'name': 'SSS1',
-            'date_order': '2015-07-20 11:04:54.09324',
+            'date_order': self.date1,
             'pricelist_id': 1,
             'order_policy': 'manual',
             'picking_policy': 'direct',
@@ -94,8 +102,8 @@ class TestHotel(TransactionCase):
             'folio_id': folio1.id,
             'product_id': self.room1.product_id.id,
             'name': self.room1.name,
-            'checkin_date': '2016-07-20 11:04:38',
-            'checkout_date': '2016-07-28 11:04:38',
+            'checkin_date': self.date1,
+            'checkout_date': self.date2,
             'price_unit': self.room1.list_price,
             'product_uom': self.room1.uom_id.id,
             'delay': 0,
@@ -114,11 +122,11 @@ class TestHotel(TransactionCase):
             'partner_id': self.testUser.id,
             'partner_invoice_id': self.testUser.id,
             'partner_shipping_id': self.testUser.id,
-            'checkin_date': '2016-07-20 11:04:38',
-            'checkout_date': '2016-07-28 11:04:38',
+            'checkin_date': self.date1,
+            'checkout_date': self.date2,
             'duration': 8,
             'name': 'SSS2',
-            'date_order': '2015-07-20 11:04:54.09324',
+            'date_order': self.date1,
             'pricelist_id': 1,
             'order_policy': 'manual',
             'picking_policy': 'direct',
@@ -128,13 +136,14 @@ class TestHotel(TransactionCase):
         # ----------------------------------------------------------------------
         # test _check_room_dates()
         # ----------------------------------------------------------------------
+        room_lines2 = None
         with self.assertRaises(ValidationError):
             room_lines2 = self.roomlineObj.create({
                 'folio_id': folio2.id,
                 'product_id': self.room1.product_id.id,
                 'name': self.room1.name,
-                'checkin_date': '2016-07-20 11:04:38',
-                'checkout_date': '2016-07-28 11:04:38',
+                'checkin_date': self.date1,
+                'checkout_date': self.date2,
                 'price_unit': self.room1.list_price,
                 'product_uom': self.room1.uom_id.id,
                 'delay': 0,
@@ -143,14 +152,13 @@ class TestHotel(TransactionCase):
                 'product_uom_qty': folio1.duration
             })
 
-        self.assertEqual(folio2.order_id,
-                         room_lines2.order_line_id.order_id,
-                         'Fail to book room for the previously created folio')
+        self.assertIsNone(room_lines2,
+                          'Room already booked')
 
     @mute_logger('openerp.addons.base.ir.ir_model', 'openerp.models')
     def test_state_onchange(self):
-        '''Test the states and onchange methods'''
-        '''Try to book same room twice in overlapping duration'''
+        '''Test the states and onchange methods.
+        Try to book same room twice in overlapping duration'''
         # ----------------------------------------------------------------------
         # Creating folio
         # ----------------------------------------------------------------------
@@ -158,11 +166,11 @@ class TestHotel(TransactionCase):
             'partner_id': self.admin.id,
             'partner_invoice_id': self.admin.id,
             'partner_shipping_id': self.admin.id,
-            'checkin_date': '2016-07-20 11:04:38',
-            'checkout_date': '2016-07-28 11:04:38',
+            'checkin_date': self.date1,
+            'checkout_date': self.date2,
             'duration': 8,
             'name': 'SSS1',
-            'date_order': '2015-07-20 11:04:54.09324',
+            'date_order': self.date1,
             'pricelist_id': 1,
             'order_policy': 'manual',
             'picking_policy': 'direct',
@@ -177,8 +185,8 @@ class TestHotel(TransactionCase):
             'folio_id': folio1.id,
             'product_id': self.room1.product_id.id,
             'name': self.room1.name,
-            'checkin_date': '2016-07-20 11:04:38',
-            'checkout_date': '2016-07-28 11:04:38',
+            'checkin_date': self.date1,
+            'checkout_date': self.date2,
             'price_unit': self.room1.list_price,
             'product_uom': self.room1.uom_id.id,
             'delay': 0,
@@ -212,10 +220,10 @@ class TestHotel(TransactionCase):
         # Test _onchange_dates() and _date_dif
         # ----------------------------------------------------------------------
         # change checking date such that duration is now one day less
-        folio1.room_ids.checkin_date = '2016-07-21 11:04:38'
+        folio1.room_ids.checkin_date = self.date1 + self.one_day
         folio1.room_ids._onchange_dates()
         self.assertEqual(folio1.room_ids.product_uom_qty,
-                         7,
+                         9,
                          'Duration not update correctly!')
 
         # ----------------------------------------------------------------------
@@ -252,8 +260,8 @@ class TestHotel(TransactionCase):
             'folio_id': folio1.id,
             'product_id': self.service1.service_id.id,
             'name': self.service1.name,
-            'checkin_date': '2016-07-20 11:04:38',
-            'checkout_date': '2016-07-28 11:04:38',
+            'checkin_date': self.date1,
+            'checkout_date': self.date2,
             'price_unit': self.service1.list_price,
             'product_uom': self.service1.uom_id.id,
             'delay': 0,
