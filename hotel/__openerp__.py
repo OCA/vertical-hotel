@@ -9,7 +9,7 @@
     "category": "Generic Modules/Hotel Management",
     "depends": ["sale_stock"],
     "init_xml": [],
-    "demo_xml": ["data/hotel_data.xml"],
+    "demo": ["data/hotel_data.xml"],
     "data": [
         "views/hotel_menu_view.xml",
         "views/hotel_amenities_type.xml",

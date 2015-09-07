@@ -28,6 +28,9 @@ env:
 #  - VERSION="8.0" ODOO_REPO="odoo/odoo" UNIT_TEST="1" LINT_CHECK="0"
 #  - VERSION="8.0" ODOO_REPO="OCA/OCB" UNIT_TEST="1" LINT_CHECK="0"
 
+before_script:
+  - sh -c "psql -c 'DROP DATABASE IF EXISTS openerp_test;' -U postgres; fi"
+  - sh -c "createdb openerp_test"
 virtualenv:
   system_site_packages: true
 
