@@ -13,5 +13,5 @@ class SaleAdvancePaymentInv(models.Model):
         context["active_ids"] = [active_order_id]
         context["active_id"] = active_order_id
         super(
-            sale_advance_payment_inv, self.with_context(context)
+            SaleAdvancePaymentInv, self.with_context(context)
         ).create_invoices()
