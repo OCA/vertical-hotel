@@ -1,8 +1,9 @@
-from openerp import models
+# -*- encoding: utf-8 -*-
 from openerp import api
+from openerp import models
 
 
-class sale_advance_payment_inv(models.Model):
+class SaleAdvancePaymentInv(models.Model):
     _inherit = ['sale.advance.payment.inv']
 
     @api.multi
@@ -12,5 +13,5 @@ class sale_advance_payment_inv(models.Model):
         context["active_ids"] = [active_order_id]
         context["active_id"] = active_order_id
         super(
-            sale_advance_payment_inv, self.with_context(context)
+            SaleAdvancePaymentInv, self.with_context(context)
         ).create_invoices()

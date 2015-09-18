@@ -4,7 +4,7 @@ from openerp import models
 from openerp import tools
 
 
-class hotel_report(models.Model):
+class HotelReport(models.Model):
     _name = "hotel.report"
     _description = "Hotel Report"
     _auto = False

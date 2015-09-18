@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-from openerp import models
-from openerp import fields
-from openerp import api
 import datetime
-from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
+
+from openerp import api
+from openerp import fields
+from openerp import models
 from openerp.exceptions import Warning
+from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from openerp.tools.translate import _
 
 

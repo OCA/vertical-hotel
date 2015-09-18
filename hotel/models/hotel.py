@@ -1,9 +1,9 @@
 # -*- encoding: utf-8 -*-
-from openerp import models
 from openerp import fields
+from openerp import models
 
 
-class hotel_floor(models.Model):
+class HotelFloor(models.Model):
     _name = "hotel.floor"
     _description = "Floor"
 
@@ -16,14 +16,14 @@ class hotel_floor(models.Model):
                               size=64)
 
 
-class product_category(models.Model):
+class ProductCategory(models.Model):
     _inherit = "product.category"
     isroomtype = fields.Boolean('Is Room Type')
     isamenitype = fields.Boolean('Is amenities Type')
     isservicetype = fields.Boolean('Is Service Type')
 
 
-class hotel_room_type(models.Model):
+class HotelRoomType(models.Model):
     _name = "hotel.room.type"
     _description = "Room Type"
     cat_id = fields.Many2one('product.category',
@@ -38,14 +38,14 @@ class hotel_room_type(models.Model):
     }
 
 
-class product_product(models.Model):
+class ProductProduct(models.Model):
     _inherit = "product.product"
     isroom = fields.Boolean('Is Room')
     iscategid = fields.Boolean('Is categ id')
     isservice = fields.Boolean('Is Service id')
 
 
-class hotel_room_amenities_type(models.Model):
+class HotelRoomAmenitiesType(models.Model):
     _name = 'hotel.room.amenities.type'
     _description = 'amenities Type'
     cat_id = fields.Many2one('product.category',
@@ -59,7 +59,7 @@ class hotel_room_amenities_type(models.Model):
     }
 
 
-class hotel_room_amenities(models.Model):
+class HotelRoomAmenities(models.Model):
     _name = 'hotel.room.amenities'
     _description = 'Room amenities'
     room_categ_id = fields.Many2one('product.product',
@@ -76,7 +76,7 @@ class hotel_room_amenities(models.Model):
         }
 
 
-class hotel_room(models.Model):
+class HotelRoom(models.Model):
     _name = 'hotel.room'
     _description = 'Hotel Room'
 
@@ -104,7 +104,7 @@ class hotel_room(models.Model):
         }
 
 
-class hotel_service_type(models.Model):
+class HotelServiceType(models.Model):
     _name = "hotel.service.type"
     _description = "Service Type"
 
@@ -121,7 +121,7 @@ class hotel_service_type(models.Model):
     }
 
 
-class hotel_services(models.Model):
+class HotelServices(models.Model):
     _name = 'hotel.services'
     _description = 'Hotel Services and its charges'
 

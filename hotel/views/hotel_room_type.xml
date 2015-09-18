@@ -2,7 +2,7 @@
 <openerp>
 	<data>
 
-		<record model="ir.ui.view" id="view_hotel_room_type_form">
+		<record id="view_hotel_room_type_form" model="ir.ui.view">
 			<field name="name">hotel.room_type.form</field>
 			<field name="model">hotel.room.type</field>
 			<field name="arch" type="xml">
@@ -17,7 +17,7 @@
 				</form>
 			</field>
 		</record>
-		<record model="ir.ui.view" id="view_hotel_room_type_tree">
+		<record id="view_hotel_room_type_tree" model="ir.ui.view">
 			<field name="name">hotel.room_type.tree</field>
 			<field name="model">hotel.room.type</field>
 			<field name="arch" type="xml">
@@ -26,7 +26,7 @@
 				</tree>
 			</field>
 		</record>
-		<record model="ir.actions.act_window" id="open_hotel_room_type_form_tree">
+		<record id="open_hotel_room_type_form_tree" model="ir.actions.act_window">
 			<field name="name">Room Type</field>
 			<field name="res_model">hotel.room.type</field>
 			<field name="view_type">form</field>
@@ -35,7 +35,7 @@
 		</record>
 		<menuitem id="menu_hotel_room" name="Room"
 			parent="hotel.hotel_configuration_menu" sequence="2" />
-		<menuitem name="Room Types" id="menu_open_hotel_room_type_form_tree"
+		<menuitem id="menu_open_hotel_room_type_form_tree" name="Room Types"
 			action="open_hotel_room_type_form_tree" sequence="6"
 			parent="hotel.menu_hotel_room" />
 

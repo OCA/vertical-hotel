@@ -2,7 +2,7 @@
 <openerp>
 	<data>
 
-		<record model="ir.ui.view" id="view_hotel_floor_form">
+		<record id="view_hotel_floor_form" model="ir.ui.view">
 			<field name="name">hotel.floor.form</field>
 			<field name="model">hotel.floor</field>
 			<field name="arch" type="xml">
@@ -17,7 +17,7 @@
 			</field>
 		</record>
 
-		<record model="ir.ui.view" id="view_hotel_floor_tree">
+		<record id="view_hotel_floor_tree" model="ir.ui.view">
 			<field name="name">hotel.floor.tree</field>
 			<field name="model">hotel.floor</field>
 			<field name="arch" type="xml">
@@ -28,14 +28,14 @@
 			</field>
 		</record>
 
-		<record model="ir.actions.act_window" id="open_hotel_floor_form_tree">
+		<record id="open_hotel_floor_form_tree" model="ir.actions.act_window">
 			<field name="name">Floor Structure</field>
 			<field name="res_model">hotel.floor</field>
 			<field name="view_type">form</field>
 			<field name="view_mode">tree,form</field>
 		</record>
 
-		<menuitem name="Floor" id="menu_open_hotel_floor_form_tree"
+		<menuitem id="menu_open_hotel_floor_form_tree"  name="Floor"
 			action="open_hotel_floor_form_tree" sequence="21"
 			parent="hotel_configuration_menu" />
 

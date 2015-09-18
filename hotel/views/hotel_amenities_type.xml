@@ -2,7 +2,7 @@
 <openerp>
 	<data>
 
-		<record model="ir.ui.view" id="view_hotel_room_amenities_type_form">
+		<record id="view_hotel_room_amenities_type_form" model="ir.ui.view">
 			<field name="name">hotel.room.amenities.type.form</field>
 			<field name="model">hotel.room.amenities.type</field>
 			<field name="arch" type="xml">
@@ -16,7 +16,7 @@
 				</form>
 			</field>
 		</record>
-		<record model="ir.ui.view" id="view_hotel_room_amenities_type_list">
+		<record id="view_hotel_room_amenities_type_list" model="ir.ui.view">
 			<field name="name">hotel.room.amenities.type.list</field>
 			<field name="model">hotel.room.amenities.type</field>
 			<field name="arch" type="xml">
@@ -26,7 +26,7 @@
 				</tree>
 			</field>
 		</record>
-		<record model="ir.actions.act_window" id="action_hotel_room_amenities_type_view_form">
+		<record id="action_hotel_room_amenities_type_view_form" model="ir.actions.act_window">
 			<field name="name">Hotel Room Amenities Type</field>
 			<field name="res_model">hotel.room.amenities.type</field>
 			<field name="context">{'default_isamenitype':1}</field>
@@ -37,8 +37,8 @@
 
 		<menuitem id="menu_amenity" name="Amenity"
 			parent="hotel.hotel_configuration_menu" sequence="2" />
-		<menuitem name="Amenity Types"
-			id="menu_action_hotel_room_amenities_type_view_form" action="action_hotel_room_amenities_type_view_form"
+		<menuitem id="menu_action_hotel_room_amenities_type_view_form"
+			name="Amenity Types" action="action_hotel_room_amenities_type_view_form"
 			sequence="3" parent="hotel.menu_amenity" />
 	</data>
 </openerp>

@@ -68,7 +68,7 @@
 		</record>
 
 
-		<record model="ir.ui.view" id="view_hotel_room_aenities_search">
+		<record id="view_hotel_room_aenities_search" model="ir.ui.view">
 			<field name="name">hotel.room_amenities_search</field>
 			<field name="model">hotel.room.amenities</field>
 			<field name="arch" type="xml">
@@ -87,7 +87,7 @@
 		</record>
 
 
-		<record model="ir.ui.view" id="view_hotel_room_amenities_list">
+		<record id="view_hotel_room_amenities_list" model="ir.ui.view">
 			<field name="name">hotel.room_amenities_list</field>
 			<field name="model">hotel.room.amenities</field>
 			<field name="arch" type="xml">
@@ -99,7 +99,7 @@
 				</tree>
 			</field>
 		</record>
-		<record model="ir.actions.act_window" id="action_hotel_room_amenities_view_form">
+		<record id="action_hotel_room_amenities_view_form" model="ir.actions.act_window">
 			<field name="name">Hotel Room Amenities</field>
 			<field name="res_model">hotel.room.amenities</field>
 			<field name="view_type">form</field>
@@ -107,7 +107,7 @@
 			<field name="context">{'default_iscategid':1}</field>
 			<field name="view_id" ref="view_hotel_room_amenities_list" />
 		</record>
-		<menuitem name="Amenities" id="menu_action_hotel_room_amenities_view_form"
+		<menuitem id="menu_action_hotel_room_amenities_view_form" name="Amenities"
 			action="action_hotel_room_amenities_view_form" sequence="2"
 			parent="hotel.menu_amenity" />
 

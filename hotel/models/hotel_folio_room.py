@@ -1,37 +1,19 @@
 # -*- coding: utf-8 -*-
-import time
-from openerp import models
-from openerp import fields
-from openerp import api
 import datetime
-from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
-from openerp.exceptions import Warning
+import time
+
+from openerp import api
+from openerp import fields
+from openerp import models
 from openerp.exceptions import ValidationError
+from openerp.exceptions import Warning
+from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from openerp.tools.translate import _
 
 
 class HotelFolioRoom(models.Model):
     _name = 'hotel.folio.room'
     _description = 'Hotel Folio Room'
-
-    @api.multi
-    def _amount_line_net(self, field_name, arg):
-        amount_line = self.env['sale.order.line'].browse(self.ids)
-        return amount_line._amount_line_net(field_name, arg)
-
-    @api.multi
-    def _amount_line(self, field_name, arg):
-        amount_line = self.env['sale.order.line'].browse(self.ids)
-        return amount_line._amount_line(field_name, arg)
-
-    @api.multi
-    def _number_packages(self, field_name, arg):
-        packages = self.env['sale.order.line'].browse(self.ids)
-        return packages._number_packages(field_name, arg)
-
-    @api.model
-    def _get_1st_packaging(self):
-        return self.env['sale.order.line']._get_1st_packaging()
 
     @api.model
     def _get_checkin_date(self):
@@ -66,10 +48,36 @@ class HotelFolioRoom(models.Model):
         default=_get_checkout_date)
 
     @api.model
-    def create(self, vals, check=True):
-        folio = self.env['hotel.folio'].browse([vals['folio_id']])[0]
-        vals.update({'order_id': folio.order_id.id})
-        return super(HotelFolioRoom, self).create(vals)
+    def _get_1st_packaging(self):
+        return self.env['sale.order.line']._get_1st_packaging()
+
+    @api.one
+    @api.constrains('checkin_date', 'checkout_date', 'product_id')
+    def _check_room_dates(self):
+        if self.product_id.name:
+            room_id = self.product_id.id
+
+            rs = self.env['hotel.folio.room'].search_count([
+                '|', '&',
+                ('product_id', '=', room_id),
+                '&',
+                ('checkin_date', '<=', self.checkin_date),
+                ('checkout_date', '>=', self.checkin_date),
+                '|', '&',
+                ('product_id', '=', room_id),
+                '&',
+                ('checkout_date', '>=', self.checkout_date),
+                ('checkin_date', '<=', self.checkout_date),
+                '&',
+                ('product_id', '=', room_id),
+                '&',
+                ('checkin_date', '>=', self.checkin_date),
+                ('checkout_date', '<=', self.checkout_date)])
+
+            if rs > 1:
+                raise ValidationError(_('Your selected rooms are \
+                 reserved for those \
+                 days. Please choose another dates.'))
 
     @api.onchange('product_id')
     def onchange_product_id(self):
@@ -116,34 +124,6 @@ class HotelFolioRoom(models.Model):
             if self.checkin_date > self.checkout_date:
                 raise Warning(_('Check In can`t be higher than Check Out.'))
 
-    @api.one
-    @api.constrains('checkin_date', 'checkout_date', 'product_id')
-    def _check_room_dates(self):
-        if self.product_id.name:
-            room_id = self.product_id.id
-
-            rs = self.env['hotel.folio.room'].search_count([
-                '|', '&',
-                ('product_id', '=', room_id),
-                '&',
-                ('checkin_date', '<=', self.checkin_date),
-                ('checkout_date', '>=', self.checkin_date),
-                '|', '&',
-                ('product_id', '=', room_id),
-                '&',
-                ('checkout_date', '>=', self.checkout_date),
-                ('checkin_date', '<=', self.checkout_date),
-                '&',
-                ('product_id', '=', room_id),
-                '&',
-                ('checkin_date', '>=', self.checkin_date),
-                ('checkout_date', '<=', self.checkout_date)])
-
-            if rs > 1:
-                raise ValidationError(_('Your selected rooms are \
-                 reserved for those \
-                 days. Please choose another dates.'))
-
     @api.onchange('product_uom_qty')
     def _onchange_duration(self):
         if self.checkin_date and self.product_uom_qty:
@@ -170,10 +150,13 @@ class HotelFolioRoom(models.Model):
         return duration
 
     @api.multi
-    def on_change_checkout(self,
-                           checkin_date=time.strftime('%Y-%m-%d %H:%M:%S'),
-                           checkout_date=time.strftime('%Y-%m-%d %H:%M:%S')):
+    def on_change_checkout(self):
         qty = 1
+
+        checkin_date = self.checkin_date or \
+            time.strftime('%Y-%m-%d %H:%M:%S')
+        checkout_date = self.checkout_date or \
+            time.strftime('%Y-%m-%d %H:%M:%S')
         if checkout_date < checkin_date:
             raise Warning('Error !', 'Checkout must be greater or \
             equal checkin date')
@@ -182,10 +165,32 @@ class HotelFolioRoom(models.Model):
                 *time.strptime(checkout_date, '%Y-%m-%d %H:%M:%S')[:5])
             - datetime.datetime(
                 *time.strptime(checkin_date, '%Y-%m-%d %H:%M:%S')[:5])
+
             qty = diffDate.days
             if qty == 0:
                 qty = 1
         return {'value': {'product_uom_qty': qty}}
+
+    @api.model
+    def create(self, vals, check=True):
+        folio = self.env['hotel.folio'].browse([vals['folio_id']])[0]
+        vals.update({'order_id': folio.order_id.id})
+        return super(HotelFolioRoom, self).create(vals)
+
+    @api.multi
+    def _amount_line_net(self, field_name, arg):
+        amount_line = self.env['sale.order.line'].browse(self.ids)
+        return amount_line._amount_line_net(field_name, arg)
+
+    @api.multi
+    def _amount_line(self, field_name, arg):
+        amount_line = self.env['sale.order.line'].browse(self.ids)
+        return amount_line._amount_line(field_name, arg)
+
+    @api.multi
+    def _number_packages(self, field_name, arg):
+        packages = self.env['sale.order.line'].browse(self.ids)
+        return packages._number_packages(field_name, arg)
 
     @api.multi
     def button_confirm(self):
