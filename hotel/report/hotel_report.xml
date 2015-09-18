@@ -59,7 +59,7 @@
 
     <menuitem id="menu_hotel_reporting" name="Hotel" parent="base.menu_reporting" sequence="15"/>
 
-    <menuitem name="Folio Room Analysis" id="menu_open_hotel_folio1_report"
+    <menuitem id="menu_open_hotel_folio1_report" name="Folio Room Analysis"
             action="action_folio_report" sequence="10" parent="hotel.menu_hotel_reporting" />
 
 

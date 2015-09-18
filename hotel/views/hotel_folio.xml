@@ -2,7 +2,7 @@
 <openerp>
     <data>
 
-        <record model="ir.ui.view" id="view_hotel_folio_form">
+        <record id="view_hotel_folio_form"  model="ir.ui.view">
             <field name="name">hotel.folio.form</field>
             <field name="model">hotel.folio</field>
             <field name="mode">primary</field>
@@ -86,7 +86,7 @@
         </record>
 
 
-        <record model="ir.ui.view" id="view_hotel_folio_tree">
+        <record id="view_hotel_folio_tree" model="ir.ui.view">
             <field name="name">hotel.folio.tree</field>
             <field name="model">hotel.folio</field>
             <field name="arch" type="xml">
@@ -102,7 +102,7 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="hotel_folio_calendar_view">
+        <record id="hotel_folio_calendar_view" model="ir.ui.view">
             <field name="name">Hotel- Folios Calendar</field>
             <field name="model">hotel.folio</field>
             <field name="arch" type="xml">
@@ -180,9 +180,8 @@
             </field>
         </record>
 
-        <menuitem name="Folio" id="menu_open_hotel_folio1_form_tree_all"
+        <menuitem id="menu_open_hotel_folio1_form_tree_all" name="Folio"
             action="action_folio_tree" sequence="5" parent="hotel.hotel_folio_menu" />
-
 
     </data>
 </openerp>

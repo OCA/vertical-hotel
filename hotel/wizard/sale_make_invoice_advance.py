@@ -1,8 +1,9 @@
-from openerp import models
+# -*- encoding: utf-8 -*-
 from openerp import api
+from openerp import models
 
 
-class sale_advance_payment_inv(models.Model):
+class SaleAdvancePaymentInv(models.Model):
     _inherit = ['sale.advance.payment.inv']
 
     @api.multi

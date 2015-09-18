@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
+import datetime
+
+from openerp.exceptions import ValidationError
 from openerp.tests.common import TransactionCase
 from openerp.tools import mute_logger
-from openerp.exceptions import ValidationError
-import datetime
 
 
 class TestHotel(TransactionCase):
