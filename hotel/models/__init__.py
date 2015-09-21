@@ -1,5 +1,4 @@
-# -*- encoding: utf-8 -*-
-
+# -*- coding: utf-8 -*-
 from . import hotel
 from . import hotel_folio
 from . import hotel_folio_room
