@@ -1,5 +1,4 @@
-# -*- encoding: utf-8 -*-
-
+# -*- coding: utf-8 -*-
 {
     "name": "Hotel Management Base",
     "version": "8.0.1.0.0",
