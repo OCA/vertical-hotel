@@ -5,6 +5,26 @@
 
 write me
 
+[//]: # (addons)
+Available addons
+----------------
+addon | version | summary
+--- | --- | ---
+[board_frontdesk](board_frontdesk/) | 1.0 | Board for Hotel FrontDesk
+
+Unported addons
+---------------
+addon | version | summary
+--- | --- | ---
+[hotel](__unported__/hotel/) | 1.0 (unported) | Hotel Management Base
+[hotel_housekeeping](__unported__/hotel_housekeeping/) | 1.0 (unported) | Hotel Housekeeping Management
+[hotel_reservation](__unported__/hotel_reservation/) | 1.0 (unported) | Hotel Reservation Management
+[hotel_restaurant](__unported__/hotel_restaurant/) | 1.0 (unported) | Hotel Restaurant Management
+[report_hotel_reservation](__unported__/report_hotel_reservation/) | 1.0 (unported) | Hotel Reservation Management - Reporting
+[report_hotel_restaurant](__unported__/report_hotel_restaurant/) | 1.0 (unported) | Restaurant Management - Reporting
+
+[//]: # (end addons)
+
 ----
 
 OCA, or the Odoo Community Association, is a nonprofit organization whose
