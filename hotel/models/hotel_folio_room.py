@@ -90,10 +90,8 @@ class HotelFolioRoom(models.Model):
                 self.name = self.product_id.description
             else:
                 self.name = self.product_id.name
-            self.tax_id = self.product_id.taxes_id
-            self.price_unit = self.product_id.list_price
 
-            return self.pool['sale.order.line'].product_id_change(
+            sale_order = self.pool['sale.order.line'].product_id_change(
                 self._cr,
                 self._uid,
                 self._ids,
@@ -114,6 +112,10 @@ class HotelFolioRoom(models.Model):
                 False,
                 self._context
             )
+            
+            self.price_unit = sale_order['value']['price_unit']
+            self.tax_id = sale_order['value']['tax_id']
+            return sale_order
 
     @api.onchange('checkin_date', 'checkout_date')
     def _onchange_dates(self):

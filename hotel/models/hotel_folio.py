@@ -147,6 +147,11 @@ class HotelFolio(models.Model):
         return res
 
     @api.multi
+    def action_view_delivery(self):
+        res = self.env['sale.order'].browse(self.ids).action_view_delivery()
+        return res
+
+    @api.multi
     def action_ship_end(self):
         res = self.env['sale.order'].browse(self.ids).action_ship_end()
         for order in self:
