@@ -2,7 +2,7 @@
 <openerp>
     <data>
         <!-- Services -->
-        <record model="ir.ui.view" id="view_hotel_service_type_form">
+        <record id="view_hotel_service_type_form" model="ir.ui.view">
             <field name="name">hotel.service_type.form</field>
             <field name="model">hotel.service.type</field>
             <field name="arch" type="xml">
@@ -17,7 +17,7 @@
                 </form>
             </field>
         </record>
-        <record model="ir.ui.view" id="view_hotel_service_type_tree">
+        <record id="view_hotel_service_type_tree" model="ir.ui.view">
             <field name="name">hotel.service_type.tree</field>
             <field name="model">hotel.service.type</field>
             <field name="arch" type="xml">
@@ -26,7 +26,7 @@
                 </tree>
             </field>
         </record>
-        <record model="ir.actions.act_window" id="open_hotel_service_type_form_tree">
+        <record id="open_hotel_service_type_form_tree" model="ir.actions.act_window">
             <field name="name">Service Type</field>
             <field name="res_model">hotel.service.type</field>
             <field name="context">{'default_isservicetype':1}</field>
@@ -35,11 +35,11 @@
         </record>
         <menuitem id="menu_hotel_service" name="Services"
             parent="hotel.hotel_configuration_menu" sequence="2" />
-        <menuitem name="Service Types" id="menu_open_hotel_service_type_form_tree"
+        <menuitem id="menu_open_hotel_service_type_form_tree" name="Service Types"
             action="open_hotel_service_type_form_tree" sequence="9"
             parent="hotel.menu_hotel_service" />
 
-        <record model="ir.ui.view" id="view_hotel_services_form">
+        <record id="view_hotel_services_form" model="ir.ui.view">
             <field name="name">.hotel.services.form</field>
             <field name="model">hotel.services</field>
             <field name="arch" type="xml">
@@ -114,7 +114,7 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="view_hotel_services_tree">
+        <record id="view_hotel_services_tree" model="ir.ui.view">
             <field name="name">hotel.services.tree</field>
             <field name="model">hotel.services</field>
             <field name="arch" type="xml">
@@ -125,7 +125,7 @@
                 </tree>
             </field>
         </record>
-        <record model="ir.actions.act_window" id="action_hotel_services_form">
+        <record id="action_hotel_services_form" model="ir.actions.act_window">
             <field name="name">Hotel Services</field>
             <field name="res_model">hotel.services</field>
             <field name="view_type">form</field>
@@ -133,12 +133,12 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <menuitem name="Services" id="menu_open_hotel_services_form"
+        <menuitem id="menu_open_hotel_services_form" name="Services"
             action="action_hotel_services_form" sequence="8"
             parent="hotel.menu_hotel_service" />
 
         <!-- Categories for Room, Amenities, Services -->
-        <record model="ir.actions.act_window" id="hotel_room_category_action">
+        <record id="hotel_room_category_action" model="ir.actions.act_window">
             <field name="name">Rooms by Category</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">product.category</field>
@@ -147,21 +147,8 @@
             <field name="view_type">tree</field>
             <field name="view_id" ref="product.product_category_tree_view" />
         </record>
-        <!-- 
-        <record model="ir.actions.act_window" id="hotel_ty_category_action">
-            <field name="name">Amenities by Category</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">product.category</field>
-            <field name="domain">[('parent_id','=',False),('isamenitytype','=',True)]
-            </field>
-            <field name="view_type">tree</field>
-            <field name="view_id" ref="product.product_category_tree_view" />
-        </record>
-        <menuitem name="Amenities by Type" id="menu_hotel_ty_category_action"
-            action="hotel_ty_category_action" sequence="4" parent="hotel.menu_amenity" />
-             -->
 
-        <record model="ir.actions.act_window" id="hotel_service_category_action">
+        <record id="hotel_service_category_action" model="ir.actions.act_window">
             <field name="name">Services by Category</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">product.category</field>
@@ -170,7 +157,7 @@
             <field name="view_type">tree</field>
             <field name="view_id" ref="product.product_category_tree_view" />
         </record>
-        <menuitem name="Services by Type" id="menu_hotel_service_category_action"
+        <menuitem id="menu_hotel_service_category_action" name="Services by Type"
             action="hotel_service_category_action" sequence="10"
             parent="hotel.menu_hotel_service" />
 

@@ -17,10 +17,6 @@ For further information, please visit:
 
 * https://www.odoo.com/forum/help-1
 
-Known issues / Roadmap
-======================
-
-* ...
 
 Bug Tracker
 ===========
@@ -39,6 +35,7 @@ Contributors
 
 * Carlos Alba <carlos.alba@domatix.com>
 * Angel Moya <angel.moya@domatix.com>
+* Alex Fraseniuc <imasd@domatix.com>
 
 Maintainer
 ----------

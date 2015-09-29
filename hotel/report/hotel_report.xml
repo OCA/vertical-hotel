@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-<data>	
-	
+<data>
+
 	<record id="view_order_product_graph" model="ir.ui.view">
          <field name="name">hotel.report.graph</field>
          <field name="model">hotel.report</field>
          <field name="arch" type="xml">
              <graph string="Sales Analysis" type="pivot" stacked="True">
-                <field name="partner_id" type="row"/>
-                 <field name="date_order" interval="month" type="col"/>
+                <field name="product_id" type="row"/>
+                 <field name="checkin_date" interval="month" type="col"/>
                  <field name="price_total" type="measure"/>
              </graph>
          </field>
     </record>
-    
-    
-    
+
+
+
     <record id="view_order_product_search" model="ir.ui.view">
         <field name="name">hotel.report.search</field>
         <field name="model">hotel.report</field>
@@ -46,7 +46,7 @@
             </search>
         </field>
     </record>
-    
+
 	<record id="action_folio_report" model="ir.actions.act_window">
     	<field name="name">Action Folio Report</field>
     	<field name="res_model">hotel.report</field>
@@ -55,13 +55,13 @@
         <field name="search_view_id" ref="view_order_product_search"/>
         <field name="view_id" ref="view_order_product_graph"/>
     </record>
-	
-    
+
+
     <menuitem id="menu_hotel_reporting" name="Hotel" parent="base.menu_reporting" sequence="15"/>
-    
-    <menuitem name="Folio Room Analysis" id="menu_open_hotel_folio1_report"
+
+    <menuitem id="menu_open_hotel_folio1_report" name="Folio Room Analysis"
             action="action_folio_report" sequence="10" parent="hotel.menu_hotel_reporting" />
-    
-	
+
+
 </data>
 </openerp>

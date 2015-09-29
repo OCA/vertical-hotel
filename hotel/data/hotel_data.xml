@@ -1,9 +1,9 @@
 <?xml version="1.0" ?>
 <openerp>
 	<data noupdate="1">
-	
+
 	<!-- Floor	-->
-	
+
 		<record id="hotel_floor_ground0" model="hotel.floor">
 			<field eval="&quot;Ground&quot;" name="name"/>
 		</record>
@@ -19,9 +19,9 @@
 			<field eval="&quot;Third&quot;" name="name"/>
 			<field eval="3" name="sequence"/>
 		</record>
-		
+
 	<!-- hotel_room_amenities_type	-->
-		
+
 
 		<record id="hotel_room_amenities_type_0" model="hotel.room.amenities.type">
 			<field name="name">All Aminities</field>
@@ -42,9 +42,9 @@
 			<field name="parent_id" ref="hotel_room_amenities_type_1"/>
 			<field name="name">Double Bed</field>
 		</record>
-		
+
 	<!-- hotel_room_type	-->
-		
+
 		<record id="hotel_room_type_0" model="hotel.room.type">
 			<field name="name">All Rooms</field>
 		</record>
@@ -56,19 +56,14 @@
 			<field name="parent_id" ref="hotel_room_type_0"/>
 			<field name="name">Double</field>
 		</record>
-
-		
+	
 		<record id="hotel_room_type_3" model="hotel.room.type">
   			 <field name="parent_id" ref="hotel_room_type_0"/>
   			 <field name="name">No Room</field>
   		</record>
 
-		<record id="hotel_room_type_3" model="hotel.room.type">
-			<field name="parent_id" ref="hotel_room_type_0"/>
-			<field name="name">No Room</field>
-		</record>
 		<!-- hotel_service_type	-->
-		
+
 		<record id="hotel_service_type_0" model="hotel.service.type">
 			<field name="name">All Services</field>
 		</record>
@@ -80,28 +75,28 @@
 			<field name="parent_id" ref="hotel_service_type_0"/>
 			<field name="name">Variable</field>
 		</record>
-		
 
-			
+
+
 	<!-- hotel_room	-->
 		<record id="hotel_room_0" model="hotel.room">
 			<field name="name">Single-101</field>
 			<field name="type">service</field>
 			<field name="uom_po_id">6</field>
 			<field name="uom_id">6</field>
-			<field name="categ_id" ref="hotel_room_type_1"/> 
+			<field name="categ_id" ref="hotel_room_type_1"/>
 			<field name="list_price">100.00</field>
 		</record>
-	
-	
-		
-	 
+
+
+
+
 		<record id="hotel_room_1" model="hotel.room">
 			<field name="name">Single-102</field>
 			<field name="type">service</field>
 			<field name="uom_po_id">6</field>
 			<field name="uom_id">6</field>
-			<field name="categ_id" ref="hotel_room_type_1"/> 
+			<field name="categ_id" ref="hotel_room_type_1"/>
 			<field name="list_price">100.00</field>
 		</record>
 		<record id="hotel_room_2" model="hotel.room">
@@ -109,7 +104,7 @@
 			<field name="type">service</field>
 			<field name="uom_po_id">6</field>
 			<field name="uom_id">6</field>
-			<field name="categ_id" ref="hotel_room_type_1"/> 
+			<field name="categ_id" ref="hotel_room_type_1"/>
 			<field name="list_price">100.00</field>
 		</record>
 		<record id="hotel_room_3" model="hotel.room">
@@ -117,7 +112,7 @@
 			<field name="type">service</field>
 			<field name="uom_po_id">6</field>
 			<field name="uom_id">6</field>
-			<field name="categ_id" ref="hotel_room_type_2"/> 
+			<field name="categ_id" ref="hotel_room_type_2"/>
 			<field name="list_price">200.00</field>
 		</record>
 		<record id="hotel_room_4" model="hotel.room">
@@ -125,7 +120,7 @@
 			<field name="type">service</field>
 			<field name="uom_po_id">6</field>
 			<field name="uom_id">6</field>
-			<field name="categ_id" ref="hotel_room_type_2"/> 
+			<field name="categ_id" ref="hotel_room_type_2"/>
 			<field name="list_price">200.00</field>
 		</record>
 		<record id="hotel_room_5" model="hotel.room">
@@ -133,7 +128,7 @@
 			<field name="type">service</field>
 			<field name="uom_po_id">6</field>
 			<field name="uom_id">6</field>
-			<field name="categ_id" ref="hotel_room_type_2"/> 
+			<field name="categ_id" ref="hotel_room_type_2"/>
 			<field name="list_price">200.00</field>
 		</record>
 		<record id="hotel_room_6" model="hotel.room">
@@ -141,34 +136,34 @@
 		    <field name="type">service</field>
 		    <field name="uom_po_id">6</field>
 			<field name="uom_id">6</field>
-		    <field name="categ_id" ref="hotel_room_type_3"/> 
+		    <field name="categ_id" ref="hotel_room_type_3"/>
 		    <field name="list_price">0.00</field>
 		</record>
-		
-		
+
+
 
 		<!-- hotel_services	-->
 
-	
+
 		<record id="hotel_service_6" model="hotel.services">
 			<field name="name">Internet</field>
 			<field name="type">service</field>
-			<field name="categ_id" ref="hotel_service_type_1"/> 
+			<field name="categ_id" ref="hotel_service_type_1"/>
 			<field name="list_price">200.00</field>
 		</record>
 		<record id="hotel_service_0" model="hotel.services">
 			<field name="name">Taxi</field>
 			<field name="type">service</field>
-			<field name="categ_id" ref="hotel_service_type_2"/> 
+			<field name="categ_id" ref="hotel_service_type_2"/>
 			<field name="list_price">500.00</field>
 		</record>
 		<record id="hotel_service_1" model="hotel.services">
 			<field name="name">Laundry</field>
 			<field name="type">service</field>
-			<field name="categ_id" ref="hotel_service_type_1"/> 
+			<field name="categ_id" ref="hotel_service_type_1"/>
 			<field name="list_price">150.00</field>
 		</record>
-		
-	
+
+
 	</data>
 </openerp>

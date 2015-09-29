@@ -2,52 +2,51 @@
 from openerp import fields
 from openerp import models
 from openerp import tools
-from openerp.tools.translate import _
-from mx import DateTime
 
-class hotel_report(models.Model):
+
+class HotelReport(models.Model):
     _name = "hotel.report"
     _description = "Hotel Report"
     _auto = False
-    
+
     date_order = fields.Datetime('Date Order',
-                                 readonly = True)
-       
+                                 readonly=True)
+
     product_id = fields.Many2one('product.product',
                                  'Product',
-                                 readonly = True,)
-    
+                                 readonly=True,)
+
     price_total = fields.Float('Total Price',
-                                 readonly=True)
-    
+                               readonly=True)
+
     partner_id = fields.Many2one('res.partner',
                                  'Customer',
-                                 readonly = True)
-    
+                                 readonly=True)
+
     checkin_date = fields.Datetime('Check In',
-                                   readonly = True)
-    
+                                   readonly=True)
+
     checkout_date = fields.Datetime('Check Out',
-                                    readonly = True)
-    
+                                    readonly=True)
+
     user_id = fields.Many2one('res.users', 'Salesperson',
-                               readonly=True)
-    
+                              readonly=True)
+
     categ_id = fields.Many2one('product.category',
                                'Category of Product',
                                readonly=True)
-    
+
     product_uom = fields.Many2one('product.uom',
                                   'Unit of Measure',
                                   readonly=True)
-    
+
     product_uom_qty = fields.Float('# of Qty',
                                    readonly=True)
-    
+
     order_id = fields.Many2one('sale.order',
                                'Order',
                                readonly=True)
-    
+
     def _select(self):
         select_str = """
              SELECT min(ol.id) as id,
@@ -57,7 +56,7 @@ class hotel_report(models.Model):
                     r.checkout_date,
                     sum(ol.product_uom_qty / u.factor * u2.factor) \
                     as product_uom_qty,
-                    sum(ol.product_uom_qty * ol.price_unit * (100.0-ol.discount)\
+                    sum(ol.product_uom_qty*ol.price_unit*(100.0-ol.discount)\
                      / 100.0) as price_total,
                     s.date_order as date_order,
                     s.partner_id as partner_id,
@@ -67,7 +66,6 @@ class hotel_report(models.Model):
                     s.pricelist_id as pricelist_id
         """
         return select_str
-    
 
     def _from(self):
         from_str = """
@@ -86,11 +84,10 @@ class hotel_report(models.Model):
         """
 
         return from_str
-    
 
     def _group_by(self):
         group_by_str = """
-            GROUP BY 
+            GROUP BY
                      s.name,
                      ol.product_id,
                      r.checkin_date,
@@ -102,18 +99,17 @@ class hotel_report(models.Model):
                      ol.state,
                      ol.order_id,
                      s.pricelist_id
-              
         """
         return group_by_str
-    
 
     def init(self, cr):
-        #self._table = hotel_report
         tools.drop_view_if_exists(cr, self._table)
         cr.execute("""CREATE or REPLACE VIEW %s as (
             %s
             FROM %s
             %s
-            )""" % (self._table, self._select(), self._from(), self._group_by()))
-
-    
+            )""" % (self._table,
+                    self._select(),
+                    self._from(),
+                    self._group_by())
+                   )
