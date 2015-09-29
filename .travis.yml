@@ -3,10 +3,22 @@ language: python
 python:
   - "2.7"
 
+sudo: false
+cache: pip
+
+addons:
+  apt:
+    packages:
+      -  python-lxml
+      -  expect-dev
+      -  
 env:
-  - VERSION="8.0" LINT_CHECK="1"
-  - VERSION="8.0" ODOO_REPO="odoo/odoo" LINT_CHECK="0"
-  - VERSION="8.0" ODOO_REPO="OCA/OCB" LINT_CHECK="0"
+  global:
+  - VERSION="8.0" TESTS="0" LINT_CHECK="0" TRANSIFEX="0"
+  matrix:
+  - LINT_CHECK="1"
+  - TESTS="1" ODOO_REPO="odoo/odoo"
+  - TESTS="1" ODOO_REPO="OCA/OCB"
 # either use the two lines above or the two below. Don't change the default if
 # it's not necessary (it is only necessary if modules in your repository can't
 # be installed in the same database. And you get a huge speed penalty in your
@@ -14,10 +26,14 @@ env:
 #  - VERSION="8.0" ODOO_REPO="odoo/odoo" UNIT_TEST="1" LINT_CHECK="0"
 #  - VERSION="8.0" ODOO_REPO="OCA/OCB" UNIT_TEST="1" LINT_CHECK="0"
 
+before_script:
+  - sh -c "psql -c 'DROP DATABASE IF EXISTS openerp_test;' -U postgres; fi"
+  - sh -c "createdb openerp_test"
 virtualenv:
   system_site_packages: true
 
 install:
+  - pip install unidecode
   - git clone --depth=1 https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
   - travis_install_nightly
@@ -26,4 +42,4 @@ script:
   - travis_run_tests
 
 after_success:
-  coveralls
+  - travis_after_tests_success

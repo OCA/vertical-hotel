@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="view_hotel_folio_form"  model="ir.ui.view">
+            <field name="name">hotel.folio.form</field>
+            <field name="model">hotel.folio</field>
+            <field name="mode">primary</field>
+            <field eval="7" name="priority" />
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="attributes">
+                    <attribute name="name">Folio</attribute>
+                </xpath>
+
+                <xpath expr="//label[@string='Sales Order ']" position="attributes">
+                    <attribute name="string">Folio</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='warehouse_id']" position="replace">
+                  <field name="warehouse_id" on_change="onchange_warehouse_id(warehouse_id)" options="{'no_create': True}" groups="stock.group_locations" invisible="1"/>
+                </xpath>
+                <field name="date_order" position="before">
+                    <field name="checkin_date" string="Check In"/>
+                    <field name="checkout_date" string="Check Out"/>
+                    <field name="duration" />
+                </field>
+
+                <field name="order_line" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </field>
+
+                <field name="order_line" position="before">
+                    <separator string="Room Lines" colspan="4" />
+                    <field name="room_ids" colspan="4" string="Room Line"
+                        default_get="{'checkin_date': checkin_date,'checkout_date':checkout_date}"
+                        context="{'checkin_date':checkin_date, 'checkout_date':checkout_date}"
+                        nolabel="1">
+                        <tree string="Room Line" editable="top">
+                            <field name="sequence" widget="handle" />
+                            <field name="state" invisible="1" />
+                            <field name="th_weight" invisible="1" />
+                            <field name="product_id" groups="base.group_user"
+                                domain="[('isroom','=',True)]" />
+                            <field name="name" />
+                            <field name="checkin_date" />
+                            <field name="checkout_date" />
+                            <field name="product_uom_qty" />
+                            <field name="product_uom" invisible="1" />
+                            <field name="product_uos_qty" groups="product.group_uos"
+                                invisible="1" />
+                            <field name="product_uos" string="UoS"
+                                groups="product.group_uos" invisible="1" />
+                            <field name="price_unit" />
+                            <field name="tax_id" widget="many2many_tags"
+                                domain="[('parent_id','=',False),('type_tax_use','&lt;&gt;','purchase')]" />
+                            <field name="discount" groups="sale.group_discount_per_so_line" />
+                            <field name="price_subtotal" />
+                        </tree>
+                    </field>
+                    <separator string="Service Lines" colspan="4" />
+                    <field name="service_ids" colspan="4" string="Service Line"
+                        nolabel="1">
+                        <tree string="Service Line" editable="top">
+                            <field name="sequence" widget="handle" />
+                            <field name="state" invisible="1" />
+                            <field name="th_weight" invisible="1" />
+                            <field name="product_id" groups="base.group_user"
+                                domain="[('isservice','=',True)]" />
+                            <field name="name" />
+                            <field name="product_uom_qty" />
+                            <field name="product_uom" invisible="1" />
+                            <field name="product_uos_qty" groups="product.group_uos"
+                                invisible="1" />
+                            <field name="product_uos" string="UoS"
+                                groups="product.group_uos" invisible="1" />
+                            <field name="price_unit" />
+                            <field name="tax_id" widget="many2many_tags"
+                                domain="[('parent_id','=',False),('type_tax_use','&lt;&gt;','purchase')]" />
+                            <field name="discount" groups="sale.group_discount_per_so_line" />
+                            <field name="price_subtotal" />
+                        </tree>
+                    </field>
+                </field>
+            </field>
+        </record>
+
+
+        <record id="view_hotel_folio_tree" model="ir.ui.view">
+            <field name="name">hotel.folio.tree</field>
+            <field name="model">hotel.folio</field>
+            <field name="arch" type="xml">
+                <tree string="Hotel Folio" colors="blue:state == 'draft';gray:state == 'done'">
+                    <field name="checkin_date" string="Check In"/>
+                    <field name="checkout_date" string="Check Out"/>
+                    <field name="name" select="1" />
+                    <field name="partner_id" select="1" />
+                    <field name="date_order" select="1" />
+                    <field name="state" />
+                    <field name="amount_total" sum="Total amount" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="hotel_folio_calendar_view" model="ir.ui.view">
+            <field name="name">Hotel- Folios Calendar</field>
+            <field name="model">hotel.folio</field>
+            <field name="arch" type="xml">
+                <calendar string="Folios" date_start="checkin_date"
+                    color="user_id" date_stop="checkout_date">
+                    <field name="name" />
+                    <field name="partner_id" />
+                    <field name="duration" />
+                </calendar>
+            </field>
+        </record>
+
+        <!-- TODO: Hacer una vista heredada -->
+        <record id="view_hotel_folio_filter" model="ir.ui.view">
+            <field name="name">hotel.folio.select</field>
+            <field name="model">hotel.folio</field>
+            <field name="arch" type="xml">
+                <search string="Search Folio">
+                    <field name="name" string="Folio"
+                        filter_domain="['|',('name','ilike',self),('client_order_ref','ilike',self)]" />
+                    <field name="partner_id" operator="child_of" />
+                    <field name="user_id" />
+                    <field name="project_id" />
+                    <field name="product_id" string="Room" />
+                    <filter string="My" domain="[('user_id','=',uid)]"
+                        name="my_sale_orders_filter" />
+                    <separator />
+                    <field name="checkin_date" />
+                    <field name="checkout_date" />
+                    <separator />
+                    <filter string="Quotations" name="draft"
+                        domain="[('state','in',('draft','sent'))]" help="Sales Order that haven't yet been confirmed" />
+                    <filter string="Sales" name="sales"
+                        domain="[('state','in',('manual','progress'))]" />
+                    <filter string="To Invoice" domain="[('state','=','manual')]"
+                        help="Sales Order ready to be invoiced" />
+                    <filter string="Done" domain="[('state','=','done')]"
+                        help="Sales Order done" />
+                    <separator />
+                    <filter string="New Mail" name="message_unread"
+                        domain="[('message_unread','=',True)]" />
+                    <group expand="0" string="Group By">
+                        <filter string="Salesperson" domain="[]"
+                            context="{'group_by':'user_id'}" />
+                        <filter string="Customer" domain="[]"
+                            context="{'group_by':'partner_id'}" />
+                        <filter string="Order ID" domain="[]"
+                            context="{'group_by':'order_id'}" />
+                        <filter string="Order Month" domain="[]"
+                            context="{'group_by':'date_order'}" />
+                        <filter string="Check In" domain="[]"
+                            context="{'group_by':'checkin_date'}" />
+                        <filter string="Check Out" domain="[]"
+                            context="{'group_by':'checkout_date'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="action_folio_tree" model="ir.actions.act_window">
+            <field name="name">Folios</field>
+            <field name="res_model">hotel.folio</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="view_id" ref="view_hotel_folio_tree" />
+            <field name="search_view_id" ref="view_hotel_folio_filter" />
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to define a new folio.
+                </p>
+                <p>
+                    You must define a folio...
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_open_hotel_folio1_form_tree_all" name="Folio"
+            action="action_folio_tree" sequence="5" parent="hotel.hotel_folio_menu" />
+
+    </data>
+</openerp>
