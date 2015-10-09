@@ -20,7 +20,7 @@
 ##############################################################################
 {
     "name":"Board for Hotel FrontDesk",
-    "version":"1.0",
+    "version":"8.0.1.0.0",
     "author": "Tiny,Odoo Community Association (OCA)",
     "category":"Board/Hotel FrontDesk",
     "depends":[

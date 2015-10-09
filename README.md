@@ -10,7 +10,7 @@ Available addons
 ----------------
 addon | version | summary
 --- | --- | ---
-[board_frontdesk](board_frontdesk/) | 1.0 | Board for Hotel FrontDesk
+[board_frontdesk](board_frontdesk/) | 8.0.1.0.0 | Board for Hotel FrontDesk
 
 Unported addons
 ---------------
