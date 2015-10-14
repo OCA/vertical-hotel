@@ -38,5 +38,5 @@ This module implements a dashboard for hotel FrontDesk that includes:
     * Calendar view of Monthly Check-In and Check-Out
     """,
     "active":False,
-    "installable":True,
+    'installable': False,
 }
