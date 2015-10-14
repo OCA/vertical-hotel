@@ -4,15 +4,15 @@ python:
   - "2.7"
 
 env:
-  - VERSION="8.0" LINT_CHECK="1"
-  - VERSION="8.0" ODOO_REPO="odoo/odoo" LINT_CHECK="0"
-  - VERSION="8.0" ODOO_REPO="OCA/OCB" LINT_CHECK="0"
+  - VERSION="9.0" LINT_CHECK="1"
+  - VERSION="9.0" ODOO_REPO="odoo/odoo" LINT_CHECK="0"
+  - VERSION="9.0" ODOO_REPO="OCA/OCB" LINT_CHECK="0"
 # either use the two lines above or the two below. Don't change the default if
 # it's not necessary (it is only necessary if modules in your repository can't
 # be installed in the same database. And you get a huge speed penalty in your
 # tests)
-#  - VERSION="8.0" ODOO_REPO="odoo/odoo" UNIT_TEST="1" LINT_CHECK="0"
-#  - VERSION="8.0" ODOO_REPO="OCA/OCB" UNIT_TEST="1" LINT_CHECK="0"
+#  - VERSION="9.0" ODOO_REPO="odoo/odoo" UNIT_TEST="1" LINT_CHECK="0"
+#  - VERSION="9.0" ODOO_REPO="OCA/OCB" UNIT_TEST="1" LINT_CHECK="0"
 
 virtualenv:
   system_site_packages: true
