@@ -112,7 +112,7 @@ class HotelFolioRoom(models.Model):
                 False,
                 self._context
             )
-            
+
             self.price_unit = sale_order['value']['price_unit']
             self.tax_id = sale_order['value']['tax_id']
             return sale_order
