@@ -6,6 +6,7 @@
 write me
 
 [//]: # (addons)
+
 Available addons
 ----------------
 addon | version | summary
