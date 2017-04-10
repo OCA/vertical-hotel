@@ -21,7 +21,7 @@
 
 {
     "name" : "Hotel Management Base",
-    "version" : "1.0",
+    "version" : "10.0.1.0.0",
     "author" : "Tiny,Odoo Community Association (OCA)",
     "category" : "Generic Modules/Hotel Management",
     "description": """
