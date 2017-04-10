@@ -31,7 +31,7 @@ addon | version | summary
 [report_hotel_restaurant](report_hotel_restaurant/) | 1.0 (unported) | Restaurant Management - Reporting
 
 [//]: # (end addons)
-----
+
 
 OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
