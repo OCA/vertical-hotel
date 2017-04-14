@@ -20,11 +20,12 @@
 ##############################################################################
 
 {
-    "name" : "Hotel Management Base",
-    "version" : "10.0.1.0.0",
-    "author" : "Tiny,Odoo Community Association (OCA)",
-    "category" : "Generic Modules/Hotel Management",
-    "description": """
+    'name' : 'Hotel Management Base',
+    'version' : '10.0.1.0.0',
+    'author' : 'Tiny, Odoo Community Association (OCA), Serpent Consulting Services Pvt. Ltd.',
+    'category' : "Generic Modules/Hotel Management",
+    'license' : "AGPL-3",
+    'description' : '''
 Module for Hotel/Resort/Rooms/Property management. You can manage:
 
 * Configure Property
@@ -34,24 +35,22 @@ Module for Hotel/Resort/Rooms/Property management. You can manage:
 * Payment
 
 Different reports are also provided, mainly for hotel statistics.
-    """,
-    "depends" : ["sale"],
-    "init_xml" : [],
-    "demo_xml" : [
+    ''',
+    'depends' : ['sale', 'sale_stock', 'point_of_sale', 'report'],
+    'init_xml' : [],
+    'demo': ['views/hotel_data.xml'],
+    'data': [
+            'security/hotel_security.xml',
+            'security/ir.model.access.csv',
+            'views/hotel_sequence.xml',
+            'views/hotel_report.xml',
+            'views/report_hotel_management.xml',
+            'views/hotel_view.xml',
+            'wizard/hotel_wizard.xml',
     ],
-    "update_xml" : [
-                    "hotel_view.xml",
-                    "hotel_data.xml",
-                    "hotel_folio_workflow.xml",
-                    "report/hotel_report.xml",
-                    "wizard/hotel_wizard.xml",
-                    "security/hotel_security.xml",
-                    "security/ir.model.access.csv",
-
-    ],
-    "active": False,
-    'installable': False,
-    'application': True,
+    'css': ['static/src/css/room_kanban.css'],
+    'auto_install' : False,
+    'installable' : True,
+    'application' : True,
+    'active' : False
 }
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
