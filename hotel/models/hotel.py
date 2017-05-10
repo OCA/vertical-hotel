@@ -123,7 +123,7 @@ class FolioRoomLine(models.Model):
     _description = 'Hotel Room Reservation'
     _rec_name = 'room_id'
 
-    room_id = fields.Many2one(comodel_name='hotel.room', string='Room id')
+    room_id = fields.Many2one('hotel.room', string='Room id')
     check_in = fields.Datetime('Check In Date', required=True)
     check_out = fields.Datetime('Check Out Date', required=True)
     folio_id = fields.Many2one('hotel.folio', string='Folio Number')
@@ -656,13 +656,7 @@ class HotelFolio(models.Model):
         sale_obj = self.env['sale.order'].browse(order_ids)
         rv = sale_obj.action_cancel()
         for sale in self:
-            for pick in sale.picking_ids:
-                workflow.trg_validate(self._uid, 'stock.picking', pick.id,
-                                      'button_cancel', self._cr)
             for invoice in sale.invoice_ids:
-                workflow.trg_validate(self._uid, 'account.invoice',
-                                      invoice.id, 'invoice_cancel',
-                                      self._cr)
                 sale.write({'state': 'cancel'})
         return rv
 
@@ -908,18 +902,6 @@ class HotelFolioLine(models.Model):
         avail_prod_ids = []
         for room in hotel_room_ids:
             assigned = False
-#            for line in room.room_reservation_line_ids:
-#                if line.status != 'cancel':
-#                    if(self.checkin_date <= line.check_in <=
-#                        self.checkout_date) or (self.checkin_date <=
-#                                                line.check_out <=
-#                                                self.checkout_date):
-#                        assigned = True
-#                    elif(line.check_in <= self.checkin_date <=
-#                         line.check_out) or (line.check_in <=
-#                                             self.checkout_date <=
-#                                             line.check_out):
-#                        assigned = True
             for rm_line in room.room_line_ids:
                 if rm_line.status != 'cancel':
                     if(self.checkin_date <= rm_line.check_in <=
@@ -955,10 +937,6 @@ class HotelFolioLine(models.Model):
         lines = [folio_line.order_line_id for folio_line in self]
         lines.button_done()
         self.write({'state': 'done'})
-        for folio_line in self:
-            workflow.trg_write(self._uid, 'sale.order',
-                               folio_line.order_line_id.order_id.id,
-                               self._cr)
         return True
 
     @api.multi
@@ -1224,7 +1202,7 @@ class CurrencyExchangeRate(models.Model):
         ---------------------------------------
         @param self: object pointer
         """
-        self.write({'state': 'done'})
+        self.state = 'done'
         return True
 
     @api.multi
@@ -1235,7 +1213,7 @@ class CurrencyExchangeRate(models.Model):
         ---------------------------------------
         @param self: object pointer
         """
-        self.write({'state': 'cancel'})
+        self.state = 'cancel'
         return True
 
     @api.multi
@@ -1246,7 +1224,7 @@ class CurrencyExchangeRate(models.Model):
         ---------------------------------------
         @param self: object pointer
         """
-        self.write({'state': 'draft'})
+        self.state = 'draft'
         return True
 
     @api.model
