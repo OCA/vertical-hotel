@@ -20,7 +20,7 @@
         </field>
     </record>
 
-        <!-- ########Company Configuration###### -->
+        <!-- ==== Company Configuration === -->
     <record id="res_company_inherit_config_hotel" model="ir.ui.view">
         <field name="name">res.company.inherit.config.hotel</field>
         <field name="model">res.company</field>
