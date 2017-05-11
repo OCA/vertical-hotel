@@ -265,28 +265,6 @@ class HotelFolio(models.Model):
         return super(HotelFolio, self).copy(default=default)
 
     @api.multi
-    def _invoiced(self, name, arg):
-        '''
-        @param self: object pointer
-        @param name: Names of fields.
-        @param arg: User defined arguments
-        '''
-        return self.env['sale.order']._invoiced(name, arg)
-
-    @api.multi
-    def _invoiced_search(self, obj, name, args):
-        '''
-        @param self: object pointer
-        @param name: Names of fields.
-        @param arg: User defined arguments
-        '''
-        return self.env['sale.order']._invoiced_search(obj, name, args)
-
-    @api.multi
-    def _incoterm_get(self):
-        return  self.env['sale.order']._incoterm_get()
-
-    @api.multi
     def _amount_untaxed(self, field_name, arg):
         return self.env['sale.order']._amount_untaxed(field_name, arg)
 
@@ -350,14 +328,13 @@ class HotelFolio(models.Model):
         -------------------------------------------------------------------
         @param self: object pointer
         '''
-        cr, uid, context = self.env.args
-        context = dict(context)
+        self._context = dict(self._context)
         for rec in self:
             if rec.partner_id.id and len(rec.room_lines) != 0:
-                context.update({'folioid': rec.id, 'guest': rec.partner_id.id,
+                self._context.update({'folioid': rec.id, 'guest': rec.partner_id.id,
                                 'room_no': rec.room_lines[0].product_id.name,
                                 'hotel': rec.warehouse_id.id})
-                self.env.args = cr, uid, misc.frozendict(context)
+                self.env.args = cr, uid, misc.frozendict(self._context)
             else:
                 raise except_orm(_('Warning'), _('Please Reserve Any Room.'))
         return {'name': _('Currency Exchange'),
@@ -366,10 +343,10 @@ class HotelFolio(models.Model):
                 'view_id': False,
                 'view_mode': 'form,tree',
                 'view_type': 'form',
-                'context': {'default_folio_no': context.get('folioid'),
-                            'default_hotel_id': context.get('hotel'),
-                            'default_guest_name': context.get('guest'),
-                            'default_room_number': context.get('room_no')
+                'context': {'default_folio_no': self._context.get('folioid'),
+                            'default_hotel_id': self._context.get('hotel'),
+                            'default_guest_name': self._context.get('guest'),
+                            'default_room_number': self._context.get('room_no')
                             },
                 }
 
@@ -608,7 +585,7 @@ class HotelFolio(models.Model):
 
     @api.multi
     def action_done(self):
-        self.write({'state': 'done'})
+        self.state = 'done'
 
     @api.multi
     def action_invoice_create(self, grouped=False, final=False):
@@ -644,7 +621,7 @@ class HotelFolio(models.Model):
         for sale in self:
             for line in sale.order_line:
                 line.write({'invoiced': 'invoiced'})
-        sale.write({'state': 'invoice_except'})
+        self.state = 'invoice_except'
         return res
 
     @api.multi
@@ -657,7 +634,7 @@ class HotelFolio(models.Model):
         rv = sale_obj.action_cancel()
         for sale in self:
             for invoice in sale.invoice_ids:
-                sale.write({'state': 'cancel'})
+                invoice.state = 'cancel'
         return rv
 
     @api.multi
@@ -936,7 +913,7 @@ class HotelFolioLine(models.Model):
         '''
         lines = [folio_line.order_line_id for folio_line in self]
         lines.button_done()
-        self.write({'state': 'done'})
+        self.state = 'done'
         return True
 
     @api.multi
