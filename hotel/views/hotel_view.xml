@@ -3,7 +3,6 @@
 <odoo>
 
     <menuitem id="hotel_management_menu" name="Hotel Management" />
-    
     <menuitem id="hotel_configuration_menu" name="Configuration"
         sequence="20" parent="hotel_management_menu" />
     <menuitem id="hotel_report_menu" name="Pdf Reports" sequence="6"
@@ -20,7 +19,7 @@
         </field>
     </record>
 
-        <!-- ==== Company Configuration === -->
+    <!-- ======== Company Configuration ======== -->
     <record id="res_company_inherit_config_hotel" model="ir.ui.view">
         <field name="name">res.company.inherit.config.hotel</field>
         <field name="model">res.company</field>
@@ -32,7 +31,7 @@
         </field>
     </record>
 
-    <!--======== Floor ======== -->
+    <!-- ======== Floor ======== -->
     <!-- Form view of hotel floor -->
     <record id="view_hotel_floor_form" model="ir.ui.view">
         <field name="name">hotel.floor.form</field>
@@ -110,6 +109,7 @@
         <field name="context">{'default_isroomtype':1}</field>
         <field name="view_mode">tree,form</field>
     </record>
+
     <menuitem id="menu_hotel_room" name="Room"
         parent="hotel.hotel_configuration_menu" sequence="2" />
     <menuitem id="menu_open_hotel_room_type_form_tree" name="Room Types"
@@ -264,12 +264,12 @@
         </field>
         <field name="view_id" ref="view_hotel_room_amenities_list" />
     </record>
+
     <menuitem id="menu_action_hotel_room_amenities_view_form" name="Amenities"
         action="action_hotel_room_amenities_view_form" sequence="2"
         parent="hotel.menu_amenity" />
 
-    <!--=================================================== Rooms =================================================== -->
-
+    <!-- ======== Rooms ======== -->
     <!-- Form view of hotel room -->
     <record id="view_hotel_room_form" model="ir.ui.view">
         <field name="name">hotel.room.form</field>
@@ -768,9 +768,7 @@
     <menuitem name="Generate Folio" id="menu_open_hotel_folio1_form_tree_all"
         action="open_hotel_folio1_form_tree_all" sequence="5" parent="menu_all_folio" />
 
-    <!--============ Hotel Service 
-        Type ============ -->
-
+    <!-- ======== Hotel Service Type ======== -->
     <!-- Form view of hotel service type -->
     <record id="view_hotel_service_type_form" model="ir.ui.view">
         <field name="name">hotel.service_type.form</field>
@@ -813,9 +811,7 @@
         action="open_hotel_service_type_form_tree" sequence="9"
         parent="hotel.menu_hotel_service" />
 
-    <!--============ Hotel Service 
-        ============ -->
-
+    <!-- ======== Hotel Service ======== -->
     <!-- Form view of hotel service -->
     <record id="view_hotel_services_form" model="ir.ui.view">
         <field name="name">.hotel.services.form</field>
@@ -827,9 +823,7 @@
                         <label string="Service" />
                         <field name="name" select="1" />
                     </h1>
-                    <group>
-                        <field name="default_code"/>
-                    </group>
+                    <group><field name="default_code"/></group>
                     <notebook>
                         <page string="Information">
                             <group>
@@ -941,11 +935,11 @@
         <field name="name">Rooms by Category</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">product.category</field>
-        <field name="domain">[('parent_id','=',False),('isroomtype','=',True)]
-        </field>
+        <field name="domain">[('parent_id','=',False),('isroomtype','=',True)]</field>
         <field name="view_type">tree</field>
         <field name="view_id" ref="product_category_tree_view" />
     </record>
+
     <menuitem name="Room by Type" id="menu_hotel_room_category_action"
         action="hotel_room_category_action" sequence="7" parent="hotel.menu_hotel_room" />
 
@@ -953,11 +947,11 @@
         <field name="name">Amenities by Category</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">product.category</field>
-        <field name="domain">[('parent_id','=',False),('isamenitytype','=',True)]
-        </field>
+        <field name="domain">[('parent_id','=',False),('isamenitytype','=',True)]</field>
         <field name="view_type">tree</field>
         <field name="view_id" ref="product_category_tree_view" />
     </record>
+
     <menuitem name="Amenities by Type" id="menu_hotel_ty_category_action"
         action="hotel_ty_category_action" sequence="4" parent="hotel.menu_amenity" />
 
@@ -965,11 +959,11 @@
         <field name="name">Services by Category</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">product.category</field>
-        <field name="domain">[('parent_id','=',False),('isservicetype','=',True)]
-        </field>
+        <field name="domain">[('parent_id','=',False),('isservicetype','=',True)]</field>
         <field name="view_type">tree</field>
         <field name="view_id" ref="product_category_tree_view" />
     </record>
+
     <menuitem name="Services by Type" id="menu_hotel_service_category_action"
         action="hotel_service_category_action" sequence="10"
         parent="hotel.menu_hotel_service" />
@@ -982,12 +976,12 @@
         <field name="arch" type="xml">
             <form string=" Currency Exchange">
                 <header>
-                    <button name="cur_confirm" string="Done" states='draft'
-                        icon="fa-check" />
-                    <button name="cur_cancel" string="Cancel" states='draft'
-                        icon="fa-close" />
-                    <button name="cur_cancel_draft" string="do_draft" states='cancel'
-                        icon="fa-check" />
+                    <button name="act_cur_done" string="Done" states='draft'
+                        icon="fa-check" type="object"/>
+                    <button name="act_cur_cancel" string="Cancel" states='draft'
+                        icon="fa-close" type="object"/>
+                    <button name="act_cur_cancel_draft" string="Set To Draft" states='cancel'
+                        icon="fa-check" type="object"/>
                     <button name="%(report_hotel_currency)d" states='done' type="action"
                         string="Print" class="oe_highlight" />
                     <field name="state" widget="statusbar" statusbar_visible="draft,done" />
@@ -995,9 +989,7 @@
                 <sheet>
                     <div class="oe_title ">
                         <label for="name" string="Name" />
-                        <h1>
-                            <field name="name"/>
-                        </h1>
+                        <h1><field name="name"/></h1>
                     </div>
                     <separator string="Details" />
                     <newline />

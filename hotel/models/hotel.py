@@ -206,11 +206,11 @@ class HotelFolio(models.Model):
     @api.multi
     def name_get(self):
         res = []
-        disp = ''
+        fname = ''
         for rec in self:
             if rec.order_id:
-                disp = str(rec.name)
-                res.append((rec.id, disp))
+                fname = str(rec.name)
+                res.append((rec.id, fname))
         return res
 
     @api.model
@@ -218,8 +218,8 @@ class HotelFolio(models.Model):
         if args is None:
             args = []
         args += ([('name', operator, name)])
-        mids = self.search(args, limit=100)
-        return mids.name_get()
+        folio = self.search(args, limit=100)
+        return folio.name_get()
 
     @api.model
     def _needaction_count(self, domain=None):
@@ -236,8 +236,8 @@ class HotelFolio(models.Model):
         else:
             to_zone = 'UTC'
         return _offset_format_timestamp1(time.strftime("%Y-%m-%d 12:00:00"),
-                                         '%Y-%m-%d %H:%M:%S',
-                                         '%Y-%m-%d %H:%M:%S',
+                                         DEFAULT_SERVER_DATETIME_FORMAT,
+                                         DEFAULT_SERVER_DATETIME_FORMAT,
                                          ignore_unparsable_time=True,
                                          context={'tz': to_zone})
 
@@ -250,8 +250,8 @@ class HotelFolio(models.Model):
         tm_delta = datetime.timedelta(days=1)
         return datetime.datetime.strptime(_offset_format_timestamp1
                                           (time.strftime("%Y-%m-%d 12:00:00"),
-                                           '%Y-%m-%d %H:%M:%S',
-                                           '%Y-%m-%d %H:%M:%S',
+                                           DEFAULT_SERVER_DATETIME_FORMAT,
+                                           DEFAULT_SERVER_DATETIME_FORMAT,
                                            ignore_unparsable_time=True,
                                            context={'tz': to_zone}),
                                           '%Y-%m-%d %H:%M:%S') + tm_delta
@@ -328,13 +328,13 @@ class HotelFolio(models.Model):
         -------------------------------------------------------------------
         @param self: object pointer
         '''
-        self._context = dict(self._context)
+        ctx = dict(self._context)
         for rec in self:
             if rec.partner_id.id and len(rec.room_lines) != 0:
-                self._context.update({'folioid': rec.id, 'guest': rec.partner_id.id,
-                                'room_no': rec.room_lines[0].product_id.name,
-                                'hotel': rec.warehouse_id.id})
-                self.env.args = cr, uid, misc.frozendict(self._context)
+                ctx.update({'folioid': rec.id, 'guest': rec.partner_id.id,
+                            'room_no': rec.room_lines[0].product_id.name,
+                            'hotel': rec.warehouse_id.id})
+                self.env.args = cr, uid, misc.frozendict(ctx)
             else:
                 raise except_orm(_('Warning'), _('Please Reserve Any Room.'))
         return {'name': _('Currency Exchange'),
@@ -343,10 +343,10 @@ class HotelFolio(models.Model):
                 'view_id': False,
                 'view_mode': 'form,tree',
                 'view_type': 'form',
-                'context': {'default_folio_no': self._context.get('folioid'),
-                            'default_hotel_id': self._context.get('hotel'),
-                            'default_guest_name': self._context.get('guest'),
-                            'default_room_number': self._context.get('room_no')
+                'context': {'default_folio_no': ctx.get('folioid'),
+                            'default_hotel_id': ctx.get('hotel'),
+                            'default_guest_name': ctx.get('guest'),
+                            'default_room_number': ctx.get('room_no')
                             },
                 }
 
@@ -417,16 +417,6 @@ class HotelFolio(models.Model):
                     myduration -= 1
         self.duration = myduration
 
-    @api.multi
-    def _check_room_vacant(self):
-        folio = self.browse()
-        rooms = []
-        for room in folio.room_lines:
-            if room.product_id in rooms:
-                return False
-            rooms.append(room.product_id)
-        return True
-
     @api.model
     def create(self, vals, check=True):
         """
@@ -488,7 +478,6 @@ class HotelFolio(models.Model):
         @param vals: dictionary of fields value.
         """
         folio_room_line_obj = self.env['folio.room.line']
-#        reservation_line_obj = self.env['hotel.room.reservation.line']
         product_obj = self.env['product.product']
         h_room_obj = self.env['hotel.room']
         room_lst1 = []
@@ -525,22 +514,6 @@ class HotelFolio(models.Model):
                     folio_romline_rec = (folio_room_line_obj.search
                                          ([('folio_id', '=', folio_obj.id)]))
                     folio_romline_rec.write(room_vals)
-#            if folio_obj.reservation_id:
-#                for reservation in folio_obj.reservation_id:
-#                    reservation_obj = (reservation_line_obj.search
-#                                       ([('reservation_id', '=',
-#                                          reservation.id)]))
-#                    if len(reservation_obj) == 1:
-#                        for line_id in reservation.reservation_line:
-#                            line_id = line_id.reserve
-#                            for room_id in line_id:
-#                                vals = {'room_id': room_id.id,
-#                                        'check_in': folio_obj.checkin_date,
-#                                        'check_out': folio_obj.checkout_date,
-#                                        'state': 'assigned',
-#                                        'reservation_id': reservation.id,
-#                                        }
-#                                reservation_obj.write(vals)
         return folio_write
 
     @api.onchange('warehouse_id')
@@ -665,32 +638,6 @@ class HotelFolio(models.Model):
         if write_cancel_ids:
             test_obj = self.env['sale.order.line'].browse(write_cancel_ids)
             test_obj.write({'state': 'cancel'})
-        return True
-
-    @api.multi
-    def action_ship_create(self):
-        '''
-        @param self: object pointer
-        '''
-        for folio in self:
-            folio.order_id.action_ship_create()
-        return True
-
-    @api.multi
-    def action_ship_end(self):
-        '''
-        @param self: object pointer
-        '''
-        for order in self:
-            order.write({'shipped': True})
-
-    @api.multi
-    def has_stockable_products(self):
-        '''
-        @param self: object pointer
-        '''
-        for folio in self:
-            folio.order_id.has_stockable_products()
         return True
 
     @api.multi
