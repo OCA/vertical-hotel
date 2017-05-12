@@ -7,7 +7,6 @@ import urllib2
 from odoo.exceptions import except_orm, ValidationError
 from odoo.tools import misc, DEFAULT_SERVER_DATETIME_FORMAT
 from odoo import models, fields, api, _
-from odoo import workflow
 from decimal import Decimal
 
 def _offset_format_timestamp1(src_tstamp_str, src_format, dst_format,
@@ -334,7 +333,7 @@ class HotelFolio(models.Model):
                 ctx.update({'folioid': rec.id, 'guest': rec.partner_id.id,
                             'room_no': rec.room_lines[0].product_id.name,
                             'hotel': rec.warehouse_id.id})
-                self.env.args = cr, uid, misc.frozendict(ctx)
+                self.env.args = misc.frozendict(ctx)
             else:
                 raise except_orm(_('Warning'), _('Please Reserve Any Room.'))
         return {'name': _('Currency Exchange'),
@@ -351,7 +350,7 @@ class HotelFolio(models.Model):
                 }
 
     @api.constrains('room_lines')
-    def folio_room_lines(self):
+    def _check_room_vacant(self):
         '''
         This method is used to validate the room_lines.
         ------------------------------------------------
@@ -565,10 +564,8 @@ class HotelFolio(models.Model):
         '''
         @param self: object pointer
         '''
-        order_ids = [folio.order_id.id for folio in self]
         room_lst = []
-        sale_obj = self.env['sale.order'].browse(order_ids)
-        invoice_id = (sale_obj.action_invoice_create(grouped=False,
+        invoice_id = (self.order_id.action_invoice_create(grouped=False,
                                                      final=False))
         for line in self:
             values = {'invoiced': True,
@@ -588,27 +585,25 @@ class HotelFolio(models.Model):
         '''
         @param self: object pointer
         '''
-        order_ids = [folio.order_id.id for folio in self]
-        sale_obj = self.env['sale.order'].browse(order_ids)
-        res = sale_obj.action_invoice_cancel()
+        if not self.order_id:
+            raise except_orm(_('Warning'), _('Order id is not available'))
         for sale in self:
             for line in sale.order_line:
                 line.write({'invoiced': 'invoiced'})
         self.state = 'invoice_except'
-        return res
+        return self.order_id.action_invoice_cancel
 
     @api.multi
     def action_cancel(self):
         '''
         @param self: object pointer
         '''
-        order_ids = [folio.order_id.id for folio in self]
-        sale_obj = self.env['sale.order'].browse(order_ids)
-        rv = sale_obj.action_cancel()
+        if not self.order_id:
+            raise except_orm(_('Warning'), _('Order id is not available'))
         for sale in self:
             for invoice in sale.invoice_ids:
                 invoice.state = 'cancel'
-        return rv
+        return self.order_id.action_cancel()
 
     @api.multi
     def action_confirm(self):
