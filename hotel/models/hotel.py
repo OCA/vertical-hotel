@@ -752,7 +752,7 @@ class HotelFolioLine(models.Model):
     def product_id_change(self):
         if self.product_id and self.folio_id.partner_id:
             self.name = self.product_id.name
-            self.price_unit = self.product_id.lst_price
+            self.price_unit = self.product_id.list_price
             self.product_uom = self.product_id.uom_id
             tax_obj = self.env['account.tax']
             prod = self.product_id
@@ -765,7 +765,7 @@ class HotelFolioLine(models.Model):
         if not self.product_uom:
             self.price_unit = 0.0
             return
-        self.price_unit = self.product_id.lst_price
+        self.price_unit = self.product_id.list_price
         if self.folio_id.partner_id:
             prod = self.product_id.with_context(
                 lang=self.folio_id.partner_id.lang,
@@ -936,7 +936,7 @@ class HotelServiceLine(models.Model):
         '''
         if self.product_id and self.folio_id.partner_id:
             self.name = self.product_id.name
-            self.price_unit = self.product_id.lst_price
+            self.price_unit = self.product_id.list_price
             self.product_uom = self.product_id.uom_id
             tax_obj = self.env['account.tax']
             prod = self.product_id
@@ -952,7 +952,7 @@ class HotelServiceLine(models.Model):
         if not self.product_uom:
             self.price_unit = 0.0
             return
-        self.price_unit = self.product_id.lst_price
+        self.price_unit = self.product_id.list_price
         if self.folio_id.partner_id:
             prod = self.product_id.with_context(
                 lang=self.folio_id.partner_id.lang,
@@ -997,9 +997,9 @@ class HotelServiceLine(models.Model):
         @param self: object pointer
         '''
         for folio in self:
-            line = folio.service_line_id
-            x = line.button_confirm()
-        return x
+            ser_line = folio.service_line_id
+            line = ser_line.button_confirm()
+        return line
 
     @api.multi
     def button_done(self):
@@ -1007,9 +1007,9 @@ class HotelServiceLine(models.Model):
         @param self: object pointer
         '''
         for folio in self:
-            line = folio.service_line_id
-            x = line.button_done()
-        return x
+            ser_line = folio.service_line_id
+            line = ser_line.button_done()
+        return line
 
     @api.multi
     def copy_data(self, default=None):
