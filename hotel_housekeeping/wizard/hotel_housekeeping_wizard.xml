@@ -16,7 +16,6 @@
                 <footer>
                     <button name="print_report" string="Activity Report" type="object"
                         class="oe_highlight" icon="fa-print"/>
-                    or
                     <button string="Cancel" icon="fa-close" class="btn btn-primary" special="cancel" />
                 </footer>
             </form>
