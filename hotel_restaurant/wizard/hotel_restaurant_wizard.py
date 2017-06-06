@@ -1,56 +1,59 @@
-# -*- encoding: utf-8 -*-
-##############################################################################
-#    
-#    OpenERP, Open Source Management Solution
-#    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>).
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.     
-#
-##############################################################################
+# -*- coding: utf-8 -*-
+# See LICENSE file for full copyright and licensing details.
 
-from osv import fields
-from osv import osv
-import time
-from mx import DateTime
-import datetime
-import pooler
-from tools import config
-import wizard
-import netsvc
-import pooler
+from odoo import models, fields, api
 
-class wizard_hotel_restaurant(osv.osv_memory):
-    
+
+class WizardHotelRestaurant(models.TransientModel):
+
     _name = 'wizard.hotel.restaurant'
-    
-    _columns = {
-        'date_start' :fields.datetime('Start Date',required=True),
-        'date_end': fields.datetime('End Date',required=True),        
-    }
-    
-    def print_report(self,cr,uid,ids,context=None):
-        datas = {
-             'ids': ids,
-             'model': 'hotel.restaurant.reservation',
-             'form': self.read(cr, uid, ids)[0]
-        }
-        return {
-            'type': 'ir.actions.report.xml',
-            'report_name': 'hotel.table.res',
-            'datas': datas,
-        }
 
-wizard_hotel_restaurant()
+    date_start = fields.Datetime('Start Date', required=True)
+    date_end = fields.Datetime('End Date', required=True)
+
+    @api.multi
+    def print_report(self):
+        data = {
+            'ids': self.ids,
+            'model': 'hotel.restaurant.reservation',
+            'form': self.read(['date_start', 'date_end'])[0]
+        }
+        return self.env['report'
+                        ].get_action(self,
+                                     'hotel_restaurant.report_res_table',
+                                     data=data)
+
+
+class FolioRestReservation(models.TransientModel):
+    _name = 'folio.rest.reservation'
+    _rec_name = 'date_start'
+
+    date_start = fields.Datetime('Start Date')
+    date_end = fields.Datetime('End Date')
+    check = fields.Boolean('With Details')
+
+    @api.multi
+    def print_rest_report(self):
+        data = {
+            'ids': self.ids,
+            'model': 'hotel.folio',
+            'form': self.read(['date_start', 'date_end', 'check'])[0]
+        }
+        return self.env['report'
+                        ].get_action(self,
+                                     'hotel_restaurant.report_rest_order',
+                                     data=data)
+
+    @api.multi
+    def print_reserv_report(self):
+        data = {
+            'ids': self.ids,
+            'model': 'hotel.folio',
+            'form': self.read(['date_start', 'date_end', 'check'])[0]
+        }
+        return self.env['report'
+                        ].get_action(self,
+                                     'hotel_restaurant.report_reserv_order',
+                                     data=data)
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
