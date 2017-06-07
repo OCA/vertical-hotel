@@ -1,60 +1,75 @@
-# -*- encoding: utf-8 -*-
-##############################################################################
-#    
-#    OpenERP, Open Source Management Solution
-#    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>).
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.     
-#
-##############################################################################
+# -*- coding: utf-8 -*-
+# See LICENSE file for full copyright and licensing details.
 
 import time
-from report import report_sxw
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+from dateutil import parser
+from odoo import api, fields, models
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
-class activity_report(report_sxw.rml_parse):
-    def __init__(self, cr, uid, name, context):
-        super(activity_report, self).__init__(cr, uid, name, context)
-        
-        self.localcontext.update( {
+
+class ActivityReport(models.AbstractModel):
+    _name = 'report.hotel_housekeeping.report_housekeeping'
+
+    def get_room_activity_detail(self, date_start, date_end, room_no):
+        activity_detail = []
+        act_val = {}
+        house_keep_act_obj = self.env['hotel.housekeeping.activities']
+
+        act_domain = [('clean_start_time', '>=', date_start),
+                      ('clean_end_time', '<=', date_end),
+                      ('a_list', '=', room_no)]
+        activity_line_ids = house_keep_act_obj.search(act_domain)
+
+        for activity in activity_line_ids:
+            ss_date = datetime.strptime(activity.clean_start_time,
+                                        DEFAULT_SERVER_DATETIME_FORMAT)
+            ee_date = datetime.strptime(activity.clean_end_time,
+                                        DEFAULT_SERVER_DATETIME_FORMAT)
+            diff = ee_date - ss_date
+
+            act_val.update({'current_date': activity.today_date,
+                            'activity': (activity.activity_name and
+                                         activity.activity_name.name or
+                                         ''),
+                            'login': (activity.housekeeper and
+                                      activity.housekeeper.name or ''),
+                            'clean_start_time': activity.clean_start_time,
+                            'clean_end_time': activity.clean_end_time,
+                            'duration': diff})
+            activity_detail.append(act_val)
+        return activity_detail
+
+    @api.model
+    def render_html(self, docids, data=None):
+        self.model = self.env.context.get('active_model')
+
+        docs = self.env[self.model].browse(self.env.context.get('active_ids',
+                                                                []))
+        date_start = data['form'].get('date_start', fields.Date.today())
+        date_end = data['form'].get('date_end', str(datetime.now() +
+                                    relativedelta(months= +1,
+                                                  day=1, days= -1))[:10])
+        room_no = data['form'].get('room_no')[0]
+        rm_act = self.with_context(data['form'].get('used_context', {}))
+        rm_act_detail = rm_act.get_room_activity_detail(date_start,
+                                                        date_end, room_no)
+        docargs = {
+            'doc_ids': docids,
+            'doc_model': self.model,
+            'data': data['form'],
+            'docs': docs,
             'time': time,
-            'get_activity_detail': self.get_activity_detail,
-            'get_room_no': self.get_room_no,
-            
-        })
-                
-    def get_activity_detail(self,date_start,date_end,room_no):
-
-        self.cr.execute("select hh.current_date,ppt.name as Activity,pt.name as Room,rs.login,hha.clean_start_time,hha.clean_end_time,(hha.clean_end_time-hha.clean_start_time) as duration  from hotel_housekeeping as hh " \
-                        "inner join hotel_housekeeping_activities as hha on hha.a_list=hh.id " \
-                        "inner join h_activity as ha on ha.id=hha.activity_name " \
-                        "inner join hotel_room as hor on hor.product_id=hh.room_no " \
-                        "inner join product_product as pp on pp.product_tmpl_id=hh.room_no " \
-                        "inner join product_template as pt on pt.id=pp.product_tmpl_id " \
-                        "inner join product_product as ppr on ppr.product_tmpl_id=ha.h_id " \
-                        "inner join product_template as ppt on ppt.id=ppr.product_tmpl_id " \
-                        "inner join res_users as rs on rs.id=hha.housekeeper " \
-                        "where hh.current_date >= %s and hh.current_date <= %s  and hor.id= cast(%s as integer) " \
-                        ,(date_start,date_end,str(room_no))
-                        )
-                     
-        res=self.cr.dictfetchall()
-        return res
-   
-    def get_room_no(self,room_no):
-        return self.pool.get('hotel.room').browse(self.cr, self.uid, room_no).name
-    
-report_sxw.report_sxw('report.activity.detail', 'hotel.housekeeping', 'addons/hotel_housekeeping/report/activity_detail.rml',parser= activity_report)
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:    
+            'get_room_activity_detail': rm_act_detail,
+        }
+        docargs['data'].update({'date_end':
+                                parser.parse(docargs.get('data').
+                                             get('date_end')).
+                                strftime('%m/%d/%Y')})
+        docargs['data'].update({'date_start':
+                                parser.parse(docargs.get('data').
+                                             get('date_start')).
+                                strftime('%m/%d/%Y')})
+        render_model = 'hotel_housekeeping.report_housekeeping'
+        return self.env['report'].render(render_model, docargs)
