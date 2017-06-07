@@ -1,4 +1,4 @@
 # -*- coding: utf-8 -*-
 # See LICENSE file for full copyright and licensing details.
 
-from . import housekeeping_report
+from . import hotel_housekeeping
