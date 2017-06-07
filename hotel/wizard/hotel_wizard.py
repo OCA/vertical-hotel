@@ -1,50 +1,22 @@
-# -*- encoding: utf-8 -*-
-##############################################################################
-#    
-#    OpenERP, Open Source Management Solution
-#    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>).
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.     
-#
-##############################################################################
+# -*- coding: utf-8 -*-
+# See LICENSE file for full copyright and licensing details.
 
-from osv import osv,fields
+from odoo import models, fields, api
 
-class folio_report_wizard(osv.osv_memory):
-    
+
+class FolioReportWizard(models.TransientModel):
     _name = 'folio.report.wizard'
-    
     _rec_name = 'date_start'
-    _columns = {
-                'date_start':fields.datetime('Start Date'),
-                'date_end':fields.datetime('End Date')
-                }
-    
-    def print_report(self, cr, uid, ids, context=None):
-        datas = {
-             'ids': ids,
-             'model': 'hotel.folio',
-             'form': self.read(cr, uid, ids)[0]
+
+    date_start = fields.Datetime('Start Date')
+    date_end = fields.Datetime('End Date')
+
+    @api.multi
+    def print_report(self):
+        data = {
+            'ids': self.ids,
+            'model': 'hotel.folio',
+            'form': self.read(['date_start', 'date_end'])[0]
         }
-        return {
-            'type': 'ir.actions.report.xml',
-            'report_name': 'folio.total',
-            'datas': datas,
-        }
-
-        
-folio_report_wizard()
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
+        return self.env['report'].get_action(self, 'hotel.report_hotel_folio',
+                                             data=data)
