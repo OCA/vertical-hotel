@@ -4,8 +4,8 @@
 {
     'name' : 'Hotel Management Base',
     'version' : '10.0.1.0.0',
-    'author' : '''Odoo S.A.,Odoo Community Association (OCA), Serpent Consulting
-                Services Pvt. Ltd.''',
+    'author' : 'Odoo Community Association (OCA), Serpent Consulting\
+                Services Pvt. Ltd., Odoo S.A.',
     'category' : 'Generic Modules/Hotel Management',
     'description' : '''
         Module for Hotel/Resort/Rooms/Property management. You can manage:

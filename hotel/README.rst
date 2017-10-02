@@ -2,21 +2,23 @@
    :target: https://www.gnu.org/licenses/agpl
    :alt: License: AGPL-3
 
-===============
-board_frontdesk
-===============
+=====
+hotel
+=====
 
-Module for dashboard for a Hotel Frontdesk.
+Module for Complete Hotel management which includes the basic operations at a hotel/apartment.
 
-This module implements a dashboard for hotel FrontDesk that includes:
+You can manage:
 
-* Calendar view of Today's Check-In and Check-Out
+* Configure Property
 
-* Calendar view of Weekly Check-In and Check-Out
+* Hotel Configuration
 
-* Calendar view of Monthly Check-In and Check-Out
+* Manage history of Check In, Check out
 
-* Real-Time Updates on Room Availability
+* Manage Folio
+
+* Payment
 
 
 Bug Tracker
@@ -49,4 +51,3 @@ mission is to support the collaborative development of Odoo features and
 promote its widespread use.
 
 To contribute to this module, please visit https://odoo-community.org.
-

@@ -5,7 +5,8 @@
 
     "name":"Board for Hotel FrontDesk",
     "version":"10.0.1.0.0",
-    "author": "Odoo S.A., Odoo Community Association (OCA), Serpent Consulting Services Pvt. Ltd.",
+    "author": 'Odoo Community Association (OCA), Serpent Consulting\
+                Services Pvt. Ltd., ODOO S.A.',
     "category":"Board/Hotel FrontDesk",
     "website": 'http://www.serpentcs.com',
     "depends":[
