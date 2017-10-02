@@ -7,14 +7,15 @@ hotel_restaurant
 ================
 
 This Module is for Hotel/Resort/Restaurant management. 
-You can manage:
-- Configure Property,
-- Restaurant Configuration,
-- Table reservation,
-- Generate and process Kitchen Order ticket,
-- Payment
 
--Different reports are also provided, mainly for Restaurant.
+You can manage:
+* Configure Property,
+* Restaurant Configuration,
+* Table reservation,
+* Generate and process Kitchen Order ticket,
+* Payment
+
+* Different reports are also provided, mainly for Restaurant.
 
 
 Bug Tracker
@@ -47,5 +48,3 @@ mission is to support the collaborative development of Odoo features and
 promote its widespread use.
 
 To contribute to this module, please visit https://odoo-community.org.
-
-To contribute to this module, please visit https://github.com/JayVora-SerpentCS/OdooHotelManagementSystem.
