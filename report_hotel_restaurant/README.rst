@@ -8,29 +8,6 @@ report_hotel_restaurant
 
 This Module provides state-wise view for hotel restaurant for better business intelligence.
 
-
-Installation
-============
-
-To install this module, you need to:
-
-#. Install 'hotel_restaurant', 'report_hotel_reservation' modulesConfiguration
-
-To configure this module, you need to:
-
-#. Have a Hotel Restaurant and Reservation functionality.
-
-
-Usage
-=====
-
-To use this module, you need to:
-
-#. Go to apps, then install module to apply this functionality.
-
-Try me on Runbot(Yet to define)
-
-
 Bug Tracker
 ===========
 
