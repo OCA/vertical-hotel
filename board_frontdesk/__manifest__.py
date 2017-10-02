@@ -20,14 +20,12 @@
 ##############################################################################
 {
     "name":"Board for Hotel FrontDesk",
-    "version":"8.0.1.0.0",
-    "author": "Tiny,Odoo Community Association (OCA)",
+    "version":"10.0.1.0.0",
+    "author": "Tiny, Odoo Community Association (OCA), Serpent Consulting Services Pvt. Ltd.",
     "category":"Board/Hotel FrontDesk",
     "depends":[
         "board",
         "report_hotel_reservation",
-        
-        
     ],
     "demo_xml":[],
     "update_xml":["board_frontdesk_view.xml"],
@@ -37,6 +35,5 @@ This module implements a dashboard for hotel FrontDesk that includes:
     * Calendar view of Weekly Check-In and Check-Out
     * Calendar view of Monthly Check-In and Check-Out
     """,
-    "active":False,
-    'installable': False,
+    'installable': True,
 }
