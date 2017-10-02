@@ -21,8 +21,8 @@
 
 {
     "name" : "Hotel Management Base",
-    "version" : "1.0",
-    "author" : "Tiny,Odoo Community Association (OCA)",
+    "version" : "10.0.1.0.0",
+    "author" : "Tiny,Odoo Community Association (OCA), Serpent Consulting Services Pvt. Ltd.",
     "category" : "Generic Modules/Hotel Management",
     "description": """
 Module for Hotel/Resort/Rooms/Property management. You can manage:
@@ -47,10 +47,8 @@ Different reports are also provided, mainly for hotel statistics.
                     "wizard/hotel_wizard.xml",
                     "security/hotel_security.xml",
                     "security/ir.model.access.csv",
-
     ],
-    "active": False,
-    'installable': False,
+    'installable': True,
     'application': True,
 }
 

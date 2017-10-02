@@ -2,19 +2,24 @@
 # See LICENSE file for full copyright and licensing details.
 
 {
-    'name': 'Board for Hotel FrontDesk',
-    'version': '10.0.1.0.0',
-    'author': 'Serpent Consulting Services Pvt. Ltd., OpenERP SA',
-    'website': 'http://www.serpentcs.com',
-    'category': 'Board/Hotel FrontDesk',
-    'depends': [
-        'board',
-        'report_hotel_restaurant',
-        #'hotel_pos_restaurant'
-        ],
-    'license': 'AGPL-3',
-    'data': [
-        'views/board_frontdesk_view.xml'
+
+    "name":"Board for Hotel FrontDesk",
+    "version":"10.0.1.0.0",
+    "author": "Odoo S.A., Odoo Community Association (OCA), Serpent Consulting Services Pvt. Ltd.",
+    "category":"Board/Hotel FrontDesk",
+    "website": 'http://www.serpentcs.com',
+    "depends":[
+      "board",
+      "report_hotel_reservation",
+      "report_hotel_restaurant"
     ],
+    "demo_xml":[],
+    "update_xml":['views/board_frontdesk_view.xml'],
+    "description": """
+This module implements a dashboard for hotel FrontDesk that includes:
+    * Calendar view of Today's Check-In and Check-Out
+    * Calendar view of Weekly Check-In and Check-Out
+    * Calendar view of Monthly Check-In and Check-Out
+    """,
     'installable': True,
 }
