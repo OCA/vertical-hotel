@@ -22,8 +22,8 @@
 
 {
     "name" : "Hotel Housekeeping Management",
-    "version" : "1.0",
-    "author" : "Tiny,Odoo Community Association (OCA)",
+    "version" : "10.0.1.0.0",
+    "author" : "Tiny,Odoo Community Association (OCA), Serpent Consulting Services Pvt. Ltd.",
     "category" : "Generic Modules/Hotel Housekeeping",
     "description": """
     Module for Hotel/Hotel Housekeeping. You can manage:
@@ -44,7 +44,7 @@
                     "security/ir.model.access.csv",
     ],
     "active": False,
-    'installable': False
+    'installable': True
 }
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
