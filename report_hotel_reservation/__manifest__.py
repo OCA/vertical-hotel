@@ -4,10 +4,9 @@
 {
     'name': 'Hotel Reservation Management - Reporting',
     'version': '10.0.1.0.0',
-    'author': 'Serpent Consulting Services Pvt. Ltd., OpenERP SA',
+    'author': 'Serpent Consulting Services Pvt. Ltd., ODOO S.A., Odoo Community Association(OCA)',
     'website': 'http://www.serpentcs.com',
     'depends': ['hotel_reservation'],
-    'license': 'AGPL-3',
     'category': 'Generic Modules/Hotel Reservation',
     'data': [
         'security/ir.model.access.csv',
