@@ -9,10 +9,15 @@ hotel_restaurant
 This Module is for Hotel/Resort/Restaurant management. 
 
 You can manage:
+
 * Configure Property,
+
 * Restaurant Configuration,
+
 * Table reservation,
+
 * Generate and process Kitchen Order ticket,
+
 * Payment
 
 * Different reports are also provided, mainly for Restaurant.
