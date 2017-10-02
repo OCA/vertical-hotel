@@ -5,7 +5,7 @@
     'name': 'Hotel Reservation Management',
     'version': '10.0.1.0.0',
     'author': 'Odoo Community Association (OCA), Serpent Consulting \
-                Services Pvt. Ltd., ODOO S.A.',
+                Services Pvt. Ltd., Odoo S.A.',
     'category': 'Generic Modules/Hotel Reservation',
     'description': '''
                     Module for Hotel/Resort/Property management.
