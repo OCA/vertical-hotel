@@ -1,112 +1,78 @@
-# -*- encoding: utf-8 -*-
-##############################################################################
-#    
-#    OpenERP, Open Source Management Solution
-#    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>).
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.     
-#
-##############################################################################
-from osv import fields
-from osv import osv
-import time
-from mx import DateTime
-import datetime
-import pooler
-from tools import config
-import wizard
-import netsvc
+# -*- coding: utf-8 -*-
+# See LICENSE file for full copyright and licensing details.
 
-class hotel_reservation_wizard(osv.osv_memory):
-    
+from odoo import models, fields, api
+
+
+class HotelReservationWizard(models.TransientModel):
     _name = 'hotel.reservation.wizard'
-    
-    _columns = {
-        'date_start' :fields.datetime('Start Date',required=True),
-        'date_end': fields.datetime('End Date',required=True),        
-    }
-    
-    def report_reservation_detail(self,cr,uid,ids,context=None):    
-        datas = {
-             'ids': ids,
-             'model': 'hotel.reservation',
-             'form': self.read(cr, uid, ids)[0]
-        }
-        return {
-            'type': 'ir.actions.report.xml',
-            'report_name': 'reservation.detail',
-            'datas': datas,
-        }        
-    
-    def report_checkin_detail(self,cr,uid,ids,context=None):    
-        datas = {
-             'ids': ids,
-             'model': 'hotel.reservation',
-             'form': self.read(cr, uid, ids)[0]
-        }
-        return {
-            'type': 'ir.actions.report.xml',
-            'report_name': 'checkin.detail',
-            'datas': datas,
-        }
-        
-    def report_checkout_detail(self,cr,uid,ids,context=None):    
-        datas = {
-             'ids': ids,
-             'model': 'hotel.reservation',
-             'form': self.read(cr, uid, ids)[0]
-        }
-        return {
-            'type': 'ir.actions.report.xml',
-            'report_name': 'checkout.detail',
-            'datas': datas,
-        }
-        
-    def report_maxroom_detail(self,cr,uid,ids,context=None):    
-        datas = {
-             'ids': ids,
-             'model': 'hotel.reservation',
-             'form': self.read(cr, uid, ids)[0]
-        }
-        return {
-            'type': 'ir.actions.report.xml',
-            'report_name': 'maxroom.detail',
-            'datas': datas,
-        }
-      
-hotel_reservation_wizard()
 
-class make_folio_wizard(osv.osv_memory):
-    
+    date_start = fields.Datetime('Start Date', required=True)
+    date_end = fields.Datetime('End Date', required=True)
+
+    @api.multi
+    def report_reservation_detail(self):
+        data = {
+            'ids': self.ids,
+            'model': 'hotel.reservation',
+            'form': self.read(['date_start', 'date_end'])[0]
+        }
+        return self.env['report'
+                        ].get_action(self,
+                                     'hotel_reservation.report_roomres_qweb',
+                                     data=data)
+
+    @api.multi
+    def report_checkin_detail(self):
+        data = {
+            'ids': self.ids,
+            'model': 'hotel.reservation',
+            'form': self.read(['date_start', 'date_end'])[0],
+        }
+        return self.env['report'
+                        ].get_action(self,
+                                     'hotel_reservation.report_checkin_qweb',
+                                     data=data)
+
+    @api.multi
+    def report_checkout_detail(self):
+        data = {
+            'ids': self.ids,
+            'model': 'hotel.reservation',
+            'form': self.read(['date_start', 'date_end'])[0]
+        }
+        return self.env['report'
+                        ].get_action(self,
+                                     'hotel_reservation.report_checkout_qweb',
+                                     data=data)
+
+    @api.multi
+    def report_maxroom_detail(self):
+        data = {
+            'ids': self.ids,
+            'model': 'hotel.reservation',
+            'form': self.read(['date_start', 'date_end'])[0]
+        }
+        return self.env['report'
+                        ].get_action(self,
+                                     'hotel_reservation.report_maxroom_qweb',
+                                     data=data)
+
+
+class MakeFolioWizard(models.TransientModel):
     _name = 'wizard.make.folio'
-    
-    _columns = {
-        'grouped':fields.boolean('Group the Folios'),
-    }
-    
-    _defaults = {  
-        'grouped': False,
-    }
-    
-    def makeFolios(self, cr, uid, data, context):
-        order_obj = self.pool.get('hotel.reservation')
+
+    grouped = fields.Boolean('Group the Folios')
+
+    @api.multi
+    def makeFolios(self):
+        order_obj = self.env['hotel.reservation']
         newinv = []
-        for o in order_obj.browse(cr, uid, context['active_ids'], context):
-            for i in o.folio_id:
-               newinv.append(i.id)
+        for order in order_obj.browse(self.env.context.get('active_ids', [])):
+            for folio in order.folio_id:
+                newinv.append(folio.id)
         return {
-            'domain': "[('id','in', ["+','.join(map(str,newinv))+"])]",
+            'domain': "[('id','in', [" + ','.join(map(str, newinv)) + "])]",
             'name': 'Folios',
             'view_type': 'form',
             'view_mode': 'tree,form',
@@ -114,8 +80,3 @@ class make_folio_wizard(osv.osv_memory):
             'view_id': False,
             'type': 'ir.actions.act_window'
         }
-
-    
-make_folio_wizard()
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
