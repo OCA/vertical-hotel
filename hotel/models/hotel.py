@@ -289,18 +289,21 @@ class HotelFolio(models.Model):
     checkin_date = fields.Datetime('Check In', required=True, readonly=True,
                                    states={'draft': [('readonly', False)]},
                                    default=_get_checkin_date)
-    checkout_date = fields.Datetime('Check Out', required=True, readonly=True,
-                                    states={'draft': [('readonly', False)]},
+    checkout_date = fields.Datetime('Check Out', required=True, readonly=False,
+                                    states={'done': [('readonly', True)],
+                                            'cancel': [('readonly', True)]},
                                     default=_get_checkout_date)
     room_lines = fields.One2many('hotel.folio.line', 'folio_id',
                                  readonly=True,
                                  states={'draft': [('readonly', False)],
-                                         'sent': [('readonly', False)]},
+                                         'sent': [('readonly', False)],
+                                         'sale': [('readonly', False)]},
                                  help="Hotel room reservation detail.")
     service_lines = fields.One2many('hotel.service.line', 'folio_id',
                                     readonly=True,
                                     states={'draft': [('readonly', False)],
-                                            'sent': [('readonly', False)]},
+                                            'sent': [('readonly', False)],
+                                            'sale': [('readonly', False)]},
                                     help="Hotel services detail provide to"
                                     "customer and it will include in "
                                     "main Invoice.")
