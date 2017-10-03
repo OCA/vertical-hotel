@@ -8,6 +8,7 @@
                 Services Pvt. Ltd., Odoo S.A.',
     'website': 'http://www.serpentcs.com',
     'depends': ['hotel_reservation'],
+    'license': 'AGPL-3',
     'category': 'Generic Modules/Hotel Reservation',
     'data': [
         'security/ir.model.access.csv',
