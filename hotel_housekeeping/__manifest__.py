@@ -2,12 +2,12 @@
 # See LICENSE file for full copyright and licensing details.
 
 {
-    'name' : 'Hotel Housekeeping Management',
-    'version' : '10.0.1.0.0',
-    'author' : 'Odoo Community Association (OCA), Serpent Consulting\
+    'name': 'Hotel Housekeeping Management',
+    'version': '10.0.1.0.0',
+    'author': 'Odoo Community Association (OCA), Serpent Consulting\
                 Services Pvt. Ltd., Odoo S.A.',
     'website': 'http://www.serpentcs.com',
-    'category' : 'Generic Modules/Hotel Housekeeping',
+    'category': 'Generic Modules/Hotel Housekeeping',
     'description': '''
                     Module for Hotel/Hotel Housekeeping. You can manage:
                     * Housekeeping process
@@ -15,8 +15,8 @@
                     Different reports are also provided, mainly for
                     hotel statistics.
     ''',
-    'depends' : ['hotel'],
-    'demo' : ['views/hotel_housekeeping_data.xml', ],
+    'depends': ['hotel'],
+    'demo': ['views/hotel_housekeeping_data.xml', ],
     'data': [
         'security/ir.model.access.csv',
         'report/hotel_housekeeping_report.xml',

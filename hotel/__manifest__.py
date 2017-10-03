@@ -2,12 +2,12 @@
 # See LICENSE file for full copyright and licensing details.
 
 {
-    'name' : 'Hotel Management Base',
-    'version' : '10.0.1.0.0',
-    'author' : 'Odoo Community Association (OCA), Serpent Consulting\
+    'name': 'Hotel Management Base',
+    'version': '10.0.1.0.0',
+    'author': 'Odoo Community Association (OCA), Serpent Consulting\
                 Services Pvt. Ltd., Odoo S.A.',
-    'category' : 'Generic Modules/Hotel Management',
-    'description' : '''
+    'category': 'Generic Modules/Hotel Management',
+    'description': '''
         Module for Hotel/Resort/Rooms/Property management. You can manage:
             * Configure Property
             * Hotel Configuration
@@ -16,7 +16,7 @@
             * Payment
         Different reports are also provided, mainly for hotel statistics.
     ''',
-    'depends' : ['sale_stock', 'point_of_sale', 'report'],
+    'depends': ['sale_stock', 'point_of_sale', 'report'],
     'demo': ['views/hotel_data.xml'],
     'data': [
             'security/hotel_security.xml',
@@ -28,6 +28,6 @@
             'wizard/hotel_wizard.xml',
     ],
     'css': ['static/src/css/room_kanban.css'],
-    'installable' : True,
-    'application' : True,
+    'installable': True,
+    'application': True,
 }
