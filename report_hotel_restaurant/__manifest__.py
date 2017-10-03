@@ -9,6 +9,7 @@
     'website': 'http://www.serpentcs.com, http://www.odoo.com',
     'depends': ['hotel_restaurant', 'report_hotel_reservation'],
     'category': 'Generic Modules/Hotel Restaurant',
+    'license': 'AGPL-3',
     'data': [
         'security/ir.model.access.csv',
         'views/report_hotel_restaurant_view.xml',
