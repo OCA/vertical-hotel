@@ -9,10 +9,9 @@
                 Services Pvt. Ltd., ODOO S.A.',
     "category": "Board/Hotel FrontDesk",
     "website": 'http://www.serpentcs.com',
-    "depends": [
-      "board",
-      "report_hotel_reservation",
-      "report_hotel_restaurant"
+    "depends": ["board",
+                "report_hotel_reservation",
+                "report_hotel_restaurant"
     ],
     "demo_xml": [],
     "update_xml": ['views/board_frontdesk_view.xml'],
