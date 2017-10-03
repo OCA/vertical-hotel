@@ -49,8 +49,8 @@ class ActivityReport(models.AbstractModel):
                                                                 []))
         date_start = data['form'].get('date_start', fields.Date.today())
         date_end = data['form'].get('date_end', str(datetime.now() +
-                                    relativedelta(months= +1,
-                                                  day=1, days= -1))[:10])
+                                    relativedelta(months=+1,
+                                                  day=1, days=-1))[:10])
         room_no = data['form'].get('room_no')[0]
         rm_act = self.with_context(data['form'].get('used_context', {}))
         rm_act_detail = rm_act.get_room_activity_detail(date_start,
