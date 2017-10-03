@@ -17,7 +17,6 @@
                     hotel statistics.
                     ''',
     'depends': ['hotel', 'stock', 'mail'],
-    'license': 'AGPL-3',
     'demo': ['views/hotel_reservation_data.xml', ],
     'data': [
         'security/ir.model.access.csv',
