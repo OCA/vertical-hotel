@@ -7,6 +7,7 @@
     'author': 'Odoo Community Association (OCA), Serpent Consulting \
                 Services Pvt. Ltd., Odoo S.A.',
     'category': 'Generic Modules/Hotel Reservation',
+    'license': 'AGPL-3',
     'description': '''
                     Module for Hotel/Resort/Property management.
                     You can manage:
