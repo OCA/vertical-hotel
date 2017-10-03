@@ -8,6 +8,7 @@
     "author": 'Odoo Community Association (OCA), Serpent Consulting\
                 Services Pvt. Ltd., ODOO S.A.',
     "category": "Board/Hotel FrontDesk",
+    "license": 'AGPL-3',
     "website": 'http://www.serpentcs.com',
     "depends": ["board",
                 "report_hotel_reservation",

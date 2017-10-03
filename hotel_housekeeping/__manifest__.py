@@ -7,6 +7,7 @@
     'author': 'Odoo Community Association (OCA), Serpent Consulting\
                 Services Pvt. Ltd., Odoo S.A.',
     'website': 'http://www.serpentcs.com',
+    'license': 'AGPL-3',
     'category': 'Generic Modules/Hotel Housekeeping',
     'description': '''
                     Module for Hotel/Hotel Housekeeping. You can manage:
