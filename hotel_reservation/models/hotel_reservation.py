@@ -440,7 +440,6 @@ class HotelReservation(models.Model):
                         'is_reserved': True}))
                     res_obj = room_obj.browse([r.id])
                     res_obj.write({'status': 'occupied', 'isroom': False})
-                    print "::::::::::::", folio_lines
             folio_vals.update({'room_lines': folio_lines})
             folio = hotel_folio_obj.create(folio_vals)
             if folio:
