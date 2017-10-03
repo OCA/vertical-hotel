@@ -10,7 +10,8 @@ python:
   - "2.7"
 
 addons:
-  packages:
+  apt:
+    packages:
     - expect-dev  # provides unbuffer utility
     - python-lxml  # because pip installation is slow
     - python-simplejson
