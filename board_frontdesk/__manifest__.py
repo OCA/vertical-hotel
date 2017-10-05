@@ -14,8 +14,7 @@
                 "report_hotel_reservation",
                 "report_hotel_restaurant"
                 ],
-    "demo_xml": [],
-    "update_xml": ['views/board_frontdesk_view.xml'],
+    "data": ['views/board_frontdesk_view.xml'],
     "description": """
 This module implements a dashboard for hotel FrontDesk that includes:
     * Calendar view of Today's Check-In and Check-Out
