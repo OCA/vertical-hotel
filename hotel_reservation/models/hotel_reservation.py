@@ -497,7 +497,7 @@ class HotelReservation(models.Model):
         if self._context is None:
             self._context = {}
         vals['reservation_no'] = self.env['ir.sequence'
-                                          ].get('hotel.reservation')
+                                          ].next_by_code('hotel.reservation')
         return super(HotelReservation, self).create(vals)
 
 
