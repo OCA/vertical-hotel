@@ -6,7 +6,7 @@
     'version': '10.0.1.0.0',
     'author': 'Odoo Community Association (OCA), Serpent Consulting\
                 Services Pvt. Ltd., Odoo S.A.',
-    'website': 'http://www.serpentcs.com, http://www.odoo.com',
+    'website': 'http://www.serpentcs.com',
     'depends': ['hotel_restaurant', 'report_hotel_reservation'],
     'category': 'Generic Modules/Hotel Restaurant',
     'license': 'AGPL-3',
