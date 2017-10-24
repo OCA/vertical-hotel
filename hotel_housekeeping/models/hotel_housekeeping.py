@@ -4,15 +4,8 @@
 import time
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
 from odoo import models, fields, api, _
+from odoo.osv import expression
 from odoo.exceptions import ValidationError
-
-
-class ProductCategory(models.Model):
-
-    _inherit = "product.category"
-
-    isactivitytype = fields.Boolean('Is Activity Type',
-                                    default=lambda *a: True)
 
 
 class HotelHousekeepingActivityType(models.Model):
@@ -20,9 +13,54 @@ class HotelHousekeepingActivityType(models.Model):
     _name = 'hotel.housekeeping.activity.type'
     _description = 'Activity Type'
 
-    activity_id = fields.Many2one('product.category', 'Category',
-                                  required=True, delegate=True,
-                                  ondelete='cascade', index=True)
+    name = fields.Char('Name', size=64, required=True)
+    activity_id = fields.Many2one('hotel.housekeeping.activity.type',
+                                  'Activity Type')
+
+    @api.multi
+    def name_get(self):
+        def get_names(cat):
+            """ Return the list [cat.name, cat.activity_id.name, ...] """
+            res = []
+            while cat:
+                res.append(cat.name)
+                cat = cat.activity_id
+            return res
+        return [(cat.id, " / ".join(reversed(get_names(cat)))) for cat in self]
+
+    @api.model
+    def name_search(self, name, args=None, operator='ilike', limit=100):
+        if not args:
+            args = []
+        if name:
+            # Be sure name_search is symetric to name_get
+            category_names = name.split(' / ')
+            parents = list(category_names)
+            child = parents.pop()
+            domain = [('name', operator, child)]
+            if parents:
+                names_ids = self.name_search(' / '.join(parents), args=args,
+                                             operator='ilike', limit=limit)
+                category_ids = [name_id[0] for name_id in names_ids]
+                if operator in expression.NEGATIVE_TERM_OPERATORS:
+                    categories = self.search([('id', 'not in', category_ids)])
+                    domain = expression.OR([[('activity_id', 'in',
+                                              categories.ids)], domain])
+                else:
+                    domain = expression.AND([[('activity_id', 'in',
+                                               category_ids)], domain])
+                for i in range(1, len(category_names)):
+                    domain = [[('name', operator,
+                                ' / '.join(category_names[-1 - i:]))], domain]
+                    if operator in expression.NEGATIVE_TERM_OPERATORS:
+                        domain = expression.AND(domain)
+                    else:
+                        domain = expression.OR(domain)
+            categories = self.search(expression.AND([domain, args]),
+                                     limit=limit)
+        else:
+            categories = self.search(args, limit=limit)
+        return categories.name_get()
 
 
 class HotelActivity(models.Model):
@@ -32,12 +70,15 @@ class HotelActivity(models.Model):
 
     h_id = fields.Many2one('product.product', 'Product', required=True,
                            delegate=True, ondelete='cascade', index=True)
+    categ_id = fields.Many2one('hotel.housekeeping.activity.type',
+                               string='Category')
 
 
 class HotelHousekeeping(models.Model):
 
     _name = "hotel.housekeeping"
     _description = "Reservation"
+    _rec_name = 'room_no'
 
     current_date = fields.Date("Today's Date", required=True,
                                index=True,
@@ -55,23 +96,26 @@ class HotelHousekeeping(models.Model):
                               index=True)
     activity_lines = fields.One2many('hotel.housekeeping.activities',
                                      'a_list', 'Activities',
-                                     help='Detail of housekeeping activities')
+                                     states={'done': [('readonly', True)]},
+                                     help='Detail of housekeeping activities',)
     inspector = fields.Many2one('res.users', 'Inspector', required=True,
-                                index=True)
+                                index=True,
+                                states={'done': [('readonly', True)]})
     inspect_date_time = fields.Datetime('Inspect Date Time', required=True,
                                         states={'done': [('readonly', True)]})
     quality = fields.Selection([('excellent', 'Excellent'), ('good', 'Good'),
                                 ('average', 'Average'), ('bad', 'Bad'),
-                                ('ok', 'Ok')], 'Quality', required=True,
+                                ('ok', 'Ok')], 'Quality',
                                states={'done': [('readonly', True)]},
                                help="Inspector inspect the room and mark \
                                 as Excellent, Average, Bad, Good or Ok. ")
-    state = fields.Selection([('dirty', 'Dirty'), ('clean', 'Clean'),
-                              ('inspect', 'Inspect'), ('done', 'Done'),
+    state = fields.Selection([('inspect', 'Inspect'), ('dirty', 'Dirty'),
+                              ('clean', 'Clean'),
+                              ('done', 'Done'),
                               ('cancel', 'Cancelled')], 'State',
                              states={'done': [('readonly', True)]},
                              index=True, required=True, readonly=True,
-                             default=lambda *a: 'dirty')
+                             default=lambda *a: 'inspect')
 
     @api.multi
     def action_set_to_dirty(self):
@@ -83,9 +127,10 @@ class HotelHousekeeping(models.Model):
         """
         self.state = 'dirty'
         for line in self:
+            line.quality = False
             for activity_line in line.activity_lines:
-                self.activity_lines.write({'clean': False})
-                self.activity_lines.write({'dirty': True})
+                activity_line.write({'clean': False})
+                activity_line.write({'dirty': True})
         return True
 
     @api.multi
@@ -97,6 +142,7 @@ class HotelHousekeeping(models.Model):
         @param self: object pointer
         """
         self.state = 'cancel'
+        self.quality = False
         return True
 
     @api.multi
@@ -108,6 +154,8 @@ class HotelHousekeeping(models.Model):
         @param self: object pointer
         """
         self.state = 'done'
+        if not self.quality:
+            raise ValidationError(_('Please update quality of work!'))
         return True
 
     @api.multi
@@ -119,6 +167,7 @@ class HotelHousekeeping(models.Model):
         @param self: object pointer
         """
         self.state = 'inspect'
+        self.quality = False
         return True
 
     @api.multi
@@ -131,9 +180,10 @@ class HotelHousekeeping(models.Model):
         """
         self.state = 'clean'
         for line in self:
+            line.quality = False
             for activity_line in line.activity_lines:
-                    self.activity_lines.write({'clean': True})
-                    self.activity_lines.write({'dirty': False})
+                activity_line.write({'clean': True})
+                activity_line.write({'dirty': False})
         return True
 
 
