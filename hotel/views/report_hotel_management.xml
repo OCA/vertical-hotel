@@ -2,13 +2,13 @@
 <!DOCTYPE xml>
 <odoo>
 
-    <!--Template for hotel folio -->
+    <!--Template for Hotel Folio -->
     <template id="report_hotel_folio">
         <t t-call="report.html_container">
             <t t-call="report.external_layout">
                 <div class="page">
-                    <br/>
-                    <br/>
+                    <br />
+                    <br />
                 <div class="row">
                     <h2>
                         <span><center>Total Collection</center></span>
@@ -54,7 +54,7 @@
         </t>
     </template>
 
-    <!--Template for currency exchange -->
+    <!--Template for Currency Exchange -->
     <template id="report_currency_exchange">
         <t t-call="report.html_container">
             <t t-foreach="docs" t-as="o">
@@ -69,8 +69,7 @@
                             </h3>
                         </div>
                         <br />
-                        <table width="100%
-                            ">
+                        <table width="100%">
                             <tr>
                                 <td width="50%" style="text-align:left;">
                                     <strong>Serial No. :</strong>
@@ -119,7 +118,7 @@
                         <table class="table table-bordered" width="100%">
                             <tr>
                                 <th width="25%" style="text-align:center;">
-                                    <strong>Currency purchased(indicating cash)
+                                    <strong>Currency Purchased(indicating cash)
                                     </strong>
                                 </th>
                                 <th width="25%" style="text-align:center;">
@@ -201,8 +200,8 @@
                                 </td>
                             </tr>
                         </table>
-                        <br/>
-                        <br/>
+                        <br />
+                        <br />
                         <div class="row" align="left">
                             <span>
                                 <b>Kind Regards</b>
