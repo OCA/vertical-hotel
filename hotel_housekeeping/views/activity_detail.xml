@@ -2,15 +2,15 @@
 <!DOCTYPE xml>
 <odoo>
 
-    <!--Template for hotel housekeeping -->
+    <!--Template for Hotel Housekeeping -->
     <template id="report_housekeeping">
         <t t-call="report.html_container">
             <t t-foreach="docs" t-as="o">
                 <t t-call="report.external_layout">
                     <div class="page">
                         <div class="row">
-                            <br/>
-                            <br/>
+                            <br />
+                            <br />
                             <h2>
                                 <span>
                                     <center>Room Activities Report</center>
