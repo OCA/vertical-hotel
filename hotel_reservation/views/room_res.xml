@@ -2,21 +2,12 @@
 <!DOCTYPE xml>
 <odoo>
 
-    <!--Template for hotel reservation -->
+    <!--Template for Hotel Reservation -->
     <template id="report_roomres_qweb">
         <t t-call="report.html_container">
             <t t-foreach="docs" t-as="o">
                 <t t-call="report.external_layout">
                     <div class="page">
-                        <t t-name="report.external_layout_header">
-                            <div class="header">
-                                <div class="row zero_min_height">
-                                    <div class="col-xs-12">
-                                        <div style="border-bottom: 1px solid black;" />
-                                    </div>
-                                </div>
-                            </div>
-                        </t>
                         <div class="row">
                             <h2>
                                 <span>
