@@ -6,21 +6,25 @@
 hotel_restaurant
 ================
 
-This Module is for Hotel/Resort/Restaurant management. 
+This Module is providing table booking facilities and Managing customers orders
 
 You can manage:
 
-* Configure Property,
+* Restaurant Configuration (Food Item, Table)
 
-* Restaurant Configuration,
+* Table Reservation
 
-* Table reservation,
+* Manage Food Orders
 
-* Generate and process Kitchen Order ticket,
+* Manage Kitchen Order ticket
+
+* Quick Table Reservation Facility With Its Food Order
+
+* Order's History In Hotel Folio
 
 * Payment
 
-* Different reports are also provided, mainly for Restaurant.
+* Different Reports are also provided, mainly for Restaurant.
 
 
 Bug Tracker

@@ -5,10 +5,10 @@ import time
 from odoo import models, fields, api, _
 from odoo.exceptions import except_orm, ValidationError
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
+from odoo.osv import expression
 
 
 class HotelFolio(models.Model):
-
     _inherit = 'hotel.folio'
 
     hotel_reservation_order_ids = fields.Many2many('hotel.reservation.order',
@@ -21,27 +21,60 @@ class HotelFolio(models.Model):
                                                   'reserves_id', 'Orders')
 
 
-class ProductCategory(models.Model):
-
-    _inherit = "product.category"
-
-    ismenutype = fields.Boolean('Is Menu Type')
-
-
-class ProductProduct(models.Model):
-
-    _inherit = "product.product"
-
-    ismenucard = fields.Boolean('Is Menucard')
-
-
 class HotelMenucardType(models.Model):
 
     _name = 'hotel.menucard.type'
-    _description = 'Amenities Type'
+    _description = 'Food Item Type'
 
-    menu_id = fields.Many2one('product.category', 'Category', required=True,
-                              delegate=True, ondelete='cascade')
+    name = fields.Char('Name', size=64, required=True)
+    menu_id = fields.Many2one('hotel.menucard.type', string='Food Item Type')
+    child_id = fields.One2many('hotel.menucard.type', 'menu_id',
+                               'Child Categories')
+
+    @api.multi
+    def name_get(self):
+        def get_names(cat):
+            """ Return the list [cat.name, cat.menu_id.name, ...] """
+            res = []
+            while cat:
+                res.append(cat.name)
+                cat = cat.menu_id
+            return res
+        return [(cat.id, " / ".join(reversed(get_names(cat)))) for cat in self]
+
+    @api.model
+    def name_search(self, name, args=None, operator='ilike', limit=100):
+        if not args:
+            args = []
+        if name:
+            # Be sure name_search is symetric to name_get
+            category_names = name.split(' / ')
+            parents = list(category_names)
+            child = parents.pop()
+            domain = [('name', operator, child)]
+            if parents:
+                names_ids = self.name_search(' / '.join(parents), args=args,
+                                             operator='ilike', limit=limit)
+                category_ids = [name_id[0] for name_id in names_ids]
+                if operator in expression.NEGATIVE_TERM_OPERATORS:
+                    categories = self.search([('id', 'not in', category_ids)])
+                    domain = expression.OR([[('menu_id', 'in',
+                                              categories.ids)], domain])
+                else:
+                    domain = expression.AND([[('menu_id', 'in',
+                                               category_ids)], domain])
+                for i in range(1, len(category_names)):
+                    domain = [[('name', operator,
+                                ' / '.join(category_names[-1 - i:]))], domain]
+                    if operator in expression.NEGATIVE_TERM_OPERATORS:
+                        domain = expression.AND(domain)
+                    else:
+                        domain = expression.OR(domain)
+            categories = self.search(expression.AND([domain, args]),
+                                     limit=limit)
+        else:
+            categories = self.search(args, limit=limit)
+        return categories.name_get()
 
 
 class HotelMenucard(models.Model):
@@ -51,6 +84,8 @@ class HotelMenucard(models.Model):
 
     product_id = fields.Many2one('product.product', 'Product', required=True,
                                  delegate=True, ondelete='cascade', index=True)
+    categ_id = fields.Many2one('hotel.menucard.type',
+                               string='Food Item Category', required=True)
     image = fields.Binary("Image",
                           help="This field holds the image used as image "
                           "for the product, limited to 1024x1024px.")
@@ -248,12 +283,20 @@ class HotelRestaurantReservation(models.Model):
         if self.start_date >= self.end_date:
             raise ValidationError(_('Start Date Should be less \
             than the End Date!'))
+        if self.is_folio is True:
+            if self.start_date < self.folio_id.room_lines.checkin_date:
+                raise ValidationError(_('Start Date Should be greater than the'
+                                        ' Folio Check-in Date!'))
+            if self.end_date > self.folio_id.room_lines.checkout_date:
+                raise ValidationError(_('End Date Should be less than the'
+                                        ' Folio Check-out Date!'))
 
 
 class HotelRestaurantKitchenOrderTickets(models.Model):
 
     _name = "hotel.restaurant.kitchen.order.tickets"
     _description = "Includes Hotel Restaurant Order"
+    _rec_name = 'orderno'
 
     orderno = fields.Char('Order Number', size=64, readonly=True)
     resno = fields.Char('Reservation Number', size=64)
@@ -272,7 +315,7 @@ class HotelRestaurantOrder(models.Model):
 
     @api.multi
     @api.depends('order_list')
-    def _sub_total(self):
+    def _compute_amount_subtotal(self):
         '''
         amount_subtotal will display on change of order_list
         ----------------------------------------------------
@@ -284,7 +327,7 @@ class HotelRestaurantOrder(models.Model):
 
     @api.multi
     @api.depends('amount_subtotal')
-    def _total(self):
+    def _compute_amount_total(self):
         '''
         amount_total will display on change of amount_subtotal
         -------------------------------------------------------
@@ -373,7 +416,6 @@ class HotelRestaurantOrder(models.Model):
 
     _name = "hotel.restaurant.order"
     _description = "Includes Hotel Restaurant Order"
-
     _rec_name = "order_no"
 
     order_no = fields.Char('Order Number', size=64, readonly=True)
@@ -389,9 +431,9 @@ class HotelRestaurantOrder(models.Model):
     order_list = fields.One2many('hotel.restaurant.order.list', 'o_list',
                                  'Order List')
     tax = fields.Float('Tax (%) ')
-    amount_subtotal = fields.Float(compute='_sub_total', method=True,
-                                   string='Subtotal')
-    amount_total = fields.Float(compute='_total', method=True,
+    amount_subtotal = fields.Float(compute='_compute_amount_subtotal',
+                                   method=True, string='Subtotal')
+    amount_total = fields.Float(compute='_compute_amount_total', method=True,
                                 string='Total')
     state = fields.Selection([('draft', 'Draft'), ('order', 'Order Created'),
                               ('done', 'Done'), ('cancel', 'Cancelled')],
@@ -494,7 +536,7 @@ class HotelReservationOrder(models.Model):
 
     @api.multi
     @api.depends('order_list')
-    def _sub_total(self):
+    def _compute_amount_subtotal(self):
         '''
         amount_subtotal will display on change of order_list
         ----------------------------------------------------
@@ -506,7 +548,7 @@ class HotelReservationOrder(models.Model):
 
     @api.multi
     @api.depends('amount_subtotal')
-    def _total(self):
+    def _compute_amount_total(self):
         '''
         amount_total will display on change of amount_subtotal
         -------------------------------------------------------
@@ -624,7 +666,6 @@ class HotelReservationOrder(models.Model):
 
     _name = "hotel.reservation.order"
     _description = "Reservation Order"
-
     _rec_name = "order_number"
 
     order_number = fields.Char('Order No', size=64, readonly=True)
@@ -640,9 +681,9 @@ class HotelReservationOrder(models.Model):
     order_list = fields.One2many('hotel.restaurant.order.list', 'o_l',
                                  'Order List')
     tax = fields.Float('Tax (%) ', size=64)
-    amount_subtotal = fields.Float(compute='_sub_total', method=True,
-                                   string='Subtotal')
-    amount_total = fields.Float(compute='_total', method=True,
+    amount_subtotal = fields.Float(compute='_compute_amount_subtotal',
+                                   method=True, string='Subtotal')
+    amount_total = fields.Float(compute='_compute_amount_total', method=True,
                                 string='Total')
     kitchen_id = fields.Integer('Kitchen id')
     rest_id = fields.Many2many('hotel.restaurant.order.list', 'reserv_id',
@@ -676,7 +717,7 @@ class HotelRestaurantOrderList(models.Model):
 
     @api.multi
     @api.depends('item_qty', 'item_rate')
-    def _sub_total(self):
+    def _compute_price_subtotal(self):
         '''
         price_subtotal will display on change of item_rate
         --------------------------------------------------
@@ -703,7 +744,7 @@ class HotelRestaurantOrderList(models.Model):
     kot_order_list = fields.Many2one('hotel.restaurant.kitchen.order.tickets',
                                      'Kitchen Order Tickets')
     name = fields.Many2one('hotel.menucard', 'Item Name', required=True)
-    item_qty = fields.Char('Qty', size=64, required=True)
+    item_qty = fields.Integer('Qty', size=64, required=True)
     item_rate = fields.Float('Rate', size=64)
-    price_subtotal = fields.Float(compute='_sub_total', method=True,
-                                  string='Subtotal')
+    price_subtotal = fields.Float(compute='_compute_price_subtotal',
+                                  method=True, string='Subtotal')
