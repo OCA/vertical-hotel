@@ -6,9 +6,19 @@
 hotel_reservation
 =================
 
-This Module is for Hotel/Resort/Property management.
+This Module is provide reservation for hotel rooms.
 
 You can manage:
+
+* Manage hotel room based on room types and it's capacity
+
+* Confirm your reservation and get reservation information
+
+* Generate Folio
+
+* Summarize detail of Reservation
+
+* Easy and quick reservation from Reservation Summary
 
 * Guest Reservation
 
