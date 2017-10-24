@@ -13,13 +13,14 @@
                     <field name="date_end" required="1" />
                 </group>
                 <footer>
-                    <button name="print_report" string="Print Folio" type="object" class="oe_highlight" icon="fa-print"/>
+                    <button name="print_report" string="Print Folio" icon="fa-print" type="object" class="oe_highlight" />
                     <button string="Cancel" icon="fa-close" class="btn btn-primary" special="cancel" />
                 </footer>
             </form>
         </field>
     </record>
 
+    <!--Action for folio report wizard -->
     <record id="hotel_folio_wizard" model="ir.actions.act_window">
         <field name="name">Hotel Folio Report</field>
         <field name="res_model">folio.report.wizard</field>
