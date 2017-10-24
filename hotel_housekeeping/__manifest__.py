@@ -11,8 +11,9 @@
     'category': 'Generic Modules/Hotel Housekeeping',
     'description': '''
                     Module for Hotel/Hotel Housekeeping. You can manage:
-                    * Housekeeping process
-                    * Housekeeping history room wise
+                        * Housekeeping Activities
+                        * Housekeeping process
+                        * Housekeeping history room wise
                     Different reports are also provided, mainly for
                     hotel statistics.
     ''',
