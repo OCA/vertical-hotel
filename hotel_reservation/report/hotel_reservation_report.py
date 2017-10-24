@@ -177,7 +177,8 @@ class ReportTestMaxroom(models.AbstractModel):
         _get_room_type = rm_act._get_room_type(date_start, date_end)
         _get_room_nos = rm_act._get_room_nos(date_start, date_end)
         get_data = rm_act.get_data(date_start, date_end)
-        _get_room = rm_act._get_room_used_detail(date_start, date_end)
+        _get_room_used_detail = rm_act._get_room_used_detail(date_start,
+                                                             date_end)
         docargs = {
             'doc_ids': docids,
             'doc_model': self.model,
@@ -187,7 +188,7 @@ class ReportTestMaxroom(models.AbstractModel):
             'get_room_type': _get_room_type,
             'get_room_nos': _get_room_nos,
             'get_data': get_data,
-            '_get_room_used_detail': _get_room,
+            'get_room_used_detail': _get_room_used_detail,
         }
         docargs['data'].update({'date_end':
                                 parser.parse(docargs.get('data').
