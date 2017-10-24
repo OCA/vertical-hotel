@@ -9,13 +9,15 @@
     'category': 'Generic Modules/Hotel Management',
     'license': 'AGPL-3',
     'description': '''
-        Module for Hotel/Resort/Rooms/Property management. You can manage:
+        * Module for Hotel/Resort/Rooms/Property management. You can manage:
             * Configure Property
-            * Hotel Configuration
-            * Check In, Check out
+            * Hotel Configuration (Room, Amenities, Services, Floor,
+              Currency Exchange)
+            * Book Your Hotel Room
+            * Manage History of Check In, Check out
             * Manage Folio
             * Payment
-        Different reports are also provided, mainly for hotel statistics.
+        * Different Reports are also provided, mainly for hotel statistics
     ''',
     'depends': ['sale_stock', 'point_of_sale', 'report'],
     'demo': ['views/hotel_data.xml'],
