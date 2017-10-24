@@ -11,10 +11,17 @@
     'description': '''
                     Module for Hotel/Resort/Property management.
                     You can manage:
-                    * Guest Reservation
-                    * Group Reservation
-                    Different reports are also provided, mainly for
-                    hotel statistics.
+                        * Manage hotel room based on room types and it's
+                          capacity
+                        * Confirm your reservation and get reservation
+                          information
+                        * Generate Folio
+                        * Summarize detail of Reservation
+                        * Easy and quick reservation from Reservation Summary
+                        * Guest Reservation
+                        * Group Reservation
+
+                    Different Reports are also provided.
                     ''',
     'depends': ['hotel', 'stock', 'mail'],
     'demo': ['views/hotel_reservation_data.xml', ],
@@ -24,7 +31,7 @@
         'report/hotel_reservation_report.xml',
         'views/hotel_reservation_sequence.xml',
         'views/hotel_reservation_view.xml',
-        'views/hotel_scheduler.xml',
+        'views/email_temp_view.xml',
         'views/report_checkin.xml',
         'views/report_checkout.xml',
         'views/max_room.xml',
