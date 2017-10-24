@@ -5,6 +5,7 @@ import time
 import datetime
 import urllib2
 from odoo.exceptions import except_orm, ValidationError
+from odoo.osv import expression
 from odoo.tools import misc, DEFAULT_SERVER_DATETIME_FORMAT
 from odoo import models, fields, api, _
 from decimal import Decimal
@@ -67,22 +68,60 @@ class HotelFloor(models.Model):
     sequence = fields.Integer('Sequence', size=64, index=True)
 
 
-class ProductCategory(models.Model):
-
-    _inherit = "product.category"
-
-    isroomtype = fields.Boolean('Is Room Type')
-    isamenitytype = fields.Boolean('Is Amenities Type')
-    isservicetype = fields.Boolean('Is Service Type')
-
-
 class HotelRoomType(models.Model):
 
     _name = "hotel.room.type"
     _description = "Room Type"
 
-    cat_id = fields.Many2one('product.category', 'category', required=True,
-                             delegate=True, index=True, ondelete='cascade')
+    name = fields.Char('Name', size=64, required=True)
+    categ_id = fields.Many2one('hotel.room.type', 'Category')
+    child_id = fields.One2many('hotel.room.type', 'categ_id',
+                               'Child Categories')
+
+    @api.multi
+    def name_get(self):
+        def get_names(cat):
+            """ Return the list [cat.name, cat.categ_id.name, ...] """
+            res = []
+            while cat:
+                res.append(cat.name)
+                cat = cat.categ_id
+            return res
+        return [(cat.id, " / ".join(reversed(get_names(cat)))) for cat in self]
+
+    @api.model
+    def name_search(self, name, args=None, operator='ilike', limit=100):
+        if not args:
+            args = []
+        if name:
+            # Be sure name_search is symetric to name_get
+            category_names = name.split(' / ')
+            parents = list(category_names)
+            child = parents.pop()
+            domain = [('name', operator, child)]
+            if parents:
+                names_ids = self.name_search(' / '.join(parents), args=args,
+                                             operator='ilike', limit=limit)
+                category_ids = [name_id[0] for name_id in names_ids]
+                if operator in expression.NEGATIVE_TERM_OPERATORS:
+                    categories = self.search([('id', 'not in', category_ids)])
+                    domain = expression.OR([[('categ_id', 'in',
+                                              categories.ids)], domain])
+                else:
+                    domain = expression.AND([[('categ_id', 'in',
+                                               category_ids)], domain])
+                for i in range(1, len(category_names)):
+                    domain = [[('name', operator,
+                                ' / '.join(category_names[-1 - i:]))], domain]
+                    if operator in expression.NEGATIVE_TERM_OPERATORS:
+                        domain = expression.AND(domain)
+                    else:
+                        domain = expression.OR(domain)
+            categories = self.search(expression.AND([domain, args]),
+                                     limit=limit)
+        else:
+            categories = self.search(args, limit=limit)
+        return categories.name_get()
 
 
 class ProductProduct(models.Model):
@@ -99,8 +138,55 @@ class HotelRoomAmenitiesType(models.Model):
     _name = 'hotel.room.amenities.type'
     _description = 'amenities Type'
 
-    cat_id = fields.Many2one('product.category', 'category', required=True,
-                             delegate=True, ondelete='cascade')
+    name = fields.Char('Name', size=64, required=True)
+    amenity_id = fields.Many2one('hotel.room.amenities.type', 'Category')
+    child_id = fields.One2many('hotel.room.amenities.type', 'amenity_id',
+                               'Child Categories')
+
+    @api.multi
+    def name_get(self):
+        def get_names(cat):
+            """ Return the list [cat.name, cat.amenity_id.name, ...] """
+            res = []
+            while cat:
+                res.append(cat.name)
+                cat = cat.amenity_id
+            return res
+        return [(cat.id, " / ".join(reversed(get_names(cat)))) for cat in self]
+
+    @api.model
+    def name_search(self, name, args=None, operator='ilike', limit=100):
+        if not args:
+            args = []
+        if name:
+            # Be sure name_search is symetric to name_get
+            category_names = name.split(' / ')
+            parents = list(category_names)
+            child = parents.pop()
+            domain = [('name', operator, child)]
+            if parents:
+                names_ids = self.name_search(' / '.join(parents), args=args,
+                                             operator='ilike', limit=limit)
+                category_ids = [name_id[0] for name_id in names_ids]
+                if operator in expression.NEGATIVE_TERM_OPERATORS:
+                    categories = self.search([('id', 'not in', category_ids)])
+                    domain = expression.OR([[('amenity_id', 'in',
+                                              categories.ids)], domain])
+                else:
+                    domain = expression.AND([[('amenity_id', 'in',
+                                               category_ids)], domain])
+                for i in range(1, len(category_names)):
+                    domain = [[('name', operator,
+                                ' / '.join(category_names[-1 - i:]))], domain]
+                    if operator in expression.NEGATIVE_TERM_OPERATORS:
+                        domain = expression.AND(domain)
+                    else:
+                        domain = expression.OR(domain)
+            categories = self.search(expression.AND([domain, args]),
+                                     limit=limit)
+        else:
+            categories = self.search(args, limit=limit)
+        return categories.name_get()
 
 
 class HotelRoomAmenities(models.Model):
@@ -108,12 +194,11 @@ class HotelRoomAmenities(models.Model):
     _name = 'hotel.room.amenities'
     _description = 'Room amenities'
 
-    room_categ_id = fields.Many2one('product.product', 'Product Category',
-                                    required=True, delegate=True,
-                                    ondelete='cascade')
-    rcateg_id = fields.Many2one('hotel.room.amenities.type',
-                                'Amenity Catagory')
-    amenity_rate = fields.Integer('Amenity Rate')
+    product_id = fields.Many2one('product.product', 'Product Category',
+                                 required=True, delegate=True,
+                                 ondelete='cascade')
+    categ_id = fields.Many2one('hotel.room.amenities.type',
+                               string='Amenities Category', required=True)
     product_manager = fields.Many2one('res.users', string='Product Manager')
 
 
@@ -142,6 +227,8 @@ class HotelRoom(models.Model):
                                help='At which floor the room is located.')
     max_adult = fields.Integer('Max Adult')
     max_child = fields.Integer('Max Child')
+    categ_id = fields.Many2one('hotel.room.type', string='Room Category',
+                               required=True)
     room_amenities = fields.Many2many('hotel.room.amenities', 'temp_tab',
                                       'room_amenities', 'rcateg_id',
                                       string='Room Amenities',
@@ -149,10 +236,16 @@ class HotelRoom(models.Model):
     status = fields.Selection([('available', 'Available'),
                                ('occupied', 'Occupied')],
                               'Status', default='available')
-    capacity = fields.Integer('Capacity')
+    capacity = fields.Integer('Capacity', required=True)
     room_line_ids = fields.One2many('folio.room.line', 'room_id',
                                     string='Room Reservation Line')
     product_manager = fields.Many2one('res.users', string='Product Manager')
+
+    @api.constrains('capacity')
+    def check_capacity(self):
+        for room in self:
+            if room.capacity <= 0:
+                raise ValidationError(_('Room capacity must be more than 0'))
 
     @api.onchange('isroom')
     def isroom_change(self):
@@ -264,18 +357,6 @@ class HotelFolio(models.Model):
         '''
         return super(HotelFolio, self).copy(default=default)
 
-    @api.multi
-    def _amount_untaxed(self, field_name, arg):
-        return self.env['sale.order']._amount_untaxed(field_name, arg)
-
-    @api.multi
-    def _amount_tax(self, field_name, arg):
-        return self.env['sale.order']._amount_tax(field_name, arg)
-
-    @api.multi
-    def _amount_total(self, field_name, arg):
-        return self.env['sale.order']._amount_total(field_name, arg)
-
     _name = 'hotel.folio'
     _description = 'hotel folio new'
     _rec_name = 'order_id'
@@ -303,7 +384,7 @@ class HotelFolio(models.Model):
                                     readonly=True,
                                     states={'draft': [('readonly', False)],
                                             'sent': [('readonly', False)],
-                                            'sale': [('readonly', False)]},
+                                            'sent': [('readonly', False)]},
                                     help="Hotel services detail provide to"
                                     "customer and it will include in "
                                     "main Invoice.")
@@ -311,7 +392,6 @@ class HotelFolio(models.Model):
                                      ('manual', 'On Check In'),
                                      ('picking', 'On Checkout')],
                                     'Hotel Policy', default='manual',
-                                    required=True,
                                     help="Hotel policy for payment that "
                                     "either the guest has to payment at "
                                     "booking time or check-in "
@@ -323,6 +403,7 @@ class HotelFolio(models.Model):
                                     readonly=True)
     hotel_invoice_id = fields.Many2one('account.invoice', 'Invoice',
                                        copy=False)
+    duration_dummy = fields.Float('Duration Dummy')
 
     @api.multi
     def go_to_currency_exchange(self):
@@ -354,7 +435,7 @@ class HotelFolio(models.Model):
                 }
 
     @api.constrains('room_lines')
-    def _check_room_vacant(self):
+    def folio_room_lines(self):
         '''
         This method is used to validate the room_lines.
         ------------------------------------------------
@@ -366,22 +447,6 @@ class HotelFolio(models.Model):
             if room.product_id.id in folio_rooms:
                 raise ValidationError(_('You Cannot Take Same Room Twice'))
             folio_rooms.append(room.product_id.id)
-
-    @api.constrains('checkin_date', 'checkout_date')
-    def check_dates(self):
-        '''
-        This method is used to validate the checkin_date and checkout_date.
-        -------------------------------------------------------------------
-        @param self: object pointer
-        @return: raise warning depending on the validation
-        '''
-        if self.checkin_date >= self.checkout_date:
-                raise ValidationError(_('Check in Date Should be \
-                less than the Check Out Date!'))
-        if self.date_order and self.checkin_date:
-            if self.checkin_date < self.date_order:
-                raise ValidationError(_('Check in date should be \
-                greater than the current date.'))
 
     @api.onchange('checkout_date', 'checkin_date')
     def onchange_dates(self):
@@ -413,12 +478,13 @@ class HotelFolio(models.Model):
                 myduration = dur.days
             else:
                 myduration = dur.days + 1
-#            To calculate additional hours in hotel room as per minutes
+#           To calculate additional hours in hotel room as per minutes
             if configured_addition_hours > 0:
-                additional_hours = abs((dur.seconds / 60))
-                if additional_hours <= abs(configured_addition_hours * 60):
-                    myduration -= 1
+                additional_hours = abs((dur.seconds / 60) / 60)
+                if additional_hours >= configured_addition_hours:
+                    myduration += 1
         self.duration = myduration
+        self.duration_dummy = self.duration
 
     @api.model
     def create(self, vals, check=True):
@@ -428,7 +494,6 @@ class HotelFolio(models.Model):
         @param vals: dictionary of fields value.
         @return: new record set for hotel folio.
         """
-
         if not 'service_lines' and 'folio_id' in vals:
             tmp_room_lines = vals.get('room_lines', [])
             vals['order_policy'] = vals.get('hotel_policy', 'manual')
@@ -442,6 +507,9 @@ class HotelFolio(models.Model):
             if not vals:
                 vals = {}
             vals['name'] = self.env['ir.sequence'].next_by_code('hotel.folio')
+            vals['duration'] = vals.get('duration',
+                                        0.0) or vals.get('duration_dummy',
+                                                         0.0)
             folio_id = super(HotelFolio, self).create(vals)
             folio_room_line_obj = self.env['folio.room.line']
             h_room_obj = self.env['hotel.room']
@@ -480,16 +548,19 @@ class HotelFolio(models.Model):
         @param self: The object pointer
         @param vals: dictionary of fields value.
         """
-        folio_room_line_obj = self.env['folio.room.line']
         product_obj = self.env['product.product']
         h_room_obj = self.env['hotel.room']
+        folio_room_line_obj = self.env['folio.room.line']
         room_lst1 = []
         for rec in self:
             for res in rec.room_lines:
                 room_lst1.append(res.product_id.id)
-        folio_write = super(HotelFolio, self).write(vals)
         room_lst = []
         for folio_obj in self:
+            if vals and vals.get('duration_dummy', False):
+                vals['duration'] = vals.get('duration_dummy', 0.0)
+            else:
+                vals['duration'] = folio_obj.duration
             for folio_rec in folio_obj.room_lines:
                 room_lst.append(folio_rec.product_id.id)
             new_rooms = set(room_lst).difference(set(room_lst1))
@@ -517,7 +588,7 @@ class HotelFolio(models.Model):
                     folio_romline_rec = (folio_room_line_obj.search
                                          ([('folio_id', '=', folio_obj.id)]))
                     folio_romline_rec.write(room_vals)
-        return folio_write
+        return super(HotelFolio, self).write(vals)
 
     @api.onchange('warehouse_id')
     def onchange_warehouse_id(self):
@@ -622,22 +693,6 @@ class HotelFolio(models.Model):
         if self.env['ir.values'].get_default('sale.config.settings',
                                              'auto_done_setting'):
             self.order_id.action_done()
-
-    @api.multi
-    def test_state(self, mode):
-        '''
-        @param self: object pointer
-        @param mode: state of workflow
-        '''
-        write_done_ids = []
-        write_cancel_ids = []
-        if write_done_ids:
-            test_obj = self.env['sale.order.line'].browse(write_done_ids)
-            test_obj.write({'state': 'done'})
-        if write_cancel_ids:
-            test_obj = self.env['sale.order.line'].browse(write_cancel_ids)
-            test_obj.write({'state': 'cancel'})
-        return True
 
     @api.multi
     def action_cancel_draft(self):
@@ -841,9 +896,9 @@ class HotelFolioLine(models.Model):
                 myduration = dur.days + 1
 #            To calculate additional hours in hotel room as per minutes
             if configured_addition_hours > 0:
-                additional_hours = abs((dur.seconds / 60))
-                if additional_hours <= abs(configured_addition_hours * 60):
-                    myduration -= 1
+                additional_hours = abs((dur.seconds / 60) / 60)
+                if additional_hours >= configured_addition_hours:
+                    myduration += 1
         self.product_uom_qty = myduration
         hotel_room_obj = self.env['hotel.room']
         hotel_room_ids = hotel_room_obj.search([])
@@ -923,8 +978,9 @@ class HotelServiceLine(models.Model):
     _name = 'hotel.service.line'
     _description = 'hotel Service line'
 
-    service_line_id = fields.Many2one('sale.order.line', required=True,
-                                      delegate=True, ondelete='cascade')
+    service_line_id = fields.Many2one('sale.order.line', 'Service Line',
+                                      required=True, delegate=True,
+                                      ondelete='cascade')
     folio_id = fields.Many2one('hotel.folio', 'Folio', ondelete='cascade')
     ser_checkin_date = fields.Datetime('From Date', required=True,
                                        default=_service_checkin_date)
@@ -1056,8 +1112,55 @@ class HotelServiceType(models.Model):
     _name = "hotel.service.type"
     _description = "Service Type"
 
-    ser_id = fields.Many2one('product.category', 'category', required=True,
-                             delegate=True, index=True, ondelete='cascade')
+    name = fields.Char('Service Name', size=64, required=True)
+    service_id = fields.Many2one('hotel.service.type', 'Service Category')
+    child_id = fields.One2many('hotel.service.type', 'service_id',
+                               'Child Categories')
+
+    @api.multi
+    def name_get(self):
+        def get_names(cat):
+            """ Return the list [cat.name, cat.service_id.name, ...] """
+            res = []
+            while cat:
+                res.append(cat.name)
+                cat = cat.service_id
+            return res
+        return [(cat.id, " / ".join(reversed(get_names(cat)))) for cat in self]
+
+    @api.model
+    def name_search(self, name, args=None, operator='ilike', limit=100):
+        if not args:
+            args = []
+        if name:
+            # Be sure name_search is symetric to name_get
+            category_names = name.split(' / ')
+            parents = list(category_names)
+            child = parents.pop()
+            domain = [('name', operator, child)]
+            if parents:
+                names_ids = self.name_search(' / '.join(parents), args=args,
+                                             operator='ilike', limit=limit)
+                category_ids = [name_id[0] for name_id in names_ids]
+                if operator in expression.NEGATIVE_TERM_OPERATORS:
+                    categories = self.search([('id', 'not in', category_ids)])
+                    domain = expression.OR([[('service_id', 'in',
+                                              categories.ids)], domain])
+                else:
+                    domain = expression.AND([[('service_id', 'in',
+                                               category_ids)], domain])
+                for i in range(1, len(category_names)):
+                    domain = [[('name', operator,
+                                ' / '.join(category_names[-1 - i:]))], domain]
+                    if operator in expression.NEGATIVE_TERM_OPERATORS:
+                        domain = expression.AND(domain)
+                    else:
+                        domain = expression.OR(domain)
+            categories = self.search(expression.AND([domain, args]),
+                                     limit=limit)
+        else:
+            categories = self.search(args, limit=limit)
+        return categories.name_get()
 
 
 class HotelServices(models.Model):
@@ -1065,9 +1168,11 @@ class HotelServices(models.Model):
     _name = 'hotel.services'
     _description = 'Hotel Services and its charges'
 
-    service_id = fields.Many2one('product.product', 'Service_id',
+    product_id = fields.Many2one('product.product', 'Service_id',
                                  required=True, ondelete='cascade',
                                  delegate=True)
+    categ_id = fields.Many2one('hotel.service.type', string='Service Category',
+                               required=True)
     product_manager = fields.Many2one('res.users', string='Product Manager')
 
 
@@ -1077,14 +1182,64 @@ class ResCompany(models.Model):
 
     additional_hours = fields.Integer('Additional Hours',
                                       help="Provide the min hours value for \
-check in, checkout days, whatever the hours will be provided here based \
-on that extra days will be calculated.")
+                                      check in, checkout days, whatever the \
+                                      hours will be provided here based \
+                                      on that extra days will be calculated.")
 
 
 class CurrencyExchangeRate(models.Model):
 
     _name = "currency.exchange"
     _description = "currency"
+
+    @api.depends('input_curr', 'out_curr', 'in_amount')
+    def _compute_get_currency(self):
+        '''
+        When you change input_curr, out_curr or in_amount
+        it will update the out_amount of the currency exchange
+        ------------------------------------------------------
+        @param self: object pointer
+        '''
+        for rec in self:
+            rec.out_amount = 0.0
+            if rec.input_curr:
+                result = rec.get_rate(rec.input_curr.name,
+                                      rec.out_curr.name)
+                if rec.out_curr:
+                    rec.rate = result
+                    if rec.rate == Decimal('-1.00'):
+                        raise except_orm(_('Warning'),
+                                         _('Please Check Your \
+                                         Network Connectivity.'))
+                    rec.out_amount = (float(result) * float(rec.in_amount))
+
+    @api.depends('out_amount', 'tax')
+    def _compute_tax_change(self):
+        '''
+        When you change out_amount or tax
+        it will update the total of the currency exchange
+        -------------------------------------------------
+        @param self: object pointer
+        '''
+        for rec in self:
+            if rec.out_amount:
+                ser_tax = ((rec.out_amount) * (float(rec.tax))) / 100
+                rec.total = rec.out_amount + ser_tax
+
+    @api.model
+    def get_rate(self, a, b):
+        '''
+        Calculate rate between two currency
+        -----------------------------------
+        @param self: object pointer
+        '''
+        try:
+            url = 'http://finance.yahoo.com/d/quotes.csv?s=%s%s=X&f=l1' % (a,
+                                                                           b)
+            rate = urllib2.urlopen(url).read().rstrip()
+            return Decimal(rate)
+        except:
+            return Decimal('-1.00')
 
     name = fields.Char('Reg Number', readonly=True, default='New')
     today_date = fields.Datetime('Date Ordered',
@@ -1097,18 +1252,27 @@ class CurrencyExchangeRate(models.Model):
     in_amount = fields.Float('Amount Taken', size=64, default=1.0, index=True)
     out_curr = fields.Many2one('res.currency', string='Output Currency',
                                track_visibility='always')
-    out_amount = fields.Float('Subtotal', size=64)
+    out_amount = fields.Float(compute="_compute_get_currency",
+                              string='Subtotal', size=64)
     folio_no = fields.Many2one('hotel.folio', 'Folio Number')
     guest_name = fields.Many2one('res.partner', string='Guest Name')
     room_number = fields.Char(string='Room Number')
     state = fields.Selection([('draft', 'Draft'), ('done', 'Done'),
                               ('cancel', 'Cancel')], 'State', default='draft')
-    rate = fields.Float('Rate(per unit)', size=64)
+    rate = fields.Float(compute="_compute_get_currency",
+                        string='Rate (Per Unit)', size=64, readonly=True)
     hotel_id = fields.Many2one('stock.warehouse', 'Hotel Name')
     type = fields.Selection([('cash', 'Cash')], 'Type', default='cash')
     tax = fields.Selection([('2', '2%'), ('5', '5%'), ('10', '10%')],
                            'Service Tax', default='2')
-    total = fields.Float('Amount Given')
+    total = fields.Float(compute="_compute_tax_change", string='Total Amount')
+
+    @api.constrains('out_curr')
+    def check_out_curr(self):
+        for cur in self:
+            if cur.out_curr == cur.input_curr:
+                raise ValidationError(_('Input currency and output currency '
+                                        'must not be same'))
 
     @api.model
     def create(self, vals):
@@ -1174,54 +1338,6 @@ class CurrencyExchangeRate(models.Model):
         """
         self.state = 'draft'
         return True
-
-    @api.model
-    def get_rate(self, a, b):
-        '''
-        Calculate rate between two currency
-        -----------------------------------
-        @param self: object pointer
-        '''
-        try:
-            url = 'http://finance.yahoo.com/d/quotes.csv?s=%s%s=X&f=l1' % (a,
-                                                                           b)
-            rate = urllib2.urlopen(url).read().rstrip()
-            return Decimal(rate)
-        except:
-            return Decimal('-1.00')
-
-    @api.onchange('input_curr', 'out_curr', 'in_amount')
-    def get_currency(self):
-        '''
-        When you change input_curr, out_curr or in_amount
-        it will update the out_amount of the currency exchange
-        ------------------------------------------------------
-        @param self: object pointer
-        '''
-        self.out_amount = 0.0
-        if self.input_curr:
-            for rec in self:
-                result = rec.get_rate(self.input_curr.name,
-                                      self.out_curr.name)
-                if self.out_curr:
-                    self.rate = result
-                    if self.rate == Decimal('-1.00'):
-                        raise except_orm(_('Warning'),
-                                         _('Please Check Your \
-                                         Network Connectivity.'))
-                    self.out_amount = (float(result) * float(self.in_amount))
-
-    @api.onchange('out_amount', 'tax')
-    def tax_change(self):
-        '''
-        When you change out_amount or tax
-        it will update the total of the currency exchange
-        -------------------------------------------------
-        @param self: object pointer
-        '''
-        if self.out_amount:
-            ser_tax = ((self.out_amount) * (float(self.tax))) / 100
-            self.total = self.out_amount - ser_tax
 
 
 class AccountInvoice(models.Model):
