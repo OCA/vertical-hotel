@@ -175,7 +175,18 @@ class HotelReservation(models.Model):
                              default=lambda *a: 'draft')
     folio_id = fields.Many2many('hotel.folio', 'hotel_folio_reservation_rel',
                                 'order_id', 'invoice_id', string='Folio')
+    no_of_folio = fields.Integer('Folio', compute="_compute_folio_id")
     dummy = fields.Datetime('Dummy')
+
+    @api.multi
+    def _compute_folio_id(self):
+        folio_list = []
+        for res in self:
+            for folio in res.folio_id:
+                folio_list.append(folio.id)
+            folio_len = len(folio_list)
+            res.no_of_folio = folio_len
+        return folio_len
 
     @api.multi
     def unlink(self):
