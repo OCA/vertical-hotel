@@ -41,7 +41,7 @@
         </field>
     </record>
 
-    <!-- Graph view of report hotel reservation status -->
+    <!-- Graph view (pie) of report hotel reservation status -->
     <record id="view_hotel_reservation_status_graph" model="ir.ui.view">
         <field name="name">report.hotel.reservation.status.graph</field>
         <field name="model">report.hotel.reservation.status</field>
@@ -53,7 +53,7 @@
         </field>
     </record>
 
-    <!-- Graph view of report hotel reservation status -->
+    <!-- Graph view (bar) of report hotel reservation status -->
     <record id="view_hotel_reservation_status_graph_bar" model="ir.ui.view">
         <field name="name">report.hotel.reservation.status.graph</field>
         <field name="model">report.hotel.reservation.status</field>
