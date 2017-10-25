@@ -9,14 +9,6 @@
     'website': 'http://www.serpentcs.com',
     'license': 'AGPL-3',
     'category': 'Generic Modules/Hotel Housekeeping',
-    'description': '''
-                    Module for Hotel/Hotel Housekeeping. You can manage:
-                        * Housekeeping Activities
-                        * Housekeeping process
-                        * Housekeeping history room wise
-                    Different reports are also provided, mainly for
-                    hotel statistics.
-    ''',
     'depends': ['hotel'],
     'demo': ['views/hotel_housekeeping_data.xml', ],
     'data': [
