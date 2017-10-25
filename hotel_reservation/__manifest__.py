@@ -8,21 +8,6 @@
                 Services Pvt. Ltd., Odoo S.A.',
     'category': 'Generic Modules/Hotel Reservation',
     'license': 'AGPL-3',
-    'description': '''
-                    Module for Hotel/Resort/Property management.
-                    You can manage:
-                        * Manage hotel room based on room types and it's
-                          capacity
-                        * Confirm your reservation and get reservation
-                          information
-                        * Generate Folio
-                        * Summarize detail of Reservation
-                        * Easy and quick reservation from Reservation Summary
-                        * Guest Reservation
-                        * Group Reservation
-
-                    Different Reports are also provided.
-                    ''',
     'depends': ['hotel', 'stock', 'mail'],
     'demo': ['views/hotel_reservation_data.xml', ],
     'data': [
