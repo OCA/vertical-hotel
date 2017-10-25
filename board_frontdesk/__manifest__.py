@@ -15,19 +15,5 @@
                 'report_hotel_restaurant'
                 ],
     'data': ['views/board_frontdesk_view.xml'],
-    'description': '''
-                This module implements a dashboard for hotel FrontDesk that
-                includes:
-                    * Calendar view of Today's Check-In and Check-Out For
-                      Hotel Reservation
-                    * Calendar view of Weekly Check-In and Check-Out For Hotel
-                      Reservation
-                    * Calendar view of Monthly Check-In and Check-Out For
-                      Hotel Reservation
-                    * View of Room Reservation Summary and Quick Reservation
-                    * Real-Time Updates on Room Availability
-                    * A collaborative information regarding Today's Restaurant
-                      Orders and Currently Reserved Tables Details
-    ''',
     'installable': True,
 }
