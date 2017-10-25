@@ -8,7 +8,7 @@
                 Services Pvt. Ltd., OpenERP SA',
     'website': 'http://www.serpentcs.com',
     'license': 'AGPL-3',
-    'category' : 'Generic Modules/Hotel Housekeeping',
+    'category': 'Generic Modules/Hotel Housekeeping',
     'depends': ['hotel'],
     'demo': ['views/hotel_housekeeping_data.xml', ],
     'data': [
