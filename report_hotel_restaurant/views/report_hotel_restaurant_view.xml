@@ -39,7 +39,7 @@
         </field>
     </record>
 
-    <!-- Graph view of report hotel restaurant status -->
+    <!-- Graph view (Pie) of report hotel restaurant status -->
     <record id="view_hotel_restaurant_status_graph" model="ir.ui.view">
         <field name="name">report.hotel.restaurant.status.graph</field>
         <field name="model">report.hotel.restaurant.status</field>
@@ -51,7 +51,7 @@
         </field>
     </record>
 
-    <!-- Graph view of report hotel restaurant status -->
+    <!-- Graph view (Bar) of report hotel restaurant status -->
     <record id="view_hotel_restaurant_status_graph_bar" model="ir.ui.view">
         <field name="name">report.hotel.restaurant.status.graph</field>
         <field name="model">report.hotel.restaurant.status</field>
