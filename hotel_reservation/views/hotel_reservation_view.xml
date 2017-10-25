@@ -23,6 +23,12 @@
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
+                    <div class="oe_right oe_button_box">
+                        <button name="%(hotel.open_hotel_folio1_form_tree_all)d"
+                            type="action" icon="fa-file-text-o" class="oe_stat_button">
+                            <field name="no_of_folio" widget="statinfo" />
+                        </button>
+                    </div>
                     <label string="Reservation No" />
                     <h1>
                         <field name="reservation_no" class="oe_inline" />
@@ -52,7 +58,7 @@
                     </group>
                     <notebook>
                         <page string='Reservation Line'>
-                            <field name="reservation_line" colspan="4" nolabel="1" >
+                            <field name="reservation_line" colspan="4" nolabel="1">
                                 <form string="Reservation Line">
                                     <separator string="Room Type" />
                                     <field name="name" invisible="1" />
@@ -219,6 +225,16 @@
         <field name="name">hotel.folio.tree.inherited</field>
         <field name="model">hotel.folio</field>
         <field name="inherit_id" ref="hotel.view_hotel_folio1_tree" />
+        <field name="arch" type="xml">
+            <field name="name" position='after'>
+                <field name="reservation_id" />
+            </field>
+        </field>
+    </record>
+    <record id="view_hotel_folio1_search_inherited" model="ir.ui.view">
+        <field name="name">hotel.folio.search.inherited</field>
+        <field name="model">hotel.folio</field>
+        <field name="inherit_id" ref="hotel.view_hotel_folio_search" />
         <field name="arch" type="xml">
             <field name="name" position='after'>
                 <field name="reservation_id" />
