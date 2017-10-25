@@ -4,7 +4,7 @@
 
     <menuitem id="menu_hotel_reporting" name="Reports" parent="hotel.hotel_management_menu" sequence="7"/>
 
-    <!-- Action of hotel reservation -->
+    <!-- Action of Hotel Reservation -->
     <record id="action_view_frontdesk_cal" model="ir.actions.act_window">
         <field name="name">FrontDesk</field>
         <field name="res_model">hotel.reservation</field>
@@ -13,7 +13,7 @@
         <field name="view_id" ref="hotel_reservation.hotel_calendar_view" />
     </record>
 
-    <!-- Action of hotel restaurant kitchen order tickets -->
+    <!-- Action of Hotel Restaurant Kitchen Order Tickets -->
     <record id="action_hotel_restaurant_order_board" model="ir.actions.act_window">
         <field name="name">Current Orders Details</field>
         <field name="res_model">hotel.restaurant.kitchen.order.tickets</field>
@@ -74,6 +74,7 @@
         <field name="type">form</field>
         <field name="arch" type="xml">
             <form string="FrontDesk board">
+                <h2>Hotel FrontDesk Board</h2>
                 <hpaned>
                     <child1>
                         <action string="Reservation" name="%(action_view_frontdesk_cal)d" />
