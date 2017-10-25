@@ -777,11 +777,9 @@
         <field name="model">hotel.folio</field>
         <field name="arch" type="xml">
             <tree string="Hotel Folio" colors="blue:state == 'draft';gray:state == 'done'">
-                <field name="checkin_date" />
-                <field name="checkout_date" />
+                <field name="date_order" />
                 <field name="name" />
                 <field name="partner_id" />
-                <field name="date_order" />
                 <field name="state" />
                 <field name="amount_total" sum="Total amount" />
             </tree>
