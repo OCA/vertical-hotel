@@ -46,15 +46,15 @@ class TestHousekeeping(common.TransactionCase):
     def test_room_cancel(self):
         self.housekeeping.room_cancel()
         self.assertEqual(self.housekeeping.state == 'cancel', True)
- 
+
     def test_room_done(self):
         self.housekeeping.room_done()
         self.assertEqual(self.housekeeping.state == 'done', True)
- 
+
     def test_room_inspect(self):
         self.housekeeping.room_inspect()
         self.assertEqual(self.housekeeping.state == 'inspect', True)
- 
+
     def test_room_clean(self):
         self.housekeeping.room_clean()
         self.assertEqual(self.housekeeping.state == 'clean', True)
