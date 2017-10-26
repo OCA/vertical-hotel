@@ -19,7 +19,6 @@
         </record>
 
         <!--Demo data for hotel housekeeping activities -->
-
         <record id="hotel_room_activities_1" model="hotel.activity">
             <field name="name">Room Cleaning</field>
             <field name="categ_id" search="[('name', '=', 'Room Activity')]" />
