@@ -384,7 +384,7 @@ class HotelFolio(models.Model):
                                     readonly=True,
                                     states={'draft': [('readonly', False)],
                                             'sent': [('readonly', False)],
-                                            'sent': [('readonly', False)]},
+                                            'sale': [('readonly', False)]},
                                     help="Hotel services detail provide to"
                                     "customer and it will include in "
                                     "main Invoice.")
