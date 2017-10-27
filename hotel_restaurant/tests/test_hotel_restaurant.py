@@ -43,16 +43,15 @@ class TestRestaurant(common.TransactionCase):
                          'Incorrect search number result for name_search')
 
         self.hotel_rest_order = self.hotel_rest_order_obj.\
-            create({'state': 'draft',
-                    'cname': self.partner.id,
+            create({'cname': self.partner.id,
                     'room_no': self.room1.id,
-                    'amount_subtotal':500.00,
+                    'amount_subtotal': 500.00,
                     'amount_total': 500.00,
                     'waiter_name': self.waiter.id,
-                    'table_no': [(6,0,[self.table1.id,self.table0.id])],
+                    'table_no': [(6, 0, [self.table1.id, self.table0.id])],
                     'kitchen_id': 1,
                     'state': 'draft',
-                    'order_list': [(6,0,[self.tablelist.id])],
+                    'order_list': [(6, 0, [self.tablelist.id])],
                     })
 
         self.rest_order = self.rest_order_obj.\
@@ -67,13 +66,13 @@ class TestRestaurant(common.TransactionCase):
                     'reservationno': self.rest_res.id,
                     'date1': cur_date,
                     'waitername': self.waiter.id,
-                    'amount_subtotal':500.00,
+                    'amount_subtotal': 500.00,
                     'amount_total': 500.00,
-                    'rest_id': [(6,0,[self.tablelist.id])],
-                    'table_no': [(6,0,[self.table1.id,self.table0.id])],
+                    'rest_id': [(6, 0, [self.tablelist.id])],
+                    'table_no': [(6, 0, [self.table1.id, self.table0.id])],
                     'kitchen_id': 1,
                     'state': 'draft',
-                    'order_list': [(6,0,[self.tablelist.id])],
+                    'order_list': [(6, 0, [self.tablelist.id])],
                     })
 
     def test_compute_price_subtotal(self):
