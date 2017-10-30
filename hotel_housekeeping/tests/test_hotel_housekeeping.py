@@ -3,7 +3,6 @@
 
 from odoo.tests import common
 from datetime import datetime
-import time
 
 
 class TestHousekeeping(common.TransactionCase):
