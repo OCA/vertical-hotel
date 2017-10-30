@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from odoo import models, fields, api, _
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT as dt
-from odoo.exceptions import except_orm, ValidationError
+from odoo.exceptions import ValidationError, UserError
 import pytz
 
 
@@ -300,7 +300,7 @@ class HotelReservation(models.Model):
         if not vals:
             vals = {}
         vals['reservation_no'] = self.env['ir.sequence'].\
-            get('hotel.reservation')
+            next_by_code('hotel.reservation') or 'New'
         return super(HotelReservation, self).create(vals)
 
     @api.multi
@@ -485,8 +485,7 @@ class HotelReservation(models.Model):
             checkin_date = reservation['checkin']
             checkout_date = reservation['checkout']
             if not self.checkin < self.checkout:
-                raise except_orm(_('Error'),
-                                 _('Checkout date should be greater \
+                raise ValidationError(_('Checkout date should be greater \
                                  than the Checkin date.'))
             duration_vals = (self.onchange_check_dates
                              (checkin_date=checkin_date,
@@ -588,8 +587,7 @@ class HotelReservationLine(models.Model):
                                                  self.categ_id.id)])
         room_ids = []
         if not self.line_id.checkin:
-            raise except_orm(_('Warning'),
-                             _('Before choosing a room,\n You have to select \
+            raise ValidationError(_('Before choosing a room,\n You have to select \
                              a Check in date or a Check out date in \
                              the reservation form.'))
         for room in hotel_room_ids:
@@ -718,8 +716,7 @@ class HotelRoom(models.Model):
                 status = {'isroom': False, 'color': 2}
             room.write(status)
             if reservation_line_ids.ids and room_line_ids.ids:
-                raise except_orm(_('Wrong Entry'),
-                                 _('Please Check Rooms Status \
+                raise ValidationError(_('Please Check Rooms Status \
                                  for %s.' % (room.name)))
         return True
 
@@ -806,8 +803,7 @@ class RoomReservationSummary(models.Model):
         summary_header_list = ['Rooms']
         if self.date_from and self.date_to:
             if self.date_from > self.date_to:
-                raise except_orm(_('User Error!'),
-                                 _('Please Check Time period Date \
+                raise UserError(_('Please Check Time period Date \
                                  From can\'t be greater than Date To !'))
             if self._context.get('tz', False):
                 timezone = pytz.timezone(self._context.get('tz', False))
@@ -971,8 +967,7 @@ class QuickRoomReservation(models.TransientModel):
         '''
         if self.check_out and self.check_in:
             if self.check_out < self.check_in:
-                raise except_orm(_('Warning'),
-                                 _('Checkout date should be greater \
+                raise ValidationError(_('Checkout date should be greater \
                                  than Checkin date.'))
 
     @api.onchange('partner_id')
