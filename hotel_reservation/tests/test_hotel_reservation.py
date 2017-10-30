@@ -76,9 +76,6 @@ class TestReservation(common.TransactionCase):
         fields = ['date_from', 'room_id']
         self.quick_room_reserv.default_get(fields)
 
-    def test_quick_room_reserv_room_reserve(self):
-        self.quick_room_reserv.room_reserve()
-
     def test_default_get(self):
         fields = ['date_from', 'date_to']
         self.reserv_summary.default_get(fields)
@@ -100,9 +97,6 @@ class TestReservation(common.TransactionCase):
 
     def test_copy(self):
         self.hotel_reserv.copy()
-
-    def test_check_in_out_dates(self):
-        self.hotel_reserv.check_in_out_dates()
 
     def test_needaction_count(self):
         self.hotel_reserv._needaction_count()
