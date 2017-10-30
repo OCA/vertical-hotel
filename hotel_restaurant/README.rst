@@ -12,15 +12,30 @@ You can manage:
 
 * Restaurant Configuration (Food Item, Table)
 
-* Table Reservation
+* **Table Reservation**
 
-* Manage Food Orders
+.. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/10.0/hotel_restaurant/static/description/res2.png
+   :width: 750px
 
-* Manage Kitchen Order ticket
+* **Manage Food Orders**
 
-* Quick Table Reservation Facility With Its Food Order
+.. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/10.0/hotel_restaurant/static/description/res3.png
+   :width: 750px
 
-* Order's History In Hotel Folio
+* **Manage Kitchen Order ticket**
+
+.. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/10.0/hotel_restaurant/static/description/res4.png
+   :width: 750px
+
+* **Quick Table Reservation Facility With Its Food Order**
+
+.. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/10.0/hotel_restaurant/static/description/res5.png
+   :width: 750px
+
+* **Order's History In Hotel Folio**
+
+.. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/10.0/hotel_restaurant/static/description/res6.png
+   :width: 750px
 
 * Payment
 
