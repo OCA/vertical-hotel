@@ -112,11 +112,6 @@ class TestHotel(common.TransactionCase):
     def test_folio_name_get(self):
         self.hotel_folio.name_get()
 
-    def test_folio_name_search(self):
-        folio_search = self.hotel_folio.name_search('Folio/00001')
-        self.assertEqual(len(folio_search), 1,
-                         'Incorrect search number result for name_search')
-
     def test_folio_needaction_count(self):
         self.hotel_folio._needaction_count()
 
