@@ -10,8 +10,6 @@ Module for Complete Hotel management which includes the basic operations at a ho
 
 You can manage:
 
-* Configure Property
-
 * Hotel Configuration (Room, Amenities, Services, Floor, Currency Exchange)
 
 * Book Your Hotel Room
@@ -23,6 +21,7 @@ You can manage:
 * Payment
 
 * Different Reports are also provided, mainly for hotel statistics
+
 
 Usage
 =====
