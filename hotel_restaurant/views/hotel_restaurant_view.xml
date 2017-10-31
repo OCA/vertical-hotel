@@ -781,17 +781,4 @@
     <menuitem name="Food Items" id="menu_open_hotel_menucard_form"
         action="action_hotel_menucard_form" parent="menu_hotel_food_item" />
 
-    <record id="hotel_restaurent_food_category_action" model="ir.actions.act_window">
-        <field name="name">Foods by Category</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">product.category</field>
-        <field name="domain">[('parent_id','=',False),('ismenutype','=',True)]</field>
-        <field name="view_type">tree</field>
-        <field name="view_id" ref="hotel.product_category_tree_view" />
-    </record>
-
-    <menuitem name="Foods Items by Type" id="menu_hotel_restaurent_food_category_action"
-        action="hotel_restaurent_food_category_action" sequence="13"
-        parent="menu_hotel_food_item" />
-
 </odoo>
