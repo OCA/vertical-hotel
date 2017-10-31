@@ -4,7 +4,7 @@
 import time
 import datetime
 import urllib2
-from odoo.exceptions import except_orm, ValidationError
+from odoo.exceptions import ValidationError
 from odoo.osv import expression
 from odoo.tools import misc, DEFAULT_SERVER_DATETIME_FORMAT
 from odoo import models, fields, api, _
@@ -420,7 +420,7 @@ class HotelFolio(models.Model):
                             'hotel': rec.warehouse_id.id})
                 self.env.args = misc.frozendict(ctx)
             else:
-                raise except_orm(_('Warning'), _('Please Reserve Any Room.'))
+                raise ValidationError(_('Please Reserve Any Room.'))
         return {'name': _('Currency Exchange'),
                 'res_model': 'currency.exchange',
                 'type': 'ir.actions.act_window',
@@ -656,25 +656,12 @@ class HotelFolio(models.Model):
         return invoice_id
 
     @api.multi
-    def action_invoice_cancel(self):
-        '''
-        @param self: object pointer
-        '''
-        if not self.order_id:
-            raise except_orm(_('Warning'), _('Order id is not available'))
-        for sale in self:
-            for line in sale.order_line:
-                line.write({'invoiced': 'invoiced'})
-        self.state = 'invoice_except'
-        return self.order_id.action_invoice_cancel
-
-    @api.multi
     def action_cancel(self):
         '''
         @param self: object pointer
         '''
         if not self.order_id:
-            raise except_orm(_('Warning'), _('Order id is not available'))
+            raise ValidationError(_('Order id is not available'))
         for sale in self:
             for invoice in sale.invoice_ids:
                 invoice.state = 'cancel'
@@ -706,7 +693,7 @@ class HotelFolio(models.Model):
         self._cr.execute(query, (tuple(self._ids), 'cancel'))
         cr1 = self._cr
         line_ids = map(lambda x: x[0], cr1.fetchall())
-        self.write({'state': 'draft', 'invoice_ids': [], 'shipped': 0})
+        self.write({'state': 'draft', 'invoice_ids': []})
         sale_line_obj = self.env['sale.order.line'].browse(line_ids)
         sale_line_obj.write({'invoiced': False, 'state': 'draft',
                              'invoice_lines': [(6, 0, [])]})
@@ -1208,9 +1195,8 @@ class CurrencyExchangeRate(models.Model):
                 if rec.out_curr:
                     rec.rate = result
                     if rec.rate == Decimal('-1.00'):
-                        raise except_orm(_('Warning'),
-                                         _('Please Check Your \
-                                         Network Connectivity.'))
+                        raise ValidationError(_('Please Check Your Network \
+                                                Connectivity.'))
                     rec.out_amount = (float(result) * float(rec.in_amount))
 
     @api.depends('out_amount', 'tax')
