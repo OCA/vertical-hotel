@@ -10,17 +10,29 @@ Module for Complete Hotel management which includes the basic operations at a ho
 
 You can manage:
 
-* Hotel Configuration (Room, Amenities, Services, Floor, Currency Exchange)
+* **Hotel Configuration (Room, Amenities, Services, Floor, Currency Exchange)**
 
-* Book Your Hotel Room
+.. image:: https://raw.githubusercontent.com/KrishnaPrajapati-SerpentCS/vertical-hotel/24_OCT_Hotel_10.0/hotel/static/description/HotelRoom1.png
+   :width: 750px
 
-* Manage History of Check In, Check out
+* **Book Your Hotel Room**
 
-* Manage Folio
+.. image:: https://raw.githubusercontent.com/KrishnaPrajapati-SerpentCS/vertical-hotel/24_OCT_Hotel_10.0/hotel/static/description/BookHotel1.png
+   :width: 750px
 
-* Payment
+* **Manage Folio**
 
-* Different Reports are also provided, mainly for hotel statistics
+.. image:: https://raw.githubusercontent.com/KrishnaPrajapati-SerpentCS/vertical-hotel/24_OCT_Hotel_10.0/hotel/static/description/GenerateFolio.png
+   :width: 750px
+
+* **Manage History of Check In, Check out**
+
+.. image:: https://raw.githubusercontent.com/KrishnaPrajapati-SerpentCS/vertical-hotel/24_OCT_Hotel_10.0/hotel/static/description/history.png
+   :width: 750px
+
+* **Payment**
+
+* **Different Reports are also provided, mainly for hotel statistics**
 
 
 Usage
