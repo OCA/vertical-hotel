@@ -26,7 +26,7 @@ class HotelMenucardType(models.Model):
     _name = 'hotel.menucard.type'
     _description = 'Food Item Type'
 
-    name = fields.Char('Name', size=64, required=True)
+    name = fields.Char('Name', required=True)
     menu_id = fields.Many2one('hotel.menucard.type', string='Food Item Type')
     child_id = fields.One2many('hotel.menucard.type', 'menu_id',
                                'Child Categories')
@@ -315,28 +315,18 @@ class HotelRestaurantOrder(models.Model):
 
     @api.multi
     @api.depends('order_list')
-    def _compute_amount_subtotal(self):
+    def _compute_amount_all_total(self):
         '''
-        amount_subtotal will display on change of order_list
-        ----------------------------------------------------
+        amount_subtotal and amount_total will display on change of order_list
+        ---------------------------------------------------------------------
         @param self: object pointer
         '''
         for sale in self:
             sale.amount_subtotal = sum(line.price_subtotal for line
                                        in sale.order_list)
-
-    @api.multi
-    @api.depends('amount_subtotal')
-    def _compute_amount_total(self):
-        '''
-        amount_total will display on change of amount_subtotal
-        -------------------------------------------------------
-        @param self: object pointer
-        '''
-        for line in self:
-            line.amount_total = line.amount_subtotal + (line.
-                                                        amount_subtotal *
-                                                        line.tax) / 100
+            if sale.amount_subtotal:
+                sale.amount_total = sale.\
+                    amount_subtotal + (sale.amount_subtotal * sale.tax) / 100
 
     @api.onchange('folio_id')
     def get_folio_id(self):
@@ -431,10 +421,10 @@ class HotelRestaurantOrder(models.Model):
     order_list = fields.One2many('hotel.restaurant.order.list', 'o_list',
                                  'Order List')
     tax = fields.Float('Tax (%) ')
-    amount_subtotal = fields.Float(compute='_compute_amount_subtotal',
+    amount_subtotal = fields.Float(compute='_compute_amount_all_total',
                                    method=True, string='Subtotal')
-    amount_total = fields.Float(compute='_compute_amount_total', method=True,
-                                string='Total')
+    amount_total = fields.Float(compute='_compute_amount_all_total',
+                                method=True, string='Total')
     state = fields.Selection([('draft', 'Draft'), ('order', 'Order Created'),
                               ('done', 'Done'), ('cancel', 'Cancelled')],
                              'State', index=True, required=True,
@@ -536,27 +526,18 @@ class HotelReservationOrder(models.Model):
 
     @api.multi
     @api.depends('order_list')
-    def _compute_amount_subtotal(self):
+    def _compute_amount_all_total(self):
         '''
-        amount_subtotal will display on change of order_list
-        ----------------------------------------------------
+        amount_subtotal and amount_total will display on change of order_list
+        ---------------------------------------------------------------------
         @param self: object pointer
         '''
         for sale in self:
             sale.amount_subtotal = sum(line.price_subtotal for line
                                        in sale.order_list)
-
-    @api.multi
-    @api.depends('amount_subtotal')
-    def _compute_amount_total(self):
-        '''
-        amount_total will display on change of amount_subtotal
-        -------------------------------------------------------
-        @param self: object pointer
-        '''
-        for line in self:
-            line.amount_total = line.amount_subtotal + (line.amount_subtotal *
-                                                        line.tax) / 100.0
+            if sale.amount_subtotal:
+                sale.amount_total = sale.\
+                    amount_subtotal + (sale.amount_subtotal * sale.tax) / 100.0
 
     @api.multi
     def reservation_generate_kot(self):
@@ -681,10 +662,10 @@ class HotelReservationOrder(models.Model):
     order_list = fields.One2many('hotel.restaurant.order.list', 'o_l',
                                  'Order List')
     tax = fields.Float('Tax (%) ', size=64)
-    amount_subtotal = fields.Float(compute='_compute_amount_subtotal',
+    amount_subtotal = fields.Float(compute='_compute_amount_all_total',
                                    method=True, string='Subtotal')
-    amount_total = fields.Float(compute='_compute_amount_total', method=True,
-                                string='Total')
+    amount_total = fields.Float(compute='_compute_amount_all_total',
+                                method=True, string='Total')
     kitchen_id = fields.Integer('Kitchen id')
     rest_id = fields.Many2many('hotel.restaurant.order.list', 'reserv_id',
                                'kitchen_id', 'res_kit_ids', "Rest")

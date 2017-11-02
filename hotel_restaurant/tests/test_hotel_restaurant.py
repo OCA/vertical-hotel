@@ -81,11 +81,8 @@ class TestRestaurant(common.TransactionCase):
     def test_on_change_item_name(self):
         self.rest_order.on_change_item_name()
 
-    def test_compute_amount_subtotal_reserv(self):
-        self.hotel_reserv_order._compute_amount_subtotal()
-
-    def test_compute_amount_total_reserv(self):
-        self.hotel_reserv_order._compute_amount_total()
+    def test_compute_amount_all_total_reserv(self):
+        self.hotel_reserv_order._compute_amount_all_total()
 
     def test_reservation_generate_kot(self):
         self.hotel_reserv_order.reservation_generate_kot()
@@ -95,11 +92,8 @@ class TestRestaurant(common.TransactionCase):
         self.hotel_reserv_order.done_kot()
         self.assertEqual(self.hotel_reserv_order.state == 'done', True)
 
-    def test_compute_amount_subtotal(self):
-        self.hotel_rest_order._compute_amount_subtotal()
-
-    def test_compute_amount_total(self):
-        self.hotel_rest_order._compute_amount_total()
+    def test_compute_amount_all_total_rest(self):
+        self.hotel_rest_order._compute_amount_all_total()
 
     def test_done_cancel(self):
         self.hotel_rest_order.done_cancel()
