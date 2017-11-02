@@ -82,30 +82,33 @@ class TestHotel(common.TransactionCase):
                     'total': 76.85,
                     })
 
+        account_obj = self.env['account.account']
+        acc_payable = self.env.ref('account.data_account_type_payable')
+        direct_cost = self.env.ref('account.data_account_type_direct_costs')
         inv_partner = self.env.ref('base.res_partner_2')
         company = self.env.ref('base.main_company')
         journal = self.env['account.journal'].\
             create({'name': 'Purchase Journal - Test', 'code': 'STPJ',
                     'type': 'purchase', 'company_id': company.id})
-        account_payable = self.env['account.account'].\
-            create({'code': 'X1111', 'name': 'Sale - Test Payable Account',
-                    'user_type_id': self.env.
-                        ref('account.data_account_type_payable').id,
-                        'reconcile': True})
-        account_income = self.env['account.account'].\
-            create({'code': 'X1112', 'name': 'Sale - Test Account',
-                    'user_type_id': self.env.
-                        ref('account.data_account_type_direct_costs').id})
+        account_payable = account_obj.create({'code': 'X1111',
+                                              'name': 'Sale - Test\
+                                              Payable Account',
+                                              'user_type_id': acc_payable.id,
+                                              'reconcile': True})
+        account_income = account_obj.create({'code': 'X1112',
+                                             'name': 'Sale - Test Account',
+                                             'user_type_id': direct_cost.id})
         invoice_vals = {
             'name': '',
             'type': 'in_invoice',
             'partner_id': inv_partner.id,
-            'invoice_line_ids': [(0, 0, {'name': self.room.name,
-                                         'product_id': self.room.id,
-                                         'quantity': 2,
-                                         'uom_id': self.room.uom_id.id,
-                                         'price_unit': self.room.standard_price,
-                                         'account_id': account_income.id})],
+            'invoice_line_ids': [(0, 0,
+                                  {'name': self.room.name,
+                                   'product_id': self.room.id,
+                                   'quantity': 2,
+                                   'uom_id': self.room.uom_id.id,
+                                   'price_unit': self.room.standard_price,
+                                   'account_id': account_income.id})],
             'account_id': account_payable.id,
             'journal_id': journal.id,
             'currency_id': company.currency_id.id,
@@ -194,7 +197,8 @@ class TestHotel(common.TransactionCase):
         self.assertEqual(self.hotel_folio.state == 'sale', True)
         self.hotel_folio.order_line._action_procurement_create()
         self.assertFalse(self.hotel_folio.project_id, False)
-        self.assertEqual(self.hotel_folio.order_line.product_id.invoice_policy == 'cost', False)
+        invoice_policy = self.hotel_folio.order_line.product_id.invoice_policy
+        self.assertEqual(invoice_policy == 'cost', False)
         self.hotel_folio.order_id._create_analytic_account()
 
     def test_folio_action_cancel_draft(self):
@@ -209,7 +213,7 @@ class TestHotel(common.TransactionCase):
         self.assertEqual(len(h_service_type), 2,
                          'Incorrect search number result for name_search')
 
-    def test__compute_get_currency(self):
+    def test_compute_get_currency(self):
         with self.assertRaises(ValidationError):
             self.currency_exchange._compute_get_currency()
 
