@@ -16,6 +16,7 @@
         'report/hotel_reservation_report.xml',
         'views/hotel_reservation_sequence.xml',
         'views/hotel_reservation_view.xml',
+        'data/hotel_scheduler.xml',
         'views/email_temp_view.xml',
         'views/report_checkin.xml',
         'views/report_checkout.xml',
