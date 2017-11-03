@@ -3,7 +3,7 @@
 
 import time
 from odoo import models, fields, api, _
-from odoo.exceptions import except_orm, ValidationError
+from odoo.exceptions import ValidationError
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from odoo.osv import expression
 
@@ -194,12 +194,12 @@ class HotelRestaurantReservation(models.Model):
             res = self._cr.fetchone()
             roomcount = res and res[0] or 0.0
             if len(reservation.tableno.ids) == 0:
-                raise except_orm(_('Warning'),
-                                 _('Please Select Tables For Reservation'))
+                raise ValidationError(_('Please Select Tables For \
+                                         Reservation'))
             if roomcount:
-                raise except_orm(_('Warning'), _('You tried to confirm \
-                reservation with table those already reserved in this \
-                reservation period'))
+                raise ValidationError(_('You tried to confirm reservation \
+                                         with table those already reserved \
+                                         in this reservation period'))
             else:
                 self.state = 'confirm'
             return True
@@ -378,11 +378,9 @@ class HotelRestaurantOrder(models.Model):
         restaurant_order_list_obj = self.env['hotel.restaurant.order.list']
         for order in self:
             if len(order.order_list.ids) == 0:
-                raise except_orm(_('No Order Given'),
-                                 _('Please Give an Order'))
+                raise ValidationError(_('Please Give an Order'))
             if len(order.table_no.ids) == 0:
-                raise except_orm(_('No Table Assigned '),
-                                 _('Please Assign a Table'))
+                raise ValidationError(_('Please Assign a Table'))
             table_ids = [x.id for x in order.table_no]
             kot_data = order_tickets_obj.create({
                 'orderno': order.order_no,
@@ -552,8 +550,7 @@ class HotelReservationOrder(models.Model):
         rest_order_list_obj = self.env['hotel.restaurant.order.list']
         for order in self:
             if len(order.order_list) == 0:
-                raise except_orm(_('No Order Given'),
-                                 _('Please Give an Order'))
+                raise ValidationError(_('Please Give an Order'))
             table_ids = [x.id for x in order.table_no]
             line_data = {
                 'orderno': order.order_number,
