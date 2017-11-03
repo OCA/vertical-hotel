@@ -243,8 +243,8 @@ class HotelReservation(models.Model):
                 raise ValidationError(_('Check-in date should be greater than \
                                          the current date.'))
             if self.checkout < self.checkin:
-                raise ValidationError(_('Check-out date should be greater than \
-                                         Check-in date.'))
+                raise ValidationError(_('Check-out date should be greater \
+                                         than Check-in date.'))
 
     @api.model
     def _needaction_count(self, domain=None):
@@ -470,6 +470,31 @@ class HotelReservation(models.Model):
             'force_send': True
         }
 
+    @api.model
+    def reservation_reminder_24hrs(self):
+        """
+        This method is for scheduler
+        every 1day scheduler will call this method to
+        find all tomorrow's reservations.
+        ----------------------------------------------
+        @param self: The object pointer
+        @return: send a mail
+        """
+        now_str = time.strftime(dt)
+        now_date = datetime.strptime(now_str, dt)
+        ir_model_data = self.env['ir.model.data']
+        template_id = (ir_model_data.get_object_reference
+                       ('hotel_reservation',
+                        'mail_template_reservation_reminder_24hrs')[1])
+        template_rec = self.env['mail.template'].browse(template_id)
+        for reserv_rec in self.search([]):
+            checkin_date = (datetime.strptime(reserv_rec.checkin, dt))
+            difference = relativedelta(now_date, checkin_date)
+            if(difference.days == -1 and reserv_rec.partner_id.email and
+               reserv_rec.state == 'confirm'):
+                template_rec.send_mail(reserv_rec.id, force_send=True)
+        return True
+
     @api.multi
     def create_folio(self):
         """
@@ -587,9 +612,9 @@ class HotelReservationLine(models.Model):
                                                  self.categ_id.id)])
         room_ids = []
         if not self.line_id.checkin:
-            raise ValidationError(_('Before choosing a room,\n You have to select \
-                             a Check in date or a Check out date in \
-                             the reservation form.'))
+            raise ValidationError(_('Before choosing a room,\n You have to \
+                                     select a Check in date or a Check out \
+                                     date in the reservation form.'))
         for room in hotel_room_ids:
             assigned = False
             for line in room.room_reservation_line_ids:
@@ -693,7 +718,7 @@ class HotelRoom(models.Model):
         """
         reservation_line_obj = self.env['hotel.room.reservation.line']
         folio_room_line_obj = self.env['folio.room.line']
-        now = datetime.datetime.now()
+        now = datetime.now()
         curr_date = now.strftime(dt)
         for room in self.search([]):
             reserv_line_ids = [reservation_line.ids for
@@ -717,7 +742,7 @@ class HotelRoom(models.Model):
             room.write(status)
             if reservation_line_ids.ids and room_line_ids.ids:
                 raise ValidationError(_('Please Check Rooms Status \
-                                 for %s.' % (room.name)))
+                                         for %s.' % (room.name)))
         return True
 
 

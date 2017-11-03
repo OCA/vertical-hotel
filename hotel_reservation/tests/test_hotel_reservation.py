@@ -14,6 +14,7 @@ class TestReservation(common.TransactionCase):
         self.hotel_reserv_line_obj = self.env['hotel_reservation.line']
         self.hotel_reserv_obj = self.env['hotel.reservation']
         self.hotel_room_obj = self.env['hotel.room']
+        self.hotel_room_reserv_obj = self.env['hotel.room.reservation.line']
         self.reserv_summary_obj = self.env['room.reservation.summary']
         self.quick_room_reserv_obj = self.env['quick.room.reservation']
         self.reserv_line = self.env.\
@@ -23,6 +24,8 @@ class TestReservation(common.TransactionCase):
         self.warehouse = self.env.ref('stock.warehouse0')
         self.partner = self.env.ref('base.res_partner_2')
         self.pricelist = self.env.ref('product.list0')
+        self.floor = self.env.ref('hotel.hotel_floor_ground0')
+        self.manager = self.env.ref('base.user_root')
 
         cur_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
@@ -66,6 +69,31 @@ class TestReservation(common.TransactionCase):
                     'adults': 1,
                     })
 
+        self.hotel_room_reserv = self.hotel_room_reserv_obj.\
+            create({'room_id': self.room.id,
+                    'check_in': cur_date,
+                    'check_out': cur_date,
+                    })
+
+        self.hotel_room = self.hotel_room_obj.\
+            create({'product_id': self.room.id,
+                    'floor_id': self.floor.id,
+                    'max_adult': 2,
+                    'max_child': 1,
+                    'capacity': 4,
+                    'status': 'available',
+                    'product_manager': self.manager.id,
+                    'room_reservation_line_ids': [(6, 0,
+                                                   [self.hotel_room_reserv.id]
+                                                   )],
+                    })
+
+    def test_hotel_room_unlink(self):
+        self.hotel_room.unlink()
+
+    def test_cron_room_line(self):
+        self.hotel_room.cron_room_line()
+
     def test_quick_room_reserv_on_change_check_out(self):
         self.quick_room_reserv.on_change_check_out()
 
@@ -93,6 +121,7 @@ class TestReservation(common.TransactionCase):
         self.hotel_reserv.check_reservation_rooms()
 
     def test_unlink_reserv(self):
+        self.assertEqual(self.hotel_reserv.state != 'draft', False)
         self.hotel_reserv.unlink()
 
     def test_copy(self):
@@ -100,6 +129,7 @@ class TestReservation(common.TransactionCase):
 
     def test_needaction_count(self):
         self.hotel_reserv._needaction_count()
+        self.assertEqual(self.hotel_reserv.state == 'draft', True)
 
     def test_on_change_checkout(self):
         self.hotel_reserv.on_change_checkout()
@@ -109,9 +139,13 @@ class TestReservation(common.TransactionCase):
 
     def test_set_to_draft_reservation(self):
         self.hotel_reserv.set_to_draft_reservation()
+        self.assertEqual(self.hotel_reserv.state == 'draft', True)
 
     def test_send_reservation_maill(self):
         self.hotel_reserv.send_reservation_maill()
+
+    def test_reservation_reminder_24hrs(self):
+        self.hotel_reserv.reservation_reminder_24hrs()
 
     def test_create_folio(self):
         with self.assertRaises(ValidationError):
@@ -125,6 +159,7 @@ class TestReservation(common.TransactionCase):
 
     def test_cancel_reservation(self):
         self.hotel_reserv.cancel_reservation()
+        self.assertEqual(self.hotel_reserv.state == 'cancel', True)
 
     def test_on_change_categ(self):
         self.hotel_reserv_line.on_change_categ()
