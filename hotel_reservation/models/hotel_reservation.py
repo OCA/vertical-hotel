@@ -94,7 +94,7 @@ class HotelFolioLineExt(models.Model):
                 old_prd_domain = [('product_id', '=', self.product_id.id)]
                 old_prod_room = room_obj.search(old_prd_domain, limit=1)
                 if prod_room and old_prod_room:
-                    # check for existing room lines.
+                    # Check for existing room lines.
                     srch_rmline = [('room_id', '=', old_prod_room.id),
                                    ('check_in', '=', self.checkin_date),
                                    ('check_out', '=', self.checkout_date),
@@ -198,7 +198,7 @@ class HotelReservation(models.Model):
         for reserv_rec in self:
             if reserv_rec.state != 'draft':
                 raise ValidationError(_('You cannot delete Reservation in %s\
-                state.') % (reserv_rec.state))
+                                         state.') % (reserv_rec.state))
         return super(HotelReservation, self).unlink()
 
     @api.multi
@@ -511,7 +511,7 @@ class HotelReservation(models.Model):
             checkout_date = reservation['checkout']
             if not self.checkin < self.checkout:
                 raise ValidationError(_('Checkout date should be greater \
-                                 than the Checkin date.'))
+                                         than the Check-in date.'))
             duration_vals = (self.onchange_check_dates
                              (checkin_date=checkin_date,
                               checkout_date=checkout_date, duration=False))
@@ -828,8 +828,8 @@ class RoomReservationSummary(models.Model):
         summary_header_list = ['Rooms']
         if self.date_from and self.date_to:
             if self.date_from > self.date_to:
-                raise UserError(_('Please Check Time period Date \
-                                 From can\'t be greater than Date To !'))
+                raise UserError(_('Please Check Time period Date From can\'t \
+                                   be greater than Date To !'))
             if self._context.get('tz', False):
                 timezone = pytz.timezone(self._context.get('tz', False))
             else:
@@ -993,7 +993,7 @@ class QuickRoomReservation(models.TransientModel):
         if self.check_out and self.check_in:
             if self.check_out < self.check_in:
                 raise ValidationError(_('Checkout date should be greater \
-                                 than Checkin date.'))
+                                         than Checkin date.'))
 
     @api.onchange('partner_id')
     def onchange_partner_id_res(self):
