@@ -127,6 +127,14 @@ class TestReservation(common.TransactionCase):
     def test_copy(self):
         self.hotel_reserv.copy()
 
+    def test_reserv_check_in_out_dates(self):
+        self.hotel_reserv.check_in_out_dates()
+
+    def test_reserv_check_overlap(self):
+        date1 = datetime.now().strftime('%Y-%m-21')
+        date2 = datetime.now().strftime('%Y-%m-23')
+        self.hotel_reserv.check_overlap(date1, date2)
+
     def test_needaction_count(self):
         self.hotel_reserv._needaction_count()
         self.assertEqual(self.hotel_reserv.state == 'draft', True)
