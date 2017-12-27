@@ -10,14 +10,33 @@ Module for dashboard for a Hotel Frontdesk.
 
 This module implements a dashboard for hotel FrontDesk that includes:
 
-* Calendar view of Today's Check-In and Check-Out
+* **Calendar view of Today's, Weekly And Monthly Check-In and Check-Out For Hotel Reservation**
 
-* Calendar view of Weekly Check-In and Check-Out
+.. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/10.0/board_frontdesk/static/description/reservation.png
+   :width: 750px
 
-* Calendar view of Monthly Check-In and Check-Out
+* **View of Room Reservation Summary and Quick Reservation**
 
-* Real-Time Updates on Room Availability
+.. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/10.0/board_frontdesk/static/description/quickreservation.png
+   :width: 750px
 
+* **Real-Time Updates on Room Availability**
+
+.. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/10.0/board_frontdesk/static/description/roomdetails.png
+   :width: 750px
+
+* **A Collaborative Information Regarding Today's Restaurant Orders And Currently Reserved Tables Details**
+
+.. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/10.0/board_frontdesk/static/description/todayorder.png
+   :width: 750px
+
+
+Usage
+=====
+
+.. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
+   :alt: Try me on Runbot
+   :target: https://runbot.odoo-community.org/runbot/157/10.0
 
 Bug Tracker
 ===========

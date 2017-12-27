@@ -789,44 +789,4 @@
     <menuitem name="Food Items" id="menu_open_hotel_menucard_form"
         action="action_hotel_menucard_form" parent="menu_hotel_food_item" />
 
-    <!-- Hierarchical Tree view of Food Item Category -->
-    <record id="hotel_food_category_tree_view" model="ir.ui.view">
-        <field name="name">hotel.menucard.type.tree</field>
-        <field name="model">hotel.menucard.type</field>
-        <field name="field_parent">child_id</field>
-        <field name="arch" type="xml">
-            <tree toolbar="True" string="Food Categories">
-                <field name="name" />
-            </tree>
-        </field>
-    </record>
-
-    <record id="action_hotel_food" model="ir.actions.act_window">
-        <field name="name">Food</field>
-        <field name="res_model">hotel.menucard</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
-        <field name="context">{'search_default_categ_id':active_id,'default_categ_id':active_id}</field>
-    </record>
-
-    <!-- Binding Tree Click to Action -->
-    <record id="ir_hotel_room_open" model="ir.values">
-        <field eval="'tree_but_open'" name="key2" />
-        <field eval="'hotel.menucard.type'" name="model" />
-        <field name="name">Food Items by Category</field>
-        <field eval="'ir.actions.act_window,%d'%action_hotel_food" name="value" />
-    </record>
-
-    <record id="hotel_food_category_action" model="ir.actions.act_window">
-        <field name="name">Food Items by Category</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">hotel.menucard.type</field>
-        <field name="domain">[]</field>
-        <field name="view_type">tree</field>
-        <field name="view_id" ref="hotel_food_category_tree_view" />
-    </record>
-
-    <menuitem name="Food Items by Category" id="menu_hotel_restaurent_food_category_action"
-        action="hotel_food_category_action" sequence="13" parent="menu_hotel_food_item" />
-
 </odoo>
