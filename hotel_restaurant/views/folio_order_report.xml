@@ -7,23 +7,6 @@
         <t t-call="report.html_container">
             <t t-call="report.external_layout">
                 <div class="page">
-                    <t t-name="report.external_layout_header">
-                        <div class="header">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <img t-if="res_company.logo" t-att-src="'data:image/png;base64,%s' % res_company.logo"
-                                        style="max-height: 45px;" />
-                                </div>
-                                <div class="col-xs-9 text-right" style="margin-top:20px;"
-                                    t-field="res_company.rml_header1" />
-                            </div>
-                            <div class="row zero_min_height">
-                                <div class="col-xs-12">
-                                    <div style="border-bottom: 1px solid black;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </t>
                     <div class="row">
                         <h2>
                             <span>
@@ -98,10 +81,6 @@
                                     </t>
                                 </table>
                             </table>
-                            <br />
-                            <span>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-                            </span>
-                            <br />
                         </div>
                     </t>
                     <t t-if="data['check'] == False">
@@ -174,23 +153,6 @@
         <t t-call="report.html_container">
             <t t-call="report.external_layout">
                 <div class="page">
-                    <t t-name="report.external_layout_header">
-                        <div class="header">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <img t-if="res_company.logo" t-att-src="'data:image/png;base64,%s' % res_company.logo"
-                                        style="max-height: 45px;" />
-                                </div>
-                                <div class="col-xs-9 text-right" style="margin-top:20px;"
-                                    t-field="res_company.rml_header1" />
-                            </div>
-                            <div class="row zero_min_height">
-                                <div class="col-xs-12">
-                                    <div style="border-bottom: 1px solid black;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </t>
                     <div class="row">
                         <h2>
                             <span>
@@ -277,10 +239,6 @@
                                     </t>
                                 </table>
                             </table>
-                            <br />
-                            <span>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-                            </span>
-                            <br />
                         </div>
                     </t>
                     <t t-if="data['check'] == False">

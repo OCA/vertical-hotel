@@ -2,7 +2,7 @@
 <!DOCTYPE xml>
 <odoo>
 
-    <!--Template for hotel restaurant -->
+    <!-- Template for Hotel Restaurant -->
     <template id="report_order_bill">
         <t t-call="report.html_container">
             <t t-foreach="docs" t-as="o">
@@ -148,7 +148,7 @@
         </t>
     </template>
 
-    <!--Template for hotel restaurant reservation -->
+    <!-- Template for Hotel Restaurant Reservation -->
     <template id="report_res_order_bill">
         <t t-call="report.html_container">
             <t t-foreach="docs" t-as="o">

@@ -60,16 +60,24 @@ class HotelRestaurantReport(models.AbstractModel):
 
 class ReportKot(models.AbstractModel):
     _name = 'report.hotel_restaurant.report_hotel_order_kot'
-    _inherit = 'report.abstract_report'
-    _template = 'hotel_restaurant.report_hotel_order_kot'
-    _wrapped_report_class = HotelRestaurantReport
 
-
-class ReportBill(models.AbstractModel):
-    _name = 'report.hotel_restaurant.report_hotel_order_kot'
-    _inherit = 'report.abstract_report'
-    _template = 'hotel_restaurant.report_hotel_order_kot'
-    _wrapped_report_class = HotelRestaurantReport
+    @api.model
+    def render_html(self, docids, data):
+        report = self.env['report']
+        report_name = 'hotel_restaurant.report_hotel_order_kot'
+        kot_report = report._get_report_from_name(report_name)
+        if data is None:
+            data = {}
+        if not docids:
+            docids = data.get('docids')
+        kot_profile = self.env['hotel.restaurant.order'].browse(docids)
+        docargs = {
+            'doc_ids': docids,
+            'doc_model': kot_report.model,
+            'docs': kot_profile,
+            'data': data,
+        }
+        return report.render(report_name, docargs)
 
 
 class FolioRestReport(models.AbstractModel):
