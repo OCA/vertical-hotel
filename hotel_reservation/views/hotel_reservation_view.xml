@@ -69,7 +69,7 @@
                                         nolabel="1" />
                                 </form>
                                 <tree string="Reservation Line">
-                                    <field name="reserve" string="Rooms" />
+                                    <field name="reserve" string="Rooms" widget="many2many_tags" />
                                 </tree>
                             </field>
                         </page>
@@ -152,25 +152,15 @@
         </field>
     </record>
 
-    <!-- Gantt view of hotel reservation -->
-    <record id="hotel_gantt_view" model="ir.ui.view">
-        <field name="name">hotel.gantt</field>
-        <field name="model">hotel.reservation</field>
-        <field name="priority" eval="2" />
-        <field name="arch" type="xml">
-            <gantt date_start="checkin" date_stop="checkout" string="Reservation"
-                default_group_by="partner_id"></gantt>
-        </field>
-    </record>
-
     <!-- Action of hotel reservation -->
     <record id="action_hotel_reservation_tree_all" model="ir.actions.act_window">
         <field name="name">Reservations</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">hotel.reservation</field>
         <field name="view_type">form</field>
-        <field name="view_mode">tree,form,gantt</field>
+        <field name="view_mode">tree,form</field>
     </record>
+
     <menuitem id="menu_hotel_reservation" name="Reservations"
         parent="hotel.hotel_management_menu" sequence="1" />
     <menuitem name="Reservations" id="menu_action_hotel_reservation_tree_all"
@@ -221,6 +211,7 @@
             </field>
         </field>
     </record>
+
     <record id="view_hotel_folio1_tree_inherited" model="ir.ui.view">
         <field name="name">hotel.folio.tree.inherited</field>
         <field name="model">hotel.folio</field>
@@ -231,6 +222,7 @@
             </field>
         </field>
     </record>
+
     <record id="view_hotel_folio1_search_inherited" model="ir.ui.view">
         <field name="name">hotel.folio.search.inherited</field>
         <field name="model">hotel.folio</field>
@@ -264,7 +256,7 @@
                         <page string="Room Summary">
                             <field name="summary_header" colspan="4" invisible="1" />
                             <field name="room_summary" colspan="4" invisible="1" />
-                            <widget type="Room_Reservation"></widget>
+                            <widget name="Room_Reservation"></widget>
                         </page>
                     </notebook>
                 </sheet>
