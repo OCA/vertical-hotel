@@ -2,12 +2,14 @@
 <!DOCTYPE xml>
 <odoo>
 
-    <!--Template for hotel restaurant -->
+    <!-- Template for Hotel Restaurant -->
     <template id="report_order_bill">
-        <t t-call="report.html_container">
+        <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <t t-call="report.external_layout">
+                <t t-call="web.external_layout">
                     <div class="page">
+                        <br />
+                        <br />
                         <div class="row">
                             <h2>
                                 <span>
@@ -148,12 +150,14 @@
         </t>
     </template>
 
-    <!--Template for hotel restaurant reservation -->
+    <!-- Template for Hotel Restaurant Reservation -->
     <template id="report_res_order_bill">
-        <t t-call="report.html_container">
+        <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <t t-call="report.external_layout">
+                <t t-call="web.external_layout">
                     <div class="page">
+                        <br />
+                        <br />
                         <div class="row">
                             <h2>
                                 <span>
