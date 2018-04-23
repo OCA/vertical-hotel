@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # See LICENSE file for full copyright and licensing details.
 
 import time
@@ -32,31 +31,22 @@ class FolioReport(models.AbstractModel):
         return data_folio
 
     @api.model
-    def render_html(self, docids, data=None):
+    def get_report_values(self, docids, data):
         self.model = self.env.context.get('active_model')
-        docs = self.env[self.model].browse(self.env.context.get('active_ids',
-                                                                []))
+        if data == None:
+            data = {}
+        if not docids:
+            docids = data['form'].get('docids')
+        folio_profile = self.env['hotel.folio'].browse(docids)
         date_start = data['form'].get('date_start', fields.Date.today())
         date_end = data['form'].get('date_end', str(datetime.now() +
                                     relativedelta(months=+1,
                                                   day=1, days=-1))[:10])
-        rm_act = self.with_context(data['form'].get('used_context', {}))
-        data_res = rm_act.get_data(date_start, date_end)
-        docargs = {
+        return {
             'doc_ids': docids,
             'doc_model': self.model,
             'data': data['form'],
-            'docs': docs,
+            'docs': folio_profile,
             'time': time,
-            'folio_data': data_res,
+            'folio_data': self.get_data(date_start, date_end)
         }
-        docargs['data'].update({'date_end':
-                                parser.parse(docargs.get('data').
-                                             get('date_end')).
-                                strftime('%m/%d/%Y')})
-        docargs['data'].update({'date_start':
-                                parser.parse(docargs.get('data').
-                                             get('date_start')).
-                                strftime('%m/%d/%Y')})
-        render_model = 'hotel.report_hotel_folio'
-        return self.env['report'].render(render_model, docargs)
