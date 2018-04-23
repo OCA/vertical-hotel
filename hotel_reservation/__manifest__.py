@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 # See LICENSE file for full copyright and licensing details.
 
 {
     'name': 'Hotel Reservation Management',
-    'version': '10.0.1.0.0',
+    'version': '11.0.1.0.0',
     'author': 'Odoo Community Association (OCA), Serpent Consulting \
                 Services Pvt. Ltd., Odoo S.A.',
     'category': 'Generic Modules/Hotel Reservation',
@@ -24,9 +23,7 @@
         'views/room_res.xml',
         'views/room_summ_view.xml',
     ],
-    'js': ['static/src/js/hotel_room_summary.js', ],
     'qweb': ['static/src/xml/hotel_room_summary.xml'],
-    'css': ['static/src/css/room_summary.css'],
     'installable': True,
     'auto_install': False,
 }

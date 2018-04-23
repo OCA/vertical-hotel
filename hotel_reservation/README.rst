@@ -2,9 +2,9 @@
    :target: https://www.gnu.org/licenses/agpl
    :alt: License: AGPL-3
 
-=================
-hotel_reservation
-=================
+==================
+Hotel Reservation
+==================
 
 This Module is provide reservation for hotel rooms.
 
