@@ -3,7 +3,7 @@
    :alt: License: AGPL-3
 
 =====
-hotel
+Hotel
 =====
 
 Module for Complete Hotel management which includes the basic operations at a hotel/apartment.
