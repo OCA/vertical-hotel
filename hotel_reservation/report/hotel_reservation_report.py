@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # See LICENSE file for full copyright and licensing details.
 
 import time
@@ -32,11 +31,14 @@ class ReportTestCheckin(models.AbstractModel):
                                       ('checkin', '<=', date_end)])
         return res
 
-    @api.multi
-    def render_html(self, docids, data=None):
+    @api.model
+    def get_report_values(self, docids, data):
         self.model = self.env.context.get('active_model')
-        act_ids = self.env.context.get('active_ids', [])
-        docs = self.env[self.model].browse(act_ids)
+        if data == None:
+            data = {}
+        if not docids:
+            docids = data['form'].get('docids')
+        folio_profile = self.env['hotel.reservation'].browse(docids)
         date_start = data.get('date_start', fields.Date.today())
         date_end = data['form'].get('date_end', str(datetime.now() +
                                     relativedelta(months=+1,
@@ -45,26 +47,16 @@ class ReportTestCheckin(models.AbstractModel):
         _get_room_type = rm_act._get_room_type(date_start, date_end)
         _get_room_nos = rm_act._get_room_nos(date_start, date_end)
         get_checkin = rm_act.get_checkin(date_start, date_end)
-        docargs = {
+        return {
             'doc_ids': docids,
             'doc_model': self.model,
             'data': data['form'],
-            'docs': docs,
+            'docs': folio_profile,
             'time': time,
             'get_room_type': _get_room_type,
             'get_room_nos': _get_room_nos,
             'get_checkin': get_checkin,
         }
-        docargs['data'].update({'date_end':
-                                parser.parse(docargs.get('data').
-                                             get('date_end')).
-                                strftime('%m/%d/%Y')})
-        docargs['data'].update({'date_start':
-                                parser.parse(docargs.get('data').
-                                             get('date_start')).
-                                strftime('%m/%d/%Y')})
-        render_model = 'hotel_reservation.report_checkin_qweb'
-        return self.env['report'].render(render_model, docargs)
 
 
 class ReportTestCheckout(models.AbstractModel):
@@ -88,11 +80,14 @@ class ReportTestCheckout(models.AbstractModel):
                                       ('checkout', '<=', date_end)])
         return res
 
-    @api.multi
-    def render_html(self, docids, data=None):
+    @api.model
+    def get_report_values(self, docids, data):
         self.model = self.env.context.get('active_model')
-        docs = self.env[self.model].browse(self.env.context.get('active_ids',
-                                                                []))
+        if data == None:
+            data = {}
+        if not docids:
+            docids = data['form'].get('docids')
+        folio_profile = self.env['hotel.reservation'].browse(docids)
         date_start = data.get('date_start', fields.Date.today())
         date_end = data['form'].get('date_end', str(datetime.now() +
                                     relativedelta(months=+1,
@@ -101,26 +96,16 @@ class ReportTestCheckout(models.AbstractModel):
         _get_room_type = rm_act._get_room_type(date_start, date_end)
         _get_room_nos = rm_act._get_room_nos(date_start, date_end)
         get_checkout = rm_act.get_checkout(date_start, date_end)
-        docargs = {
+        return {
             'doc_ids': docids,
             'doc_model': self.model,
             'data': data['form'],
-            'docs': docs,
+            'docs': folio_profile,
             'time': time,
             'get_room_type': _get_room_type,
             'get_room_nos': _get_room_nos,
             'get_checkout': get_checkout,
         }
-        docargs['data'].update({'date_end':
-                                parser.parse(docargs.get('data').
-                                             get('date_end')).
-                                strftime('%m/%d/%Y')})
-        docargs['data'].update({'date_start':
-                                parser.parse(docargs.get('data').
-                                             get('date_start')).
-                                strftime('%m/%d/%Y')})
-        render_model = 'hotel_reservation.report_checkout_qweb'
-        return self.env['report'].render(render_model, docargs)
 
 
 class ReportTestMaxroom(models.AbstractModel):
@@ -164,11 +149,14 @@ class ReportTestMaxroom(models.AbstractModel):
                 room_used_details.append(details)
         return room_used_details
 
-    @api.multi
-    def render_html(self, docids, data=None):
+    @api.model
+    def get_report_values(self, docids, data):
         self.model = self.env.context.get('active_model')
-        act_ids_rm = self.env.context.get('active_ids', [])
-        docs = self.env[self.model].browse(act_ids_rm)
+        if data == None:
+            data = {}
+        if not docids:
+            docids = data['form'].get('docids')
+        folio_profile = self.env['hotel.reservation'].browse(docids)
         date_start = data.get('date_start', fields.Date.today())
         date_end = data['form'].get('date_end', str(datetime.now() +
                                     relativedelta(months=+1,
@@ -179,27 +167,17 @@ class ReportTestMaxroom(models.AbstractModel):
         get_data = rm_act.get_data(date_start, date_end)
         _get_room_used_detail = rm_act._get_room_used_detail(date_start,
                                                              date_end)
-        docargs = {
+        return {
             'doc_ids': docids,
             'doc_model': self.model,
             'data': data['form'],
-            'docs': docs,
+            'docs': folio_profile,
             'time': time,
             'get_room_type': _get_room_type,
             'get_room_nos': _get_room_nos,
             'get_data': get_data,
             'get_room_used_detail': _get_room_used_detail,
         }
-        docargs['data'].update({'date_end':
-                                parser.parse(docargs.get('data').
-                                             get('date_end')).
-                                strftime('%m/%d/%Y')})
-        docargs['data'].update({'date_start':
-                                parser.parse(docargs.get('data').
-                                             get('date_start')).
-                                strftime('%m/%d/%Y')})
-        render_model = 'hotel_reservation.report_maxroom_qweb'
-        return self.env['report'].render(render_model, docargs)
 
 
 class ReportTestRoomres(models.AbstractModel):
@@ -225,12 +203,14 @@ class ReportTestRoomres(models.AbstractModel):
                                       ('checkout', '<=', date_end)])
         return res
 
-    @api.multi
-    def render_html(self, docids, data=None):
+    @api.model
+    def get_report_values(self, docids, data):
         self.model = self.env.context.get('active_model')
-        act_rmrs = self.env.context.get('active_ids', [])
-        docs = self.env[self.model].browse(act_rmrs)
-
+        if data == None:
+            data = {}
+        if not docids:
+            docids = data['form'].get('docids')
+        folio_profile = self.env['hotel.reservation'].browse(docids)
         date_start = data.get('date_start', fields.Date.today())
         date_end = data['form'].get('date_end', str(datetime.now() +
                                     relativedelta(months=+1,
@@ -239,23 +219,13 @@ class ReportTestRoomres(models.AbstractModel):
         _get_room_type = rm_act._get_room_type(date_start, date_end)
         _get_room_nos = rm_act._get_room_nos(date_start, date_end)
         get_data = rm_act.get_data(date_start, date_end)
-        docargs = {
+        return {
             'doc_ids': docids,
             'doc_model': self.model,
             'data': data['form'],
-            'docs': docs,
+            'docs': folio_profile,
             'time': time,
             'get_room_type': _get_room_type,
             'get_room_nos': _get_room_nos,
             'get_data': get_data,
         }
-        docargs['data'].update({'date_end':
-                                parser.parse(docargs.get('data').
-                                             get('date_end')).
-                                strftime('%m/%d/%Y')})
-        docargs['data'].update({'date_start':
-                                parser.parse(docargs.get('data').
-                                             get('date_start')).
-                                strftime('%m/%d/%Y')})
-        render_model = 'hotel_reservation.report_roomres_qweb'
-        return self.env['report'].render(render_model, docargs)
