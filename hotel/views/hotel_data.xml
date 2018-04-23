@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE xml>
 <odoo>
+
     <data noupdate="1">
 
         <!-- Floor -->
+
         <record id="hotel_floor_ground0" model="hotel.floor">
             <field eval="&quot;Ground&quot;" name="name" />
         </record>
@@ -20,7 +22,7 @@
             <field eval="3" name="sequence" />
         </record>
 
-        <!-- Hotel Room Amenities Type -->
+        <!-- hotel_room_amenities_type -->
         <record id="hotel_room_amenities_type_0" model="hotel.room.amenities.type">
             <field name="name">All Aminities</field>
         </record>
@@ -41,7 +43,7 @@
             <field name="name">Double Bed</field>
         </record>
 
-        <!-- Hotel Room Type -->
+        <!-- hotel_room_type -->
         <record id="rooms" model="hotel.room.type">
             <field name="name">All Rooms</field>
         </record>
@@ -71,7 +73,7 @@
             <field name="name">Variable</field>
         </record>
 
-        <!-- Hotel Room -->
+        <!-- hotel_room -->
         <record id="hotel_room_0" model="hotel.room">
             <field name="name">Single-101</field>
             <field name="isroom">1</field>
@@ -137,7 +139,7 @@
             <field name="available_in_pos">6</field>
         </record>
 
-        <!-- Hotel Services -->
+        <!-- hotel_services -->
         <record id="hotel_service_6" model="hotel.services">
             <field name="name">Internet</field>
             <field name="isservice">1</field>
@@ -160,7 +162,7 @@
             <field name="available_in_pos">0</field>
         </record>
 
-        <!-- Amenities -->
+        <!--Amenities -->
         <record id="hotel_room_amenities_1" model="hotel.room.amenities">
             <field name="name">Toiletries</field>
             <field name="iscategid">1</field>
