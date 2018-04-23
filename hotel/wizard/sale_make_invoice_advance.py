@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # See LICENSE file for full copyright and licensing details.
 
 from odoo import api, fields, models
@@ -9,7 +8,7 @@ class SaleAdvancePaymentInv(models.TransientModel):
 
     @api.model
     def _get_advance_payment(self):
-        ctx = self._context.copy()
+        ctx = self.env.context.copy()
         if self._context.get('active_model') == 'hotel.folio':
             hotel_fol = self.env['hotel.folio']
             hotel = hotel_fol.browse(self._context.get('active_ids',
@@ -35,7 +34,7 @@ class SaleAdvancePaymentInv(models.TransientModel):
 
     @api.multi
     def create_invoices(self):
-        ctx = self._context.copy()
+        ctx = self.env.context.copy()
         if self._context.get('active_model') == 'hotel.folio':
             hotel_fol = self.env['hotel.folio']
             hotel = hotel_fol.browse(self._context.get('active_ids',
@@ -45,4 +44,5 @@ class SaleAdvancePaymentInv(models.TransientModel):
                         'folio_id': hotel.id})
         res = super(SaleAdvancePaymentInv,
                     self.with_context(ctx)).create_invoices()
+
         return res
