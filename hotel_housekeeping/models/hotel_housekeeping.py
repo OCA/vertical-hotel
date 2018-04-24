@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # See LICENSE file for full copyright and licensing details.
 
 import time
@@ -208,7 +207,7 @@ class HotelHousekeepingActivities(models.Model):
                            'activity results as Clean.')
 
     @api.constrains('clean_start_time', 'clean_end_time')
-    def check_clean_start_time(self):
+    def _check_clean_start_time(self):
         '''
         This method is used to validate the clean_start_time and
         clean_end_time.
