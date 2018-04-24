@@ -71,4 +71,16 @@
         <field name="view_mode">graph,tree</field>
     </record>
 
+     <!-- Action for report hotel restaurant status -->
+    <record id="action_report_hotel_restaurant_board" model="ir.actions.act_window">
+        <field name="name">States By Restaurants</field>
+        <field name="res_model">report.hotel.restaurant.status</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">pivot,graph,tree</field>
+        <field name="context">{'graph_view_ref':'report_hotel_restaurant.view_hotel_restaurant_status_graph_bar','tree_view_ref':'report_hotel_restaurant.view_hotel_restaurant_status_tree'}
+        </field>
+    </record>
+
+    <menuitem name="States By Restaurant" action="action_report_hotel_restaurant_board" id="menu_action_report_hotel_restaurant_board" sequence="35" parent="report_hotel_reservation.menu_hotel_reporting" />
+
 </odoo>
