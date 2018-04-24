@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # See LICENSE file for full copyright and licensing details.
 
 from odoo import models, fields, api
@@ -18,7 +17,5 @@ class HotelHousekeepingWizard(models.TransientModel):
             'model': 'hotel.housekeeping',
             'form': self.read(['date_start', 'date_end', 'room_no'])[0]
         }
-        return self.env['report'
-                        ].get_action(self,
-                                     'hotel_housekeeping.report_housekeeping',
-                                     data=data)
+        return self.env.ref('hotel_housekeeping.report_hotel_housekeeping').\
+            report_action(self, data=data)
