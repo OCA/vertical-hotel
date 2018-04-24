@@ -1,16 +1,14 @@
-# -*- coding: utf-8 -*-
 # See LICENSE file for full copyright and licensing details.
 
 import time
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from dateutil import parser
 from odoo import api, fields, models
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 
 class ActivityReport(models.AbstractModel):
-    _name = 'report.hotel_housekeeping.report_housekeeping'
+    _name = 'report.hotel_housekeeping.housekeeping_report'
 
     def get_room_activity_detail(self, date_start, date_end, room_no):
         activity_detail = []
@@ -42,34 +40,24 @@ class ActivityReport(models.AbstractModel):
         return activity_detail
 
     @api.model
-    def render_html(self, docids, data=None):
+    def get_report_values(self, docids, data):
         self.model = self.env.context.get('active_model')
-
-        docs = self.env[self.model].browse(self.env.context.get('active_ids',
-                                                                []))
+        if data == None:
+            data = {}
+        if not docids:
+            docids = data['form'].get('docids')
+        activity_doc = self.env['hotel.housekeeping.activities'].browse(docids)
         date_start = data['form'].get('date_start', fields.Date.today())
         date_end = data['form'].get('date_end', str(datetime.now() +
                                     relativedelta(months=+1,
                                                   day=1, days=-1))[:10])
         room_no = data['form'].get('room_no')[0]
-        rm_act = self.with_context(data['form'].get('used_context', {}))
-        rm_act_detail = rm_act.get_room_activity_detail(date_start,
-                                                        date_end, room_no)
-        docargs = {
+        return {
             'doc_ids': docids,
             'doc_model': self.model,
             'data': data['form'],
-            'docs': docs,
+            'docs': activity_doc,
             'time': time,
-            'get_room_activity_detail': rm_act_detail,
+            'activity_detail': self.get_room_activity_detail(date_start,
+                                                             date_end, room_no)
         }
-        docargs['data'].update({'date_end':
-                                parser.parse(docargs.get('data').
-                                             get('date_end')).
-                                strftime('%m/%d/%Y')})
-        docargs['data'].update({'date_start':
-                                parser.parse(docargs.get('data').
-                                             get('date_start')).
-                                strftime('%m/%d/%Y')})
-        render_model = 'hotel_housekeeping.report_housekeeping'
-        return self.env['report'].render(render_model, docargs)
