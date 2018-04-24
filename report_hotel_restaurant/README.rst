@@ -2,9 +2,9 @@
    :target: https://www.gnu.org/licenses/agpl
    :alt: License: AGPL-3
 
-=======================
-report_hotel_restaurant
-=======================
+========================
+Report Hotel Restaurant
+========================
 
 This Module provides state-wise view for hotel restaurant for better business intelligence.
 
