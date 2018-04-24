@@ -2,9 +2,9 @@
    :target: https://www.gnu.org/licenses/agpl
    :alt: License: AGPL-3
 
-========================
-report_hotel_reservation
-========================
+=========================
+Report Hotel Reservation
+=========================
 
 This Module provides state-wise view for hotel reservation for better business intelligence.
 
