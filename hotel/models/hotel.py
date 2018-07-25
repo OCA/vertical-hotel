@@ -4,9 +4,8 @@ import time
 import datetime
 from odoo.exceptions import UserError, ValidationError
 from odoo.osv import expression
-from odoo.tools import misc, DEFAULT_SERVER_DATETIME_FORMAT
-from odoo import models, fields, api, _
-from decimal import Decimal
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
+from odoo import api, fields, models, _
 
 
 def _offset_format_timestamp1(src_tstamp_str, src_format, dst_format,

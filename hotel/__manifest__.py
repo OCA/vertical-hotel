@@ -8,7 +8,7 @@
     'category': 'Generic Modules/Hotel Management',
     'website': 'http://www.serpentcs.com',
     'depends': ['sale_stock', 'point_of_sale'],
-    'license':'AGPL-3',
+    'license': 'AGPL-3',
     'demo': ['views/hotel_data.xml'],
     'data': [
             'security/hotel_security.xml',
