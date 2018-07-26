@@ -9,6 +9,7 @@
     'website': 'http://www.serpentcs.com',
     'depends': ['hotel'],
     'license': 'AGPL-3',
+    'summary': 'Table booking facilities and Managing customers orders',
     'demo': [
         'views/hotel_restaurant_data.xml',
     ],
