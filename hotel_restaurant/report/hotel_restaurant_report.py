@@ -28,7 +28,7 @@ class HotelRestaurantReport(models.AbstractModel):
     @api.model
     def get_report_values(self, docids, data):
         self.model = self.env.context.get('active_model')
-        if data == None:
+        if data is None:
             data = {}
         if not docids:
             docids = data['form'].get('docids')
@@ -56,7 +56,7 @@ class ReportKot(models.AbstractModel):
     @api.model
     def get_report_values(self, docids, data):
         self.model = self.env.context.get('active_model')
-        if data == None:
+        if data is None:
             data = {}
         if not docids:
             docids = data['form'].get('docids')
@@ -122,7 +122,7 @@ class FolioRestReport(models.AbstractModel):
     @api.model
     def get_report_values(self, docids, data):
         self.model = self.env.context.get('active_model')
-        if data == None:
+        if data is None:
             data = {}
         if not docids:
             docids = data['form'].get('docids')
@@ -201,7 +201,7 @@ class FolioReservReport(models.AbstractModel):
     @api.model
     def get_report_values(self, docids, data):
         self.model = self.env.context.get('active_model')
-        if data == None:
+        if data is None:
             data = {}
         if not docids:
             docids = data['form'].get('docids')
