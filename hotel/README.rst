@@ -2,9 +2,9 @@
    :target: https://www.gnu.org/licenses/agpl
    :alt: License: AGPL-3
 
-=====
-Hotel
-=====
+================
+Hotel Management
+================
 
 Module for Complete Hotel management which includes the basic operations at a hotel/apartment.
 
