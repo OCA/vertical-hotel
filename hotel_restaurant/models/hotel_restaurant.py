@@ -8,7 +8,6 @@ from odoo.osv import expression
 
 
 class HotelFolio(models.Model):
-    'Hotel foliio management '
 
     _inherit = 'hotel.folio'
 
