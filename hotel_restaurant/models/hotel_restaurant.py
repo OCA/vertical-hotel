@@ -1,7 +1,7 @@
 # See LICENSE file for full copyright and licensing details.
 
 import time
-from odoo import models, fields, api, _
+from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from odoo.osv import expression
