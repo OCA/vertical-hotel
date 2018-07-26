@@ -7,6 +7,7 @@
                Services Pvt. Ltd., Odoo S.A.',
     'website': 'http://www.serpentcs.com',
     'license': 'AGPL-3',
+    'summary': 'Manages Housekeeping Activities and its Process',
     'category': 'Generic Modules/Hotel Housekeeping',
     'depends': ['hotel'],
     'demo': ['views/hotel_housekeeping_data.xml'],
