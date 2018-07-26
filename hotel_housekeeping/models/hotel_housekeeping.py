@@ -2,7 +2,7 @@
 
 import time
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
-from odoo import models, fields, api, _
+from odoo import api, fields, models, _
 from odoo.osv import expression
 from odoo.exceptions import ValidationError
 
@@ -12,7 +12,7 @@ class HotelHousekeepingActivityType(models.Model):
     _name = 'hotel.housekeeping.activity.type'
     _description = 'Activity Type'
 
-    name = fields.Char('Name', size=64, required=True)
+    name = fields.Char('Name', required=True)
     activity_id = fields.Many2one('hotel.housekeeping.activity.type',
                                   'Activity Type')
 
@@ -32,7 +32,7 @@ class HotelHousekeepingActivityType(models.Model):
         if not args:
             args = []
         if name:
-            # Be sure name_search is symetric to name_get
+            # Be sure name_search is symmetric to name_get
             category_names = name.split(' / ')
             parents = list(category_names)
             child = parents.pop()
