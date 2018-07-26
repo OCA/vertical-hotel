@@ -7,6 +7,7 @@
                 Services Pvt. Ltd., Odoo S.A.',
     'category': 'Generic Modules/Hotel Reservation',
     'license': 'AGPL-3',
+    'summary': 'Manages Guest Reservation & displays Reservation Summary',
     'depends': ['hotel', 'stock', 'mail'],
     'demo': ['views/hotel_reservation_data.xml', ],
     'data': [
