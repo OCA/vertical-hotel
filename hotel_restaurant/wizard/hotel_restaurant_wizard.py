@@ -17,7 +17,8 @@ class WizardHotelRestaurant(models.TransientModel):
             'model': 'hotel.restaurant.reservation',
             'form': self.read(['date_start', 'date_end'])[0]
         }
-        return self.env.ref('hotel_restaurant.report_hotel_table_res').report_action(self, data=data)
+        return self.env.ref('hotel_restaurant.report_hotel_table_res').\
+                report_action(self, data=data)
 
 
 class FolioRestReservation(models.TransientModel):
@@ -35,7 +36,8 @@ class FolioRestReservation(models.TransientModel):
             'model': 'hotel.folio',
             'form': self.read(['date_start', 'date_end', 'check'])[0]
         }
-        return self.env.ref('hotel_restaurant.report_hotel_res_folio').report_action(self, data=data)
+        return self.env.ref('hotel_restaurant.report_hotel_res_folio').\
+                report_action(self, data=data)
 
     @api.multi
     def print_reserv_report(self):
@@ -44,4 +46,5 @@ class FolioRestReservation(models.TransientModel):
             'model': 'hotel.folio',
             'form': self.read(['date_start', 'date_end', 'check'])[0]
         }
-        return self.env.ref('hotel_restaurant.report_hotel_res_folio1').report_action(self, data=data)
+        return self.env.ref('hotel_restaurant.report_hotel_res_folio1').\
+                report_action(self, data=data)
