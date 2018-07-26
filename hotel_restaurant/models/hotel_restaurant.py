@@ -8,6 +8,8 @@ from odoo.osv import expression
 
 
 class HotelFolio(models.Model):
+    'Hotel foliio management '
+
     _inherit = 'hotel.folio'
 
     hotel_reservation_order_ids = fields.Many2many('hotel.reservation.order',
@@ -96,7 +98,7 @@ class HotelRestaurantTables(models.Model):
     _name = "hotel.restaurant.tables"
     _description = "Includes Hotel Restaurant Table"
 
-    name = fields.Char('Table Number', size=64, required=True, index=True)
+    name = fields.Char('Table Number', required=True, index=True)
     capacity = fields.Integer('Capacity')
 
 
@@ -229,9 +231,9 @@ class HotelRestaurantReservation(models.Model):
     _description = "Includes Hotel Restaurant Reservation"
     _rec_name = "reservation_id"
 
-    reservation_id = fields.Char('Reservation No', size=64, readonly=True,
+    reservation_id = fields.Char('Reservation No', readonly=True,
                                  index=True)
-    room_no = fields.Many2one('product.product', string='Room No', size=64,
+    room_no = fields.Many2one('product.product', string='Room No',
                               index=True)
     folio_id = fields.Many2one('hotel.folio', string='Folio No')
     start_date = fields.Datetime('Start Time', required=True,
@@ -239,7 +241,7 @@ class HotelRestaurantReservation(models.Model):
                                           time.strftime
                                           (DEFAULT_SERVER_DATETIME_FORMAT)))
     end_date = fields.Datetime('End Time', required=True)
-    cname = fields.Many2one('res.partner', string='Customer Name', size=64,
+    cname = fields.Many2one('res.partner', string='Customer Name',
                             required=True, index=True)
     partner_address_id = fields.Many2one('res.partner', string='Address')
     tableno = fields.Many2many('hotel.restaurant.tables',
@@ -297,13 +299,13 @@ class HotelRestaurantKitchenOrderTickets(models.Model):
     _description = "Includes Hotel Restaurant Order"
     _rec_name = 'orderno'
 
-    orderno = fields.Char('Order Number', size=64, readonly=True)
-    resno = fields.Char('Reservation Number', size=64)
+    orderno = fields.Char('Order Number', readonly=True)
+    resno = fields.Char('Reservation Number')
     kot_date = fields.Datetime('Date')
-    room_no = fields.Char('Room No', size=64, readonly=True)
-    w_name = fields.Char('Waiter Name', size=64, readonly=True)
+    room_no = fields.Char('Room No', readonly=True)
+    w_name = fields.Char('Waiter Name', readonly=True)
     tableno = fields.Many2many('hotel.restaurant.tables', 'temp_table3',
-                               'table_no', 'name', 'Table Number', size=64,
+                               'table_no', 'name', 'Table Number',
                                help="Table reservation detail.")
     kot_list = fields.One2many('hotel.restaurant.order.list',
                                'kot_order_list', 'Order List',
@@ -405,12 +407,12 @@ class HotelRestaurantOrder(models.Model):
     _description = "Includes Hotel Restaurant Order"
     _rec_name = "order_no"
 
-    order_no = fields.Char('Order Number', size=64, readonly=True)
+    order_no = fields.Char('Order Number', readonly=True)
     o_date = fields.Datetime('Order Date', required=True,
                              default=(lambda *a:
                                       time.strftime
                                       (DEFAULT_SERVER_DATETIME_FORMAT)))
-    room_no = fields.Many2one('product.product', string='Room No', size=64)
+    room_no = fields.Many2one('product.product', string='Room No')
     folio_id = fields.Many2one('hotel.folio', string='Folio No')
     waiter_name = fields.Many2one('res.partner', 'Waiter Name')
     table_no = fields.Many2many('hotel.restaurant.tables', 'temp_table2',
@@ -428,7 +430,7 @@ class HotelRestaurantOrder(models.Model):
                              readonly=True, default=lambda * a: 'draft')
     is_folio = fields.Boolean('Is a Hotel Guest??', help='is customer reside'
                               'in hotel or not')
-    cname = fields.Many2one('res.partner', string='Customer Name', size=64,
+    cname = fields.Many2one('res.partner', string='Customer Name',
                             required=True)
     kitchen_id = fields.Integer('Kitchen id')
     rest_item_id = fields.Many2many('hotel.restaurant.order.list',
@@ -645,7 +647,7 @@ class HotelReservationOrder(models.Model):
     _description = "Reservation Order"
     _rec_name = "order_number"
 
-    order_number = fields.Char('Order No', size=64, readonly=True)
+    order_number = fields.Char('Order No', readonly=True)
     reservationno = fields.Many2one('hotel.restaurant.reservation',
                                     'Reservation No')
     date1 = fields.Datetime('Date', required=True,
@@ -657,7 +659,7 @@ class HotelReservationOrder(models.Model):
                                 'table_no', 'name', 'Table Number')
     order_list = fields.One2many('hotel.restaurant.order.list', 'o_l',
                                  'Order List')
-    tax = fields.Float('Tax (%) ', size=64)
+    tax = fields.Float('Tax (%) ')
     amount_subtotal = fields.Float(compute='_compute_amount_all_total',
                                    method=True, string='Subtotal')
     amount_total = fields.Float(compute='_compute_amount_all_total',
@@ -721,7 +723,7 @@ class HotelRestaurantOrderList(models.Model):
     kot_order_list = fields.Many2one('hotel.restaurant.kitchen.order.tickets',
                                      'Kitchen Order Tickets')
     name = fields.Many2one('hotel.menucard', 'Item Name', required=True)
-    item_qty = fields.Integer('Qty', size=64, required=True)
-    item_rate = fields.Float('Rate', size=64)
+    item_qty = fields.Integer('Qty', required=True)
+    item_rate = fields.Float('Rate')
     price_subtotal = fields.Float(compute='_compute_price_subtotal',
                                   method=True, string='Subtotal')
