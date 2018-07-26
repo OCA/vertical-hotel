@@ -3,7 +3,7 @@
 import time
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
-from odoo import models, fields, api, _
+from odoo import api, fields, models, _
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT as dt
 from odoo.exceptions import ValidationError, UserError
 import pytz
@@ -115,7 +115,7 @@ class HotelReservation(models.Model):
     _order = 'reservation_no desc'
     _inherit = ['mail.thread']
 
-    reservation_no = fields.Char('Reservation No', size=64, readonly=True)
+    reservation_no = fields.Char('Reservation No', readonly=True)
     date_order = fields.Datetime('Date Ordered', readonly=True, required=True,
                                  index=True,
                                  default=(lambda *a: time.strftime(dt)))
@@ -156,10 +156,10 @@ class HotelReservation(models.Model):
     checkout = fields.Datetime('Expected-Date-Departure', required=True,
                                readonly=True,
                                states={'draft': [('readonly', False)]})
-    adults = fields.Integer('Adults', size=64, readonly=True,
+    adults = fields.Integer('Adults', readonly=True,
                             states={'draft': [('readonly', False)]},
                             help='List of adults there in guest list. ')
-    children = fields.Integer('Children', size=64, readonly=True,
+    children = fields.Integer('Children', readonly=True,
                               states={'draft': [('readonly', False)]},
                               help='Number of children there in guest list.')
     reservation_line = fields.One2many('hotel_reservation.line', 'line_id',
@@ -589,7 +589,7 @@ class HotelReservationLine(models.Model):
     _name = "hotel_reservation.line"
     _description = "Reservation Line"
 
-    name = fields.Char('Name', size=64)
+    name = fields.Char('Name')
     line_id = fields.Many2one('hotel.reservation')
     reserve = fields.Many2many('hotel.room',
                                'hotel_reservation_line_room_rel',

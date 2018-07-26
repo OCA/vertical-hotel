@@ -4,7 +4,7 @@ import time
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from dateutil import parser
-from odoo import models, fields, api
+from odoo import api, fields, models
 
 
 class ReportTestCheckin(models.AbstractModel):
