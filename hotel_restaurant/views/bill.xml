@@ -186,7 +186,7 @@
                             </thead>
                             <tbody>
                                 <td style="white-space: nowrap;">
-                                    <span t-esc="o.date1" />
+                                    <span t-esc="o.order_date" />
                                 </td>
                                 <td style="white-space: nowrap;">
                                     <span t-att-style="style" t-esc="o.order_number" />
