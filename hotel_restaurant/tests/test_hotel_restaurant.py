@@ -63,7 +63,7 @@ class TestRestaurant(common.TransactionCase):
         self.hotel_reserv_order = self.hotel_reserv_order_obj.\
             create({'order_number': '0RR/00001',
                     'reservationno': self.rest_res.id,
-                    'date1': cur_date,
+                    'order_date': cur_date,
                     'waitername': self.waiter.id,
                     'amount_subtotal': 500.00,
                     'amount_total': 500.00,
