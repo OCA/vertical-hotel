@@ -108,7 +108,7 @@ class FolioRestReport(models.AbstractModel):
                 order_data = []
                 for order in record.hotel_reservation_order_ids:
                     order_data.append({'order_no': order.order_number,
-                                       'order_date': parser.parse(order.date1).
+                                       'order_date': parser.parse(order.order_date).
                                        strftime('%m/%d/%Y %H:%M:%S'),
                                        'state': order.state,
                                        'table_no': len(order.table_no),
