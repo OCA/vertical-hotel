@@ -6,7 +6,7 @@
     'author': 'Odoo Community Association (OCA), Serpent Consulting\
                 Services Pvt. Ltd., Odoo S.A.',
     'category': 'Generic Modules/Hotel Restaurant',
-    'website': 'http://www.serpentcs.com',
+    'website': 'https://github.com/OCA/vertical-hotel/',
     'depends': ['hotel'],
     'license': 'AGPL-3',
     'summary': 'Table booking facilities and Managing customers orders',
