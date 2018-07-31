@@ -84,7 +84,7 @@
                     <group>
                         <field name="name" />
                         <field name="categ_id" select="1" />
-                        <field name="child_id" invisible="1" />
+                        <field name="child_ids" invisible="1" />
                     </group>
                 </sheet>
             </form>
@@ -128,7 +128,7 @@
                     <group>
                         <field name="name" string="Amenity Type" />
                         <field name="amenity_id" />
-                        <field name="child_id" invisible="1" />
+                        <field name="child_ids" invisible="1" />
                     </group>
                 </sheet>
             </form>
@@ -760,7 +760,7 @@
                     <group>
                         <field name="name" string="Service Name" />
                         <field name="service_id" />
-                        <field name="child_id" invisible="1" />
+                        <field name="child_ids" invisible="1" />
                     </group>
                 </sheet>
             </form>
