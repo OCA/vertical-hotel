@@ -500,14 +500,14 @@ class HotelRestaurantOrder(models.Model):
         for order_obj in self:
             hotelfolio = order_obj.folio_id.order_id.id
             if order_obj.folio_id:
-                for order1 in order_obj.order_list:
+                for order in order_obj.order_list:
                     values = {'order_id': hotelfolio,
-                              'name': order1.name.name,
-                              'product_id': order1.name.product_id.id,
-                              'product_uom': order1.name.uom_id.id,
-                              'product_uom_qty': order1.item_qty,
-                              'price_unit': order1.item_rate,
-                              'price_subtotal': order1.price_subtotal,
+                              'name': order.name.name,
+                              'product_id': order.name.product_id.id,
+                              'product_uom': order.name.uom_id.id,
+                              'product_uom_qty': order.item_qty,
+                              'price_unit': order.item_rate,
+                              'price_subtotal': order.price_subtotal,
                               }
                     sol_rec = so_line_obj.create(values)
                     hsl_obj.create({'folio_id': order_obj.folio_id.id,
@@ -592,12 +592,12 @@ class HotelReservationOrder(models.Model):
                 'w_name': order.waitername.name,
                 'tableno': [(6, 0, table_ids)],
                 }
-            kot_obj = order_tickets_obj.browse(self.kitchen_id)
-            kot_obj.write(line_data)
+            kot_rec = order_tickets_obj.browse(self.kitchen_id)
+            kot_rec.write(line_data)
             for order_line in order.order_list:
                 if order_line.id not in order.rest_id.ids:
                     kot_data1 = order_tickets_obj.create(line_data)
-                    self.kitchen_id = kot_data1.id
+                    order.kitchen_id = kot_data1.id
                     o_line = {
                         'kot_order_list': kot_data1.id,
                         'name': order_line.name.id,
@@ -622,13 +622,13 @@ class HotelReservationOrder(models.Model):
         for order_obj in self:
             hotelfolio = order_obj.folio_id.order_id.id
             if order_obj.folio_id:
-                for order1 in order_obj.order_list:
+                for order in order_obj.order_list:
                     values = {'order_id': hotelfolio,
-                              'name': order1.name.name,
-                              'product_id': order1.name.product_id.id,
-                              'product_uom_qty': order1.item_qty,
-                              'price_unit': order1.item_rate,
-                              'price_subtotal': order1.price_subtotal,
+                              'name': order.name.name,
+                              'product_id': order.name.product_id.id,
+                              'product_uom_qty': order.item_qty,
+                              'price_unit': order.item_rate,
+                              'price_subtotal': order.price_subtotal,
                               }
                     sol_rec = so_line_obj.create(values)
                     hsl_obj.create({'folio_id': order_obj.folio_id.id,
