@@ -19,13 +19,15 @@ class FolioReport(models.AbstractModel):
                       ('checkout_date', '<=', date_end)]
         tids = folio_obj.search(act_domain)
         for data in tids:
-            data_folio.append({'name': data.name,
-                               'partner': data.partner_id.name,
-                               'checkin': parser.parse(data.checkin_date).
-                               strftime(DEFAULT_SERVER_DATETIME_FORMAT),
-                               'checkout': parser.parse(data.checkout_date).
-                               strftime(DEFAULT_SERVER_DATETIME_FORMAT),
-                               'amount': data.amount_total})
+            data_folio.append({
+                'name': data.name,
+                'partner': data.partner_id.name,
+                'checkin': parser.parse(data.checkin_date).
+                    strftime(DEFAULT_SERVER_DATETIME_FORMAT),
+                'checkout': parser.parse(data.checkout_date).
+                    strftime(DEFAULT_SERVER_DATETIME_FORMAT),
+                'amount': data.amount_total
+            })
             total_amount += data.amount_total
         data_folio.append({'total_amount': total_amount})
         return data_folio
@@ -39,9 +41,9 @@ class FolioReport(models.AbstractModel):
             docids = data['form'].get('docids')
         folio_profile = self.env['hotel.folio'].browse(docids)
         date_start = data['form'].get('date_start', fields.Date.today())
-        date_end = data['form'].get('date_end', str(datetime.now() +
-                                    relativedelta(months=+1,
-                                                  day=1, days=-1))[:10])
+        date_end = data['form'].get(
+            'date_end', str(datetime.now() + relativedelta(
+                months=+1, day=1, days=-1))[:10])
         return {
             'doc_ids': docids,
             'doc_model': self.model,
