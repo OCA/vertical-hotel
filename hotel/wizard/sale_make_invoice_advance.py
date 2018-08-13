@@ -17,20 +17,16 @@ class SaleAdvancePaymentInv(models.TransientModel):
                         'active_id': hotel.order_id.id})
         return super(SaleAdvancePaymentInv,
                      self.with_context(ctx))._get_advance_payment_method()
-    advance_payment_method = fields.Selection([('delivered',
-                                                'Invoiceable lines'),
-                                               ('all',
-                                                'Invoiceable lines\
-                                                (deduct down payments)'),
-                                               ('percentage',
-                                                'Down payment (percentage)'),
-                                               ('fixed',
-                                                'Down payment (fixed\
-                                                amount)')],
-                                              string='What do you want\
-                                              to invoice?',
-                                              default=_get_advance_payment,
-                                              required=True)
+    advance_payment_method = fields.Selection(
+        [
+            ('delivered', 'Invoiceable lines'),
+            ('all', 'Invoiceable lines (deduct down payments)'),
+            ('percentage', 'Down payment (percentage)'),
+            ('fixed', 'Down payment (fixed amount)')
+        ], string='What do you want to invoice?',
+        default=_get_advance_payment,
+        required=True
+    )
 
     @api.multi
     def create_invoices(self):
