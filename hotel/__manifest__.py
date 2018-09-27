@@ -5,7 +5,7 @@
     'version': '11.0.1.0.0',
     'author': 'Odoo Community Association (OCA), Serpent Consulting \
                Services Pvt. Ltd., OpenERP SA',
-    'category': 'Generic Modules/Hotel Management',
+    'category': 'Hotel Management',
     'website': 'https://github.com/OCA/vertical-hotel/',
     'depends': ['sale_stock', 'point_of_sale'],
     'license': 'AGPL-3',
