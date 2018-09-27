@@ -36,7 +36,6 @@ var MyWidget = Widget.extend(FieldManagerMixin, {
         this.summary_header = [];
         this.room_summary = [];
         this.on("_onFieldChanged:date_from", this, function() {
-        	console.log(":KKKKKK")
             this.set({"date_from": time.str_to_datetime(this.get_field_value("date_from"))});
         });
         this.on("_onFieldChanged:date_to", this, function() {
@@ -70,7 +69,7 @@ var MyWidget = Widget.extend(FieldManagerMixin, {
         this.view_loading();
      },
      initialize_field: function() {
-         form_common.ReinitializeWidgetMixin.initialize_field.call(this);
+         FormView.ReinitializeWidgetMixin.initialize_field.call(this);
          var self = this;
          self.on("change:summary_header", self, self.initialize_content);
          self.on("change:room_summary", self, self.initialize_content);
