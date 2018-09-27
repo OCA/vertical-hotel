@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE xml>
 <odoo noupdate="1">
 
     <!-- Demo data for hotel reservation -->
     <record id="hotel_reservation_0" model="hotel.reservation">
-        <field eval="&quot;2013-05-02 10:00:00&quot;" name="date_order" />
-        <field eval="&quot;2013-05-05 12:09:00&quot;" name="checkout" />
-        <field eval="&quot;2013-05-02 12:09:00&quot;" name="checkin" />
+        <field eval="&quot;2018-05-02 10:00:00&quot;" name="date_order" />
+        <field eval="&quot;2018-05-05 12:09:00&quot;" name="checkout" />
+        <field eval="&quot;2018-05-02 12:09:00&quot;" name="checkin" />
         <field name="warehouse_id" ref="stock.warehouse0" />
         <field name="pricelist_id" ref="product.list0" />
         <field name="partner_id" ref="base.res_partner_2" />
