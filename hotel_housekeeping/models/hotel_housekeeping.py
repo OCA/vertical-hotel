@@ -130,7 +130,6 @@ class HotelHousekeeping(models.Model):
             for activity_line in line.activity_lines:
                 activity_line.write({'clean': False})
                 activity_line.write({'dirty': True})
-        return True
 
     @api.multi
     def room_cancel(self):
@@ -142,7 +141,6 @@ class HotelHousekeeping(models.Model):
         """
         self.state = 'cancel'
         self.quality = False
-        return True
 
     @api.multi
     def room_done(self):
@@ -155,7 +153,6 @@ class HotelHousekeeping(models.Model):
         self.state = 'done'
         if not self.quality:
             raise ValidationError(_('Please update quality of work!'))
-        return True
 
     @api.multi
     def room_inspect(self):
@@ -167,7 +164,6 @@ class HotelHousekeeping(models.Model):
         """
         self.state = 'inspect'
         self.quality = False
-        return True
 
     @api.multi
     def room_clean(self):
@@ -183,7 +179,6 @@ class HotelHousekeeping(models.Model):
             for activity_line in line.activity_lines:
                 activity_line.write({'clean': True})
                 activity_line.write({'dirty': False})
-        return True
 
 
 class HotelHousekeepingActivities(models.Model):
