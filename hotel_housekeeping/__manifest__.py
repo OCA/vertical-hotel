@@ -13,10 +13,10 @@
     'demo': ['views/hotel_housekeeping_data.xml'],
     'data': [
         'security/ir.model.access.csv',
-        'report/hotel_housekeeping_report.xml',
         'views/report_hotel_housekeeping.xml',
-        'wizard/hotel_housekeeping_wizard.xml',
         'views/hotel_housekeeping_view.xml',
+        'report/hotel_housekeeping_report.xml',
+        'wizard/hotel_housekeeping_wizard.xml',
     ],
     'installable': True,
 }

@@ -6,6 +6,8 @@ from odoo import api, fields, models, _
 from odoo.osv import expression
 from odoo.exceptions import ValidationError
 
+DONE_STATE = {'done': [('readonly', True)]}
+
 
 class HotelHousekeepingActivityType(models.Model):
 
@@ -81,7 +83,7 @@ class HotelHousekeeping(models.Model):
 
     current_date = fields.Date("Today's Date", required=True,
                                index=True,
-                               states={'done': [('readonly', True)]},
+                               states=DONE_STATE,
                                default=(lambda *a:
                                         time.strftime
                                         (DEFAULT_SERVER_DATE_FORMAT)))
@@ -89,30 +91,30 @@ class HotelHousekeeping(models.Model):
                                    ('checkin', 'Check-In'),
                                    ('checkout', 'Check-Out')],
                                   'Clean Type', required=True,
-                                  states={'done': [('readonly', True)]},)
+                                  states=DONE_STATE,)
     room_no = fields.Many2one('hotel.room', 'Room No', required=True,
-                              states={'done': [('readonly', True)]},
+                              states=DONE_STATE,
                               index=True)
     activity_lines = fields.One2many('hotel.housekeeping.activities',
                                      'a_list', 'Activities',
-                                     states={'done': [('readonly', True)]},
+                                     states=DONE_STATE,
                                      help='Detail of housekeeping activities',)
     inspector = fields.Many2one('res.users', 'Inspector', required=True,
                                 index=True,
-                                states={'done': [('readonly', True)]})
+                                states=DONE_STATE)
     inspect_date_time = fields.Datetime('Inspect Date Time', required=True,
-                                        states={'done': [('readonly', True)]})
+                                        states=DONE_STATE)
     quality = fields.Selection([('excellent', 'Excellent'), ('good', 'Good'),
                                 ('average', 'Average'), ('bad', 'Bad'),
                                 ('ok', 'Ok')], 'Quality',
-                               states={'done': [('readonly', True)]},
+                               states=DONE_STATE,
                                help="Inspector inspect the room and mark \
                                 as Excellent, Average, Bad, Good or Ok. ")
     state = fields.Selection([('inspect', 'Inspect'), ('dirty', 'Dirty'),
                               ('clean', 'Clean'),
                               ('done', 'Done'),
                               ('cancel', 'Cancelled')], 'State',
-                             states={'done': [('readonly', True)]},
+                             states=DONE_STATE,
                              index=True, required=True, readonly=True,
                              default=lambda *a: 'inspect')
 
@@ -211,8 +213,8 @@ class HotelHousekeepingActivities(models.Model):
         @return: raise warning depending on the validation
         '''
         if self.clean_start_time >= self.clean_end_time:
-            raise ValidationError(_('Start Date Should be \
-            less than the End Date!'))
+            raise ValidationError(_(
+                'Start Date Should be less than the End Date!'))
 
     @api.model
     def default_get(self, fields):
