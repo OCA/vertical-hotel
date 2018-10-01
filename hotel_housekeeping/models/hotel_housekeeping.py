@@ -128,8 +128,8 @@ class HotelHousekeeping(models.Model):
         for line in self:
             line.quality = False
             for activity_line in line.activity_lines:
-                activity_line.write({'clean': False})
-                activity_line.write({'dirty': True})
+                activity_line.clean = False,
+                activity_line.dirty = True
 
     @api.multi
     def room_cancel(self):
@@ -177,8 +177,8 @@ class HotelHousekeeping(models.Model):
         for line in self:
             line.quality = False
             for activity_line in line.activity_lines:
-                activity_line.write({'clean': True})
-                activity_line.write({'dirty': False})
+                activity_line.clean = True,
+                activity_line.dirty = False
 
 
 class HotelHousekeepingActivities(models.Model):
