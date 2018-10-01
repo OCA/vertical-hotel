@@ -10,16 +10,19 @@
             <form string="Housekeeping">
                 <header>
                     <button string="Clean" name="room_clean" states="inspect,dirty"
-                        type="object" icon="fa-paint-brush" class="btn btn-primary"/>
+                        type="object"class="btn btn-primary"><i class="fa fa-paint-brush"></i></button>
                     <button string="Dirty" name="action_set_to_dirty"
-                        states="inspect,clean" type="object" icon="fa-pencil-square-o"
-                        class="btn btn-primary"/>
+                        states="inspect,clean" type="object"
+                            class="btn btn-primary"><i class="fa-pencil-square-o"></i></button>
                     <button string="Done" name="room_done" states="clean"
-                        type="object" icon="fa-check" class="btn btn-primary"/>
+                        type="object"
+                            class="btn btn-primary"><i class="fa-check"></i></button>
                     <button string="Cancel" name="room_cancel" states="clean,durty,inspect"
-                        type="object" icon="fa-times-circle" class="btn btn-primary"/>
+                        type="object"
+                            class="btn btn-primary"><i class="fa-times-circle"></i></button>
                     <button string="Inspect" name="room_inspect" states="cancel"
-                        type="object" icon="fa-search" class="btn btn-primary"/>
+                        type="object"
+                            class="btn btn-primary"><i class="fa-search"></i></button>
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
