@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!DOCTYPE xml>
-<odoo noupdate="1">
+<odoo>
 
     <!--Demo data for hotel housekeeping activity type -->
     <record id="hotel_housekeeping_activity_type_0" model="hotel.housekeeping.activity.type">
