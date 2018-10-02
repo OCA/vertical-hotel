@@ -9,6 +9,7 @@ self.env = self.env(context=dict(
     'tracking_disable': True,
 ))
 
+
 class TestHousekeeping(common.TransactionCase):
 
     def setUp(self):
