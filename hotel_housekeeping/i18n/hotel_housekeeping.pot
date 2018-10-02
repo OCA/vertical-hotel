@@ -103,7 +103,7 @@ msgstr ""
 
 #. module: hotel_housekeeping
 #: rml:activity.detail:0
-#: field:hotel.housekeeping,activity_lines:0
+#: field:hotel.housekeeping,activity_line_ids:0
 #: model:ir.ui.menu,name:hotel_housekeeping.menu_open_h_activity_form
 msgid "Activities"
 msgstr ""
