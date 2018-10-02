@@ -6,8 +6,6 @@ from odoo import api, fields, models, _
 from odoo.osv import expression
 from odoo.exceptions import ValidationError
 
-DONE_STATE = {'done': [('readonly', True)]}
-
 
 class HotelHousekeepingActivityType(models.Model):
 
@@ -83,40 +81,38 @@ class HotelHousekeeping(models.Model):
 
     current_date = fields.Date("Today's Date", required=True,
                                index=True,
-                               states=DONE_STATE,
-                               default=(lambda *a:
-                                        time.strftime
-                                        (DEFAULT_SERVER_DATE_FORMAT)))
+                               states={'done': [('readonly', True)]},
+                               default=fields.Date.today)
     clean_type = fields.Selection([('daily', 'Daily'),
                                    ('checkin', 'Check-In'),
                                    ('checkout', 'Check-Out')],
                                   'Clean Type', required=True,
-                                  states=DONE_STATE,)
+                                  states={'done': [('readonly', True)]},)
     room_no = fields.Many2one('hotel.room', 'Room No', required=True,
-                              states=DONE_STATE,
+                              states={'done': [('readonly', True)]},
                               index=True)
-    activity_lines = fields.One2many('hotel.housekeeping.activities',
+    activity_line_ids = fields.One2many('hotel.housekeeping.activities',
                                      'a_list', 'Activities',
-                                     states=DONE_STATE,
+                                     states={'done': [('readonly', True)]},
                                      help='Detail of housekeeping activities',)
-    inspector = fields.Many2one('res.users', 'Inspector', required=True,
+    inspector_id = fields.Many2one('res.users', 'Inspector', required=True,
                                 index=True,
-                                states=DONE_STATE)
+                                states={'done': [('readonly', True)]})
     inspect_date_time = fields.Datetime('Inspect Date Time', required=True,
-                                        states=DONE_STATE)
+                                        states={'done': [('readonly', True)]})
     quality = fields.Selection([('excellent', 'Excellent'), ('good', 'Good'),
                                 ('average', 'Average'), ('bad', 'Bad'),
                                 ('ok', 'Ok')], 'Quality',
-                               states=DONE_STATE,
+                               states={'done': [('readonly', True)]},
                                help="Inspector inspect the room and mark \
                                 as Excellent, Average, Bad, Good or Ok. ")
     state = fields.Selection([('inspect', 'Inspect'), ('dirty', 'Dirty'),
                               ('clean', 'Clean'),
                               ('done', 'Done'),
                               ('cancel', 'Cancelled')], 'State',
-                             states=DONE_STATE,
+                             states={'done': [('readonly', True)]},
                              index=True, required=True, readonly=True,
-                             default=lambda *a: 'inspect')
+                             default='inspect')
 
     @api.multi
     def action_set_to_dirty(self):
@@ -126,12 +122,14 @@ class HotelHousekeeping(models.Model):
         ---------------------------------------
         @param self: object pointer
         """
-        self.state = 'dirty'
-        for line in self:
-            line.quality = False
-            for activity_line in line.activity_lines:
-                activity_line.clean = False,
-                activity_line.dirty = True
+        self.write({
+            'state': 'dirty',
+            'quality': False
+        })
+        self.activity_line_ids.write({
+            'clean': False,
+            'dirty': True,
+        })
 
     @api.multi
     def room_cancel(self):
@@ -141,8 +139,7 @@ class HotelHousekeeping(models.Model):
         ---------------------------------------
         @param self: object pointer
         """
-        self.state = 'cancel'
-        self.quality = False
+        self.write({'state': 'cancel', 'quality': False})
 
     @api.multi
     def room_done(self):
@@ -152,9 +149,9 @@ class HotelHousekeeping(models.Model):
         ---------------------------------------
         @param self: object pointer
         """
-        self.state = 'done'
         if not self.quality:
             raise ValidationError(_('Please update quality of work!'))
+        self.state = 'done'
 
     @api.multi
     def room_inspect(self):
@@ -164,8 +161,7 @@ class HotelHousekeeping(models.Model):
         ---------------------------------------
         @param self: object pointer
         """
-        self.state = 'inspect'
-        self.quality = False
+        self.write({'state': 'inspect', 'quality': False})
 
     @api.multi
     def room_clean(self):
@@ -175,12 +171,14 @@ class HotelHousekeeping(models.Model):
         ---------------------------------------
         @param self: object pointer
         """
-        self.state = 'clean'
-        for line in self:
-            line.quality = False
-            for activity_line in line.activity_lines:
-                activity_line.clean = True,
-                activity_line.dirty = False
+        self.write({
+            'state': 'clean',
+            'quality': False
+        })
+        self.activity_line_ids.write({
+            'clean': True,
+            'dirty': False,
+        })
 
 
 class HotelHousekeepingActivities(models.Model):
@@ -192,7 +190,7 @@ class HotelHousekeepingActivities(models.Model):
     today_date = fields.Date('Today Date')
     activity_name = fields.Many2one('hotel.activity',
                                     string='Housekeeping Activity')
-    housekeeper = fields.Many2one('res.users', string='Housekeeper',
+    housekeeper_id = fields.Many2one('res.users', string='Housekeeper',
                                   required=True)
     clean_start_time = fields.Datetime('Clean Start Time',
                                        required=True)
@@ -226,7 +224,7 @@ class HotelHousekeepingActivities(models.Model):
         """
         if self._context is None:
             self._context = {}
-        res = super(HotelHousekeepingActivities, self).default_get(fields)
+        res = super().default_get(fields)
         if self._context.get('room_id', False):
             res.update({'room_id': self._context['room_id']})
         if self._context.get('today_date', False):
