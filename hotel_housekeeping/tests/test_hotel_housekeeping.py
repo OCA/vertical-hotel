@@ -4,15 +4,15 @@ from odoo.tests import common
 from datetime import datetime
 import time
 
+self.env = self.env(context=dict(
+    self.env.context,
+    'tracking_disable': True,
+))
 
 class TestHousekeeping(common.TransactionCase):
 
     def setUp(self):
         super(TestHousekeeping, self).setUp()
-        self.env = self.env(context=dict(
-            self.env.context,
-            'tracking_disable': True,
-        ))
         self.housekeeping_obj = self.env['hotel.housekeeping']
         self.hotel_act_obj = self.env['hotel.housekeeping.activities']
         self.hotel_act_type_obj = self.env['hotel.housekeeping.activity.type']
