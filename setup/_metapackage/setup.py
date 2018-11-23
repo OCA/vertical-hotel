@@ -10,6 +10,7 @@ setuptools.setup(
     install_requires=[
         'odoo11-addon-hotel',
         'odoo11-addon-hotel_housekeeping',
+        'odoo11-addon-hotel_reservation',
         'odoo11-addon-hotel_restaurant',
         'odoo11-addon-report_hotel_reservation',
         'odoo11-addon-report_hotel_restaurant',
