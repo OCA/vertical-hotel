@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!--Report for hotel housekeeping -->
+    <report id="report_hotel_housekeeping" string="Activity Detail"
+        model="hotel.housekeeping" report_type="qweb-pdf"
+        file="hotel_housekeeping.housekeeping_report" name="hotel_housekeeping.housekeeping_report"
+        menu="False" />
+
+</odoo>

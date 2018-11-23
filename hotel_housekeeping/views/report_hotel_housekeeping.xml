@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!--Template for Hotel Housekeeping -->
+    <template id="housekeeping_report">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <br />
+                    <br />
+                    <div class="row">
+                        <h2>
+                            <span>
+                                <center>Room Activities Report</center>
+                            </span>
+                        </h2>
+                    </div>
+                    <div class="row mt32 mb32">
+                        <div class="text-center">
+                            <strong>From:</strong>
+                            <span t-esc="data['date_start']" />
+                            <strong>To:</strong>
+                            <span t-esc="data['date_end']" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="text-center">
+                            <strong>For Room:-</strong>
+                            <span t-esc="data['room_no'][1]" />
+                        </div>
+                    </div>
+                    <table class="table table-condensed">
+                        <tr>
+                            <th>
+                                <strong>Date</strong>
+                            </th>
+                            <th>
+                                <strong>Activities</strong>
+                            </th>
+                            <th class="text-center">
+                                <strong>Housekeeper Name</strong>
+                            </th>
+                            <th class="text-right">
+                                <strong>Clean Start Time</strong>
+                            </th>
+                            <th class="text-right">
+                                <strong>Clean End Time</strong>
+                            </th>
+                            <th class="text-right">
+                                <strong>Duration</strong>
+                            </th>
+                        </tr>
+                        <tr t-foreach="activity_detail" t-as="detail">
+                            <td class="text-right" style="white-space: nowrap;">
+                                <span t-esc="detail.get('current_date','')" />
+                            </td>
+                            <td class="text-right" style="white-space: nowrap;">
+                                <span t-att-style="style" t-esc="detail.get('activity','')" />
+                            </td>
+                            <td class="text-right" style="white-space: nowrap;">
+                                <span t-att-style="style" t-esc="detail.get('login','')" />
+                            </td>
+                            <td class="text-right" style="white-space: nowrap;">
+                                <span t-att-style="style" t-esc="detail.get('clean_start_time','')" />
+                            </td>
+                            <td class="text-right" style="white-space: nowrap;">
+                                <span t-att-style="style" t-esc="detail.get('clean_end_time','')" />
+                            </td>
+                            <td class="text-right" style="white-space: nowrap;">
+                                <span t-att-style="style" t-esc="detail.get('duration','')" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
