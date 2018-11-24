@@ -10,7 +10,7 @@
             <form string="Housekeeping">
                 <header>
                     <button string="Clean" name="room_clean" states="inspect,dirty"
-                        type="object"class="btn btn-primary"><i class="fa fa-paint-brush"></i></button>
+                        type="object" class="btn btn-primary"><i class="fa fa-paint-brush"></i></button>
                     <button string="Dirty" name="action_set_to_dirty"
                         states="inspect,clean" type="object"
                             class="btn btn-primary"><i class="fa-pencil-square-o"></i></button>
