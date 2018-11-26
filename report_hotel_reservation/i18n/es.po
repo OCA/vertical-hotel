@@ -6,11 +6,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: openobject-addons\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2009-11-25 14:15+0000\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2009-11-25 14:15:04+0000\n"
 "PO-Revision-Date: 2011-02-15 18:06+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Spanish <es@li.org>\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -23,8 +24,7 @@ msgid "Folio"
 msgstr "Folio"
 
 #. module: hotel_reservation
-#: rml:checkout.detail:0
-#: field:hotel.reservation,partner_id:0
+#: rml:checkout.detail:0 field:hotel.reservation,partner_id:0
 #: rml:reservation.detail:0
 msgid "Guest Name"
 msgstr "Nombre del huesped"
@@ -60,8 +60,7 @@ msgid "New Reservation"
 msgstr "Nueva reserva"
 
 #. module: hotel_reservation
-#: view:hotel.reservation:0
-#: selection:hotel.reservation,state:0
+#: view:hotel.reservation:0 selection:hotel.reservation,state:0
 msgid "Confirm"
 msgstr "Confirmar"
 
@@ -97,9 +96,7 @@ msgid "#No"
 msgstr "#No"
 
 #. module: hotel_reservation
-#: rml:checkout.detail:0
-#: rml:maxroom.detail:0
-#: rml:reservation.detail:0
+#: rml:checkout.detail:0 rml:maxroom.detail:0 rml:reservation.detail:0
 msgid "Room No"
 msgstr "Habitación No"
 
@@ -109,10 +106,8 @@ msgid " Reservation"
 msgstr " Reserva"
 
 #. module: hotel_reservation
-#: rml:checkout.detail:0
-#: view:hotel.reservation:0
-#: field:hotel_reservation.line,categ_id:0
-#: rml:reservation.detail:0
+#: rml:checkout.detail:0 view:hotel.reservation:0
+#: field:hotel_reservation.line,categ_id:0 rml:reservation.detail:0
 msgid "Room Type"
 msgstr "Tipo de habitación"
 
@@ -270,14 +265,12 @@ msgid "Hotel Reservation Report"
 msgstr "Informe de reserva de hotel"
 
 #. module: hotel_reservation
-#: wizard_view:hotel.folio.make_folio,init:0
-#: view:hotel.reservation:0
+#: wizard_view:hotel.folio.make_folio,init:0 view:hotel.reservation:0
 msgid "Create Folio"
 msgstr "Crear servicios ofrecidos"
 
 #. module: hotel_reservation
-#: view:hotel.reservation:0
-#: field:hotel.reservation,reservation_line:0
+#: view:hotel.reservation:0 field:hotel.reservation,reservation_line:0
 #: model:ir.model,name:hotel_reservation.model_hotel_reservation_line
 msgid "Reservation Line"
 msgstr "Línea de reserva"
@@ -315,8 +308,7 @@ msgid "State"
 msgstr "Estado"
 
 #. module: hotel_reservation
-#: rml:checkout.detail:0
-#: rml:reservation.detail:0
+#: rml:checkout.detail:0 rml:reservation.detail:0
 msgid "Check-Out-Date"
 msgstr "Fecha de salida"
 
