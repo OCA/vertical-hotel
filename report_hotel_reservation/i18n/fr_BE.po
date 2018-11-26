@@ -1,6 +1,6 @@
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
-#	* hotel_reservation
+# 	* hotel_reservation
 #
 msgid ""
 msgstr ""
@@ -10,6 +10,7 @@ msgstr ""
 "PO-Revision-Date: 2009-11-25 14:15:04+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -21,15 +22,15 @@ msgid "Folio"
 msgstr ""
 
 #. module: hotel_reservation
-#: rml:checkout.detail:0
-#: field:hotel.reservation,partner_id:0
+#: rml:checkout.detail:0 field:hotel.reservation,partner_id:0
 #: rml:reservation.detail:0
 msgid "Guest Name"
 msgstr ""
 
 #. module: hotel_reservation
 #: constraint:ir.model:0
-msgid "The Object name must start with x_ and not contain any special character !"
+msgid ""
+"The Object name must start with x_ and not contain any special character !"
 msgstr ""
 
 #. module: hotel_reservation
@@ -55,8 +56,7 @@ msgid "New Reservation"
 msgstr ""
 
 #. module: hotel_reservation
-#: view:hotel.reservation:0
-#: selection:hotel.reservation,state:0
+#: view:hotel.reservation:0 selection:hotel.reservation,state:0
 msgid "Confirm"
 msgstr ""
 
@@ -92,9 +92,7 @@ msgid "#No"
 msgstr ""
 
 #. module: hotel_reservation
-#: rml:checkout.detail:0
-#: rml:maxroom.detail:0
-#: rml:reservation.detail:0
+#: rml:checkout.detail:0 rml:maxroom.detail:0 rml:reservation.detail:0
 msgid "Room No"
 msgstr ""
 
@@ -104,10 +102,8 @@ msgid " Reservation"
 msgstr ""
 
 #. module: hotel_reservation
-#: rml:checkout.detail:0
-#: view:hotel.reservation:0
-#: field:hotel_reservation.line,categ_id:0
-#: rml:reservation.detail:0
+#: rml:checkout.detail:0 view:hotel.reservation:0
+#: field:hotel_reservation.line,categ_id:0 rml:reservation.detail:0
 msgid "Room Type"
 msgstr ""
 
@@ -207,7 +203,8 @@ msgstr ""
 
 #. module: hotel_reservation
 #: model:ir.module.module,description:hotel_reservation.module_meta_information
-msgid "\n"
+msgid ""
+"\n"
 "    Module for Hotel/Resort/Property management. You can manage:\n"
 "    * Guest Reservation\n"
 "    * Group Reservartion\n"
@@ -256,14 +253,12 @@ msgid "Hotel Reservation Report"
 msgstr ""
 
 #. module: hotel_reservation
-#: wizard_view:hotel.folio.make_folio,init:0
-#: view:hotel.reservation:0
+#: wizard_view:hotel.folio.make_folio,init:0 view:hotel.reservation:0
 msgid "Create Folio"
 msgstr ""
 
 #. module: hotel_reservation
-#: view:hotel.reservation:0
-#: field:hotel.reservation,reservation_line:0
+#: view:hotel.reservation:0 field:hotel.reservation,reservation_line:0
 #: model:ir.model,name:hotel_reservation.model_hotel_reservation_line
 msgid "Reservation Line"
 msgstr ""
@@ -301,8 +296,7 @@ msgid "State"
 msgstr ""
 
 #. module: hotel_reservation
-#: rml:checkout.detail:0
-#: rml:reservation.detail:0
+#: rml:checkout.detail:0 rml:reservation.detail:0
 msgid "Check-Out-Date"
 msgstr ""
 
@@ -318,7 +312,8 @@ msgstr ""
 
 #. module: hotel_reservation
 #: help:hotel.reservation,partner_order_id:0
-msgid "The name and address of the contact that requested the order or quotation."
+msgid ""
+"The name and address of the contact that requested the order or quotation."
 msgstr ""
 
 #. module: hotel_reservation
@@ -351,4 +346,3 @@ msgstr ""
 #: wizard_view:hotel.folio.make_folio,init:0
 msgid "Do you really want to create the Folio ?"
 msgstr ""
-
