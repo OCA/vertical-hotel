@@ -1,15 +1,16 @@
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
-#	* hotel_restaurant
+# 	* hotel_restaurant
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.14\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2009-11-26 07:34+0000\n"
+"POT-Creation-Date: 2009-11-26 07:34:45+0000\n"
 "PO-Revision-Date: 2010-11-23 01:32+0000\n"
 "Last-Translator: Olivier Dony (OpenERP) <Unknown>\n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -96,8 +97,7 @@ msgid "Restaurant"
 msgstr ""
 
 #. module: hotel_restaurant
-#: field:hotel.restaurant.reservation,cname:0
-#: rml:hotel.table.res:0
+#: field:hotel.restaurant.reservation,cname:0 rml:hotel.table.res:0
 msgid "Customer Name"
 msgstr ""
 
@@ -172,8 +172,7 @@ msgid "Is Menu Type"
 msgstr ""
 
 #. module: hotel_restaurant
-#: view:hotel.reservation.order:0
-#: view:hotel.restaurant.order:0
+#: view:hotel.reservation.order:0 view:hotel.restaurant.order:0
 msgid "Generate KOT"
 msgstr ""
 
@@ -210,13 +209,11 @@ msgid "Total :"
 msgstr ""
 
 #. module: hotel_restaurant
-#: rml:hotel.bill:0
-#: view:hotel.reservation.order:0
+#: rml:hotel.bill:0 view:hotel.reservation.order:0
 #: field:hotel.reservation.order,order_list:0
 #: view:hotel.restaurant.kitchen.order.tickets:0
 #: field:hotel.restaurant.kitchen.order.tickets,kot_list:0
-#: view:hotel.restaurant.order:0
-#: field:hotel.restaurant.order,order_list:0
+#: view:hotel.restaurant.order:0 field:hotel.restaurant.order,order_list:0
 msgid "Order List"
 msgstr ""
 
@@ -251,8 +248,7 @@ msgid "Reservation Number"
 msgstr ""
 
 #. module: hotel_restaurant
-#: rml:hotel.table.res:0
-#: wizard_view:hotel.table.reservation,init:0
+#: rml:hotel.table.res:0 wizard_view:hotel.table.reservation,init:0
 #: wizard_button:hotel.table.reservation,init,print_report:0
 #: model:ir.actions.wizard,name:hotel_restaurant.wizard_hotel_table_res
 msgid "Reservation List"
@@ -286,14 +282,12 @@ msgid "Food Item List"
 msgstr ""
 
 #. module: hotel_restaurant
-#: rml:hotel.bill:0
-#: rml:hotel.kot:0
+#: rml:hotel.bill:0 rml:hotel.kot:0
 msgid "Food Item"
 msgstr ""
 
 #. module: hotel_restaurant
-#: field:hotel.restaurant.reservation,start_date:0
-#: rml:hotel.table.res:0
+#: field:hotel.restaurant.reservation,start_date:0 rml:hotel.table.res:0
 #: wizard_field:hotel.table.reservation,init,date_start:0
 msgid "Start Date"
 msgstr ""
@@ -387,8 +381,7 @@ msgid "Create Kots"
 msgstr ""
 
 #. module: hotel_restaurant
-#: rml:hotel.kot:0
-#: field:hotel.reservation.order,date1:0
+#: rml:hotel.kot:0 field:hotel.reservation.order,date1:0
 #: field:hotel.restaurant.kitchen.order.tickets,kot_date:0
 #: field:hotel.restaurant.order,o_date:0
 msgid "Date"
@@ -416,8 +409,7 @@ msgid "Table Reservation List"
 msgstr ""
 
 #. module: hotel_restaurant
-#: rml:hotel.bill:0
-#: rml:hotel.kot:0
+#: rml:hotel.bill:0 rml:hotel.kot:0
 msgid "Quantity"
 msgstr ""
 
@@ -491,8 +483,7 @@ msgid "Customer Bill"
 msgstr ""
 
 #. module: hotel_restaurant
-#: field:hotel.reservation.order,tax:0
-#: field:hotel.restaurant.order,tax:0
+#: field:hotel.reservation.order,tax:0 field:hotel.restaurant.order,tax:0
 msgid "Tax (%) "
 msgstr ""
 
@@ -512,15 +503,13 @@ msgid "Address"
 msgstr ""
 
 #. module: hotel_restaurant
-#: rml:hotel.kot:0
-#: field:hotel.restaurant.kitchen.order.tickets,orderno:0
+#: rml:hotel.kot:0 field:hotel.restaurant.kitchen.order.tickets,orderno:0
 #: field:hotel.restaurant.order,order_no:0
 msgid "Order Number"
 msgstr ""
 
 #. module: hotel_restaurant
-#: field:hotel.restaurant.reservation,end_date:0
-#: rml:hotel.table.res:0
+#: field:hotel.restaurant.reservation,end_date:0 rml:hotel.table.res:0
 #: wizard_field:hotel.table.reservation,init,date_end:0
 msgid "End Date"
 msgstr ""
@@ -553,15 +542,13 @@ msgid "Item Rate"
 msgstr ""
 
 #. module: hotel_restaurant
-#: view:hotel.reservation.order:0
-#: view:hotel.restaurant.order:0
+#: view:hotel.reservation.order:0 view:hotel.restaurant.order:0
 msgid "Order"
 msgstr ""
 
 #. module: hotel_restaurant
 #: field:hotel.reservation.order,reservationno:0
-#: field:hotel.restaurant.reservation,reservation_id:0
-#: rml:hotel.table.res:0
+#: field:hotel.restaurant.reservation,reservation_id:0 rml:hotel.table.res:0
 msgid "Reservation No"
 msgstr ""
 
@@ -571,8 +558,7 @@ msgid "Tables Details"
 msgstr ""
 
 #. module: hotel_restaurant
-#: rml:hotel.bill:0
-#: field:hotel.restaurant.order.list,item_rate:0
+#: rml:hotel.bill:0 field:hotel.restaurant.order.list,item_rate:0
 msgid "Rate"
 msgstr ""
 
