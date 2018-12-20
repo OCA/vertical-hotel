@@ -11,7 +11,7 @@ from odoo import api, fields, models
 class FolioReport(models.AbstractModel):
     _name = 'report.hotel.report_hotel_folio'
 
-    def get_data(self, date_start, date_end):
+    def _get_folio_data(self, date_start, date_end):
         total_amount = 0.0
         data_folio = []
         folio_obj = self.env['hotel.folio']
@@ -19,13 +19,15 @@ class FolioReport(models.AbstractModel):
                       ('checkout_date', '<=', date_end)]
         tids = folio_obj.search(act_domain)
         for data in tids:
+            checkin = data.checkin_date.\
+                strftime(DEFAULT_SERVER_DATETIME_FORMAT)
+            checkout = data.checkout_date.\
+                strftime(DEFAULT_SERVER_DATETIME_FORMAT)
             data_folio.append({
                 'name': data.name,
                 'partner': data.partner_id.name,
-                'checkin': parser.parse(data.checkin_date).
-                    strftime(DEFAULT_SERVER_DATETIME_FORMAT),
-                'checkout': parser.parse(data.checkout_date).
-                    strftime(DEFAULT_SERVER_DATETIME_FORMAT),
+                'checkin': parser.parse(checkin),
+                'checkout': parser.parse(checkout),
                 'amount': data.amount_total
             })
             total_amount += data.amount_total
@@ -33,7 +35,7 @@ class FolioReport(models.AbstractModel):
         return data_folio
 
     @api.model
-    def get_report_values(self, docids, data):
+    def _get_report_values(self, docids, data):
         self.model = self.env.context.get('active_model')
         if data is None:
             data = {}
@@ -50,5 +52,5 @@ class FolioReport(models.AbstractModel):
             'data': data['form'],
             'docs': folio_profile,
             'time': time,
-            'folio_data': self.get_data(date_start, date_end)
+            'folio_data': self._get_folio_data(date_start, date_end)
         }

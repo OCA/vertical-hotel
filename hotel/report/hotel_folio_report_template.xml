@@ -9,12 +9,12 @@
                 <div class="page">
                     <br />
                     <br />
-                    <div class="row">
-                        <h2>
+                    <div class="row mt32 mb32">
+                        <h4>
                             <span>
                                 <center>Total Collection</center>
                             </span>
-                        </h2>
+                        </h4>
                     </div>
                     <div class="row mt32 mb32">
                         <div class="text-center">
