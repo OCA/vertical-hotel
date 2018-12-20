@@ -2,7 +2,7 @@
 
 {
     'name': 'Hotel Management',
-    'version': '11.0.1.0.0',
+    'version': '12.0.1.0.0',
     'author': 'Odoo Community Association (OCA), Serpent Consulting \
                Services Pvt. Ltd., OpenERP SA',
     'category': 'Hotel Management',
@@ -10,13 +10,13 @@
     'depends': ['sale_stock', 'point_of_sale'],
     'license': 'AGPL-3',
     'summary': 'Hotel Management to Manage Folio and Hotel Configuration',
-    'demo': ['views/hotel_data.xml'],
+    'demo': ['data/hotel_data.xml'],
     'data': [
             'security/hotel_security.xml',
             'security/ir.model.access.csv',
-            'views/hotel_sequence.xml',
-            'views/hotel_report.xml',
-            'views/report_hotel_management.xml',
+            'data/hotel_sequence.xml',
+            'report/report_view.xml',
+            'report/hotel_folio_report_template.xml',
             'views/hotel_view.xml',
             'wizard/hotel_wizard.xml',
     ],
