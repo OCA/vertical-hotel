@@ -360,15 +360,13 @@
         <field name="model">hotel.room</field>
         <field name="arch" type="xml">
             <search string="Hotel Room">
-                <field name="name" />
+                <field name="name" filter_domain="[('name', 'ilike', self)]"/>
                 <field name="categ_id" />
                 <field name="list_price" string="Room rate" />
                 <field name="status" string="Status" />
                 <newline />
-                <filter name="available" string="Available"
-                    domain="[('status','=', 'available')]" help="Available Rooms" />
-                <filter string="Reserved" domain="[('status','=', 'occupied')]"
-                    help="Reserved Rooms" />
+                <filter name="available" string="Available" domain="[('status','=', 'available')]"/>
+                <filter name="reserved" string="Reserved" domain="[('status','=', 'occupied')]"/>
             </search>
         </field>
     </record>
@@ -404,8 +402,8 @@
                         <div
                             t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
                             <div class="o_dropdown_kanban dropdown" groups="base.group_user">
-                                <a class="dropdown-toggle btn" data-toggle="dropdown" href="#">
-                                    <span class="fa fa-bars fa-lg" />
+                                <a role="button" class="dropdown-toggle btn" data-toggle="dropdown" href="#">
+                                    <span title="fa_icon" class="fa fa-bars fa-lg" />
                                 </a>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                                     <t t-if="widget.editable">
@@ -428,7 +426,7 @@
                                     <div class="oe_kanban_project_list">
                                         <H3>
                                             <a type="open">
-                                                <img
+                                                <img alt="room_image"
                                                     t-att-src="kanban_image('hotel.room', 'image_medium', record.id.value)"
                                                     style="height:70px;width:70px" class="oe_avatar oe_kanban_avatar_smallbox" />
                                                 <t t-if="record.code.raw_value" style="margin-right: 10px">
@@ -489,13 +487,12 @@
     <menuitem id="menu_open_hotel_room_form" name="Rooms"
         action="action_hotel_room_form" sequence="5" parent="hotel.menu_hotel_room" />
 
-    <!--=== Hotel Folio ==== -->
     <!-- Form view of hotel folio -->
-    <record id="view_hotel_folio1_form" model="ir.ui.view">
+    <record id="view_hotel_folio_form" model="ir.ui.view">
         <field name="name">hotel.folio.form</field>
         <field name="model">hotel.folio</field>
         <field name="arch" type="xml">
-            <form string="Folio">
+            <form string="Hotel Folio">
                 <header>
                     <button name="action_confirm" states="draft" string="Confirm Sale"
                         class="btn-primary" type="object" />
@@ -515,7 +512,7 @@
                         statusbar_visible="draft,sent,sale,done" />
                 </header>
                 <sheet>
-                    <label string="Folio Number" />
+                    <label for="name" string="Folio Number" />
                     <h1>
                         <field name="name" colspan="4" />
                     </h1>
@@ -523,11 +520,10 @@
                         <field name="date_order" readonly="1" />
                         <field name="warehouse_id" string="Branch" />
                         <field name="invoice_status" />
-                        <field name="hotel_invoice_id" states='sale,done,cancel'
-                            readonly="1" />
+                        <field name="hotel_invoice_id" states='sale,done,cancel' readonly="1" />
                     </group>
-                    <notebook colspan="4">
-                        <page string="Folio">
+                    <notebook>
+                        <page name="folio" string="Folio">
                             <group colspan="4" col="4">
                                 <field name="partner_id" string="Guest Name" required="1" />
                                 <field name="partner_invoice_id" domain="[('parent_id','=',partner_id)]" />
@@ -542,12 +538,11 @@
                                 <field name="duration_dummy" invisible="1" />
                             </group>
                             <separator string="Room Lines" colspan="4" />
-                            <field name="room_lines" colspan="4" string="Room Line"
-                                nolabel="1"
+                            <field name="room_lines" colspan="4" string="Room Line" nolabel="1"
                                 context="{'checkin':checkin_date,'checkout':checkout_date,'folio':context.get('folio')}">
                                 <form string="Room Line">
                                     <notebook>
-                                        <page string="Folio Line">
+                                        <page name="folio_name" string="Folio Line">
                                             <group col="6" colspan="4">
                                                 <field name="checkin_date" />
                                                 <field name="checkout_date" />
@@ -563,7 +558,7 @@
                                             </group>
                                             <separator string="Manual Description" colspan="4" />
                                             <field name="name" colspan="4" select="2"
-                                                placeholder="---Description---" />
+                                                placeholder="Description" />
                                             <group col="4" colspan="2">
                                                 <field name="price_unit" select="2" string="Rent" />
                                                 <field name="discount" />
@@ -575,7 +570,7 @@
                                             </group>
                                         </page>
 
-                                        <page string="History">
+                                        <page name="history" string="History">
                                             <field name="invoice_lines" colspan="4" nolabel="1"
                                                 readonly="1" />
                                         </page>
@@ -595,9 +590,9 @@
                             <separator string="Service Lines" colspan="4" />
                             <field name="service_lines" colspan="4" string="Service Line"
                                 nolabel="1" context="{'checkin':checkin_date,'checkout':checkout_date}">
-                                <form string="Service Line">
+                                <form name="service_line" string="Service Line">
                                     <notebook>
-                                        <page string="Service Line">
+                                        <page name="service_line" string="Service Line">
                                             <group col="4" colspan="4">
                                                 <field name="ser_checkin_date" />
                                                 <field name="ser_checkout_date" />
@@ -613,8 +608,7 @@
                                                     invisible="1" />
                                             </group>
                                             <separator string="Manual Description" colspan="4" />
-                                            <field name="name" colspan="4" select="2"
-                                                placeholder="---Description---" />
+                                            <field name="name" colspan="4" select="2" placeholder="Description" />
                                             <group>
                                                 <field name="price_unit" select="2" />
                                                 <field name="discount" />
@@ -628,7 +622,7 @@
                                             </group>
                                         </page>
 
-                                        <page string="History">
+                                        <page name='invoice_history' string="History">
                                             <field name="invoice_lines" colspan="4" nolabel="1"
                                                 readonly="1" />
                                         </page>
@@ -654,14 +648,14 @@
                             </group>
                             <div class="oe_clear" />
                         </page>
-                        <page string="Other data">
+                        <page name='other_data' string="Other data">
                             <group>
                                 <field name="user_id" />
                                 <field name="hotel_policy" attrs="{'readonly':[('state','not in',('draft'))]}" />
                                 <field name="client_order_ref" />
                             </group>
                         </page>
-                        <page string="History">
+                        <page name="invoice_history" string="History">
                             <separator string="Related invoices" colspan="4" />
                             <field name="invoice_ids" colspan="4" nolabel="1" />
                         </page>
@@ -672,7 +666,7 @@
     </record>
 
     <!-- Tree view of hotel folio -->
-    <record id="view_hotel_folio1_tree" model="ir.ui.view">
+    <record id="view_hotel_folio_tree" model="ir.ui.view">
         <field name="name">hotel.folio.tree</field>
         <field name="model">hotel.folio</field>
         <field name="arch" type="xml">
@@ -709,15 +703,12 @@
         <field name="arch" type="xml">
             <search string="Tables Detail">
                 <field name="partner_id" />
-                <field name="name" />
-                <filter string="Current Booking"
-                    domain="[('checkout_date','&gt;=',datetime.datetime.now().replace(hour=0, minute=0, second=0)),('checkin_date','&lt;=',datetime.datetime.now().replace(hour=23, minute=59, second=59))]"
-                    help="Current Booking" />
+                <field name="name" filter_domain="[('name', 'ilike', self)]" />
+                <filter name="checkout_date" string="Current Booking"
+                    domain="[('checkout_date','&gt;=',datetime.datetime.now().replace(hour=0, minute=0, second=0)),('checkin_date','&lt;=',datetime.datetime.now().replace(hour=23, minute=59, second=59))]"/>
                 <group expand="0" string="Group By">
-                    <filter string="Order By Month" domain="[]"
-                        context="{'group_by':'date_order'}" />
-                    <filter name="partner_id" string="Customer"
-                        icon="terp-stock_symbol-selection" context="{'group_by':'partner_id'}" />
+                    <filter name="date_order" string="Order By Month" context="{'group_by':'date_order'}" />
+                    <filter name="partner_id" string="Customer" context="{'group_by':'partner_id'}" />
                 </group>
             </search>
         </field>

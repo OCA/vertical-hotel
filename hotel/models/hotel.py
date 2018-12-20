@@ -1,7 +1,7 @@
 # See LICENSE file for full copyright and licensing details.
 
 import time
-import datetime
+from datetime import datetime, timedelta
 from odoo.exceptions import UserError, ValidationError
 from odoo.osv import expression
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
@@ -35,9 +35,9 @@ def _offset_format_timestamp1(src_tstamp_str, src_format, dst_format,
     res = src_tstamp_str
     if src_format and dst_format:
         try:
-            # dt_value needs to be a datetime.datetime object\
+            # dt_value needs to be a datetime object\
             # (so notime.struct_time or mx.DateTime.DateTime here!)
-            dt_value = datetime.datetime.strptime(src_tstamp_str, src_format)
+            dt_value = datetime.strptime(src_tstamp_str, src_format)
             if context.get('tz', False):
                 try:
                     import pytz
@@ -73,7 +73,7 @@ class HotelRoomType(models.Model):
     name = fields.Char(required=True)
     categ_id = fields.Many2one('hotel.room.type', 'Category')
     child_ids = fields.One2many('hotel.room.type', 'categ_id',
-                               'Child Categories')
+                                'Child Categories')
 
     @api.multi
     def name_get(self):
@@ -138,7 +138,7 @@ class HotelRoomAmenitiesType(models.Model):
     name = fields.Char(required=True)
     amenity_id = fields.Many2one('hotel.room.amenities.type', 'Category')
     child_ids = fields.One2many('hotel.room.amenities.type', 'amenity_id',
-                               'Child Categories')
+                                'Child Categories')
 
     @api.multi
     def name_get(self):
@@ -292,6 +292,11 @@ class HotelRoom(models.Model):
 
 class HotelFolio(models.Model):
 
+    _name = 'hotel.folio'
+    _description = 'hotel folio new'
+    _rec_name = 'order_id'
+    _order = 'id'
+
     @api.multi
     def name_get(self):
         res = []
@@ -336,14 +341,14 @@ class HotelFolio(models.Model):
             to_zone = self._context.get('tz')
         else:
             to_zone = 'UTC'
-        tm_delta = datetime.timedelta(days=1)
-        return datetime.datetime.strptime(_offset_format_timestamp1
-                                          (time.strftime("%Y-%m-%d 12:00:00"),
-                                           DEFAULT_SERVER_DATETIME_FORMAT,
-                                           DEFAULT_SERVER_DATETIME_FORMAT,
-                                           ignore_unparsable_time=True,
-                                           context={'tz': to_zone}),
-                                          '%Y-%m-%d %H:%M:%S') + tm_delta
+        tm_delta = timedelta(days=1)
+        return datetime.strptime(_offset_format_timestamp1
+                                 (time.strftime("%Y-%m-%d 12:00:00"),
+                                  DEFAULT_SERVER_DATETIME_FORMAT,
+                                  DEFAULT_SERVER_DATETIME_FORMAT,
+                                  ignore_unparsable_time=True,
+                                  context={'tz': to_zone}),
+                                 '%Y-%m-%d %H:%M:%S') + tm_delta
 
     @api.multi
     def copy(self, default=None):
@@ -352,11 +357,6 @@ class HotelFolio(models.Model):
         @param default: dict of default values to be set
         '''
         return super(HotelFolio, self).copy(default=default)
-
-    _name = 'hotel.folio'
-    _description = 'hotel folio new'
-    _rec_name = 'order_id'
-    _order = 'id'
 
     name = fields.Char('Folio Number', readonly=True, index=True,
                        default='New')
@@ -427,13 +427,8 @@ class HotelFolio(models.Model):
         if whouse_com_id:
             configured_addition_hours = wid.company_id.additional_hours
         myduration = 0
-        chckin = self.checkin_date
-        chckout = self.checkout_date
-        if chckin and chckout:
-            server_dt = DEFAULT_SERVER_DATETIME_FORMAT
-            chkin_dt = datetime.datetime.strptime(chckin, server_dt)
-            chkout_dt = datetime.datetime.strptime(chckout, server_dt)
-            dur = chkout_dt - chkin_dt
+        if self.checkout_date and self.checkin_date:
+            dur = self.checkin_date - self.checkin_date
             sec_dur = dur.seconds
             if (not dur.days and not sec_dur) or (dur.days and not sec_dur):
                 myduration = dur.days
@@ -448,7 +443,7 @@ class HotelFolio(models.Model):
         self.duration_dummy = self.duration
 
     @api.model
-    def create(self, vals, check=True):
+    def create(self, vals):
         """
         Overrides orm create method.
         @param self: The object pointer
@@ -461,7 +456,7 @@ class HotelFolio(models.Model):
             vals.update({'room_lines': []})
             folio_id = super(HotelFolio, self).create(vals)
             for line in (tmp_room_lines):
-                line[2].update({'folio_id': folio_id})
+                line[2].update({'folio_id': folio_id.id})
             vals.update({'room_lines': tmp_room_lines})
             folio_id.write(vals)
         else:
@@ -680,6 +675,9 @@ class HotelFolio(models.Model):
 
 class HotelFolioLine(models.Model):
 
+    _name = 'hotel.folio.line'
+    _description = 'hotel folio1 room line'
+
     @api.multi
     def copy(self, default=None):
         '''
@@ -700,24 +698,21 @@ class HotelFolioLine(models.Model):
             return self._context['checkout']
         return time.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
 
-    _name = 'hotel.folio.line'
-    _description = 'hotel folio1 room line'
-
     order_line_id = fields.Many2one('sale.order.line', string='Order Line',
                                     required=True, delegate=True,
                                     ondelete='cascade')
     folio_id = fields.Many2one('hotel.folio', string='Folio',
                                ondelete='cascade')
-    checkin_date = fields.Datetime('Check In', required=True,
+    checkin_date = fields.Datetime(string='Check In', required=True,
                                    default=_get_checkin_date)
-    checkout_date = fields.Datetime('Check Out', required=True,
+    checkout_date = fields.Datetime(string='Check Out', required=True,
                                     default=_get_checkout_date)
-    is_reserved = fields.Boolean('Is Reserved',
+    is_reserved = fields.Boolean(string='Is Reserved',
                                  help='True when folio line created from \
                                  Reservation')
 
     @api.model
-    def create(self, vals, check=True):
+    def create(self, vals):
         """
         Overrides orm create method.
         @param self: The object pointer
@@ -827,13 +822,8 @@ class HotelFolioLine(models.Model):
             self.checkin_date = time.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
         if not self.checkout_date:
             self.checkout_date = time.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
-        chckin = self.checkin_date
-        chckout = self.checkout_date
-        if chckin and chckout:
-            server_dt = DEFAULT_SERVER_DATETIME_FORMAT
-            chkin_dt = datetime.datetime.strptime(chckin, server_dt)
-            chkout_dt = datetime.datetime.strptime(chckout, server_dt)
-            dur = chkout_dt - chkin_dt
+        if self.checkin_date and self.checkout_date:
+            dur = self.checkout_date - self.checkin_date
             sec_dur = dur.seconds
             if (not dur.days and not sec_dur) or (dur.days and not sec_dur):
                 myduration = dur.days
@@ -900,6 +890,9 @@ class HotelFolioLine(models.Model):
 
 class HotelServiceLine(models.Model):
 
+    _name = 'hotel.service.line'
+    _description = 'hotel Service line'
+
     @api.multi
     def copy(self, default=None):
         '''
@@ -920,9 +913,6 @@ class HotelServiceLine(models.Model):
             return self._context['checkout']
         return time.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
 
-    _name = 'hotel.service.line'
-    _description = 'hotel Service line'
-
     service_line_id = fields.Many2one('sale.order.line', 'Service Line',
                                       required=True, delegate=True,
                                       ondelete='cascade')
@@ -933,7 +923,7 @@ class HotelServiceLine(models.Model):
                                         default=_service_checkout_date)
 
     @api.model
-    def create(self, vals, check=True):
+    def create(self, vals):
         """
         Overrides orm create method.
         @param self: The object pointer
@@ -990,11 +980,7 @@ class HotelServiceLine(models.Model):
         if self.ser_checkout_date < self.ser_checkin_date:
             raise _('Checkout must be greater or equal checkin date')
         if self.ser_checkin_date and self.ser_checkout_date:
-            date_a = time.strptime(self.ser_checkout_date,
-                                   DEFAULT_SERVER_DATETIME_FORMAT)[:5]
-            date_b = time.strptime(self.ser_checkin_date,
-                                   DEFAULT_SERVER_DATETIME_FORMAT)[:5]
-            diffDate = datetime.datetime(*date_a) - datetime.datetime(*date_b)
+            diffDate = self.ser_checkout_date - self.ser_checkin_date
             qty = diffDate.days + 1
             self.product_uom_qty = qty
 
@@ -1037,7 +1023,7 @@ class HotelServiceType(models.Model):
     name = fields.Char('Service Name', size=64, required=True)
     service_id = fields.Many2one('hotel.service.type', 'Service Category')
     child_ids = fields.One2many('hotel.service.type', 'service_id',
-                               'Child Categories')
+                                'Child Categories')
 
     @api.multi
     def name_get(self):
