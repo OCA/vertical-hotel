@@ -3,7 +3,6 @@
 import time
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from dateutil import parser
 from odoo import api, fields, models
 
 
@@ -30,7 +29,7 @@ class ReportTestCheckin(models.AbstractModel):
         return res
 
     @api.model
-    def get_report_values(self, docids, data):
+    def _get_report_values(self, docids, data):
         self.model = self.env.context.get('active_model')
         if data == None:
             data = {}
@@ -72,14 +71,14 @@ class ReportTestCheckout(models.AbstractModel):
                                       ('checkout', '<=', date_end)])
         return res
 
-    def get_checkout(self, date_start, date_end):
+    def _get_checkout(self, date_start, date_end):
         reservation_obj = self.env['hotel.reservation']
         res = reservation_obj.search([('checkout', '>=', date_start),
                                       ('checkout', '<=', date_end)])
         return res
 
     @api.model
-    def get_report_values(self, docids, data):
+    def _get_report_values(self, docids, data):
         self.model = self.env.context.get('active_model')
         if data == None:
             data = {}
@@ -93,7 +92,7 @@ class ReportTestCheckout(models.AbstractModel):
         rm_act = self.with_context(data['form'].get('used_context', {}))
         _get_room_type = rm_act._get_room_type(date_start, date_end)
         _get_room_nos = rm_act._get_room_nos(date_start, date_end)
-        get_checkout = rm_act.get_checkout(date_start, date_end)
+        _get_checkout = rm_act._get_checkout(date_start, date_end)
         return {
             'doc_ids': docids,
             'doc_model': self.model,
@@ -102,7 +101,7 @@ class ReportTestCheckout(models.AbstractModel):
             'time': time,
             'get_room_type': _get_room_type,
             'get_room_nos': _get_room_nos,
-            'get_checkout': get_checkout,
+            'get_checkout': _get_checkout,
         }
 
 
@@ -123,7 +122,7 @@ class ReportTestMaxroom(models.AbstractModel):
         res = reservation_obj.browse(tids)
         return res
 
-    def get_data(self, date_start, date_end):
+    def _get_data(self, date_start, date_end):
         reservation_obj = self.env['hotel.reservation']
         res = reservation_obj.search([('checkin', '>=', date_start),
                                       ('checkout', '<=', date_end)])
@@ -148,7 +147,7 @@ class ReportTestMaxroom(models.AbstractModel):
         return room_used_details
 
     @api.model
-    def get_report_values(self, docids, data):
+    def _get_report_values(self, docids, data):
         self.model = self.env.context.get('active_model')
         if data == None:
             data = {}
@@ -162,7 +161,7 @@ class ReportTestMaxroom(models.AbstractModel):
         rm_act = self.with_context(data['form'].get('used_context', {}))
         _get_room_type = rm_act._get_room_type(date_start, date_end)
         _get_room_nos = rm_act._get_room_nos(date_start, date_end)
-        get_data = rm_act.get_data(date_start, date_end)
+        _get_data = rm_act._get_data(date_start, date_end)
         _get_room_used_detail = rm_act._get_room_used_detail(date_start,
                                                              date_end)
         return {
@@ -173,7 +172,7 @@ class ReportTestMaxroom(models.AbstractModel):
             'time': time,
             'get_room_type': _get_room_type,
             'get_room_nos': _get_room_nos,
-            'get_data': get_data,
+            'get_data': _get_data,
             'get_room_used_detail': _get_room_used_detail,
         }
 
@@ -195,14 +194,14 @@ class ReportTestRoomres(models.AbstractModel):
         res = reservation_obj.browse(tids)
         return res
 
-    def get_data(self, date_start, date_end):
+    def _get_data(self, date_start, date_end):
         reservation_obj = self.env['hotel.reservation']
         res = reservation_obj.search([('checkin', '>=', date_start),
                                       ('checkout', '<=', date_end)])
         return res
 
     @api.model
-    def get_report_values(self, docids, data):
+    def _get_report_values(self, docids, data):
         self.model = self.env.context.get('active_model')
         if data == None:
             data = {}
@@ -216,7 +215,7 @@ class ReportTestRoomres(models.AbstractModel):
         rm_act = self.with_context(data['form'].get('used_context', {}))
         _get_room_type = rm_act._get_room_type(date_start, date_end)
         _get_room_nos = rm_act._get_room_nos(date_start, date_end)
-        get_data = rm_act.get_data(date_start, date_end)
+        _get_data = rm_act._get_data(date_start, date_end)
         return {
             'doc_ids': docids,
             'doc_model': self.model,
@@ -225,5 +224,5 @@ class ReportTestRoomres(models.AbstractModel):
             'time': time,
             'get_room_type': _get_room_type,
             'get_room_nos': _get_room_nos,
-            'get_data': get_data,
+            'get_data': _get_data,
         }
