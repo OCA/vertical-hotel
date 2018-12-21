@@ -29,7 +29,7 @@
                             <field name="no_of_folio" widget="statinfo" />
                         </button>
                     </div>
-                    <label string="Reservation No" />
+                    <label for='reservation_no' string="Reservation No" />
                     <h1>
                         <field name="reservation_no" class="oe_inline" />
                     </h1>
@@ -57,7 +57,7 @@
                         <field name="dummy" invisible="True" />
                     </group>
                     <notebook>
-                        <page string='Reservation Line'>
+                        <page name="reservation_line" string='Reservation Line'>
                             <field name="reservation_line" colspan="4" nolabel="1">
                                 <form string="Reservation Line">
                                     <separator string="Room Type" />
@@ -73,7 +73,7 @@
                                 </tree>
                             </field>
                         </page>
-                        <page string='History'>
+                        <page name="history" string='History'>
                             <field name='folio_id' readonly='1' />
                         </page>
                     </notebook>
@@ -104,13 +104,13 @@
         <field name="model">hotel.reservation</field>
         <field name="arch" type="xml">
             <search string="Reservation">
-                <filter string="Current Reservations"
+                <filter name='current_reservations' string="Current Reservations"
                     domain="[('checkout','&gt;=',datetime.datetime.now().replace(hour=0, minute=0, second=0)),('checkin','&lt;=',datetime.datetime.now().replace(hour=23, minute=59, second=59))]"
                     help="Current Reservations" />
-                <filter domain="[('state','=','draft')]" string="Draft" />
-                <filter domain="[('state','=','confirm')]" string="Confirm" />
-                <filter domain="[('state','=','cancel')]" string="Cancel" />
-                <filter domain="[('state','=','done')]" string="Done" />
+                <filter name='draft' domain="[('state','=','draft')]" string="Draft" />
+                <filter name='confirm' domain="[('state','=','confirm')]" string="Confirm" />
+                <filter name='cancel' domain="[('state','=','cancel')]" string="Cancel" />
+                <filter name='done' domain="[('state','=','done')]" string="Done" />
                 <field name="partner_id" />
                 <field name="reservation_no" />
                 <field name="checkin" />
@@ -120,7 +120,7 @@
                 <group expand="0" string="Group By">
                     <filter name="partner_id" string="Guest Name" icon="terp-personal"
                         domain="[]" context="{'group_by':'partner_id'}" />
-                    <filter string="Order By Month" domain="[]"
+                    <filter name='order_by_month' string="Order By Month" domain="[]"
                         context="{'group_by':'date_order'}" />
                 </group>
             </search>
@@ -173,7 +173,7 @@
         <field name="inherit_id" ref="hotel.view_hotel_room_form" />
         <field name="arch" type="xml">
             <xpath expr="//page[@name='information_hotel_room']" position="after">
-                <page string="Room Reservation">
+                <page name="room_reservation" string="Room Reservation">
                     <separator colspan='4' string="Room Reservation Line" />
                     <field name="room_reservation_line_ids" colspan="4" nolabel='1'
                         string="Room Reservation Line">
@@ -253,7 +253,7 @@
                         </div>
                     </group>
                     <notebook>
-                        <page string="Room Summary">
+                        <page name="room_summary" string="Room Summary">
                             <field name="summary_header" colspan="4" invisible="1" />
                             <field name="room_summary" colspan="4" invisible="1" />
                             <widget name="Room_Reservation"></widget>
