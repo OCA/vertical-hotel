@@ -1,10 +1,6 @@
 language: python
-
 sudo: false
-cache:
-  apt: true
-  directories:
-    - $HOME/.cache/pip
+cache: pip
 
 python:
   - "3.5"
@@ -21,12 +17,14 @@ addons:
 
 env:
   global:
-  - VERSION="12.0" TESTS="0" LINT_CHECK="0" TRANSIFEX="0"
-    matrix:
+  - VERSION="12.0" TESTS="0" LINT_CHECK="0" TRANSIFEX="0" WKHTMLTOPDF_VERSION="0.12.4"
+  - TRANSIFEX_USER='transbot@odoo-community.org'
+
+  matrix:
   - LINT_CHECK="1"
   - TRANSIFEX="1"
-  - TESTS="1" ODOO_REPO="OCA/OCB"
-  - TESTS="1" ODOO_REPO="odoo/odoo"
+  - TESTS="1" ODOO_REPO="OCA/OCB" LINT_CHECK="0"
+  - TESTS="1" ODOO_REPO="odoo/odoo" LINT_CHECK="0"
 
 
 install:
