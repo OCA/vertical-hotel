@@ -22,7 +22,5 @@
     ],
     'css': ['static/src/css/room_kanban.css'],
     'images': ['static/description/Hotel.png'],
-    'auto_install': False,
-    'installable': True,
     'application': True
 }
