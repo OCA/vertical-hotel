@@ -4,6 +4,7 @@ import time
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 
 class ReportTestCheckin(models.AbstractModel):
@@ -19,7 +20,7 @@ class ReportTestCheckin(models.AbstractModel):
     def _get_room_nos(self, date_start, date_end):
         reservation_obj = self.env['hotel.reservation']
         res = reservation_obj.search([('checkin', '>=', date_start),
-                                       ('checkout', '<=', date_end)])
+                                      ('checkout', '<=', date_end)])
         return res
 
     def get_checkin(self, date_start, date_end):
@@ -31,7 +32,7 @@ class ReportTestCheckin(models.AbstractModel):
     @api.model
     def _get_report_values(self, docids, data):
         self.model = self.env.context.get('active_model')
-        if data == None:
+        if data is None:
             data = {}
         if not docids:
             docids = data['form'].get('docids')
@@ -80,7 +81,7 @@ class ReportTestCheckout(models.AbstractModel):
     @api.model
     def _get_report_values(self, docids, data):
         self.model = self.env.context.get('active_model')
-        if data == None:
+        if data is None:
             data = {}
         if not docids:
             docids = data['form'].get('docids')
@@ -136,9 +137,13 @@ class ReportTestMaxroom(models.AbstractModel):
             counter = 0
             details = {}
             if room.room_reservation_line_ids:
+                end_date = datetime.strptime(date_end,
+                                             DEFAULT_SERVER_DATETIME_FORMAT)
+                start_date = datetime.strptime(date_start,
+                                               DEFAULT_SERVER_DATETIME_FORMAT)
                 for room_resv_line in room.room_reservation_line_ids:
-                    if(room_resv_line.check_in >= date_start and
-                       room_resv_line.check_in <= date_end):
+                    if(room_resv_line.check_in >= start_date and
+                       room_resv_line.check_in <= end_date):
                         counter += 1
             if counter >= 1:
                 details.update({'name': room.name or '',
@@ -149,12 +154,12 @@ class ReportTestMaxroom(models.AbstractModel):
     @api.model
     def _get_report_values(self, docids, data):
         self.model = self.env.context.get('active_model')
-        if data == None:
+        if data is None:
             data = {}
         if not docids:
             docids = data['form'].get('docids')
         folio_profile = self.env['hotel.reservation'].browse(docids)
-        date_start = data.get('date_start', fields.Date.today())
+        date_start = data['form'].get('date_start', fields.Date.today())
         date_end = data['form'].get('date_end', str(datetime.now() +
                                     relativedelta(months=+1,
                                                   day=1, days=-1))[:10])
@@ -203,7 +208,7 @@ class ReportTestRoomres(models.AbstractModel):
     @api.model
     def _get_report_values(self, docids, data):
         self.model = self.env.context.get('active_model')
-        if data == None:
+        if data is None:
             data = {}
         if not docids:
             docids = data['form'].get('docids')
