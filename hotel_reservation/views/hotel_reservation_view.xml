@@ -10,7 +10,7 @@
         <field name="arch" type="xml">
             <form string="Reservation">
                 <header>
-                    <button name="send_reservation_maill" type="object"
+                    <button name="action_send_reservation_mail" type="object"
                         string="Send Reservation Email" states="confirm" class="oe_highlight" />
                     <button name="confirmed_reservation" string="Confirm"
                         states="draft" class="oe_highlight" type="object" />
@@ -24,8 +24,8 @@
                 </header>
                 <sheet>
                     <div class="oe_right oe_button_box">
-                        <button name="%(hotel.open_hotel_folio1_form_tree_all)d"
-                            type="action" icon="fa-file-text-o" class="oe_stat_button">
+                        <button name="%(hotel.open_hotel_folio1_form_tree_all)d" type="action"
+                            icon="fa-file-text-o" class="oe_stat_button" attrs="{'invisible': [('no_of_folio', '=', 0)]}">
                             <field name="no_of_folio" widget="statinfo" />
                         </button>
                     </div>
@@ -201,10 +201,10 @@
         </field>
     </record>
 
-    <record id="view_hotel_folio1_form_inherited" model="ir.ui.view">
+    <record id="view_hotel_folio_form_inherited" model="ir.ui.view">
         <field name="name">hotel.folio.form.inherited</field>
         <field name="model">hotel.folio</field>
-        <field name="inherit_id" ref="hotel.view_hotel_folio1_form" />
+        <field name="inherit_id" ref="hotel.view_hotel_folio_form" />
         <field name="arch" type="xml">
             <field name="name" position='after'>
                 <field name="reservation_id" readonly='1' />
@@ -212,10 +212,10 @@
         </field>
     </record>
 
-    <record id="view_hotel_folio1_tree_inherited" model="ir.ui.view">
+    <record id="view_hotel_folio_tree_inherited" model="ir.ui.view">
         <field name="name">hotel.folio.tree.inherited</field>
         <field name="model">hotel.folio</field>
-        <field name="inherit_id" ref="hotel.view_hotel_folio1_tree" />
+        <field name="inherit_id" ref="hotel.view_hotel_folio_tree" />
         <field name="arch" type="xml">
             <field name="name" position='after'>
                 <field name="reservation_id" />
@@ -255,8 +255,8 @@
                     <notebook>
                         <page name="room_summary" string="Room Summary">
                             <field name="summary_header" colspan="4" invisible="1" />
-                            <field name="room_summary" colspan="4" invisible="1" />
-                            <widget name="Room_Reservation"></widget>
+                            <field name="room_summary" colspan="4" invisible="0" widget="Room_Reservation" />
+<!--                             <widget name="Room_Reservation"></widget> -->
                         </page>
                     </notebook>
                 </sheet>

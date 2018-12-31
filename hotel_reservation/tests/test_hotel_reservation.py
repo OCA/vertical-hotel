@@ -76,16 +76,17 @@ class TestReservation(common.TransactionCase):
                     })
 
         self.hotel_room = self.hotel_room_obj.\
-            create({'product_id': self.room.id,
+            create({'product_id': self.room.product_id.id,
                     'floor_id': self.floor.id,
                     'max_adult': 2,
                     'max_child': 1,
                     'capacity': 4,
+                    'categ_id': self.room_type.categ_id.id,
                     'status': 'available',
                     'product_manager': self.manager.id,
                     'room_reservation_line_ids': [(6, 0,
-                                                   [self.hotel_room_reserv.id]
-                                                   )],
+                                                   [self.hotel_room_reserv.id
+                                                    ])],
                     })
 
     def test_hotel_room_unlink(self):
@@ -150,7 +151,7 @@ class TestReservation(common.TransactionCase):
         self.assertEqual(self.hotel_reserv.state == 'draft', True)
 
     def test_send_reservation_maill(self):
-        self.hotel_reserv.send_reservation_maill()
+        self.hotel_reserv.action_send_reservation_mail()
 
     def test_reservation_reminder_24hrs(self):
         self.hotel_reserv.reservation_reminder_24hrs()
