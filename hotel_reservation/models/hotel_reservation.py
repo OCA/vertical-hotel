@@ -321,8 +321,8 @@ class HotelReservation(models.Model):
         reservation_line_obj = self.env['hotel.room.reservation.line']
         vals = {}
         for reservation in self:
-            reserv_checkin = datetime.strptime(reservation.checkin, dt)
-            reserv_checkout = datetime.strptime(reservation.checkout, dt)
+            reserv_checkin = reservation.checkin
+            reserv_checkout = reservation.checkout
             room_bool = False
             for line_id in reservation.reservation_line:
                 for room_id in line_id.reserve:
@@ -330,8 +330,8 @@ class HotelReservation(models.Model):
                         for reserv in room_id.room_reservation_line_ids.\
                                 search([('status', 'in', ('confirm', 'done')),
                                         ('room_id', '=', room_id.id)]):
-                            check_in = datetime.strptime(reserv.check_in, dt)
-                            check_out = datetime.strptime(reserv.check_out, dt)
+                            check_in = reserv.check_in
+                            check_out = reserv.check_out
                             if check_in <= reserv_checkin <= check_out:
                                 room_bool = True
                             if check_in <= reserv_checkout <= check_out:
@@ -340,16 +340,12 @@ class HotelReservation(models.Model):
                                     reserv_checkout >= check_out:
                                 room_bool = True
                             mytime = "%Y-%m-%d"
-                            r_checkin = datetime.strptime(reservation.checkin,
-                                                          dt).date()
+                            r_checkin = (reservation.checkin).date()
                             r_checkin = r_checkin.strftime(mytime)
-                            r_checkout = datetime.\
-                                strptime(reservation.checkout, dt).date()
+                            r_checkout = (reservation.checkout).date()
                             r_checkout = r_checkout.strftime(mytime)
-                            check_intm = datetime.strptime(reserv.check_in,
-                                                           dt).date()
-                            check_outtm = datetime.strptime(reserv.check_out,
-                                                            dt).date()
+                            check_intm = (reserv.check_in).date()
+                            check_outtm = (reserv.check_out).date()
                             check_intm = check_intm.strftime(mytime)
                             check_outtm = check_outtm.strftime(mytime)
                             range1 = [r_checkin, r_checkout]
@@ -428,36 +424,32 @@ class HotelReservation(models.Model):
         return True
 
     @api.multi
-    def send_reservation_maill(self):
+    def action_send_reservation_mail(self):
         '''
         This function opens a window to compose an email,
         template message loaded by default.
         @param self: object pointer
         '''
-        assert len(self._ids) == 1, 'This is for a single id at a time.'
-        ir_model_data = self.env['ir.model.data']
+        self.ensure_one()
         try:
-            template_id = (ir_model_data.get_object_reference
-                           ('hotel_reservation',
-                            'mail_template_hotel_reservation')[1])
+            template_id = self.env.ref('hotel_reservation.\
+            email_template_hotel_reservation').id
         except ValueError:
             template_id = False
         try:
-            compose_form_id = (ir_model_data.get_object_reference
-                               ('mail',
-                                'email_compose_message_wizard_form')[1])
+            compose_form_id = self.env.ref('mail.\
+            email_compose_message_wizard_form').id
         except ValueError:
             compose_form_id = False
-        ctx = dict()
-        ctx.update({
+        ctx = {
             'default_model': 'hotel.reservation',
-            'default_res_id': self._ids[0],
+            'default_res_id': self.ids[0],
             'default_use_template': bool(template_id),
             'default_template_id': template_id,
             'default_composition_mode': 'comment',
-            'force_send': True,
-            'mark_so_as_sent': True
-        })
+            'custom_layout': "mail.mail_notification_paynow",
+            'force_email': True
+        }
         return {
             'type': 'ir.actions.act_window',
             'view_type': 'form',
@@ -467,7 +459,6 @@ class HotelReservation(models.Model):
             'view_id': compose_form_id,
             'target': 'new',
             'context': ctx,
-            'force_send': True
         }
 
     @api.model
@@ -488,7 +479,7 @@ class HotelReservation(models.Model):
                         'mail_template_reservation_reminder_24hrs')[1])
         template_rec = self.env['mail.template'].browse(template_id)
         for reserv_rec in self.search([]):
-            checkin_date = (datetime.strptime(reserv_rec.checkin, dt))
+            checkin_date = reserv_rec.checkin
             difference = relativedelta(now_date, checkin_date)
             if(difference.days == -1 and reserv_rec.partner_id.email and
                reserv_rec.state == 'confirm'):
@@ -573,9 +564,7 @@ class HotelReservation(models.Model):
             configured_addition_hours = wc_id.company_id.additional_hours
         duration = 0
         if checkin_date and checkout_date:
-            chkin_dt = datetime.strptime(checkin_date, dt)
-            chkout_dt = datetime.strptime(checkout_date, dt)
-            dur = chkout_dt - chkin_dt
+            dur = checkout_date - checkin_date
             duration = dur.days + 1
             if configured_addition_hours > 0:
                 additional_hours = abs((dur.seconds / 60))
@@ -721,7 +710,7 @@ class HotelRoom(models.Model):
         now = datetime.now()
         curr_date = now.strftime(dt)
         for room in self.search([]):
-            reserv_line_ids = [reservation_line.ids for
+            reserv_line_ids = [reservation_line.id for
                                reservation_line in
                                room.room_reservation_line_ids]
             reserv_args = [('id', 'in', reserv_line_ids),
@@ -834,10 +823,10 @@ class RoomReservationSummary(models.Model):
                 timezone = pytz.timezone(self._context.get('tz', False))
             else:
                 timezone = pytz.timezone('UTC')
-            d_frm_obj = datetime.strptime(self.date_from, dt)\
-                .replace(tzinfo=pytz.timezone('UTC')).astimezone(timezone)
-            d_to_obj = datetime.strptime(self.date_to, dt)\
-                .replace(tzinfo=pytz.timezone('UTC')).astimezone(timezone)
+            d_frm_obj = (self.date_from).replace(tzinfo=pytz.timezone('UTC')
+                                                 ).astimezone(timezone)
+            d_to_obj = (self.date_to).replace(tzinfo=pytz.timezone('UTC')
+                                              ).astimezone(timezone)
             temp_date = d_frm_obj
             while(temp_date <= d_to_obj):
                 val = ''
@@ -886,10 +875,8 @@ class RoomReservationSummary(models.Model):
                                                 ('check_out', '>=', chk_date),
                                                 ('state', '=', 'assigned')]))
                             for res_room in reservline_ids:
-                                rrci = res_room.check_in
-                                rrco = res_room.check_out
-                                cid = datetime.strptime(rrci, dt)
-                                cod = datetime.strptime(rrco, dt)
+                                cid = res_room.check_in
+                                cod = res_room.check_out
                                 dur = cod - cid
                                 if room_list_stats:
                                     count = 0
