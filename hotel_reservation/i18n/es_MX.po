@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-01-17 20:04+0000\n"
-"PO-Revision-Date: 2019-01-17 19:10-0600\n"
+"PO-Revision-Date: 2019-01-18 19:06-0600\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -124,7 +124,7 @@ msgstr ""
 "                </table>\n"
 "               <br />\n"
 "               <p>Le agradeceríamos que nos avisara en caso de que haya algún cambio en su horario o programa.\n"
-"                   Por favor, infórmenos de inmediato para que podamos reembolsarle su dinero de acuerdo con las políticas del hotel.\n"
+"                   Favor de informarnos de inmediato para que podamos reembolsarle su dinero de acuerdo con las políticas del hotel.\n"
 "                   Estamos seguros de que encontrará nuestros servicios satisfactorios. Esperamos poder brindarle calidad.\n"
 "                   Servicios en nuestro hotel.\n"
 "               </p>\n"
@@ -253,7 +253,7 @@ msgstr ""
 "               <br /> \n"
 "               <p>Le agradeceríamos que nos avisara en caso de que haya algún cambio en su horario o programa.\n"
 "                   En caso de que requiera instalaciones para el check-in con anterioridad debido a cambios en el vuelo o por cualquier otro motivo,\n"
-"                   Por favor infórmenos. Estamos seguros de que encontrará nuestros servicios satisfactorios. En caso de que necesite cancelar\n"
+"                   Favor de informarnos. Estamos seguros de que encontrará nuestros servicios satisfactorios. En caso de que necesite cancelar\n"
 "                   su reserva, por favor conteste o llámenos dentro de las 24 horas antes del día del chequeo. Esperamos\n"
 "                   Brindarle servicios de calidad en nuestro hotel.\n"
 "               </p>\n"
@@ -294,7 +294,7 @@ msgstr "<strong>Comprobar en la fecha</strong>"
 #: model:ir.ui.view,arch_db:hotel_reservation.report_checkout_qweb
 #: model:ir.ui.view,arch_db:hotel_reservation.report_roomres_qweb
 msgid "<strong>Check-Out Date</strong>"
-msgstr "<strong>Echa un vistazo a la fecha</strong>"
+msgstr "<strong>Fecha de salida</strong>"
 
 #. module: hotel_reservation
 #: model:ir.ui.view,arch_db:hotel_reservation.report_checkin_qweb
@@ -367,7 +367,7 @@ msgid ""
 " You have to                                      select a Check in date or a Check out                                      date in the reservation form."
 msgstr ""
 "Antes de elegir una habitación.,\n"
-"Tienes que                                      Seleccionar una fecha de entrada o una salida                                       Fecha en el formulario de reserva."
+"Tienes que                            Seleccionar una fecha de entrada o una salida                                       Fecha en el formulario de reserva."
 
 #. module: hotel_reservation
 #: selection:hotel.reservation,state:0
@@ -903,12 +903,12 @@ msgstr "Línea de reserva de habitaciones"
 #. module: hotel_reservation
 #: model:ir.ui.view,arch_db:hotel_reservation.room_reservation_summary_form_view
 msgid "Room Reservation Summary"
-msgstr "Resumen de la reserva de la habitación"
+msgstr "Resumen de reservaciones"
 
 #. module: hotel_reservation
 #: model:ir.model.fields,field_description:hotel_reservation.field_hotel_room_room_reservation_line_ids
 msgid "Room Reserve Line"
-msgstr "Reserva línea de habitacion"
+msgstr "Reservar línea de habitacion"
 
 #. module: hotel_reservation
 #: model:ir.model.fields,field_description:hotel_reservation.field_hotel_room_reservation_line_state
@@ -919,7 +919,7 @@ msgstr "Estado de la habitación"
 #: model:ir.model.fields,field_description:hotel_reservation.field_room_reservation_summary_room_summary
 #: model:ir.ui.view,arch_db:hotel_reservation.room_reservation_summary_form_view
 msgid "Room Summary"
-msgstr "Room Summary"
+msgstr "Resumen de la habitación"
 
 #. module: hotel_reservation
 #: model:ir.model.fields,field_description:hotel_reservation.field_hotel_reservation_line_categ_id
@@ -1011,19 +1011,19 @@ msgstr "Sin asignar"
 #: code:addons/hotel_reservation/models/hotel_reservation.py:703
 #, python-format
 msgid "User is not able to delete the                                             room after the room in %s state                                             in reservation"
-msgstr "El usuario no puede borrar la                                            habitación después de la habitación en% s estado                                             en reserva"
+msgstr "El usuario no puede borrar la                       habitación después de la habitación en %s estado                      en reserva"
 
 #. module: hotel_reservation
 #: code:addons/hotel_reservation/models/hotel_reservation.py:200
 #, python-format
 msgid "You cannot delete Reservation in %s                                         state."
-msgstr "No puedes borrar la reserva en% s                                         estado."
+msgstr "No puedes borrar la reserva en %s                           estado."
 
 #. module: hotel_reservation
 #: code:addons/hotel_reservation/models/hotel_reservation.py:363
 #, python-format
 msgid "You tried to Confirm Reservation with room those already reserved in this Reservation Period. Overlap Dates are %s"
-msgstr "Intentó confirmar la reserva con espacio ya reservado en este período de reserva. Las fechas de superposición son% s"
+msgstr "Intentó confirmar la reserva con espacio ya reservado en este período de reserva. Las fechas de superposición son %s"
 
 #. module: hotel_reservation
 #: model:ir.model,name:hotel_reservation.model_hotel_folio
