@@ -29,7 +29,7 @@ class HotelMenucardType(models.Model):
     name = fields.Char('Name', required=True)
     menu_id = fields.Many2one('hotel.menucard.type', string='Food Item Type')
     child_ids = fields.One2many('hotel.menucard.type', 'menu_id',
-                               'Child Categories')
+                                'Child Categories')
 
     @api.multi
     def name_get(self):
@@ -649,9 +649,9 @@ class HotelReservationOrder(models.Model):
     reservationno = fields.Many2one('hotel.restaurant.reservation',
                                     'Reservation No')
     order_date = fields.Datetime('Date', required=True,
-                            default=(lambda *a:
-                                     time.strftime
-                                     (DEFAULT_SERVER_DATETIME_FORMAT)))
+                                 default=(lambda *a:
+                                          time.strftime
+                                          (DEFAULT_SERVER_DATETIME_FORMAT)))
     waitername = fields.Many2one('res.partner', 'Waiter Name')
     table_no = fields.Many2many('hotel.restaurant.tables', 'temp_table4',
                                 'table_no', 'name', 'Table Number')

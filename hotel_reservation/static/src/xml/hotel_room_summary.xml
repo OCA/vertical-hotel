@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>  
 <!DOCTYPE xml>
 
-<templates id="hotel_template" xml:space="preserve">
+<templates>
 
     <t t-name="RoomSummary">
-        <div style="overflow:auto;">
+         <div style="overflow:auto;">
             <table border="1">
-                <t t-foreach="widget.summary_header" t-as="header_detail">
+                <t t-foreach="widget.get('summary_header')" t-as="header_detail">
                 <tr>
                     <t t-foreach="header_detail.header" t-as="date">
                         <th class="table_header" style="text-align:center;"><t t-esc="date"/></th>
                     </t>
                 </tr>
                 </t>
-                <t t-foreach="widget.room_summary" t-as="detail">
+                <t t-foreach="widget.get('room_summary')" t-as="detail">
                     <tr>
                         <td style="text-align:center;"><t t-esc="detail.name"/></td>
                         <t t-foreach="detail.value" t-as="status">
@@ -30,6 +30,6 @@
                     </tr>
                 </t>
             </table>
-        </div>
+         </div>
     </t>
 </templates>
