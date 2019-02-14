@@ -3,7 +3,6 @@
 import time
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from dateutil import parser
 from odoo import api, fields, models
 
 
@@ -20,7 +19,7 @@ class ReportTestCheckin(models.AbstractModel):
     def _get_room_nos(self, date_start, date_end):
         reservation_obj = self.env['hotel.reservation']
         res = reservation_obj.search([('checkin', '>=', date_start),
-                                       ('checkout', '<=', date_end)])
+                                      ('checkout', '<=', date_end)])
         return res
 
     def get_checkin(self, date_start, date_end):
@@ -32,7 +31,7 @@ class ReportTestCheckin(models.AbstractModel):
     @api.model
     def get_report_values(self, docids, data):
         self.model = self.env.context.get('active_model')
-        if data == None:
+        if data is None:
             data = {}
         if not docids:
             docids = data['form'].get('docids')
@@ -81,7 +80,7 @@ class ReportTestCheckout(models.AbstractModel):
     @api.model
     def get_report_values(self, docids, data):
         self.model = self.env.context.get('active_model')
-        if data == None:
+        if data is None:
             data = {}
         if not docids:
             docids = data['form'].get('docids')
@@ -150,7 +149,7 @@ class ReportTestMaxroom(models.AbstractModel):
     @api.model
     def get_report_values(self, docids, data):
         self.model = self.env.context.get('active_model')
-        if data == None:
+        if data is None:
             data = {}
         if not docids:
             docids = data['form'].get('docids')
@@ -204,7 +203,7 @@ class ReportTestRoomres(models.AbstractModel):
     @api.model
     def get_report_values(self, docids, data):
         self.model = self.env.context.get('active_model')
-        if data == None:
+        if data is None:
             data = {}
         if not docids:
             docids = data['form'].get('docids')

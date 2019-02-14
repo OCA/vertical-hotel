@@ -81,6 +81,7 @@ class TestReservation(common.TransactionCase):
                     'max_adult': 2,
                     'max_child': 1,
                     'capacity': 4,
+                    'categ_id': self.room_type.id,
                     'status': 'available',
                     'product_manager': self.manager.id,
                     'room_reservation_line_ids': [(6, 0,

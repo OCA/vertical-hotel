@@ -721,7 +721,7 @@ class HotelRoom(models.Model):
         now = datetime.now()
         curr_date = now.strftime(dt)
         for room in self.search([]):
-            reserv_line_ids = [reservation_line.ids for
+            reserv_line_ids = [reservation_line.id for
                                reservation_line in
                                room.room_reservation_line_ids]
             reserv_args = [('id', 'in', reserv_line_ids),

@@ -8,7 +8,6 @@
     'category': 'Generic Modules/Hotel Management',
     'website': 'https://github.com/OCA/vertical-hotel',
     'depends': ['hotel_restaurant', 'report_hotel_reservation'],
-    'category': 'Generic Modules/Hotel Restaurant',
     'license': 'AGPL-3',
     'data': [
         'security/ir.model.access.csv',

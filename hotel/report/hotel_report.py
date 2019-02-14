@@ -23,9 +23,9 @@ class FolioReport(models.AbstractModel):
                 'name': data.name,
                 'partner': data.partner_id.name,
                 'checkin': parser.parse(data.checkin_date).
-                    strftime(DEFAULT_SERVER_DATETIME_FORMAT),
+                strftime(DEFAULT_SERVER_DATETIME_FORMAT),
                 'checkout': parser.parse(data.checkout_date).
-                    strftime(DEFAULT_SERVER_DATETIME_FORMAT),
+                strftime(DEFAULT_SERVER_DATETIME_FORMAT),
                 'amount': data.amount_total
             })
             total_amount += data.amount_total

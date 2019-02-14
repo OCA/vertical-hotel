@@ -73,7 +73,7 @@ class HotelRoomType(models.Model):
     name = fields.Char(required=True)
     categ_id = fields.Many2one('hotel.room.type', 'Category')
     child_ids = fields.One2many('hotel.room.type', 'categ_id',
-                               'Child Categories')
+                                'Child Categories')
 
     @api.multi
     def name_get(self):
@@ -138,7 +138,7 @@ class HotelRoomAmenitiesType(models.Model):
     name = fields.Char(required=True)
     amenity_id = fields.Many2one('hotel.room.amenities.type', 'Category')
     child_ids = fields.One2many('hotel.room.amenities.type', 'amenity_id',
-                               'Child Categories')
+                                'Child Categories')
 
     @api.multi
     def name_get(self):
@@ -1037,7 +1037,7 @@ class HotelServiceType(models.Model):
     name = fields.Char('Service Name', size=64, required=True)
     service_id = fields.Many2one('hotel.service.type', 'Service Category')
     child_ids = fields.One2many('hotel.service.type', 'service_id',
-                               'Child Categories')
+                                'Child Categories')
 
     @api.multi
     def name_get(self):
