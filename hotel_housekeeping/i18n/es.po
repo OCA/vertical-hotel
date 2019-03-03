@@ -461,7 +461,7 @@ msgstr ""
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_housekeeping_activity_line_ids
 #, fuzzy
-msgid "Detail of housekeeping activities"
+msgid "Detail of housekeepingactivities"
 msgstr "Actividades de limpieza "
 
 #. module: hotel_housekeeping
@@ -918,7 +918,7 @@ msgid "Outgoing"
 msgstr ""
 
 #. module: hotel_housekeeping
-#: code:addons/hotel_housekeeping/models/hotel_housekeeping.py:84
+#: code:addons/hotel_housekeeping/models/hotel_housekeeping.py:85
 #, python-format
 msgid "Please update quality of work!"
 msgstr ""
