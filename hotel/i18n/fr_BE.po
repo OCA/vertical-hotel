@@ -1,24 +1,30 @@
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
-#	* hotel
+# 	* hotel
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.6\n"
-"Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2009-11-26 07:33:36+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-10-09 13:00+0000\n"
 "PO-Revision-Date: 2009-11-26 07:33:36+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
 #. module: hotel
-#: model:ir.ui.menu,name:hotel.menu_open_hotel_folio1_form_tree
+#: model:ir.ui.menu,name:hotel.menu_open_hotel_folio1_form_tree_all
 msgid "Generate Folio"
 msgstr ""
+
+#. module: hotel
+#: help:hotel.folio,room_lines:0
+msgid "Hotel room reservation detail."
+msgstr "Hotel room reservation detail."
 
 #. module: hotel
 #: view:hotel.folio:0
@@ -26,10 +32,21 @@ msgid "Recreate Procurement"
 msgstr ""
 
 #. module: hotel
-#: field:hotel.folio,checkout_date:0
-#: field:hotel_folio.line,checkout_date:0
-msgid "Check Out"
+#: view:hotel.services:0
+msgid "Service"
+msgstr "Service"
+
+#. module: hotel
+#: view:hotel.room:0
+#: model:ir.actions.act_window,name:hotel.action_hotel_room_form
+#: model:ir.model,name:hotel.model_hotel_room
+msgid "Hotel Room"
 msgstr ""
+
+#. module: hotel
+#: view:hotel.room:0 view:hotel.room.amenities:0 view:hotel.services:0
+msgid "Group By..."
+msgstr "Group By..."
 
 #. module: hotel
 #: model:ir.ui.menu,name:hotel.menu_action_hotel_room_amenities_view_form
@@ -37,9 +54,9 @@ msgid "Amenities"
 msgstr ""
 
 #. module: hotel
-#: constraint:ir.actions.act_window:0
-msgid "Invalid model name in the action definition."
-msgstr ""
+#: view:hotel.folio:0
+msgid "Branch"
+msgstr "Branch"
 
 #. module: hotel
 #: field:hotel.floor,name:0
@@ -57,13 +74,18 @@ msgid "amenities Type"
 msgstr ""
 
 #. module: hotel
-#: view:hotel.room_amenities:0
+#: view:hotel.room.amenities:0
 msgid "Amenity rate"
 msgstr ""
 
 #. module: hotel
-#: field:product.category,isservicetype:0
-msgid "Is Service Type"
+#: field:room.rent,price:0
+msgid "Room rent"
+msgstr "Room rent"
+
+#. module: hotel
+#: view:hotel.folio:0
+msgid "Automatic Declaration"
 msgstr ""
 
 #. module: hotel
@@ -72,29 +94,15 @@ msgid "Set to Draft"
 msgstr ""
 
 #. module: hotel
-#: rml:folio.total:0
-msgid "to"
-msgstr ""
-
-#. module: hotel
-#: wizard_view:hotel.folio.total_folio,init:0
-msgid "Folio List"
-msgstr ""
-
-#. module: hotel
+#: model:ir.ui.menu,name:hotel.menu_hotel_service
 #: model:ir.ui.menu,name:hotel.menu_open_hotel_services_form
 msgid "Services"
 msgstr ""
 
 #. module: hotel
-#: view:hotel.folio:0
-msgid "Cancel Order"
-msgstr ""
-
-#. module: hotel
-#: view:hotel.folio:0
-msgid "Confirm Order"
-msgstr ""
+#: view:hotel.room.amenities:0
+msgid "Define supplier taxes if there any on the Amenity. "
+msgstr "Define supplier taxes if there any on the Amenity. "
 
 #. module: hotel
 #: model:product.category,name:hotel.hotel_room_amenities_type_0_product_category
@@ -102,9 +110,14 @@ msgid "All Aminities"
 msgstr ""
 
 #. module: hotel
-#: view:hotel.folio:0
-msgid "Notes"
-msgstr ""
+#: selection:hotel.folio,hotel_policy:0
+msgid "On Booking"
+msgstr "On Booking"
+
+#. module: hotel
+#: view:hotel.room:0 view:hotel.room.amenities:0
+msgid "Suppliers"
+msgstr "Suppliers"
 
 #. module: hotel
 #: view:hotel.floor:0
@@ -112,7 +125,12 @@ msgid " Hotel Floor"
 msgstr ""
 
 #. module: hotel
-#: rml:folio.total:0
+#: help:hotel.room,floor_id:0
+msgid "At which floor the room is located."
+msgstr "At which floor the room is located."
+
+#. module: hotel
+#: report:folio.total:0
 msgid "Customer Name"
 msgstr ""
 
@@ -132,31 +150,25 @@ msgid "hotel Service line"
 msgstr ""
 
 #. module: hotel
-#: model:ir.ui.menu,name:hotel.menu_open_hotel_folio1_form_tree_all
-msgid "All Folio"
-msgstr ""
-
-#. module: hotel
-#: view:hotel.room:0
-#: field:hotel.room,room_amenities:0
+#: view:hotel.room:0 field:hotel.room,room_amenities:0
 msgid "Room Amenities"
 msgstr ""
 
 #. module: hotel
-#: view:hotel.service_type:0
+#: view:hotel.service.type:0
 #: model:ir.actions.act_window,name:hotel.open_hotel_service_type_form_tree
 #: model:ir.model,name:hotel.model_hotel_service_type
 msgid "Service Type"
 msgstr ""
 
 #. module: hotel
-#: field:hotel_folio.line,order_line_id:0
-msgid "order_line_id"
-msgstr ""
+#: field:hotel.folio,hotel_policy:0
+msgid "Hotel Policy"
+msgstr "Hotel Policy"
 
 #. module: hotel
-#: constraint:product.category:0
-msgid "Error ! You can not create recursive categories."
+#: field:hotel.folio.line,order_line_id:0
+msgid "order_line_id"
 msgstr ""
 
 #. module: hotel
@@ -175,6 +187,11 @@ msgid "Rooms by Category"
 msgstr ""
 
 #. module: hotel
+#: view:hotel.room:0
+msgid "List of supplier taxes if there any on the defined room. "
+msgstr "List of supplier taxes if there any on the defined room. "
+
+#. module: hotel
 #: model:product.category,name:hotel.hotel_room_amenities_type_3_product_category
 msgid "Single Bed"
 msgstr ""
@@ -190,13 +207,8 @@ msgid "Tables"
 msgstr ""
 
 #. module: hotel
-#: view:hotel.folio:0
+#: view:hotel.folio:0 model:ir.ui.menu,name:hotel.menu_all_folio
 msgid "Folio"
-msgstr ""
-
-#. module: hotel
-#: rml:folio.total:0
-msgid "From"
 msgstr ""
 
 #. module: hotel
@@ -215,10 +227,19 @@ msgid " Room Amenities"
 msgstr ""
 
 #. module: hotel
-#: field:hotel.folio,checkin_date:0
-#: field:hotel_folio.line,checkin_date:0
+#: constraint:hotel.folio:0
+msgid "You can not allocate the same room twice!"
+msgstr "You can not allocate the same room twice!"
+
+#. module: hotel
+#: field:hotel.folio,checkin_date:0 field:hotel.folio.line,checkin_date:0
 msgid "Check In"
 msgstr ""
+
+#. module: hotel
+#: view:hotel.folio:0 field:hotel.folio,name:0
+msgid "Folio Number"
+msgstr "Folio Number"
 
 #. module: hotel
 #: model:ir.actions.act_window,name:hotel.hotel_amenity_category_action
@@ -227,8 +248,19 @@ msgid "Amenities by Category"
 msgstr ""
 
 #. module: hotel
+#: view:folio.report.wizard:0
+msgid "Print"
+msgstr "Print"
+
+#. module: hotel
 #: field:hotel.services,service_id:0
 msgid "Service_id"
+msgstr ""
+
+#. module: hotel
+#: field:hotel.room.amenities.type,cat_id:0 field:hotel.room.type,cat_id:0
+#: field:hotel.service.type,ser_id:0
+msgid "category"
 msgstr ""
 
 #. module: hotel
@@ -237,25 +269,28 @@ msgid "Invoice Lines"
 msgstr ""
 
 #. module: hotel
-#: view:hotel.folio:0
-msgid "Untaxed amount"
-msgstr ""
+#: model:ir.ui.menu,name:hotel.menu_hotel_room
+msgid "Room"
+msgstr "Room"
 
 #. module: hotel
-#: field:hotel.room_amenities_type,cat_id:0
-#: field:hotel.room_type,cat_id:0
-#: field:hotel.service_type,ser_id:0
-msgid "category"
-msgstr ""
+#: view:hotel.room:0 selection:hotel.room,status:0
+msgid "Available"
+msgstr "Available"
+
+#. module: hotel
+#: report:folio.total:0
+msgid "\" To \""
+msgstr "\" To \""
 
 #. module: hotel
 #: view:hotel.room:0
-#: field:hotel.room,avail_status:0
 msgid "Room Status"
 msgstr ""
 
 #. module: hotel
-#: field:hotel.room_amenities,room_categ_id:0
+#: field:hotel.room.amenities,room_categ_id:0
+#: model:ir.model,name:hotel.model_product_category
 msgid "Product Category"
 msgstr ""
 
@@ -270,20 +305,23 @@ msgid "All Services"
 msgstr ""
 
 #. module: hotel
-#: view:hotel.room:0
-#: model:ir.actions.act_window,name:hotel.action_hotel_room_form
-#: model:ir.model,name:hotel.model_hotel_room
-msgid "Hotel Room"
-msgstr ""
-
-#. module: hotel
-#: rml:folio.total:0
-msgid "Folio No."
-msgstr ""
-
-#. module: hotel
 #: view:hotel.folio:0
-msgid "Inventory Moves"
+msgid "---Description---"
+msgstr "---Description---"
+
+#. module: hotel
+#: field:hotel.folio,checkout_date:0 field:hotel.folio.line,checkout_date:0
+msgid "Check Out"
+msgstr ""
+
+#. module: hotel
+#: view:hotel.room:0
+msgid "state"
+msgstr "state"
+
+#. module: hotel
+#: report:folio.total:0
+msgid "Folio No."
 msgstr ""
 
 #. module: hotel
@@ -302,9 +340,24 @@ msgid " Hotel Floors"
 msgstr ""
 
 #. module: hotel
-#: constraint:ir.ui.view:0
-msgid "Invalid XML for View Architecture!"
-msgstr ""
+#: view:hotel.room:0
+msgid "Status"
+msgstr "Status"
+
+#. module: hotel
+#: field:res.company,additional_hours:0
+msgid "Additional Hours"
+msgstr "Additional Hours"
+
+#. module: hotel
+#: view:hotel.room:0 field:hotel.room,room_rent_ids:0 field:room.rent,rent_id:0
+msgid "Room Rent"
+msgstr "Room Rent"
+
+#. module: hotel
+#: report:folio.total:0
+msgid "From \""
+msgstr "From \""
 
 #. module: hotel
 #: field:hotel.folio,order_id:0
@@ -312,14 +365,17 @@ msgid "order_id"
 msgstr ""
 
 #. module: hotel
-#: field:hotel.room_amenities,amenity_rate:0
-msgid "Amenity Rate"
-msgstr ""
+#: view:hotel.room:0
+msgid "Customer taxes apply on the perticular room. "
+msgstr "Customer taxes apply on the perticular room. "
 
 #. module: hotel
-#: view:hotel.room:0
-#: view:hotel.room_amenities:0
-#: view:hotel.services:0
+#: view:hotel.folio:0
+msgid "Service Lines"
+msgstr "Service Lines"
+
+#. module: hotel
+#: view:hotel.room:0 view:hotel.room.amenities:0 view:hotel.services:0
 msgid "Procurement"
 msgstr ""
 
@@ -334,12 +390,22 @@ msgid "Amenity Types"
 msgstr ""
 
 #. module: hotel
+#: view:hotel.room:0
+msgid "Delete"
+msgstr "Delete"
+
+#. module: hotel
 #: model:ir.ui.menu,name:hotel.menu_hotel_room_category_action
 msgid "Room by Category"
 msgstr ""
 
 #. module: hotel
-#: field:hotel.room_amenities,rcateg_id:0
+#: field:hotel.folio,duration:0
+msgid "Duration in Days"
+msgstr "Duration in Days"
+
+#. module: hotel
+#: field:hotel.room.amenities,rcateg_id:0
 msgid "Amenity Catagory"
 msgstr ""
 
@@ -354,16 +420,52 @@ msgid "Max Child"
 msgstr ""
 
 #. module: hotel
-#: view:hotel.room:0
-#: view:hotel.room_amenities:0
-#: view:hotel.services:0
+#: help:hotel.folio,service_lines:0
+msgid ""
+"Hotel services detail provide to customer and it will include in main "
+"Invoice."
+msgstr ""
+"Hotel services detail provide to customer and it will include in main "
+"Invoice."
+
+#. module: hotel
+#: help:hotel.folio,duration:0
+msgid ""
+"Number of days which will automatically count from the check-in and check-"
+"out date. "
+msgstr ""
+"Number of days which will automatically count from the check-in and check-"
+"out date. "
+
+#. module: hotel
+#: selection:hotel.folio,hotel_policy:0
+msgid "On Check In"
+msgstr "On Check In"
+
+#. module: hotel
+#: view:hotel.room:0 view:hotel.room.amenities:0 view:hotel.services:0
 msgid "Descriptions"
 msgstr ""
 
 #. module: hotel
-#: wizard_field:hotel.folio.total_folio,init,date_start:0
+#: view:hotel.services:0
+msgid "Customer taxes applied on the service. "
+msgstr "Customer taxes applied on the service. "
+
+#. module: hotel
+#: view:hotel.services:0
+msgid "List of supplier taxes related to the service provided by hotel. "
+msgstr "List of supplier taxes related to the service provided by hotel. "
+
+#. module: hotel
+#: field:folio.report.wizard,date_start:0
 msgid "Start Date"
 msgstr ""
+
+#. module: hotel
+#: selection:hotel.room,status:0
+msgid "Occupied"
+msgstr "Occupied"
 
 #. module: hotel
 #: model:ir.model,name:hotel.model_hotel_folio_line
@@ -376,14 +478,19 @@ msgid "Is Room Type"
 msgstr ""
 
 #. module: hotel
-#: rml:folio.total:0
+#: report:folio.total:0
 msgid "Total Collection"
 msgstr ""
 
 #. module: hotel
-#: view:hotel.folio:0
-msgid "Automatic Declaration"
+#: field:product.category,isservicetype:0
+msgid "Is Service Type"
 msgstr ""
+
+#. module: hotel
+#: view:hotel.folio:0
+msgid "Room Lines"
+msgstr "Room Lines"
 
 #. module: hotel
 #: view:hotel.folio:0
@@ -416,14 +523,28 @@ msgid "Service rate"
 msgstr ""
 
 #. module: hotel
-#: model:ir.actions.act_window,name:hotel.open_hotel_folio1_form_tree
+#: view:hotel.folio:0
+msgid "Folios"
+msgstr "Folios"
+
+#. module: hotel
+#: view:hotel.folio:0
 #: model:ir.actions.act_window,name:hotel.open_hotel_folio1_form_tree_all
 msgid "Hotel Folio"
 msgstr ""
 
 #. module: hotel
-#: field:hotel.folio,room_lines:0
-#: field:hotel.folio,service_lines:0
+#: view:hotel.room:0
+msgid "í"
+msgstr "í"
+
+#. module: hotel
+#: help:hotel.room,room_amenities:0
+msgid "List of room amenities. "
+msgstr "List of room amenities. "
+
+#. module: hotel
+#: field:hotel.folio,room_lines:0 field:hotel.folio,service_lines:0
 msgid "unknown"
 msgstr ""
 
@@ -433,12 +554,17 @@ msgid "Guest Name"
 msgstr ""
 
 #. module: hotel
+#: view:hotel.room:0 view:hotel.room.amenities:0 view:hotel.services:0
+msgid "Customer Taxes"
+msgstr "Customer Taxes"
+
+#. module: hotel
 #: view:hotel.folio:0
 msgid "Service Line"
 msgstr ""
 
 #. module: hotel
-#: view:hotel.room_amenities_type:0
+#: view:hotel.room.amenities.type:0
 #: model:ir.actions.act_window,name:hotel.action_hotel_room_amenities_type_view_form
 msgid "Hotel Room Amenities Type"
 msgstr ""
@@ -449,21 +575,26 @@ msgid "Folio Line"
 msgstr ""
 
 #. module: hotel
-#: view:hotel.folio:0
-msgid "Date"
+#: model:res.groups,name:hotel.group_hotel_user
+msgid "Hotel Management / User"
+msgstr "Hotel Management / User"
+
+#. module: hotel
+#: model:product.category,name:hotel.hotel_service_type_2_product_category
+msgid "Variable"
 msgstr ""
 
 #. module: hotel
-#: view:hotel.folio:0
-#: view:hotel.room:0
-#: view:hotel.room_amenities:0
-#: view:hotel.services:0
-msgid "Properties"
+#: help:hotel.folio,hotel_policy:0
+msgid ""
+"Hotel policy for payment that either the guest has to payment at booking "
+"time or check-in check-out time."
 msgstr ""
+"Hotel policy for payment that either the guest has to payment at booking "
+"time or check-in check-out time."
 
 #. module: hotel
-#: view:hotel.room_amenities:0
-#: view:hotel.services:0
+#: view:hotel.room.amenities:0 view:hotel.services:0
 msgid "Purchase Description"
 msgstr ""
 
@@ -483,9 +614,24 @@ msgid "No Room"
 msgstr ""
 
 #. module: hotel
-#: field:hotel_service.line,service_line_id:0
+#: model:ir.model,name:hotel.model_res_company
+msgid "Companies"
+msgstr "Companies"
+
+#. module: hotel
+#: field:hotel.service.line,service_line_id:0
 msgid "service_line_id"
 msgstr ""
+
+#. module: hotel
+#: view:hotel.room:0
+msgid "Status:"
+msgstr "Status:"
+
+#. module: hotel
+#: model:ir.model,name:hotel.model_folio_report_wizard
+msgid "folio.report.wizard"
+msgstr "folio.report.wizard"
 
 #. module: hotel
 #: model:product.category,name:hotel.hotel_room_amenities_type_1_product_category
@@ -493,9 +639,9 @@ msgid "Beds"
 msgstr ""
 
 #. module: hotel
-#: model:product.category,name:hotel.hotel_service_type_2_product_category
-msgid "Variable"
-msgstr ""
+#: view:hotel.room:0
+msgid "Available Rooms"
+msgstr "Available Rooms"
 
 #. module: hotel
 #: field:hotel.room,floor_id:0
@@ -509,10 +655,15 @@ msgid "Hotel Services"
 msgstr ""
 
 #. module: hotel
-#: view:hotel.room_amenities:0
+#: view:hotel.room.amenities:0
 #: model:ir.actions.act_window,name:hotel.action_hotel_room_amenities_view_form
 msgid "Hotel Room Amenities"
 msgstr ""
+
+#. module: hotel
+#: view:hotel.room:0
+msgid "Rate:"
+msgstr "Rate:"
 
 #. module: hotel
 #: view:hotel.folio:0
@@ -520,12 +671,22 @@ msgid "History"
 msgstr ""
 
 #. module: hotel
+#: view:hotel.room.amenities:0 model:ir.ui.menu,name:hotel.menu_amenity
+msgid "Amenity"
+msgstr "Amenity"
+
+#. module: hotel
 #: model:ir.actions.act_window,name:hotel.open_hotel_floor_form_tree
 msgid "Floor Structure"
 msgstr ""
 
 #. module: hotel
-#: rml:folio.total:0
+#: view:hotel.room.amenities:0
+msgid "List of customer taxes applied on the Amenity. "
+msgstr "List of customer taxes applied on the Amenity. "
+
+#. module: hotel
+#: report:folio.total:0
 msgid "Net Total :-"
 msgstr ""
 
@@ -535,37 +696,24 @@ msgid "Related invoices"
 msgstr ""
 
 #. module: hotel
-#: selection:hotel.room,avail_status:0
-msgid "Assigned"
-msgstr ""
-
-#. module: hotel
-#: selection:hotel.room,avail_status:0
-msgid "Unassigned"
-msgstr ""
-
-#. module: hotel
-#: model:ir.module.module,shortdesc:hotel.module_meta_information
 #: model:ir.ui.menu,name:hotel.hotel_management_menu
 msgid "Hotel Management"
 msgstr ""
 
 #. module: hotel
-#: wizard_button:hotel.folio.total_folio,init,end:0
+#: view:folio.report.wizard:0
 msgid "Cancel"
 msgstr ""
 
 #. module: hotel
-#: view:hotel.room:0
-#: view:hotel.room_amenities:0
-#: view:hotel.services:0
+#: view:hotel.room:0 view:hotel.room.amenities:0 view:hotel.services:0
 msgid "Information"
 msgstr ""
 
 #. module: hotel
-#: constraint:ir.model:0
-msgid "The Object name must start with x_ and not contain any special character !"
-msgstr ""
+#: view:hotel.room:0
+msgid "-->"
+msgstr "-->"
 
 #. module: hotel
 #: field:hotel.room,product_id:0
@@ -573,16 +721,15 @@ msgid "Product_id"
 msgstr ""
 
 #. module: hotel
-#: view:hotel.folio:0
-msgid "Hotel Folio1"
-msgstr ""
-
-#. module: hotel
-#: view:hotel.room:0
-#: model:ir.model,name:hotel.model_hotel_floor
+#: view:hotel.room:0 model:ir.model,name:hotel.model_hotel_floor
 #: model:ir.ui.menu,name:hotel.menu_open_hotel_floor_form_tree
 msgid "Floor"
 msgstr ""
+
+#. module: hotel
+#: model:ir.model,name:hotel.model_room_rent
+msgid "room.rent"
+msgstr "room.rent"
 
 #. module: hotel
 #: model:product.category,name:hotel.hotel_room_type_0_product_category
@@ -595,38 +742,56 @@ msgid "Create Invoice"
 msgstr ""
 
 #. module: hotel
-#: wizard_button:hotel.folio.total_folio,init,print_report:0
-msgid "Print Report"
-msgstr ""
-
-#. module: hotel
 #: model:ir.actions.report.xml,name:hotel.hotel_folio_details
-#: model:ir.actions.wizard,name:hotel.wizard_hotel_total
 msgid "Folio Total"
 msgstr ""
 
 #. module: hotel
-#: model:ir.actions.act_window,name:hotel.open_hotel_room_type_form_tree
-#: model:ir.model,name:hotel.model_hotel_room_type
-msgid "Room Type"
+#: field:hotel.room,room_reservation_line_ids:0
+msgid "Room Reservation Line"
+msgstr "Room Reservation Line"
+
+#. module: hotel
+#: help:res.company,additional_hours:0
+msgid ""
+"Provide the min hours value for check in checkout days, whatever the hours "
+"will be provided here based on that extra days will be calculated."
 msgstr ""
+"Provide the min hours value for check in checkout days, whatever the hours "
+"will be provided here based on that extra days will be calculated."
 
 #. module: hotel
 #: view:hotel.room:0
-#: view:hotel.room_amenities:0
-#: view:hotel.services:0
+msgid "occupied"
+msgstr "occupied"
+
+#. module: hotel
+#: model:ir.actions.act_window,name:hotel.hotel_folio_wizard
+msgid "Hotel Folio Wizard"
+msgstr "Hotel Folio Wizard"
+
+#. module: hotel
+#: model:ir.model,name:hotel.model_product_product
+msgid "Product"
+msgstr "Product"
+
+#. module: hotel
+#: view:hotel.room:0 view:hotel.room.amenities:0 view:hotel.services:0
 msgid "Description"
 msgstr ""
 
 #. module: hotel
-#: field:hotel_folio.line,folio_id:0
-#: field:hotel_service.line,folio_id:0
+#: sql_constraint:hotel.folio:0
+msgid "Check in Date Should be less than the Check Out Date!"
+msgstr "Check in Date Should be less than the Check Out Date!"
+
+#. module: hotel
+#: field:hotel.folio.line,folio_id:0 field:hotel.service.line,folio_id:0
 msgid "folio_id"
 msgstr ""
 
 #. module: hotel
-#: view:hotel.room_amenities:0
-#: view:hotel.services:0
+#: view:hotel.room.amenities:0 view:hotel.services:0
 msgid "Sale Description"
 msgstr ""
 
@@ -641,12 +806,22 @@ msgid "Is Service id"
 msgstr ""
 
 #. module: hotel
+#: view:hotel.services:0
+msgid "Suplliers"
+msgstr "Suplliers"
+
+#. module: hotel
 #: model:ir.ui.menu,name:hotel.menu_open_hotel_room_type_form_tree
 msgid "Room Types"
 msgstr ""
 
 #. module: hotel
-#: rml:folio.total:0
+#: view:hotel.folio:0
+msgid "Untaxed amount"
+msgstr ""
+
+#. module: hotel
+#: report:folio.total:0
 msgid "CheckOut"
 msgstr ""
 
@@ -657,9 +832,9 @@ msgid "Services by Category"
 msgstr ""
 
 #. module: hotel
-#: model:ir.ui.menu,name:hotel.menu_open_hotel_room_form
-msgid "Rooms"
-msgstr ""
+#: view:hotel.folio:0
+msgid "Cancel Folio"
+msgstr "Cancel Folio"
 
 #. module: hotel
 #: view:hotel.room:0
@@ -667,9 +842,29 @@ msgid "Room rate"
 msgstr ""
 
 #. module: hotel
-#: wizard_field:hotel.folio.total_folio,init,date_end:0
+#: field:folio.report.wizard,date_end:0
 msgid "End Date"
 msgstr ""
+
+#. module: hotel
+#: model:res.groups,name:hotel.group_hotel_manager
+msgid "Hotel Management/ Manager"
+msgstr "Hotel Management/ Manager"
+
+#. module: hotel
+#: view:hotel.room:0
+msgid "Name"
+msgstr "Name"
+
+#. module: hotel
+#: view:folio.report.wizard:0
+msgid "Folio Report"
+msgstr "Folio Report"
+
+#. module: hotel
+#: view:hotel.room:0
+msgid "Edit"
+msgstr "Edit"
 
 #. module: hotel
 #: model:product.category,name:hotel.hotel_room_type_2_product_category
@@ -677,7 +872,7 @@ msgid "Double"
 msgstr ""
 
 #. module: hotel
-#: rml:folio.total:0
+#: report:folio.total:0
 msgid "CheckIn"
 msgstr ""
 
@@ -687,17 +882,9 @@ msgid "Max Adult"
 msgstr ""
 
 #. module: hotel
-#: model:ir.module.module,description:hotel.module_meta_information
-msgid "\n"
-"    Module for Hotel/Resort/Property management. You can manage:\n"
-"    * Configure Property\n"
-"    * Hotel Configuration\n"
-"    * Check In, Check out\n"
-"    * Manage Folio\n"
-"    * Payment\n"
-"\n"
-"    Different reports are also provided, mainly for hotel statistics.\n"
-"    "
+#: model:ir.actions.act_window,name:hotel.open_hotel_room_type_form_tree
+#: model:ir.model,name:hotel.model_hotel_room_type
+msgid "Room Type"
 msgstr ""
 
 #. module: hotel
@@ -706,17 +893,22 @@ msgid "Reports"
 msgstr ""
 
 #. module: hotel
-#: view:hotel.folio:0
-msgid "Related packings"
+#: view:hotel.room.amenities:0 view:hotel.services:0
+msgid "Catagory"
+msgstr "Catagory"
+
+#. module: hotel
+#: field:room.rent,day:0
+msgid "Weekday"
+msgstr "Weekday"
+
+#. module: hotel
+#: model:ir.ui.menu,name:hotel.menu_open_hotel_room_form
+msgid "Rooms"
 msgstr ""
 
 #. module: hotel
-#: view:hotel.folio:0
-msgid "Folio No"
-msgstr ""
-
-#. module: hotel
-#: view:hotel.room_type:0
+#: view:hotel.room.type:0
 msgid " Hotel Room Type"
 msgstr ""
 
@@ -726,9 +918,19 @@ msgid "Invoice Corrected"
 msgstr ""
 
 #. module: hotel
+#: selection:hotel.folio,hotel_policy:0
+msgid "On Checkout"
+msgstr "On Checkout"
+
+#. module: hotel
 #: model:ir.ui.menu,name:hotel.wizard_hotel_menu
 msgid "Hotel Folio Report"
 msgstr ""
+
+#. module: hotel
+#: view:hotel.folio:0
+msgid "Confirm Folio"
+msgstr "Confirm Folio"
 
 #. module: hotel
 #: view:hotel.folio:0
@@ -741,9 +943,9 @@ msgid "Single"
 msgstr ""
 
 #. module: hotel
-#: constraint:product.product:0
-msgid "Error: Invalid ean code"
-msgstr ""
+#: field:hotel.room,status:0
+msgid "status"
+msgstr "status"
 
 #. module: hotel
 #: view:hotel.folio:0
@@ -751,7 +953,11 @@ msgid "Rent"
 msgstr ""
 
 #. module: hotel
-#: rml:folio.total:0
+#: report:folio.total:0
 msgid "Total"
 msgstr ""
 
+#. module: hotel
+#: view:hotel.room:0 view:hotel.room.amenities:0 view:hotel.services:0
+msgid "Supplier Taxes"
+msgstr "Supplier Taxes"
