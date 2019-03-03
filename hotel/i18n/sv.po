@@ -471,6 +471,13 @@ msgid "Cost"
 msgstr ""
 
 #. module: hotel
+#: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_cost_currency_id
+#: model:ir.model.fields,field_description:hotel.field_hotel_room_cost_currency_id
+#: model:ir.model.fields,field_description:hotel.field_hotel_services_cost_currency_id
+msgid "Cost Currency"
+msgstr ""
+
+#. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_cost_method
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_cost_method
 #: model:ir.model.fields,field_description:hotel.field_hotel_services_cost_method
