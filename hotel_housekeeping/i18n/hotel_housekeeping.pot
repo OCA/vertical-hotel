@@ -305,6 +305,11 @@ msgid "Cost"
 msgstr ""
 
 #. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity_cost_currency_id
+msgid "Cost Currency"
+msgstr ""
+
+#. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity_cost_method
 msgid "Cost Method"
 msgstr ""
