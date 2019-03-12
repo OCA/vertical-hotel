@@ -16,7 +16,6 @@
         'data/hotel_reservation_sequence.xml',
         'views/hotel_reservation_view.xml',
         'data/email_template_view.xml',
-        'data/hotel_reservation_data.xml',
         'report/checkin_report_template.xml',
         'report/checkout_report_template.xml',
         'report/room_max_report_template.xml',
