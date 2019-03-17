@@ -472,6 +472,11 @@ msgid "Cost"
 msgstr ""
 
 #. module: hotel_restaurant
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard_cost_currency_id
+msgid "Cost Currency"
+msgstr ""
+
+#. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard_cost_method
 msgid "Cost Method"
 msgstr ""
