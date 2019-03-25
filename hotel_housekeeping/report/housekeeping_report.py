@@ -31,8 +31,8 @@ class ActivityReport(models.AbstractModel):
                             'activity': (activity.activity_name and
                                          activity.activity_name.name or
                                          ''),
-                            'login': (activity.housekeeper and
-                                      activity.housekeeper.name or ''),
+                            'login': (activity.housekeeper_id and
+                                      activity.housekeeper_id.name or ''),
                             'clean_start_time': activity.clean_start_time,
                             'clean_end_time': activity.clean_end_time,
                             'duration': diff})
@@ -51,7 +51,7 @@ class ActivityReport(models.AbstractModel):
         date_end = data['form'].get('date_end', str(datetime.now() +
                                     relativedelta(months=+1,
                                                   day=1, days=-1))[:10])
-        room_no = data['form'].get('room_no')[0]
+        room_no = data['form'].get('room_id')[0]
         return {
             'doc_ids': docids,
             'doc_model': self.model,
