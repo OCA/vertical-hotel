@@ -4,6 +4,7 @@ from odoo import fields, models
 
 
 class HotelActivity(models.Model):
+
     _name = 'hotel.activity'
     _description = 'Housekeeping Activity'
 

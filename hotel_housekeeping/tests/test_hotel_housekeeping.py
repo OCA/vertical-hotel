@@ -16,8 +16,8 @@ class TestHousekeeping(common.TransactionCase):
         self.housekeeping_obj = self.env['hotel.housekeeping']
         self.hotel_act_obj = self.env['hotel.housekeeping.activities']
         self.hotel_act_type_obj = self.env['hotel.housekeeping.activity.type']
-        self.housekeeper = self.env.ref('base.user_root')
-        self.inspector = self.env.ref('base.user_demo')
+        self.housekeeper_id = self.env.ref('base.user_root')
+        self.inspector_id = self.env.ref('base.user_demo')
         self.act_type = self.env.\
             ref('hotel_housekeeping.hotel_housekeeping_activity_type_1')
         self.room = self.env.ref('hotel.hotel_room_0')
@@ -31,7 +31,7 @@ class TestHousekeeping(common.TransactionCase):
             create({'current_date': time.strftime('%Y-%m-%d'),
                     'room_no': self.room.id,
                     'clean_type': 'daily',
-                    'inspector': self.inspector.id,
+                    'inspector_id': self.inspector_id.id,
                     'state': 'dirty',
                     'quality': 'excellent',
                     'inspect_date_time': cur_date,
@@ -46,7 +46,7 @@ class TestHousekeeping(common.TransactionCase):
             create({'a_list': self.housekeeping.id,
                     'today_date': time.strftime('%Y-%m-%d'),
                     'activity_name': self.activity.id,
-                    'housekeeper': self.housekeeper.id,
+                    'housekeeper_id': self.housekeeper_id.id,
                     'clean_start_time': cur_date,
                     'clean_end_time': cur_date1,
                     })
@@ -58,7 +58,7 @@ class TestHousekeeping(common.TransactionCase):
                          'Incorrect search number result for name_search')
 
     def test_activity_check_clean_start_time(self):
-        self.hotel_activity.check_clean_start_time()
+        self.hotel_activity._check_clean_start_time()
 
     def test_activity_default_get(self):
         fields = ['room_id', 'today_date']
