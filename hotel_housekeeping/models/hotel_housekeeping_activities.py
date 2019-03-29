@@ -5,8 +5,9 @@ from odoo.exceptions import ValidationError
 
 
 class HotelHousekeepingActivities(models.Model):
+
     _name = "hotel.housekeeping.activities"
-    _description = "Housekeeping Activities "
+    _description = "Housekeeping Activities"
 
     a_list = fields.Many2one('hotel.housekeeping', string='Reservation')
     today_date = fields.Date('Today Date')
@@ -32,9 +33,10 @@ class HotelHousekeepingActivities(models.Model):
         @param self: object pointer
         @return: raise warning depending on the validation
         '''
-        if self.clean_start_time >= self.clean_end_time:
-            raise ValidationError(_(
-                'Start Date Should be less than the End Date!'))
+        for activity in self:
+            if activity.clean_start_time >= activity.clean_end_time:
+                raise ValidationError(_(
+                    'Start Date Should be less than the End Date!'))
 
     @api.model
     def default_get(self, fields):

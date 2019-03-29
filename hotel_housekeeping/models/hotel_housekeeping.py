@@ -23,12 +23,13 @@ class HotelHousekeeping(models.Model):
                               states={'done': [('readonly', True)]},
                               index=True)
     activity_line_ids = fields.One2many('hotel.housekeeping.activities',
-                                     'a_list', 'Activities',
-                                     states={'done': [('readonly', True)]},
-                                     help='Detail of housekeeping activities',)
+                                        'a_list', 'Activities',
+                                        states={'done': [('readonly', True)]},
+                                        help='Detail of housekeeping \
+                                        activities',)
     inspector_id = fields.Many2one('res.users', 'Inspector', required=True,
-                                index=True,
-                                states={'done': [('readonly', True)]})
+                                   index=True,
+                                   states={'done': [('readonly', True)]})
     inspect_date_time = fields.Datetime('Inspect Date Time', required=True,
                                         states={'done': [('readonly', True)]})
     quality = fields.Selection([('excellent', 'Excellent'), ('good', 'Good'),

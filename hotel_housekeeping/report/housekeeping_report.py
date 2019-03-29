@@ -4,7 +4,6 @@ import time
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models
-from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 
 class ActivityReport(models.AbstractModel):
@@ -21,18 +20,14 @@ class ActivityReport(models.AbstractModel):
         activity_line_ids = house_keep_act_obj.search(act_domain)
 
         for activity in activity_line_ids:
-            ss_date = datetime.strptime(activity.clean_start_time,
-                                        DEFAULT_SERVER_DATETIME_FORMAT)
-            ee_date = datetime.strptime(activity.clean_end_time,
-                                        DEFAULT_SERVER_DATETIME_FORMAT)
+            ss_date = activity.clean_start_time
+            ee_date = activity.clean_end_time
             diff = ee_date - ss_date
 
             act_val.update({'current_date': activity.today_date,
-                            'activity': (activity.activity_name and
-                                         activity.activity_name.name or
+                            'activity': (activity.activity_name.name or
                                          ''),
-                            'login': (activity.housekeeper and
-                                      activity.housekeeper.name or ''),
+                            'login': (activity.housekeeper_id.name or ''),
                             'clean_start_time': activity.clean_start_time,
                             'clean_end_time': activity.clean_end_time,
                             'duration': diff})
@@ -40,7 +35,7 @@ class ActivityReport(models.AbstractModel):
         return activity_detail
 
     @api.model
-    def get_report_values(self, docids, data):
+    def _get_report_values(self, docids, data=None):
         self.model = self.env.context.get('active_model')
         if data is None:
             data = {}
@@ -51,7 +46,7 @@ class ActivityReport(models.AbstractModel):
         date_end = data['form'].get('date_end', str(datetime.now() +
                                     relativedelta(months=+1,
                                                   day=1, days=-1))[:10])
-        room_no = data['form'].get('room_no')[0]
+        room_no = data['form'].get('room_id')[0]
         return {
             'doc_ids': docids,
             'doc_model': self.model,

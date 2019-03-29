@@ -47,7 +47,8 @@ class HotelHousekeepingActivityType(models.Model):
                                                category_ids)], domain])
                 for num in range(1, len(category_names)):
                     domain = [[('name', operator,
-                                ' / '.join(category_names[-1 - num:]))], domain]
+                                ' / '.join(category_names[-1 - num:]))],
+                              domain]
                     if operator in expression.NEGATIVE_TERM_OPERATORS:
                         domain = expression.AND(domain)
                     else:
