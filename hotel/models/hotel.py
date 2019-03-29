@@ -483,7 +483,7 @@ class HotelFolio(models.Model):
                                     'folio_id': rec.id,
                                     }
                             folio_room_line_obj.create(vals)
-            except:
+            except Exception:
                 for rec in folio_id:
                     for room_rec in rec.room_lines:
                         prod = room_rec.product_id.name
