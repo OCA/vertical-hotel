@@ -32,11 +32,11 @@
         <field name="model">report.hotel.reservation.status</field>
         <field name="arch" type="xml">
             <search string="Hotel Reservation Status">
-                <filter string="Draft" domain="[('state','=', 'draft')]"
+                <filter name="draft" string="Draft" domain="[('state','=', 'draft')]"
                     help="Rooms in draft state" />
-                <filter string="Confirm" domain="[('state','=', 'confirm')]"
+                <filter name="confirm" string="Confirm" domain="[('state','=', 'confirm')]"
                     help="Rooms in confirm state" />
-                <filter string="Done" domain="[('state','=', 'done')]" help="Rooms in done state" />
+                <filter name="done" string="Done" domain="[('state','=', 'done')]" help="Rooms in done state" />
             </search>
         </field>
     </record>
