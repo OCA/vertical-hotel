@@ -26,7 +26,7 @@ class TestRestaurant(common.TransactionCase):
             ref('hotel_restaurant.hotel_restaurant_tables_table1')
         self.table0 = self.env.\
             ref('hotel_restaurant.hotel_restaurant_tables_table0')
-        self.room1 = self.env.ref('point_of_sale.partner_product_3')
+        self.room1 = self.env.ref('point_of_sale.desk_organizer')
         self.partner = self.env.ref('base.res_partner_4')
         self.waiter = self.env.ref('base.res_partner_3')
         cur_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
