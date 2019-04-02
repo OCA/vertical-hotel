@@ -2,7 +2,7 @@
 
 {
     'name': 'Restaurant Management - Reporting',
-    'version': '11.0.1.0.0',
+    'version': '12.0.1.0.0',
     'author': 'Odoo Community Association (OCA), Serpent Consulting\
                 Services Pvt. Ltd., Odoo S.A.',
     'category': 'Generic Modules/Hotel Management',
