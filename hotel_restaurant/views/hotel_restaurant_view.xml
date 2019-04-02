@@ -8,11 +8,11 @@
     <record id="view_hotelfolio1_form1_inherited" model="ir.ui.view">
         <field name="name">hotel.folio1.form1.inherited</field>
         <field name="model">hotel.folio</field>
-        <field name="inherit_id" ref="hotel.view_hotel_folio1_form" />
+        <field name="inherit_id" ref="hotel.view_hotel_folio_form" />
         <field name="arch" type="xml">
             <xpath expr="//form/sheet/notebook/page[3]"
                 position="after">
-                <page string="Hotel Restaurant">
+                <page name="hotel_restaurant" string="Hotel Restaurant">
                     <separator string="Restaurant Order Reservation Details"
                         colspan="4" />
                     <field name="hotel_reservation_order_ids" colspan="4"
@@ -127,7 +127,7 @@
                 </header>
                 <sheet>
                     <h1>
-                        <label string="Table Booking" colspan="4" />
+                        <label for="table_booking" string="Table Booking" colspan="4" />
                         <field name="reservation_id" colspan="4" />
                     </h1>
                     <group>
@@ -185,7 +185,7 @@
             <search string="Restaurant Reservation">
                 <filter
                     domain="[('state','in',('confirm','done','order')),('start_date','&lt;=',datetime.datetime.now()),('end_date','&gt;',datetime.datetime.now())]"
-                    string="Current Booking" />
+                    string="Current Booking" name="current_booking" />
                 <separator />
                 <filter name="today"
                     domain="[('start_date','&gt;=',datetime.datetime.now().replace(hour=0, minute=0, second=0)),('end_date','&lt;=',datetime.datetime.now().replace(hour=23, minute=59, second=59))]"
@@ -193,10 +193,10 @@
                 <separator />
                 <group string="States">
                     <filter icon="terp-check" domain="[('state','=','draft')]"
-                        string="Draft" />
-                    <filter domain="[('state','=','confirm')]" string="Confirm" />
-                    <filter domain="[('state','=','cancel')]" string="Cancel" />
-                    <filter domain="[('state','=','done')]" string="Done" />
+                        string="Draft" name="draft" />
+                    <filter domain="[('state','=','confirm')]" string="Confirm" name="confirm" />
+                    <filter domain="[('state','=','cancel')]" string="Cancel" name="cancel"/>
+                    <filter domain="[('state','=','done')]" string="Done" name="done" />
                 </group>
                 <field name="room_no" />
                 <field name="start_date" />
@@ -248,12 +248,12 @@
                 </header>
                 <sheet>
                     <h1>
-                        <label string="Order" colspan="4" />
+                        <label for="order" string="Order" colspan="4" />
                         <field name="order_number" colspan="4" />
                     </h1>
                     <group>
                         <group colspan="4" col="4">
-                            <field name="is_folio" invisible="1" />
+                            <field name="is_folio"/>
                             <newline />
                             <field name="reservationno" />
                             <field name="folio_id" attrs="{'invisible': [('is_folio','=',False)]}" />
@@ -376,7 +376,7 @@
                 </header>
                 <sheet>
                     <h1>
-                        <label string="Table Order" colspan="4" />
+                        <label for="table_order" string="Table Order" colspan="4" />
                         <field name="order_no" colspan="4" />
                     </h1>
                     <group>
@@ -643,7 +643,7 @@
                         </h1>
                     </div>
                     <notebook>
-                        <page string="Information">
+                        <page name="information" string="Information">
                             <group colspan="4" col="2">
                                 <group colspan="4" col="4">
                                     <field name="type" select="2" string="Food Type" />
@@ -662,7 +662,7 @@
                             <field name="taxes_id" colspan="4"
                                 help='List of customer taxes applied on the perticular Food Item.' />
                         </page>
-                        <page string="Procurement">
+                        <page name="procurement" string="Procurement">
                             <group colspan="4" col="4">
                                 <field name="cost_method" />
                                 <field name="active" select="2" />
@@ -676,7 +676,7 @@
                                     widget="one2many_list" />
                             </group>
                         </page>
-                        <page string="Descriptions">
+                        <page name="description" string="Descriptions">
                             <separator string="Description" />
                             <field name="description" colspan="4" nolabel="1" />
                             <separator string="Sale Description" />
@@ -714,7 +714,7 @@
                 <field name="list_price" />
                 <separator />
                 <group expand="0" string="Group By">
-                    <filter string="Categoty" domain="[]" context="{'group_by':'categ_id'}" />
+                    <filter name="category" string="Categoty" domain="[]" context="{'group_by':'categ_id'}" />
                 </group>
             </search>
         </field>
@@ -733,7 +733,7 @@
                         <t t-name="kanban-box">
                             <div class="oe_kanban_global_click">
                                 <div class="o_kanban_image">
-                                    <img t-att-src="kanban_image('hotel.menucard', 'image_small', record.id.raw_value)"/>
+                                    <img alt="" t-att-src="kanban_image('hotel.menucard', 'image_small', record.id.raw_value)"/>
                                 </div>
                                 <div class="oe_kanban_details">
                                     <h4>

@@ -43,9 +43,9 @@
                 <group col="4">
                     <field name="date_start" required="1" />
                     <field name="date_end" required="1" />
-                    <group col="4">
-                        <field name="check" />
-                    </group>
+                </group>
+                <group>
+                    <field name="check" />
                 </group>
                 <footer>
                     <button name="print_rest_report" string="Restaurant Reserved Order"
