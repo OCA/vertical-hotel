@@ -29,7 +29,7 @@ class HotelMenucardType(models.Model):
     name = fields.Char('Name', required=True)
     menu_id = fields.Many2one('hotel.menucard.type', string='Food Item Type')
     child_ids = fields.One2many('hotel.menucard.type', 'menu_id',
-                               'Child Categories')
+                                'Child Categories')
 
     @api.multi
     def name_get(self):
@@ -469,7 +469,7 @@ class HotelRestaurantOrder(models.Model):
                 'room_no': order.room_no.name,
                 'w_name': order.waiter_name.name,
                 'tableno': [(6, 0, table_ids)],
-                }
+            }
             kot_rec = order_tickets_obj.browse(self.kitchen_id)
             kot_rec.write(line_data)
             for order_line in order.order_list:
@@ -557,7 +557,7 @@ class HotelReservationOrder(models.Model):
                 'kot_date': order.order_date,
                 'w_name': order.waitername.name,
                 'tableno': [(6, 0, table_ids)],
-                }
+            }
             kot_data = order_tickets_obj.create(line_data)
             self.kitchen_id = kot_data.id
             for order_line in order.order_list:
@@ -591,11 +591,12 @@ class HotelReservationOrder(models.Model):
                 'kot_date': time.strftime(DEFAULT_SERVER_DATETIME_FORMAT),
                 'w_name': order.waitername.name,
                 'tableno': [(6, 0, table_ids)],
-                }
+            }
             kot_rec = order_tickets_obj.browse(self.kitchen_id)
             kot_rec.write(line_data)
             for order_line in order.order_list:
-                if order_line.id not in order.rest_id.ids:
+
+                if order_line not in order.rest_id.ids:
                     kot_data1 = order_tickets_obj.create(line_data)
                     order.kitchen_id = kot_data1.id
                     o_line = {
@@ -622,6 +623,7 @@ class HotelReservationOrder(models.Model):
         for order_obj in self:
             hotelfolio = order_obj.folio_id.order_id.id
             if order_obj.folio_id:
+
                 for order in order_obj.order_list:
                     values = {'order_id': hotelfolio,
                               'name': order.name.name,
@@ -649,9 +651,9 @@ class HotelReservationOrder(models.Model):
     reservationno = fields.Many2one('hotel.restaurant.reservation',
                                     'Reservation No')
     order_date = fields.Datetime('Date', required=True,
-                            default=(lambda *a:
-                                     time.strftime
-                                     (DEFAULT_SERVER_DATETIME_FORMAT)))
+                                 default=(lambda *a:
+                                          time.strftime
+                                          (DEFAULT_SERVER_DATETIME_FORMAT)))
     waitername = fields.Many2one('res.partner', 'Waiter Name')
     table_no = fields.Many2many('hotel.restaurant.tables', 'temp_table4',
                                 'table_no', 'name', 'Table Number')
@@ -721,7 +723,7 @@ class HotelRestaurantOrderList(models.Model):
     kot_order_list = fields.Many2one('hotel.restaurant.kitchen.order.tickets',
                                      'Kitchen Order Tickets')
     name = fields.Many2one('hotel.menucard', 'Item Name', required=True)
-    item_qty = fields.Integer('Qty', required=True)
+    item_qty = fields.Integer('Qty', required=True, default=1)
     item_rate = fields.Float('Rate')
     price_subtotal = fields.Float(compute='_compute_price_subtotal',
                                   method=True, string='Subtotal')

@@ -3,7 +3,6 @@
 import time
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from dateutil import parser
 from odoo import api, fields, models
 
 
@@ -17,16 +16,15 @@ class HotelRestaurantReport(models.AbstractModel):
                       ('end_date', '<=', date_end)]
         tids = rest_reservation_obj.search(act_domain)
         for record in tids:
-            data.append({'reservation': record.reservation_id,
-                         'name': record.cname.name,
-                         'start_date': parser.parse(record.start_date).
-                         strftime('%m/%d/%Y'),
-                         'end_date': parser.parse(record.end_date).
-                         strftime('%m/%d/%Y')})
+            data.append({
+                'reservation': record.reservation_id,
+                'name': record.cname.name,
+                'start_date': (record.start_date).strftime('%m/%d/%Y'),
+                'end_date': (record.end_date).strftime('%m/%d/%Y')})
         return data
 
     @api.model
-    def get_report_values(self, docids, data):
+    def _get_report_values(self, docids, data):
         self.model = self.env.context.get('active_model')
         if data is None:
             data = {}
@@ -35,9 +33,11 @@ class HotelRestaurantReport(models.AbstractModel):
         folio_profile = self.env['hotel.restaurant.tables'].browse(docids)
         date_start = data.get('date_start', fields.Date.today())
         date_start = data.get('date_start', fields.Date.today())
-        date_end = data['form'].get('date_end', str(datetime.now() +
-                                    relativedelta(months=1,
-                                                  day=1, days=1))[:10])
+        date_end = data['form'].get('date_end',
+                                    str(datetime.now() +
+                                        relativedelta(months=1,
+                                                      day=1,
+                                                      days=1))[:10])
         rm_act = self.with_context(data['form'].get('used_context', {}))
         reservation_res = rm_act.get_res_data(date_start, date_end)
         return {
@@ -54,7 +54,7 @@ class ReportKot(models.AbstractModel):
     _name = 'report.hotel_restaurant.report_hotel_order_kot'
 
     @api.model
-    def get_report_values(self, docids, data):
+    def _get_report_values(self, docids, data):
         self.model = self.env.context.get('active_model')
         if data is None:
             data = {}
@@ -86,15 +86,15 @@ class FolioRestReport(models.AbstractModel):
                     total_amount = total_amount + order.amount_total
                     total_order += 1
                 total += total_amount
-                data.append({'folio_name': record.name,
-                             'customer_name': record.partner_id.name,
-                             'checkin_date': parser.parse(record.checkin_date).
-                            strftime('%m/%d/%Y %H:%M:%S'),
-                             'checkout_date': parser.parse(record.
-                                                           checkout_date).
-                             strftime('%m/%d/%Y %H:%M:%S'),
-                             'total_amount': total_amount,
-                             'total_order': total_order})
+                data.append({
+                    'folio_name': record.name,
+                    'customer_name': record.partner_id.name,
+                    'checkin_date': (record.checkin_date)
+                    .strftime('%m/%d/%Y %H:%M:%S'),
+                    'checkout_date': (record.checkout_date)
+                    .strftime('%m/%d/%Y %H:%M:%S'),
+                    'total_amount': total_amount,
+                    'total_order': total_order})
         data.append({'total': total})
         return data
 
@@ -107,20 +107,21 @@ class FolioRestReport(models.AbstractModel):
             if record.hotel_reservation_order_ids:
                 order_data = []
                 for order in record.hotel_reservation_order_ids:
-                    order_data.append({'order_no': order.order_number,
-                                       'order_date': parser.parse(order.order_date).
-                                       strftime('%m/%d/%Y %H:%M:%S'),
-                                       'state': order.state,
-                                       'table_no': len(order.table_no),
-                                       'order_len': len(order.order_list),
-                                       'amount_total': order.amount_total})
+                    order_data.append({
+                        'order_no': order.order_number,
+                        'order_date': (order.order_date)
+                        .strftime('%m/%d/%Y %H:%M:%S'),
+                        'state': order.state,
+                        'table_no': len(order.table_no),
+                        'order_len': len(order.order_list),
+                        'amount_total': order.amount_total})
                 data.append({'folio_name': record.name,
                              'customer_name': record.partner_id.name,
                              'order_data': order_data})
         return data
 
     @api.model
-    def get_report_values(self, docids, data):
+    def _get_report_values(self, docids, data):
         self.model = self.env.context.get('active_model')
         if data is None:
             data = {}
@@ -128,9 +129,10 @@ class FolioRestReport(models.AbstractModel):
             docids = data['form'].get('docids')
         folio_profile = self.env['hotel.reservation.order'].browse(docids)
         date_start = data['form'].get('date_start', fields.Date.today())
-        date_end = data['form'].get('date_end', str(datetime.now() +
-                                    relativedelta(months=1,
-                                                  day=1, days=1))[:10])
+        date_end = data['form'].get('date_end',
+                                    str(datetime.now() +
+                                        relativedelta(months=1,
+                                                      day=1, days=1))[:10])
         rm_act = self.with_context(data['form'].get('used_context', {}))
         get_data_res = rm_act.get_data(date_start, date_end)
         get_rest_res = rm_act.get_rest(date_start, date_end)
@@ -163,15 +165,15 @@ class FolioReservReport(models.AbstractModel):
                     total_amount = total_amount + order.amount_total
                     total_order += 1
                 total += total_amount
-                data.append({'folio_name': record.name,
-                             'customer_name': record.partner_id.name,
-                             'checkin_date': parser.parse(record.checkin_date).
-                             strftime('%m/%d/%Y %H:%M:%S'),
-                             'checkout_date': parser.parse(record.
-                                                           checkout_date).
-                             strftime('%m/%d/%Y %H:%M:%S'),
-                             'total_amount': total_amount,
-                             'total_order': total_order})
+                data.append({
+                    'folio_name': record.name,
+                    'customer_name': record.partner_id.name,
+                    'checkin_date': (record.checkin_date).
+                    strftime('%m/%d/%Y %H:%M:%S'),
+                    'checkout_date': (record.checkout_date).
+                    strftime('%m/%d/%Y %H:%M:%S'),
+                    'total_amount': total_amount,
+                    'total_order': total_order})
         data.append({'total': total})
         return data
 
@@ -185,7 +187,7 @@ class FolioReservReport(models.AbstractModel):
             if record.hotel_restaurant_order_ids:
                 order_data = []
                 for order in record.hotel_restaurant_order_ids:
-                    order_date = parser.parse(order.o_date)
+                    order_date = order.o_date
                     order_date = order_date.strftime('%m/%d/%Y %H:%M:%S')
                     order_data.append({'order_no': order.order_no,
                                        'order_date': order_date,
@@ -199,7 +201,7 @@ class FolioReservReport(models.AbstractModel):
         return data
 
     @api.model
-    def get_report_values(self, docids, data):
+    def _get_report_values(self, docids, data):
         self.model = self.env.context.get('active_model')
         if data is None:
             data = {}
@@ -207,9 +209,10 @@ class FolioReservReport(models.AbstractModel):
             docids = data['form'].get('docids')
         folio_profile = self.env['hotel.restaurant.order'].browse(docids)
         date_start = data.get('date_start', fields.Date.today())
-        date_end = data['form'].get('date_end', str(datetime.now() +
-                                    relativedelta(months=1,
-                                                  day=1, days=1))[:10])
+        date_end = data['form'].get('date_end',
+                                    str(datetime.now() +
+                                        relativedelta(months=1,
+                                                      day=1, days=1))[:10])
         rm_act = self.with_context(data['form'].get('used_context', {}))
         get_data_res = rm_act.get_data(date_start, date_end)
         get_reserv_res = rm_act.get_reserv(date_start, date_end)
