@@ -46,7 +46,7 @@ class HotelHousekeepingActivities(models.Model):
         """
         if self._context is None:
             self._context = {}
-        res = super(HotelHousekeepingActivities, self).default_get(fields)
+        res = super().default_get(fields)
         if self._context.get('room_id', False):
             res.update({'room_id': self._context['room_id']})
         if self._context.get('today_date', False):
