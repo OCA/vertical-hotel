@@ -10,6 +10,7 @@ from odoo import api, fields, models
 
 class FolioReport(models.AbstractModel):
     _name = 'report.hotel.report_hotel_folio'
+    _description = 'Auxiliar to get the report'
 
     def _get_folio_data(self, date_start, date_end):
         total_amount = 0.0
