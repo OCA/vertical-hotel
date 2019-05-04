@@ -6,6 +6,7 @@ from odoo import api, fields, models
 class FolioReportWizard(models.TransientModel):
     _name = 'folio.report.wizard'
     _rec_name = 'date_start'
+    _description = 'Allow print folio report by date'
 
     date_start = fields.Datetime('Start Date')
     date_end = fields.Datetime('End Date')

@@ -15,7 +15,6 @@ access_hotel_order_user,hotel.order.user,sale.model_sale_order,hotel.group_hotel
 access_hotel_order_line_user,hotel.order.line.user,sale.model_sale_order_line,hotel.group_hotel_user,1,1,1,0
 access_hotel_invoice_user,account.invoice.user,account.model_account_invoice,hotel.group_hotel_user,1,1,1,0
 access_folio_room_line_user,hotel.folio_room_line.user,model_folio_room_line,hotel.group_hotel_user,1,1,1,1
-access_folio_report_wizard_user,hotel.folio.report.wizard.user,model_folio_report_wizard,hotel.group_hotel_user,1,1,1,0
 access_hotel_floor_group_manager,hotel.floor.manager,model_hotel_floor,hotel.group_hotel_manager,1,1,1,1
 access_product_category_manager,product.category.manager,product.model_product_category,hotel.group_hotel_manager,1,1,1,1
 access_hotel_room_type_manager,hotel.room_type.manager,model_hotel_room_type,hotel.group_hotel_manager,1,1,1,1
@@ -32,4 +31,3 @@ access_hotel_order_manager_manager,hotel.order.manager,sale.model_sale_order,hot
 access_hotel_order_line_manager,hotel.order.line.manager,sale.model_sale_order_line,hotel.group_hotel_manager,1,1,1,0
 access_hotel_invoice_manager,account.invoice.manager,account.model_account_invoice,hotel.group_hotel_manager,1,1,1,1
 access_folio_room_line_manager,hotel.folio_room_line.manager,model_folio_room_line,hotel.group_hotel_manager,1,1,1,1
-access_folio_report_wizard_manager,hotel.folio.report.wizard.manager,model_folio_report_wizard,hotel.group_hotel_manager,1,1,1,1
