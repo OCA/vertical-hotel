@@ -9,6 +9,7 @@ from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 class ReportTestCheckin(models.AbstractModel):
     _name = "report.hotel_reservation.report_checkin_qweb"
+    _description = 'Auxiliar to get the check in report'
 
     def _get_room_type(self, date_start, date_end):
         reservation_obj = self.env['hotel.reservation']
@@ -59,6 +60,7 @@ class ReportTestCheckin(models.AbstractModel):
 
 class ReportTestCheckout(models.AbstractModel):
     _name = "report.hotel_reservation.report_checkout_qweb"
+    _description = 'Auxiliar to get the check out report'
 
     def _get_room_type(self, date_start, date_end):
         reservation_obj = self.env['hotel.reservation']
@@ -108,6 +110,7 @@ class ReportTestCheckout(models.AbstractModel):
 
 class ReportTestMaxroom(models.AbstractModel):
     _name = "report.hotel_reservation.report_maxroom_qweb"
+    _description = 'Auxiliar to get the room report'
 
     def _get_room_type(self, date_start, date_end):
         reservation_obj = self.env['hotel.reservation']
@@ -184,6 +187,7 @@ class ReportTestMaxroom(models.AbstractModel):
 
 class ReportTestRoomres(models.AbstractModel):
     _name = "report.hotel_reservation.report_roomres_qweb"
+    _description = 'Auxiliar to get the room report'
 
     def _get_room_type(self, date_start, date_end):
         reservation_obj = self.env['hotel.reservation']

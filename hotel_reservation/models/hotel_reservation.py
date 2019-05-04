@@ -174,7 +174,7 @@ class HotelReservation(models.Model):
                              default=lambda *a: 'draft')
     folio_id = fields.Many2many('hotel.folio', 'hotel_folio_reservation_rel',
                                 'order_id', 'invoice_id', string='Folio')
-    no_of_folio = fields.Integer('Folio', compute="_compute_folio_id")
+    no_of_folio = fields.Integer('No. Folio', compute="_compute_folio_id")
     dummy = fields.Datetime('Dummy')
 
     @api.multi
