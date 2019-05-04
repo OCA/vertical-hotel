@@ -8,7 +8,7 @@
     <record id="view_hotelfolio1_form1_inherited" model="ir.ui.view">
         <field name="name">hotel.folio1.form1.inherited</field>
         <field name="model">hotel.folio</field>
-        <field name="inherit_id" ref="hotel.view_hotel_folio1_form" />
+        <field name="inherit_id" ref="hotel.view_hotel_folio_form" />
         <field name="arch" type="xml">
             <xpath expr="//form/sheet/notebook/page[3]"
                 position="after">
@@ -127,7 +127,7 @@
                 </header>
                 <sheet>
                     <h1>
-                        <label string="Table Booking" colspan="4" />
+                        <label string="Table Booking" colspan="4" for="reservation_id"/>
                         <field name="reservation_id" colspan="4" />
                     </h1>
                     <group>
@@ -185,7 +185,7 @@
             <search string="Restaurant Reservation">
                 <filter
                     domain="[('state','in',('confirm','done','order')),('start_date','&lt;=',datetime.datetime.now()),('end_date','&gt;',datetime.datetime.now())]"
-                    string="Current Booking" />
+                    string="Current Booking" name="current_booking"/>
                 <separator />
                 <filter name="today"
                     domain="[('start_date','&gt;=',datetime.datetime.now().replace(hour=0, minute=0, second=0)),('end_date','&lt;=',datetime.datetime.now().replace(hour=23, minute=59, second=59))]"
@@ -193,10 +193,10 @@
                 <separator />
                 <group string="States">
                     <filter icon="terp-check" domain="[('state','=','draft')]"
-                        string="Draft" />
-                    <filter domain="[('state','=','confirm')]" string="Confirm" />
-                    <filter domain="[('state','=','cancel')]" string="Cancel" />
-                    <filter domain="[('state','=','done')]" string="Done" />
+                        string="Draft" name="draft"/>
+                    <filter domain="[('state','=','confirm')]" string="Confirm" name="confirm"/>
+                    <filter domain="[('state','=','cancel')]" string="Cancel" name="cancel"/>
+                    <filter domain="[('state','=','done')]" string="Done" name="done"/>
                 </group>
                 <field name="room_no" />
                 <field name="start_date" />
@@ -248,7 +248,7 @@
                 </header>
                 <sheet>
                     <h1>
-                        <label string="Order" colspan="4" />
+                        <label string="Order" colspan="4" for="order_number"/>
                         <field name="order_number" colspan="4" />
                     </h1>
                     <group>
@@ -376,7 +376,7 @@
                 </header>
                 <sheet>
                     <h1>
-                        <label string="Table Order" colspan="4" />
+                        <label string="Table Order" colspan="4" for="order_no"/>
                         <field name="order_no" colspan="4" />
                     </h1>
                     <group>
@@ -714,7 +714,7 @@
                 <field name="list_price" />
                 <separator />
                 <group expand="0" string="Group By">
-                    <filter string="Categoty" domain="[]" context="{'group_by':'categ_id'}" />
+                    <filter string="Category" domain="[]" context="{'group_by':'categ_id'}" name="category"/>
                 </group>
             </search>
         </field>
@@ -722,46 +722,47 @@
 
     <!-- Kanban view of hotel menu card -->
     <record id="hotel_manucard_kanban_view" model="ir.ui.view">
-        <field name="name">Menucard Kanban</field>
+        <field name="name">menucard.kanban</field>
         <field name="model">hotel.menucard</field>
         <field name="arch" type="xml">
             <kanban>
-                    <field name="id"/>
-                    <field name="image_small"/>
-                    <field name="lst_price"/>
-                    <templates>
-                        <t t-name="kanban-box">
-                            <div class="oe_kanban_global_click">
-                                <div class="o_kanban_image">
-                                    <img t-att-src="kanban_image('hotel.menucard', 'image_small', record.id.raw_value)"/>
-                                </div>
-                                <div class="oe_kanban_details">
-                                    <h4>
-                                        <a type="open">
-                                            <t t-if="record.code.raw_value">
-                                                [
-                                                    <field name="code" />
-                                                ]
-                                            </t>
-                                            <field name="name" />
-                                        </a>
-                                    </h4>
-                                    <div name="tags"/>
-                                    <ul>
+                <field name="id"/>
+                <field name="image_small"/>
+                <field name="lst_price"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <img alt="room_image"
+                                    t-att-src="kanban_image('hotel.menucard', 'image_small', record.id.raw_value)"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <h4>
+                                    <a type="open">
+                                        <t t-if="record.code.raw_value">
+                                            [
+                                                <field name="code" />
+                                            ]
+                                        </t>
+                                        <field name="name" />
+                                    </a>
+                                </h4>
+                                <div name="tags"/>
+                                <ul>
                                     <li>
                                         Price:
-                                        <field name="lst_price"></field>
+                                        <field name="lst_price"/>
                                     </li>
                                     <li>
                                         Category:
-                                        <field name="categ_id"></field>
+                                        <field name="categ_id"/>
                                     </li>
                                 </ul>
-                                </div>
                             </div>
-                        </t>
-                    </templates>
-                </kanban>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
         </field>
     </record>
 
@@ -780,7 +781,7 @@
             </p>
             <p>
                 No Food Items
-            </p> 
+            </p>
         </field>
     </record>
 
