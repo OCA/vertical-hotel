@@ -24,7 +24,7 @@
                                 <span t-esc="data['date_end']" />
                             </div>
                         </div>
-                        <table class="table table-condensed">
+                        <table class="table table-condensed table-sm">
                             <tr>
                                 <td>
                                     <strong>#No</strong>
@@ -56,7 +56,7 @@
                                     <span t-field="info.checkout" />
                                 </td>
                                 <td>
-                                    <table t-foreach="info.reservation_line" t-as="line">
+                                    <table class="table-borderless" t-foreach="info.reservation_line" t-as="line">
                                         <tr>
                                             <td>
                                                 <span t-field="line.categ_id.name" />
