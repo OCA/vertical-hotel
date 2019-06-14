@@ -19,9 +19,9 @@
                         <div class="row mt32 mb32">
                             <div class="text-center">
                                 <strong>From:</strong>
-                                <span t-esc="data['date_start']" />
+                                <span t-esc="date_start" />
                                 <strong>To:</strong>
-                                <span t-esc="data['date_end']" />
+                                <span t-esc="date_end" />
                             </div>
                         </div>
                         <table class="table table-condensed">
@@ -44,19 +44,19 @@
                             </tr>
                             <tr t-foreach="get_data" t-as="info">
                                 <td>
-                                    <span t-field="info.reservation_no" />
+                                    <span t-esc="info['reservation_no']" />
                                 </td>
                                 <td>
-                                    <span t-field="info.partner_id.name" />
+                                    <span t-esc="info['partner_id'].name" />
                                 </td>
                                 <td>
-                                    <span t-field="info.checkin" />
+                                    <span t-esc="info['checkin']" />
                                 </td>
                                 <td>
-                                    <span t-field="info.checkout" />
+                                    <span t-esc="info['checkout']" />
                                 </td>
                                 <td>
-                                    <table t-foreach="info.reservation_line" t-as="line">
+                                    <table t-foreach="info['reservation_line']" t-as="line">
                                         <tr>
                                             <td>
                                                 <span t-field="line.categ_id.name" />

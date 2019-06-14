@@ -16,24 +16,24 @@
                 <p style="margin: 0px; padding: 0px; font-size: 13px;">
                 <p>Hello <strong>${object.partner_id.name}</strong>,</p>
                 <p>This is to confirm your booking for a room at the <strong>${object.warehouse_id.name} Hotel</strong>,
-                   % if object.warehouse_id.partner_id.city: 
+                   % if object.warehouse_id.partner_id.city:
                    <strong>${object.warehouse_id.partner_id.city}</strong>,
-                   % endif 
+                   % endif
                    % if object.warehouse_id.partner_id.country_id.name:
                    <strong>${object.warehouse_id.partner_id.country_id.name}</strong>.
                    % endif
                    On behalf of the hotel, we would like to express our gratitude to you for choosing our services. 
-                   Please find all the details regarding the confirmation of the reservation on Date <strong>${object.date_order}</strong> are listed below:
+                   Please find all the details regarding the confirmation of the reservation on Date <strong>${object.format_date(object.date_order, object.partner_id.lang)[0]}</strong> are listed below:
                 </p>
-                        <strong>Details :</strong><br/>
+                <strong>Details :</strong><br/>
                 <p style="border-left: 1px solid #8e0000; margin-left: 30px;">
-                        Name Of Guest : <strong>${object.partner_id.name}</strong><br />
-                        Date Of Arrival : <strong>${object.checkin}</strong><br />
-                        Date Of Departure : <strong>${object.checkout}</strong><br />
-                        Reservation Number : <strong>${object.reservation_no}</strong><br />
-                        Number Of Persons : <strong>${object.adults}</strong> Adults and <strong>${object.children}</strong> Childrens<br />
+                Name Of Guest : <strong>${object.partner_id.name}</strong><br />
+                Date Of Arrival : <strong>${object.format_date(object.checkin, object.partner_id.lang)[0]}</strong><br />
+                Date Of Departure : <strong>${object.format_date(object.checkout, object.partner_id.lang)[0]}</strong><br />
+                Reservation Number : <strong>${object.reservation_no}</strong><br />
+                Number Of Persons : <strong>${object.adults}</strong> Adults and <strong>${object.children}</strong> Childrens<br />
                 </p>
-                    <strong>Rooms Rates Per Night :</strong><br/>
+                <strong>Rooms Rates Per Night :</strong><br/>
                 <br/>
                 <table border="1" cellpadding="4" style="margin-left: 30px;">
                         <tr>
@@ -74,11 +74,11 @@
                % if object.warehouse_id.partner_id.website:
                <strong>${object.warehouse_id.partner_id.website}</strong> <br />
                % endif
-                </p>
-                </div>
+               </p>
+               </div>
             </field>
         </record>
-    
+
         <!-- Email Template For Hotel Reservation Reminder Before 24 Hours -->
         <record id="mail_template_reservation_reminder_24hrs" model="mail.template">
             <field name="name">Reservation Reminder Before 24hrs</field>
@@ -101,15 +101,15 @@
                    % if object.warehouse_id.partner_id.country_id.name:
                    <strong>${object.warehouse_id.partner_id.country_id.name}</strong>.
                    % endif
-                    Your checkin has been confirmed on Date <strong>${object.date_order}</strong>.
+                    Your checkin has been confirmed on Date <strong>${object.format_date(object.date_order, object.partner_id.lang)[0]}</strong>.
                    Please find all the details regarding to the reservation as listed below:
                 </p>
                 <br/>
                 <strong>Details :</strong><br/>
                 <p style="border-left: 1px solid #8e0000; margin-left: 30px;">
                 &amp;nbsp;&amp;nbsp;Name Of Guest : <strong>${object.partner_id.name}</strong><br />
-                &amp;nbsp;&amp;nbsp;Date Of Arrival : <strong>${object.checkin}</strong><br />
-                &amp;nbsp;&amp;nbsp;Date Of Departure : <strong>${object.checkout}</strong><br />
+                &amp;nbsp;&amp;nbsp;Date Of Arrival : <strong>${object.format_date(object.checkin, object.partner_id.lang)[0]}</strong><br />
+                &amp;nbsp;&amp;nbsp;Date Of Departure : <strong>${object.format_date(object.checkout, object.partner_id.lang)[0]}</strong><br />
                 &amp;nbsp;&amp;nbsp;Reservation Number : <strong>${object.reservation_no}</strong><br />
                 &amp;nbsp;&amp;nbsp;Number Of Persons : <strong>${object.adults}</strong> Adults and <strong>${object.children}</strong> Childrens<br />
                 </p>

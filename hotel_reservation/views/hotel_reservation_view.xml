@@ -69,7 +69,7 @@
                                         nolabel="1" />
                                 </form>
                                 <tree string="Reservation Line">
-                                    <field name="reserve" string="Rooms" widget="many2many_tags" />
+                                    <field name="reserve" string="Rooms" widget="many2many_tags"/>
                                 </tree>
                             </field>
                         </page>
@@ -78,6 +78,10 @@
                         </page>
                     </notebook>
                 </sheet>
+                <div class="oe_chatter">
+					<field name="message_follower_ids" widget="mail_followers"/>
+					<field name="message_ids" widget="mail_thread"/>
+				</div>
             </form>
         </field>
     </record>
@@ -105,8 +109,9 @@
         <field name="arch" type="xml">
             <search string="Reservation">
                 <filter name='current_reservations' string="Current Reservations"
-                    domain="[('checkout','&gt;=',datetime.datetime.now().replace(hour=0, minute=0, second=0)),('checkin','&lt;=',datetime.datetime.now().replace(hour=23, minute=59, second=59))]"
+                    domain="[('checkin','&gt;=',datetime.datetime.now().replace(hour=0, minute=0, second=0))]"
                     help="Current Reservations" />
+                <field name='reservation_line' string="Room" />
                 <filter name='draft' domain="[('state','=','draft')]" string="Draft" />
                 <filter name='confirm' domain="[('state','=','confirm')]" string="Confirm" />
                 <filter name='cancel' domain="[('state','=','cancel')]" string="Cancel" />
@@ -201,39 +206,6 @@
         </field>
     </record>
 
-    <record id="view_hotel_folio_form_inherited" model="ir.ui.view">
-        <field name="name">hotel.folio.form.inherited</field>
-        <field name="model">hotel.folio</field>
-        <field name="inherit_id" ref="hotel.view_hotel_folio_form" />
-        <field name="arch" type="xml">
-            <field name="name" position='after'>
-                <field name="reservation_id" readonly='1' />
-            </field>
-        </field>
-    </record>
-
-    <record id="view_hotel_folio_tree_inherited" model="ir.ui.view">
-        <field name="name">hotel.folio.tree.inherited</field>
-        <field name="model">hotel.folio</field>
-        <field name="inherit_id" ref="hotel.view_hotel_folio_tree" />
-        <field name="arch" type="xml">
-            <field name="name" position='after'>
-                <field name="reservation_id" />
-            </field>
-        </field>
-    </record>
-
-    <record id="view_hotel_folio1_search_inherited" model="ir.ui.view">
-        <field name="name">hotel.folio.search.inherited</field>
-        <field name="model">hotel.folio</field>
-        <field name="inherit_id" ref="hotel.view_hotel_folio_search" />
-        <field name="arch" type="xml">
-            <field name="name" position='after'>
-                <field name="reservation_id" />
-            </field>
-        </field>
-    </record>
-
     <!-- Form view of room reservation summary -->
     <record id="room_reservation_summary_form_view" model="ir.ui.view">
         <field name="name">room.reservation.summary.form</field>
@@ -260,40 +232,6 @@
                         </page>
                     </notebook>
                 </sheet>
-            </form>
-        </field>
-    </record>
-
-    <!-- Form view of quick room reservation -->
-    <record id="quick_room_reservation_form_view" model="ir.ui.view">
-        <field name="name">quick.room.reservation.form</field>
-        <field name="model">quick.room.reservation</field>
-        <field name="arch" type="xml">
-            <form string="Quick Reservation">
-                <header>
-                    <separator string="Quick Reservation" colspan="4" />
-                </header>
-                <sheet>
-                    <group colspan="4" col="4">
-                        <field name="partner_id" />
-                        <field name="room_id" readonly="1" />
-                        <field name="check_in" />
-                        <field name="check_out" />
-                        <field name="warehouse_id" />
-                        <field name="pricelist_id" />
-                        <field name="partner_invoice_id" />
-                        <field name="partner_order_id" />
-                        <field name="partner_shipping_id" />
-                        <field name="adults" />
-                    </group>
-                </sheet>
-                <footer>
-                    <group colspan="2" col="2">
-                        <button string="Save" name="room_reserve" type="object"
-                            class="btn-primary" />
-                        <button string="Cancel" special="cancel" class="btn-primary" />
-                    </group>
-                </footer>
             </form>
         </field>
     </record>

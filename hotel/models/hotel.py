@@ -205,12 +205,40 @@ class FolioRoomLine(models.Model):
     _description = 'Hotel Room Reservation'
     _rec_name = 'room_id'
 
+    @api.model
+    def _get_checkin_date(self):
+        if self._context.get('tz'):
+            to_zone = self._context.get('tz')
+        else:
+            to_zone = 'UTC'
+        return _offset_format_timestamp1(time.strftime("%Y-%m-%d 15:00:00"),
+                                         DEFAULT_SERVER_DATETIME_FORMAT,
+                                         DEFAULT_SERVER_DATETIME_FORMAT,
+                                         ignore_unparsable_time=True,
+                                         context={'tz': to_zone})
+
+    @api.model
+    def _get_checkout_date(self):
+        if self._context.get('tz'):
+            to_zone = self._context.get('tz')
+        else:
+            to_zone = 'UTC'
+        tm_delta = timedelta(days=1)
+        return datetime.strptime(_offset_format_timestamp1
+                                 (time.strftime("%Y-%m-%d 11:00:00"),
+                                  DEFAULT_SERVER_DATETIME_FORMAT,
+                                  DEFAULT_SERVER_DATETIME_FORMAT,
+                                  ignore_unparsable_time=True,
+                                  context={'tz': to_zone}),
+                                 '%Y-%m-%d %H:%M:%S') + tm_delta
+
     room_id = fields.Many2one('hotel.room', 'Room id')
-    check_in = fields.Datetime('Check In Date', required=True)
-    check_out = fields.Datetime('Check Out Date', required=True)
+    check_in = fields.Datetime('Check In Date', required=True,
+                              default=_get_checkin_date)
+    check_out = fields.Datetime('Check Out Date', required=True,
+                              default=_get_checkout_date)
     folio_id = fields.Many2one('hotel.folio', string='Folio Number')
     status = fields.Selection(string='state', related='folio_id.state')
-
 
 class HotelRoom(models.Model):
 
@@ -293,6 +321,7 @@ class HotelRoom(models.Model):
 class HotelFolio(models.Model):
 
     _name = 'hotel.folio'
+    _inherit = ['mail.thread']
     _description = 'hotel folio new'
     _rec_name = 'order_id'
     _order = 'id'
@@ -329,7 +358,7 @@ class HotelFolio(models.Model):
             to_zone = self._context.get('tz')
         else:
             to_zone = 'UTC'
-        return _offset_format_timestamp1(time.strftime("%Y-%m-%d 12:00:00"),
+        return _offset_format_timestamp1(time.strftime("%Y-%m-%d 15:00:00"),
                                          DEFAULT_SERVER_DATETIME_FORMAT,
                                          DEFAULT_SERVER_DATETIME_FORMAT,
                                          ignore_unparsable_time=True,
@@ -343,7 +372,7 @@ class HotelFolio(models.Model):
             to_zone = 'UTC'
         tm_delta = timedelta(days=1)
         return datetime.strptime(_offset_format_timestamp1
-                                 (time.strftime("%Y-%m-%d 12:00:00"),
+                                 (time.strftime("%Y-%m-%d 11:00:00"),
                                   DEFAULT_SERVER_DATETIME_FORMAT,
                                   DEFAULT_SERVER_DATETIME_FORMAT,
                                   ignore_unparsable_time=True,
@@ -544,6 +573,18 @@ class HotelFolio(models.Model):
                                          ([('folio_id', '=', rec.id)]))
                     folio_romline_rec.write(room_vals)
         return super(HotelFolio, self).write(vals)
+    
+    @api.multi
+    def unlink(self):
+        """
+        Overrides orm unlink method.
+        @param self: The object pointer
+        @return: True/False.
+        """
+        for folio in self:
+            for line in folio.room_lines:
+                line.unlink()
+        return super(HotelFolio, self).unlink()
 
     @api.onchange('warehouse_id')
     def onchange_warehouse_id(self):
@@ -710,7 +751,9 @@ class HotelFolioLine(models.Model):
     is_reserved = fields.Boolean(string='Is Reserved',
                                  help='True when folio line created from \
                                  Reservation')
-
+    reservation = fields.Many2one('hotel.reservation', string='Reservation',
+                               ondelete='cascade')
+    
     @api.model
     def create(self, vals):
         """
@@ -750,6 +793,8 @@ class HotelFolioLine(models.Model):
         sale_line_obj = self.env['sale.order.line']
         fr_obj = self.env['folio.room.line']
         for line in self:
+            if line.reservation:
+                line.reservation.state='confirm'
             if line.order_line_id:
                 sale_unlink_obj = (sale_line_obj.browse
                                    ([line.order_line_id.id]))

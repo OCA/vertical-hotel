@@ -541,9 +541,11 @@
                                 <form string="Room Line">
                                     <notebook>
                                         <page name="folio_name" string="Folio Line">
+                                            <separator string="Reservation" colspan="4" />
+                                            <field name="reservation" colspan="4" select="2" readonly="1"/>
                                             <group col="6" colspan="4">
-                                                <field name="checkin_date" />
-                                                <field name="checkout_date" />
+                                                <field name="checkin_date" readonly="1"/>
+                                                <field name="checkout_date" readonly="1"/>
                                                 <separator string="Automatic Declaration" col="6"
                                                     colspan="4" />
                                                 <field name="product_uom_qty"
@@ -551,14 +553,14 @@
                                                     invisible="1" />
                                                 <field name="product_id"
                                                     context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'uom':product_uom}"
-                                                    domain="[('isroom','=',True)]" string="Room No" />
-                                                <field name="product_uom" string="Rent(UOM)" />
+                                                    domain="[('isroom','=',True)]" string="Room No" readonly="1"/>
+                                                <field name="product_uom" string="Rent(UOM)" readonly="1"/>
                                             </group>
                                             <separator string="Manual Description" colspan="4" />
                                             <field name="name" colspan="4" select="2"
                                                 placeholder="Description" />
                                             <group col="4" colspan="2">
-                                                <field name="price_unit" select="2" string="Rent" />
+                                                <field name="price_unit" select="2" string="Rent" readonly="1"/>
                                                 <field name="discount" />
                                                 <newline />
                                                 <field name="tax_id" colspan="4" nolabel="1" />
@@ -575,7 +577,7 @@
                                     </notebook>
                                 </form>
                                 <tree string="Room Line">
-                                    <field name="name" />
+                                    <field name="reservation" />
                                     <field name="checkin_date" />
                                     <field name="checkout_date" />
                                     <field name="product_id" string="Room No" />
@@ -659,6 +661,10 @@
                         </page>
                     </notebook>
                 </sheet>
+                <div class="oe_chatter">
+					<field name="message_follower_ids" widget="mail_followers"/>
+					<field name="message_ids" widget="mail_thread"/>
+				</div>
             </form>
         </field>
     </record>

@@ -53,11 +53,34 @@ var MyWidget = FieldText.extend({
          var self = this
          this.$el.find(".table_free").bind("click", function(event){
              self.do_action({
+            	 	 name: 'Reservation',
                      type: 'ir.actions.act_window',
-                     res_model: "quick.room.reservation",
+                     res_model: "hotel.reservation",
                      views: [[false, 'form']],
                      target: 'new',
-                     context: {"room_id": $(this).attr("data"), 'date': $(this).attr("date"), 'default_adults': 1},
+                     context: {"room_id": $(this).attr("data"), 'date': $(this).attr("date")},
+             });
+         });
+         this.$el.find(".table_reserved").bind("click", function(event){
+             self.do_action({
+            	 	 name: 'Reservation',
+                     type: 'ir.actions.act_window',
+                     res_model: "hotel.reservation",
+                     res_id: parseInt($(this).attr("data")),
+                     views: [[false, 'form']],
+                     target: 'new',
+                     context: {},
+             });
+         });
+         this.$el.find(".table_reserved1").bind("click", function(event){
+             self.do_action({
+            	 	 name: 'Reservation',
+                     type: 'ir.actions.act_window',
+                     res_model: "hotel.reservation",
+                     res_id: parseInt($(this).attr("data")),
+                     views: [[false, 'form']],
+                     target: 'new',
+                     context: {},
              });
          });
      },

@@ -5,9 +5,83 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models, _
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT as dt
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from odoo.exceptions import ValidationError, UserError
 import pytz
 
+def _offset_format_timestamp1(src_tstamp_str, src_format, dst_format,
+                              ignore_unparsable_time=True, context=None):
+    """
+    Convert a source timeStamp string into a destination timeStamp string,
+    attempting to apply the correct offset if both the server and local
+    timeZone are recognized,or no offset at all if they aren't or if
+    tz_offset is false (i.e. assuming they are both in the same TZ).
+
+    @param src_tstamp_str: the STR value containing the timeStamp.
+    @param src_format: the format to use when parsing the local timeStamp.
+    @param dst_format: the format to use when formatting the resulting
+     timeStamp.
+    @param server_to_client: specify timeZone offset direction (server=src
+                             and client=dest if True, or client=src and
+                             server=dest if False)
+    @param ignore_unparsable_time: if True, return False if src_tstamp_str
+                                   cannot be parsed using src_format or
+                                   formatted using dst_format.
+    @return: destination formatted timestamp, expressed in the destination
+             timezone if possible and if tz_offset is true, or src_tstamp_str
+             if timezone offset could not be determined.
+    """
+    if not src_tstamp_str:
+        return False
+    res = src_tstamp_str
+    if src_format and dst_format:
+        try:
+            # dt_value needs to be a datetime object\
+            # (so notime.struct_time or mx.DateTime.DateTime here!)
+            dt_value = datetime.strptime(src_tstamp_str, src_format)
+            if context.get('tz', False):
+                try:
+                    import pytz
+                    src_tz = pytz.timezone(context['tz'])
+                    dst_tz = pytz.timezone('UTC')
+                    src_dt = src_tz.localize(dt_value, is_dst=True)
+                    dt_value = src_dt.astimezone(dst_tz)
+                except Exception:
+                    pass
+            res = dt_value.strftime(dst_format)
+        except Exception:
+            # Normal ways to end up here are if strptime or strftime failed
+            if not ignore_unparsable_time:
+                return False
+            pass
+    return res
+
+def _get_checkin_date(self):
+    if self._context.get('tz'):
+        to_zone = self._context.get('tz')
+    else:
+        to_zone = 'UTC'
+    return datetime.strptime(_offset_format_timestamp1
+                             (time.strftime("%Y-%m-%d 15:00:00"),
+                              DEFAULT_SERVER_DATETIME_FORMAT,
+                              DEFAULT_SERVER_DATETIME_FORMAT,
+                              ignore_unparsable_time=True,
+                              context={'tz': to_zone}),
+                             '%Y-%m-%d %H:%M:%S')
+
+def _get_checkout_date(self):
+    if self._context.get('tz'):
+        to_zone = self._context.get('tz')
+    else:
+        to_zone = 'UTC'
+    tm_delta = timedelta(days=1)
+    return datetime.strptime(_offset_format_timestamp1
+                             (time.strftime("%Y-%m-%d 11:00:00"),
+                              DEFAULT_SERVER_DATETIME_FORMAT,
+                              DEFAULT_SERVER_DATETIME_FORMAT,
+                              ignore_unparsable_time=True,
+                              context={'tz': to_zone}),
+                             '%Y-%m-%d %H:%M:%S') + tm_delta
 
 class HotelFolio(models.Model):
 
@@ -157,6 +231,7 @@ class HotelReservation(models.Model):
                                readonly=True,
                                states={'draft': [('readonly', False)]})
     adults = fields.Integer('Adults', readonly=True,
+                            default=1,
                             states={'draft': [('readonly', False)]},
                             help='List of adults there in guest list. ')
     children = fields.Integer('Children', readonly=True,
@@ -176,7 +251,60 @@ class HotelReservation(models.Model):
                                 'order_id', 'invoice_id', string='Folio')
     no_of_folio = fields.Integer('No. Folio', compute="_compute_folio_id")
     dummy = fields.Datetime('Dummy')
+    
+    user_id = None
+    def get_base_url(self):
+        return None
 
+    def _get_share_url(self, redirect=True, signup_partner=True):
+        return None
+    #END DISCLAIMER
+
+    @api.model
+    def default_get(self, fields):
+        """
+        To get default values for the object.
+        @param self: The object pointer.
+        @param fields: List of fields for which we want default values
+        @return: A dictionary which of fields with values.
+        """
+        if self._context is None:
+            self._context = {}
+        res = super(HotelReservation, self).default_get(fields)
+        if self._context:
+            keys = self._context.keys()
+            if 'date' in keys:
+                date_selected = datetime.strptime(self._context['date'], '%Y-%m-%d %H:%M:%S')
+            else:
+                date_selected = datetime.today()
+            if self._context.get('tz'):
+                to_zone = self._context.get('tz')
+            else:
+                to_zone = 'UTC'
+            new_check_in = datetime.strptime(_offset_format_timestamp1
+                         (date_selected.strftime("%Y-%m-%d 15:00:00"),
+                          DEFAULT_SERVER_DATETIME_FORMAT,
+                          DEFAULT_SERVER_DATETIME_FORMAT,
+                          ignore_unparsable_time=True,
+                          context={'tz': to_zone}),
+                         '%Y-%m-%d %H:%M:%S')
+            tm_delta = timedelta(days=1)
+            new_check_out = datetime.strptime(_offset_format_timestamp1
+                         (date_selected.strftime("%Y-%m-%d 11:00:00"),
+                          DEFAULT_SERVER_DATETIME_FORMAT,
+                          DEFAULT_SERVER_DATETIME_FORMAT,
+                          ignore_unparsable_time=True,
+                          context={'tz': to_zone}),
+                         '%Y-%m-%d %H:%M:%S') + tm_delta
+            res.update({'checkin': new_check_in})
+            res.update({'checkout': new_check_out})
+            if 'room_id' in keys:
+                room = self.env['hotel.room'].browse(int(self._context['room_id']))
+                reservation_line_obj = self.env['hotel_reservation.line']
+                reservation_line_new = reservation_line_obj.create({'reserve': [(4, room.id, 0)], 'categ_id': room.categ_id.id})
+                res.update({'reservation_line': [reservation_line_new.id]})
+        return res
+    
     @api.multi
     def _compute_folio_id(self):
         folio_list = []
@@ -460,6 +588,20 @@ class HotelReservation(models.Model):
             'target': 'new',
             'context': ctx,
         }
+    
+    @api.one
+    def format_date(self, date, lang):
+        user_lang = self.env['res.lang'].search([('code', '=', lang)])[0]
+        if self._context.get('tz'):
+            to_zone = self._context.get('tz')
+        else:
+            to_zone = 'UTC'
+        timezone_conv = pytz.timezone(to_zone)
+        timezone_utc = pytz.timezone('UTC')
+        date = timezone_utc.localize(date)
+        date = date.astimezone(timezone_conv)
+        date_converted = date.strftime(user_lang.date_format+" "+user_lang.time_format)
+        return date_converted
 
     @api.model
     def reservation_reminder_24hrs(self):
@@ -486,7 +628,7 @@ class HotelReservation(models.Model):
                 template_rec.send_mail(reserv_rec.id, force_send=True)
         return True
 
-    @api.multi
+    @api.one
     def create_folio(self):
         """
         This method is for create new hotel folio.
@@ -496,52 +638,59 @@ class HotelReservation(models.Model):
         """
         hotel_folio_obj = self.env['hotel.folio']
         room_obj = self.env['hotel.room']
-        for reservation in self:
-            folio_lines = []
-            checkin_date = reservation['checkin']
-            checkout_date = reservation['checkout']
-            if not self.checkin < self.checkout:
-                raise ValidationError(_('Checkout date should be greater \
-                                         than the Check-in date.'))
-            duration_vals = (self.onchange_check_dates
-                             (checkin_date=checkin_date,
-                              checkout_date=checkout_date, duration=False))
-            duration = duration_vals.get('duration') or 0.0
-            folio_vals = {
-                'date_order': reservation.date_order,
-                'warehouse_id': reservation.warehouse_id.id,
-                'partner_id': reservation.partner_id.id,
-                'pricelist_id': reservation.pricelist_id.id,
-                'partner_invoice_id': reservation.partner_invoice_id.id,
-                'partner_shipping_id': reservation.partner_shipping_id.id,
-                'checkin_date': reservation.checkin,
-                'checkout_date': reservation.checkout,
-                'duration': duration,
-                'reservation_id': reservation.id,
-                'service_lines': reservation['folio_id']
-            }
-            for line in reservation.reservation_line:
-                for r in line.reserve:
-                    folio_lines.append((0, 0, {
-                        'checkin_date': checkin_date,
-                        'checkout_date': checkout_date,
-                        'product_id': r.product_id and r.product_id.id,
-                        'name': reservation['reservation_no'],
-                        'price_unit': r.list_price,
-                        'product_uom_qty': duration,
-                        'is_reserved': True}))
-                    res_obj = room_obj.browse([r.id])
-                    res_obj.write({'status': 'occupied', 'isroom': False})
-            folio_vals.update({'room_lines': folio_lines})
-            folio = hotel_folio_obj.create(folio_vals)
-            if folio:
-                for rm_line in folio.room_lines:
-                    rm_line.product_id_change()
-            self._cr.execute('insert into hotel_folio_reservation_rel'
-                             '(order_id, invoice_id) values (%s,%s)',
-                             (reservation.id, folio.id))
-            self.state = 'done'
-        return True
+        reservation = self
+        folio_lines = []
+        checkin_date = reservation['checkin']
+        checkout_date = reservation['checkout']
+        if not self.checkin < self.checkout:
+            raise ValidationError(_('Checkout date should be greater \
+                                     than the Check-in date.'))
+        duration_vals = (self.onchange_check_dates
+                         (checkin_date=checkin_date,
+                          checkout_date=checkout_date, duration=False))
+        duration = duration_vals.get('duration') or 0.0
+        folio_vals = {
+            'date_order': reservation.date_order,
+            'warehouse_id': reservation.warehouse_id.id,
+            'partner_id': reservation.partner_id.id,
+            'pricelist_id': reservation.pricelist_id.id,
+            'partner_invoice_id': reservation.partner_invoice_id.id,
+            'partner_shipping_id': reservation.partner_shipping_id.id,
+            'checkin_date': reservation.checkin,
+            'checkout_date': reservation.checkout,
+            'duration': duration,
+            'reservation_id': reservation.id,
+            'service_lines': reservation['folio_id']
+        }
+        for line in reservation.reservation_line:
+            for r in line.reserve:
+                folio_lines.append((0, 0, {
+                    'checkin_date': checkin_date,
+                    'checkout_date': checkout_date,
+                    'product_id': r.product_id and r.product_id.id,
+                    'name': reservation['reservation_no'],
+                    'price_unit': r.list_price,
+                    'product_uom_qty': duration,
+                    'is_reserved': True,
+                    'reservation' : reservation.id}))
+                res_obj = room_obj.browse([r.id])
+                res_obj.write({'status': 'occupied', 'isroom': False})
+        folio_vals.update({'room_lines': folio_lines})
+        folio = hotel_folio_obj.create(folio_vals)
+        if folio:
+            for rm_line in folio.room_lines:
+                rm_line.product_id_change()
+        self._cr.execute('insert into hotel_folio_reservation_rel'
+                         '(order_id, invoice_id) values (%s,%s)',
+                         (reservation.id, folio.id))
+        self.state = 'done'
+        return {
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'hotel.folio',
+            'res_id': folio.id,
+            'type': 'ir.actions.act_window'
+        }
 
     @api.multi
     def onchange_check_dates(self, checkin_date=False, checkout_date=False,
@@ -587,6 +736,20 @@ class HotelReservationLine(models.Model):
                                domain="[('isroom','=',True),\
                                ('categ_id','=',categ_id)]")
     categ_id = fields.Many2one('hotel.room.type', 'Room Type')
+
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        room_obj = self.env['hotel.room']
+        reservation_lines = self.search([])
+        reservation_lines_matching = []
+        for reservation_line in reservation_lines:
+            room_ids = []
+            for room in reservation_line.reserve:
+                room_ids.append(room.id)
+            rooms_matching = room_obj.search([('id', 'in', room_ids),('name', operator, name)])
+            if rooms_matching:
+                reservation_lines_matching.append(reservation_line.id)
+        return self.search([('id', 'in', reservation_lines_matching)]).name_get()
 
     @api.onchange('categ_id')
     def on_change_categ(self):
@@ -661,8 +824,10 @@ class HotelRoomReservationLine(models.Model):
     _rec_name = 'room_id'
 
     room_id = fields.Many2one('hotel.room', string='Room id')
-    check_in = fields.Datetime('Check In Date', required=True)
-    check_out = fields.Datetime('Check Out Date', required=True)
+    check_in = fields.Datetime('Check In Date', required=True,
+                              default=_get_checkin_date)
+    check_out = fields.Datetime('Check Out Date', required=True,
+                              default=_get_checkout_date)
     state = fields.Selection([('assigned', 'Assigned'),
                               ('unassigned', 'Unassigned')], 'Room Status')
     reservation_id = fields.Many2one('hotel.reservation',
@@ -758,11 +923,24 @@ class RoomReservationSummary(models.Model):
         if self._context is None:
             self._context = {}
         res = super(RoomReservationSummary, self).default_get(fields)
+        
+        if self._context.get('tz'):
+            to_zone = self._context.get('tz')
+        else:
+            to_zone = 'UTC'        
         # Added default datetime as today and date to as today + 30.
         from_dt = datetime.today()
-        dt_from = from_dt.strftime(dt)
+        dt_from = _offset_format_timestamp1(from_dt.strftime("%Y-%m-%d 15:00:00"),
+                              DEFAULT_SERVER_DATETIME_FORMAT,
+                              DEFAULT_SERVER_DATETIME_FORMAT,
+                              ignore_unparsable_time=True,
+                              context={'tz': to_zone})
         to_dt = from_dt + relativedelta(days=30)
-        dt_to = to_dt.strftime(dt)
+        dt_to = _offset_format_timestamp1(to_dt.strftime("%Y-%m-%d 11:00:00"),
+                              DEFAULT_SERVER_DATETIME_FORMAT,
+                              DEFAULT_SERVER_DATETIME_FORMAT,
+                              ignore_unparsable_time=True,
+                              context={'tz': to_zone})
         res.update({'date_from': dt_from, 'date_to': dt_to})
 
         if not self.date_from and self.date_to:
@@ -809,8 +987,9 @@ class RoomReservationSummary(models.Model):
         res = {}
         all_detail = []
         room_obj = self.env['hotel.room']
+        reservation_obj = self.env['hotel.reservation']
         reservation_line_obj = self.env['hotel.room.reservation.line']
-        folio_room_line_obj = self.env['folio.room.line']
+#         folio_room_line_obj = self.env['folio.room.line']
         user_obj = self.env['res.users']
         date_range_list = []
         main_header = []
@@ -844,8 +1023,14 @@ class RoomReservationSummary(models.Model):
                 room_detail = {}
                 room_list_stats = []
                 room_detail.update({'name': room.name or ''})
+                reservation_ids = reservation_obj.search([])
+                reservations_containing_room = []
+                for reservation in reservation_ids:
+                    if reservation.reservation_line:
+                        if room in reservation.reservation_line.reserve:
+                            reservations_containing_room.append(reservation.id)
                 if not room.room_reservation_line_ids and \
-                   not room.room_line_ids:
+                   not room.room_line_ids and not reservations_containing_room:
                     for chk_date in date_range_list:
                         room_list_stats.append({'state': 'Free',
                                                 'date': chk_date,
@@ -864,75 +1049,30 @@ class RoomReservationSummary(models.Model):
                                             ('check_out', '>=', chk_date),
                                             ('state', '=', 'assigned')
                                             ]))
-                        if not reservline_ids:
-                            sdt = dt
-                            chk_date = datetime.strptime(chk_date, sdt)
-                            chk_date = datetime.\
-                                strftime(chk_date - timedelta(days=1), sdt)
-                            reservline_ids = (reservation_line_obj.search
-                                              ([('id', 'in', reserline_ids),
-                                                ('check_in', '<=', chk_date),
-                                                ('check_out', '>=', chk_date),
-                                                ('state', '=', 'assigned')]))
-                            for res_room in reservline_ids:
-                                cid = res_room.check_in
-                                cod = res_room.check_out
-                                dur = cod - cid
-                                if room_list_stats:
-                                    count = 0
-                                    for rlist in room_list_stats:
-                                        cidst = datetime.strftime(cid, dt)
-                                        codst = datetime.strftime(cod, dt)
-                                        rm_id = res_room.room_id.id
-                                        ci = rlist.get('date') >= cidst
-                                        co = rlist.get('date') <= codst
-                                        rm = rlist.get('room_id') == rm_id
-                                        st = rlist.get('state') == 'Reserved'
-                                        if ci and co and rm and st:
-                                            count += 1
-                                    if count - dur.days == 0:
-                                        c_id1 = user_obj.browse(self._uid)
-                                        c_id = c_id1.company_id
-                                        con_add = 0
-                                        amin = 0.0
-                                        if c_id:
-                                            con_add = c_id.additional_hours
-#                                        When configured_addition_hours is
-#                                        greater than zero then we calculate
-#                                        additional minutes
-                                        if con_add > 0:
-                                            amin = abs(con_add * 60)
-                                        hr_dur = abs((dur.seconds / 60))
-#                                        When additional minutes is greater
-#                                        than zero then check duration with
-#                                        extra minutes and give the room
-#                                        reservation status is reserved or
-#                                        free
-                                        if amin > 0:
-                                            if hr_dur >= amin:
-                                                reservline_ids = True
-                                            else:
-                                                reservline_ids = False
-                                        else:
-                                            if hr_dur > 0:
-                                                reservline_ids = True
-                                            else:
-                                                reservline_ids = False
-                                    else:
-                                        reservline_ids = False
-                        fol_room_line_ids = room.room_line_ids.ids
-                        chk_state = ['draft', 'cancel']
-                        folio_resrv_ids = (folio_room_line_obj.search
-                                           ([('id', 'in', fol_room_line_ids),
-                                             ('check_in', '<=', chk_date),
-                                             ('check_out', '>=', chk_date),
-                                             ('status', 'not in', chk_state)
+                        reservations_draft_ids = (reservation_obj.search
+                                           ([('id', 'in', reservations_containing_room),
+                                             ('checkin', '<=', chk_date),
+                                             ('checkout', '>=', chk_date),
+                                             ('state', '=', 'draft')
                                              ]))
-                        if reservline_ids or folio_resrv_ids:
-                            room_list_stats.append({'state': 'Reserved',
+                        if reservline_ids:
+                            room_list_stats.append({'state': reservline_ids[0].reservation_id.reservation_no,
                                                     'date': chk_date,
                                                     'room_id': room.id,
+                                                    'reservation_id': reservline_ids[0].reservation_id.id,
                                                     'is_draft': 'No',
+                                                    'data_model': '',
+                                                    'data_id': 0})
+                        elif reservations_draft_ids:
+                            if len(reservations_draft_ids)>1:
+                                warning_symbol = " ⚠"
+                            else:
+                                warning_symbol = ""
+                            room_list_stats.append({'state': reservations_draft_ids[0].reservation_no+warning_symbol,
+                                                    'date': chk_date,
+                                                    'room_id': room.id,
+                                                    'reservation_id': reservations_draft_ids[0].id,
+                                                    'is_draft': 'Yes',
                                                     'data_model': '',
                                                     'data_id': 0})
                         else:
@@ -946,107 +1086,3 @@ class RoomReservationSummary(models.Model):
             self.summary_header = str(main_header)
             self.room_summary = str(all_room_detail)
         return res
-
-
-class QuickRoomReservation(models.TransientModel):
-    _name = 'quick.room.reservation'
-    _description = 'Quick Room Reservation'
-
-    partner_id = fields.Many2one('res.partner', string="Customer",
-                                 required=True)
-    check_in = fields.Datetime('Check In', required=True)
-    check_out = fields.Datetime('Check Out', required=True)
-    room_id = fields.Many2one('hotel.room', 'Room', required=True)
-    warehouse_id = fields.Many2one('stock.warehouse', 'Hotel', required=True)
-    pricelist_id = fields.Many2one('product.pricelist', 'pricelist')
-    partner_invoice_id = fields.Many2one('res.partner', 'Invoice Address',
-                                         required=True)
-    partner_order_id = fields.Many2one('res.partner', 'Ordering Contact',
-                                       required=True)
-    partner_shipping_id = fields.Many2one('res.partner', 'Delivery Address',
-                                          required=True)
-    adults = fields.Integer('Adults', size=64)
-
-    @api.onchange('check_out', 'check_in')
-    def on_change_check_out(self):
-        '''
-        When you change checkout or checkin it will check whether
-        Checkout date should be greater than Checkin date
-        and update dummy field
-        -----------------------------------------------------------
-        @param self: object pointer
-        @return: raise warning depending on the validation
-        '''
-        if self.check_out and self.check_in:
-            if self.check_out < self.check_in:
-                raise ValidationError(_('Checkout date should be greater \
-                                         than Checkin date.'))
-
-    @api.onchange('partner_id')
-    def onchange_partner_id_res(self):
-        '''
-        When you change partner_id it will update the partner_invoice_id,
-        partner_shipping_id and pricelist_id of the hotel reservation as well
-        ---------------------------------------------------------------------
-        @param self: object pointer
-        '''
-        if not self.partner_id:
-            self.partner_invoice_id = False
-            self.partner_shipping_id = False
-            self.partner_order_id = False
-        else:
-            addr = self.partner_id.address_get(['delivery', 'invoice',
-                                                'contact'])
-            self.partner_invoice_id = addr['invoice']
-            self.partner_order_id = addr['contact']
-            self.partner_shipping_id = addr['delivery']
-            self.pricelist_id = self.partner_id.property_product_pricelist.id
-
-    @api.model
-    def default_get(self, fields):
-        """
-        To get default values for the object.
-        @param self: The object pointer.
-        @param fields: List of fields for which we want default values
-        @return: A dictionary which of fields with values.
-        """
-        if self._context is None:
-            self._context = {}
-        res = super(QuickRoomReservation, self).default_get(fields)
-        if self._context:
-            keys = self._context.keys()
-            if 'date' in keys:
-                res.update({'check_in': self._context['date']})
-            if 'room_id' in keys:
-                roomid = self._context['room_id']
-                res.update({'room_id': int(roomid)})
-        return res
-
-    @api.multi
-    def room_reserve(self):
-        """
-        This method create a new record for hotel.reservation
-        -----------------------------------------------------
-        @param self: The object pointer
-        @return: new record set for hotel reservation.
-        """
-        hotel_res_obj = self.env['hotel.reservation']
-        for res in self:
-            rec = (hotel_res_obj.create
-                   ({'partner_id': res.partner_id.id,
-                     'partner_invoice_id': res.partner_invoice_id.id,
-                     'partner_order_id': res.partner_order_id.id,
-                     'partner_shipping_id': res.partner_shipping_id.id,
-                     'checkin': res.check_in,
-                     'checkout': res.check_out,
-                     'warehouse_id': res.warehouse_id.id,
-                     'pricelist_id': res.pricelist_id.id,
-                     'adults': res.adults,
-                     'reservation_line': [(0, 0,
-                                           {'reserve': [(6, 0,
-                                                         [res.room_id.id])],
-                                            'name': (res.room_id and
-                                                     res.room_id.name or '')
-                                            })]
-                     }))
-        return rec
