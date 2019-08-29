@@ -323,7 +323,7 @@ msgid "Auxiliar to get the room report"
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:604
+#: code:addons/hotel_reservation/models/hotel_reservation.py:608
 #, python-format
 msgid ""
 "Before choosing a room,\n"
@@ -425,7 +425,7 @@ msgid "CheckOut List"
 msgstr "Liste departs"
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:982
+#: code:addons/hotel_reservation/models/hotel_reservation.py:986
 #, python-format
 msgid ""
 "Checkout date should be greater                                          "
@@ -433,7 +433,7 @@ msgid ""
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:504
+#: code:addons/hotel_reservation/models/hotel_reservation.py:508
 #, python-format
 msgid ""
 "Checkout date should be greater                                          "
@@ -863,14 +863,14 @@ msgid "Ordering Contact"
 msgstr "Contact"
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:734
+#: code:addons/hotel_reservation/models/hotel_reservation.py:738
 #, python-format
 msgid ""
 "Please Check Rooms Status                                          for %s."
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:820
+#: code:addons/hotel_reservation/models/hotel_reservation.py:824
 #, python-format
 msgid ""
 "Please Check Time period Date From can't                                    "
@@ -902,7 +902,7 @@ msgid "Quick Room Reservation"
 msgstr " Réservation"
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:794
+#: code:addons/hotel_reservation/models/hotel_reservation.py:798
 #, python-format
 msgid "Reconcile Write-Off"
 msgstr ""
@@ -1141,7 +1141,7 @@ msgid "Unread Messages Counter"
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:692
+#: code:addons/hotel_reservation/models/hotel_reservation.py:696
 #, python-format
 msgid ""
 "User is not able to delete the                                             "
