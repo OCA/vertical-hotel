@@ -7,14 +7,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-09 13:00+0000\n"
-"PO-Revision-Date: 2017-06-25 22:46+0000\n"
-"Last-Translator: <>\n"
+"PO-Revision-Date: 2019-08-30 16:23+0000\n"
+"Last-Translator: Rodrigo Macedo <rmsolucoeseminformatic4@gmail.com>\n"
 "Language-Team: \n"
-"Language: \n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 3.8\n"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__product_variant_count
@@ -72,55 +73,34 @@ msgstr "Total"
 #: model:ir.model.fields,help:hotel.field_hotel_room__description_sale
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities__description_sale
 #: model:ir.model.fields,help:hotel.field_hotel_services__description_sale
-#, fuzzy
-#| msgid ""
-#| "A description of the Product that you want to communicate to your "
-#| "customers. This description will be copied to every Sale Order, Delivery "
-#| "Order and Customer Invoice/Refund"
 msgid ""
 "A description of the Product that you want to communicate to your customers. "
 "This description will be copied to every Sales Order, Delivery Order and "
 "Customer Invoice/Credit Note"
 msgstr ""
-"A descrição do produto que você quer se comunicar com seus clientes. Esta "
-"descrição será copiado para cada Pedido de Venda, Ordem de Entrega ao "
-"cliente e Fatura / Reembolso"
+"Uma descrição do produto que você deseja comunicar aos seus clientes. Esta "
+"descrição será copiada para todas as ordens do cliente, ordens de entrega e "
+"fatura/nota de crédito do cliente"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__type
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities__type
 #: model:ir.model.fields,help:hotel.field_hotel_services__type
-#, fuzzy
-#| msgid ""
-#| "A stockable product is a product for which you manage stock. The "
-#| "\"Inventory\" app has to be installed.\n"
-#| "A consumable product, on the other hand, is a product for which stock is "
-#| "not managed.\n"
-#| "A service is a non-material product you provide.\n"
-#| "A digital content is a non-material product you sell online. The files "
-#| "attached to the products are the one that are sold on the e-commerce such "
-#| "as e-books, music, pictures,... The \"Digital Product\" module has to be "
-#| "installed."
 msgid ""
 "A storable product is a product for which you manage stock. The Inventory "
 "app has to be installed.\n"
 "A consumable product is a product for which stock is not managed.\n"
 "A service is a non-material product you provide."
 msgstr ""
-"Um produto estocável é um produto para o qual você gerencia estoque. O "
-"aplicativo \"Inventário\" deve ser instalado.\n"
-"Um produto consumível, por outro lado, é um produto para o qual o estoque "
-"não é gerenciado.\n"
-"Um serviço é um produto não-material que você fornece.\n"
-"Um conteúdo digital é um produto não-material que você vende on-line. Os "
-"ficheiros anexados aos produtos são os que são vendidos no e-commerce, tais "
-"como e-books, música, imagens, ... O módulo \"Produto Digital\" tem de ser "
-"instalado."
+"Um produto armazenável é um produto para o qual você gerencia o estoque. O "
+"aplicativo Inventory deve ser instalado.\n"
+"Um produto consumível é um produto para o qual o estoque não é gerenciado.\n"
+"Um serviço é um produto não material que você fornece."
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__access_warning
 msgid "Access warning"
-msgstr ""
+msgstr "Aviso de Acesso"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio_line__qty_delivered_method
