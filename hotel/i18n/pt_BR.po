@@ -1,16 +1,16 @@
-# Brazilian portugues translation for openobject-addons
-# Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
+# Brazilian portuguese translation for openobject-addons
+# Copyright (c) 2019 KMEE INFORMATICA LTDA
 # This file is distributed under the same license as the openobject-addons package.
 # Ananias Filho <ananias@kmee.com.br>, 2019.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: openobject-addons\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: KMEE <suporte@kmee.com.br>\n"
 "POT-Creation-Date: 2009-11-26 07:33+0000\n"
 "PO-Revision-Date: 2011-02-15 18:06+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team:  Brazilian Portuguese <ananias@kmee.com.br>\n"
+"Last-Translator: Ananias Filho <ananias@kmee.com.br>\n"
+"Language-Team:  Brazilian Portuguese\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
