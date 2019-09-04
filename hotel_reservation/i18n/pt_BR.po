@@ -5,7 +5,6 @@
 #
 msgid ""
 msgstr ""
-
 "Project-Id-Version: openobject-addons\n"
 "Report-Msgid-Bugs-To: KMEE <suporte@kmee.com.br>\n"
 "POT-Creation-Date: 2009-11-26 07:33+0000\n"
