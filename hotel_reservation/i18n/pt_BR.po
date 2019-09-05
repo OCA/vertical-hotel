@@ -824,7 +824,7 @@ msgstr "Salvar"
 #. module: hotel_reservation
 #: model:ir.model.fields,field_description:hotel_reservation.field_hotel_reservation_pricelist_id
 msgid "Scheme"
-msgstr "Esquema"
+msgstr "Lista de preços"
 
 #. module: hotel_reservation
 #: model:ir.ui.view,arch_db:hotel_reservation.view_hotel_reservation_form
