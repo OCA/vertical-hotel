@@ -15,19 +15,23 @@ You can manage:
 
 * **Complete Housekeeping Process**
 
-    * In Dirty Stage Housekeeping Process
+  * In Dirty Stage Housekeeping Process
+
     .. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/10.0/hotel_housekeeping/static/description/HHK1.png
        :width: 750px
 
-    * In Clean Stage Housekeeping Process
+  * In Clean Stage Housekeeping Process
+
     .. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/10.0/hotel_housekeeping/static/description/HHK2.png
        :width: 750px
 
-    * In Inspect Stage Housekeeping Process
+  * In Inspect Stage Housekeeping Process
+  
     .. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/10.0/hotel_housekeeping/static/description/HHK3.png
        :width: 750px
 
-    * In Done Stage Housekeeping Process
+  * In Done Stage Housekeeping Process
+
     .. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/10.0/hotel_housekeeping/static/description/HHK4.png
        :width: 750px
 
