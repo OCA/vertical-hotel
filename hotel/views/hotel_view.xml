@@ -41,6 +41,7 @@
                     <group>
                         <field name="name" colspan="1" />
                         <field name="sequence" invisible="1" />
+                        <field name="company_id" options="{'no_open':True,'no_create': True}"/>  
                     </group>
                 </sheet>
             </form>
@@ -55,6 +56,7 @@
             <tree string=" Hotel Floors">
                 <field name="sequence" widget="handle" />
                 <field name="name" colspan="1" />
+                <field name="company_id"/>  
             </tree>
         </field>
     </record>
@@ -63,7 +65,6 @@
     <record id="open_hotel_floor_form_tree" model="ir.actions.act_window">
         <field name="name">Floor</field>
         <field name="res_model">hotel.floor</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 
@@ -83,6 +84,7 @@
                         <field name="name" />
                         <field name="categ_id" select="1" />
                         <field name="child_ids" invisible="1" />
+                        <field name="company_id" options="{'no_open':True,'no_create': True}"/>  
                     </group>
                 </sheet>
             </form>
@@ -96,6 +98,7 @@
         <field name="arch" type="xml">
             <tree string="Hotel Room Type">
                 <field name="name" />
+                <field name="company_id"/>
             </tree>
         </field>
     </record>
@@ -104,7 +107,6 @@
     <record id="open_hotel_room_type_form_tree" model="ir.actions.act_window">
         <field name="name">Room Type</field>
         <field name="res_model">hotel.room.type</field>
-        <field name="view_type">form</field>
         <field name="context">{}</field>
         <field name="view_mode">tree,form</field>
     </record>
@@ -127,6 +129,7 @@
                         <field name="name" string="Amenity Type" />
                         <field name="amenity_id" />
                         <field name="child_ids" invisible="1" />
+                        <field name="company_id" options="{'no_open':True,'no_create': True}"/>
                     </group>
                 </sheet>
             </form>
@@ -140,6 +143,7 @@
         <field name="arch" type="xml">
             <tree string="Hotel Room Amenities Type">
                 <field name="name" />
+                <field name="company_id"/>
             </tree>
         </field>
     </record>
@@ -149,7 +153,6 @@
         <field name="name">Amenities Type</field>
         <field name="res_model">hotel.room.amenities.type</field>
         <field name="context">{}</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 
@@ -179,7 +182,8 @@
                                 <field name="product_manager" select="2" string="Amenity manager" />
                                 <field name="uom_id" />
                                 <field name="default_code" />
-                                <field name="uom_po_id" />
+                                <field name="uom_po_id" />                              
+                                <field name="company_id" options="{'no_open':True,'no_create': True}"/>
                             </group>
                             <newline />
                             <separator colspan='4' string="Supplier Taxes" />
@@ -242,6 +246,7 @@
                 <field name="name" />
                 <field name="categ_id" string="Amenities Category" />
                 <field name="list_price" string="Amenity Rate" invisible="1" />
+                <field name="company_id"/>
             </tree>
         </field>
     </record>
@@ -250,7 +255,6 @@
     <record id="action_hotel_room_amenities_view_form" model="ir.actions.act_window">
         <field name="name">Amenities</field>
         <field name="res_model">hotel.room.amenities</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field name="context">{'default_iscategid':1,'default_available_in_pos':0}
         </field>
@@ -269,7 +273,7 @@
         <field name="arch" type="xml">
             <form string="Hotel Room">
                 <sheet>
-                    <field name="image_medium" widget="image" class="oe_avatar" />
+                    <field name="image_1920" widget="image" class="oe_avatar" options="{'preview_image': 'image_128'}"/>
                     <div class="oe_title">
                         <label for="name" string="Name" />
                         <h1>
@@ -291,6 +295,7 @@
                                 <field name="product_manager" select="2" string="Room Manager" />
                                 <field name="capacity" />
                                 <field name="uom_id" invisible="1" />
+                                <field name="company_id" options="{'no_open':True,'no_create': True}"/>
                             </group>
                             <newline />
                             <separator colspan='4' string="Supplier Taxes" />
@@ -380,6 +385,7 @@
                 <field name="list_price" string="Room rate" />
                 <field name="status" />
                 <field name="capacity" />
+                <field name="company_id"/>
             </tree>
         </field>
     </record>
@@ -475,7 +481,6 @@
     <record id="action_hotel_room_form" model="ir.actions.act_window">
         <field name="name">Room</field>
         <field name="res_model">hotel.room</field>
-        <field name="view_type">form</field>
         <field name="context">{'default_isroom':1,'default_rental':1,'default_available_in_pos':0}
         </field>
         <field name="view_id" ref="view_hotel_room_tree" />
@@ -527,6 +532,7 @@
                                 <field name="partner_invoice_id" domain="[('parent_id','=',partner_id)]" />
                                 <field name="pricelist_id" />
                                 <field name="partner_shipping_id" domain="[('parent_id','=',partner_id)]" />
+                                <field name="company_id" invisible="1"/>
                             </group>
                             <newline />
                             <group colspan="4" col="4" invisible="1">
@@ -553,6 +559,7 @@
                                                     context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'uom':product_uom}"
                                                     domain="[('isroom','=',True)]" string="Room No" />
                                                 <field name="product_uom" string="Rent(UOM)" />
+                                                <field name="product_uom_category_id" invisible="1"/>
                                             </group>
                                             <separator string="Manual Description" colspan="4" />
                                             <field name="name" colspan="4" select="2"
@@ -604,6 +611,7 @@
                                                 <field name="product_uom_qty"
                                                     context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'hotel':parent.warehouse_id,'uom':product_uom}"
                                                     invisible="1" />
+                                                <field name="product_uom_category_id" invisible="1"/>
                                             </group>
                                             <separator string="Manual Description" colspan="4" />
                                             <field name="name" colspan="4" select="2" placeholder="Description" />
@@ -668,7 +676,7 @@
         <field name="name">hotel.folio.tree</field>
         <field name="model">hotel.folio</field>
         <field name="arch" type="xml">
-            <tree string="Hotel Folio" colors="blue:state == 'draft';gray:state == 'done'">
+            <tree string="Hotel Folio">
                 <field name="checkin_date" />
                 <field name="checkout_date" />
                 <field name="name" />
@@ -728,7 +736,6 @@
     <record id="open_hotel_folio1_form_tree_all" model="ir.actions.act_window">
         <field name="name">Generate Folio</field>
         <field name="res_model">hotel.folio</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form,calendar,graph</field>
         <field name="context">{'folio': True}</field>
     </record>
@@ -750,6 +757,7 @@
                         <field name="name" string="Service Name" />
                         <field name="service_id" />
                         <field name="child_ids" invisible="1" />
+                        <field name="company_id" options="{'no_open':True,'no_create': True}"/>
                     </group>
                 </sheet>
             </form>
@@ -763,6 +771,7 @@
         <field name="arch" type="xml">
             <tree string="Service Type">
                 <field name="name" />
+                <field name="company_id"/>
             </tree>
         </field>
     </record>
@@ -771,7 +780,6 @@
     <record id="open_hotel_service_type_form_tree" model="ir.actions.act_window">
         <field name="name">Service Type</field>
         <field name="res_model">hotel.service.type</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 
@@ -803,6 +811,7 @@
                                     <field name="uom_id" />
                                     <field name="default_code" />
                                     <field name="uom_po_id" />
+                                    <field name="company_id" options="{'no_open':True,'no_create': True}"/>
                                 </group>
                             </group>
                             <newline />
@@ -867,6 +876,7 @@
                 <field name="name" />
                 <field name="categ_id" string="Service Category" />
                 <field name="list_price" string="Service rate" />
+                <field name="company_id"/>
             </tree>
         </field>
     </record>
@@ -875,7 +885,6 @@
     <record id="action_hotel_services_form" model="ir.actions.act_window">
         <field name="name">Services</field>
         <field name="res_model">hotel.services</field>
-        <field name="view_type">form</field>
         <field name="context">{'default_isservice':1,'default_available_in_pos':0}
         </field>
         <field name="view_mode">tree,form</field>
@@ -884,5 +893,49 @@
     <menuitem name="Services" id="menu_open_hotel_services_form"
         action="action_hotel_services_form" sequence="8"
         parent="hotel.menu_hotel_service" />
+        
+        
+    <!--============ Hotel Emplacement ============ -->
+    <!-- Form view of hotel emplacement -->
+    <record id="view_hotel_emplacement_form" model="ir.ui.view">
+        <field name="name">hotel.emplacement.form</field>
+        <field name="model">hotel.emplacement</field>
+        <field name="arch" type="xml">
+            <form string="Emplacements">
+                <sheet>
+                    <group>
+                        <field name="name" string="Emplacement Name" />
+                        <field name="company_id" options="{'no_open':True,'no_create': True}"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <!-- Tree view of hotel Emplacement -->
+    <record id="view_hotel_emplacement_tree" model="ir.ui.view">
+        <field name="name">hotel.emplacement.tree</field>
+        <field name="model">hotel.emplacement</field>
+        <field name="arch" type="xml">
+            <tree string="Emplacements">
+                <field name="name" />
+                <field name="company_id" />
+            </tree>
+        </field>
+    </record>
+    
+    <!-- Action for hotel emplacement -->
+    <record id="action_open_hotel_emplacement" model="ir.actions.act_window">
+      <field name="name">Emplacements</field>
+      <field name="res_model">hotel.emplacement</field>
+      <field name="context">{}</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    
+    <menuitem id="hotel_emplacement_menu" 
+          name="Emplacements"
+          action="action_open_hotel_emplacement"
+          sequence="6"
+          parent="hotel.menu_hotel_room"/>
 
 </odoo>
