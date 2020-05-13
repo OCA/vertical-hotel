@@ -68,7 +68,7 @@ Contributors
 
 * Serpent Consulting Services Pvt. Ltd. <support@serpentcs.com>
 * Nikul Chaudhary <nikul.chaudhary.serpentcs@gmail.com>
-
+* Oxilia-Info <jcchoquet@oxilia-info.fr> (https://oxilia-info.com)
 
 Maintainers
 ~~~~~~~~~~~
