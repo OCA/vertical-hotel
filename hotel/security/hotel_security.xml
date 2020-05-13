@@ -20,8 +20,8 @@
 
     <record id="hotel_folio_rule" model="ir.rule">
         <field name="name">Folio Multi company</field>
-        <field name="model_id" ref="hotel.model_hotel_folio"/>
-        <field name="global" eval="True"/>
+        <field name="model_id" ref="hotel.model_hotel_folio" />
+        <field name="global" eval="True" />
         <field
             name="domain_force"
         >['|',('company_id','=',False),('company_id', 'in', company_ids)]
@@ -30,8 +30,8 @@
 
     <record id="hotel_room_rule" model="ir.rule">
         <field name="name">Room Multi company</field>
-        <field name="model_id" ref="hotel.model_hotel_room"/>
-        <field name="global" eval="True"/>
+        <field name="model_id" ref="hotel.model_hotel_room" />
+        <field name="global" eval="True" />
         <field
             name="domain_force"
         >['|',('company_id','=',False),('company_id', 'in', company_ids)]
@@ -40,8 +40,8 @@
 
     <record id="hotel_room_amenities_rule" model="ir.rule">
         <field name="name">Hotel Amenities Multi company</field>
-        <field name="model_id" ref="hotel.model_hotel_room_amenities"/>
-        <field name="global" eval="True"/>
+        <field name="model_id" ref="hotel.model_hotel_room_amenities" />
+        <field name="global" eval="True" />
         <field
             name="domain_force"
         >['|',('company_id','=',False),('company_id', 'in', company_ids)]
@@ -50,8 +50,8 @@
 
     <record id="hotel_services_rule" model="ir.rule">
         <field name="name">Hotel Services Multi company</field>
-        <field name="model_id" ref="hotel.model_hotel_services"/>
-        <field name="global" eval="True"/>
+        <field name="model_id" ref="hotel.model_hotel_services" />
+        <field name="global" eval="True" />
         <field
             name="domain_force"
         >['|',('company_id','=',False),('company_id', 'in', company_ids)]
@@ -60,8 +60,8 @@
 
     <record id="hotel_floor_rule" model="ir.rule">
         <field name="name">Floor Multi company</field>
-        <field name="model_id" ref="hotel.model_hotel_floor"/>
-        <field name="global" eval="True"/>
+        <field name="model_id" ref="hotel.model_hotel_floor" />
+        <field name="global" eval="True" />
         <field
             name="domain_force"
         >['|',('company_id','=',False),('company_id', 'in', company_ids)]
@@ -70,8 +70,8 @@
 
     <record id="hotel_emplacement_rule" model="ir.rule">
         <field name="name">Hotel Emplacement Multi company</field>
-        <field name="model_id" ref="hotel.model_hotel_emplacement"/>
-        <field name="global" eval="True"/>
+        <field name="model_id" ref="hotel.model_hotel_emplacement" />
+        <field name="global" eval="True" />
         <field
             name="domain_force"
         >['|',('company_id','=',False),('company_id', 'in', company_ids)]
@@ -80,8 +80,8 @@
 
     <record id="hotel_service_type_rule" model="ir.rule">
         <field name="name">Hotel Services Type Multi company</field>
-        <field name="model_id" ref="hotel.model_hotel_service_type"/>
-        <field name="global" eval="True"/>
+        <field name="model_id" ref="hotel.model_hotel_service_type" />
+        <field name="global" eval="True" />
         <field
             name="domain_force"
         >['|',('company_id','=',False),('company_id', 'in', company_ids)]
@@ -90,8 +90,8 @@
 
     <record id="hotel_room_type_rule" model="ir.rule">
         <field name="name">Room type Multi company</field>
-        <field name="model_id" ref="hotel.model_hotel_room_type"/>
-        <field name="global" eval="True"/>
+        <field name="model_id" ref="hotel.model_hotel_room_type" />
+        <field name="global" eval="True" />
         <field
             name="domain_force"
         >['|',('company_id','=',False),('company_id', 'in', company_ids)]
@@ -100,8 +100,8 @@
 
     <record id="hotel_room_amenities_type_rule" model="ir.rule">
         <field name="name">Hotel Amenities Type Multi company</field>
-        <field name="model_id" ref="hotel.model_hotel_room_amenities_type"/>
-        <field name="global" eval="True"/>
+        <field name="model_id" ref="hotel.model_hotel_room_amenities_type" />
+        <field name="global" eval="True" />
         <field
             name="domain_force"
         >['|',('company_id','=',False),('company_id', 'in', company_ids)]
