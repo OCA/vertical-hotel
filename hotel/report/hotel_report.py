@@ -20,7 +20,7 @@ class FolioReport(models.AbstractModel):
         folio_obj = self.env["hotel.folio"]
         act_domain = [
             ("checkin_date", ">=", date_start),
-            ("checkout_date", "<=", date_end)
+            ("checkout_date", "<=", date_end),
         ]
         tids = folio_obj.search(act_domain)
         for data in tids:

@@ -2,10 +2,18 @@
 
     <menuitem id="hotel_management_menu" name="Hotel Management" />
 
-    <menuitem id="hotel_configuration_menu" name="Configuration"
-        sequence="20" parent="hotel_management_menu" />
-    <menuitem id="hotel_report_menu" name="Pdf Reports" sequence="6"
-        parent="hotel_management_menu" />
+    <menuitem
+        id="hotel_configuration_menu"
+        name="Configuration"
+        sequence="20"
+        parent="hotel_management_menu"
+    />
+    <menuitem
+        id="hotel_report_menu"
+        name="Pdf Reports"
+        sequence="6"
+        parent="hotel_management_menu"
+    />
 
     <record id="view_product_product_form_inherited" model="ir.ui.view">
         <field name="name">view.product.product.form.inherited</field>
@@ -41,7 +49,10 @@
                     <group>
                         <field name="name" colspan="1" />
                         <field name="sequence" invisible="1" />
-                        <field name="company_id" options="{'no_open':True,'no_create': True}"/>  
+                        <field
+                            name="company_id"
+                            options="{'no_open':True,'no_create': True}"
+                        />
                     </group>
                 </sheet>
             </form>
@@ -56,7 +67,7 @@
             <tree string=" Hotel Floors">
                 <field name="sequence" widget="handle" />
                 <field name="name" colspan="1" />
-                <field name="company_id"/>  
+                <field name="company_id" />
             </tree>
         </field>
     </record>
@@ -68,9 +79,13 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_open_hotel_floor_form_tree" name="Floor"
-        action="open_hotel_floor_form_tree" sequence="21"
-        parent="hotel_configuration_menu" />
+    <menuitem
+        id="menu_open_hotel_floor_form_tree"
+        name="Floor"
+        action="open_hotel_floor_form_tree"
+        sequence="21"
+        parent="hotel_configuration_menu"
+    />
 
     <!--======= Room Type ======= -->
     <!-- Form view of hotel room type -->
@@ -84,7 +99,10 @@
                         <field name="name" />
                         <field name="categ_id" select="1" />
                         <field name="child_ids" invisible="1" />
-                        <field name="company_id" options="{'no_open':True,'no_create': True}"/>  
+                        <field
+                            name="company_id"
+                            options="{'no_open':True,'no_create': True}"
+                        />
                     </group>
                 </sheet>
             </form>
@@ -98,7 +116,7 @@
         <field name="arch" type="xml">
             <tree string="Hotel Room Type">
                 <field name="name" />
-                <field name="company_id"/>
+                <field name="company_id" />
             </tree>
         </field>
     </record>
@@ -111,11 +129,19 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_hotel_room" name="Room"
-        parent="hotel.hotel_configuration_menu" sequence="2" />
-    <menuitem id="menu_open_hotel_room_type_form_tree" name="Room Types"
-        action="open_hotel_room_type_form_tree" sequence="6"
-        parent="hotel.menu_hotel_room" />
+    <menuitem
+        id="menu_hotel_room"
+        name="Room"
+        parent="hotel.hotel_configuration_menu"
+        sequence="2"
+    />
+    <menuitem
+        id="menu_open_hotel_room_type_form_tree"
+        name="Room Types"
+        action="open_hotel_room_type_form_tree"
+        sequence="6"
+        parent="hotel.menu_hotel_room"
+    />
 
     <!--==== Amenities Type ==== -->
     <!-- Form view of hotel room amenities type -->
@@ -129,7 +155,10 @@
                         <field name="name" string="Amenity Type" />
                         <field name="amenity_id" />
                         <field name="child_ids" invisible="1" />
-                        <field name="company_id" options="{'no_open':True,'no_create': True}"/>
+                        <field
+                            name="company_id"
+                            options="{'no_open':True,'no_create': True}"
+                        />
                     </group>
                 </sheet>
             </form>
@@ -143,24 +172,35 @@
         <field name="arch" type="xml">
             <tree string="Hotel Room Amenities Type">
                 <field name="name" />
-                <field name="company_id"/>
+                <field name="company_id" />
             </tree>
         </field>
     </record>
 
     <!-- Action for hotel room amenities type -->
-    <record id="action_hotel_room_amenities_type_view_form" model="ir.actions.act_window">
+    <record
+        id="action_hotel_room_amenities_type_view_form"
+        model="ir.actions.act_window"
+    >
         <field name="name">Amenities Type</field>
         <field name="res_model">hotel.room.amenities.type</field>
         <field name="context">{}</field>
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_amenity" name="Amenity"
-        parent="hotel.hotel_configuration_menu" sequence="2" />
-    <menuitem name="Amenity Types"
-        id="menu_action_hotel_room_amenities_type_view_form" action="action_hotel_room_amenities_type_view_form"
-        sequence="3" parent="hotel.menu_amenity" />
+    <menuitem
+        id="menu_amenity"
+        name="Amenity"
+        parent="hotel.hotel_configuration_menu"
+        sequence="2"
+    />
+    <menuitem
+        name="Amenity Types"
+        id="menu_action_hotel_room_amenities_type_view_form"
+        action="action_hotel_room_amenities_type_view_form"
+        sequence="3"
+        parent="hotel.menu_amenity"
+    />
 
     <!--===== Room Amenities ===== -->
     <!-- Form view of hotel room amenities -->
@@ -179,20 +219,35 @@
                             <group colspan="4" col="4">
                                 <field name="type" select="2" string="Amenity Type" />
                                 <field name="categ_id" string="Amenities Category" />
-                                <field name="product_manager" select="2" string="Amenity manager" />
+                                <field
+                                    name="product_manager"
+                                    select="2"
+                                    string="Amenity manager"
+                                />
                                 <field name="uom_id" />
                                 <field name="default_code" />
-                                <field name="uom_po_id" />                              
-                                <field name="company_id" options="{'no_open':True,'no_create': True}"/>
+                                <field name="uom_po_id" />
+                                <field
+                                    name="company_id"
+                                    options="{'no_open':True,'no_create': True}"
+                                />
                             </group>
                             <newline />
                             <separator colspan='4' string="Supplier Taxes" />
-                            <field name="supplier_taxes_id" colspan="4" nolabel='1'
-                                help='Define supplier taxes if there any on the ty. ' />
+                            <field
+                                name="supplier_taxes_id"
+                                colspan="4"
+                                nolabel='1'
+                                help='Define supplier taxes if there any on the ty. '
+                            />
                             <newline />
                             <separator colspan='4' string="Customer Taxes" />
-                            <field name="taxes_id" colspan="4" nolabel='1'
-                                help='List of customer taxes applied on the ty. ' />
+                            <field
+                                name="taxes_id"
+                                colspan="4"
+                                nolabel='1'
+                                help='List of customer taxes applied on the ty. '
+                            />
                         </page>
                         <page string="Procurement">
                             <group colspan="4" col="4">
@@ -206,8 +261,12 @@
                             <newline />
                             <group>
                                 <separator string="Suppliers" />
-                                <field name="seller_ids" colspan="4" nolabel="1"
-                                    widget="one2many_list" />
+                                <field
+                                    name="seller_ids"
+                                    colspan="4"
+                                    nolabel="1"
+                                    widget="one2many_list"
+                                />
                             </group>
                         </page>
                         <page string="Descriptions">
@@ -216,7 +275,11 @@
                             <separator string="Sale Description" />
                             <field name="description_sale" colspan="4" nolabel="1" />
                             <separator string="Purchase Description" />
-                            <field name="description_purchase" colspan="4" nolabel="1" />
+                            <field
+                                name="description_purchase"
+                                colspan="4"
+                                nolabel="1"
+                            />
                         </page>
                     </notebook>
                 </sheet>
@@ -246,7 +309,7 @@
                 <field name="name" />
                 <field name="categ_id" string="Amenities Category" />
                 <field name="list_price" string="Amenity Rate" invisible="1" />
-                <field name="company_id"/>
+                <field name="company_id" />
             </tree>
         </field>
     </record>
@@ -261,9 +324,13 @@
         <field name="view_id" ref="view_hotel_room_amenities_list" />
     </record>
 
-    <menuitem id="menu_action_hotel_room_amenities_view_form"
-        name="Amenities" action="action_hotel_room_amenities_view_form"
-        sequence="2" parent="hotel.menu_amenity" />
+    <menuitem
+        id="menu_action_hotel_room_amenities_view_form"
+        name="Amenities"
+        action="action_hotel_room_amenities_view_form"
+        sequence="2"
+        parent="hotel.menu_amenity"
+    />
 
     <!-- ====== Rooms ====== -->
     <!-- Form view of hotel room -->
@@ -273,7 +340,12 @@
         <field name="arch" type="xml">
             <form string="Hotel Room">
                 <sheet>
-                    <field name="image_1920" widget="image" class="oe_avatar" options="{'preview_image': 'image_128'}"/>
+                    <field
+                        name="image_1920"
+                        widget="image"
+                        class="oe_avatar"
+                        options="{'preview_image': 'image_128'}"
+                    />
                     <div class="oe_title">
                         <label for="name" string="Name" />
                         <h1>
@@ -292,19 +364,34 @@
                             <group colspan="4" col="4">
                                 <field name="floor_id" string="Floor" />
                                 <field name="categ_id" select="1" />
-                                <field name="product_manager" select="2" string="Room Manager" />
+                                <field
+                                    name="product_manager"
+                                    select="2"
+                                    string="Room Manager"
+                                />
                                 <field name="capacity" />
                                 <field name="uom_id" invisible="1" />
-                                <field name="company_id" options="{'no_open':True,'no_create': True}"/>
+                                <field
+                                    name="company_id"
+                                    options="{'no_open':True,'no_create': True}"
+                                />
                             </group>
                             <newline />
                             <separator colspan='4' string="Supplier Taxes" />
-                            <field name="supplier_taxes_id" colspan="4" nolabel='1'
-                                help='List of supplier taxes if there any on the defined room. ' />
+                            <field
+                                name="supplier_taxes_id"
+                                colspan="4"
+                                nolabel='1'
+                                help='List of supplier taxes if there any on the defined room. '
+                            />
                             <newline />
                             <separator colspan='4' string="Customer Taxes" />
-                            <field name="taxes_id" colspan="4" nolabel='1'
-                                help='Customer taxes apply on the perticular room. ' />
+                            <field
+                                name="taxes_id"
+                                colspan="4"
+                                nolabel='1'
+                                help='Customer taxes apply on the perticular room. '
+                            />
                         </page>
                         <page string="Room Amenities">
                             <separator string=" Room Amenities" />
@@ -322,8 +409,12 @@
                             <newline />
                             <group>
                                 <separator string="Suppliers" />
-                                <field name="seller_ids" colspan="4" nolabel="1"
-                                    widget="one2many_list" />
+                                <field
+                                    name="seller_ids"
+                                    colspan="4"
+                                    nolabel="1"
+                                    widget="one2many_list"
+                                />
                             </group>
                         </page>
                         <page string="Descriptions">
@@ -331,7 +422,10 @@
                             <field name="description" colspan="4" nolabel="1" />
                         </page>
                         <page string="Folio Room Reservations">
-                            <separator colspan='4' string="Folio Room Reservation Line" />
+                            <separator
+                                colspan='4'
+                                string="Folio Room Reservation Line"
+                            />
                             <field name="room_line_ids" colspan="4" nolabel='1'>
                                 <form string=" Room line">
                                     <group colspan='4' col='4'>
@@ -363,13 +457,21 @@
         <field name="model">hotel.room</field>
         <field name="arch" type="xml">
             <search string="Hotel Room">
-                <field name="name" filter_domain="[('name', 'ilike', self)]"/>
+                <field name="name" filter_domain="[('name', 'ilike', self)]" />
                 <field name="categ_id" />
                 <field name="list_price" string="Room rate" />
                 <field name="status" string="Status" />
                 <newline />
-                <filter name="available" string="Available" domain="[('status','=', 'available')]"/>
-                <filter name="reserved" string="Reserved" domain="[('status','=', 'occupied')]"/>
+                <filter
+                    name="available"
+                    string="Available"
+                    domain="[('status','=', 'available')]"
+                />
+                <filter
+                    name="reserved"
+                    string="Reserved"
+                    domain="[('status','=', 'occupied')]"
+                />
             </search>
         </field>
     </record>
@@ -385,7 +487,7 @@
                 <field name="list_price" string="Room rate" />
                 <field name="status" />
                 <field name="capacity" />
-                <field name="company_id"/>
+                <field name="company_id" />
             </tree>
         </field>
     </record>
@@ -404,12 +506,25 @@
                 <templates>
                     <t t-name="kanban-box">
                         <div
-                            t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
-                            <div class="o_dropdown_kanban dropdown" groups="base.group_user">
-                                <a role="button" class="dropdown-toggle btn" data-toggle="dropdown" href="#">
+                            t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click"
+                        >
+                            <div
+                                class="o_dropdown_kanban dropdown"
+                                groups="base.group_user"
+                            >
+                                <a
+                                    role="button"
+                                    class="dropdown-toggle btn"
+                                    data-toggle="dropdown"
+                                    href="#"
+                                >
                                     <span title="fa_icon" class="fa fa-bars fa-lg" />
                                 </a>
-                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                <ul
+                                    class="dropdown-menu"
+                                    role="menu"
+                                    aria-labelledby="dLabel"
+                                >
                                     <t t-if="widget.editable">
                                         <li>
                                             <a type="edit">Edit</a>
@@ -421,7 +536,10 @@
                                         </li>
                                     </t>
                                     <li>
-                                        <ul class="oe_kanban_colorpicker" data-field="color" />
+                                        <ul
+                                            class="oe_kanban_colorpicker"
+                                            data-field="color"
+                                        />
                                     </li>
                                 </ul>
                             </div>
@@ -430,10 +548,15 @@
                                     <div class="oe_kanban_project_list">
                                         <H3>
                                             <a type="open">
-                                                <img alt="room_image"
+                                                <img
+                                                    alt="room_image"
                                                     t-att-src="kanban_image('hotel.room', 'image_medium', record.id.value)"
-                                                    style="height:70px;width:70px" class="oe_avatar oe_kanban_avatar_smallbox" />
-                                                <t t-if="record.code.raw_value" style="margin-right: 10px">
+                                                    style="height:70px;width:70px" class="oe_avatar oe_kanban_avatar_smallbox"
+                                                />
+                                                <t
+                                                    t-if="record.code.raw_value"
+                                                    style="margin-right: 10px"
+                                                >
                                                     [
                                                     <field name="code" />
                                                     ]
@@ -446,30 +569,36 @@
                                     <ul>
                                         <li>
                                             Status:
-                                            <field name="status"></field>
+                                            <field name="status" />
                                         </li>
                                         <li>
                                             Rate:
-                                            <field name="lst_price"></field>
+                                            <field name="lst_price" />
                                         </li>
                                         <li>
                                             Capacity:
-                                            <field name="capacity"></field>
+                                            <field name="capacity" />
                                         </li>
                                     </ul>
                                 </div>
                                 <div class="oe_kanban_bottom_right">
-                                    <a t-if="record.status.raw_value === 'available'" type="object"
+                                    <a
+                                        t-if="record.status.raw_value === 'available'"
+                                        type="object"
                                         string="Available" name="set_room_status_occupied"
-                                        class="oe_kanban_status oe_kanban_status_green ">
+                                        class="oe_kanban_status oe_kanban_status_green "
+                                    >
                                     </a>
-                                    <a t-if="record.status.raw_value === 'occupied'" type="object"
+                                    <a
+                                        t-if="record.status.raw_value === 'occupied'"
+                                        type="object"
                                         string="occupied" name="set_room_status_available"
-                                        class="oe_kanban_status oe_kanban_status_red ">
+                                        class="oe_kanban_status oe_kanban_status_red "
+                                    >
                                     </a>
                                 </div>
                             </div>
-                            <div class="oe_clear"></div>
+                            <div class="oe_clear" />
                         </div>
                     </t>
                 </templates>
@@ -481,14 +610,21 @@
     <record id="action_hotel_room_form" model="ir.actions.act_window">
         <field name="name">Room</field>
         <field name="res_model">hotel.room</field>
-        <field name="context">{'default_isroom':1,'default_rental':1,'default_available_in_pos':0}
+        <field
+            name="context"
+        >{'default_isroom':1,'default_rental':1,'default_available_in_pos':0}
         </field>
         <field name="view_id" ref="view_hotel_room_tree" />
         <field name="view_mode">kanban,tree,form</field>
     </record>
 
-    <menuitem id="menu_open_hotel_room_form" name="Rooms"
-        action="action_hotel_room_form" sequence="5" parent="hotel.menu_hotel_room" />
+    <menuitem
+        id="menu_open_hotel_room_form"
+        name="Rooms"
+        action="action_hotel_room_form"
+        sequence="5"
+        parent="hotel.menu_hotel_room"
+    />
 
     <!-- Form view of hotel folio -->
     <record id="view_hotel_folio_form" model="ir.ui.view">
@@ -497,22 +633,58 @@
         <field name="arch" type="xml">
             <form string="Hotel Folio">
                 <header>
-                    <button name="action_confirm" states="draft" string="Confirm Sale"
-                        class="btn-primary" type="object" />
-                    <button name="%(sale.action_view_sale_advance_payment_inv)d"
-                        string="Create Invoice" type="action" class="btn-primary"
-                        attrs="{'invisible': ['|',('state', 'in', ('draft','cancel','done')), ('invoice_status', 'in', 'invoiced')]}" />
-                    <button name="action_cancel_draft" states="cancel" string="Set to Draft"
-                        type="object" icon="fa-check-square-o" class="oe_highlight" />
-                    <button name="action_cancel" string="Cancel Folio" states="sale"
-                        type="object" icon="fa-close" class="oe_highlight" />
-                    <button name="action_cancel" string="Cancel Folio" states="draft"
-                        icon="fa-close" type="object" class="oe_highlight" />
-                    <button name="action_done" type="object" string="Set to Done"
-                        states="sale" class="oe_highlight"
-                        help="If a Hotel Folio is done, you cannot modify it manually anymore. However, you will still be able to invoice or deliver. This is used to freeze the Hotel Folio." />
-                    <field name="state" select="2" widget="statusbar"
-                        statusbar_visible="draft,sent,sale,done" />
+                    <button
+                        name="action_confirm"
+                        states="draft"
+                        string="Confirm Sale"
+                        class="btn-primary"
+                        type="object"
+                    />
+                    <button
+                        name="%(sale.action_view_sale_advance_payment_inv)d"
+                        string="Create Invoice"
+                        type="action"
+                        class="btn-primary"
+                        attrs="{'invisible': ['|',('state', 'in', ('draft','cancel','done')), ('invoice_status', 'in', 'invoiced')]}"
+                    />
+                    <button
+                        name="action_cancel_draft"
+                        states="cancel"
+                        string="Set to Draft"
+                        type="object"
+                        icon="fa-check-square-o"
+                        class="oe_highlight"
+                    />
+                    <button
+                        name="action_cancel"
+                        string="Cancel Folio"
+                        states="sale"
+                        type="object"
+                        icon="fa-close"
+                        class="oe_highlight"
+                    />
+                    <button
+                        name="action_cancel"
+                        string="Cancel Folio"
+                        states="draft"
+                        icon="fa-close"
+                        type="object"
+                        class="oe_highlight"
+                    />
+                    <button
+                        name="action_done"
+                        type="object"
+                        string="Set to Done"
+                        states="sale"
+                        class="oe_highlight"
+                        help="If a Hotel Folio is done, you cannot modify it manually anymore. However, you will still be able to invoice or deliver. This is used to freeze the Hotel Folio."
+                    />
+                    <field
+                        name="state"
+                        select="2"
+                        widget="statusbar"
+                        statusbar_visible="draft,sent,sale,done"
+                    />
                 </header>
                 <sheet>
                     <label for="name" string="Folio Number" />
@@ -523,16 +695,30 @@
                         <field name="date_order" readonly="1" />
                         <field name="warehouse_id" string="Branch" />
                         <field name="invoice_status" />
-                        <field name="hotel_invoice_id" states='sale,done,cancel' readonly="1" />
+                        <field
+                            name="hotel_invoice_id"
+                            states='sale,done,cancel'
+                            readonly="1"
+                        />
                     </group>
                     <notebook>
                         <page name="folio" string="Folio">
                             <group colspan="4" col="4">
-                                <field name="partner_id" string="Guest Name" required="1" />
-                                <field name="partner_invoice_id" domain="[('parent_id','=',partner_id)]" />
+                                <field
+                                    name="partner_id"
+                                    string="Guest Name"
+                                    required="1"
+                                />
+                                <field
+                                    name="partner_invoice_id"
+                                    domain="[('parent_id','=',partner_id)]"
+                                />
                                 <field name="pricelist_id" />
-                                <field name="partner_shipping_id" domain="[('parent_id','=',partner_id)]" />
-                                <field name="company_id" invisible="1"/>
+                                <field
+                                    name="partner_shipping_id"
+                                    domain="[('parent_id','=',partner_id)]"
+                                />
+                                <field name="company_id" invisible="1" />
                             </group>
                             <newline />
                             <group colspan="4" col="4" invisible="1">
@@ -542,42 +728,83 @@
                                 <field name="duration_dummy" invisible="1" />
                             </group>
                             <separator string="Room Lines" colspan="4" />
-                            <field name="room_lines" colspan="4" string="Room Line" nolabel="1"
-                                context="{'checkin':checkin_date,'checkout':checkout_date,'folio':context.get('folio')}">
+                            <field
+                                name="room_lines"
+                                colspan="4"
+                                string="Room Line"
+                                nolabel="1"
+                                context="{'checkin':checkin_date,'checkout':checkout_date,'folio':context.get('folio')}"
+                            >
                                 <form string="Room Line">
                                     <notebook>
                                         <page name="folio_name" string="Folio Line">
                                             <group col="6" colspan="4">
                                                 <field name="checkin_date" />
                                                 <field name="checkout_date" />
-                                                <separator string="Automatic Declaration" col="6"
-                                                    colspan="4" />
-                                                <field name="product_uom_qty"
+                                                <separator
+                                                    string="Automatic Declaration"
+                                                    col="6"
+                                                    colspan="4"
+                                                />
+                                                <field
+                                                    name="product_uom_qty"
                                                     context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'uom':product_uom}"
-                                                    invisible="1" />
-                                                <field name="product_id"
+                                                    invisible="1"
+                                                />
+                                                <field
+                                                    name="product_id"
                                                     context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'uom':product_uom}"
-                                                    domain="[('isroom','=',True)]" string="Room No" />
-                                                <field name="product_uom" string="Rent(UOM)" />
-                                                <field name="product_uom_category_id" invisible="1"/>
+                                                    domain="[('isroom','=',True)]"
+                                                    string="Room No"
+                                                />
+                                                <field
+                                                    name="product_uom"
+                                                    string="Rent(UOM)"
+                                                />
+                                                <field
+                                                    name="product_uom_category_id"
+                                                    invisible="1"
+                                                />
                                             </group>
-                                            <separator string="Manual Description" colspan="4" />
-                                            <field name="name" colspan="4" select="2"
-                                                placeholder="Description" />
+                                            <separator
+                                                string="Manual Description"
+                                                colspan="4"
+                                            />
+                                            <field
+                                                name="name"
+                                                colspan="4"
+                                                select="2"
+                                                placeholder="Description"
+                                            />
                                             <group col="4" colspan="2">
-                                                <field name="price_unit" select="2" string="Rent" />
+                                                <field
+                                                    name="price_unit"
+                                                    select="2"
+                                                    string="Rent"
+                                                />
                                                 <field name="discount" />
                                                 <newline />
-                                                <field name="tax_id" colspan="4" nolabel="1" />
-                                                <separator string="States" colspan="4" />
+                                                <field
+                                                    name="tax_id"
+                                                    colspan="4"
+                                                    nolabel="1"
+                                                />
+                                                <separator
+                                                    string="States"
+                                                    colspan="4"
+                                                />
                                                 <field name="state" select="2" />
                                                 <field name="invoice_status" />
                                             </group>
                                         </page>
 
                                         <page name="history" string="History">
-                                            <field name="invoice_lines" colspan="4" nolabel="1"
-                                                readonly="1" />
+                                            <field
+                                                name="invoice_lines"
+                                                colspan="4"
+                                                nolabel="1"
+                                                readonly="1"
+                                            />
                                         </page>
                                     </notebook>
                                 </form>
@@ -593,8 +820,13 @@
                                 </tree>
                             </field>
                             <separator string="Service Lines" colspan="4" />
-                            <field name="service_lines" colspan="4" string="Service Line"
-                                nolabel="1" context="{'checkin':checkin_date,'checkout':checkout_date}">
+                            <field
+                                name="service_lines"
+                                colspan="4"
+                                string="Service Line"
+                                nolabel="1"
+                                context="{'checkin':checkin_date,'checkout':checkout_date}"
+                            >
                                 <form name="service_line" string="Service Line">
                                     <notebook>
                                         <page name="service_line" string="Service Line">
@@ -602,19 +834,38 @@
                                                 <field name="ser_checkin_date" />
                                                 <field name="ser_checkout_date" />
                                             </group>
-                                            <separator string="Automatic Declaration" col="4"
-                                                colspan="4" />
+                                            <separator
+                                                string="Automatic Declaration"
+                                                col="4"
+                                                colspan="4"
+                                            />
                                             <group col="4" colspan="4">
-                                                <field name="product_id" domain="[('isservice','=',True)]"
-                                                    context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'hotel':parent.warehouse_id,'uom':product_uom}" />
-                                                <field name="product_uom" />
-                                                <field name="product_uom_qty"
+                                                <field
+                                                    name="product_id"
+                                                    domain="[('isservice','=',True)]"
                                                     context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'hotel':parent.warehouse_id,'uom':product_uom}"
-                                                    invisible="1" />
-                                                <field name="product_uom_category_id" invisible="1"/>
+                                                />
+                                                <field name="product_uom" />
+                                                <field
+                                                    name="product_uom_qty"
+                                                    context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'hotel':parent.warehouse_id,'uom':product_uom}"
+                                                    invisible="1"
+                                                />
+                                                <field
+                                                    name="product_uom_category_id"
+                                                    invisible="1"
+                                                />
                                             </group>
-                                            <separator string="Manual Description" colspan="4" />
-                                            <field name="name" colspan="4" select="2" placeholder="Description" />
+                                            <separator
+                                                string="Manual Description"
+                                                colspan="4"
+                                            />
+                                            <field
+                                                name="name"
+                                                colspan="4"
+                                                select="2"
+                                                placeholder="Description"
+                                            />
                                             <group>
                                                 <field name="price_unit" select="2" />
                                                 <field name="discount" />
@@ -622,15 +873,22 @@
                                             <newline />
                                             <field name="tax_id" colspan="4" />
                                             <group>
-                                                <separator string="States" colspan="4" />
+                                                <separator
+                                                    string="States"
+                                                    colspan="4"
+                                                />
                                                 <field name="state" select="2" />
                                                 <field name="invoice_status" />
                                             </group>
                                         </page>
 
                                         <page name='invoice_history' string="History">
-                                            <field name="invoice_lines" colspan="4" nolabel="1"
-                                                readonly="1" />
+                                            <field
+                                                name="invoice_lines"
+                                                colspan="4"
+                                                nolabel="1"
+                                                readonly="1"
+                                            />
                                         </page>
                                     </notebook>
                                 </form>
@@ -644,13 +902,20 @@
                                 </tree>
                             </field>
                             <group colspan="2" class="oe_subtotal_footer oe_right">
-                                <field name="amount_untaxed" sum="Untaxed amount" widget='monetary' />
+                                <field
+                                    name="amount_untaxed"
+                                    sum="Untaxed amount"
+                                    widget='monetary' />
                                 <field name="amount_tax" widget='monetary' />
                                 <div class="oe_subtotal_footer_separator oe_inline">
                                     <label for="amount_total" />
                                 </div>
-                                <field name="amount_total" nolabel="1" sum="Total amount"
-                                    widget='monetary' />
+                                <field
+                                    name="amount_total"
+                                    nolabel="1"
+                                    sum="Total amount"
+                                    widget='monetary'
+                                />
                             </group>
                             <div class="oe_clear" />
                         </page>
@@ -693,8 +958,12 @@
         <field name="name">Hotel- Folios Calendar</field>
         <field name="model">hotel.folio</field>
         <field name="arch" type="xml">
-            <calendar string="Folios" date_start="checkin_date" color="user_id"
-                date_stop="checkout_date">
+            <calendar
+                string="Folios"
+                date_start="checkin_date"
+                color="user_id"
+                date_stop="checkout_date"
+            >
                 <field name="name" />
                 <field name="partner_id" />
                 <field name="duration" />
@@ -710,11 +979,22 @@
             <search string="Tables Detail">
                 <field name="partner_id" />
                 <field name="name" filter_domain="[('name', 'ilike', self)]" />
-                <filter name="checkout_date" string="Current Booking"
-                    domain="[('checkout_date','&gt;=',datetime.datetime.now().replace(hour=0, minute=0, second=0)),('checkin_date','&lt;=',datetime.datetime.now().replace(hour=23, minute=59, second=59))]"/>
+                <filter
+                    name="checkout_date"
+                    string="Current Booking"
+                    domain="[('checkout_date','&gt;=',datetime.datetime.now().replace(hour=0, minute=0, second=0)),('checkin_date','&lt;=',datetime.datetime.now().replace(hour=23, minute=59, second=59))]"
+                />
                 <group expand="0" string="Group By">
-                    <filter name="date_order" string="Order By Month" context="{'group_by':'date_order'}" />
-                    <filter name="partner_id" string="Customer" context="{'group_by':'partner_id'}" />
+                    <filter
+                        name="date_order"
+                        string="Order By Month"
+                        context="{'group_by':'date_order'}"
+                    />
+                    <filter
+                        name="partner_id"
+                        string="Customer"
+                        context="{'group_by':'partner_id'}"
+                    />
                 </group>
             </search>
         </field>
@@ -740,10 +1020,19 @@
         <field name="context">{'folio': True}</field>
     </record>
 
-    <menuitem id="menu_all_folio" name="Folio"
-        parent="hotel.hotel_management_menu" sequence="4" />
-    <menuitem name="Generate Folio" id="menu_open_hotel_folio1_form_tree_all"
-        action="open_hotel_folio1_form_tree_all" sequence="5" parent="menu_all_folio" />
+    <menuitem
+        id="menu_all_folio"
+        name="Folio"
+        parent="hotel.hotel_management_menu"
+        sequence="4"
+    />
+    <menuitem
+        name="Generate Folio"
+        id="menu_open_hotel_folio1_form_tree_all"
+        action="open_hotel_folio1_form_tree_all"
+        sequence="5"
+        parent="menu_all_folio"
+    />
 
     <!--============ Hotel Service Type ============ -->
     <!-- Form view of hotel service type -->
@@ -757,7 +1046,10 @@
                         <field name="name" string="Service Name" />
                         <field name="service_id" />
                         <field name="child_ids" invisible="1" />
-                        <field name="company_id" options="{'no_open':True,'no_create': True}"/>
+                        <field
+                            name="company_id"
+                            options="{'no_open':True,'no_create': True}"
+                        />
                     </group>
                 </sheet>
             </form>
@@ -771,7 +1063,7 @@
         <field name="arch" type="xml">
             <tree string="Service Type">
                 <field name="name" />
-                <field name="company_id"/>
+                <field name="company_id" />
             </tree>
         </field>
     </record>
@@ -783,11 +1075,19 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_hotel_service" name="Services"
-        parent="hotel.hotel_configuration_menu" sequence="2" />
-    <menuitem name="Service Types" id="menu_open_hotel_service_type_form_tree"
-        action="open_hotel_service_type_form_tree" sequence="9"
-        parent="hotel.menu_hotel_service" />
+    <menuitem
+        id="menu_hotel_service"
+        name="Services"
+        parent="hotel.hotel_configuration_menu"
+        sequence="2"
+    />
+    <menuitem
+        name="Service Types"
+        id="menu_open_hotel_service_type_form_tree"
+        action="open_hotel_service_type_form_tree"
+        sequence="9"
+        parent="hotel.menu_hotel_service"
+    />
 
     <!--============ Hotel Service ============ -->
     <!-- Form view of hotel service -->
@@ -805,23 +1105,42 @@
                         <page string="Information">
                             <group>
                                 <group colspan="4" col="4">
-                                    <field name="type" select="2" string="Service Type" />
+                                    <field
+                                        name="type"
+                                        select="2"
+                                        string="Service Type"
+                                    />
                                     <field name="categ_id" string="Service Category" />
-                                    <field name="product_manager" select="2" string="Service Manager" />
+                                    <field
+                                        name="product_manager"
+                                        select="2"
+                                        string="Service Manager"
+                                    />
                                     <field name="uom_id" />
                                     <field name="default_code" />
                                     <field name="uom_po_id" />
-                                    <field name="company_id" options="{'no_open':True,'no_create': True}"/>
+                                    <field
+                                        name="company_id"
+                                        options="{'no_open':True,'no_create': True}"
+                                    />
                                 </group>
                             </group>
                             <newline />
                             <separator colspan='4' string="Supplier Taxes" />
-                            <field name="supplier_taxes_id" colspan="4" nolabel='1'
-                                help='List of supplier taxes related to the service provided by hotel.' />
+                            <field
+                                name="supplier_taxes_id"
+                                colspan="4"
+                                nolabel='1'
+                                help='List of supplier taxes related to the service provided by hotel.'
+                            />
                             <newline />
                             <separator colspan='4' string="Customer Taxes" />
-                            <field name="taxes_id" colspan="4" nolabel='1'
-                                help='Customer taxes applied on the service.' />
+                            <field
+                                name="taxes_id"
+                                colspan="4"
+                                nolabel='1'
+                                help='Customer taxes applied on the service.'
+                            />
                         </page>
                         <page string="Procurement">
                             <group colspan="4" col="4">
@@ -835,8 +1154,12 @@
                             <newline />
                             <group>
                                 <separator string="Suplliers" />
-                                <field name="seller_ids" colspan="4" nolabel="1"
-                                    widget="one2many_list" />
+                                <field
+                                    name="seller_ids"
+                                    colspan="4"
+                                    nolabel="1"
+                                    widget="one2many_list"
+                                />
                             </group>
                         </page>
                         <page string="Descriptions">
@@ -845,7 +1168,11 @@
                             <separator string="Sale Description" />
                             <field name="description_sale" colspan="4" nolabel="1" />
                             <separator string="Purchase Description" />
-                            <field name="description_purchase" colspan="4" nolabel="1" />
+                            <field
+                                name="description_purchase"
+                                colspan="4"
+                                nolabel="1"
+                            />
                         </page>
                     </notebook>
                 </sheet>
@@ -876,7 +1203,7 @@
                 <field name="name" />
                 <field name="categ_id" string="Service Category" />
                 <field name="list_price" string="Service rate" />
-                <field name="company_id"/>
+                <field name="company_id" />
             </tree>
         </field>
     </record>
@@ -890,11 +1217,15 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem name="Services" id="menu_open_hotel_services_form"
-        action="action_hotel_services_form" sequence="8"
-        parent="hotel.menu_hotel_service" />
-        
-        
+    <menuitem
+        name="Services"
+        id="menu_open_hotel_services_form"
+        action="action_hotel_services_form"
+        equence="8"
+        parent="hotel.menu_hotel_service"
+    />
+
+
     <!--============ Hotel Emplacement ============ -->
     <!-- Form view of hotel emplacement -->
     <record id="view_hotel_emplacement_form" model="ir.ui.view">
@@ -905,13 +1236,16 @@
                 <sheet>
                     <group>
                         <field name="name" string="Emplacement Name" />
-                        <field name="company_id" options="{'no_open':True,'no_create': True}"/>
+                        <field
+                            name="company_id"
+                            options="{'no_open':True,'no_create': True}"
+                        />
                     </group>
                 </sheet>
             </form>
         </field>
     </record>
-    
+
     <!-- Tree view of hotel Emplacement -->
     <record id="view_hotel_emplacement_tree" model="ir.ui.view">
         <field name="name">hotel.emplacement.tree</field>
@@ -923,19 +1257,21 @@
             </tree>
         </field>
     </record>
-    
+
     <!-- Action for hotel emplacement -->
     <record id="action_open_hotel_emplacement" model="ir.actions.act_window">
-      <field name="name">Emplacements</field>
-      <field name="res_model">hotel.emplacement</field>
-      <field name="context">{}</field>
-      <field name="view_mode">tree,form</field>
+        <field name="name">Emplacements</field>
+        <field name="res_model">hotel.emplacement</field>
+        <field name="context">{}</field>
+        <field name="view_mode">tree,form</field>
     </record>
-    
-    <menuitem id="hotel_emplacement_menu" 
-          name="Emplacements"
-          action="action_open_hotel_emplacement"
-          sequence="6"
-          parent="hotel.menu_hotel_room"/>
+
+    <menuitem
+        id="hotel_emplacement_menu"
+        name="Emplacements"
+        action="action_open_hotel_emplacement"
+        sequence="6"
+        parent="hotel.menu_hotel_room"
+    />
 
 </odoo>

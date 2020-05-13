@@ -66,8 +66,12 @@ class HotelFloor(models.Model):
 
     name = fields.Char("Floor Name", required=True, index=True)
     sequence = fields.Integer(index=True)
-    company_id = fields.Many2one('res.company', string='Company',
-                                 default=lambda self: self.env.company.id, index=True)
+    company_id = fields.Many2one(
+        "res.company",
+        string="Company",
+        default=lambda self: self.env.company.id,
+        index=True,
+    )
 
 
 class HotelRoomType(models.Model):
@@ -78,12 +82,19 @@ class HotelRoomType(models.Model):
     name = fields.Char(required=True)
     categ_id = fields.Many2one("hotel.room.type", "Category")
     child_ids = fields.One2many("hotel.room.type", "categ_id", "Child Categories")
-    company_id = fields.Many2one('res.company', string='Company',
-                                 default=lambda self: self.env.company.id, index=True)
+    company_id = fields.Many2one(
+        "res.company",
+        string="Company",
+        default=lambda self: self.env.company.id,
+        index=True,
+    )
     
     _sql_constraints = [
-        ('parent_check', 'CHECK (categ_id <> id)',
-         'the parent''s category must be différent!')        
+        (
+            "parent_check",
+            "CHECK (categ_id <> id)",
+            "the parent''s category must be différent!",
+        )
     ]
 
     def name_get(self):
@@ -155,12 +166,19 @@ class HotelRoomAmenitiesType(models.Model):
     child_ids = fields.One2many(
         "hotel.room.amenities.type", "amenity_id", "Child Categories"
     )
-    company_id = fields.Many2one('res.company', string='Company',
-                                 default=lambda self: self.env.company.id, index=True)
-
+    company_id = fields.Many2one(
+        "res.company",
+        string="Company",
+        default=lambda self: self.env.company.id,
+        index=True,
+    )
+    
     _sql_constraints = [
-        ('parent_check', 'CHECK (amenity_id <> id)',
-         'the parent''s category must be différent!')        
+        (
+            "parent_check",
+            "CHECK (amenity_id <> id)",
+            "the parent''s category must be différent!"
+        )
     ]
 
     def name_get(self):
@@ -229,8 +247,12 @@ class HotelRoomAmenities(models.Model):
         "hotel.room.amenities.type", string="Amenities Category", required=True
     )
     product_manager = fields.Many2one("res.users", string="Product Manager")
-    company_id = fields.Many2one('res.company', string='Company',
-                                 default=lambda self: self.env.company.id, index=True)
+    company_id = fields.Many2one(
+        "res.company",
+        string="Company",
+        default=lambda self: self.env.company.id,
+        index=True,
+    )
 
 
 class FolioRoomLine(models.Model):
@@ -281,8 +303,12 @@ class HotelRoom(models.Model):
         "folio.room.line", "room_id", string="Room Reservation Line"
     )
     product_manager = fields.Many2one("res.users", "Product Manager")
-    company_id = fields.Many2one('res.company', string='Company',
-                                 default=lambda self: self.env.company.id, index=True)
+    company_id = fields.Many2one(
+        "res.company",
+        string="Company",
+        default=lambda self: self.env.company.id,
+        index=True
+    )
     emplacement_id = fields.Many2one('hotel.emplacement', 'Emplacement', index=True)
 
     @api.constrains("capacity")
@@ -463,8 +489,12 @@ class HotelFolio(models.Model):
     )
     hotel_invoice_id = fields.Many2one("account.move", "Invoice", copy=False)
     duration_dummy = fields.Float("Duration Dummy")
-    company_id = fields.Many2one('res.company', string='Company',
-                                 default=lambda self: self.env.company.id, index=True)
+    company_id = fields.Many2one(
+        "res.company",
+        string="Company",
+        default=lambda self: self.env.company.id,
+        index=True
+    )
 
     @api.constrains("room_lines")
     def folio_room_lines(self):
@@ -754,10 +784,19 @@ class HotelFolioLine(models.Model):
         
     def _compute_tax_id(self):
         for line in self:
-            fpos = line.order_id.fiscal_position_id or line.order_id.partner_id.property_account_position_id
+            fpos = (
+                line.order_id.fiscal_position_id
+                or line.order_id.partner_id.property_account_position_id
+            )
             # If company_id is set, always filter taxes by the company
-            taxes = line.product_id.taxes_id.filtered(lambda r: not line.company_id or r.company_id == line.company_id)
-            line.tax_id = fpos.map_tax(taxes, line.product_id, line.order_id.partner_shipping_id) if fpos else taxes
+            taxes = line.product_id.taxes_id.filtered(
+                lambda r: not line.company_id or r.company_id == line.company_id
+            )
+            line.tax_id = (
+                fpos.map_tax(taxes, line.product_id, line.order_id.partner_shipping_id)
+                if fpos
+                else taxes
+            )
 
     order_line_id = fields.Many2one(
         "sale.order.line",
@@ -1097,8 +1136,12 @@ class HotelServiceType(models.Model):
     name = fields.Char("Service Name", size=64, required=True)
     service_id = fields.Many2one("hotel.service.type", "Service Category")
     child_ids = fields.One2many("hotel.service.type", "service_id", "Child Categories")
-    company_id = fields.Many2one('res.company', string='Company',
-                                 default=lambda self: self.env.company.id, index=True)
+    company_id = fields.Many2one(
+        "res.company",
+        string="Company",
+        default=lambda self: self.env.company.id,
+        index=True,
+    )
 
     def name_get(self):
         def get_names(cat):
@@ -1166,8 +1209,12 @@ class HotelServices(models.Model):
         "hotel.service.type", string="Service Category", required=True
     )
     product_manager = fields.Many2one("res.users", string="Product Manager")
-    company_id = fields.Many2one('res.company', string='Company',
-                                 default=lambda self: self.env.company.id, index=True)
+    company_id = fields.Many2one(
+        "res.company",
+        string="Company",
+        default=lambda self: self.env.company.id,
+        index=True,
+    )
 
 
 class ResCompany(models.Model):
@@ -1201,5 +1248,9 @@ class HotelEmplacement(models.Model):
 
     name = fields.Char('Emplacement')
     room_ids = fields.One2many('hotel.room', 'emplacement_id', 'Rooms')
-    company_id = fields.Many2one('res.company', string='Company',
-                                 default=lambda self: self.env.company.id, index=True)
+    company_id = fields.Many2one(
+        "res.company",
+        string="Company",
+        default=lambda self: self.env.company.id,
+        index=True,
+    )
