@@ -3,20 +3,18 @@ odoo.define('hotel_reservation.hotel_room_summary', function (require) {
 
 var core = require('web.core');
 var registry = require('web.field_registry');
-var _t = core._t;
 var basicFields = require('web.basic_fields');
 
 var FieldText = basicFields.FieldText;
-var InputField = basicFields.InputField;
 var QWeb = core.qweb;
 
 var MyWidget = FieldText.extend({
     events: _.extend({}, FieldText.prototype.events, {
         'change': '_onFieldChanged',
     }),
-	init: function () {
-    	this._super.apply(this, arguments);
-    	if (this.mode === 'edit') {
+    init: function () {
+        this._super.apply(this, arguments);
+        if (this.mode === 'edit') {
             this.tagName = 'span';
         }
         this.set({
@@ -66,9 +64,9 @@ var MyWidget = FieldText.extend({
          this.$el.html(QWeb.render("RoomSummary", {widget: this}));
     },
     _onFieldChanged: function (event) {
-    	this._super();
+        this._super();
         this.lastChangeEvent = event;
-    	this.set({"summary_header": py.eval(this.recordData.summary_header)});
+        this.set({"summary_header": py.eval(this.recordData.summary_header)});
         this.set({"room_summary":py.eval(this.recordData.room_summary)});
         this.renderElement();
         this.view_loading();
