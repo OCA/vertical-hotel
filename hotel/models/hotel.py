@@ -88,7 +88,7 @@ class HotelRoomType(models.Model):
         default=lambda self: self.env.company.id,
         index=True,
     )
-    
+
     _sql_constraints = [
         (
             "parent_check",
@@ -172,12 +172,12 @@ class HotelRoomAmenitiesType(models.Model):
         default=lambda self: self.env.company.id,
         index=True,
     )
-    
+
     _sql_constraints = [
         (
             "parent_check",
             "CHECK (amenity_id <> id)",
-            "the parent''s category must be différent!"
+            "the parent''s category must be différent!",
         )
     ]
 
@@ -307,9 +307,9 @@ class HotelRoom(models.Model):
         "res.company",
         string="Company",
         default=lambda self: self.env.company.id,
-        index=True
+        index=True,
     )
-    emplacement_id = fields.Many2one('hotel.emplacement', 'Emplacement', index=True)
+    emplacement_id = fields.Many2one("hotel.emplacement", "Emplacement", index=True)
 
     @api.constrains("capacity")
     def check_capacity(self):
@@ -493,7 +493,7 @@ class HotelFolio(models.Model):
         "res.company",
         string="Company",
         default=lambda self: self.env.company.id,
-        index=True
+        index=True,
     )
 
     @api.constrains("room_lines")
@@ -781,7 +781,7 @@ class HotelFolioLine(models.Model):
         if "checkout" in self._context:
             return self._context["checkout"]
         return time.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
-        
+
     def _compute_tax_id(self):
         for line in self:
             fpos = (
@@ -899,7 +899,7 @@ class HotelFolioLine(models.Model):
                 self.price_unit = tax_obj._fix_tax_included_price(
                     pr.price, pr.taxes_id, self.tax_id
                 )
-                
+
         else:
             if not self.product_id:
                 return {"domain": {"product_uom": []}}
@@ -1243,11 +1243,11 @@ class AccountMove(models.Model):
         return res
 
 class HotelEmplacement(models.Model):
-    _name = 'hotel.emplacement'
-    _description = 'Emplacement'
+    _name = "hotel.emplacement"
+    _description = "Emplacement"
 
-    name = fields.Char('Emplacement')
-    room_ids = fields.One2many('hotel.room', 'emplacement_id', 'Rooms')
+    name = fields.Char("Emplacement")
+    room_ids = fields.One2many("hotel.room", "emplacement_id", "Rooms")
     company_id = fields.Many2one(
         "res.company",
         string="Company",

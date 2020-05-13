@@ -551,7 +551,8 @@
                                                 <img
                                                     alt="room_image"
                                                     t-att-src="kanban_image('hotel.room', 'image_medium', record.id.value)"
-                                                    style="height:70px;width:70px" class="oe_avatar oe_kanban_avatar_smallbox"
+                                                    style="height:70px;width:70px"
+                                                    class="oe_avatar oe_kanban_avatar_smallbox"
                                                 />
                                                 <t
                                                     t-if="record.code.raw_value"
@@ -585,14 +586,16 @@
                                     <a
                                         t-if="record.status.raw_value === 'available'"
                                         type="object"
-                                        string="Available" name="set_room_status_occupied"
+                                        string="Available"
+                                        name="set_room_status_occupied"
                                         class="oe_kanban_status oe_kanban_status_green "
                                     >
                                     </a>
                                     <a
                                         t-if="record.status.raw_value === 'occupied'"
                                         type="object"
-                                        string="occupied" name="set_room_status_available"
+                                        string="occupied"
+                                        name="set_room_status_available"
                                         class="oe_kanban_status oe_kanban_status_red "
                                     >
                                     </a>
@@ -905,7 +908,8 @@
                                 <field
                                     name="amount_untaxed"
                                     sum="Untaxed amount"
-                                    widget='monetary' />
+                                    widget='monetary'
+                                />
                                 <field name="amount_tax" widget='monetary' />
                                 <div class="oe_subtotal_footer_separator oe_inline">
                                     <label for="amount_total" />
@@ -922,7 +926,10 @@
                         <page name='other_data' string="Other data">
                             <group>
                                 <field name="user_id" />
-                                <field name="hotel_policy" attrs="{'readonly':[('state','not in',('draft'))]}" />
+                                <field
+                                    name="hotel_policy"
+                                    attrs="{'readonly':[('state','not in',('draft'))]}"
+                                />
                                 <field name="client_order_ref" />
                             </group>
                         </page>
