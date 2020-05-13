@@ -31,7 +31,6 @@
     <record id="action_hotel_reservation_wizard" model="ir.actions.act_window">
         <field name="name">Hotel Reservation Report</field>
         <field name="res_model">hotel.reservation.wizard</field>
-        <field name="view_type">form</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
     </record>
@@ -57,12 +56,12 @@
 
     <act_window id="act_make_folio"
                 name="Make Folios"
-                key2="client_action_multi"
                 res_model="wizard.make.folio"
-                src_model="hotel.reservation"
+                binding_model="hotel.reservation"
+                binding_views="form"
                 view_mode="form"
                 target="new"
-                view_type="form" />
+                />
 
     <menuitem id="wizard_res_menu" name="Hotel Reservation Report" action="action_hotel_reservation_wizard"
         parent="hotel.hotel_report_menu" sequence="28" />

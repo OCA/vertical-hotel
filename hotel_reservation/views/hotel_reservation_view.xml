@@ -40,7 +40,7 @@
                         </group>
                         <separator />
                         <group colspan="4" col="4">
-                            <field name="partner_id" domain="[('customer','=',True)]" />
+                            <field name="partner_id" widget="res_partner_many2one" domain="[('customer_rank','>', 0)]" />
                             <field name="pricelist_id" col="2" />
                             <field name="partner_order_id" domain="[('parent_id','=',partner_id)]" />
                             <newline />
@@ -88,7 +88,7 @@
         <field name="model">hotel.reservation</field>
         <field name="arch" type="xml">
             <tree string="Reservation"
-                colors="blue:state == 'draft';gray:state == 'done';lightgray:state == 'cancel';">
+                decoration-bf="state == 'draft'" decoration-info="state == 'done'" decoration-muted="state=='cancel'">
                 <field name="reservation_no" />
                 <field name="partner_id" />
                 <field name="checkin" />
@@ -157,7 +157,6 @@
         <field name="name">Reservations</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">hotel.reservation</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 
@@ -302,7 +301,6 @@
     <record id="action_hotel_reservation_summary" model="ir.actions.act_window">
         <field name="name">Reservation Summary</field>
         <field name="res_model">room.reservation.summary</field>
-        <field name="view_type">form</field>
         <field name="view_mode">form</field>
     </record>
 

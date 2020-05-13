@@ -66,6 +66,7 @@ Contributors
 ------------
 
 * Serpent Consulting Services Pvt. Ltd. <jay.vora@serpentcs.com> (http://www.serpentcs.com)
+* Oxilia-Info <jcchoquet@oxilia-info.fr> (https://oxilia-info.com)
 
 Maintainer
 ----------

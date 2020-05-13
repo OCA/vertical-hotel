@@ -17,7 +17,6 @@ class HotelFolio(models.Model):
     reservation_id = fields.Many2one('hotel.reservation',
                                      string='Reservation Id')
 
-    @api.multi
     def write(self, vals):
         context = dict(self._context)
         if not context:
@@ -73,7 +72,6 @@ class HotelFolioLineExt(models.Model):
                 avail_prod_ids.append(room.product_id.id)
         return res
 
-    @api.multi
     def write(self, vals):
         """
         Overrides orm write method.
@@ -115,13 +113,16 @@ class HotelReservation(models.Model):
     _order = 'reservation_no desc'
     _inherit = ['mail.thread']
 
+    def _get_default_wh(self):
+        return self.env['stock.warehouse'].search([('company_id', '=', self.env.company.id)], limit=1)
+
     reservation_no = fields.Char('Reservation No', readonly=True)
     date_order = fields.Datetime('Date Ordered', readonly=True, required=True,
                                  index=True,
                                  default=(lambda *a: time.strftime(dt)))
     warehouse_id = fields.Many2one('stock.warehouse', 'Hotel', readonly=True,
                                    index=True,
-                                   required=True, default=1,
+                                   required=True, default=_get_default_wh,
                                    states={'draft': [('readonly', False)]})
     partner_id = fields.Many2one('res.partner', 'Guest Name', readonly=True,
                                  index=True,
@@ -176,8 +177,7 @@ class HotelReservation(models.Model):
                                 'order_id', 'invoice_id', string='Folio')
     no_of_folio = fields.Integer('No. Folio', compute="_compute_folio_id")
     dummy = fields.Datetime('Dummy')
-
-    @api.multi
+    
     def _compute_folio_id(self):
         folio_list = []
         for res in self:
@@ -187,7 +187,6 @@ class HotelReservation(models.Model):
             res.no_of_folio = folio_len
         return folio_len
 
-    @api.multi
     def unlink(self):
         """
         Overrides orm unlink method.
@@ -200,7 +199,6 @@ class HotelReservation(models.Model):
                                          state.') % (reserv_rec.state))
         return super(HotelReservation, self).unlink()
 
-    @api.multi
     def copy(self):
         ctx = dict(self._context) or {}
         ctx.update({'duplicate': True})
@@ -299,18 +297,15 @@ class HotelReservation(models.Model):
         """
         if not vals:
             vals = {}
-        vals['reservation_no'] = self.env['ir.sequence'].\
-            next_by_code('hotel.reservation') or 'New'
+        vals['reservation_no'] = self.env['ir.sequence'].next_by_code('hotel.reservation') or 'New'
         return super(HotelReservation, self).create(vals)
 
-    @api.multi
     def check_overlap(self, date1, date2):
         date2 = datetime.strptime(date2, '%Y-%m-%d')
         date1 = datetime.strptime(date1, '%Y-%m-%d')
         delta = date2 - date1
         return set([date1 + timedelta(days=i) for i in range(delta.days + 1)])
 
-    @api.multi
     def confirmed_reservation(self):
         """
         This method create a new record set for hotel room reservation line
@@ -396,7 +391,6 @@ class HotelReservation(models.Model):
                     reservation_line_obj.create(vals)
         return True
 
-    @api.multi
     def cancel_reservation(self):
         """
         This method cancel record set for hotel room reservation line
@@ -418,19 +412,17 @@ class HotelReservation(models.Model):
                                             'status': 'available'})
         return True
 
-    @api.multi
     def set_to_draft_reservation(self):
         self.state = 'draft'
         return True
 
-    @api.multi
     def action_send_reservation_mail(self):
         '''
         This function opens a window to compose an email,
         template message loaded by default.
         @param self: object pointer
-        '''
-        assert len(self._ids) == 1, 'This is for a single id at a time.'
+        '''        
+        self.ensure_one()
         ir_model_data = self.env['ir.model.data']
         try:
             template_id = (ir_model_data.get_object_reference
@@ -490,7 +482,6 @@ class HotelReservation(models.Model):
                 template_rec.send_mail(reserv_rec.id, force_send=True)
         return True
 
-    @api.multi
     def create_folio(self):
         """
         This method is for create new hotel folio.
@@ -547,7 +538,6 @@ class HotelReservation(models.Model):
             self.state = 'done'
         return True
 
-    @api.multi
     def onchange_check_dates(self, checkin_date=False, checkout_date=False,
                              duration=False):
         '''
@@ -639,7 +629,6 @@ class HotelReservationLine(models.Model):
         domain = {'reserve': [('id', 'in', room_ids)]}
         return {'domain': domain}
 
-    @api.multi
     def unlink(self):
         """
         Overrides orm unlink method.
@@ -683,7 +672,6 @@ class HotelRoom(models.Model):
                                                 'room_id',
                                                 string='Room Reserve Line')
 
-    @api.multi
     def unlink(self):
         """
         Overrides orm unlink method.
@@ -783,7 +771,6 @@ class RoomReservationSummary(models.Model):
             res.update({'date_from': date_froms, 'date_to': date_ends})
         return res
 
-    @api.multi
     def room_reservation(self):
         '''
         @param self: object pointer
@@ -1026,7 +1013,6 @@ class QuickRoomReservation(models.TransientModel):
                 res.update({'room_id': int(roomid)})
         return res
 
-    @api.multi
     def room_reserve(self):
         """
         This method create a new record for hotel.reservation
