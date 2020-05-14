@@ -73,8 +73,6 @@ var MyWidget = FieldText.extend({
     },
 });
 
-registry.add(
-    'Room_Reservation', MyWidget
-);
+registry.add("Room_Reservation", MyWidget);
 return MyWidget
 });

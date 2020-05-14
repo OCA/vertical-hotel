@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE xml>
 <odoo>
 
@@ -340,6 +340,7 @@
                             <field name="date_from" class="oe_inline"/>
                             to
                             <field name="date_to" class="oe_inline"/>
+
                         </div>
                     </group>
                     <notebook>

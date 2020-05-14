@@ -48,7 +48,6 @@ class ReportTestCheckin(models.AbstractModel):
             "docs": folio_profile, "time": time, "get_room_type": _get_room_type,
             "get_room_nos": _get_room_nos, "get_checkin": get_checkin, }
 
-
 class ReportTestCheckout(models.AbstractModel):
     _name = "report.hotel_reservation.report_checkout_qweb"
     _description = "Auxiliar to get the check out report"
@@ -89,7 +88,6 @@ class ReportTestCheckout(models.AbstractModel):
         return {"doc_ids": docids, "doc_model": self.model, "data": data["form"],
             "docs": folio_profile, "time": time, "get_room_type": _get_room_type,
             "get_room_nos": _get_room_nos, "get_checkout": _get_checkout, }
-
 
 class ReportTestMaxroom(models.AbstractModel):
     _name = "report.hotel_reservation.report_maxroom_qweb"
@@ -155,7 +153,6 @@ class ReportTestMaxroom(models.AbstractModel):
             "docs": folio_profile, "time": time, "get_room_type": _get_room_type,
             "get_room_nos": _get_room_nos, "get_data": _get_data,
             "get_room_used_detail": _get_room_used_detail, }
-
 
 class ReportTestRoomres(models.AbstractModel):
     _name = "report.hotel_reservation.report_roomres_qweb"

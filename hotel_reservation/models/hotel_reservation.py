@@ -8,12 +8,11 @@ from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError, UserError
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT as dt
 
-
 class HotelFolio(models.Model):
-    _inherit = "hotel.folio"
-    _order = "reservation_id desc"
+    _inherit = 'hotel.folio'
+    _order = 'reservation_id desc'
 
-    reservation_id = fields.Many2one("hotel.reservation", string="Reservation Id")
+    reservation_id = fields.Many2one('hotel.reservation', sring='Reservation Id')
 
     def write(self, vals):
         context = dict(self._context)
@@ -31,11 +30,11 @@ class HotelFolio(models.Model):
                         for line_id in reservation.reservation_line:
                             line_id = line_id.reserve
                             for room_id in line_id:
-                                vals = {"room_id": room_id.id,
-                                    "check_in": folio_obj.checkin_date,
-                                    "check_out": folio_obj.checkout_date,
-                                    "state": "assigned",
-                                    "reservation_id": reservation.id, }
+                                vals = {'room_id': room_id.id,
+                                    'check_in': folio_obj.checkin_date,
+                                    'check_out': folio_obj.checkout_date,
+                                    'state': 'assigned',
+                                    'reservation_id': reservation.id, }
                                 reservation_obj.write(vals)
         return res
 
@@ -89,7 +88,7 @@ class HotelFolioLineExt(models.Model):
                     rm_lines = reservation_line_obj.search(srch_rmline)
                     if rm_lines:
                         rm_line_vals = {"room_id": prod_room.id, "check_in": chkin,
-                            "check_out": chkout}
+                            "check_out": chkout, }
                         rm_lines.write(rm_line_vals)
         return super(HotelFolioLineExt, self).write(vals)
 
@@ -292,6 +291,7 @@ class HotelReservation(models.Model):
                         for reserv in room_id.room_reservation_line_ids.search(
                                 [("status", "in", ("confirm", "done")),
                                     ("room_id", "=", room_id.id)]):
+
                             check_in = reserv.check_in
                             check_out = reserv.check_out
                             if check_in <= reserv_checkin <= check_out:
@@ -381,22 +381,24 @@ class HotelReservation(models.Model):
         ir_model_data = self.env["ir.model.data"]
         try:
             template_id = ir_model_data.get_object_reference("hotel_reservation",
-                "email_template_hotel_reservation")[1]
+                                                             "email_template_hotel_reservation")[
+                1]
         except ValueError:
             template_id = False
         try:
             compose_form_id = ir_model_data.get_object_reference("mail",
-                "email_compose_message_wizard_form")[1]
+                                                                 "email_compose_message_wizard_form")[
+                1]
         except ValueError:
             compose_form_id = False
         ctx = {"default_model": "hotel.reservation", "default_res_id": self._ids[0],
             "default_use_template": bool(template_id),
             "default_template_id": template_id, "default_composition_mode": "comment",
             "force_send": True, "mark_so_as_sent": True}
-        return {"type": "ir.actions.act_window", "view_type": "form",
-            "view_mode": "form", "res_model": "mail.compose.message",
-            "views": [(compose_form_id, "form")], "view_id": compose_form_id,
-            "target": "new", "context": ctx, "force_send": True}
+        return {"type": "ir.actions.act_window", "view_mode": "form",
+            "res_model": "mail.compose.message", "views": [(compose_form_id, "form")],
+            "view_id": compose_form_id, "target": "new", "context": ctx,
+            "force_send": True}
 
     @api.model
     def reservation_reminder_24hrs(self):
@@ -439,7 +441,8 @@ class HotelReservation(models.Model):
                 raise ValidationError(_("Checkout date should be greater \
                                          than the Check-in date."))
             duration_vals = self.onchange_check_dates(checkin_date=checkin_date,
-                checkout_date=checkout_date, duration=False)
+                                                      checkout_date=checkout_date,
+                                                      duration=False)
             duration = duration_vals.get("duration") or 0.0
             folio_vals = {"date_order": reservation.date_order,
                 "warehouse_id": reservation.warehouse_id.id,
@@ -454,11 +457,12 @@ class HotelReservation(models.Model):
             for line in reservation.reservation_line:
                 for r in line.reserve:
                     folio_lines.append((0, 0, {"checkin_date": checkin_date,
-                        "checkout_date": checkout_date,
-                        "product_id": r.product_id and r.product_id.id,
-                        "name": reservation["reservation_no"],
-                        "price_unit": r.list_price, "product_uom_qty": duration,
-                        "is_reserved": True},))
+                                               "checkout_date": checkout_date,
+                                               "product_id": r.product_id and r.product_id.id,
+                                               "name": reservation["reservation_no"],
+                                               "price_unit": r.list_price,
+                                               "product_uom_qty": duration,
+                                               "is_reserved": True},))
                     res_obj = room_obj.browse([r.id])
                     res_obj.write({"status": "occupied", "isroom": False})
             folio_vals.update({"room_lines": folio_lines})
@@ -571,7 +575,6 @@ class HotelReservationLine(models.Model):
                     myobj.unlink()
         return super(HotelReservationLine, self).unlink()
 
-
 class HotelRoomReservationLine(models.Model):
     _name = "hotel.room.reservation.line"
     _description = "Hotel Room Reservation"
@@ -623,7 +626,7 @@ class HotelRoom(models.Model):
         curr_date = now.strftime(dt)
         for room in self.search([]):
             reserv_line_ids = [reservation_line.id for reservation_line in
-                room.room_reservation_line_ids]
+                               room.room_reservation_line_ids]
             reserv_args = [("id", "in", reserv_line_ids), ("check_in", "<=", curr_date),
                 ("check_out", ">=", curr_date)]
             reservation_line_ids = reservation_line_obj.search(reserv_args)
@@ -815,10 +818,11 @@ class RoomReservationSummary(models.Model):
                                         reservline_ids = False
                         fol_room_line_ids = room.room_line_ids.ids
                         chk_state = ["draft", "cancel"]
-                        folio_resrv_ids = folio_room_line_obj.search
-                        ([("id", "in", fol_room_line_ids), ("check_in", "<=", chk_date),
-                            ("check_out", ">=", chk_date),
-                            ("status", "not in", chk_state)])
+                        folio_resrv_ids = folio_room_line_obj.search(
+                            [("id", "in", fol_room_line_ids),
+                                ("check_in", "<=", chk_date),
+                                ("check_out", ">=", chk_date),
+                                ("status", "not in", chk_state)])
                         if reservline_ids or folio_resrv_ids:
                             room_list_stats.append(
                                 {"state": "Reserved", "date": chk_date,

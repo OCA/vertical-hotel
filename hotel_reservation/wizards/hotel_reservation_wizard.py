@@ -47,7 +47,6 @@ class MakeFolioWizard(models.TransientModel):
         for order in order_obj.browse(self.env.context.get("active_ids", [])):
             for folio in order.folio_id:
                 newinv.append(folio.id)
-        return {"domain": "[("id"," in ", [" + ",".join(map(str, newinv)) + "])]",
-            "name": "Folios", "view_type": "form", "view_mode": "tree,form",
-            "res_model": "hotel.folio", "view_id": False,
-            "type": "ir.actions.act_window"}
+        return {"domain": "[('id',' in ', [' + ','.join(map(str, newinv)) + '])]",
+            "name": "Folios", "view_mode": "tree,form", "res_model": "hotel.folio",
+            "view_id": False, "type": "ir.actions.act_window"}
