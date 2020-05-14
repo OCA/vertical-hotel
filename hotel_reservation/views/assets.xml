@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE xml>
 <odoo>
-
     <template
             id="assets_backend_"
             name="Quick Reservation Summary"
@@ -18,5 +17,4 @@
             />
         </xpath>
     </template>
-
 </odoo>

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # See LICENSE file for full copyright and licensing details.
 
 from datetime import datetime
@@ -30,35 +29,36 @@ class TestReservation(common.TransactionCase):
 
         self.hotel_reserv_line = self.hotel_reserv_line_obj.create(
             {"name": "R/00001", "line_id": self.reserv_line.id,
-             "reserve": [(6, 0, [self.room.id])], "categ_id": self.room_type.id, })
+                "reserve": [(6, 0, [self.room.id])], "categ_id": self.room_type.id, })
 
         self.hotel_reserv = self.hotel_reserv_obj.create(
             {"reservation_no": "R/00002", "date_order": cur_date,
-             "warehouse_id": self.warehouse.id, "partner_id": self.partner.id,
-             "pricelist_id": self.pricelist.id, "checkin": cur_date,
-             "checkout": cur_date, "adults": 1, "state": "draft", "children": 1,
-             "reservation_line": [(6, 0, [self.room.id])], })
+                "warehouse_id": self.warehouse.id, "partner_id": self.partner.id,
+                "pricelist_id": self.pricelist.id, "checkin": cur_date,
+                "checkout": cur_date, "adults": 1, "state": "draft", "children": 1,
+                "reservation_line": [(6, 0, [self.room.id])], })
 
         self.reserv_summary = self.reserv_summary_obj.create(
             {"name": "Room Reservation Summary", "date_from": cur_date,
-             "date_to": cur_date, })
+                "date_to": cur_date, })
 
         self.quick_room_reserv = self.quick_room_reserv_obj.create(
             {"partner_id": self.partner.id, "check_in": cur_date, "check_out": cur_date,
-             "room_id": self.room.id, "warehouse_id": self.warehouse.id,
-             "pricelist_id": self.pricelist.id, "partner_invoice_id": self.partner.id,
-             "partner_order_id": self.partner.id,
-             "partner_shipping_id": self.partner.id, "adults": 1, })
+                "room_id": self.room.id, "warehouse_id": self.warehouse.id,
+                "pricelist_id": self.pricelist.id,
+                "partner_invoice_id": self.partner.id,
+                "partner_order_id": self.partner.id,
+                "partner_shipping_id": self.partner.id, "adults": 1, })
 
         self.hotel_room_reserv = self.hotel_room_reserv_obj.create(
             {"room_id": self.room.id, "check_in": cur_date, "check_out": cur_date, })
 
         self.hotel_room = self.hotel_room_obj.create(
             {"product_id": self.room.product_id.id, "floor_id": self.floor.id,
-             "max_adult": 2, "max_child": 1, "capacity": 4,
-             "categ_id": self.room_type.categ_id.id, "status": "available",
-             "product_manager": self.manager.id,
-             "room_reservation_line_ids": [(6, 0, [self.hotel_room_reserv.id])], })
+                "max_adult": 2, "max_child": 1, "capacity": 4,
+                "categ_id": self.room_type.categ_id.id, "status": "available",
+                "product_manager": self.manager.id,
+                "room_reservation_line_ids": [(6, 0, [self.hotel_room_reserv.id])], })
 
     def test_hotel_room_unlink(self):
         self.hotel_room.unlink()

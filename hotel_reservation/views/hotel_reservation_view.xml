@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE xml>
 <odoo>
-
     <!-- ======== Reservation ======== -->
     <!-- Form view of hotel reservation -->
     <record id="view_hotel_reservation_form" model="ir.ui.view">

@@ -4,15 +4,16 @@ import pytz
 import time
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
-from odoo import api, fields, models, _
-from odoo.exceptions import ValidationError, UserError
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError, ValidationError
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT as dt
 
-class HotelFolio(models.Model):
-    _inherit = 'hotel.folio'
-    _order = 'reservation_id desc'
 
-    reservation_id = fields.Many2one('hotel.reservation', sring='Reservation Id')
+class HotelFolio(models.Model):
+    _inherit = "hotel.folio"
+    _order = "reservation_id desc"
+
+    reservation_id = fields.Many2one("hotel.reservation", string="Reservation Id")
 
     def write(self, vals):
         context = dict(self._context)
@@ -77,7 +78,7 @@ class HotelFolioLineExt(models.Model):
         if prod_id and is_reserved:
             prod_domain = [("product_id", "=", prod_id)]
             prod_room = room_obj.search(prod_domain, limit=1)
-            if (self.product_id and self.checkin_date and self.checkout_date):
+            if self.product_id and self.checkin_date and self.checkout_date:
                 old_prd_domain = [("product_id", "=", self.product_id.id)]
                 old_prod_room = room_obj.search(old_prd_domain, limit=1)
                 if prod_room and old_prod_room:
@@ -106,7 +107,7 @@ class HotelReservation(models.Model):
 
     reservation_no = fields.Char("Reservation No", readonly=True)
     date_order = fields.Datetime("Date Ordered", readonly=True, required=True,
-        index=True, default=(lambda *a: time.strftime(dt)), )
+        index=True, efault=(lambda *a: time.strftime(dt)), )
     warehouse_id = fields.Many2one("stock.warehouse", "Hotel", readonly=True,
         index=True, required=True, default=_get_default_wh,
         states={"draft": [("readonly", False)]}, )
@@ -315,7 +316,7 @@ class HotelReservation(models.Model):
                             overlap_dates = self.check_overlap(
                                 *range1) & self.check_overlap(*range2)
                             overlap_dates = [datetime.strftime(dates, "%d/%m/%Y") for
-                                             dates in overlap_dates]
+                                dates in overlap_dates]
                             if room_bool:
                                 raise ValidationError(_("You tried to Confirm "
                                                         "Reservation with room"
@@ -381,14 +382,12 @@ class HotelReservation(models.Model):
         ir_model_data = self.env["ir.model.data"]
         try:
             template_id = ir_model_data.get_object_reference("hotel_reservation",
-                                                             "email_template_hotel_reservation")[
-                1]
+                "email_template_hotel_reservation")[1]
         except ValueError:
             template_id = False
         try:
             compose_form_id = ir_model_data.get_object_reference("mail",
-                                                                 "email_compose_message_wizard_form")[
-                1]
+                "email_compose_message_wizard_form")[1]
         except ValueError:
             compose_form_id = False
         ctx = {"default_model": "hotel.reservation", "default_res_id": self._ids[0],
@@ -441,8 +440,7 @@ class HotelReservation(models.Model):
                 raise ValidationError(_("Checkout date should be greater \
                                          than the Check-in date."))
             duration_vals = self.onchange_check_dates(checkin_date=checkin_date,
-                                                      checkout_date=checkout_date,
-                                                      duration=False)
+                checkout_date=checkout_date, duration=False)
             duration = duration_vals.get("duration") or 0.0
             folio_vals = {"date_order": reservation.date_order,
                 "warehouse_id": reservation.warehouse_id.id,
@@ -457,12 +455,11 @@ class HotelReservation(models.Model):
             for line in reservation.reservation_line:
                 for r in line.reserve:
                     folio_lines.append((0, 0, {"checkin_date": checkin_date,
-                                               "checkout_date": checkout_date,
-                                               "product_id": r.product_id and r.product_id.id,
-                                               "name": reservation["reservation_no"],
-                                               "price_unit": r.list_price,
-                                               "product_uom_qty": duration,
-                                               "is_reserved": True},))
+                        "checkout_date": checkout_date,
+                        "product_id": r.product_id and r.product_id.id,
+                        "name": reservation["reservation_no"],
+                        "price_unit": r.list_price, "product_uom_qty": duration,
+                        "is_reserved": True},))
                     res_obj = room_obj.browse([r.id])
                     res_obj.write({"status": "occupied", "isroom": False})
             folio_vals.update({"room_lines": folio_lines})
@@ -477,7 +474,7 @@ class HotelReservation(models.Model):
         return True
 
     def onchange_check_dates(self, checkin_date=False, checkout_date=False,
-                             duration=False):
+            duration=False):
         """
         This method gives the duration between check in checkout if
         customer will leave only for some hour it would be considers
@@ -568,7 +565,7 @@ class HotelReservationLine(models.Model):
         for reserv_rec in self:
             for rec in reserv_rec.reserve:
                 hres_arg = [("room_id", "=", rec.id),
-                            ("reservation_id", "=", reserv_rec.line_id.id)]
+                    ("reservation_id", "=", reserv_rec.line_id.id)]
                 myobj = hotel_room_reserv_line_obj.search(hres_arg)
                 if myobj.ids:
                     rec.write({"isroom": True, "status": "available"})
@@ -626,7 +623,7 @@ class HotelRoom(models.Model):
         curr_date = now.strftime(dt)
         for room in self.search([]):
             reserv_line_ids = [reservation_line.id for reservation_line in
-                               room.room_reservation_line_ids]
+                room.room_reservation_line_ids]
             reserv_args = [("id", "in", reserv_line_ids), ("check_in", "<=", curr_date),
                 ("check_out", ">=", curr_date)]
             reservation_line_ids = reservation_line_obj.search(reserv_args)
@@ -699,7 +696,7 @@ class RoomReservationSummary(models.Model):
                                          ("name", "=", "view_hotel_reservation_form")])
         resource_id = model_data_ids.read(fields=["res_id"])[0]["res_id"]
         return {"name": _("Reconcile Write-Off"), "context": self._context,
-            "view_type": "form", "view_mode": "form", "res_model": "hotel.reservation",
+            "view_mode": "form", "res_model": "hotel.reservation",
             "views": [(resource_id, "form")], "type": "ir.actions.act_window",
             "target": "new", }
 
@@ -725,12 +722,13 @@ class RoomReservationSummary(models.Model):
                 timezone = pytz.timezone(self._context.get("tz", False))
             else:
                 timezone = pytz.timezone("UTC")
-            d_frm_obj = (self.date_from).replace(
-                tzinfo=pytz.timezone("UTC")).astimezone(timezone)
-            d_to_obj = (self.date_to).replace(tzinfo=pytz.timezone("UTC")).astimezone(
-                timezone)
+            d_frm_obj = (
+                (self.date_from).replace(tzinfo=pytz.timezone("UTC")).astimezone(
+                    timezone))
+            d_to_obj = ((self.date_to).replace(tzinfo=pytz.timezone("UTC")).astimezone(
+                timezone))
             temp_date = d_frm_obj
-            while (temp_date <= d_to_obj):
+            while temp_date <= d_to_obj:
                 val = ""
                 val = (str(temp_date.strftime("%a")) + " " + str(
                     temp_date.strftime("%b")) + " " + str(temp_date.strftime("%d")))
@@ -798,7 +796,7 @@ class RoomReservationSummary(models.Model):
                                         #                                        additional minutes
                                         if con_add > 0:
                                             amin = abs(con_add * 60)
-                                        hr_dur = abs((dur.seconds / 60))
+                                        hr_dur = abs(dur.seconds / 60)
                                         #                                        When additional minutes is greater
                                         #                                        than zero then check duration with
                                         #                                        extra minutes and give the room
@@ -928,5 +926,5 @@ class QuickRoomReservation(models.TransientModel):
                 "warehouse_id": res.warehouse_id.id,
                 "pricelist_id": res.pricelist_id.id, "adults": res.adults,
                 "reservation_line": [(0, 0, {"reserve": [(6, 0, [res.room_id.id])],
-                    "name": (res.room_id and res.room_id.name or "")})], })
+                    "name": (res.room_id and res.room_id.name or ""), })], })
         return rec

@@ -38,8 +38,8 @@ class ReportTestCheckin(models.AbstractModel):
             docids = data["form"].get("docids")
         folio_profile = self.env["hotel.reservation"].browse(docids)
         date_start = data.get("date_start", fields.Date.today())
-        date_end = data["form"].get("date_end", str(
-            datetime.now() + relativedelta(months=+1, day=1, days=-1))[:10])
+        date_end = data["form"].get("date_end",
+            str(datetime.now() + relativedelta(months=+1, day=1, days=-1))[:10], )
         rm_act = self.with_context(data["form"].get("used_context", {}))
         _get_room_type = rm_act._get_room_type(date_start, date_end)
         _get_room_nos = rm_act._get_room_nos(date_start, date_end)
@@ -79,8 +79,8 @@ class ReportTestCheckout(models.AbstractModel):
             docids = data["form"].get("docids")
         folio_profile = self.env["hotel.reservation"].browse(docids)
         date_start = data.get("date_start", fields.Date.today())
-        date_end = data["form"].get("date_end", str(
-            datetime.now() + relativedelta(months=+1, day=1, days=-1))[:10])
+        date_end = data["form"].get("date_end",
+            str(datetime.now() + relativedelta(months=+1, day=1, days=-1))[:10])
         rm_act = self.with_context(data["form"].get("used_context", {}))
         _get_room_type = rm_act._get_room_type(date_start, date_end)
         _get_room_nos = rm_act._get_room_nos(date_start, date_end)
@@ -142,8 +142,8 @@ class ReportTestMaxroom(models.AbstractModel):
             docids = data["form"].get("docids")
         folio_profile = self.env["hotel.reservation"].browse(docids)
         date_start = data["form"].get("date_start", fields.Date.today())
-        date_end = data["form"].get("date_end", str(
-            datetime.now() + relativedelta(months=+1, day=1, days=-1))[:10])
+        date_end = data["form"].get("date_end",
+            str(datetime.now() + relativedelta(months=+1, day=1, days=-1))[:10])
         rm_act = self.with_context(data["form"].get("used_context", {}))
         _get_room_type = rm_act._get_room_type(date_start, date_end)
         _get_room_nos = rm_act._get_room_nos(date_start, date_end)
@@ -187,8 +187,8 @@ class ReportTestRoomres(models.AbstractModel):
             docids = data["form"].get("docids")
         folio_profile = self.env["hotel.reservation"].browse(docids)
         date_start = data.get("date_start", fields.Date.today())
-        date_end = data["form"].get("date_end", str(
-            datetime.now() + relativedelta(months=+1, day=1, days=-1))[:10])
+        date_end = data["form"].get("date_end",
+            str(datetime.now() + relativedelta(months=+1, day=1, days=-1))[:10])
         rm_act = self.with_context(data["form"].get("used_context", {}))
         _get_room_type = rm_act._get_room_type(date_start, date_end)
         _get_room_nos = rm_act._get_room_nos(date_start, date_end)

@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE xml>
 <odoo>
-
     <!--Report for hotel check-in details -->
     <report
             id="hotel_checkin_details"
@@ -12,7 +11,6 @@
             name="hotel_reservation.report_checkin_qweb"
             menu="False"
     />
-
     <!--Report for hotel room reservation details -->
     <report
             id="hotel_roomres_details"
@@ -23,7 +21,6 @@
             name="hotel_reservation.report_roomres_qweb"
             menu="False"
     />
-
     <!--Report for hotel check-out details -->
     <report
             id="hotel_checkout_details"
@@ -34,7 +31,6 @@
             name="hotel_reservation.report_checkout_qweb"
             menu="False"
     />
-
     <!--Report for hotel Maximum used room details -->
     <report
             id="hotel_maxroom_details"
@@ -45,5 +41,4 @@
             name="hotel_reservation.report_maxroom_qweb"
             menu="False"
     />
-
 </odoo>
