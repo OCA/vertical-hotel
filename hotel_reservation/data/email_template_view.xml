@@ -16,13 +16,13 @@
                 <p style="margin: 0px; padding: 0px; font-size: 13px;">
                 <p>Hello <strong>${object.partner_id.name}</strong>,</p>
                 <p>This is to confirm your booking for a room at the <strong>${object.warehouse_id.name} Hotel</strong>,
-                   % if object.warehouse_id.partner_id.city: 
+                   % if object.warehouse_id.partner_id.city:
                    <strong>${object.warehouse_id.partner_id.city}</strong>,
-                   % endif 
+                   % endif
                    % if object.warehouse_id.partner_id.country_id.name:
                    <strong>${object.warehouse_id.partner_id.country_id.name}</strong>.
                    % endif
-                   On behalf of the hotel, we would like to express our gratitude to you for choosing our services. 
+                   On behalf of the hotel, we would like to express our gratitude to you for choosing our services.
                    Please find all the details regarding the confirmation of the reservation on Date <strong>${object.date_order}</strong> are listed below:
                 </p>
                         <strong>Details :</strong><br/>
@@ -49,7 +49,7 @@
                             %endfor
                         %endfor
                 </table>
-               <br /> 
+               <br />
                <p>We would appreciate it if you could let us know in case there are any changes in your schedule or program.
                   In case you require check-in facilities at an earlier time due to flight changes or any other reasons,
                   kindly inform us. We are sure that you will find our services satisfactory. In case you need to cancel
@@ -78,7 +78,7 @@
                 </div>
             </field>
         </record>
-    
+
         <!-- Email Template For Hotel Reservation Reminder Before 24 Hours -->
         <record id="mail_template_reservation_reminder_24hrs" model="mail.template">
             <field name="name">Reservation Reminder Before 24hrs</field>

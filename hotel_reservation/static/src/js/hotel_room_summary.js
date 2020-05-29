@@ -32,10 +32,10 @@ var MyWidget = FieldText.extend({
         var self = this;
         if (self.setting)
             return;
-        
+
         if (! this.get("summary_header") || ! this.get("room_summary"))
                return
-               
+
         this.renderElement();
         this.view_loading();
      },
