@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE xml>
 <odoo>
-
     <!--Template for Hotel Reservation -->
     <template id="report_roomres_qweb">
         <t t-call="web.html_container">
@@ -9,14 +7,10 @@
                     <div class="page">
                         <br />
                         <br />
-                        <div class="row">
-                            <h2>
-                                <span>
-                                    <center>Reservation List</center>
-                                </span>
-                            </h2>
-                        </div>
-                        <div class="row mt32 mb32">
+                         <div class="mt32 mb32">
+                            <center><h2><u>Reservation List</u></h2></center>
+                         </div>
+                        <div class="mt32 mb32">
                             <div class="text-center">
                                 <strong>From:</strong>
                                 <span t-esc="data['date_start']" />

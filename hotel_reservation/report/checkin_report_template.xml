@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE xml>
 <odoo>
 
     <!--Template for Hotel Reservation -->
@@ -9,10 +8,10 @@
                     <div class="page">
                         <br />
                         <br />
-                        <div class="row">
-                            <h2><center>Check-In Guest List</center></h2>
-                        </div>
-                        <div class="row mt32 mb32">
+                         <div class="mt32 mb32">
+                            <center><h2><u>Check-In Guest List</u></h2></center>
+                         </div>
+                        <div class="mt32 mb32">
                             <div class="text-center">
                                 <strong>From:</strong>
                                 <span t-esc="data['date_start']" />

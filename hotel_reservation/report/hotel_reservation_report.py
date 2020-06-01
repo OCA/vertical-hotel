@@ -153,12 +153,11 @@ class ReportTestMaxroom(models.AbstractModel):
                 start_date = datetime.strptime(
                     date_start, DEFAULT_SERVER_DATETIME_FORMAT
                 )
-                for room_resv_line in room.room_reservation_line_ids:
-                    if (
-                        room_resv_line.check_in >= start_date
-                        and room_resv_line.check_in <= end_date
-                    ):
-                        counter += 1
+                count = len(
+                    room.room_reservation_line_ids.filtered(
+                        lambda l: start_date <= l.check_in <= end_date
+                    )
+                )
             if counter >= 1:
                 details.update({"name": room.name or "", "no_of_times_used": counter})
                 room_used_details.append(details)
