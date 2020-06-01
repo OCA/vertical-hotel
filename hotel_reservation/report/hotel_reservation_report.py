@@ -153,7 +153,7 @@ class ReportTestMaxroom(models.AbstractModel):
                 start_date = datetime.strptime(
                     date_start, DEFAULT_SERVER_DATETIME_FORMAT
                 )
-                count = len(
+                counter = len(
                     room.room_reservation_line_ids.filtered(
                         lambda l: start_date <= l.check_in <= end_date
                     )
