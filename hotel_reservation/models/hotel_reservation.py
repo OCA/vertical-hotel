@@ -223,7 +223,6 @@ class HotelReservation(models.Model):
         string="Folio",
     )
     no_of_folio = fields.Integer("No. Folio", compute="_compute_folio_id")
-    dummy = fields.Datetime("Dummy")
 
     @api.multi
     def _compute_folio_id(self):
@@ -245,11 +244,7 @@ class HotelReservation(models.Model):
         for reserv_rec in self:
             if reserv_rec.state != "draft":
                 raise ValidationError(
-                    _(
-                        "You cannot delete Reservation in %s\
-                                         state."
-                    )
-                    % (reserv_rec.state)
+                    _("Sorry, you can only delete the reservation when it's draft!")
                 )
         return super(HotelReservation, self).unlink()
 
@@ -315,23 +310,6 @@ class HotelReservation(models.Model):
          Show a count of draft state reservations on the menu badge.
          """
         return self.search_count([("state", "=", "draft")])
-
-    @api.onchange("checkout", "checkin")
-    def on_change_checkout(self):
-        """
-        When you change checkout or checkin update dummy field
-        -----------------------------------------------------------
-        @param self: object pointer
-        @return: raise warning depending on the validation
-        """
-        checkout_date = time.strftime(dt)
-        checkin_date = time.strftime(dt)
-        if not (checkout_date and checkin_date):
-            return {"value": {}}
-        delta = timedelta(days=1)
-        dat_a = time.strptime(checkout_date, dt)[:5]
-        addDays = datetime(*dat_a) + delta
-        self.dummy = addDays.strftime(dt)
 
     @api.onchange("partner_id")
     def onchange_partner_id(self):
