@@ -5,27 +5,31 @@
         <t t-call="web.html_container">
             <t t-call="web.external_layout">
                 <div class="page">
-                    <br />
-                    <br />
+                    <br/>
+                    <br/>
                     <div class="mt32 mb32">
                         <h2>
                             <span>
-                                <center><u>Room Activities Report</u></center>
+                                <center>
+                                    <u>Room Activities Report</u>
+                                </center>
                             </span>
                         </h2>
                     </div>
                     <div class="mt32 mb32">
                         <div class="text-center">
                             <strong>From:</strong>
-                            <span t-esc="data['date_start']" t-options="{'widget':'datetime'}"/>
+                            <span t-esc="data['date_start']"
+                                  t-options="{'widget':'datetime'}"/>
                             <strong>To:</strong>
-                            <span t-esc="data['date_end']" t-options="{'widget':'datetime'}"/>
+                            <span t-esc="data['date_end']"
+                                  t-options="{'widget':'datetime'}"/>
                         </div>
                     </div>
                     <div class="mt32 mb32">
                         <div class="text-center">
                             <strong>For Room:-</strong>
-                            <span t-esc="data['room_id'][1]" />
+                            <span t-esc="data['room_id'][1]"/>
                         </div>
                     </div>
                     <table class="table table-condensed">
@@ -51,22 +55,29 @@
                         </tr>
                         <tr t-foreach="activity_detail" t-as="detail">
                             <td class="text-right" style="white-space: nowrap;">
-                                <span t-esc="detail.get('current_date','')" />
+                                <span t-esc="detail.get('current_date','')"/>
                             </td>
                             <td class="text-right" style="white-space: nowrap;">
-                                <span t-att-style="style" t-esc="detail.get('activity','')" />
+                                <span t-att-style="style"
+                                      t-esc="detail.get('activity','')"/>
                             </td>
                             <td class="text-right" style="white-space: nowrap;">
-                                <span t-att-style="style" t-esc="detail.get('login','')" />
+                                <span t-att-style="style"
+                                      t-esc="detail.get('login','')"/>
                             </td>
                             <td class="text-right" style="white-space: nowrap;">
-                                <span t-att-style="style" t-esc="detail.get('clean_start_time','')" t-options="{'widget':'datetime'}"/>
+                                <span t-att-style="style"
+                                      t-esc="detail.get('clean_start_time','')"
+                                      t-options="{'widget':'datetime'}"/>
                             </td>
                             <td class="text-right" style="white-space: nowrap;">
-                                <span t-att-style="style" t-esc="detail.get('clean_end_time','')" t-options="{'widget':'datetime'}"/>
+                                <span t-att-style="style"
+                                      t-esc="detail.get('clean_end_time','')"
+                                      t-options="{'widget':'datetime'}"/>
                             </td>
                             <td class="text-right" style="white-space: nowrap;">
-                                <span t-att-style="style" t-esc="detail.get('duration','')" />
+                                <span t-att-style="style"
+                                      t-esc="detail.get('duration','')"/>
                             </td>
                         </tr>
                     </table>
