@@ -1,10 +1,11 @@
 # See LICENSE file for full copyright and licensing details.
 
 import time
-from odoo import api, fields, models, _
+
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
-from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from odoo.osv import expression
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 
 class HotelFolio(models.Model):
@@ -19,7 +20,11 @@ class HotelFolio(models.Model):
         "Orders",
     )
     hotel_restaurant_order_ids = fields.Many2many(
-        "hotel.restaurant.order", "hotel_res_resv", "hfolio_id", "reserves_id", "Orders"
+        "hotel.restaurant.order",
+        "hotel_res_resv",
+        "hfolio_id",
+        "reserves_id",
+        "Orders",
     )
 
 
@@ -30,7 +35,9 @@ class HotelMenucardType(models.Model):
 
     name = fields.Char("Name", required=True)
     menu_id = fields.Many2one("hotel.menucard.type", string="Food Item Type")
-    child_ids = fields.One2many("hotel.menucard.type", "menu_id", "Child Categories")
+    child_ids = fields.One2many(
+        "hotel.menucard.type", "menu_id", "Child Categories"
+    )
 
     @api.multi
     def name_get(self):
@@ -56,7 +63,10 @@ class HotelMenucardType(models.Model):
             domain = [("name", operator, child)]
             if parents:
                 names_ids = self.name_search(
-                    " / ".join(parents), args=args, operator="ilike", limit=limit
+                    " / ".join(parents),
+                    args=args,
+                    operator="ilike",
+                    limit=limit,
                 )
                 category_ids = [name_id[0] for name_id in names_ids]
                 if operator in expression.NEGATIVE_TERM_OPERATORS:
@@ -65,17 +75,27 @@ class HotelMenucardType(models.Model):
                         [[("menu_id", "in", categories.ids)], domain]
                     )
                 else:
-                    domain = expression.AND([[("menu_id", "in", category_ids)], domain])
+                    domain = expression.AND(
+                        [[("menu_id", "in", category_ids)], domain]
+                    )
                 for i in range(1, len(category_names)):
                     domain = [
-                        [("name", operator, " / ".join(category_names[-1 - i :]))],
+                        [
+                            (
+                                "name",
+                                operator,
+                                " / ".join(category_names[-1 - i :]),
+                            )
+                        ],
                         domain,
                     ]
                     if operator in expression.NEGATIVE_TERM_OPERATORS:
                         domain = expression.AND(domain)
                     else:
                         domain = expression.OR(domain)
-            categories = self.search(expression.AND([domain, args]), limit=limit)
+            categories = self.search(
+                expression.AND([domain, args]), limit=limit
+            )
         else:
             categories = self.search(args, limit=limit)
         return categories.name_get()
@@ -327,11 +347,17 @@ class HotelRestaurantReservation(models.Model):
         if self.is_folio is True:
             if self.start_date < self.folio_id.room_lines.checkin_date:
                 raise ValidationError(
-                    _("Start Date Should be greater than the" " Folio Check-in Date!")
+                    _(
+                        "Start Date Should be greater than the"
+                        " Folio Check-in Date!"
+                    )
                 )
             if self.end_date > self.folio_id.room_lines.checkout_date:
                 raise ValidationError(
-                    _("End Date Should be less than the" " Folio Check-out Date!")
+                    _(
+                        "End Date Should be less than the"
+                        " Folio Check-out Date!"
+                    )
                 )
 
 
@@ -372,10 +398,13 @@ class HotelRestaurantOrder(models.Model):
         @param self: object pointer
         """
         for sale in self:
-            sale.amount_subtotal = sum(line.price_subtotal for line in sale.order_list)
+            sale.amount_subtotal = sum(
+                line.price_subtotal for line in sale.order_list
+            )
             if sale.amount_subtotal:
                 sale.amount_total = (
-                    sale.amount_subtotal + (sale.amount_subtotal * sale.tax) / 100
+                    sale.amount_subtotal
+                    + (sale.amount_subtotal * sale.tax) / 100
                 )
 
     @api.onchange("folio_id")
@@ -469,9 +498,15 @@ class HotelRestaurantOrder(models.Model):
     folio_id = fields.Many2one("hotel.folio", string="Folio No")
     waiter_name = fields.Many2one("res.partner", "Waiter Name")
     table_no = fields.Many2many(
-        "hotel.restaurant.tables", "temp_table2", "table_no", "name", "Table Number"
+        "hotel.restaurant.tables",
+        "temp_table2",
+        "table_no",
+        "name",
+        "Table Number",
     )
-    order_list = fields.One2many("hotel.restaurant.order.list", "o_list", "Order List")
+    order_list = fields.One2many(
+        "hotel.restaurant.order.list", "o_list", "Order List"
+    )
     tax = fields.Float("Tax (%) ")
     amount_subtotal = fields.Float(
         compute="_compute_amount_all_total", method=True, string="Subtotal"
@@ -495,10 +530,16 @@ class HotelRestaurantOrder(models.Model):
     is_folio = fields.Boolean(
         "Is a Hotel Guest??", help="is customer reside" "in hotel or not"
     )
-    cname = fields.Many2one("res.partner", string="Customer Name", required=True)
+    cname = fields.Many2one(
+        "res.partner", string="Customer Name", required=True
+    )
     kitchen_id = fields.Integer("Kitchen id")
     rest_item_id = fields.Many2many(
-        "hotel.restaurant.order.list", "restau_kitc_ids", "restau_id", "kit_id", "Rest"
+        "hotel.restaurant.order.list",
+        "restau_kitc_ids",
+        "restau_id",
+        "kit_id",
+        "Rest",
     )
 
     @api.model
@@ -584,7 +625,9 @@ class HotelRestaurantOrder(models.Model):
                         }
                     )
                     hf_rec = hotel_folio_obj.browse(order_obj.folio_id.id)
-                    hf_rec.write({"hotel_restaurant_order_ids": [(4, order_obj.id)]})
+                    hf_rec.write(
+                        {"hotel_restaurant_order_ids": [(4, order_obj.id)]}
+                    )
             self.state = "done"
         return True
 
@@ -599,10 +642,13 @@ class HotelReservationOrder(models.Model):
         @param self: object pointer
         """
         for sale in self:
-            sale.amount_subtotal = sum(line.price_subtotal for line in sale.order_list)
+            sale.amount_subtotal = sum(
+                line.price_subtotal for line in sale.order_list
+            )
             if sale.amount_subtotal:
                 sale.amount_total = (
-                    sale.amount_subtotal + (sale.amount_subtotal * sale.tax) / 100.0
+                    sale.amount_subtotal
+                    + (sale.amount_subtotal * sale.tax) / 100.0
                 )
 
     @api.multi
@@ -710,7 +756,9 @@ class HotelReservationOrder(models.Model):
                         }
                     )
                     hf_rec = hotel_folio_obj.browse(order_obj.folio_id.id)
-                    hf_rec.write({"hotel_reservation_order_ids": [(4, order_obj.id)]})
+                    hf_rec.write(
+                        {"hotel_reservation_order_ids": [(4, order_obj.id)]}
+                    )
             if order_obj.reservationno:
                 order_obj.reservationno.write({"state": "done"})
         self.state = "done"
@@ -721,7 +769,9 @@ class HotelReservationOrder(models.Model):
     _rec_name = "order_number"
 
     order_number = fields.Char("Order No", readonly=True)
-    reservationno = fields.Many2one("hotel.restaurant.reservation", "Reservation No")
+    reservationno = fields.Many2one(
+        "hotel.restaurant.reservation", "Reservation No"
+    )
     order_date = fields.Datetime(
         "Date",
         required=True,
@@ -729,9 +779,15 @@ class HotelReservationOrder(models.Model):
     )
     waitername = fields.Many2one("res.partner", "Waiter Name")
     table_no = fields.Many2many(
-        "hotel.restaurant.tables", "temp_table4", "table_no", "name", "Table Number"
+        "hotel.restaurant.tables",
+        "temp_table4",
+        "table_no",
+        "name",
+        "Table Number",
     )
-    order_list = fields.One2many("hotel.restaurant.order.list", "o_l", "Order List")
+    order_list = fields.One2many(
+        "hotel.restaurant.order.list", "o_l", "Order List"
+    )
     tax = fields.Float("Tax (%) ")
     amount_subtotal = fields.Float(
         compute="_compute_amount_all_total", method=True, string="Subtotal"
@@ -741,7 +797,11 @@ class HotelReservationOrder(models.Model):
     )
     kitchen_id = fields.Integer("Kitchen id")
     rest_id = fields.Many2many(
-        "hotel.restaurant.order.list", "reserv_id", "kitchen_id", "res_kit_ids", "Rest"
+        "hotel.restaurant.order.list",
+        "reserv_id",
+        "kitchen_id",
+        "res_kit_ids",
+        "Rest",
     )
     state = fields.Selection(
         [("draft", "Draft"), ("order", "Order Created"), ("done", "Done")],
