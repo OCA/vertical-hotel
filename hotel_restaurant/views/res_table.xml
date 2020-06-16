@@ -7,8 +7,8 @@
         <t t-call="web.html_container">
             <t t-call="web.external_layout">
                 <div class="page">
-                    <br />
-                    <br />
+                    <br/>
+                    <br/>
                     <div class="row">
                         <h2>
                             <span>
@@ -19,9 +19,9 @@
                     <div class="row mt32 mb32">
                         <div class="text-center">
                             <strong>From:</strong>
-                            <span t-esc="data['date_start']" />
+                            <span t-esc="data['date_start']"/>
                             <strong>To:</strong>
-                            <span t-esc="data['date_end']" />
+                            <span t-esc="data['date_end']"/>
                         </div>
                     </div>
                     <table class="table table-condensed container">
@@ -44,16 +44,19 @@
                         <tbody>
                             <tr t-foreach="Reservations" t-as="reservations">
                                 <td style="white-space: nowrap;">
-                                    <span t-esc="reservations.get('reservation', '')" />
+                                    <span
+                                        t-esc="reservations.get('reservation', '')"/>
                                 </td>
                                 <td style="white-space: nowrap;">
-                                    <span t-esc="reservations.get('name', '')" />
+                                    <span t-esc="reservations.get('name', '')"/>
                                 </td>
                                 <td style="white-space: nowrap;">
-                                    <span t-esc="reservations.get('start_date', '')" />
+                                    <span
+                                        t-esc="reservations.get('start_date', '')"/>
                                 </td>
                                 <td style="white-space: nowrap;">
-                                    <span t-esc="reservations.get('end_date', '')" />
+                                    <span
+                                        t-esc="reservations.get('end_date', '')"/>
                                 </td>
                             </tr>
                         </tbody>

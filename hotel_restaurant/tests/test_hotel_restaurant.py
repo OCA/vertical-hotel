@@ -1,7 +1,8 @@
 # See LICENSE file for full copyright and licensing details.
 
-from odoo.tests import common
 from datetime import datetime
+
+from odoo.tests import common
 
 
 class TestRestaurant(common.TransactionCase):
@@ -14,11 +15,21 @@ class TestRestaurant(common.TransactionCase):
         self.hotel_rest_order_obj = self.env["hotel.restaurant.order"]
         self.hotel_reserv_order_obj = self.env["hotel.reservation.order"]
         self.fooditem = self.env.ref("hotel_restaurant.hotel_fooditem_5")
-        self.fooditem_type = self.env.ref("hotel_restaurant.hotel_menucard_type_1")
-        self.rest_res = self.env.ref("hotel_restaurant.hotel_restaurant_reservation_1")
-        self.tablelist = self.env.ref("hotel_restaurant.hotel_reservation_order_line_0")
-        self.table1 = self.env.ref("hotel_restaurant.hotel_restaurant_tables_table1")
-        self.table0 = self.env.ref("hotel_restaurant.hotel_restaurant_tables_table0")
+        self.fooditem_type = self.env.ref(
+            "hotel_restaurant.hotel_menucard_type_1"
+        )
+        self.rest_res = self.env.ref(
+            "hotel_restaurant.hotel_restaurant_reservation_1"
+        )
+        self.tablelist = self.env.ref(
+            "hotel_restaurant.hotel_reservation_order_line_0"
+        )
+        self.table1 = self.env.ref(
+            "hotel_restaurant.hotel_restaurant_tables_table1"
+        )
+        self.table0 = self.env.ref(
+            "hotel_restaurant.hotel_restaurant_tables_table0"
+        )
         self.room1 = self.env.ref("point_of_sale.desk_organizer")
         self.partner = self.env.ref("base.res_partner_4")
         self.waiter = self.env.ref("base.res_partner_3")
