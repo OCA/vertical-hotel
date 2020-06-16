@@ -9,18 +9,18 @@
         <field name="arch" type="xml">
             <form string="Reservation List" version='7.0'>
                 <group col="4">
-                    <field name="date_start" />
-                    <field name="date_end" />
+                    <field name="date_start"/>
+                    <field name="date_end"/>
                 </group>
                 <footer>
                     <button name='report_checkin_detail' string="CheckIn List"
-                        type="object" icon="fa-level-down" class="btn btn-primary"/>
+                            type="object" icon="fa-level-down" class="btn btn-primary"/>
                     <button name='report_checkout_detail' string="CheckOut List"
-                        type="object" icon="fa-level-up" class="btn btn-primary"/>
+                            type="object" icon="fa-level-up" class="btn btn-primary"/>
                     <button name='report_reservation_detail' type='object'
-                        string='Reservation List' icon="fa-bars" class="btn btn-primary"/>
+                            string='Reservation List' icon="fa-bars" class="btn btn-primary"/>
                     <button name='report_maxroom_detail' string="Room Used Maximum"
-                        type="object" icon="fa-minus-square-o" class="btn btn-primary"/>
+                            type="object" icon="fa-minus-square-o" class="btn btn-primary"/>
                     <button special="cancel" string="Cancel" icon="fa-close" class="btn btn-primary"/>
                 </footer>
             </form>
@@ -43,23 +43,23 @@
         <field name="arch" type="xml">
             <form string="Create Folio" version='8.0'>
                 <separator colspan="4"
-                    string="Do you really want to create the Folio ?" />
+                           string="Do you really want to create the Folio ?"/>
                 <!-- <field name="grouped" /> -->
-                <newline />
+                <newline/>
                 <footer>
                     <button name="makeFolios" string="Create Folio" type="object"
-                        icon="fa-files-o" class="oe_highlight" />
-                    <button string="Cancel" icon="fa-close" class="btn btn-primary" special="cancel" />
+                            icon="fa-files-o" class="oe_highlight"/>
+                    <button string="Cancel" icon="fa-close" class="btn btn-primary" special="cancel"/>
                 </footer>
             </form>
         </field>
     </record>
 
     <act_window id="act_make_folio" name="Make Folios" key2="client_action_multi"
-        res_model="wizard.make.folio" src_model="hotel.reservation"
-        view_mode="form" target="new" view_type="form" />
+                res_model="wizard.make.folio" src_model="hotel.reservation"
+                view_mode="form" target="new" view_type="form"/>
 
     <menuitem id="wizard_res_menu" name="Hotel Reservation Report" action="action_hotel_reservation_wizard"
-        parent="hotel.hotel_report_menu" sequence="28" />
+              parent="hotel.hotel_report_menu" sequence="28"/>
 
 </odoo>

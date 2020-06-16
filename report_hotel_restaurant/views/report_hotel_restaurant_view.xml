@@ -7,10 +7,10 @@
         <field name="name">report.hotel.restaurant.status.tree</field>
         <field name="model">report.hotel.restaurant.status</field>
         <field name="arch" type="xml">
-        <tree string="States By Restaurant">
-            <field name="reservation_id" />
-            <field name="state" />
-        </tree>
+            <tree string="States By Restaurant">
+                <field name="reservation_id"/>
+                <field name="state"/>
+            </tree>
         </field>
     </record>
 
@@ -19,10 +19,10 @@
         <field name="name">report.hotel.restaurant.status.form</field>
         <field name="model">report.hotel.restaurant.status</field>
         <field name="arch" type="xml">
-        <form string="States By Restaurant">
-            <field name="reservation_id" />
-            <field name="state" />
-        </form>
+            <form string="States By Restaurant">
+                <field name="reservation_id"/>
+                <field name="state"/>
+            </form>
         </field>
     </record>
 
@@ -31,11 +31,11 @@
         <field name="name">report.hotel.restaurant.status.search</field>
         <field name="model">report.hotel.restaurant.status</field>
         <field name="arch" type="xml">
-        <search string="Hotel Restaurant Status">
-            <filter string="Draft" domain="[('state','=', 'draft')]" help="Rooms in draft state" />
-            <filter string="Confirm" domain="[('state','=', 'confirm')]" help="Rooms in confirm state" />
-            <filter string="done" domain="[('state','=', 'done')]" help="Rooms in done state" />
-        </search>
+            <search string="Hotel Restaurant Status">
+                <filter string="Draft" domain="[('state','=', 'draft')]" help="Rooms in draft state"/>
+                <filter string="Confirm" domain="[('state','=', 'confirm')]" help="Rooms in confirm state"/>
+                <filter string="done" domain="[('state','=', 'done')]" help="Rooms in done state"/>
+            </search>
         </field>
     </record>
 
@@ -45,8 +45,8 @@
         <field name="model">report.hotel.restaurant.status</field>
         <field name="arch" type="xml">
             <graph string="States By Restaurant" type="pie">
-                <field name="state" />
-                <field name="nbr" operator="+" />
+                <field name="state"/>
+                <field name="nbr" operator="+"/>
             </graph>
         </field>
     </record>
@@ -57,8 +57,8 @@
         <field name="model">report.hotel.restaurant.status</field>
         <field name="arch" type="xml">
             <graph string="States By Restaurant" type="bar" orientation="verticle">
-                <field name="state" />
-                <field name="nbr" operator="+" />
+                <field name="state"/>
+                <field name="nbr" operator="+"/>
             </graph>
         </field>
     </record>
@@ -71,16 +71,19 @@
         <field name="view_mode">graph,tree</field>
     </record>
 
-     <!-- Action for report hotel restaurant status -->
+    <!-- Action for report hotel restaurant status -->
     <record id="action_report_hotel_restaurant_board" model="ir.actions.act_window">
         <field name="name">States By Restaurants</field>
         <field name="res_model">report.hotel.restaurant.status</field>
         <field name="view_type">form</field>
         <field name="view_mode">pivot,graph,tree</field>
-        <field name="context">{'graph_view_ref':'report_hotel_restaurant.view_hotel_restaurant_status_graph_bar','tree_view_ref':'report_hotel_restaurant.view_hotel_restaurant_status_tree'}
+        <field name="context">
+            {'graph_view_ref':'report_hotel_restaurant.view_hotel_restaurant_status_graph_bar','tree_view_ref':'report_hotel_restaurant.view_hotel_restaurant_status_tree'}
         </field>
     </record>
 
-    <menuitem name="States By Restaurant" action="action_report_hotel_restaurant_board" id="menu_action_report_hotel_restaurant_board" sequence="35" parent="report_hotel_reservation.menu_hotel_reporting" />
+    <menuitem name="States By Restaurant" action="action_report_hotel_restaurant_board"
+              id="menu_action_report_hotel_restaurant_board" sequence="35"
+              parent="report_hotel_reservation.menu_hotel_reporting"/>
 
 </odoo>
