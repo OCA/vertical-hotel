@@ -2,7 +2,9 @@
 
 import time
 from datetime import datetime
+
 from dateutil.relativedelta import relativedelta
+
 from odoo import api, fields, models
 
 
@@ -12,7 +14,10 @@ class HotelRestaurantReport(models.AbstractModel):
     def get_res_data(self, date_start, date_end):
         data = []
         rest_reservation_obj = self.env["hotel.restaurant.reservation"]
-        act_domain = [("start_date", ">=", date_start), ("end_date", "<=", date_end)]
+        act_domain = [
+            ("start_date", ">=", date_start),
+            ("end_date", "<=", date_end),
+        ]
         tids = rest_reservation_obj.search(act_domain)
         for record in tids:
             data.append(
