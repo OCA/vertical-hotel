@@ -1,6 +1,6 @@
 # See LICENSE file for full copyright and licensing details.
 
-from odoo import api, fields, models, _
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -18,7 +18,11 @@ class HotelHousekeeping(models.Model):
         default=fields.Date.today,
     )
     clean_type = fields.Selection(
-        [("daily", "Daily"), ("checkin", "Check-In"), ("checkout", "Check-Out")],
+        [
+            ("daily", "Daily"),
+            ("checkin", "Check-In"),
+            ("checkout", "Check-Out"),
+        ],
         "Clean Type",
         required=True,
         states={"done": [("readonly", True)]},
@@ -46,7 +50,9 @@ class HotelHousekeeping(models.Model):
         states={"done": [("readonly", True)]},
     )
     inspect_date_time = fields.Datetime(
-        "Inspect Date Time", required=True, states={"done": [("readonly", True)]}
+        "Inspect Date Time",
+        required=True,
+        states={"done": [("readonly", True)]},
     )
     quality = fields.Selection(
         [
