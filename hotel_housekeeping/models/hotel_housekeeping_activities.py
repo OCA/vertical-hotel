@@ -1,6 +1,6 @@
 # See LICENSE file for full copyright and licensing details.
 
-from odoo import api, fields, models, _
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -16,10 +16,12 @@ class HotelHousekeepingActivities(models.Model):
     clean_start_time = fields.Datetime("Clean Start Time", required=True)
     clean_end_time = fields.Datetime("Clean End Time", required=True)
     dirty = fields.Boolean(
-        "Dirty", help="Checked if the housekeeping activity" "results as Dirty."
+        "Dirty",
+        help="Checked if the housekeeping activity" "results as Dirty.",
     )
     clean = fields.Boolean(
-        "Clean", help="Checked if the housekeeping" "activity results as Clean."
+        "Clean",
+        help="Checked if the housekeeping" "activity results as Clean.",
     )
 
     @api.constrains("clean_start_time", "clean_end_time")
@@ -33,7 +35,9 @@ class HotelHousekeepingActivities(models.Model):
         """
         for activity in self:
             if activity.clean_start_time >= activity.clean_end_time:
-                raise ValidationError(_("Start Date Should be less than the End Date!"))
+                raise ValidationError(
+                    _("Start Date Should be less than the End Date!")
+                )
 
     @api.model
     def default_get(self, fields):
