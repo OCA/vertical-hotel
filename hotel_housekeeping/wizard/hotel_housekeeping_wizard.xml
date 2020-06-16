@@ -13,8 +13,10 @@
                     <field name="room_id"/>
                 </group>
                 <footer>
-                    <button name="print_report" string="Activity Report" type="object" class="oe_highlight"/>
-                    <button string="Cancel" class="btn btn-primary" special="cancel"/>
+                    <button name="print_report" string="Activity Report"
+                            type="object" class="oe_highlight"/>
+                    <button string="Cancel" class="btn btn-primary"
+                            special="cancel"/>
                 </footer>
             </form>
         </field>
@@ -29,6 +31,8 @@
         <field name="target">new</field>
     </record>
 
-    <menuitem name="Activity Report" id="wizard_activity_menu" action="action_hotel_housekeeping_wizard" parent="hotel.hotel_report_menu" sequence="29"/>
+    <menuitem name="Activity Report" id="wizard_activity_menu"
+              action="action_hotel_housekeeping_wizard"
+              parent="hotel.hotel_report_menu" sequence="29"/>
 
 </odoo>
