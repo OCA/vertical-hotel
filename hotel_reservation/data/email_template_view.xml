@@ -1,5 +1,4 @@
-<odoo>
-     <data noupdate="0">
+<odoo noupdate="0">
 
         <!-- Email Template For Hotel Reservation -->
         <record id="email_template_hotel_reservation" model="mail.template">
@@ -157,5 +156,5 @@
                </div>
             </field>
         </record>
-    </data>
+
 </odoo>
