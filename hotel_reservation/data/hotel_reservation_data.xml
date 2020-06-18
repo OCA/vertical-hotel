@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <data noupdate="1">
+<odoo noupdate="1">
         <!-- Demo data for hotel reservation -->
         <record id="hotel_reservation_0" model="hotel.reservation">
             <field eval="&quot;2018-05-02 10:00:00&quot;" name="date_order" />
@@ -19,5 +18,5 @@
             <field name="categ_id" ref="hotel.hotel_room_type_1" />
             <field eval="[(6,0,[ref('hotel.hotel_room_0')])]" name="reserve" />
         </record>
-    </data>
+
 </odoo>

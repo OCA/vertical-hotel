@@ -14,7 +14,7 @@ class HotelFolio(models.Model):
     _inherit = "hotel.folio"
     _order = "reservation_id desc"
 
-    reservation_id = fields.Many2one("hotel.reservation", string="Reservation Id")
+    reservation_id = fields.Many2one("hotel.reservation", "Reservation Id")
 
     @api.multi
     def write(self, vals):
@@ -827,11 +827,7 @@ class HotelRoom(models.Model):
             room.write(status)
             if reservation_line_ids.ids and room_line_ids.ids:
                 raise ValidationError(
-                    _(
-                        "Please Check Rooms Status \
-                                         for %s."
-                        % (room.name)
-                    )
+                    _("Please Check Rooms Status for %s.") % room.name
                 )
         return True
 
@@ -1014,20 +1010,20 @@ class RoomReservationSummary(models.Model):
                                         c_id = c_id1.company_id
                                         con_add = 0
                                         amin = 0.0
+                                        # When configured_addition_hours is
+                                        # greater than zero then we calculate
+                                        # additional minutes
                                         if c_id:
                                             con_add = c_id.additional_hours
-                                        """ When configured_addition_hours is
-                                        greater than zero then we calculate
-                                        additional minutes """
                                         if con_add > 0:
                                             amin = abs(con_add * 60)
                                             hr_dur = abs((dur.seconds / 60))
-                                        """ When additional minutes is greater
-                                        than zero then check duration with
-                                        extra minutes and give the room
-                                        reservation status is reserved or
-                                        free """
                                         if amin > 0:
+                                            # When additional minutes is greater
+                                            # than zero then check duration with
+                                            # extra minutes and give the room
+                                            # reservation status is reserved
+                                            # --------------------------
                                             if hr_dur >= amin:
                                                 reservline_ids = True
                                             else:

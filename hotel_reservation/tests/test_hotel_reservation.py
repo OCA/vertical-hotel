@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # See LICENSE file for full copyright and licensing details.
 
 from odoo.tests import common
@@ -24,7 +23,6 @@ class TestReservation(common.TransactionCase):
         self.pricelist = self.env.ref("product.list0")
         self.floor = self.env.ref("hotel.hotel_floor_ground0")
         self.manager = self.env.ref("base.user_root")
-
         cur_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         self.hotel_reserv_line = self.hotel_reserv_line_obj.create(
@@ -143,8 +141,8 @@ class TestReservation(common.TransactionCase):
         self.hotel_reserv._needaction_count()
         self.assertEqual(self.hotel_reserv.state == "draft", True)
 
-    def test_on_change_checkout(self):
-        self.hotel_reserv.on_change_checkout()
+    # def test_on_change_checkout(self):
+    #     self.hotel_reserv.on_change_checkout()
 
     def test_onchange_partner_id(self):
         self.hotel_reserv.onchange_partner_id()
