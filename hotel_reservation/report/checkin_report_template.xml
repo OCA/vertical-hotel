@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE xml>
 <odoo>
 
     <!--Template for Hotel Reservation -->
@@ -9,10 +8,10 @@
                     <div class="page">
                         <br />
                         <br />
-                        <div class="row">
-                            <h2><center>Check-In Guest List</center></h2>
-                        </div>
-                        <div class="row mt32 mb32">
+                         <div class="mt32 mb32">
+                            <center><h2><u>Check-In Guest List</u></h2></center>
+                         </div>
+                        <div class="mt32 mb32">
                             <div class="text-center">
                                 <strong>From:</strong>
                                 <span t-esc="data['date_start']" />
@@ -20,7 +19,7 @@
                                 <span t-esc="data['date_end']" />
                             </div>
                         </div>
-                        <table class="table table-condensed">
+                        <table class="table table-condensed table-sm">
                             <tr>
                                 <td>
                                     <strong>#No</strong>
@@ -49,7 +48,7 @@
                                     <span t-field="info.checkin" />
                                 </td>
                                 <td>
-                                    <table t-foreach="info.reservation_line" t-as="line">
+                                    <table class="table-borderless" t-foreach="info.reservation_line" t-as="line">
                                         <tr>
                                             <td>
                                                 <span t-field="line.categ_id.name" />
@@ -58,7 +57,7 @@
                                     </table>
                                 </td>
                                 <td>
-                                    <table t-foreach="info.reservation_line" t-as="line">
+                                    <table class="table-borderless" t-foreach="info.reservation_line" t-as="line">
                                         <tr t-foreach="line.reserve" t-as="o">
                                             <td>
                                                 <span t-field="o.name" />
