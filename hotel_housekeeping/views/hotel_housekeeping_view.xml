@@ -51,7 +51,7 @@
                                 </div>
                             </div>
                         </form>
-                        <tree string="Activity Lines" editable="buttom">
+                        <tree editable="buttom">
                             <field name="activity_name" />
                             <field name="housekeeper_id" />
                             <field name="today_date" />
@@ -72,7 +72,7 @@
         <field name="name">hotel.housekeeping.tree</field>
         <field name="model">hotel.housekeeping</field>
         <field name="arch" type="xml">
-            <tree string="Housekeeping12">
+            <tree>
                 <field name="current_date" />
                 <field name="clean_type" />
                 <field name="room_no" />
@@ -144,7 +144,7 @@
         <field name="name">hotel_housekeeping_activity_type_list</field>
         <field name="model">hotel.housekeeping.activity.type</field>
         <field name="arch" type="xml">
-            <tree string="Housekeeping Activity Types">
+            <tree>
                 <field name="name" />
             </tree>
         </field>
@@ -203,7 +203,7 @@
         <field name="name">hotel.activity.tree</field>
         <field name="model">hotel.activity</field>
         <field name="arch" type="xml">
-            <tree string="Housekeeping Activity">
+            <tree>
                 <field name="name" />
                 <field name="categ_id" />
             </tree>
