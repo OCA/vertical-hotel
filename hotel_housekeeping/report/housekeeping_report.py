@@ -7,52 +7,56 @@ from odoo import api, fields, models
 
 
 class ActivityReport(models.AbstractModel):
-    _name = 'report.hotel_housekeeping.housekeeping_report'
+    _name = "report.hotel_housekeeping.housekeeping_report"
 
-    def get_room_activity_detail(self, date_start, date_end, room_no):
+    def get_room_activity_detail(self, date_start, date_end, room_id):
         activity_detail = []
-        act_val = {}
-        house_keep_act_obj = self.env['hotel.housekeeping.activities']
+        house_keep_act_obj = self.env["hotel.housekeeping.activities"]
 
-        act_domain = [('clean_start_time', '>=', date_start),
-                      ('clean_end_time', '<=', date_end),
-                      ('a_list', '=', room_no)]
+        act_domain = [
+            ("clean_start_time", ">=", date_start),
+            ("clean_end_time", "<=", date_end),
+            ("a_list.room_no", "=", room_id),
+        ]
         activity_line_ids = house_keep_act_obj.search(act_domain)
 
         for activity in activity_line_ids:
             ss_date = activity.clean_start_time
             ee_date = activity.clean_end_time
             diff = ee_date - ss_date
-
-            act_val.update({'current_date': activity.today_date,
-                            'activity': (activity.activity_name.name or
-                                         ''),
-                            'login': (activity.housekeeper_id.name or ''),
-                            'clean_start_time': activity.clean_start_time,
-                            'clean_end_time': activity.clean_end_time,
-                            'duration': diff})
-            activity_detail.append(act_val)
+            activity_detail.append(
+                {
+                    "current_date": activity.today_date,
+                    "activity": (activity.activity_name.name or ""),
+                    "login": (activity.housekeeper_id.name or ""),
+                    "clean_start_time": activity.clean_start_time,
+                    "clean_end_time": activity.clean_end_time,
+                    "duration": diff,
+                }
+            )
         return activity_detail
 
     @api.model
     def _get_report_values(self, docids, data=None):
-        self.model = self.env.context.get('active_model')
+        self.model = self.env.context.get("active_model")
         if data is None:
             data = {}
         if not docids:
-            docids = data['form'].get('docids')
-        activity_doc = self.env['hotel.housekeeping.activities'].browse(docids)
-        date_start = data['form'].get('date_start', fields.Date.today())
-        date_end = data['form'].get('date_end', str(datetime.now() +
-                                    relativedelta(months=+1,
-                                                  day=1, days=-1))[:10])
-        room_no = data['form'].get('room_id')[0]
+            docids = data["form"].get("docids")
+        activity_doc = self.env["hotel.housekeeping.activities"].browse(docids)
+        date_start = data["form"].get("date_start", fields.Date.today())
+        date_end = data["form"].get(
+            "date_end",
+            str(datetime.now() + relativedelta(months=+1, day=1, days=-1))[:10],
+        )
+        room_id = data["form"].get("room_id")[0]
         return {
-            'doc_ids': docids,
-            'doc_model': self.model,
-            'data': data['form'],
-            'docs': activity_doc,
-            'time': time,
-            'activity_detail': self.get_room_activity_detail(date_start,
-                                                             date_end, room_no)
+            "doc_ids": docids,
+            "doc_model": self.model,
+            "data": data["form"],
+            "docs": activity_doc,
+            "time": time,
+            "activity_detail": self.get_room_activity_detail(
+                date_start, date_end, room_id
+            ),
         }
