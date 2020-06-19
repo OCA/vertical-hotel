@@ -17,19 +17,19 @@ You can manage:
 
     In Dirty Stage Housekeeping Process
     .. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/11.0/hotel_housekeeping/static/description/HHK1.png
-       :width: 750px
+    .. width:: 750px
 
     In Clean Stage Housekeeping Process
     .. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/11.0/hotel_housekeeping/static/description/HHK2.png
-       :width: 750px
+    .. width:: 750px
 
     In Inspect Stage Housekeeping Process
     .. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/11.0/hotel_housekeeping/static/description/HHK3.png
-       :width: 750px
+    .. width:: 750px
 
     In Done Stage Housekeeping Process
     .. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/11.0/hotel_housekeeping/static/description/HHK4.png
-       :width: 750px
+    .. width:: 750px
 
 **Historised Housekeeping with Inventory and Service Data**
 
@@ -39,7 +39,7 @@ Usage
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
-   :target: https://runbot.odoo-community.org/runbot/157/11.0
+   :target: https://runbot.odoo-community.org/runbot/157/12.0
 
 Bug Tracker
 ===========
