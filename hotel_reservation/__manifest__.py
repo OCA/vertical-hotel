@@ -8,7 +8,7 @@
     "category": "Generic Modules/Hotel Reservation",
     "license": "AGPL-3",
     "summary": "Manages Guest Reservation & displays Reservation Summary",
-    "website": "https://www.serpentcs.com",
+    "website": "https://github.com/OCA/vertical-hotel/",
     "depends": ["hotel", "stock", "mail"],
     "demo": ["data/hotel_reservation_data.xml"],
     "data": [
