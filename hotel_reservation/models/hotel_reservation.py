@@ -1017,7 +1017,7 @@ class RoomReservationSummary(models.Model):
                                             con_add = c_id.additional_hours
                                         if con_add > 0:
                                             amin = abs(con_add * 60)
-                                            hr_dur = abs((dur.seconds / 60))
+                                        hr_dur = abs((dur.seconds / 60))
                                         if amin > 0:
                                             # When additional minutes is greater
                                             # than zero then check duration with
