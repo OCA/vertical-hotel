@@ -174,7 +174,7 @@ class HotelReservation(models.Model):
                              default=lambda *a: 'draft')
     folio_id = fields.Many2many('hotel.folio', 'hotel_folio_reservation_rel',
                                 'order_id', 'invoice_id', string='Folio')
-    no_of_folio = fields.Integer('Folio', compute="_compute_folio_id")
+    no_of_folio = fields.Integer('No. Folio', compute="_compute_folio_id")
     dummy = fields.Datetime('Dummy')
 
     @api.multi
@@ -430,25 +430,28 @@ class HotelReservation(models.Model):
         template message loaded by default.
         @param self: object pointer
         '''
-        self.ensure_one()
+        assert len(self._ids) == 1, 'This is for a single id at a time.'
+        ir_model_data = self.env['ir.model.data']
         try:
-            template_id = self.env.ref('hotel_reservation.\
-            email_template_hotel_reservation').id
+            template_id = (ir_model_data.get_object_reference
+                           ('hotel_reservation',
+                            'email_template_hotel_reservation')[1])
         except ValueError:
             template_id = False
         try:
-            compose_form_id = self.env.ref('mail.\
-            email_compose_message_wizard_form').id
+            compose_form_id = (ir_model_data.get_object_reference
+                               ('mail',
+                                'email_compose_message_wizard_form')[1])
         except ValueError:
             compose_form_id = False
         ctx = {
             'default_model': 'hotel.reservation',
-            'default_res_id': self.ids[0],
+            'default_res_id': self._ids[0],
             'default_use_template': bool(template_id),
             'default_template_id': template_id,
             'default_composition_mode': 'comment',
-            'custom_layout': "mail.mail_notification_paynow",
-            'force_email': True
+            'force_send': True,
+            'mark_so_as_sent': True
         }
         return {
             'type': 'ir.actions.act_window',
@@ -459,6 +462,7 @@ class HotelReservation(models.Model):
             'view_id': compose_form_id,
             'target': 'new',
             'context': ctx,
+            'force_send': True
         }
 
     @api.model
