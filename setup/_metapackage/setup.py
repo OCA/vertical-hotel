@@ -8,6 +8,7 @@ setuptools.setup(
     description="Meta package for oca-vertical-hotel Odoo addons",
     version=version,
     install_requires=[
+        'odoo11-addon-board_frontdesk',
         'odoo11-addon-hotel',
         'odoo11-addon-hotel_housekeeping',
         'odoo11-addon-hotel_reservation',
