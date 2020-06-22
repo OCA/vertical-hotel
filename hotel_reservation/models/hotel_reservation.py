@@ -122,7 +122,8 @@ class HotelReservation(models.Model):
                                  default=(lambda *a: time.strftime(dt)))
     warehouse_id = fields.Many2one('stock.warehouse', 'Hotel', readonly=True,
                                    index=True,
-                                   default=lambda self: self.env['stock.warehouse'].search([('company_id', '=', self.env.user.company_id.id)], limit=1),
+                                   default=lambda self: self.env['stock.warehouse'].\
+                                   search([('company_id', '=', self.env.user.company_id.id)], limit=1),
                                    required=True,
                                    states={'draft': [('readonly', False)]})
     partner_id = fields.Many2one('res.partner', 'Guest Name', readonly=True,
