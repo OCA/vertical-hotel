@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE xml>
 <odoo>
 
     <!-- ======== Reservation ======== -->
@@ -54,7 +53,6 @@
                             <field name="adults" required="1" />
                             <field name="children" />
                         </group>
-                        <field name="dummy" invisible="True" />
                     </group>
                     <notebook>
                         <page name="reservation_line" string='Reservation Line'>
@@ -68,7 +66,7 @@
                                     <field name="reserve" colspan="4" string="Room Number"
                                         nolabel="1" />
                                 </form>
-                                <tree string="Reservation Line">
+                                <tree>
                                     <field name="reserve" string="Rooms" widget="many2many_tags" />
                                 </tree>
                             </field>
@@ -87,8 +85,8 @@
         <field name="name">hotel.reservation.tree</field>
         <field name="model">hotel.reservation</field>
         <field name="arch" type="xml">
-            <tree string="Reservation"
-                colors="blue:state == 'draft';gray:state == 'done';lightgray:state == 'cancel';">
+            <tree
+                decoration-muted="state=='cancel'" decoration-info="state=='draft'" decoration-success="state=='done'">
                 <field name="reservation_no" />
                 <field name="partner_id" />
                 <field name="checkin" />
@@ -139,14 +137,14 @@
         </field>
     </record>
 
-    <!-- Calendar view of hotel reservation -->
+<!--     Calendar view of hotel reservation -->
     <record id="hotel_calendar_view" model="ir.ui.view">
         <field name="name">Room Reservation</field>
         <field name="model">hotel.reservation</field>
         <field name="priority" eval="2" />
         <field name="arch" type="xml">
             <calendar string="Current Reservation" date_start="checkin"
-                date_stop="dummy" color="partner_id">
+                date_stop="checkout" color="partner_id">
                 <field name="partner_id" />
             </calendar>
         </field>
@@ -158,7 +156,7 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">hotel.reservation</field>
         <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,calendar</field>
     </record>
 
     <menuitem id="menu_hotel_reservation" name="Reservations"
