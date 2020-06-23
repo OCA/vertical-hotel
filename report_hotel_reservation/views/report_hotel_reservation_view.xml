@@ -7,7 +7,7 @@
         <field name="name">report.hotel.reservation.status.tree</field>
         <field name="model">report.hotel.reservation.status</field>
         <field name="arch" type="xml">
-            <tree string="States By Reservation">
+            <tree>
                 <field name="reservation_no" />
                 <field name="state" />
             </tree>

@@ -52,7 +52,7 @@
         <field name="name">hotel.floor.tree</field>
         <field name="model">hotel.floor</field>
         <field name="arch" type="xml">
-            <tree string=" Hotel Floors">
+            <tree>
                 <field name="sequence" widget="handle" />
                 <field name="name" colspan="1" />
             </tree>
@@ -94,7 +94,7 @@
         <field name="name">hotel.room_type.tree</field>
         <field name="model">hotel.room.type</field>
         <field name="arch" type="xml">
-            <tree string="Hotel Room Type">
+            <tree>
                 <field name="name" />
             </tree>
         </field>
@@ -138,7 +138,7 @@
         <field name="name">hotel.room_amenities_type_list</field>
         <field name="model">hotel.room.amenities.type</field>
         <field name="arch" type="xml">
-            <tree string="Hotel Room Amenities Type">
+            <tree>
                 <field name="name" />
             </tree>
         </field>
@@ -238,7 +238,7 @@
         <field name="name">hotel.room_amenities_list</field>
         <field name="model">hotel.room.amenities</field>
         <field name="arch" type="xml">
-            <tree string="Hotel Room Amenities">
+            <tree>
                 <field name="name" />
                 <field name="categ_id" string="Amenities Category" />
                 <field name="list_price" string="Amenity Rate" invisible="1" />
@@ -374,7 +374,7 @@
         <field name="name">hotel.room.tree</field>
         <field name="model">hotel.room</field>
         <field name="arch" type="xml">
-            <tree string="Hotel Room">
+            <tree>
                 <field name="name" />
                 <field name="categ_id" />
                 <field name="list_price" string="Room rate" />
@@ -574,7 +574,7 @@
                                         </page>
                                     </notebook>
                                 </form>
-                                <tree string="Room Line">
+                                <tree>
                                     <field name="name" />
                                     <field name="checkin_date" />
                                     <field name="checkout_date" />
@@ -626,7 +626,7 @@
                                         </page>
                                     </notebook>
                                 </form>
-                                <tree string="Service Line">
+                                <tree>
                                     <field name="name" />
                                     <field name="product_id" />
                                     <field name="product_uom_qty" />
@@ -668,7 +668,7 @@
         <field name="name">hotel.folio.tree</field>
         <field name="model">hotel.folio</field>
         <field name="arch" type="xml">
-            <tree string="Hotel Folio" colors="blue:state == 'draft';gray:state == 'done'">
+            <tree decoration-muted="state == 'done'" decoration-info="state == 'draft'">
                 <field name="checkin_date" />
                 <field name="checkout_date" />
                 <field name="name" />
@@ -761,7 +761,7 @@
         <field name="name">hotel.service_type.tree</field>
         <field name="model">hotel.service.type</field>
         <field name="arch" type="xml">
-            <tree string="Service Type">
+            <tree>
                 <field name="name" />
             </tree>
         </field>
@@ -863,7 +863,7 @@
         <field name="name">hotel.services.tree</field>
         <field name="model">hotel.services</field>
         <field name="arch" type="xml">
-            <tree string="Hotel Services">
+            <tree>
                 <field name="name" />
                 <field name="categ_id" string="Service Category" />
                 <field name="list_price" string="Service rate" />

@@ -113,72 +113,119 @@ class HotelReservation(models.Model):
     _name = "hotel.reservation"
     _rec_name = "reservation_no"
     _description = "Reservation"
-    _order = 'reservation_no desc'
-    _inherit = ['mail.thread']
+    _order = "reservation_no desc"
+    _inherit = ["mail.thread"]
 
-    reservation_no = fields.Char('Reservation No', readonly=True)
-    date_order = fields.Datetime('Date Ordered', readonly=True, required=True,
-                                 index=True,
-                                 default=(lambda *a: time.strftime(dt)))
-    warehouse_id = fields.Many2one('stock.warehouse', 'Hotel', readonly=True,
-                                   index=True,
-                                   default=lambda self: self.env['stock.warehouse'].\
-                                   search([('company_id', '=', self.env.user.company_id.id)], limit=1),
-                                   required=True,
-                                   states={'draft': [('readonly', False)]})
-    partner_id = fields.Many2one('res.partner', 'Guest Name', readonly=True,
-                                 index=True,
-                                 required=True,
-                                 states={'draft': [('readonly', False)]})
-    pricelist_id = fields.Many2one('product.pricelist', 'Scheme',
-                                   required=True, readonly=True,
-                                   states={'draft': [('readonly', False)]},
-                                   help="Pricelist for current reservation.")
-    partner_invoice_id = fields.Many2one('res.partner', 'Invoice Address',
-                                         readonly=True,
-                                         states={'draft':
-                                                 [('readonly', False)]},
-                                         help="Invoice address for "
-                                         "current reservation.")
-    partner_order_id = fields.Many2one('res.partner', 'Ordering Contact',
-                                       readonly=True,
-                                       states={'draft':
-                                               [('readonly', False)]},
-                                       help="The name and address of the "
-                                       "contact that requested the order "
-                                       "or quotation.")
-    partner_shipping_id = fields.Many2one('res.partner', 'Delivery Address',
-                                          readonly=True,
-                                          states={'draft':
-                                                  [('readonly', False)]},
-                                          help="Delivery address"
-                                          "for current reservation. ")
-    checkin = fields.Datetime('Expected-Date-Arrival', required=True,
-                              readonly=True,
-                              states={'draft': [('readonly', False)]})
-    checkout = fields.Datetime('Expected-Date-Departure', required=True,
-                               readonly=True,
-                               states={'draft': [('readonly', False)]})
-    adults = fields.Integer('Adults', readonly=True,
-                            states={'draft': [('readonly', False)]},
-                            help='List of adults there in guest list. ')
-    children = fields.Integer('Children', readonly=True,
-                              states={'draft': [('readonly', False)]},
-                              help='Number of children there in guest list.')
-    reservation_line = fields.One2many('hotel_reservation.line', 'line_id',
-                                       'Reservation Line',
-                                       help='Hotel room reservation details.',
-                                       readonly=True,
-                                       states={'draft': [('readonly', False)]},
-                                       )
-    state = fields.Selection([('draft', 'Draft'), ('confirm', 'Confirm'),
-                              ('cancel', 'Cancel'), ('done', 'Done')],
-                             'State', readonly=True,
-                             default=lambda *a: 'draft')
-    folio_id = fields.Many2many('hotel.folio', 'hotel_folio_reservation_rel',
-                                'order_id', 'invoice_id', string='Folio')
-    no_of_folio = fields.Integer('No. Folio', compute="_compute_folio_id")
-    dummy = fields.Datetime('Dummy')
+    reservation_no = fields.Char("Reservation No", readonly=True)
+    date_order = fields.Datetime(
+        "Date Ordered",
+        readonly=True,
+        required=True,
+        index=True,
+        default=(lambda *a: time.strftime(dt)),
+    )
+    warehouse_id = fields.Many2one(
+        "stock.warehouse",
+        "Hotel",
+        readonly=True,
+        index=True,
+        default=lambda self: self.env["stock.warehouse"].search(
+            [("company_id", "=", self.env.user.company_id.id)], limit=1
+        ),
+        required=True,
+        states={"draft": [("readonly", False)]},
+    )
+    partner_id = fields.Many2one(
+        "res.partner",
+        "Guest Name",
+        readonly=True,
+        index=True,
+        required=True,
+        states={"draft": [("readonly", False)]},
+    )
+    pricelist_id = fields.Many2one(
+        "product.pricelist",
+        "Scheme",
+        required=True,
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+        help="Pricelist for current reservation.",
+    )
+    partner_invoice_id = fields.Many2one(
+        "res.partner",
+        "Invoice Address",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+        help="Invoice address for " "current reservation.",
+    )
+    partner_order_id = fields.Many2one(
+        "res.partner",
+        "Ordering Contact",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+        help="The name and address of the "
+        "contact that requested the order "
+        "or quotation.",
+    )
+    partner_shipping_id = fields.Many2one(
+        "res.partner",
+        "Delivery Address",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+        help="Delivery address" "for current reservation. ",
+    )
+    checkin = fields.Datetime(
+        "Expected-Date-Arrival",
+        required=True,
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+    checkout = fields.Datetime(
+        "Expected-Date-Departure",
+        required=True,
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+    adults = fields.Integer(
+        "Adults",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+        help="List of adults there in guest list. ",
+    )
+    children = fields.Integer(
+        "Children",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+        help="Number of children there in guest list.",
+    )
+    reservation_line = fields.One2many(
+        "hotel_reservation.line",
+        "line_id",
+        "Reservation Line",
+        help="Hotel room reservation details.",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+    state = fields.Selection(
+        [
+            ("draft", "Draft"),
+            ("confirm", "Confirm"),
+            ("cancel", "Cancel"),
+            ("done", "Done"),
+        ],
+        "State",
+        readonly=True,
+        default=lambda *a: "draft",
+    )
+    folio_id = fields.Many2many(
+        "hotel.folio",
+        "hotel_folio_reservation_rel",
+        "order_id",
+        "invoice_id",
+        string="Folio",
+    )
+    no_of_folio = fields.Integer("No. Folio", compute="_compute_folio_id")
+    dummy = fields.Datetime("Dummy")
 
     @api.multi
     def _compute_folio_id(self):
