@@ -9,11 +9,14 @@ class ReportHotelReservationStatus(models.Model):
     _description = "Reservation By State"
     _auto = False
 
-    reservation_no = fields.Char('Reservation No', size=64, readonly=True)
-    nbr = fields.Integer('Reservation', readonly=True)
-    state = fields.Selection([('draft', 'Draft'), ('confirm', 'Confirm'),
-                              ('done', 'Done')], 'State', size=16,
-                             readonly=True)
+    reservation_no = fields.Char("Reservation No", size=64, readonly=True)
+    nbr = fields.Integer("Reservation", readonly=True)
+    state = fields.Selection(
+        [("draft", "Draft"), ("confirm", "Confirm"), ("done", "Done")],
+        "State",
+        size=16,
+        readonly=True,
+    )
 
     def init(self):
         """
@@ -22,7 +25,8 @@ class ReportHotelReservationStatus(models.Model):
         @param self: The object pointer
         @param cr: database cursor
         """
-        self.env.cr.execute("""
+        self.env.cr.execute(
+            """
             create or replace view report_hotel_reservation_status as (
                 select
                     min(c.id) as id,
@@ -32,4 +36,5 @@ class ReportHotelReservationStatus(models.Model):
                 from
                     hotel_reservation c
                 group by c.state,c.reservation_no
-            )""")
+            )"""
+        )
