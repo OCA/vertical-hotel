@@ -222,7 +222,7 @@
         <field eval="&quot;ORR/00002&quot;" name="order_number" />
         <field ref="hotel_restaurant_reservation_1" name="reservationno" />
     </record>
-    
+
     <record id="hotel_reservation_order_line_1" model="hotel.restaurant.order.list">
         <field name="o_l" ref="hotel_reservation_order_1" />
         <field name="name" ref="hotel_fooditem_1" />
@@ -239,7 +239,7 @@
         <field eval="&quot;OR/00001&quot;" name="order_no" />
         <field name="room_no" ref="point_of_sale.wall_shelf" />
     </record>
-    
+
     <record id="hotel_restaurant_order_list_0" model="hotel.restaurant.order.list">
         <field name="o_list" ref="hotel_restaurant_order_0" />
         <field name="name" ref="hotel_fooditem_1" />
