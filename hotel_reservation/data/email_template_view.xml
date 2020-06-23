@@ -22,13 +22,13 @@
                    <strong>${object.warehouse_id.partner_id.country_id.name}</strong>.
                    % endif
                    On behalf of the hotel, we would like to express our gratitude to you for choosing our services.
-                   Please find all the details regarding the confirmation of the reservation on Date <strong>${object.date_order}</strong> are listed below:
+                   Please find all the details regarding the confirmation of the reservation on Date <strong>${format_tz(object.date_order,tz=user.tz,format='%Y-%m-%d %H:%M:%S')}</strong> are listed below:
                 </p>
                         <strong>Details :</strong><br/>
                 <p style="border-left: 1px solid #8e0000; margin-left: 30px;">
                         Name Of Guest : <strong>${object.partner_id.name}</strong><br />
-                        Date Of Arrival : <strong>${object.checkin}</strong><br />
-                        Date Of Departure : <strong>${object.checkout}</strong><br />
+                        Date Of Arrival : <strong>${format_tz(object.checkin,tz=user.tz, format='%Y-%m-%d %H:%M:%S')}</strong><br />
+                        Date Of Departure : <strong>${format_tz(object.checkout,tz=user.tz, format='%Y-%m-%d %H:%M:%S')}</strong><br />
                         Reservation Number : <strong>${object.reservation_no}</strong><br />
                         Number Of Persons : <strong>${object.adults}</strong> Adults and <strong>${object.children}</strong> Childrens<br />
                 </p>
