@@ -48,10 +48,6 @@ msgstr ""
 
 #. module: hotel_restaurant
 #: model:ir.ui.view,arch_db:hotel_restaurant.report_order_bill
-msgid "<strong>Customer Name : </strong>"
-msgstr ""
-
-#. module: hotel_restaurant
 #: model:ir.ui.view,arch_db:hotel_restaurant.report_reserv_order
 #: model:ir.ui.view,arch_db:hotel_restaurant.report_rest_order
 msgid "<strong>Customer Name :</strong>"
@@ -66,7 +62,7 @@ msgstr ""
 
 #. module: hotel_restaurant
 #: model:ir.ui.view,arch_db:hotel_restaurant.report_order_bill
-msgid "<strong>Date : </strong>"
+msgid "<strong>Date :</strong>"
 msgstr ""
 
 #. module: hotel_restaurant
@@ -300,7 +296,7 @@ msgstr ""
 #: model:hotel.menucard,name:hotel_restaurant.hotel_fooditem_19
 #: model:product.product,name:hotel_restaurant.hotel_fooditem_19_product_product
 #: model:product.template,name:hotel_restaurant.hotel_fooditem_19_product_template
-msgid "Appam "
+msgid "Appam"
 msgstr ""
 
 #. module: hotel_restaurant
@@ -653,7 +649,7 @@ msgid "End Date"
 msgstr ""
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:290
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:353
 #, python-format
 msgid "End Date Should be less than the Folio Check-out Date!"
 msgstr ""
@@ -1267,20 +1263,20 @@ msgid "Paneer Tikaa"
 msgstr ""
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:382
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:457
 #, python-format
 msgid "Please Assign a Table"
 msgstr ""
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:380
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:552
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:455
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:662
 #, python-format
 msgid "Please Give an Order"
 msgstr ""
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:197
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:232
 #, python-format
 msgid "Please Select Tables For                                          Reservation"
 msgstr ""
@@ -1616,13 +1612,13 @@ msgid "Start Date"
 msgstr ""
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:287
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:346
 #, python-format
 msgid "Start Date Should be greater than the Folio Check-in Date!"
 msgstr ""
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:283
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:338
 #, python-format
 msgid "Start Date Should be less             than the End Date!"
 msgstr ""
@@ -2007,7 +2003,7 @@ msgid "With Details"
 msgstr ""
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:200
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:239
 #, python-format
 msgid "You tried to confirm reservation                                          with table those already reserved                                          in this reservation period"
 msgstr ""
