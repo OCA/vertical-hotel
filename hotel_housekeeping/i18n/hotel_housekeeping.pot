@@ -844,7 +844,7 @@ msgid "Outgoing"
 msgstr ""
 
 #. module: hotel_housekeeping
-#: code:addons/hotel_housekeeping/models/hotel_housekeeping.py:85
+#: code:addons/hotel_housekeeping/models/hotel_housekeeping.py:114
 #, python-format
 msgid "Please update quality of work!"
 msgstr ""
@@ -1059,7 +1059,7 @@ msgid "Standard Price: The products are valued at their standard cost defined on
 msgstr ""
 
 #. module: hotel_housekeeping
-#: code:addons/hotel_housekeeping/models/hotel_housekeeping_activities.py:36
+#: code:addons/hotel_housekeeping/models/hotel_housekeeping_activities.py:41
 #, python-format
 msgid "Start Date Should be less than the End Date!"
 msgstr ""
