@@ -427,7 +427,7 @@ msgid "Check if you want this product to appear in the Point of Sale"
 msgstr "Marque se você deseja que este produto apareça no Ponto de Vendas"
 
 #. module: hotel
-#: code:addons/hotel/models/hotel.py:991
+#: code:addons/hotel/models/hotel.py:1115
 #, python-format
 msgid "Checkout must be greater or equal checkin date"
 msgstr "Checkout must be greater or equal checkin date"
@@ -1645,7 +1645,7 @@ msgid "Next Activity Type"
 msgstr ""
 
 #. module: hotel
-#: code:addons/hotel/models/hotel.py:578
+#: code:addons/hotel/models/hotel.py:663
 #, python-format
 msgid "Not Any Order For  %s "
 msgstr "Not Any Order For  %s "
@@ -1753,7 +1753,7 @@ msgid "Order Status"
 msgstr "Situação de Pedido"
 
 #. module: hotel
-#: code:addons/hotel/models/hotel.py:615 code:addons/hotel/models/hotel.py:628
+#: code:addons/hotel/models/hotel.py:700 code:addons/hotel/models/hotel.py:713
 #, python-format
 msgid "Order id is not available"
 msgstr "Order id is not available"
@@ -2201,7 +2201,7 @@ msgid "Room amenities"
 msgstr "Comodidades da hatibação"
 
 #. module: hotel
-#: code:addons/hotel/models/hotel.py:244
+#: code:addons/hotel/models/hotel.py:296
 #, python-format
 msgid "Room capacity must be more than 0"
 msgstr ""
@@ -2217,7 +2217,7 @@ msgid "Room line"
 msgstr "Room line"
 
 #. module: hotel
-#: code:addons/hotel/models/hotel.py:741
+#: code:addons/hotel/models/hotel.py:840
 #, python-format
 msgid ""
 "Room line Check In Date Should be                 less than the Check Out "
@@ -2227,7 +2227,7 @@ msgstr ""
 "Date!"
 
 #. module: hotel
-#: code:addons/hotel/models/hotel.py:745
+#: code:addons/hotel/models/hotel.py:848
 #, python-format
 msgid ""
 "Room line check in date should be                 greater than the current "
@@ -2991,7 +2991,7 @@ msgstr ""
 "Quando não definido no produto, o da categoria de produto é usado."
 
 #. module: hotel
-#: code:addons/hotel/models/hotel.py:409
+#: code:addons/hotel/models/hotel.py:490
 #, fuzzy, python-format
 msgid "You Cannot Take Same Room Twice"
 msgstr "You Cannot Take Same Room Twice"
