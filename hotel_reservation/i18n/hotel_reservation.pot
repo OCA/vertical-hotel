@@ -85,15 +85,15 @@ msgstr ""
 msgid "\n"
 "            <p>Hello <strong>${object.partner_id.name}</strong>,</p>\n"
 "            <p>This is to confirm your booking for a room at the <strong>${object.warehouse_id.name} Hotel</strong>,&nbsp;\n"
-"               % if object.warehouse_id.partner_id.city: \n"
+"               % if object.warehouse_id.partner_id.city:\n"
 "               <strong>${object.warehouse_id.partner_id.city}</strong>,&nbsp;\n"
-"               % endif \n"
+"               % endif\n"
 "               % if object.warehouse_id.partner_id.country_id.name:\n"
 "               <strong>${object.warehouse_id.partner_id.country_id.name}</strong>.&nbsp;\n"
 "               % endif\n"
-"               On behalf of the hotel, we would like to express our gratitude to you for choosing our services. \n"
+"               On behalf of the hotel, we would like to express our gratitude to you for choosing our services.\n"
 "               Please find all the details regarding the confirmation of the reservation on Date <strong>${object.date_order}</strong> are listed below:\n"
-"            </p> \n"
+"            </p>\n"
 "            &nbsp;&nbsp;<strong>Details :</strong><br/>\n"
 "            <p style=\"border-left: 1px solid #8e0000; margin-left: 30px;\">\n"
 "            &nbsp;&nbsp;Name Of Guest : <strong>${object.partner_id.name}</strong><br />\n"
@@ -118,7 +118,7 @@ msgid "\n"
 "                        %endfor\n"
 "                    %endfor\n"
 "            </table>\n"
-"           <br /> \n"
+"           <br />\n"
 "           <p>We would appreciate it if you could let us know in case there are any changes in your schedule or program.\n"
 "              In case you require check-in facilities at an earlier time due to flight changes or any other reasons,\n"
 "              kindly inform us. We are sure that you will find our services satisfactory. In case you need to cancel\n"
@@ -218,7 +218,7 @@ msgid "Adults"
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:233
+#: code:addons/hotel_reservation/models/hotel_reservation.py:299
 #, python-format
 msgid "Adults must be more than 0"
 msgstr ""
@@ -229,7 +229,7 @@ msgid "Assigned"
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:615
+#: code:addons/hotel_reservation/models/hotel_reservation.py:739
 #, python-format
 msgid "Before choosing a room,\n"
 " You have to                                      select a Check in date or a Check out                                      date in the reservation form."
@@ -280,13 +280,13 @@ msgid "Check-Out Guest List"
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:243
+#: code:addons/hotel_reservation/models/hotel_reservation.py:310
 #, python-format
 msgid "Check-in date should be greater than                                          the current date."
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:246
+#: code:addons/hotel_reservation/models/hotel_reservation.py:317
 #, python-format
 msgid "Check-out date should be greater                                          than Check-in date."
 msgstr ""
@@ -312,13 +312,13 @@ msgid "CheckOut List"
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:995
+#: code:addons/hotel_reservation/models/hotel_reservation.py:1205
 #, python-format
 msgid "Checkout date should be greater                                          than Checkin date."
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:513
+#: code:addons/hotel_reservation/models/hotel_reservation.py:618
 #, python-format
 msgid "Checkout date should be greater                                          than the Check-in date."
 msgstr ""
@@ -638,19 +638,19 @@ msgid "Ordering Contact"
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:745
+#: code:addons/hotel_reservation/models/hotel_reservation.py:902
 #, python-format
 msgid "Please Check Rooms Status                                          for %s."
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:831
+#: code:addons/hotel_reservation/models/hotel_reservation.py:1001
 #, python-format
 msgid "Please Check Time period Date From can't                                    be greater than Date To !"
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:222
+#: code:addons/hotel_reservation/models/hotel_reservation.py:285
 #, python-format
 msgid "Please Select Rooms For Reservation."
 msgstr ""
@@ -671,7 +671,7 @@ msgid "Quick Room Reservation"
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:805
+#: code:addons/hotel_reservation/models/hotel_reservation.py:974
 #, python-format
 msgid "Reconcile Write-Off"
 msgstr ""
@@ -743,7 +743,7 @@ msgid "Room Analysis"
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:228
+#: code:addons/hotel_reservation/models/hotel_reservation.py:292
 #, python-format
 msgid "Room Capacity Exceeded \n"
 " Please Select Rooms According to Members Accomodation."
@@ -877,19 +877,19 @@ msgid "Unassigned"
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:703
+#: code:addons/hotel_reservation/models/hotel_reservation.py:849
 #, python-format
 msgid "User is not able to delete the                                             room after the room in %s state                                             in reservation"
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:199
+#: code:addons/hotel_reservation/models/hotel_reservation.py:257
 #, python-format
 msgid "You cannot delete Reservation in %s                                         state."
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:363
+#: code:addons/hotel_reservation/models/hotel_reservation.py:451
 #, python-format
 msgid "You tried to Confirm Reservation with room those already reserved in this Reservation Period. Overlap Dates are %s"
 msgstr ""
