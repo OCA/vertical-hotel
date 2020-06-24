@@ -1460,3 +1460,4 @@ msgstr ""
 #: model:ir.model,name:hotel_housekeeping.model_report_hotel_housekeeping_housekeeping_report
 msgid "report.hotel_housekeeping.housekeeping_report"
 msgstr ""
+
