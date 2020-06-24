@@ -104,4 +104,3 @@ msgstr ""
 #: model:ir.actions.act_window,name:board_frontdesk.action_desk_hotel_reservation_summary
 msgid "action.desk.hotel.reservation.summary"
 msgstr ""
-

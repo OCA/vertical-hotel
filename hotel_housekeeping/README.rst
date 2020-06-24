@@ -23,7 +23,7 @@ Hotel Housekeeping Management
     :target: https://runbot.odoo-community.org/runbot/157/11.0
     :alt: Try me on Runbot
 
-|badge1| |badge2| |badge3| |badge4| |badge5| 
+|badge1| |badge2| |badge3| |badge4| |badge5|
 
 Module for Housekeeping is the department that deals essentially with cleanliness and all ancillary service attached to that.
 Housekeepers are maintaining and servicing the guest rooms and replenishing stock as and when needed.
