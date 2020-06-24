@@ -382,7 +382,7 @@ msgid "Check if you want this product to appear in the Point of Sale."
 msgstr ""
 
 #. module: hotel
-#: code:addons/hotel/models/hotel.py:981
+#: code:addons/hotel/models/hotel.py:1054
 #, python-format
 msgid "Checkout must be greater or equal checkin date"
 msgstr ""
@@ -1617,7 +1617,7 @@ msgid "Next Activity Type"
 msgstr ""
 
 #. module: hotel
-#: code:addons/hotel/models/hotel.py:573
+#: code:addons/hotel/models/hotel.py:631
 #, python-format
 msgid "Not Any Order For  %s "
 msgstr ""
@@ -1755,8 +1755,8 @@ msgid "Order Status"
 msgstr ""
 
 #. module: hotel
-#: code:addons/hotel/models/hotel.py:610
-#: code:addons/hotel/models/hotel.py:623
+#: code:addons/hotel/models/hotel.py:664
+#: code:addons/hotel/models/hotel.py:677
 #, python-format
 msgid "Order id is not available"
 msgstr ""
@@ -2192,7 +2192,7 @@ msgid "Room amenities"
 msgstr ""
 
 #. module: hotel
-#: code:addons/hotel/models/hotel.py:244
+#: code:addons/hotel/models/hotel.py:272
 #, python-format
 msgid "Room capacity must be more than 0"
 msgstr ""
@@ -2208,13 +2208,13 @@ msgid "Room line"
 msgstr ""
 
 #. module: hotel
-#: code:addons/hotel/models/hotel.py:736
+#: code:addons/hotel/models/hotel.py:799
 #, python-format
 msgid "Room line Check In Date Should be                 less than the Check Out Date!"
 msgstr ""
 
 #. module: hotel
-#: code:addons/hotel/models/hotel.py:740
+#: code:addons/hotel/models/hotel.py:807
 #, python-format
 msgid "Room line check in date should be                 greater than the current date."
 msgstr ""
@@ -3101,7 +3101,7 @@ msgid "When doing real-time inventory valuation, counterpart journal items for a
 msgstr ""
 
 #. module: hotel
-#: code:addons/hotel/models/hotel.py:409
+#: code:addons/hotel/models/hotel.py:463
 #, python-format
 msgid "You Cannot Take Same Room Twice"
 msgstr ""
@@ -3184,3 +3184,4 @@ msgstr ""
 #: model:ir.model.fields,help:hotel.field_hotel_folio__amount_by_group
 msgid "type: [(name, amount, base, formated amount, formated base)]"
 msgstr ""
+
