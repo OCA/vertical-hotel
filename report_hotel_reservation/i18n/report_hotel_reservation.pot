@@ -101,3 +101,4 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:report_hotel_reservation.view_hotel_reservation_status_tree
 msgid "States By Reservation"
 msgstr ""
+
