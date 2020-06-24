@@ -570,7 +570,7 @@ class HotelFolio(models.Model):
                 self.partner_invoice_id = partner_rec.id
                 self.partner_shipping_id = partner_rec.id
                 self.pricelist_id = partner_rec.property_product_pricelist.id
-                raise ValidationError (_('Not Any Order For  %s ' % (partner_rec.name)))
+                raise ValidationError(_('Not Any Order For  %s ' % (partner_rec.name)))
             else:
                 self.partner_invoice_id = partner_rec.id
                 self.partner_shipping_id = partner_rec.id
@@ -978,7 +978,7 @@ class HotelServiceLine(models.Model):
         if not self.ser_checkout_date:
             self.ser_checkout_date = time_a
         if self.ser_checkout_date < self.ser_checkin_date:
-            raise ValidationError (_('Checkout must be greater or equal checkin date'))
+            raise ValidationError(_('Checkout must be greater or equal checkin date'))
         if self.ser_checkin_date and self.ser_checkout_date:
             diffDate = self.ser_checkout_date - self.ser_checkin_date
             qty = diffDate.days + 1
