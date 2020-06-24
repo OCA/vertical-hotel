@@ -680,7 +680,7 @@ msgid "End Date"
 msgstr ""
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:290
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:334
 #, python-format
 msgid "End Date Should be less than the Folio Check-out Date!"
 msgstr ""
@@ -1360,20 +1360,20 @@ msgid "Paneer Tikaa"
 msgstr ""
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:382
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:433
 #, python-format
 msgid "Please Assign a Table"
 msgstr ""
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:380
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:552
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:431
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:621
 #, python-format
 msgid "Please Give an Order"
 msgstr ""
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:197
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:216
 #, python-format
 msgid ""
 "Please Select Tables For                                          Reservation"
@@ -1733,13 +1733,13 @@ msgid "Start Date"
 msgstr ""
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:287
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:330
 #, python-format
 msgid "Start Date Should be greater than the Folio Check-in Date!"
 msgstr ""
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:283
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:322
 #, python-format
 msgid "Start Date Should be less             than the End Date!"
 msgstr ""
@@ -2254,7 +2254,7 @@ msgid "With Details"
 msgstr ""
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:200
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:223
 #, python-format
 msgid ""
 "You tried to confirm reservation                                          "

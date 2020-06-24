@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* hotel_restaurant
+# 	* hotel_restaurant
 #
 msgid ""
 msgstr ""
@@ -253,7 +253,10 @@ msgstr "<strong> Nome do garçom </strong>"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__description_sale
-msgid "A description of the Product that you want to communicate to your customers. This description will be copied to every Sales Order, Delivery Order and Customer Invoice/Credit Note"
+msgid ""
+"A description of the Product that you want to communicate to your customers. "
+"This description will be copied to every Sales Order, Delivery Order and "
+"Customer Invoice/Credit Note"
 msgstr ""
 "Uma descrição do produto que você deseja comunicar aos seus clientes. Esta "
 "descrição será copiada para todas as ordens do cliente, ordens de entrega e "
@@ -261,7 +264,9 @@ msgstr ""
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__type
-msgid "A storable product is a product for which you manage stock. The Inventory app has to be installed.\n"
+msgid ""
+"A storable product is a product for which you manage stock. The Inventory "
+"app has to be installed.\n"
 "A consumable product is a product for which stock is not managed.\n"
 "A service is a non-material product you provide."
 msgstr ""
@@ -385,7 +390,8 @@ msgstr "Categoria"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__to_weight
-msgid "Check if the product should be weighted using the hardware scale integration."
+msgid ""
+"Check if the product should be weighted using the hardware scale integration."
 msgstr ""
 "Verifique se o produto deve ser ponderado usando a integração da balança de "
 "hardware."
@@ -455,7 +461,10 @@ msgstr "Método do custo"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__standard_price
-msgid "Cost used for stock valuation in standard price and as a first price to set in average/fifo. Also used as a base price for pricelists. Expressed in the default unit of measure of the product."
+msgid ""
+"Cost used for stock valuation in standard price and as a first price to set "
+"in average/fifo. Also used as a base price for pricelists. Expressed in the "
+"default unit of measure of the product."
 msgstr ""
 "Custo usado para avaliação de estoque no preço padrão e como primeiro preço "
 "a definir em média/quino. Também usado como preço base para listas de "
@@ -511,19 +520,24 @@ msgstr "Reserva Atual"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__qty_available
-msgid "Current quantity of products.\n"
-"In a context with a single Stock Location, this includes goods stored at this Location, or any of its children.\n"
-"In a context with a single Warehouse, this includes goods stored in the Stock Location of this Warehouse, or any of its children.\n"
-"stored in the Stock Location of the Warehouse of this Shop, or any of its children.\n"
-"Otherwise, this includes goods stored in any Stock Location with 'internal' type."
+msgid ""
+"Current quantity of products.\n"
+"In a context with a single Stock Location, this includes goods stored at "
+"this Location, or any of its children.\n"
+"In a context with a single Warehouse, this includes goods stored in the "
+"Stock Location of this Warehouse, or any of its children.\n"
+"stored in the Stock Location of the Warehouse of this Shop, or any of its "
+"children.\n"
+"Otherwise, this includes goods stored in any Stock Location with 'internal' "
+"type."
 msgstr ""
 "Quantidade atual de produtos.\n"
 "Em um contexto com um único local de estoque, isso inclui mercadorias "
 "armazenadas nesse local ou em qualquer um de seus filhos. \n"
 "Em um contexto com um único armazém, isso inclui mercadorias armazenadas no "
 "local de estoque deste armazém ou em qualquer um de seus filhos. armazenado "
-"no Local de Estoque do Armazém desta Loja ou em qualquer um de seus filhos. "
-"\n"
+"no Local de Estoque do Armazém desta Loja ou em qualquer um de seus "
+"filhos. \n"
 "Caso contrário, isso inclui mercadorias armazenadas em qualquer Local de "
 "Estoque com o tipo 'interno'."
 
@@ -587,7 +601,9 @@ msgstr "unidade de medida padrão usada para todas as operações de estoque."
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__uom_po_id
-msgid "Default unit of measure used for purchase orders. It must be in the same category as the default unit of measure."
+msgid ""
+"Default unit of measure used for purchase orders. It must be in the same "
+"category as the default unit of measure."
 msgstr ""
 "Unidade de medida padrão usada para pedidos. Ele deve estar na mesma "
 "categoria que a unidade de medida padrão."
@@ -599,14 +615,18 @@ msgstr "Defina listas de preços de fornecedores."
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__sale_delay
-msgid "Delivery lead time, in days. It's the number of days, promised to the customer, between the confirmation of the sales order and the delivery."
+msgid ""
+"Delivery lead time, in days. It's the number of days, promised to the "
+"customer, between the confirmation of the sales order and the delivery."
 msgstr ""
 "Prazo de entrega, em dias. É o número de dias prometidos ao cliente entre a "
 "confirmação do pedido de vendas e a entrega."
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__route_ids
-msgid "Depending on the modules installed, this will allow you to define the route of the product: whether it will be bought, manufactured, MTO, etc."
+msgid ""
+"Depending on the modules installed, this will allow you to define the route "
+"of the product: whether it will be bought, manufactured, MTO, etc."
 msgstr ""
 "Dependendo dos módulos instalados, isso permitirá definir a rota do produto: "
 "se ele será comprado, fabricado, MTO etc."
@@ -687,7 +707,7 @@ msgid "End Date"
 msgstr "Data Final"
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:290
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:334
 #, python-format
 msgid "End Date Should be less than the Folio Check-out Date!"
 msgstr "Data de término Deve ser menor que a data de check-out do fólio!"
@@ -709,7 +729,10 @@ msgstr "Conta de Despesas"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__expense_policy
-msgid "Expenses and vendor bills can be re-invoiced to a customer.With this option, a validated expense can be re-invoice to a customer at its cost or sales price."
+msgid ""
+"Expenses and vendor bills can be re-invoiced to a customer.With this option, "
+"a validated expense can be re-invoice to a customer at its cost or sales "
+"price."
 msgstr ""
 "Despesas e faturas de fornecedores podem ser faturadas novamente para um "
 "cliente. Com essa opção, uma despesa validada pode ser faturada novamente "
@@ -797,13 +820,17 @@ msgstr "Quantidade Prevista"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__virtual_available
-msgid "Forecast quantity (computed as Quantity On Hand - Outgoing + Incoming)\n"
-"In a context with a single Stock Location, this includes goods stored in this location, or any of its children.\n"
-"In a context with a single Warehouse, this includes goods stored in the Stock Location of this Warehouse, or any of its children.\n"
-"Otherwise, this includes goods stored in any Stock Location with 'internal' type."
+msgid ""
+"Forecast quantity (computed as Quantity On Hand - Outgoing + Incoming)\n"
+"In a context with a single Stock Location, this includes goods stored in "
+"this location, or any of its children.\n"
+"In a context with a single Warehouse, this includes goods stored in the "
+"Stock Location of this Warehouse, or any of its children.\n"
+"Otherwise, this includes goods stored in any Stock Location with 'internal' "
+"type."
 msgstr ""
-"Quantidade prevista (calculado como quantidade em mãos - Saída + Recebimento)"
-"\n"
+"Quantidade prevista (calculado como quantidade em mãos - Saída + "
+"Recebimento)\n"
 "Em um contexto com uma única Localização, isso inclui bens armazenados neste "
 "local, ou qualquer um de seus filhos.\n"
 "Em um contexto com um único depósito, isso inclui bens armazenados na "
@@ -914,7 +941,8 @@ msgstr "Se marcado, algumas mensagens tem um erro de entrega."
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__active
-msgid "If unchecked, it will allow you to hide the product without removing it."
+msgid ""
+"If unchecked, it will allow you to hide the product without removing it."
 msgstr "Se desmarcado, permitirá que você oculte o produto sem removê-lo."
 
 #. module: hotel_restaurant
@@ -924,14 +952,18 @@ msgstr "Imagem"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__image_medium
-msgid "Image of the product variant (Medium-sized image of product template if false)."
+msgid ""
+"Image of the product variant (Medium-sized image of product template if "
+"false)."
 msgstr ""
 "Imagem da variante do produto (Imagem media do modelo de produto se for "
 "falso)."
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__image_small
-msgid "Image of the product variant (Small-sized image of product template if false)."
+msgid ""
+"Image of the product variant (Small-sized image of product template if "
+"false)."
 msgstr ""
 "Imagem da variante do produto (Imagem pequena do modelo de produto se for "
 "falso)."
@@ -1038,13 +1070,17 @@ msgstr "Listagem do Ticket de mesa"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__property_account_income_id
-msgid "Keep this field empty to use the default value from the product category."
+msgid ""
+"Keep this field empty to use the default value from the product category."
 msgstr ""
 "Mantenha esse campo vazio para usar o valor padrão da categoria do produto."
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__property_account_expense_id
-msgid "Keep this field empty to use the default value from the product category. If anglo-saxon accounting with automated valuation method is configured, the expense account on the product category will be used."
+msgid ""
+"Keep this field empty to use the default value from the product category. If "
+"anglo-saxon accounting with automated valuation method is configured, the "
+"expense account on the product category will be used."
 msgstr ""
 "Mantenha esse campo vazio para usar o valor padrão da categoria do produto. "
 "Se a contabilidade anglo-saxônica com método de avaliação automatizada "
@@ -1155,8 +1191,11 @@ msgstr "Malai kofta"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__property_valuation
-msgid "Manual: The accounting entries to value the inventory are not posted automatically.\n"
-"        Automated: An accounting entry is automatically created to value the inventory when a product enters or leaves the company."
+msgid ""
+"Manual: The accounting entries to value the inventory are not posted "
+"automatically.\n"
+"        Automated: An accounting entry is automatically created to value the "
+"inventory when a product enters or leaves the company."
 msgstr ""
 "Manual: os lançamentos contábeis para avaliar o estoque não são lançados "
 "automaticamente.\n"
@@ -1165,9 +1204,13 @@ msgstr ""
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__service_type
-msgid "Manually set quantities on order: Invoice based on the manually entered quantity, without creating an analytic account.\n"
-"Timesheets on contract: Invoice based on the tracked hours on the related timesheet.\n"
-"Create a task and track hours: Create a task on the sales order validation and track the work hours."
+msgid ""
+"Manually set quantities on order: Invoice based on the manually entered "
+"quantity, without creating an analytic account.\n"
+"Timesheets on contract: Invoice based on the tracked hours on the related "
+"timesheet.\n"
+"Create a task and track hours: Create a task on the sales order validation "
+"and track the work hours."
 msgstr ""
 "Definir quantidades manualmente no pedido: fatura com base na quantidade "
 "inserida manualmente, sem criar uma conta analítica.\n"
@@ -1271,7 +1314,9 @@ msgstr "Produtos Opcionais"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__optional_product_ids
-msgid "Optional Products are suggested whenever the customer hits *Add to Cart* (cross-sell strategy, e.g. for computers: warranty, software, etc.)."
+msgid ""
+"Optional Products are suggested whenever the customer hits *Add to Cart* "
+"(cross-sell strategy, e.g. for computers: warranty, software, etc.)."
 msgstr ""
 "Os produtos opcionais são sugeridos sempre que o cliente clicar em * "
 "Adicionar ao carrinho * (estratégia de venda cruzada, por exemplo, para "
@@ -1333,7 +1378,8 @@ msgstr "Total de pedidos"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__invoice_policy
-msgid "Ordered Quantity: Invoice quantities ordered by the customer.\n"
+msgid ""
+"Ordered Quantity: Invoice quantities ordered by the customer.\n"
 "Delivered Quantity: Invoice quantities delivered to the customer."
 msgstr ""
 "Quantidade pedida: quantidades da fatura solicitadas pelo cliente.\n"
@@ -1376,22 +1422,23 @@ msgid "Paneer Tikaa"
 msgstr "Paneer tikaa"
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:382
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:433
 #, python-format
 msgid "Please Assign a Table"
 msgstr "Designe uma mesa"
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:380
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:552
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:431
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:621
 #, python-format
 msgid "Please Give an Order"
 msgstr "Nomeie um pedido"
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:197
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:216
 #, python-format
-msgid "Please Select Tables For                                          Reservation"
+msgid ""
+"Please Select Tables For                                          Reservation"
 msgstr "Selecione mesas para                                          Reserva"
 
 #. module: hotel_restaurant
@@ -1509,10 +1556,14 @@ msgstr "Quantidade na mão"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__incoming_qty
-msgid "Quantity of planned incoming products.\n"
-"In a context with a single Stock Location, this includes goods arriving to this Location, or any of its children.\n"
-"In a context with a single Warehouse, this includes goods arriving to the Stock Location of this Warehouse, or any of its children.\n"
-"Otherwise, this includes goods arriving to any Stock Location with 'internal' type."
+msgid ""
+"Quantity of planned incoming products.\n"
+"In a context with a single Stock Location, this includes goods arriving to "
+"this Location, or any of its children.\n"
+"In a context with a single Warehouse, this includes goods arriving to the "
+"Stock Location of this Warehouse, or any of its children.\n"
+"Otherwise, this includes goods arriving to any Stock Location with "
+"'internal' type."
 msgstr ""
 "Quantidade de produtos planejados recebidos.\n"
 "Em um contexto com um único local de estoque, isso inclui mercadorias que "
@@ -1524,10 +1575,14 @@ msgstr ""
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__outgoing_qty
-msgid "Quantity of planned outgoing products.\n"
-"In a context with a single Stock Location, this includes goods leaving this Location, or any of its children.\n"
-"In a context with a single Warehouse, this includes goods leaving the Stock Location of this Warehouse, or any of its children.\n"
-"Otherwise, this includes goods leaving any Stock Location with 'internal' type."
+msgid ""
+"Quantity of planned outgoing products.\n"
+"In a context with a single Stock Location, this includes goods leaving this "
+"Location, or any of its children.\n"
+"In a context with a single Warehouse, this includes goods leaving the Stock "
+"Location of this Warehouse, or any of its children.\n"
+"Otherwise, this includes goods leaving any Stock Location with 'internal' "
+"type."
 msgstr ""
 "Quantidade de produtos planejados de saída.\n"
 "Em um contexto com um único local de estoque, isso inclui mercadorias saindo "
@@ -1709,7 +1764,10 @@ msgstr "Preços de Venda"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__sale_line_warn
-msgid "Selecting the \"Warning\" option will notify user with the message, Selecting \"Blocking Message\" will throw an exception with the message and block the flow. The Message has to be written in the next field."
+msgid ""
+"Selecting the \"Warning\" option will notify user with the message, "
+"Selecting \"Blocking Message\" will throw an exception with the message and "
+"block the flow. The Message has to be written in the next field."
 msgstr ""
 "Selecionando a opção de \"Aviso\" irá notificar o usuário com a mensagem, "
 "marcar \"Mensagem de Bloqueio\" irá lançar uma exceção com a mensagem e "
@@ -1738,9 +1796,13 @@ msgstr "Vendido"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__property_cost_method
-msgid "Standard Price: The products are valued at their standard cost defined on the product.\n"
-"        Average Cost (AVCO): The products are valued at weighted average cost.\n"
-"        First In First Out (FIFO): The products are valued supposing those that enter the company first will also leave it first."
+msgid ""
+"Standard Price: The products are valued at their standard cost defined on "
+"the product.\n"
+"        Average Cost (AVCO): The products are valued at weighted average "
+"cost.\n"
+"        First In First Out (FIFO): The products are valued supposing those "
+"that enter the company first will also leave it first."
 msgstr ""
 "Preço padrão: os produtos são avaliados pelo custo padrão definido no "
 "produto.\n"
@@ -1757,13 +1819,13 @@ msgid "Start Date"
 msgstr "Data de Início"
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:287
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:330
 #, python-format
 msgid "Start Date Should be greater than the Folio Check-in Date!"
 msgstr "Data de início Deve ser maior que a data do check-in do fólio!"
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:283
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:322
 #, python-format
 msgid "Start Date Should be less             than the End Date!"
 msgstr "Data de início deve ser menor             que a data final!"
@@ -1786,7 +1848,8 @@ msgstr "Estados"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__activity_state
-msgid "Status based on activities\n"
+msgid ""
+"Status based on activities\n"
 "Overdue: Due date is already passed\n"
 "Today: Activity date is today\n"
 "Planned: Future activities."
@@ -1949,7 +2012,8 @@ msgstr "Cálculo técnico"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__pricelist_id
-msgid "Technical field. Used for searching on pricelists, not stored in database."
+msgid ""
+"Technical field. Used for searching on pricelists, not stored in database."
 msgstr ""
 "Campo técnico. Usado para pesquisa em listas de preços, não armazenado no "
 "banco de dados."
@@ -1967,7 +2031,9 @@ msgstr "Valores de atributo do modelo"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__lst_price
-msgid "The sale price is managed from the product template. Click on the 'Configure Variants' button to set the extra attribute prices."
+msgid ""
+"The sale price is managed from the product template. Click on the 'Configure "
+"Variants' button to set the extra attribute prices."
 msgstr ""
 "O preço de venda é gerenciado a partir do modelo do produto. Clique no botão "
 "'Preços variantes' para definir os preços extras dos atributos."
@@ -1979,14 +2045,18 @@ msgstr "Volume em m3."
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__image_variant
-msgid "This field holds the image used as image for the product variant, limited to 1024x1024px."
+msgid ""
+"This field holds the image used as image for the product variant, limited to "
+"1024x1024px."
 msgstr ""
 "Este campo contém a imagem usada para a variação do produto, limitada a "
 "1024x1024px."
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__image
-msgid "This field holds the image used as image for the product, limited to 1024x1024px."
+msgid ""
+"This field holds the image used as image for the product, limited to "
+"1024x1024px."
 msgstr ""
 "Este campo contém a imagem usada para o produto, limitada a 1024x1024px."
 
@@ -1997,21 +2067,27 @@ msgstr "Esta é a soma do valor extra de todos os atributos"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__property_stock_production
-msgid "This stock location will be used, instead of the default one, as the source location for stock moves generated by manufacturing orders."
+msgid ""
+"This stock location will be used, instead of the default one, as the source "
+"location for stock moves generated by manufacturing orders."
 msgstr ""
 "Este local de estoque será usado, ao invés da padrão, como o local de origem "
 "dos movimentos de estoque gerados por ordens de fabricação."
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__property_stock_inventory
-msgid "This stock location will be used, instead of the default one, as the source location for stock moves generated when you do an inventory."
+msgid ""
+"This stock location will be used, instead of the default one, as the source "
+"location for stock moves generated when you do an inventory."
 msgstr ""
 "Este local de estoque será usado, ao invés do padrão, como o local de origem "
 "dos movimentos de estoque gerados quando você faz um inventário."
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__responsible_id
-msgid "This user will be responsible of the next activities related to logistic operations for this product."
+msgid ""
+"This user will be responsible of the next activities related to logistic "
+"operations for this product."
 msgstr ""
 "Esse usuário será responsável pelas próximas atividades relacionadas às "
 "operações de logística para este produto."
@@ -2247,7 +2323,9 @@ msgstr "Unidade de medida de peso"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__weight
-msgid "Weight of the product, packaging not included. The unit of measure can be changed in the general settings"
+msgid ""
+"Weight of the product, packaging not included. The unit of measure can be "
+"changed in the general settings"
 msgstr ""
 "Peso do produto, embalagem não incluída. A unidade de medida pode ser "
 "alterada nas configurações gerais"
@@ -2259,7 +2337,11 @@ msgstr "Etiqueta da unidade de medida de peso"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__property_stock_account_input
-msgid "When doing real-time inventory valuation, counterpart journal items for all incoming stock moves will be posted in this account, unless there is a specific valuation account set on the source location. When not set on the product, the one from the product category is used."
+msgid ""
+"When doing real-time inventory valuation, counterpart journal items for all "
+"incoming stock moves will be posted in this account, unless there is a "
+"specific valuation account set on the source location. When not set on the "
+"product, the one from the product category is used."
 msgstr ""
 "Ao fazer avaliação de estoque em tempo real, itens de diário de "
 "contrapartida para toda movimento recebidas serão publicadas nesta conta, a "
@@ -2268,7 +2350,11 @@ msgstr ""
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__property_stock_account_output
-msgid "When doing real-time inventory valuation, counterpart journal items for all outgoing stock moves will be posted in this account, unless there is a specific valuation account set on the destination location. When not set on the product, the one from the product category is used."
+msgid ""
+"When doing real-time inventory valuation, counterpart journal items for all "
+"outgoing stock moves will be posted in this account, unless there is a "
+"specific valuation account set on the destination location. When not set on "
+"the product, the one from the product category is used."
 msgstr ""
 "Ao fazer avaliação de estoque em tempo real, itens de diário da "
 "contrapartida para todos os movimentos de saída será lançado nesta conta, a "
@@ -2281,9 +2367,12 @@ msgid "With Details"
 msgstr "Com detalhes"
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:200
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:223
 #, python-format
-msgid "You tried to confirm reservation                                          with table those already reserved                                          in this reservation period"
+msgid ""
+"You tried to confirm reservation                                          "
+"with table those already reserved                                          "
+"in this reservation period"
 msgstr ""
 "Você tentou confirmar a reserva                                          com "
 "mesa já reservada                                          neste período"
