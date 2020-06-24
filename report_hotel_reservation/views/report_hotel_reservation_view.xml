@@ -8,8 +8,8 @@
         <field name="model">report.hotel.reservation.status</field>
         <field name="arch" type="xml">
             <tree string="States By Reservation">
-                <field name="reservation_no" />
-                <field name="state" />
+                <field name="reservation_no"/>
+                <field name="state"/>
             </tree>
         </field>
     </record>
@@ -20,8 +20,8 @@
         <field name="model">report.hotel.reservation.status</field>
         <field name="arch" type="xml">
             <form string="States By Reservation">
-                <field name="reservation_no" />
-                <field name="state" />
+                <field name="reservation_no"/>
+                <field name="state"/>
             </form>
         </field>
     </record>
@@ -33,10 +33,10 @@
         <field name="arch" type="xml">
             <search string="Hotel Reservation Status">
                 <filter string="Draft" domain="[('state','=', 'draft')]"
-                    help="Rooms in draft state" />
+                        help="Rooms in draft state"/>
                 <filter string="Confirm" domain="[('state','=', 'confirm')]"
-                    help="Rooms in confirm state" />
-                <filter string="Done" domain="[('state','=', 'done')]" help="Rooms in done state" />
+                        help="Rooms in confirm state"/>
+                <filter string="Done" domain="[('state','=', 'done')]" help="Rooms in done state"/>
             </search>
         </field>
     </record>
@@ -47,8 +47,8 @@
         <field name="model">report.hotel.reservation.status</field>
         <field name="arch" type="xml">
             <graph string="States By Reservation" type="pie">
-                <field name="state" />
-                <field name="nbr" operator="+" />
+                <field name="state"/>
+                <field name="nbr" operator="+"/>
             </graph>
         </field>
     </record>
@@ -59,8 +59,8 @@
         <field name="model">report.hotel.reservation.status</field>
         <field name="arch" type="xml">
             <graph string="States By Reservation" type="bar" orientation="verticle">
-                <field name="state" />
-                <field name="nbr" operator="+" />
+                <field name="state"/>
+                <field name="nbr" operator="+"/>
             </graph>
         </field>
     </record>
@@ -79,11 +79,13 @@
         <field name="res_model">report.hotel.reservation.status</field>
         <field name="view_type">form</field>
         <field name="view_mode">pivot,graph,tree</field>
-        <field name="context">{'graph_view_ref':'report_hotel_reservation.view_hotel_reservation_status_graph_bar','tree_view_ref':'report_hotel_reservation.view_hotel_reservation_status_tree'}
+        <field name="context">
+            {'graph_view_ref':'report_hotel_reservation.view_hotel_reservation_status_graph_bar','tree_view_ref':'report_hotel_reservation.view_hotel_reservation_status_tree'}
         </field>
     </record>
 
     <menuitem id="menu_hotel_reporting" name="Reports" parent="hotel.hotel_management_menu" sequence="7"/>
-    <menuitem name="States By Reservation" action="action_report_hotel_reservation_status_tree_graph_bar12" id="menu_hotel_reservation_status_tree_graph_bar11" sequence="34" parent="menu_hotel_reporting" />
+    <menuitem name="States By Reservation" action="action_report_hotel_reservation_status_tree_graph_bar12"
+              id="menu_hotel_reservation_status_tree_graph_bar11" sequence="34" parent="menu_hotel_reporting"/>
 
 </odoo>

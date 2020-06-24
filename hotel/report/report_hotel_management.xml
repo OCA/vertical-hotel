@@ -7,8 +7,8 @@
         <t t-call="web.html_container">
             <t t-call="web.external_layout">
                 <div class="page">
-                    <br />
-                    <br />
+                    <br/>
+                    <br/>
                     <div class="row">
                         <h2>
                             <span>
@@ -19,9 +19,9 @@
                     <div class="row mt32 mb32">
                         <div class="text-center">
                             <strong>From:</strong>
-                            <span t-esc="data['date_start']" />
+                            <span t-esc="data['date_start']"/>
                             <strong>To:</strong>
-                            <span t-esc="data['date_end']" />
+                            <span t-esc="data['date_end']"/>
                         </div>
                     </div>
                     <table class="table table-condensed">
@@ -44,31 +44,31 @@
                         </tr>
                         <tr t-foreach="folio_data" t-as="folio">
                             <td>
-                                <span t-esc="folio.get('name', '')" />
+                                <span t-esc="folio.get('name', '')"/>
                             </td>
                             <td>
-                                <span t-esc="folio.get('partner', '')" />
+                                <span t-esc="folio.get('partner', '')"/>
                             </td>
                             <td>
-                                <span t-esc="folio.get('checkin', '')" />
+                                <span t-esc="folio.get('checkin', '')"/>
                             </td>
                             <td>
-                                <span t-esc="folio.get('checkout', '')" />
+                                <span t-esc="folio.get('checkout', '')"/>
                             </td>
                             <td>
-                                <span t-esc="folio.get('amount', '')" />
+                                <span t-esc="folio.get('amount', '')"/>
                             </td>
                         </tr>
                         <tr>
-                            <td />
-                            <td />
-                            <td />
+                            <td/>
+                            <td/>
+                            <td/>
                             <td>
                                 <strong>Net Total:</strong>
                             </td>
                             <td>
                                 <t t-foreach="folio_data" t-as="folio">
-                                    <t t-esc="folio.get('total_amount', '')" />
+                                    <t t-esc="folio.get('total_amount', '')"/>
                                 </t>
                             </td>
                         </tr>

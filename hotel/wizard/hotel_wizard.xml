@@ -9,12 +9,13 @@
         <field name="arch" type="xml">
             <form string="Folio Report">
                 <group col="4">
-                    <field name="date_start" required="1" />
-                    <field name="date_end" required="1" />
+                    <field name="date_start" required="1"/>
+                    <field name="date_end" required="1"/>
                 </group>
                 <footer>
-                    <button name="print_report" string="Print Folio" icon="fa-print" type="object" class="oe_highlight" />
-                    <button string="Cancel" icon="fa-close" class="btn btn-primary" special="cancel" />
+                    <button name="print_report" string="Print Folio" icon="fa-print" type="object"
+                            class="oe_highlight"/>
+                    <button string="Cancel" icon="fa-close" class="btn btn-primary" special="cancel"/>
                 </footer>
             </form>
         </field>
@@ -29,6 +30,7 @@
         <field name="target">new</field>
     </record>
 
-    <menuitem name="Hotel Folio Report" action="hotel_folio_wizard" id="wizard_hotel_menu" parent="hotel_report_menu" sequence="31" />
+    <menuitem name="Hotel Folio Report" action="hotel_folio_wizard" id="wizard_hotel_menu" parent="hotel_report_menu"
+              sequence="31"/>
 
 </odoo>
