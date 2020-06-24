@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.14\n"
-"Report-Msgid-Bugs-To: support@openerp.com\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-26 06:18:01+0000\n"
 "PO-Revision-Date: 2011-02-15 15:01+0000\n"
 "Last-Translator: Olivier Dony (OpenERP) <Unknown>\n"
@@ -18,34 +18,18 @@ msgstr ""
 "X-Generator: Launchpad (build 15213)\n"
 
 #. module: board_frontdesk
-#: model:ir.ui.menu,name:board_frontdesk.menu_board_frontdesk
-msgid "Hotel FrontDesk Board"
+#: model:ir.actions.act_window,name:board_frontdesk.action_hotel_restaurant_order_board
+msgid "Current Orders Details"
 msgstr ""
 
 #. module: board_frontdesk
-#: constraint:ir.ui.view:0
-msgid "Invalid XML for View Architecture!"
+#: model:ir.actions.act_window,name:board_frontdesk.action_table_order_board
+msgid "Current Table Reservation Details"
 msgstr ""
 
 #. module: board_frontdesk
-#: model:ir.actions.act_window,name:board_frontdesk.open_board_frontdesk
-msgid "FrontDesk Dashboard"
-msgstr ""
-
-#. module: board_frontdesk
-#: model:ir.module.module,description:board_frontdesk.module_meta_information
-msgid ""
-"\n"
-"This module implements a dashboard for hotel FrontDesk that includes:\n"
-"    * Calendar view of Today's Check-In and Check-Out\n"
-"    * Calendar view of Weekly Check-In and Check-Out\n"
-"    * Calendar view of Monthly Check-In and Check-Out\n"
-"    "
-msgstr ""
-
-#. module: board_frontdesk
-#: constraint:ir.actions.act_window:0
-msgid "Invalid model name in the action definition."
+#: model:ir.ui.view,arch_db:board_frontdesk.board_frontdesk_form
+msgid "Currently Reserved Tables Details"
 msgstr ""
 
 #. module: board_frontdesk
@@ -54,16 +38,76 @@ msgid "FrontDesk"
 msgstr ""
 
 #. module: board_frontdesk
-#: view:board.board:0
+#: model:ir.actions.act_window,name:board_frontdesk.open_board_frontdesk
+msgid "FrontDesk Dashboard"
+msgstr ""
+
+#. module: board_frontdesk
+#: model:ir.ui.view,arch_db:board_frontdesk.board_frontdesk_form
+msgid "FrontDesk board"
+msgstr ""
+
+#. module: board_frontdesk
+#: model:ir.ui.menu,name:board_frontdesk.menu_board_frontdesk
+#: model:ir.ui.view,arch_db:board_frontdesk.board_frontdesk_form
+msgid "Hotel FrontDesk Board"
+msgstr ""
+
+#. module: board_frontdesk
+#: model:ir.actions.act_window,name:board_frontdesk.action_hotel_room_board
+msgid "Hotel Rooms Details"
+msgstr ""
+
+#. module: board_frontdesk
+#: model:ir.ui.menu,name:board_frontdesk.menu_hotel_reporting
+msgid "Reports"
+msgstr ""
+
+#. module: board_frontdesk
+#: model:ir.ui.view,arch_db:board_frontdesk.board_frontdesk_form
 msgid "Reservation"
 msgstr ""
 
 #. module: board_frontdesk
-#: model:ir.module.module,shortdesc:board_frontdesk.module_meta_information
-msgid "Board for Hotel FrontDesk"
-msgstr "Board for Hotel FrontDesk"
+#: model:ir.ui.view,arch_db:board_frontdesk.board_frontdesk_form
+msgid "Reservation Summary"
+msgstr ""
 
 #. module: board_frontdesk
-#: view:board.board:0
-msgid "FrontDesk board"
+#: model:ir.ui.view,arch_db:board_frontdesk.board_frontdesk_form
+msgid "Rooms Details"
 msgstr ""
+
+#. module: board_frontdesk
+#: model:ir.actions.act_window,name:board_frontdesk.action_report_hotel_reservation_status_tree_graph_bar12
+#: model:ir.ui.menu,name:board_frontdesk.menu_hotel_reservation_status_tree_graph_bar11
+msgid "States By Reservation"
+msgstr ""
+
+#. module: board_frontdesk
+#: model:ir.ui.menu,name:board_frontdesk.menu_action_report_hotel_restaurant_board
+msgid "States By Restaurant"
+msgstr ""
+
+#. module: board_frontdesk
+#: model:ir.actions.act_window,name:board_frontdesk.action_report_hotel_restaurant_board
+msgid "States By Restaurants"
+msgstr ""
+
+#. module: board_frontdesk
+#: model:ir.ui.view,arch_db:board_frontdesk.view_board_hotel_restaurant_reservation_tree
+msgid "Table Reservation"
+msgstr ""
+
+#. module: board_frontdesk
+#: model:ir.ui.view,arch_db:board_frontdesk.board_frontdesk_form
+msgid "Today's Restaurant Orders"
+msgstr ""
+
+#. module: board_frontdesk
+#: model:ir.actions.act_window,name:board_frontdesk.action_desk_hotel_reservation_summary
+msgid "action.desk.hotel.reservation.summary"
+msgstr ""
+
+#~ msgid "Board for Hotel FrontDesk"
+#~ msgstr "Board for Hotel FrontDesk"

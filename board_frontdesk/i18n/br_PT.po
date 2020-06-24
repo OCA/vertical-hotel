@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: openobject-addons\n"
-"Report-Msgid-Bugs-To: support@openerp.com\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-26 06:18:01+0000\n"
 "PO-Revision-Date: 2011-04-23 17:21+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
@@ -19,41 +19,19 @@ msgstr ""
 "X-Generator: Launchpad (build 15213)\n"
 
 #. module: board_frontdesk
-#: model:ir.ui.menu,name:board_frontdesk.menu_board_frontdesk
-msgid "Hotel FrontDesk Board"
-msgstr "Painel de frente do Hotel"
-
-#. module: board_frontdesk
-#: constraint:ir.ui.view:0
-msgid "Invalid XML for View Architecture!"
-msgstr "¡XML inválido para a arquitetura de View!"
-
-#. module: board_frontdesk
-#: model:ir.actions.act_window,name:board_frontdesk.open_board_frontdesk
-msgid "FrontDesk Dashboard"
-msgstr "Painel de Frente"
-
-#. module: board_frontdesk
-#: model:ir.module.module,description:board_frontdesk.module_meta_information
-msgid ""
-"\n"
-"This module implements a dashboard for hotel FrontDesk that includes:\n"
-"    * Calendar view of Today's Check-In and Check-Out\n"
-"    * Calendar view of Weekly Check-In and Check-Out\n"
-"    * Calendar view of Monthly Check-In and Check-Out\n"
-"    "
+#: model:ir.actions.act_window,name:board_frontdesk.action_hotel_restaurant_order_board
+msgid "Current Orders Details"
 msgstr ""
-"\n"
-"Este módulo implementa o Painel para a frente do hotel que inclui:\n"
-"    * View do calendário das entradas e saídade de hoje\n"
-"    * View do calendário de Check-ins e Check-Outs semanais \n"
-"    * View do calendário de Check-ins e Check-Outs mensais \n"
-"    "
 
 #. module: board_frontdesk
-#: constraint:ir.actions.act_window:0
-msgid "Invalid model name in the action definition."
-msgstr "Nome de módulo inválido para a definição na ação"
+#: model:ir.actions.act_window,name:board_frontdesk.action_table_order_board
+msgid "Current Table Reservation Details"
+msgstr ""
+
+#. module: board_frontdesk
+#: model:ir.ui.view,arch_db:board_frontdesk.board_frontdesk_form
+msgid "Currently Reserved Tables Details"
+msgstr ""
 
 #. module: board_frontdesk
 #: model:ir.actions.act_window,name:board_frontdesk.action_view_frontdesk_cal
@@ -61,16 +39,103 @@ msgid "FrontDesk"
 msgstr "Mostrador"
 
 #. module: board_frontdesk
-#: view:board.board:0
+#: model:ir.actions.act_window,name:board_frontdesk.open_board_frontdesk
+msgid "FrontDesk Dashboard"
+msgstr "Painel de Frente"
+
+#. module: board_frontdesk
+#: model:ir.ui.view,arch_db:board_frontdesk.board_frontdesk_form
+msgid "FrontDesk board"
+msgstr "Mostrador de frente"
+
+#. module: board_frontdesk
+#: model:ir.ui.menu,name:board_frontdesk.menu_board_frontdesk
+#: model:ir.ui.view,arch_db:board_frontdesk.board_frontdesk_form
+msgid "Hotel FrontDesk Board"
+msgstr "Painel de frente do Hotel"
+
+#. module: board_frontdesk
+#: model:ir.actions.act_window,name:board_frontdesk.action_hotel_room_board
+msgid "Hotel Rooms Details"
+msgstr ""
+
+#. module: board_frontdesk
+#: model:ir.ui.menu,name:board_frontdesk.menu_hotel_reporting
+msgid "Reports"
+msgstr ""
+
+#. module: board_frontdesk
+#: model:ir.ui.view,arch_db:board_frontdesk.board_frontdesk_form
 msgid "Reservation"
 msgstr "Reserva"
 
 #. module: board_frontdesk
-#: model:ir.module.module,shortdesc:board_frontdesk.module_meta_information
-msgid "Board for Hotel FrontDesk"
-msgstr "Painel para mostrador do Hotel"
+#: model:ir.ui.view,arch_db:board_frontdesk.board_frontdesk_form
+#, fuzzy
+#| msgid "Reservation"
+msgid "Reservation Summary"
+msgstr "Reserva"
 
 #. module: board_frontdesk
-#: view:board.board:0
-msgid "FrontDesk board"
-msgstr "Mostrador de frente"
+#: model:ir.ui.view,arch_db:board_frontdesk.board_frontdesk_form
+msgid "Rooms Details"
+msgstr ""
+
+#. module: board_frontdesk
+#: model:ir.actions.act_window,name:board_frontdesk.action_report_hotel_reservation_status_tree_graph_bar12
+#: model:ir.ui.menu,name:board_frontdesk.menu_hotel_reservation_status_tree_graph_bar11
+#, fuzzy
+#| msgid "Reservation"
+msgid "States By Reservation"
+msgstr "Reserva"
+
+#. module: board_frontdesk
+#: model:ir.ui.menu,name:board_frontdesk.menu_action_report_hotel_restaurant_board
+msgid "States By Restaurant"
+msgstr ""
+
+#. module: board_frontdesk
+#: model:ir.actions.act_window,name:board_frontdesk.action_report_hotel_restaurant_board
+msgid "States By Restaurants"
+msgstr ""
+
+#. module: board_frontdesk
+#: model:ir.ui.view,arch_db:board_frontdesk.view_board_hotel_restaurant_reservation_tree
+#, fuzzy
+#| msgid "Reservation"
+msgid "Table Reservation"
+msgstr "Reserva"
+
+#. module: board_frontdesk
+#: model:ir.ui.view,arch_db:board_frontdesk.board_frontdesk_form
+msgid "Today's Restaurant Orders"
+msgstr ""
+
+#. module: board_frontdesk
+#: model:ir.actions.act_window,name:board_frontdesk.action_desk_hotel_reservation_summary
+msgid "action.desk.hotel.reservation.summary"
+msgstr ""
+
+#~ msgid "Invalid XML for View Architecture!"
+#~ msgstr "¡XML inválido para a arquitetura de View!"
+
+#~ msgid ""
+#~ "\n"
+#~ "This module implements a dashboard for hotel FrontDesk that includes:\n"
+#~ "    * Calendar view of Today's Check-In and Check-Out\n"
+#~ "    * Calendar view of Weekly Check-In and Check-Out\n"
+#~ "    * Calendar view of Monthly Check-In and Check-Out\n"
+#~ "    "
+#~ msgstr ""
+#~ "\n"
+#~ "Este módulo implementa o Painel para a frente do hotel que inclui:\n"
+#~ "    * View do calendário das entradas e saídade de hoje\n"
+#~ "    * View do calendário de Check-ins e Check-Outs semanais \n"
+#~ "    * View do calendário de Check-ins e Check-Outs mensais \n"
+#~ "    "
+
+#~ msgid "Invalid model name in the action definition."
+#~ msgstr "Nome de módulo inválido para a definição na ação"
+
+#~ msgid "Board for Hotel FrontDesk"
+#~ msgstr "Painel para mostrador do Hotel"
