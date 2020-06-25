@@ -413,7 +413,7 @@ msgid "Check if you want this product to appear in the Point of Sale."
 msgstr "Marque se você deseja que este produto apareça no Ponto de Venda."
 
 #. module: hotel
-#: code:addons/hotel/models/hotel.py:1054
+#: code:addons/hotel/models/hotel.py:1118
 #, python-format
 msgid "Checkout must be greater or equal checkin date"
 msgstr "A finalização da compra deve ser maior ou igual à data de entrada"
@@ -1774,7 +1774,7 @@ msgid "Next Activity Type"
 msgstr "Tipo de atividade seguinte"
 
 #. module: hotel
-#: code:addons/hotel/models/hotel.py:631
+#: code:addons/hotel/models/hotel.py:667
 #, python-format
 msgid "Not Any Order For  %s "
 msgstr "Não há nenhum pedido para %s "
@@ -1925,7 +1925,7 @@ msgid "Order Status"
 msgstr "Situação de Pedido"
 
 #. module: hotel
-#: code:addons/hotel/models/hotel.py:664 code:addons/hotel/models/hotel.py:677
+#: code:addons/hotel/models/hotel.py:705 code:addons/hotel/models/hotel.py:718
 #, python-format
 msgid "Order id is not available"
 msgstr "O ID do pedido não está disponível"
@@ -2402,7 +2402,7 @@ msgid "Room amenities"
 msgstr "Comodidades da hatibação"
 
 #. module: hotel
-#: code:addons/hotel/models/hotel.py:272
+#: code:addons/hotel/models/hotel.py:303
 #, python-format
 msgid "Room capacity must be more than 0"
 msgstr "A capacidade da sala deve ser maior que 0"
@@ -2418,7 +2418,7 @@ msgid "Room line"
 msgstr "Linha do quarto"
 
 #. module: hotel
-#: code:addons/hotel/models/hotel.py:799
+#: code:addons/hotel/models/hotel.py:846
 #, python-format
 msgid ""
 "Room line Check In Date Should be                 less than the Check Out "
@@ -2426,7 +2426,7 @@ msgid ""
 msgstr "Data da entrada da linha do quarto Deve ser menor que a data da saída!"
 
 #. module: hotel
-#: code:addons/hotel/models/hotel.py:807
+#: code:addons/hotel/models/hotel.py:854
 #, python-format
 msgid ""
 "Room line check in date should be                 greater than the current "
@@ -3393,7 +3393,7 @@ msgstr ""
 "Quando não definido no produto, o da categoria de produto é usado."
 
 #. module: hotel
-#: code:addons/hotel/models/hotel.py:463
+#: code:addons/hotel/models/hotel.py:498
 #, python-format
 msgid "You Cannot Take Same Room Twice"
 msgstr "Você não pode tomar o mesmo quarto duas vezes"
