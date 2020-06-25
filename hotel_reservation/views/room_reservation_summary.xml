@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Form view of room reservation summary -->
+    <record id="room_reservation_summary_form_view" model="ir.ui.view">
+        <field name="name">room.reservation.summary.form</field>
+        <field name="model">room.reservation.summary</field>
+        <field name="arch" type="xml">
+            <form string="Reservation Summary">
+                <header>
+                    <separator string="Room Reservation Summary" colspan="4"/>
+                </header>
+                <sheet>
+                    <group colspan="4" col="4">
+                        <div>
+                            <label for="date_from" string="Summary Period"/>
+                            <field name="date_from" class="oe_inline"/>
+                            to
+                            <field name="date_to" class="oe_inline"/>
+                        </div>
+                    </group>
+                    <notebook>
+                        <page string="Room Summary">
+                            <field name="summary_header" colspan="4"
+                                   invisible="1"/>
+                            <field name="room_summary" colspan="4"
+                                   widget="Room_Reservation"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+</odoo>
