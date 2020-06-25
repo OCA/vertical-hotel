@@ -13,6 +13,7 @@
     "demo": ["data/hotel_reservation_data.xml"],
     "data": [
         "security/ir.model.access.csv",
+        "security/reservation_security.xml",
         "data/hotel_scheduler.xml",
         "data/hotel_reservation_sequence.xml",
         "views/hotel_reservation_view.xml",

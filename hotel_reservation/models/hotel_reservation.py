@@ -130,7 +130,9 @@ class HotelReservation(models.Model):
         readonly=True,
         index=True,
         required=True,
-        default=1,
+        default=lambda self: self.env["stock.warehouse"].search(
+            [("company_id", "=", self.env.user.company_id.id)], limit=1
+        ),
         states={"draft": [("readonly", False)]},
     )
     partner_id = fields.Many2one(
