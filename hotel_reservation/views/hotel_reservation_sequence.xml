@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE xml>
 <odoo noupdate="1">
 
     <record id="seq_hotel_reservation" model="ir.sequence">
