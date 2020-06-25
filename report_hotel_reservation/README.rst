@@ -23,7 +23,7 @@ Hotel Reservation Management - Reporting
     :target: https://runbot.odoo-community.org/runbot/157/11.0
     :alt: Try me on Runbot
 
-|badge1| |badge2| |badge3| |badge4| |badge5| 
+|badge1| |badge2| |badge3| |badge4| |badge5|
 
 This Module provides state-wise view for hotel reservation for better business intelligence.
 

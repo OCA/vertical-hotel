@@ -104,4 +104,3 @@ msgstr ""
 #: model:ir.ui.view,arch_db:report_hotel_restaurant.report_hotel_restaurant_status_search
 msgid "done"
 msgstr ""
-

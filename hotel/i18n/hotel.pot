@@ -2720,4 +2720,3 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel.field_folio_room_line_status
 msgid "state"
 msgstr ""
-

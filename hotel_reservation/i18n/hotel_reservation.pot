@@ -948,4 +948,3 @@ msgstr ""
 #: model:ir.model,name:hotel_reservation.model_wizard_make_folio
 msgid "wizard.make.folio"
 msgstr ""
-
