@@ -953,7 +953,7 @@ msgid "Outgoing"
 msgstr ""
 
 #. module: hotel_housekeeping
-#: code:addons/hotel_housekeeping/models/hotel_housekeeping.py:110
+#: code:addons/hotel_housekeeping/models/hotel_housekeeping.py:116
 #, python-format
 msgid "Please update quality of work!"
 msgstr ""
@@ -1186,7 +1186,7 @@ msgid ""
 msgstr ""
 
 #. module: hotel_housekeeping
-#: code:addons/hotel_housekeeping/models/hotel_housekeeping_activities.py:36
+#: code:addons/hotel_housekeeping/models/hotel_housekeeping_activities.py:39
 #, python-format
 msgid "Start Date Should be less than the End Date!"
 msgstr ""
