@@ -14,7 +14,7 @@
     "data": [
         "security/ir.model.access.csv",
         "data/hotel_scheduler.xml",
-        "views/hotel_reservation_sequence.xml",
+        "data/hotel_reservation_sequence.xml",
         "views/hotel_reservation_view.xml",
         "views/email_temp_view.xml",
         "views/report_checkin.xml",
