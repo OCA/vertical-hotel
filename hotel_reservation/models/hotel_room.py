@@ -58,7 +58,7 @@ class HotelRoom(models.Model):
                 ("check_out", ">=", curr_date),
             ]
             reservation_line_ids = reservation_line_obj.search(reserv_args)
-            rooms_ids = [room_line.ids for room_line in room.room_line_ids]
+            rooms_ids = [room_line.id for room_line in room.room_line_ids]
             rom_args = [
                 ("id", "in", rooms_ids),
                 ("check_in", "<=", curr_date),
@@ -74,10 +74,6 @@ class HotelRoom(models.Model):
             room.write(status)
             if reservation_line_ids.ids and room_line_ids.ids:
                 raise ValidationError(
-                    _(
-                        "Please Check Rooms Status \
-                                         for %s."
-                        % (room.name)
-                    )
+                    _("Please Check Rooms Status for %s.") % room.name
                 )
         return True
