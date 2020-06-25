@@ -46,10 +46,6 @@ msgstr "<strong>Check-Out</strong>"
 
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.report_order_bill
-msgid "<strong>Customer Name : </strong>"
-msgstr "<strong> Nome do cliente: </strong>"
-
-#. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.report_reserv_order
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.report_rest_order
 msgid "<strong>Customer Name :</strong>"
@@ -64,7 +60,9 @@ msgstr "<strong>Nome do Cliente</strong>"
 
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.report_order_bill
-msgid "<strong>Date : </strong>"
+#, fuzzy
+#| msgid "<strong>Date : </strong>"
+msgid "<strong>Date :</strong>"
 msgstr "<strong> Data: </strong>"
 
 #. module: hotel_restaurant
@@ -303,7 +301,9 @@ msgstr "Endereço"
 #. module: hotel_restaurant
 #: model:hotel.menucard,name:hotel_restaurant.hotel_fooditem_19
 #: model:product.product,name:hotel_restaurant.hotel_fooditem_19_product_product
-msgid "Appam "
+#, fuzzy
+#| msgid "Appam "
+msgid "Appam"
 msgstr "Appam "
 
 #. module: hotel_restaurant
@@ -707,7 +707,7 @@ msgid "End Date"
 msgstr "Data Final"
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:334
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:357
 #, python-format
 msgid "End Date Should be less than the Folio Check-out Date!"
 msgstr "Data de término Deve ser menor que a data de check-out do fólio!"
@@ -1422,20 +1422,20 @@ msgid "Paneer Tikaa"
 msgstr "Paneer tikaa"
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:433
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:462
 #, python-format
 msgid "Please Assign a Table"
 msgstr "Designe uma mesa"
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:431
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:621
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:460
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:667
 #, python-format
 msgid "Please Give an Order"
 msgstr "Nomeie um pedido"
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:216
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:236
 #, python-format
 msgid ""
 "Please Select Tables For                                          Reservation"
@@ -1819,13 +1819,13 @@ msgid "Start Date"
 msgstr "Data de Início"
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:330
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:350
 #, python-format
 msgid "Start Date Should be greater than the Folio Check-in Date!"
 msgstr "Data de início Deve ser maior que a data do check-in do fólio!"
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:322
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:342
 #, python-format
 msgid "Start Date Should be less             than the End Date!"
 msgstr "Data de início deve ser menor             que a data final!"
@@ -2367,7 +2367,7 @@ msgid "With Details"
 msgstr "Com detalhes"
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:223
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:243
 #, python-format
 msgid ""
 "You tried to confirm reservation                                          "
@@ -2476,3 +2476,6 @@ msgstr "Nome do garçom"
 #: model:ir.model,name:hotel_restaurant.model_wizard_hotel_restaurant
 msgid "wizard.hotel.restaurant"
 msgstr "wizard.hotel.restaurant"
+
+#~ msgid "<strong>Customer Name : </strong>"
+#~ msgstr "<strong> Nome do cliente: </strong>"
