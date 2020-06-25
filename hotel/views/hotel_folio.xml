@@ -119,11 +119,15 @@
                                     <field name="checkin_date"/>
                                     <field name="checkout_date"/>
                                     <field name="product_id" string="Room No"/>
-                                    <field name="product_uom"
-                                           string="Rent(UOM)"/>
+                                    <field name="product_uom_qty" string="Duration"/>
+                                    <field attrs="{'readonly': [('state', 'in', ('sale','done', 'cancel'))]}" groups="uom.group_uom" name="product_uom" options="{&quot;no_open&quot;: True}"/>
+                                    <field name="product_uom" string="Rent(UOM)"/>
                                     <field name="price_unit" string="Rent"/>
-                                    <field name="price_subtotal"/>
-                                    <field name="state"/>
+                                    <field domain="[('type_tax_use','=','sale')]" name="tax_id" options="{'no_create': True}" widget="many2many_tags"/>
+                                    <field groups="sale.group_discount_per_so_line" name="discount"/>
+                                    <field groups="sale.group_show_price_subtotal" name="price_subtotal" widget="monetary"/>
+                                    <field groups="sale.group_show_price_total" name="price_total" widget="monetary"/>
+                                    <field name="state" invisible="1"/>
                                 </tree>
                             </field>
                             <separator string="Service Lines" colspan="4"/>

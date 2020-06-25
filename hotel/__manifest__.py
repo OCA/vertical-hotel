@@ -24,6 +24,8 @@
         "views/hotel_room_type.xml",
         "views/hotel_service_type.xml",
         "views/hotel_services.xml",
+        "views/product_product.xml",
+        "views/res_company.xml",
         "views/actions.xml",
         "views/menus.xml",
         "wizard/hotel_wizard.xml",
