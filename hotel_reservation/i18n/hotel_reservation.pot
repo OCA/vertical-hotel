@@ -312,7 +312,7 @@ msgid "CheckOut List"
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:1205
+#: code:addons/hotel_reservation/models/hotel_reservation.py:1201
 #, python-format
 msgid "Checkout date should be greater                                          than Checkin date."
 msgstr ""
@@ -638,13 +638,13 @@ msgid "Ordering Contact"
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:902
+#: code:addons/hotel_reservation/models/hotel_reservation.py:899
 #, python-format
-msgid "Please Check Rooms Status                                          for %s."
+msgid "Please Check Rooms Status for %s."
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:1001
+#: code:addons/hotel_reservation/models/hotel_reservation.py:997
 #, python-format
 msgid "Please Check Time period Date From can't                                    be greater than Date To !"
 msgstr ""
@@ -671,7 +671,7 @@ msgid "Quick Room Reservation"
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:974
+#: code:addons/hotel_reservation/models/hotel_reservation.py:970
 #, python-format
 msgid "Reconcile Write-Off"
 msgstr ""
@@ -948,3 +948,4 @@ msgstr ""
 #: model:ir.model,name:hotel_reservation.model_wizard_make_folio
 msgid "wizard.make.folio"
 msgstr ""
+
