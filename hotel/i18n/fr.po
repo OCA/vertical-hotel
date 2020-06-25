@@ -393,7 +393,7 @@ msgid "Check if you want this product to appear in the Point of Sale"
 msgstr ""
 
 #. module: hotel
-#: code:addons/hotel/models/hotel.py:1115
+#: code:addons/hotel/models/hotel.py:1445
 #, python-format
 msgid "Checkout must be greater or equal checkin date"
 msgstr ""
@@ -768,6 +768,11 @@ msgstr ""
 msgid ""
 "Down payments are made when creating invoices from a sales order. They are "
 "not copied when duplicating a sales order."
+msgstr ""
+
+#. module: hotel
+#: model:ir.ui.view,arch_db:hotel.view_hotel_folio1_form
+msgid "Duration"
 msgstr ""
 
 #. module: hotel
@@ -2749,6 +2754,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_warehouse_id
 #: model:ir.model.fields,field_description:hotel.field_hotel_services_warehouse_id
 msgid "Warehouse"
+msgstr ""
+
+#. module: hotel
+#: code:addons/hotel/models/hotel.py:1046
+#: code:addons/hotel/models/hotel.py:1403
+#, python-format
+msgid "Warning for %s"
 msgstr ""
 
 #. module: hotel
