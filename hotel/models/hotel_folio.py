@@ -392,7 +392,7 @@ class HotelFolio(models.Model):
                 self.partner_invoice_id = partner_rec.id
                 self.partner_shipping_id = partner_rec.id
                 self.pricelist_id = partner_rec.property_product_pricelist.id
-                raise _("Not Any Order For  %s " % (partner_rec.name))
+                raise (_("Not Any Order For  %s ") % (partner_rec.name))
             else:
                 self.partner_invoice_id = partner_rec.id
                 self.partner_shipping_id = partner_rec.id
