@@ -9,7 +9,10 @@
     "depends": ["hotel_reservation"],
     "license": "AGPL-3",
     "category": "Generic Modules/Hotel Reservation",
-    "data": ["security/ir.model.access.csv", "views/report_hotel_reservation_view.xml"],
+    "data": [
+        "security/ir.model.access.csv",
+        "views/report_hotel_reservation_view.xml",
+    ],
     "installable": True,
     "auto_install": False,
 }

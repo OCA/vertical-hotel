@@ -9,6 +9,9 @@
     "website": "https://github.com/OCA/vertical-hotel",
     "depends": ["hotel_restaurant", "report_hotel_reservation"],
     "license": "AGPL-3",
-    "data": ["security/ir.model.access.csv", "views/report_hotel_restaurant_view.xml"],
+    "data": [
+        "security/ir.model.access.csv",
+        "views/report_hotel_restaurant_view.xml",
+    ],
     "installable": True,
 }

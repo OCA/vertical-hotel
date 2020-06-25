@@ -2,10 +2,12 @@
 
 import time
 from datetime import datetime
-from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
-from dateutil.relativedelta import relativedelta
+
 from dateutil import parser
+from dateutil.relativedelta import relativedelta
+
 from odoo import api, fields, models
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 
 class FolioReport(models.AbstractModel):
@@ -22,8 +24,12 @@ class FolioReport(models.AbstractModel):
         ]
         tids = folio_obj.search(act_domain)
         for data in tids:
-            checkin = data.checkin_date.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
-            checkout = data.checkout_date.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
+            checkin = data.checkin_date.strftime(
+                DEFAULT_SERVER_DATETIME_FORMAT
+            )
+            checkout = data.checkout_date.strftime(
+                DEFAULT_SERVER_DATETIME_FORMAT
+            )
             data_folio.append(
                 {
                     "name": data.name,
@@ -48,7 +54,9 @@ class FolioReport(models.AbstractModel):
         date_start = data["form"].get("date_start", fields.Date.today())
         date_end = data["form"].get(
             "date_end",
-            str(datetime.now() + relativedelta(months=+1, day=1, days=-1))[:10],
+            str(datetime.now() + relativedelta(months=+1, day=1, days=-1))[
+                :10
+            ],
         )
         return {
             "doc_ids": docids,

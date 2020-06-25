@@ -2,7 +2,9 @@
 
 import time
 from datetime import datetime
+
 from dateutil.relativedelta import relativedelta
+
 from odoo import api, fields, models
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
@@ -13,7 +15,10 @@ class ReportTestCheckin(models.AbstractModel):
 
     def _get_room_type(self, date_start, date_end):
         reservation_obj = self.env["hotel.reservation"]
-        room_dom = [("checkin", ">=", date_start), ("checkout", "<=", date_end)]
+        room_dom = [
+            ("checkin", ">=", date_start),
+            ("checkout", "<=", date_end),
+        ]
         res = reservation_obj.search(room_dom)
         return res
 
@@ -42,7 +47,9 @@ class ReportTestCheckin(models.AbstractModel):
         date_start = data.get("date_start", fields.Date.today())
         date_end = data["form"].get(
             "date_end",
-            str(datetime.now() + relativedelta(months=+1, day=1, days=-1))[:10],
+            str(datetime.now() + relativedelta(months=+1, day=1, days=-1))[
+                :10
+            ],
         )
         rm_act = self.with_context(data["form"].get("used_context", {}))
         _get_room_type = rm_act._get_room_type(date_start, date_end)
@@ -96,7 +103,9 @@ class ReportTestCheckout(models.AbstractModel):
         date_start = data.get("date_start", fields.Date.today())
         date_end = data["form"].get(
             "date_end",
-            str(datetime.now() + relativedelta(months=+1, day=1, days=-1))[:10],
+            str(datetime.now() + relativedelta(months=+1, day=1, days=-1))[
+                :10
+            ],
         )
         rm_act = self.with_context(data["form"].get("used_context", {}))
         _get_room_type = rm_act._get_room_type(date_start, date_end)
@@ -149,7 +158,9 @@ class ReportTestMaxroom(models.AbstractModel):
             counter = 0
             details = {}
             if room.room_reservation_line_ids:
-                end_date = datetime.strptime(date_end, DEFAULT_SERVER_DATETIME_FORMAT)
+                end_date = datetime.strptime(
+                    date_end, DEFAULT_SERVER_DATETIME_FORMAT
+                )
                 start_date = datetime.strptime(
                     date_start, DEFAULT_SERVER_DATETIME_FORMAT
                 )
@@ -159,7 +170,9 @@ class ReportTestMaxroom(models.AbstractModel):
                     )
                 )
             if counter >= 1:
-                details.update({"name": room.name or "", "no_of_times_used": counter})
+                details.update(
+                    {"name": room.name or "", "no_of_times_used": counter}
+                )
                 room_used_details.append(details)
         return room_used_details
 
@@ -174,13 +187,17 @@ class ReportTestMaxroom(models.AbstractModel):
         date_start = data["form"].get("date_start", fields.Date.today())
         date_end = data["form"].get(
             "date_end",
-            str(datetime.now() + relativedelta(months=+1, day=1, days=-1))[:10],
+            str(datetime.now() + relativedelta(months=+1, day=1, days=-1))[
+                :10
+            ],
         )
         rm_act = self.with_context(data["form"].get("used_context", {}))
         _get_room_type = rm_act._get_room_type(date_start, date_end)
         _get_room_nos = rm_act._get_room_nos(date_start, date_end)
         _get_data = rm_act._get_data(date_start, date_end)
-        _get_room_used_detail = rm_act._get_room_used_detail(date_start, date_end)
+        _get_room_used_detail = rm_act._get_room_used_detail(
+            date_start, date_end
+        )
         return {
             "doc_ids": docids,
             "doc_model": self.model,
@@ -232,7 +249,9 @@ class ReportTestRoomres(models.AbstractModel):
         date_start = data.get("date_start", fields.Date.today())
         date_end = data["form"].get(
             "date_end",
-            str(datetime.now() + relativedelta(months=+1, day=1, days=-1))[:10],
+            str(datetime.now() + relativedelta(months=+1, day=1, days=-1))[
+                :10
+            ],
         )
         rm_act = self.with_context(data["form"].get("used_context", {}))
         _get_room_type = rm_act._get_room_type(date_start, date_end)
