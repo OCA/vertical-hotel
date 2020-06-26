@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE xml>
 <odoo>
 
     <!--Template for Hotel Reservation -->
-    <template id="report_checkout_qweb">
+    <template id="report_checkin_qweb">
         <t t-call="web.html_container">
             <t t-call="web.external_layout">
                 <div class="page">
@@ -11,9 +10,7 @@
                     <br/>
                     <div class="row">
                         <h2>
-                            <span>
-                                <center>Check-Out Guest List</center>
-                            </span>
+                            <center>Check-In Guest List</center>
                         </h2>
                     </div>
                     <div class="row mt32 mb32">
@@ -33,7 +30,7 @@
                                 <strong>Guest Name</strong>
                             </td>
                             <td>
-                                <strong>Check-Out Date</strong>
+                                <strong>Check-In Date</strong>
                             </td>
                             <td>
                                 <strong>Room Type</strong>
@@ -42,7 +39,7 @@
                                 <strong>Room No</strong>
                             </td>
                         </tr>
-                        <tr t-foreach="get_checkout" t-as="info">
+                        <tr t-foreach="get_checkin" t-as="info">
                             <td>
                                 <span t-field="info.reservation_no"/>
                             </td>
@@ -59,7 +56,6 @@
                                             <span t-field="line.categ_id.name"/>
                                         </td>
                                     </tr>
-
                                 </table>
                             </td>
                             <td>

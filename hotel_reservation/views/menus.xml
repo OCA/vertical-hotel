@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <menuitem id="menu_hotel_reservation" name="Reservations"
+              parent="hotel.hotel_management_menu" sequence="1"/>
+    <menuitem name="Reservations" id="menu_action_hotel_reservation_tree_all"
+              action="action_hotel_reservation_tree_all"
+              parent="menu_hotel_reservation"
+              sequence="3"/>
+
+
+    <menuitem id="menu_action_hotel_reservation_summary"
+              name="Reservation Summary"
+              action="action_hotel_reservation_summary"
+              parent="menu_hotel_reservation"
+              sequence="3"/>
+</odoo>

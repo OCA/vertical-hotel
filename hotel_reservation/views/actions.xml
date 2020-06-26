@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Action of hotel reservation -->
+    <record id="action_hotel_reservation_tree_all"
+            model="ir.actions.act_window">
+        <field name="name">Reservations</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hotel.reservation</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Action for Room Reservation Summary -->
+    <record id="action_hotel_reservation_summary" model="ir.actions.act_window">
+        <field name="name">Reservation Summary</field>
+        <field name="res_model">room.reservation.summary</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+    </record>
+</odoo>

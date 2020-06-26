@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_hotel_folio1_form_inherited" model="ir.ui.view">
+        <field name="name">hotel.folio.form.inherited</field>
+        <field name="model">hotel.folio</field>
+        <field name="inherit_id" ref="hotel.view_hotel_folio1_form"/>
+        <field name="arch" type="xml">
+            <field name="name" position='after'>
+                <field name="reservation_id" readonly='1'/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_hotel_folio1_tree_inherited" model="ir.ui.view">
+        <field name="name">hotel.folio.tree.inherited</field>
+        <field name="model">hotel.folio</field>
+        <field name="inherit_id" ref="hotel.view_hotel_folio1_tree"/>
+        <field name="arch" type="xml">
+            <field name="name" position='after'>
+                <field name="reservation_id"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_hotel_folio1_search_inherited" model="ir.ui.view">
+        <field name="name">hotel.folio.search.inherited</field>
+        <field name="model">hotel.folio</field>
+        <field name="inherit_id" ref="hotel.view_hotel_folio_search"/>
+        <field name="arch" type="xml">
+            <field name="name" position='after'>
+                <field name="reservation_id"/>
+            </field>
+        </field>
+    </record>
+</odoo>
