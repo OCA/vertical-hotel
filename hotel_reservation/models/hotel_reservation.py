@@ -140,7 +140,9 @@ class HotelReservation(models.Model):
         readonly=True,
         index=True,
         required=True,
-        default=1,
+        default=lambda self: self.env["stock.warehouse"].search(
+            [("company_id", "=", self.env.user.company_id.id)], limit=1
+        ),
         states={"draft": [("readonly", False)]},
     )
     partner_id = fields.Many2one(
@@ -187,12 +189,14 @@ class HotelReservation(models.Model):
         required=True,
         readonly=True,
         states={"draft": [("readonly", False)]},
+        default=lambda self: fields.datetime.now() + timedelta(days=1),
     )
     checkout = fields.Datetime(
         "Expected-Date-Departure",
         required=True,
         readonly=True,
         states={"draft": [("readonly", False)]},
+        default=lambda self: fields.datetime.now() + timedelta(days=2),
     )
     adults = fields.Integer(
         "Adults",
@@ -851,7 +855,7 @@ class HotelRoom(models.Model):
                 ("check_out", ">=", curr_date),
             ]
             reservation_line_ids = reservation_line_obj.search(reserv_args)
-            rooms_ids = [room_line.ids for room_line in room.room_line_ids]
+            rooms_ids = [room_line.id for room_line in room.room_line_ids]
             rom_args = [
                 ("id", "in", rooms_ids),
                 ("check_in", "<=", curr_date),
@@ -949,8 +953,8 @@ class RoomReservationSummary(models.Model):
             "target": "new",
         }
 
-    @api.onchange("date_from", "date_to")  # noqa C901 (function is too complex)
-    def get_room_summary(self):  # noqa C901 (function is too complex)
+    @api.onchange("date_from", "date_to")
+    def get_room_summary(self):
         """
         @param self: object pointer
          """
