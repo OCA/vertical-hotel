@@ -12,8 +12,8 @@
     "depends": ["hotel", "stock", "mail"],
     "demo": ["data/hotel_reservation_data.xml"],
     "data": [
-        "security/ir.model.access.csv",
         "security/reservation_security.xml",
+        "security/ir.model.access.csv",
         "data/hotel_scheduler.xml",
         "data/hotel_reservation_sequence.xml",
         "views/hotel_reservation_view.xml",
@@ -27,6 +27,7 @@
         "wizards/hotel_reservation_wizard.xml",
     ],
     "qweb": ["static/src/xml/hotel_room_summary.xml"],
+    "external_dependencies": {"python": ["dateutil"]},
     "installable": True,
     "auto_install": False,
 }

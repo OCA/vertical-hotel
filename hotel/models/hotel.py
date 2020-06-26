@@ -2,14 +2,19 @@
 
 import time
 from datetime import datetime, timedelta
+
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 from odoo.osv import expression
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
-from odoo import api, fields, models, _
 
 
 def _offset_format_timestamp1(
-    src_tstamp_str, src_format, dst_format, ignore_unparsable_time=True, context=None
+    src_tstamp_str,
+    src_format,
+    dst_format,
+    ignore_unparsable_time=True,
+    context=None,
 ):
     """
     Convert a source timeStamp string into a destination timeStamp string,
@@ -74,7 +79,9 @@ class HotelRoomType(models.Model):
 
     name = fields.Char(required=True)
     categ_id = fields.Many2one("hotel.room.type", "Category")
-    child_ids = fields.One2many("hotel.room.type", "categ_id", "Child Categories")
+    child_ids = fields.One2many(
+        "hotel.room.type", "categ_id", "Child Categories"
+    )
 
     @api.multi
     def name_get(self):
@@ -100,7 +107,10 @@ class HotelRoomType(models.Model):
             domain = [("name", operator, child)]
             if parents:
                 names_ids = self.name_search(
-                    " / ".join(parents), args=args, operator="ilike", limit=limit
+                    " / ".join(parents),
+                    args=args,
+                    operator="ilike",
+                    limit=limit,
                 )
                 category_ids = [name_id[0] for name_id in names_ids]
                 if operator in expression.NEGATIVE_TERM_OPERATORS:
@@ -114,14 +124,22 @@ class HotelRoomType(models.Model):
                     )
                 for i in range(1, len(category_names)):
                     domain = [
-                        [("name", operator, " / ".join(category_names[-1 - i :]))],
+                        [
+                            (
+                                "name",
+                                operator,
+                                " / ".join(category_names[-1 - i :]),
+                            )
+                        ],
                         domain,
                     ]
                     if operator in expression.NEGATIVE_TERM_OPERATORS:
                         domain = expression.AND(domain)
                     else:
                         domain = expression.OR(domain)
-            categories = self.search(expression.AND([domain, args]), limit=limit)
+            categories = self.search(
+                expression.AND([domain, args]), limit=limit
+            )
         else:
             categories = self.search(args, limit=limit)
         return categories.name_get()
@@ -171,7 +189,10 @@ class HotelRoomAmenitiesType(models.Model):
             domain = [("name", operator, child)]
             if parents:
                 names_ids = self.name_search(
-                    " / ".join(parents), args=args, operator="ilike", limit=limit
+                    " / ".join(parents),
+                    args=args,
+                    operator="ilike",
+                    limit=limit,
                 )
                 category_ids = [name_id[0] for name_id in names_ids]
                 if operator in expression.NEGATIVE_TERM_OPERATORS:
@@ -185,14 +206,22 @@ class HotelRoomAmenitiesType(models.Model):
                     )
                 for i in range(1, len(category_names)):
                     domain = [
-                        [("name", operator, " / ".join(category_names[-1 - i :]))],
+                        [
+                            (
+                                "name",
+                                operator,
+                                " / ".join(category_names[-1 - i :]),
+                            )
+                        ],
                         domain,
                     ]
                     if operator in expression.NEGATIVE_TERM_OPERATORS:
                         domain = expression.AND(domain)
                     else:
                         domain = expression.OR(domain)
-            categories = self.search(expression.AND([domain, args]), limit=limit)
+            categories = self.search(
+                expression.AND([domain, args]), limit=limit
+            )
         else:
             categories = self.search(args, limit=limit)
         return categories.name_get()
@@ -246,7 +275,9 @@ class HotelRoom(models.Model):
     )
     max_adult = fields.Integer()
     max_child = fields.Integer()
-    categ_id = fields.Many2one("hotel.room.type", string="Room Category", required=True)
+    categ_id = fields.Many2one(
+        "hotel.room.type", string="Room Category", required=True
+    )
     room_amenities = fields.Many2many(
         "hotel.room.amenities",
         "temp_tab",
@@ -394,7 +425,9 @@ class HotelFolio(models.Model):
         """
         return super(HotelFolio, self).copy(default=default)
 
-    name = fields.Char("Folio Number", readonly=True, index=True, default="New")
+    name = fields.Char(
+        "Folio Number", readonly=True, index=True, default="New"
+    )
     order_id = fields.Many2one(
         "sale.order", "Order", delegate=True, required=True, ondelete="cascade"
     )
@@ -446,7 +479,9 @@ class HotelFolio(models.Model):
         help="Number of days which will automatically "
         "count from the check-in and check-out date. ",
     )
-    hotel_invoice_id = fields.Many2one("account.invoice", "Invoice", copy=False)
+    hotel_invoice_id = fields.Many2one(
+        "account.invoice", "Invoice", copy=False
+    )
     duration_dummy = fields.Float("Duration Dummy")
 
     @api.constrains("room_lines")
@@ -628,7 +663,9 @@ class HotelFolio(models.Model):
                 self.partner_invoice_id = partner_rec.id
                 self.partner_shipping_id = partner_rec.id
                 self.pricelist_id = partner_rec.property_product_pricelist.id
-                raise ValidationError(_("Not Any Order For  %s " % (partner_rec.name)))
+                raise ValidationError(
+                    _("No Order found for %s !") % partner_rec.name
+                )
             else:
                 self.partner_invoice_id = partner_rec.id
                 self.partner_shipping_id = partner_rec.id
@@ -644,14 +681,18 @@ class HotelFolio(models.Model):
         @param self: object pointer
         """
         room_lst = []
-        invoice_id = self.order_id.action_invoice_create(grouped=False, final=False)
+        invoice_id = self.order_id.action_invoice_create(
+            grouped=False, final=False
+        )
         for line in self:
             values = {"invoiced": True, "hotel_invoice_id": invoice_id}
             line.write(values)
             for rec in line.room_lines:
                 room_lst.append(rec.product_id)
             for room in room_lst:
-                room_rec = self.env["hotel.room"].search([("name", "=", room.name)])
+                room_rec = self.env["hotel.room"].search(
+                    [("name", "=", room.name)]
+                )
                 room_rec.write({"isroom": True})
         return invoice_id
 
@@ -723,7 +764,11 @@ class HotelFolio(models.Model):
         self.write({"state": "draft", "invoice_ids": [], "shipped": 0})
         sale_line_obj = self.env["sale.order.line"].browse(line_ids)
         sale_line_obj.write(
-            {"invoiced": False, "state": "draft", "invoice_lines": [(6, 0, [])]}
+            {
+                "invoiced": False,
+                "state": "draft",
+                "invoice_lines": [(6, 0, [])],
+            }
         )
         return True
 
@@ -760,7 +805,9 @@ class HotelFolioLine(models.Model):
         delegate=True,
         ondelete="cascade",
     )
-    folio_id = fields.Many2one("hotel.folio", string="Folio", ondelete="cascade")
+    folio_id = fields.Many2one(
+        "hotel.folio", string="Folio", ondelete="cascade"
+    )
     checkin_date = fields.Datetime(
         string="Check In", required=True, default=_get_checkin_date
     )
@@ -823,7 +870,9 @@ class HotelFolioLine(models.Model):
             if line.order_line_id:
                 sale_unlink_obj = sale_line_obj.browse([line.order_line_id.id])
                 for rec in sale_unlink_obj:
-                    room_obj = self.env["hotel.room"].search([("name", "=", rec.name)])
+                    room_obj = self.env["hotel.room"].search(
+                        [("name", "=", rec.name)]
+                    )
                     if room_obj.id:
                         folio_arg = [
                             ("folio_id", "=", line.folio_id.id),
@@ -832,7 +881,9 @@ class HotelFolioLine(models.Model):
                         folio_room_line_myobj = fr_obj.search(folio_arg)
                         if folio_room_line_myobj.id:
                             folio_room_line_myobj.unlink()
-                            room_obj.write({"isroom": True, "status": "available"})
+                            room_obj.write(
+                                {"isroom": True, "status": "available"}
+                            )
                 sale_unlink_obj.unlink()
         return super(HotelFolioLine, self).unlink()
 
@@ -912,12 +963,24 @@ class HotelFolioLine(models.Model):
             for rm_line in room.room_line_ids:
                 if rm_line.status != "cancel":
                     if (
-                        self.checkin_date <= rm_line.check_in <= self.checkout_date
-                    ) or (self.checkin_date <= rm_line.check_out <= self.checkout_date):
+                        self.checkin_date
+                        <= rm_line.check_in
+                        <= self.checkout_date
+                    ) or (
+                        self.checkin_date
+                        <= rm_line.check_out
+                        <= self.checkout_date
+                    ):
                         assigned = True
                     elif (
-                        rm_line.check_in <= self.checkin_date <= rm_line.check_out
-                    ) or (rm_line.check_in <= self.checkout_date <= rm_line.check_out):
+                        rm_line.check_in
+                        <= self.checkin_date
+                        <= rm_line.check_out
+                    ) or (
+                        rm_line.check_in
+                        <= self.checkout_date
+                        <= rm_line.check_out
+                    ):
                         assigned = True
             if not assigned:
                 avail_prod_ids.append(room.product_id.id)
@@ -1051,7 +1114,9 @@ class HotelServiceLine(models.Model):
         if not self.ser_checkout_date:
             self.ser_checkout_date = time_a
         if self.ser_checkout_date < self.ser_checkin_date:
-            raise ValidationError(_("Checkout must be greater or equal checkin date"))
+            raise ValidationError(
+                _("Checkout must be greater or equal checkin date")
+            )
         if self.ser_checkin_date and self.ser_checkout_date:
             diffDate = self.ser_checkout_date - self.ser_checkin_date
             qty = diffDate.days + 1
@@ -1083,7 +1148,9 @@ class HotelServiceLine(models.Model):
         @param self: object pointer
         @param default: dict of default values to be set
         """
-        sale_line_obj = self.env["sale.order.line"].browse(self.service_line_id.id)
+        sale_line_obj = self.env["sale.order.line"].browse(
+            self.service_line_id.id
+        )
         return sale_line_obj.copy_data(default=default)
 
 
@@ -1094,7 +1161,9 @@ class HotelServiceType(models.Model):
 
     name = fields.Char("Service Name", size=64, required=True)
     service_id = fields.Many2one("hotel.service.type", "Service Category")
-    child_ids = fields.One2many("hotel.service.type", "service_id", "Child Categories")
+    child_ids = fields.One2many(
+        "hotel.service.type", "service_id", "Child Categories"
+    )
 
     @api.multi
     def name_get(self):
@@ -1120,7 +1189,10 @@ class HotelServiceType(models.Model):
             domain = [("name", operator, child)]
             if parents:
                 names_ids = self.name_search(
-                    " / ".join(parents), args=args, operator="ilike", limit=limit
+                    " / ".join(parents),
+                    args=args,
+                    operator="ilike",
+                    limit=limit,
                 )
                 category_ids = [name_id[0] for name_id in names_ids]
                 if operator in expression.NEGATIVE_TERM_OPERATORS:
@@ -1134,14 +1206,22 @@ class HotelServiceType(models.Model):
                     )
                 for i in range(1, len(category_names)):
                     domain = [
-                        [("name", operator, " / ".join(category_names[-1 - i :]))],
+                        [
+                            (
+                                "name",
+                                operator,
+                                " / ".join(category_names[-1 - i :]),
+                            )
+                        ],
                         domain,
                     ]
                     if operator in expression.NEGATIVE_TERM_OPERATORS:
                         domain = expression.AND(domain)
                     else:
                         domain = expression.OR(domain)
-            categories = self.search(expression.AND([domain, args]), limit=limit)
+            categories = self.search(
+                expression.AND([domain, args]), limit=limit
+            )
         else:
             categories = self.search(args, limit=limit)
         return categories.name_get()
@@ -1187,5 +1267,7 @@ class AccountInvoice(models.Model):
         res = super(AccountInvoice, self).create(vals)
         if self._context.get("folio_id"):
             folio = self.env["hotel.folio"].browse(self._context["folio_id"])
-            folio.write({"hotel_invoice_id": res.id, "invoice_status": "invoiced"})
+            folio.write(
+                {"hotel_invoice_id": res.id, "invoice_status": "invoiced"}
+            )
         return res
