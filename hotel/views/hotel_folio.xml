@@ -153,8 +153,7 @@
                                                        context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'hotel':parent.warehouse_id,'uom':product_uom}"/>
                                                 <field name="product_uom"/>
                                                 <field name="product_uom_qty"
-                                                       context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'hotel':parent.warehouse_id,'uom':product_uom}"
-                                                       invisible="1"/>
+                                                       context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'hotel':parent.warehouse_id,'uom':product_uom}"/>
                                             </group>
                                             <separator
                                                 string="Manual Description"
