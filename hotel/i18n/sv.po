@@ -410,7 +410,7 @@ msgid "Check if you want this product to appear in the Point of Sale"
 msgstr ""
 
 #. module: hotel
-#: code:addons/hotel/models/hotel.py:1445
+#: code:addons/hotel/models/hotel_service_line.py:279
 #, python-format
 msgid "Checkout must be greater or equal checkin date"
 msgstr ""
@@ -1611,7 +1611,7 @@ msgid "Next Activity Type"
 msgstr ""
 
 #. module: hotel
-#: code:addons/hotel/models/hotel.py:663
+#: code:addons/hotel/models/hotel_folio.py:395
 #, python-format
 msgid "Not Any Order For  %s "
 msgstr ""
@@ -1722,7 +1722,8 @@ msgid "Order Status"
 msgstr "Status"
 
 #. module: hotel
-#: code:addons/hotel/models/hotel.py:700 code:addons/hotel/models/hotel.py:713
+#: code:addons/hotel/models/hotel_folio.py:432
+#: code:addons/hotel/models/hotel_folio.py:445
 #, python-format
 msgid "Order id is not available"
 msgstr ""
@@ -1943,10 +1944,9 @@ msgstr "Produktkategori"
 #: model:ir.model.fields,help:hotel.field_res_company_additional_hours
 #, fuzzy
 msgid ""
-"Provide the min hours value for                                       check "
-"in, checkout days, whatever the                                       hours "
-"will be provided here based on                                       that "
-"extra days will be calculated."
+"Provide the min hours value for               check in, checkout days, "
+"whatever the               hours will be provided here based "
+"on               that extra days will be calculated."
 msgstr ""
 "Provide the min hours value for check in checkout days, whatever the hours "
 "will be provided here based on that extra days will be calculated."
@@ -2157,7 +2157,7 @@ msgid "Room amenities"
 msgstr ""
 
 #. module: hotel
-#: code:addons/hotel/models/hotel.py:296
+#: code:addons/hotel/models/hotel_room.py:56
 #, python-format
 msgid "Room capacity must be more than 0"
 msgstr ""
@@ -2175,7 +2175,7 @@ msgid "Room line"
 msgstr "Rum"
 
 #. module: hotel
-#: code:addons/hotel/models/hotel.py:840
+#: code:addons/hotel/models/hotel_folio_line.py:80
 #, fuzzy, python-format
 msgid ""
 "Room line Check In Date Should be                 less than the Check Out "
@@ -2183,7 +2183,7 @@ msgid ""
 msgstr "Check in Date Should be less than the Check Out Date!"
 
 #. module: hotel
-#: code:addons/hotel/models/hotel.py:848
+#: code:addons/hotel/models/hotel_folio_line.py:88
 #, python-format
 msgid ""
 "Room line check in date should be                 greater than the current "
@@ -2877,8 +2877,8 @@ msgid "Warehouse"
 msgstr ""
 
 #. module: hotel
-#: code:addons/hotel/models/hotel.py:1046
-#: code:addons/hotel/models/hotel.py:1403
+#: code:addons/hotel/models/hotel_folio_line.py:284
+#: code:addons/hotel/models/hotel_service_line.py:237
 #, python-format
 msgid "Warning for %s"
 msgstr ""
@@ -2929,7 +2929,7 @@ msgid ""
 msgstr ""
 
 #. module: hotel
-#: code:addons/hotel/models/hotel.py:490
+#: code:addons/hotel/models/hotel_folio.py:222
 #, fuzzy, python-format
 msgid "You Cannot Take Same Room Twice"
 msgstr "You can not allocate the same room twice!"
