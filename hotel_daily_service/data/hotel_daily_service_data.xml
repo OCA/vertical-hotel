@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo noupdate="1">
     <!-- hotel_services -->
+    <record id="hotel_service_type_daily" model="hotel.service.type">
+        <field name="name">Daily</field>
+    </record>
     <record id="hotel_service_breakfast" model="hotel.services">
         <field name="name">Breakfast</field>
         <field name="isservice">1</field>
-        <field name="categ_id" search="[('name', '=', 'Fixed')]"/>
+        <field name="categ_id" search="[('name', '=', 'Daily')]"/>
         <field name="list_price">20.00</field>
         <field name="available_in_pos">0</field>
     </record>
