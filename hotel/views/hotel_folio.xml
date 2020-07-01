@@ -185,6 +185,8 @@
                                 </form>
                                 <tree string="Service Line">
                                     <field name="name"/>
+                                    <field name="ser_checkin_date"/>
+                                    <field name="ser_checkout_date"/>
                                     <field name="product_id"/>
                                     <field name="product_uom_qty"/>
                                     <field name="price_unit"/>
