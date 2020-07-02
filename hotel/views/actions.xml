@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Action of hotel floor -->
+    <record id="open_hotel_floor_form_tree" model="ir.actions.act_window">
+        <field name="name">Floor</field>
+        <field name="res_model">hotel.floor</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <!-- Action for hotel room type -->
+    <record id="open_hotel_room_type_form_tree" model="ir.actions.act_window">
+        <field name="name">Room Type</field>
+        <field name="res_model">hotel.room.type</field>
+        <field name="context">{}</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <!-- Action for hotel room amenities type -->
+    <record
+        id="action_hotel_room_amenities_type_view_form"
+        model="ir.actions.act_window"
+    >
+        <field name="name">Amenities Type</field>
+        <field name="res_model">hotel.room.amenities.type</field>
+        <field name="context">{}</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <!-- Action for hotel room amenities -->
+    <record id="action_hotel_room_amenities_view_form" model="ir.actions.act_window">
+        <field name="name">Amenities</field>
+        <field name="res_model">hotel.room.amenities</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'default_iscategid':1,'default_available_in_pos':0}
+        </field>
+        <field name="view_id" ref="view_hotel_room_amenities_list" />
+    </record>
+    <!-- Action for hotel room -->
+    <record id="action_hotel_room_form" model="ir.actions.act_window">
+        <field name="name">Room</field>
+        <field name="res_model">hotel.room</field>
+        <field
+            name="context"
+        >{'default_isroom':1,'default_rental':1,'default_available_in_pos':0}
+        </field>
+        <field name="view_id" ref="view_hotel_room_tree" />
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
+    <!-- Action for hotel folio -->
+    <record id="open_hotel_folio1_form_tree_all" model="ir.actions.act_window">
+        <field name="name">Generate Folio</field>
+        <field name="res_model">hotel.folio</field>
+        <field name="view_mode">tree,form,calendar,graph</field>
+        <field name="context">{'folio': True}</field>
+    </record>
+    <!-- Action for hotel service type -->
+    <record id="open_hotel_service_type_form_tree" model="ir.actions.act_window">
+        <field name="name">Service Type</field>
+        <field name="res_model">hotel.service.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <!-- Action for hotel service -->
+    <record id="action_hotel_services_form" model="ir.actions.act_window">
+        <field name="name">Services</field>
+        <field name="res_model">hotel.services</field>
+        <field name="context">{'default_isservice':1,'default_available_in_pos':0}
+        </field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>
