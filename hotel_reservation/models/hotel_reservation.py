@@ -18,7 +18,6 @@ class HotelFolio(models.Model):
 
     reservation_id = fields.Many2one("hotel.reservation", "Reservation Id")
 
-    @api.multi
     def write(self, vals):
         context = dict(self._context)
         if not context:
@@ -26,9 +25,9 @@ class HotelFolio(models.Model):
         context.update({"from_reservation": True})
         res = super(HotelFolio, self).write(vals)
         reservation_line_obj = self.env["hotel.room.reservation.line"]
-        for folio_obj in self:
-            if folio_obj.reservation_id:
-                for reservation in folio_obj.reservation_id:
+        for folio in self:
+            if folio.reservation_id:
+                for reservation in folio.reservation_id:
                     reservation_obj = reservation_line_obj.search(
                         [("reservation_id", "=", reservation.id)]
                     )
@@ -38,8 +37,8 @@ class HotelFolio(models.Model):
                             for room_id in line_id:
                                 vals = {
                                     "room_id": room_id.id,
-                                    "check_in": folio_obj.checkin_date,
-                                    "check_out": folio_obj.checkout_date,
+                                    "check_in": folio.checkin_date,
+                                    "check_out": folio.checkout_date,
                                     "state": "assigned",
                                     "reservation_id": reservation.id,
                                 }
@@ -61,19 +60,11 @@ class HotelFolioLineExt(models.Model):
             assigned = False
             for line in room.room_reservation_line_ids:
                 if line.status != "cancel":
-                    if (
-                        self.checkin_date
-                        <= line.check_in
-                        <= self.checkout_date
-                    ) or (
-                        self.checkin_date
-                        <= line.check_out
-                        <= self.checkout_date
+                    if (self.checkin_date <= line.check_in <= self.checkout_date) or (
+                        self.checkin_date <= line.check_out <= self.checkout_date
                     ):
                         assigned = True
-                    elif (
-                        line.check_in <= self.checkin_date <= line.check_out
-                    ) or (
+                    elif (line.check_in <= self.checkin_date <= line.check_out) or (
                         line.check_in <= self.checkout_date <= line.check_out
                     ):
                         assigned = True
@@ -81,7 +72,6 @@ class HotelFolioLineExt(models.Model):
                 avail_prod_ids.append(room.product_id.id)
         return res
 
-    @api.multi
     def write(self, vals):
         """
         Overrides orm write method.
@@ -234,7 +224,6 @@ class HotelReservation(models.Model):
     )
     no_of_folio = fields.Integer("No. Folio", compute="_compute_folio_id")
 
-    @api.multi
     def _compute_folio_id(self):
         folio_list = []
         for res in self:
@@ -244,7 +233,6 @@ class HotelReservation(models.Model):
             res.no_of_folio = folio_len
         return folio_len
 
-    @api.multi
     def unlink(self):
         """
         Overrides orm unlink method.
@@ -254,13 +242,10 @@ class HotelReservation(models.Model):
         for reserv_rec in self:
             if reserv_rec.state != "draft":
                 raise ValidationError(
-                    _(
-                        "Sorry, you can only delete the reservation when it's draft!"
-                    )
+                    _("Sorry, you can only delete the reservation when it's draft!")
                 )
         return super(HotelReservation, self).unlink()
 
-    @api.multi
     def copy(self):
         ctx = dict(self._context) or {}
         ctx.update({"duplicate": True})
@@ -279,9 +264,7 @@ class HotelReservation(models.Model):
             cap = 0
             for rec in reservation.reservation_line:
                 if len(rec.reserve) == 0:
-                    raise ValidationError(
-                        _("Please Select Rooms For Reservation.")
-                    )
+                    raise ValidationError(_("Please Select Rooms For Reservation."))
                 for room in rec.reserve:
                     cap += room.capacity
             if not ctx.get("duplicate"):
@@ -338,9 +321,7 @@ class HotelReservation(models.Model):
             self.partner_shipping_id = False
             self.partner_order_id = False
         else:
-            addr = self.partner_id.address_get(
-                ["delivery", "invoice", "contact"]
-            )
+            addr = self.partner_id.address_get(["delivery", "invoice", "contact"])
             self.partner_invoice_id = addr["invoice"]
             self.partner_order_id = addr["contact"]
             self.partner_shipping_id = addr["delivery"]
@@ -360,14 +341,12 @@ class HotelReservation(models.Model):
         )
         return super(HotelReservation, self).create(vals)
 
-    @api.multi
     def check_overlap(self, date1, date2):
         date2 = datetime.strptime(date2, "%Y-%m-%d")
         date1 = datetime.strptime(date1, "%Y-%m-%d")
         delta = date2 - date1
         return {date1 + timedelta(days=i) for i in range(delta.days + 1)}
 
-    @api.multi
     def confirmed_reservation(self):
         """
         This method create a new record set for hotel room reservation line
@@ -441,9 +420,7 @@ class HotelReservation(models.Model):
                                     "state": "assigned",
                                     "reservation_id": reservation.id,
                                 }
-                                room_id.write(
-                                    {"isroom": False, "status": "occupied"}
-                                )
+                                room_id.write({"isroom": False, "status": "occupied"})
                         else:
                             self.state = "confirm"
                             vals = {
@@ -453,9 +430,7 @@ class HotelReservation(models.Model):
                                 "state": "assigned",
                                 "reservation_id": reservation.id,
                             }
-                            room_id.write(
-                                {"isroom": False, "status": "occupied"}
-                            )
+                            room_id.write({"isroom": False, "status": "occupied"})
                     else:
                         self.state = "confirm"
                         vals = {
@@ -469,7 +444,6 @@ class HotelReservation(models.Model):
                     reservation_line_obj.create(vals)
         return True
 
-    @api.multi
     def cancel_reservation(self):
         """
         This method cancel record set for hotel room reservation line
@@ -485,21 +459,15 @@ class HotelReservation(models.Model):
         )
         room_reservation_line.write({"state": "unassigned"})
         room_reservation_line.unlink()
-        reservation_lines = hotel_res_line_obj.search(
-            [("line_id", "in", self.ids)]
-        )
+        reservation_lines = hotel_res_line_obj.search([("line_id", "in", self.ids)])
         for reservation_line in reservation_lines:
-            reservation_line.reserve.write(
-                {"isroom": True, "status": "available"}
-            )
+            reservation_line.reserve.write({"isroom": True, "status": "available"})
         return True
 
-    @api.multi
     def set_to_draft_reservation(self):
         self.state = "draft"
         return True
 
-    @api.multi
     def action_send_reservation_mail(self):
         """
         This function opens a window to compose an email,
@@ -569,7 +537,6 @@ class HotelReservation(models.Model):
                 template_rec.send_mail(reserv_rec.id, force_send=True)
         return True
 
-    @api.multi
     def create_folio(self):
         """
         This method is for create new hotel folio.
@@ -591,9 +558,7 @@ class HotelReservation(models.Model):
                     )
                 )
             duration_vals = self.onchange_check_dates(
-                checkin_date=checkin_date,
-                checkout_date=checkout_date,
-                duration=False,
+                checkin_date=checkin_date, checkout_date=checkout_date, duration=False,
             )
             duration = duration_vals.get("duration") or 0.0
             folio_vals = {
@@ -641,7 +606,6 @@ class HotelReservation(models.Model):
             self.state = "done"
         return True
 
-    @api.multi
     def onchange_check_dates(
         self, checkin_date=False, checkout_date=False, duration=False
     ):
@@ -699,9 +663,7 @@ class HotelReservationLine(models.Model):
         @param self: object pointer
         """
         hotel_room_obj = self.env["hotel.room"]
-        hotel_room_ids = hotel_room_obj.search(
-            [("categ_id", "=", self.categ_id.id)]
-        )
+        hotel_room_ids = hotel_room_obj.search([("categ_id", "=", self.categ_id.id)])
         room_ids = []
         if not self.line_id.checkin:
             raise ValidationError(
@@ -716,21 +678,13 @@ class HotelReservationLine(models.Model):
             for line in room.room_reservation_line_ids:
                 if line.status != "cancel":
                     if (
-                        self.line_id.checkin
-                        <= line.check_in
-                        <= self.line_id.checkout
+                        self.line_id.checkin <= line.check_in <= self.line_id.checkout
                     ) or (
-                        self.line_id.checkin
-                        <= line.check_out
-                        <= self.line_id.checkout
+                        self.line_id.checkin <= line.check_out <= self.line_id.checkout
                     ):
                         assigned = True
-                    elif (
-                        line.check_in <= self.line_id.checkin <= line.check_out
-                    ) or (
-                        line.check_in
-                        <= self.line_id.checkout
-                        <= line.check_out
+                    elif (line.check_in <= self.line_id.checkin <= line.check_out) or (
+                        line.check_in <= self.line_id.checkout <= line.check_out
                     ):
                         assigned = True
             for rm_line in room.room_line_ids:
@@ -746,13 +700,9 @@ class HotelReservationLine(models.Model):
                     ):
                         assigned = True
                     elif (
-                        rm_line.check_in
-                        <= self.line_id.checkin
-                        <= rm_line.check_out
+                        rm_line.check_in <= self.line_id.checkin <= rm_line.check_out
                     ) or (
-                        rm_line.check_in
-                        <= self.line_id.checkout
-                        <= rm_line.check_out
+                        rm_line.check_in <= self.line_id.checkout <= rm_line.check_out
                     ):
                         assigned = True
             if not assigned:
@@ -760,7 +710,6 @@ class HotelReservationLine(models.Model):
         domain = {"reserve": [("id", "in", room_ids)]}
         return {"domain": domain}
 
-    @api.multi
     def unlink(self):
         """
         Overrides orm unlink method.
@@ -806,7 +755,6 @@ class HotelRoom(models.Model):
         "hotel.room.reservation.line", "room_id", string="Room Reserve Line"
     )
 
-    @api.multi
     def unlink(self):
         """
         Overrides orm unlink method.
@@ -905,25 +853,17 @@ class RoomReservationSummary(models.Model):
 
         if not self.date_from and self.date_to:
             date_today = datetime.datetime.today()
-            first_day = datetime.datetime(
-                date_today.year, date_today.month, 1, 0, 0, 0
-            )
+            first_day = datetime.datetime(date_today.year, date_today.month, 1, 0, 0, 0)
             first_temp_day = first_day + relativedelta(months=1)
             last_temp_day = first_temp_day - relativedelta(days=1)
             last_day = datetime.datetime(
-                last_temp_day.year,
-                last_temp_day.month,
-                last_temp_day.day,
-                23,
-                59,
-                59,
+                last_temp_day.year, last_temp_day.month, last_temp_day.day, 23, 59, 59,
             )
             date_froms = first_day.strftime(dt)
             date_ends = last_day.strftime(dt)
             res.update({"date_from": date_froms, "date_to": date_ends})
         return res
 
-    @api.multi
     def room_reservation(self):
         """
         @param self: object pointer
@@ -981,9 +921,7 @@ class RoomReservationSummary(models.Model):
                 .astimezone(timezone)
             )
             d_to_obj = (
-                (self.date_to)
-                .replace(tzinfo=pytz.timezone("UTC"))
-                .astimezone(timezone)
+                (self.date_to).replace(tzinfo=pytz.timezone("UTC")).astimezone(timezone)
             )
             temp_date = d_frm_obj
             while temp_date <= d_to_obj:
@@ -1005,17 +943,10 @@ class RoomReservationSummary(models.Model):
                 room_detail = {}
                 room_list_stats = []
                 room_detail.update({"name": room.name or ""})
-                if (
-                    not room.room_reservation_line_ids
-                    and not room.room_line_ids
-                ):
+                if not room.room_reservation_line_ids and not room.room_line_ids:
                     for chk_date in date_range_list:
                         room_list_stats.append(
-                            {
-                                "state": "Free",
-                                "date": chk_date,
-                                "room_id": room.id,
-                            }
+                            {"state": "Free", "date": chk_date, "room_id": room.id,}
                         )
                 else:
                     for chk_date in date_range_list:
@@ -1117,11 +1048,7 @@ class RoomReservationSummary(models.Model):
                             )
                         else:
                             room_list_stats.append(
-                                {
-                                    "state": "Free",
-                                    "date": chk_date,
-                                    "room_id": room.id,
-                                }
+                                {"state": "Free", "date": chk_date, "room_id": room.id,}
                             )
 
                 room_detail.update({"value": room_list_stats})
@@ -1136,9 +1063,7 @@ class QuickRoomReservation(models.TransientModel):
     _name = "quick.room.reservation"
     _description = "Quick Room Reservation"
 
-    partner_id = fields.Many2one(
-        "res.partner", string="Customer", required=True
-    )
+    partner_id = fields.Many2one("res.partner", string="Customer", required=True)
     check_in = fields.Datetime("Check In", required=True)
     check_out = fields.Datetime("Check Out", required=True)
     room_id = fields.Many2one("hotel.room", "Room", required=True)
@@ -1147,9 +1072,7 @@ class QuickRoomReservation(models.TransientModel):
     partner_invoice_id = fields.Many2one(
         "res.partner", "Invoice Address", required=True
     )
-    partner_order_id = fields.Many2one(
-        "res.partner", "Ordering Contact", required=True
-    )
+    partner_order_id = fields.Many2one("res.partner", "Ordering Contact", required=True)
     partner_shipping_id = fields.Many2one(
         "res.partner", "Delivery Address", required=True
     )
@@ -1187,9 +1110,7 @@ class QuickRoomReservation(models.TransientModel):
             self.partner_shipping_id = False
             self.partner_order_id = False
         else:
-            addr = self.partner_id.address_get(
-                ["delivery", "invoice", "contact"]
-            )
+            addr = self.partner_id.address_get(["delivery", "invoice", "contact"])
             self.partner_invoice_id = addr["invoice"]
             self.partner_order_id = addr["contact"]
             self.partner_shipping_id = addr["delivery"]
@@ -1215,7 +1136,6 @@ class QuickRoomReservation(models.TransientModel):
                 res.update({"room_id": int(roomid)})
         return res
 
-    @api.multi
     def room_reserve(self):
         """
         This method create a new record for hotel.reservation
@@ -1242,9 +1162,7 @@ class QuickRoomReservation(models.TransientModel):
                             0,
                             {
                                 "reserve": [(6, 0, [res.room_id.id])],
-                                "name": (
-                                    res.room_id and res.room_id.name or ""
-                                ),
+                                "name": (res.room_id and res.room_id.name or ""),
                             },
                         )
                     ],

@@ -10,49 +10,45 @@ class HotelReservationWizard(models.TransientModel):
     date_start = fields.Datetime("Start Date", required=True)
     date_end = fields.Datetime("End Date", required=True)
 
-    @api.multi
     def report_reservation_detail(self):
         data = {
             "ids": self.ids,
             "model": "hotel.reservation",
             "form": self.read(["date_start", "date_end"])[0],
         }
-        return self.env.ref(
-            "hotel_reservation.hotel_roomres_details"
-        ).report_action(self, data=data)
+        return self.env.ref("hotel_reservation.hotel_roomres_details").report_action(
+            self, data=data
+        )
 
-    @api.multi
     def report_checkin_detail(self):
         data = {
             "ids": self.ids,
             "model": "hotel.reservation",
             "form": self.read(["date_start", "date_end"])[0],
         }
-        return self.env.ref(
-            "hotel_reservation.hotel_checkin_details"
-        ).report_action(self, data=data)
+        return self.env.ref("hotel_reservation.hotel_checkin_details").report_action(
+            self, data=data
+        )
 
-    @api.multi
     def report_checkout_detail(self):
         data = {
             "ids": self.ids,
             "model": "hotel.reservation",
             "form": self.read(["date_start", "date_end"])[0],
         }
-        return self.env.ref(
-            "hotel_reservation.hotel_checkout_details"
-        ).report_action(self, data=data)
+        return self.env.ref("hotel_reservation.hotel_checkout_details").report_action(
+            self, data=data
+        )
 
-    @api.multi
     def report_maxroom_detail(self):
         data = {
             "ids": self.ids,
             "model": "hotel.reservation",
             "form": self.read(["date_start", "date_end"])[0],
         }
-        return self.env.ref(
-            "hotel_reservation.hotel_maxroom_details"
-        ).report_action(self, data=data)
+        return self.env.ref("hotel_reservation.hotel_maxroom_details").report_action(
+            self, data=data
+        )
 
 
 class MakeFolioWizard(models.TransientModel):
@@ -61,7 +57,6 @@ class MakeFolioWizard(models.TransientModel):
 
     grouped = fields.Boolean("Group the Folios")
 
-    @api.multi
     def makeFolios(self):
         order_obj = self.env["hotel.reservation"]
         newinv = []
