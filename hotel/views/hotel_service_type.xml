@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--============ Hotel Service Type ============ -->
+    <!-- Form view of hotel service type -->
+    <record id="view_hotel_service_type_form" model="ir.ui.view">
+        <field name="name">hotel.service_type.form</field>
+        <field name="model">hotel.service.type</field>
+        <field name="arch" type="xml">
+            <form string="Service Type">
+                <sheet>
+                    <group>
+                        <field name="name" string="Service Name" />
+                        <field name="service_id" />
+                        <field name="child_ids" invisible="1" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Tree view of hotel service type -->
+    <record id="view_hotel_service_type_tree" model="ir.ui.view">
+        <field name="name">hotel.service_type.tree</field>
+        <field name="model">hotel.service.type</field>
+        <field name="arch" type="xml">
+            <tree string="Service Type">
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+</odoo>
