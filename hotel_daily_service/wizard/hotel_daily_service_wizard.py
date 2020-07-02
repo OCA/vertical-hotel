@@ -1,24 +1,11 @@
-import logging
 from datetime import timedelta
 
 from odoo import api, fields, models
-
-_logger = logging.getLogger(__name__)
-
-try:
-    from dateutil import parser
-except (ImportError, IOError) as err:
-    _logger.debug(err)
 
 
 class HotelDailyServiceLineWizard(models.TransientModel):
     _name = "hotel.daily.service.line.wizard"
     _description = "Hotel Daily Service Line"
-
-    @api.model
-    def _default_hotel_service_id(self):
-        breakfast = self.env.ref("hotel_daily_service.hotel_service_breakfast")
-        return breakfast
 
     hotel_folio_id = fields.Many2one(
         comodel_name="hotel.folio", string="Folio"
@@ -26,7 +13,9 @@ class HotelDailyServiceLineWizard(models.TransientModel):
     hotel_service_id = fields.Many2one(
         comodel_name="hotel.services",
         string="Service",
-        default=_default_hotel_service_id,
+        default=lambda self: self.env.ref(
+            "hotel_daily_service.hotel_service_breakfast"
+        ),
     )
     hotel_service_line_ids = fields.Many2many(
         comodel_name="hotel.service.line",
@@ -38,9 +27,7 @@ class HotelDailyServiceLineWizard(models.TransientModel):
     @api.model
     def default_get(self, field_names):
         defaults = super().default_get(field_names)
-        defaults["hotel_folio_id"] = (
-            self.env["hotel.folio"].browse(self.env.context["active_id"]).id
-        )
+        defaults["hotel_folio_id"] = self.env.context["active_id"]
         return defaults
 
     @api.onchange("quantity")
@@ -51,10 +38,14 @@ class HotelDailyServiceLineWizard(models.TransientModel):
     @api.onchange("hotel_service_id")
     def onchange_hotel_service_id(self):
         self.hotel_service_line_ids = [(5, 0, 0)]
-        checkin_date = parser.parse(self.hotel_folio_id.checkin_date).date()
-        checkout_date = parser.parse(self.hotel_folio_id.checkout_date).date()
+        checkin_date = fields.Datetime.from_string(
+            self.hotel_folio_id.checkin_date
+        )
+        checkout_date = fields.Datetime.from_string(
+            self.hotel_folio_id.checkout_date
+        )
         for date in [
-            checkin_date + timedelta(n)
+            checkin_date + timedelta(days=n)
             for n in range(int((checkout_date - checkin_date).days) + 1)
         ]:
             service_line = self.env["hotel.service.line"].create(
