@@ -125,6 +125,7 @@ class HotelReservation(models.Model):
     )
     no_of_folio = fields.Integer("Folio", compute="_compute_folio_id")
     dummy = fields.Datetime("Dummy")
+    note = fields.Text(String="Note")
 
     @api.multi
     def _compute_folio_id(self):

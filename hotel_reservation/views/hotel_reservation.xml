@@ -61,6 +61,9 @@
                             <field name="adults" required="1"/>
                             <field name="children"/>
                         </group>
+                        <group>
+                            <field name="note"/>
+                        </group>
                         <field name="dummy" invisible="True"/>
                     </group>
                     <notebook>
@@ -78,9 +81,12 @@
                                            string="Room Number"
                                            nolabel="1"/>
                                 </form>
-                                <tree string="Reservation Line">
+                                <tree string="Reservation Line" editable="bottom">
                                     <field name="reserve" string="Rooms"
                                            widget="many2many_tags"/>
+                                    <field name="categ_id" invisible="1"/>
+                                    <field name="open"/>
+                                    <field name="note"/>
                                 </tree>
                             </field>
                         </page>

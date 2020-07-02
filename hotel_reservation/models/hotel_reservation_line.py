@@ -17,6 +17,10 @@ class HotelReservationLine(models.Model):
                                ('categ_id','=',categ_id)]",
     )
     categ_id = fields.Many2one("hotel.room.type", "Room Type")
+    note = fields.Text(String="Note")
+    open = fields.Boolean(
+        String="Open", help="Should the room be opened for arriving guest."
+    )
 
     @api.onchange("categ_id")
     def on_change_categ(self):
