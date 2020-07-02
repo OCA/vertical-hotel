@@ -23,12 +23,12 @@
                 </group>
                 <footer>
                     <button type="object"
-                    name="add_daily_service_line"
-                    string="Add Daily Service Lines"
-                    class="oe_highlight"/>
+                            name="add_daily_service_line"
+                            string="Add Daily Service Lines"
+                            class="oe_highlight"/>
                     <button special="cancel"
-                    string="Cancel"
-                    class="btn-secondary"/>
+                            string="Cancel"
+                            class="btn-secondary"/>
                 </footer>
             </form>
         </field>
