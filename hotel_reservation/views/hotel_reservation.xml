@@ -60,6 +60,7 @@
                             <field name="checkout"/>
                             <field name="adults" required="1"/>
                             <field name="children"/>
+                            <field name="open"/>
                         </group>
                         <group>
                             <field name="note"/>
@@ -81,12 +82,9 @@
                                            string="Room Number"
                                            nolabel="1"/>
                                 </form>
-                                <tree string="Reservation Line" editable="bottom">
+                                <tree string="Reservation Line">
                                     <field name="reserve" string="Rooms"
                                            widget="many2many_tags"/>
-                                    <field name="categ_id" invisible="1"/>
-                                    <field name="open"/>
-                                    <field name="note"/>
                                 </tree>
                             </field>
                         </page>

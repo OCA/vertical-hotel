@@ -125,7 +125,11 @@ class HotelReservation(models.Model):
     )
     no_of_folio = fields.Integer("Folio", compute="_compute_folio_id")
     dummy = fields.Datetime("Dummy")
-    note = fields.Text(String="Note")
+    open = fields.Boolean(
+        string="Open Rooms",
+        help="Should the rooms be opened for arriving guest.",
+    )
+    note = fields.Text(string="Note")
 
     @api.multi
     def _compute_folio_id(self):
