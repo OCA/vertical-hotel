@@ -21,35 +21,47 @@
                             <span t-esc="data['date_end']"/>
                         </div>
                     </div>
-                    <table class="table table-condensed">
+                    <table class="table table-condensed" width="100%">
                         <tr>
-                            <td>
+                            <td width="10%">
                                 <strong>#No</strong>
                             </td>
-                            <td>
+                            <td width="20%">
                                 <strong>Guest Name</strong>
                             </td>
-                            <td>
+                            <td width="10%">
                                 <strong>Check-In Date</strong>
                             </td>
-                            <td>
+                            <td width="10%">
+                                <strong>Adults</strong>
+                            </td>
+                            <td width="10%">
                                 <strong>Room Type</strong>
                             </td>
-                            <td>
+                            <td width="10%">
                                 <strong>Room No</strong>
+                            </td>
+                            <td width="10%">
+                                <strong>Open Rooms</strong>
+                            </td>
+                            <td width="20%">
+                                <strong>Note</strong>
                             </td>
                         </tr>
                         <tr t-foreach="get_checkin" t-as="info">
-                            <td>
+                            <td width="10%">
                                 <span t-field="info.reservation_no"/>
                             </td>
-                            <td>
+                            <td width="20%">
                                 <span t-field="info.partner_id.name"/>
                             </td>
-                            <td>
-                                <span t-field="info.checkin"/>
+                            <td width="10%">
+                                <span t-field="info.checkin" t-options='{"format": "YYYY-MM-dd"}'/>
                             </td>
-                            <td>
+                            <td width="10%">
+                                <span t-field="info.adults"/>
+                            </td>
+                            <td width="10%">
                                 <table t-foreach="info.reservation_line" t-as="line">
                                     <tr>
                                         <td>
@@ -58,7 +70,7 @@
                                     </tr>
                                 </table>
                             </td>
-                            <td>
+                            <td width="10%">
                                 <table t-foreach="info.reservation_line" t-as="line">
                                     <tr t-foreach="line.reserve" t-as="o">
                                         <td>
@@ -67,6 +79,12 @@
                                     </tr>
 
                                 </table>
+                            </td>
+                            <td width="10%">
+                                <span t-field="info.open"/>
+                            </td>
+                            <td width="20%">
+                                <span t-field="info.note"/>
                             </td>
 
                         </tr>
