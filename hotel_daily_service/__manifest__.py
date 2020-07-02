@@ -10,10 +10,7 @@
     "category": "Generic Modules/Hotel Housekeeping",
     "external_dependencies": {"python": ["dateutil"]},
     "depends": ["hotel"],
-    "data": [
-        "data/hotel_daily_service_data.xml",
-        "wizard/hotel_daily_service_wizard.xml",
-        "views/hotel_folio.xml",
-    ],
+    "demo": ["demo/hotel_daily_service_demo.xml"],
+    "data": ["wizard/hotel_daily_service_wizard.xml", "views/hotel_folio.xml"],
     "installable": True,
 }

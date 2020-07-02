@@ -1,11 +1,19 @@
 from datetime import timedelta
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class HotelDailyServiceLineWizard(models.TransientModel):
     _name = "hotel.daily.service.line.wizard"
     _description = "Hotel Daily Service Line"
+
+    @api.model
+    def _default_hotel_service_id(self):
+        rec = self.env["hotel.services"].search([], limit=1)
+        if not rec:
+            raise ValidationError(_("Please define a service first."))
+        return rec
 
     hotel_folio_id = fields.Many2one(
         comodel_name="hotel.folio", string="Folio"
@@ -13,9 +21,7 @@ class HotelDailyServiceLineWizard(models.TransientModel):
     hotel_service_id = fields.Many2one(
         comodel_name="hotel.services",
         string="Service",
-        default=lambda self: self.env.ref(
-            "hotel_daily_service.hotel_service_breakfast"
-        ),
+        default=_default_hotel_service_id,
     )
     hotel_service_line_ids = fields.Many2many(
         comodel_name="hotel.service.line",
