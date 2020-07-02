@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <menuitem id="hotel_management_menu" name="Hotel Management" />
+    <menuitem
+        id="hotel_configuration_menu"
+        name="Configuration"
+        sequence="20"
+        parent="hotel_management_menu"
+    />
+    <menuitem
+        id="hotel_report_menu"
+        name="Pdf Reports"
+        sequence="6"
+        parent="hotel_management_menu"
+    />
+    <menuitem
+        id="menu_open_hotel_floor_form_tree"
+        name="Floor"
+        action="open_hotel_floor_form_tree"
+        sequence="21"
+        parent="hotel_configuration_menu"
+    />
+    <menuitem
+        id="menu_hotel_room"
+        name="Room"
+        parent="hotel.hotel_configuration_menu"
+        sequence="2"
+    />
+    <menuitem
+        id="menu_open_hotel_room_type_form_tree"
+        name="Room Types"
+        action="open_hotel_room_type_form_tree"
+        sequence="6"
+        parent="hotel.menu_hotel_room"
+    />
+    <menuitem
+        id="menu_amenity"
+        name="Amenity"
+        parent="hotel.hotel_configuration_menu"
+        sequence="2"
+    />
+    <menuitem
+        name="Amenity Types"
+        id="menu_action_hotel_room_amenities_type_view_form"
+        action="action_hotel_room_amenities_type_view_form"
+        sequence="3"
+        parent="hotel.menu_amenity"
+    />
+    <menuitem
+        id="menu_action_hotel_room_amenities_view_form"
+        name="Amenities"
+        action="action_hotel_room_amenities_view_form"
+        sequence="2"
+        parent="hotel.menu_amenity"
+    />
+    <menuitem
+        id="menu_open_hotel_room_form"
+        name="Rooms"
+        action="action_hotel_room_form"
+        sequence="5"
+        parent="hotel.menu_hotel_room"
+    />
+    <menuitem
+        id="menu_all_folio"
+        name="Folio"
+        parent="hotel.hotel_management_menu"
+        sequence="4"
+    />
+    <menuitem
+        name="Generate Folio"
+        id="menu_open_hotel_folio1_form_tree_all"
+        action="open_hotel_folio1_form_tree_all"
+        sequence="5"
+        parent="menu_all_folio"
+    />
+    <menuitem
+        id="menu_hotel_service"
+        name="Services"
+        parent="hotel.hotel_configuration_menu"
+        sequence="2"
+    />
+    <menuitem
+        name="Service Types"
+        id="menu_open_hotel_service_type_form_tree"
+        action="open_hotel_service_type_form_tree"
+        sequence="9"
+        parent="hotel.menu_hotel_service"
+    />
+    <menuitem
+        id="menu_open_hotel_services_form"
+        name="Services"
+        action="action_hotel_services_form"
+        sequence="8"
+        parent="hotel.menu_hotel_service"
+    />
+</odoo>

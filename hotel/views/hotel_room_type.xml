@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--======= Room Type ======= -->
+    <!-- Form view of hotel room type -->
+    <record id="view_hotel_room_type_form" model="ir.ui.view">
+        <field name="name">hotel.room_type.form</field>
+        <field name="model">hotel.room.type</field>
+        <field name="arch" type="xml">
+            <form string=" Hotel Room Type">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="categ_id" select="1" />
+                        <field name="child_ids" invisible="1" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Tree view of hotel room type -->
+    <record id="view_hotel_room_type_tree" model="ir.ui.view">
+        <field name="name">hotel.room_type.tree</field>
+        <field name="model">hotel.room.type</field>
+        <field name="arch" type="xml">
+            <tree string="Hotel Room Type">
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+</odoo>

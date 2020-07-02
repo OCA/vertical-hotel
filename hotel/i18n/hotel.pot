@@ -3184,4 +3184,3 @@ msgstr ""
 #: model:ir.model.fields,help:hotel.field_hotel_folio__amount_by_group
 msgid "type: [(name, amount, base, formated amount, formated base)]"
 msgstr ""
-
