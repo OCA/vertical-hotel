@@ -75,7 +75,7 @@ class TestReservation(common.TransactionCase):
         )
 
         self.hotel_room_reserv = self.hotel_room_reserv_obj.create(
-            {"room_id": self.room.id, "check_in": cur_date, "check_out": cur_date,}
+            {"room_id": self.room.id, "check_in": cur_date, "check_out": cur_date}
         )
 
         self.hotel_room = self.hotel_room_obj.create(
@@ -85,7 +85,7 @@ class TestReservation(common.TransactionCase):
                 "max_adult": 2,
                 "max_child": 1,
                 "capacity": 4,
-                "categ_id": self.room_type.categ_id.id,
+                "room_categ_id": self.room_type.categ_id.id,
                 "status": "available",
                 "product_manager": self.manager.id,
                 "room_reservation_line_ids": [(6, 0, [self.hotel_room_reserv.id])],

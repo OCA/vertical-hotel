@@ -1,5 +1,4 @@
 <odoo noupdate="0">
-
     <!-- Email Template For Hotel Reservation -->
     <record id="email_template_hotel_reservation" model="mail.template">
         <field name="name">Reservation-Send by Email</field>
@@ -7,10 +6,10 @@
         </field>
         <field name="subject">Hotel Reservation Detail</field>
         <field name="partner_to">${object.partner_id.id}</field>
-        <field name="model_id" ref="hotel_reservation.model_hotel_reservation"/>
-        <field name="auto_delete" eval="True"/>
+        <field name="model_id" ref="hotel_reservation.model_hotel_reservation" />
+        <field name="auto_delete" eval="True" />
         <field name="lang">${object.partner_id.lang}</field>
-        <field name="user_signature" eval="False"/>
+        <field name="user_signature" eval="False" />
         <field name="body_html" type="html">
             <div style="margin: 0px; padding: 0px;">
                 <p style="margin: 0px; padding: 0px; font-size: 13px;">
@@ -34,33 +33,32 @@
                         </strong> are listed below:
                     </p>
                     <strong>Details :</strong>
-                    <br/>
+                    <br />
                     <p style="border-left: 1px solid #8e0000; margin-left: 30px;">
                         Name Of Guest :
                         <strong>${object.partner_id.name}</strong>
-                        <br/>
+                        <br />
                         Date Of Arrival :
                         <strong>
                             ${format_tz(object.checkin,tz=user.tz, format='%Y-%m-%d %H:%M:%S')}
                         </strong>
-                        <br/>
+                        <br />
                         Date Of Departure :
                         <strong>
                             ${format_tz(object.checkout,tz=user.tz, format='%Y-%m-%d %H:%M:%S')}
                         </strong>
-                        <br/>
+                        <br />
                         Reservation Number :
                         <strong>${object.reservation_no}</strong>
-                        <br/>
+                        <br />
                         Number Of Persons : <strong>${object.adults}</strong> Adults
                         and <strong>${object.children}</strong> Childrens
-                        <br/>
+                        <br />
                     </p>
                     <strong>Rooms Rates Per Night :</strong>
-                    <br/>
-                    <br/>
-                    <table border="1" cellpadding="4"
-                           style="margin-left: 30px;">
+                    <br />
+                    <br />
+                    <table border="1" cellpadding="4" style="margin-left: 30px;">
                         <tr>
                             <th>Room No</th>
                             <th>Amount</th>
@@ -74,7 +72,7 @@
                         %endfor
                         %endfor
                     </table>
-                    <br/>
+                    <br />
                     <p>We would appreciate it if you could let us know in case
                         there are any changes in your schedule or program.
                         In case you require check-in facilities at an earlier
@@ -85,38 +83,37 @@
                         hours before the day of the check-in. We look forward
                         to providing you quality services at our hotel.
                     </p>
-                    <br/>
+                    <br />
                     <strong>Kind Regards</strong>,
-                    <br/>
-                    <br/>
+                    <br />
+                    <br />
                     <strong>Reservations Team</strong>
-                    <br/>
+                    <br />
                     [<strong>${object.warehouse_id.name} Hotel</strong>]
-                    <br/>
+                    <br />
                     % if object.warehouse_id.partner_id.street:
                     <strong>${object.warehouse_id.partner_id.street}</strong>
-                    <br/>
+                    <br />
                     % endif
                     % if object.warehouse_id.partner_id.city:
                     <strong>${object.warehouse_id.partner_id.city}</strong>,
-                    <br/>
+                    <br />
                     % endif
                     % if object.warehouse_id.partner_id.country_id.name:
                     <strong>
                         ${object.warehouse_id.partner_id.country_id.name}</strong>
                     ,
-                    <br/>
+                    <br />
                     % endif
-                    <br/>
+                    <br />
                     % if object.warehouse_id.partner_id.website:
                     <strong>${object.warehouse_id.partner_id.website}</strong>
-                    <br/>
+                    <br />
                     % endif
                 </p>
             </div>
         </field>
     </record>
-
     <!-- Email Template For Hotel Reservation Reminder Before 24 Hours -->
     <record id="mail_template_reservation_reminder_24hrs" model="mail.template">
         <field name="name">Reservation Reminder Before 24hrs</field>
@@ -124,10 +121,10 @@
         </field>
         <field name="subject">Hotel Reservation Reminder</field>
         <field name="partner_to">${object.partner_id.id or ''}</field>
-        <field name="model_id" ref="hotel_reservation.model_hotel_reservation"/>
-        <field name="auto_delete" eval="True"/>
+        <field name="model_id" ref="hotel_reservation.model_hotel_reservation" />
+        <field name="auto_delete" eval="True" />
         <field name="lang">${object.partner_id.lang}</field>
-        <field name="user_signature" eval="False"/>
+        <field name="user_signature" eval="False" />
         <field name="body_html" type="html">
             <div style="margin: 0px; padding: 0px;">
                 <p style="margin: 0px; padding: 0px; font-size: 13px;">
@@ -155,33 +152,32 @@
                         Please find all the details regarding to the reservation
                         as listed below:
                     </p>
-                    <br/>
+                    <br />
                     <strong>Details :</strong>
-                    <br/>
+                    <br />
                     <p style="border-left: 1px solid #8e0000; margin-left: 30px;">
                         &amp;nbsp;&amp;nbsp;Name Of Guest :
                         <strong>${object.partner_id.name}</strong>
-                        <br/>
+                        <br />
                         &amp;nbsp;&amp;nbsp;Date Of Arrival :
                         <strong>${object.checkin}</strong>
-                        <br/>
+                        <br />
                         &amp;nbsp;&amp;nbsp;Date Of Departure :
                         <strong>${object.checkout}</strong>
-                        <br/>
+                        <br />
                         &amp;nbsp;&amp;nbsp;Reservation Number :
                         <strong>${object.reservation_no}</strong>
-                        <br/>
+                        <br />
                         &amp;nbsp;&amp;nbsp;Number Of Persons : <strong>
                         ${object.adults}
                     </strong> Adults and <strong>${object.children}</strong> Childrens
-                        <br/>
+                        <br />
                     </p>
                     &amp;nbsp;&amp;nbsp;
                     <strong>Rooms Rates Per Night :</strong>
-                    <br/>
-                    <br/>
-                    <table border="1" cellpadding="4"
-                           style="margin-left: 30px;">
+                    <br />
+                    <br />
+                    <table border="1" cellpadding="4" style="margin-left: 30px;">
                         <tr>
                             <th>Room No</th>
                             <th>Amount</th>
@@ -195,7 +191,7 @@
                         %endfor
                         %endfor
                     </table>
-                    <br/>
+                    <br />
                     <p>We would appreciate it if you could let us know in case
                         there are any changes in your schedule or program.
                         Please inform us immediately, so that we can refund your
@@ -204,36 +200,35 @@
                         satisfactory. We look forward to providing you quality
                         services at our hotel.
                     </p>
-                    <br/>
+                    <br />
                     <strong>Best Regards</strong>,
-                    <br/>
-                    <br/>
+                    <br />
+                    <br />
                     <strong>Reservations Team</strong>
-                    <br/>
+                    <br />
                     [<strong>${object.warehouse_id.name} Hotel</strong>]
-                    <br/>
+                    <br />
                     % if object.warehouse_id.partner_id.street:
                     <strong>${object.warehouse_id.partner_id.street}</strong>
-                    <br/>
+                    <br />
                     % endif
                     % if object.warehouse_id.partner_id.city:
                     <strong>${object.warehouse_id.partner_id.city}</strong>,
-                    <br/>
+                    <br />
                     % endif
                     % if object.warehouse_id.partner_id.country_id.name:
                     <strong>
                         ${object.warehouse_id.partner_id.country_id.name}</strong>
                     ,
-                    <br/>
+                    <br />
                     % endif
-                    <br/>
+                    <br />
                     % if object.warehouse_id.partner_id.website:
                     <strong>${object.warehouse_id.partner_id.website}</strong>
-                    <br/>
+                    <br />
                     % endif
                 </p>
             </div>
         </field>
     </record>
-
 </odoo>

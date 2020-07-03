@@ -1,13 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <!--Template for Hotel Reservation -->
     <template id="report_checkout_qweb">
         <t t-call="web.html_container">
             <t t-call="web.external_layout">
                 <div class="page">
-                    <br/>
-                    <br/>
+                    <br />
+                    <br />
                     <div class="mt32 mb32">
                         <center>
                             <h2>
@@ -18,9 +17,9 @@
                     <div class="mt32 mb32">
                         <div class="text-center">
                             <strong>From:</strong>
-                            <span t-esc="data['date_start']"/>
+                            <span t-esc="data['date_start']" />
                             <strong>To:</strong>
-                            <span t-esc="data['date_end']"/>
+                            <span t-esc="data['date_end']" />
                         </div>
                     </div>
                     <table class="table table-condensed table-sm">
@@ -43,44 +42,44 @@
                         </tr>
                         <tr t-foreach="get_checkout" t-as="info">
                             <td>
-                                <span t-field="info.reservation_no"/>
+                                <span t-field="info.reservation_no" />
                             </td>
                             <td>
-                                <span t-field="info.partner_id.name"/>
+                                <span t-field="info.partner_id.name" />
                             </td>
                             <td>
-                                <span t-field="info.checkout"/>
+                                <span t-field="info.checkout" />
                             </td>
                             <td>
-                                <table class="table-borderless"
-                                       t-foreach="info.reservation_line"
-                                       t-as="line">
+                                <table
+                                    class="table-borderless"
+                                    t-foreach="info.reservation_line"
+                                    t-as="line"
+                                >
                                     <tr>
                                         <td>
-                                            <span t-field="line.categ_id.name"/>
+                                            <span t-field="line.categ_id.name" />
                                         </td>
                                     </tr>
-
                                 </table>
                             </td>
                             <td>
-                                <table class="table-borderless"
-                                       t-foreach="info.reservation_line"
-                                       t-as="line">
+                                <table
+                                    class="table-borderless"
+                                    t-foreach="info.reservation_line"
+                                    t-as="line"
+                                >
                                     <tr t-foreach="line.reserve" t-as="o">
                                         <td>
-                                            <span t-field="o.name"/>
+                                            <span t-field="o.name" />
                                         </td>
                                     </tr>
-
                                 </table>
                             </td>
-
                         </tr>
                     </table>
                 </div>
             </t>
         </t>
     </template>
-
 </odoo>

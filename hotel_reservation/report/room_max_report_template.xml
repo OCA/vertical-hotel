@@ -1,28 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <!--Template for Hotel Reservation -->
     <template id="report_maxroom_qweb">
         <t t-call="web.html_container">
             <t t-call="web.external_layout">
                 <div class="page">
-                    <br/>
-                    <br/>
+                    <br />
+                    <br />
                     <div class="mt32 mb32">
+                        <br />
+                        <br />
                         <center>
-                            <h2>
-                                <u>Max Room Used List</u>
-                            </h2>
+                            <h2>Max Room Used List</h2>
                         </center>
                     </div>
                     <div class="mt32 mb32">
                         <div class="text-center">
                             <strong>From:</strong>
-                            <span t-esc="data['date_start']"/>
+                            <span t-esc="data['date_start']" />
                             <strong>To:</strong>
-                            <span t-esc="data['date_end']"/>
+                            <span t-esc="data['date_end']" />
                         </div>
                     </div>
-                    <table class="table table-condensed">
+                    <table class="table table-bordered">
                         <tr>
                             <td>
                                 <strong>Room No</strong>
@@ -31,14 +31,16 @@
                                 <strong>No of Times used</strong>
                             </td>
                         </tr>
-
-                        <tr t-foreach="get_room_used_detail" t-as="line"
-                            class="table table-condensed">
+                        <tr
+                            t-foreach="get_room_used_detail"
+                            t-as="line"
+                            class="table table-condensed"
+                        >
                             <td>
-                                <span t-esc="line.get('name','')"/>
+                                <span t-esc="line.get('name','')" />
                             </td>
                             <td>
-                                <span t-esc="line.get('no_of_times_used','')"/>
+                                <span t-esc="line.get('no_of_times_used','')" />
                             </td>
                         </tr>
                     </table>
@@ -46,5 +48,4 @@
             </t>
         </t>
     </template>
-
 </odoo>
