@@ -113,6 +113,7 @@
                 <field name="partner_id"/>
                 <field name="checkin"/>
                 <field name="checkout"/>
+                <field name="open"/>
                 <field name="state"/>
             </tree>
         </field>
