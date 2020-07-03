@@ -169,6 +169,18 @@ class HotelFolio(models.Model):
         states={"draft": [("readonly", False)]},
         default=_get_checkout_date,
     )
+    adults = fields.Integer(
+        "Adults",
+        readonly=True,
+        states={"draft": [("readonly", False)], "sent": [("readonly", False)]},
+        help="Number of adults.",
+    )
+    children = fields.Integer(
+        "Children",
+        readonly=True,
+        states={"draft": [("readonly", False)], "sent": [("readonly", False)]},
+        help="Number of children.",
+    )
     room_lines = fields.One2many(
         "hotel.folio.line",
         "folio_id",

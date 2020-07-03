@@ -545,6 +545,8 @@ class HotelReservation(models.Model):
                 "partner_shipping_id": reservation.partner_shipping_id.id,
                 "checkin_date": reservation.checkin,
                 "checkout_date": reservation.checkout,
+                "adults": reservation.adults,
+                "children": reservation.children,
                 "duration": duration,
                 "reservation_id": reservation.id,
                 "service_lines": reservation["folio_id"],

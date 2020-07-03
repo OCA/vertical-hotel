@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="hotel_service_type_tourist_tax" model="hotel.service.type">
+        <field name="name">Tourist Tax</field>
+    </record>
+</odoo>

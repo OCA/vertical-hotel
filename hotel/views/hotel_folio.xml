@@ -55,7 +55,12 @@
                                        domain="[('parent_id','=',partner_id)]"/>
                             </group>
                             <newline/>
-                            <group colspan="4" col="4" invisible="1">
+                            <group colspan="4" col="4" invisible="0">
+                                <field name="adults"/>
+                                <field name="children"/>
+                            </group>
+                            <newline/>
+                            <group colspan="4" col="4" invisible="0">
                                 <field name="checkin_date"/>
                                 <field name="checkout_date"/>
                                 <field name="duration" readonly="1"/>
