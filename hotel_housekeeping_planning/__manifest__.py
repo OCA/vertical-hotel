@@ -10,7 +10,11 @@
     "category": "Hotel Management",
     "website": "https://github.com/OCA/vertical-hotel/",
     "depends": ["hotel_housekeeping", "hotel_reservation"],
-    "data": ["reports/housekeeping_planning.xml", "reports/reports.xml"],
+    "data": [
+        "reports/housekeeping_planning.xml",
+        "reports/reports.xml",
+        "views/hotel_reservation.xml",
+    ],
     "license": "AGPL-3",
     "summary": "Generates a planning for room housekeeping.",
     "images": ["static/description/Hotel.png"],

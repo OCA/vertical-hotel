@@ -24,6 +24,7 @@
                                        t-as="day">
                                         <th t-esc="day.strftime('%a %d %b')"/>
                                     </t>
+                                    <th>Notes</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -37,6 +38,7 @@
                                            t-as="day_occupation">
                                             <td t-esc="room.get_occupation_acronym(day_occupation)"/>
                                         </t>
+                                        <td t-esc="room_data['notes']"/>
                                     </tr>
                                 </t>
                             </tbody>

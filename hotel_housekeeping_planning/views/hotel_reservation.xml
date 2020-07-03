@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright 2020 Coop IT Easy
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="view_hotel_reservation_form" model="ir.ui.view">
+        <field name="name">view_hotel_reservation_form</field>
+        <field name="model">hotel.reservation</field>
+        <field name="inherit_id" ref="hotel_reservation.view_hotel_reservation_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='checkin']/.." position="after">
+                <!-- move this groupe to "note group" when merged (PR # 107 -->
+                <group name="note_group">
+                    <field name="housekeeping_note"/>
+                </group>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

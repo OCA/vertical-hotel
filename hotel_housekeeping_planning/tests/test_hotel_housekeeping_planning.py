@@ -84,6 +84,7 @@ class TestHousekeeping(common.TransactionCase):
                 "partner_id": self.ref("base.res_partner_2"),
                 "pricelist_id": self.ref("product.list0"),
                 "state": "confirm",
+                "housekeeping_note": "fix leaking tap",
             }
         )
         self.env["hotel_reservation.line"].create(
@@ -102,6 +103,7 @@ class TestHousekeeping(common.TransactionCase):
                 "partner_id": self.ref("base.res_partner_3"),
                 "pricelist_id": self.ref("product.list0"),
                 "state": "confirm",
+                "housekeeping_note": "add bed in room 1",
             }
         )
         self.env["hotel_reservation.line"].create(
@@ -166,14 +168,32 @@ class TestHousekeeping(common.TransactionCase):
             _ROOM_3_OCCUPATION, self.room_3._get_week_occupation()
         )
 
-    def test_get_housekeeping_weekly_report_data(self):
+    def test_get_notes(self):
+        self.assertEquals(
+            "fix leaking tap\nadd bed in room 1", self.room_1._get_notes()
+        )
+        self.assertEquals("add bed in room 1", self.room_2._get_notes())
+        self.assertEquals("", self.room_3._get_notes())
 
+    def test_get_housekeeping_weekly_report_data(self):
         expected_weekly_planning = {
             "days": [day.date() for day in sorted(_WEEKDAYS.values())],
             "rooms": [
-                {"room": self.room_1, "occupation": _ROOM_1_OCCUPATION},
-                {"room": self.room_2, "occupation": _ROOM_2_OCCUPATION},
-                {"room": self.room_3, "occupation": _ROOM_3_OCCUPATION},
+                {
+                    "room": self.room_1,
+                    "occupation": _ROOM_1_OCCUPATION,
+                    "notes": "fix leaking tap\nadd bed in room 1",
+                },
+                {
+                    "room": self.room_2,
+                    "occupation": _ROOM_2_OCCUPATION,
+                    "notes": "add bed in room 1",
+                },
+                {
+                    "room": self.room_3,
+                    "occupation": _ROOM_3_OCCUPATION,
+                    "notes": "",
+                },
             ],
         }
 

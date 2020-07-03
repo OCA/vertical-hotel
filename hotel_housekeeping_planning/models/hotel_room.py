@@ -54,6 +54,31 @@ class HotelRoom(models.Model):
         return [monday + timedelta(days=i) for i in range(7)]
 
     @api.multi
+    def _get_notes(self):
+        self.ensure_one()
+        today = date.today()
+        monday = today - timedelta(days=today.weekday())
+        sunday = monday + timedelta(days=6)
+
+        reservation_lines = (
+            self.env["hotel_reservation.line"]
+            .search(
+                [
+                    ("line_id.state", "in", ["confirm", "done"]),
+                    ("reserve", "=", self.id),
+                    # checkin sunday or sooner
+                    ("checkin", "<=", Date.to_string(sunday)),
+                    # checkout monday or later
+                    ("checkout", ">=", Date.to_string(monday)),
+                ]
+            )
+            .sorted(lambda rl: rl.checkin)
+        )
+        notes = (rl.line_id.housekeeping_note for rl in reservation_lines)
+        notes = (note for note in notes if note)  # remove empty notes (False)
+        return "\n".join(notes)
+
+    @api.multi
     def _get_week_occupation(self):
         self.ensure_one()
         week_occupation = [
@@ -82,7 +107,11 @@ class HotelRoom(models.Model):
         week_planning = {
             "days": self._get_week(),
             "rooms": [
-                {"room": room, "occupation": room._get_week_occupation()}
+                {
+                    "room": room,
+                    "occupation": room._get_week_occupation(),
+                    "notes": room._get_notes(),
+                }
                 for room in self.sorted()
             ],
         }
