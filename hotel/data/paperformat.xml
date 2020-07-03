@@ -6,8 +6,8 @@
         <field name="default" eval="True"/>
         <field name="format">A4</field>
         <field name="orientation">Landscape</field>
-        <field name="margin_top">10</field>
-        <field name="header_spacing">5</field>
+        <field name="margin_top">15</field>
+        <field name="header_spacing">10</field>
         <field name="dpi">110</field>
     </record>
 
