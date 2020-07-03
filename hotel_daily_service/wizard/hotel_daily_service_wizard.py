@@ -23,12 +23,10 @@ class HotelDailyServiceLineWizard(models.TransientModel):
         string="Service",
         default=_default_hotel_service_id,
     )
-    hotel_service_line_ids = fields.Many2many(
-        comodel_name="hotel.service.line",
-        string="Service Lines",
-        relation="hotel_service_line_daily_service_wizard",
-    )
     quantity = fields.Integer(string="Quantity", default=1)
+    include_checkin_day = fields.Boolean(
+        string="Include Arrival Day", default=False
+    )
 
     @api.model
     def default_get(self, field_names):
@@ -36,14 +34,9 @@ class HotelDailyServiceLineWizard(models.TransientModel):
         defaults["hotel_folio_id"] = self.env.context["active_id"]
         return defaults
 
-    @api.onchange("quantity")
-    def onchange_quantity(self):
-        for line in self.hotel_service_line_ids:
-            line.product_uom_qty = self.quantity
-
-    @api.onchange("hotel_service_id")
-    def onchange_hotel_service_id(self):
-        self.hotel_service_line_ids = [(5, 0, 0)]
+    @api.multi
+    def add_daily_service_line(self):
+        self.ensure_one()
         checkin_date = fields.Datetime.from_string(
             self.hotel_folio_id.checkin_date
         )
@@ -54,20 +47,16 @@ class HotelDailyServiceLineWizard(models.TransientModel):
             checkin_date + timedelta(days=n)
             for n in range(int((checkout_date - checkin_date).days) + 1)
         ]:
-            service_line = self.env["hotel.service.line"].create(
-                {
-                    "order_id": self.hotel_folio_id.order_id.id,
-                    "ser_checkin_date": date,
-                    "ser_checkout_date": date,
-                    "product_id": self.hotel_service_id.product_id.id,
-                    "product_uom_qty": self.quantity,
-                    "product_uom": self.hotel_service_id.product_id.uom_id.id,
-                    "price_unit": self.hotel_service_id.product_id.list_price,
-                }
-            )
-            self.hotel_service_line_ids |= service_line
-
-    @api.multi
-    def add_daily_service_line(self):
-        self.ensure_one()
-        self.hotel_folio_id.service_lines |= self.hotel_service_line_ids
+            if self.include_checkin_day or date != checkin_date:
+                service_line = self.env["hotel.service.line"].create(
+                    {
+                        "order_id": self.hotel_folio_id.order_id.id,
+                        "ser_checkin_date": date,
+                        "ser_checkout_date": date,
+                        "product_id": self.hotel_service_id.product_id.id,
+                        "product_uom_qty": self.quantity,
+                        "product_uom": self.hotel_service_id.product_id.uom_id.id,
+                        "price_unit": self.hotel_service_id.product_id.list_price,
+                    }
+                )
+                self.hotel_folio_id.service_lines |= service_line

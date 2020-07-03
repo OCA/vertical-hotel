@@ -9,17 +9,11 @@
                 <group>
                     <group>
                         <field name="hotel_service_id"/>
+                        <field name="include_checkin_day"/>
                     </group>
                     <group>
                         <field name="quantity"/>
                     </group>
-                    <field name="hotel_service_line_ids">
-                        <tree string="Service Line" editable="bottom" create="false" delete="false">
-                            <field name="name" readonly="True"/>
-                            <field name="ser_checkin_date" string="Date" readonly="True"/>
-                            <field name="product_uom_qty"/>
-                        </tree>
-                    </field>
                 </group>
                 <footer>
                     <button type="object"
