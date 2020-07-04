@@ -16,6 +16,7 @@
         "security/hotel_security.xml",
         "security/ir.model.access.csv",
         "data/hotel_sequence.xml",
+        "data/paperformat.xml",
         "report/hotel_report.xml",
         "report/report_hotel_management.xml",
         "views/hotel_folio.xml",

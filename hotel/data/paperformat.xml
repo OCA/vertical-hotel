@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="paperformat_vertical_hotel_report_landscape" model="report.paperformat">
+        <field name="name">A4 Vertical Hotel Landscape</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">15</field>
+        <field name="header_spacing">10</field>
+        <field name="dpi">110</field>
+    </record>
+
+</odoo>
