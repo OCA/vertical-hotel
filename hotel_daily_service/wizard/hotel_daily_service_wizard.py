@@ -23,7 +23,11 @@ class HotelDailyServiceLineWizard(models.TransientModel):
         string="Service",
         default=_default_hotel_service_id,
     )
-    quantity = fields.Integer(string="Quantity", default=1)
+    quantity = fields.Integer(
+        string="Quantity",
+        default=1,
+        help="Quantity of the services to be added each day.",
+    )
     include_checkin_day = fields.Boolean(
         string="Include Arrival Day", default=False
     )
