@@ -206,37 +206,28 @@ class HotelFolio(models.Model):
         @param self: object pointer
         @return: raise warning depending on the validation
         """
-        # folio_rooms = []
-        # for room in self[0].room_lines:
-        #     if room.product_id.id in folio_rooms:
-        #         raise ValidationError(_("You Cannot Take Same Room Twice"))
-        #     folio_rooms.append(room.product_id.id)
         for rec in self:
             for room_no in rec.room_lines.mapped("product_id"):
-                lines = rec.room_lines.search(
-                    [
-                        ("product_id", "=", room_no.id),
-                        ("folio_id", "=", rec.id),
-                    ]
-                )
-                for line in lines:
-                    record = lines.search(
+                for line in rec.room_lines:
+                    record = line.search(
                         [
+                            ("product_id", "=", room_no.id),
+                            ("folio_id", "=", rec.id),
                             ("id", "!=", line.id),
-                            ("id", "in", lines.ids),
                             ("checkin_date", ">=", line.checkin_date),
                             ("checkout_date", "<=", line.checkout_date),
                             ("product_id", "=", room_no.id),
                         ]
                     )
-                    if record:
-                        raise ValidationError(
-                            _(
-                                """Room Duplicate Exceeded!,
-                            You Cannot Take Same %s Room Twice!"""
-                            )
-                            % (room_no.name)
+
+                if record:
+                    raise ValidationError(
+                        _(
+                            """Room Duplicate Exceeded!,
+                        You Cannot Take Same %s Room Twice!"""
                         )
+                        % (room_no.name)
+                    )
 
     @api.onchange("checkout_date", "checkin_date")
     def onchange_dates(self):
@@ -402,33 +393,13 @@ class HotelFolio(models.Model):
     def action_done(self):
         self.write({"state": "done"})
 
-    def action_invoice_create(self, grouped=False, final=False):
-        """
-        @param self: object pointer
-        """
-        room_lst = []
-        invoice_id = self.order_id._create_invoices(grouped=False, final=False)
-        for line in self:
-            values = {"invoiced": True, "hotel_invoice_id": invoice_id}
-            line.write(values)
-            for rec in line.room_lines:
-                room_lst.append(rec.product_id)
-            for room in room_lst:
-                room_rec = self.env["hotel.room"].search(
-                    [("name", "=", room.name)]
-                )
-                room_rec.write({"isroom": True})
-        return invoice_id
-
     def action_cancel(self):
         """
         @param self: object pointer
         """
         if not self.order_id:
             raise UserError(_("Order id is not available"))
-        for sale in self:
-            for invoice in sale.invoice_ids:
-                invoice.state = "cancel"
+        self.invoice_ids.write({"state": "cancel"})
         return self.order_id.action_cancel()
 
     def action_confirm(self):
@@ -546,21 +517,18 @@ class HotelFolioLine(models.Model):
         """
         for line in self:
             if line.order_line_id:
-                sale_obj = line.order_line_id
-                room_obj = self.env["hotel.room"].search(
-                    [("name", "=", sale_obj.name)]
+                rooms = self.env["hotel.room"].search(
+                    [("product_id", "=", line.order_line_id.product_id.id)]
                 )
-                if room_obj:
-                    folio_room_line_obj = self.env["folio.room.line"].search(
-                        [
-                            ("folio_id", "=", line.folio_id.id),
-                            ("room_id", "=", room_obj.id),
-                        ]
-                    )
-                    if folio_room_line_obj:
-                        folio_room_line_obj.unlink()
-                        room_obj.write({"isroom": True, "status": "available"})
-                sale_obj.unlink()
+                folio_room_lines = self.env["folio.room.line"].search(
+                    [
+                        ("folio_id", "=", line.folio_id.id),
+                        ("room_id", "in", rooms.ids),
+                    ]
+                )
+                folio_room_lines.unlink()
+                rooms.write({"isroom": True, "status": "available"})
+                line.order_line_id.unlink()
         return super(HotelFolioLine, self).unlink()
 
     def _get_real_price_currency(
