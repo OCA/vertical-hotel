@@ -23,8 +23,10 @@ class SaleAdvancePaymentInv(models.TransientModel):
     def create_invoices(self):
         ctx = self.env.context.copy()
         if self._context.get("active_model") == "hotel.folio":
+
             hotel_fol = self.env["hotel.folio"]
             hotel = hotel_fol.browse(self._context.get("active_ids", []))
+            hotel.room_lines.mapped("product_id").write({"isroom": True})
             ctx.update(
                 {
                     "active_ids": [hotel.order_id.id],
