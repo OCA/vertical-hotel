@@ -60,9 +60,9 @@
                             <field name="checkout"/>
                             <field name="adults" required="1"/>
                             <field name="children"/>
-                            <field name="open"/>
                         </group>
-                        <group>
+                        <group name="notes">
+                            <field name="open"/>
                             <field name="note"/>
                         </group>
                         <field name="dummy" invisible="True"/>
