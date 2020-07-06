@@ -141,13 +141,6 @@ class HotelFolio(models.Model):
             + tm_delta
         )
 
-    def copy(self, default=None):
-        """
-        @param self: object pointer
-        @param default: dict of default values to be set
-        """
-        return super(HotelFolio, self).copy(default=default)
-
     name = fields.Char(
         "Folio Number", readonly=True, index=True, default="New"
     )
@@ -218,7 +211,6 @@ class HotelFolio(models.Model):
         #     if room.product_id.id in folio_rooms:
         #         raise ValidationError(_("You Cannot Take Same Room Twice"))
         #     folio_rooms.append(room.product_id.id)
-
         for rec in self:
             for room_no in rec.room_lines.mapped("product_id"):
                 lines = rec.room_lines.search(
@@ -408,8 +400,7 @@ class HotelFolio(models.Model):
                 )
 
     def action_done(self):
-        for rec in self:
-            rec.write({"state": "done"})
+        self.write({"state": "done"})
 
     def action_invoice_create(self, grouped=False, final=False):
         """
@@ -479,13 +470,6 @@ class HotelFolioLine(models.Model):
 
     _name = "hotel.folio.line"
     _description = "Hotel Folio Room Line"
-
-    def copy(self, default=None):
-        """
-        @param self: object pointer
-        @param default: dict of default values to be set
-        """
-        return super(HotelFolioLine, self).copy(default=default)
 
     @api.model
     def _get_checkin_date(self):
@@ -853,6 +837,6 @@ class HotelFolioLine(models.Model):
         @param self: object pointer
         @param default: dict of default values to be set
         """
-        line_id = self.order_line_id.id
-        sale_line_obj = self.env["sale.order.line"].browse(line_id)
+
+        sale_line_obj = self.order_line_id
         return sale_line_obj.copy_data(default=default)
