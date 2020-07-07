@@ -17,14 +17,14 @@ class HotelFolio(models.Model):
         "hotel_res_rel",
         "hotel_folio_id",
         "reste_id",
-        "Orders",
+        "Reservation Orders",
     )
     hotel_restaurant_order_ids = fields.Many2many(
         "hotel.restaurant.order",
         "hotel_res_resv",
         "hfolio_id",
         "reserves_id",
-        "Orders",
+        "Restaurant Orders",
     )
 
 
@@ -34,12 +34,12 @@ class HotelMenucardType(models.Model):
     _description = "Food Item Type"
 
     name = fields.Char("Name", required=True)
-    menu_id = fields.Many2one("hotel.menucard.type", string="Food Item Type")
+    menu_id = fields.Many2one("hotel.menucard.type", "Food Item Type")
     child_ids = fields.One2many(
         "hotel.menucard.type", "menu_id", "Child Categories"
     )
 
-    @api.multi
+     
     def name_get(self):
         def get_names(cat):
             """ Return the list [cat.name, cat.menu_id.name, ...] """
@@ -108,21 +108,16 @@ class HotelMenucard(models.Model):
 
     product_id = fields.Many2one(
         "product.product",
-        "Product",
+        "Hotel Menucard",
         required=True,
         delegate=True,
         ondelete="cascade",
         index=True,
     )
     categ_id = fields.Many2one(
-        "hotel.menucard.type", string="Food Item Category", required=True
+        "hotel.menucard.type", "Food Item Category", required=True
     )
-    image = fields.Binary(
-        "Image",
-        help="This field holds the image used as image "
-        "for the product, limited to 1024x1024px.",
-    )
-    product_manager = fields.Many2one("res.users", string="Product Manager")
+    product_manager = fields.Many2one("res.users", "Product Manager")
 
 
 class HotelRestaurantTables(models.Model):
@@ -135,7 +130,11 @@ class HotelRestaurantTables(models.Model):
 
 
 class HotelRestaurantReservation(models.Model):
-    @api.multi
+
+    _name = "hotel.restaurant.reservation"
+    _description = "Includes Hotel Restaurant Reservation"
+    _rec_name = "reservation_id"
+
     def create_order(self):
         """
         This method is for create a new order for hotel restaurant
@@ -182,14 +181,13 @@ class HotelRestaurantReservation(models.Model):
         @param self: object pointer
         """
         for rec in self:
-            rec.cname = False
-            rec.room_no = False
+            rec.write({'cname':False,'room_no':False})
             if rec.folio_id:
                 rec.cname = rec.folio_id.partner_id.id
                 if rec.folio_id.room_lines:
                     rec.room_no = rec.folio_id.room_lines[0].product_id.id
 
-    @api.multi
+     
     def action_set_to_draft(self):
         """
         This method is used to change the state
@@ -197,10 +195,9 @@ class HotelRestaurantReservation(models.Model):
         --------------------------------------------
         @param self: object pointer
         """
-        self.state = "draft"
-        return True
+        self.write({'state': "draft"})
 
-    @api.multi
+     
     def table_reserved(self):
         """
         when CONFIRM BUTTON is clicked this method is called for
@@ -249,7 +246,7 @@ class HotelRestaurantReservation(models.Model):
             self.state = "confirm"
             return True
 
-    @api.multi
+     
     def table_cancel(self):
         """
         This method is used to change the state
@@ -257,10 +254,8 @@ class HotelRestaurantReservation(models.Model):
         --------------------------------------------
         @param self: object pointer
         """
-        self.state = "cancel"
-        return True
+        self.write({'state': "cancel"})
 
-    @api.multi
     def table_done(self):
         """
         This method is used to change the state
@@ -268,16 +263,12 @@ class HotelRestaurantReservation(models.Model):
         --------------------------------------------
         @param self: object pointer
         """
-        self.state = "done"
-        return True
+        self.write({'state': "done"})
 
-    _name = "hotel.restaurant.reservation"
-    _description = "Includes Hotel Restaurant Reservation"
-    _rec_name = "reservation_id"
 
     reservation_id = fields.Char("Reservation No", readonly=True, index=True)
-    room_no = fields.Many2one("product.product", string="Room No", index=True)
-    folio_id = fields.Many2one("hotel.folio", string="Folio No")
+    room_no = fields.Many2one("product.product", "Room No", index=True)
+    folio_id = fields.Many2one("hotel.folio", "Folio No")
     start_date = fields.Datetime(
         "Start Time",
         required=True,
@@ -285,9 +276,9 @@ class HotelRestaurantReservation(models.Model):
     )
     end_date = fields.Datetime("End Time", required=True)
     cname = fields.Many2one(
-        "res.partner", string="Customer Name", required=True, index=True
+        "res.partner", "Customer Name", required=True, index=True
     )
-    partner_address_id = fields.Many2one("res.partner", string="Address")
+    partner_address_id = fields.Many2one("res.partner", "Address")
     tableno = fields.Many2many(
         "hotel.restaurant.tables",
         relation="reservation_table",
@@ -389,7 +380,11 @@ class HotelRestaurantKitchenOrderTickets(models.Model):
 
 
 class HotelRestaurantOrder(models.Model):
-    @api.multi
+     
+    _name = "hotel.restaurant.order"
+    _description = "Includes Hotel Restaurant Order"
+    _rec_name = "order_no"
+
     @api.depends("order_list")
     def _compute_amount_all_total(self):
         """
@@ -423,7 +418,7 @@ class HotelRestaurantOrder(models.Model):
                 if rec.folio_id.room_lines:
                     self.room_no = rec.folio_id.room_lines[0].product_id.id
 
-    @api.multi
+     
     def done_cancel(self):
         """
         This method is used to change the state
@@ -431,10 +426,9 @@ class HotelRestaurantOrder(models.Model):
         ----------------------------------------
         @param self: object pointer
         """
-        self.state = "cancel"
-        return True
+        self.write({'state':  "cancel"})
 
-    @api.multi
+     
     def set_to_draft(self):
         """
         This method is used to change the state
@@ -442,10 +436,9 @@ class HotelRestaurantOrder(models.Model):
         ----------------------------------------
         @param self: object pointer
         """
-        self.state = "draft"
-        return True
+        self.write({'state':  "draft"})
 
-    @api.multi
+     
     def generate_kot(self):
         """
         This method create new record for hotel restaurant order list.
@@ -484,18 +477,14 @@ class HotelRestaurantOrder(models.Model):
             self.state = "order"
         return True
 
-    _name = "hotel.restaurant.order"
-    _description = "Includes Hotel Restaurant Order"
-    _rec_name = "order_no"
-
     order_no = fields.Char("Order Number", readonly=True)
     o_date = fields.Datetime(
         "Order Date",
         required=True,
         default=(lambda *a: time.strftime(DEFAULT_SERVER_DATETIME_FORMAT)),
     )
-    room_no = fields.Many2one("product.product", string="Room No")
-    folio_id = fields.Many2one("hotel.folio", string="Folio No")
+    room_no = fields.Many2one("product.product", "Room No")
+    folio_id = fields.Many2one("hotel.folio", "Folio No")
     waiter_name = fields.Many2one("res.partner", "Waiter Name")
     table_no = fields.Many2many(
         "hotel.restaurant.tables",
@@ -509,10 +498,10 @@ class HotelRestaurantOrder(models.Model):
     )
     tax = fields.Float("Tax (%) ")
     amount_subtotal = fields.Float(
-        compute="_compute_amount_all_total", method=True, string="Subtotal"
+        compute="_compute_amount_all_total", string="Subtotal"
     )
     amount_total = fields.Float(
-        compute="_compute_amount_all_total", method=True, string="Total"
+        compute="_compute_amount_all_total", string="Total"
     )
     state = fields.Selection(
         [
@@ -525,13 +514,13 @@ class HotelRestaurantOrder(models.Model):
         index=True,
         required=True,
         readonly=True,
-        default=lambda *a: "draft",
+        default="draft",
     )
     is_folio = fields.Boolean(
         "Is a Hotel Guest??", help="is customer reside" "in hotel or not"
     )
     cname = fields.Many2one(
-        "res.partner", string="Customer Name", required=True
+        "res.partner", "Customer Name", required=True
     )
     kitchen_id = fields.Integer("Kitchen id")
     rest_item_id = fields.Many2many(
@@ -558,7 +547,7 @@ class HotelRestaurantOrder(models.Model):
         vals["order_no"] = rest_order
         return super(HotelRestaurantOrder, self).create(vals)
 
-    @api.multi
+     
     def generate_kot_update(self):
         """
         This method update record for hotel restaurant order list.
@@ -569,16 +558,14 @@ class HotelRestaurantOrder(models.Model):
         order_tickets_obj = self.env["hotel.restaurant.kitchen.order.tickets"]
         rest_order_list_obj = self.env["hotel.restaurant.order.list"]
         for order in self:
-            table_ids = order.table_no.ids
             line_data = {
                 "orderno": order.order_no,
                 "kot_date": time.strftime(DEFAULT_SERVER_DATETIME_FORMAT),
                 "room_no": order.room_no.name,
                 "w_name": order.waiter_name.name,
-                "tableno": [(6, 0, table_ids)],
+                "tableno": [(6, 0, order.table_no.ids)],
             }
-            kot_rec = order_tickets_obj.browse(self.kitchen_id)
-            kot_rec.write(line_data)
+            self.kitchen_id.write(line_data)
             for order_line in order.order_list:
                 if order_line.id not in order.rest_item_id.ids:
                     kot_data1 = order_tickets_obj.create(line_data)
@@ -593,7 +580,7 @@ class HotelRestaurantOrder(models.Model):
                     rest_order_list_obj.create(o_line)
         return True
 
-    @api.multi
+     
     def done_order_kot(self):
         """
         This method is used to change the state
@@ -601,15 +588,13 @@ class HotelRestaurantOrder(models.Model):
         ----------------------------------------
         @param self: object pointer
         """
-        hotel_folio_obj = self.env["hotel.folio"]
         hsl_obj = self.env["hotel.service.line"]
         so_line_obj = self.env["sale.order.line"]
         for order_obj in self:
-            hotelfolio = order_obj.folio_id.order_id.id
             if order_obj.folio_id:
                 for order in order_obj.order_list:
                     values = {
-                        "order_id": hotelfolio,
+                        "order_id": order_obj.folio_id.order_id.id,
                         "name": order.name.name,
                         "product_id": order.name.product_id.id,
                         "product_uom": order.name.uom_id.id,
@@ -624,16 +609,19 @@ class HotelRestaurantOrder(models.Model):
                             "service_line_id": sol_rec.id,
                         }
                     )
-                    hf_rec = hotel_folio_obj.browse(order_obj.folio_id.id)
-                    hf_rec.write(
+                    order_obj.folio_id.write(
                         {"hotel_restaurant_order_ids": [(4, order_obj.id)]}
                     )
-            self.state = "done"
+            self.write({'state': "done"})
         return True
 
 
 class HotelReservationOrder(models.Model):
-    @api.multi
+
+    _name = "hotel.reservation.order"
+    _description = "Reservation Order"
+    _rec_name = "order_number"
+
     @api.depends("order_list")
     def _compute_amount_all_total(self):
         """
@@ -645,13 +633,11 @@ class HotelReservationOrder(models.Model):
             sale.amount_subtotal = sum(
                 line.price_subtotal for line in sale.order_list
             )
-            if sale.amount_subtotal:
-                sale.amount_total = (
+            sale.amount_total = (
                     sale.amount_subtotal
-                    + (sale.amount_subtotal * sale.tax) / 100.0
+                    + (sale.amount_subtotal * sale.tax) / 100
                 )
 
-    @api.multi
     def reservation_generate_kot(self):
         """
         This method create new record for hotel restaurant order list.
@@ -688,7 +674,7 @@ class HotelReservationOrder(models.Model):
             self.state = "order"
         return res
 
-    @api.multi
+     
     def reservation_update_kot(self):
         """
         This method update record for hotel restaurant order list.
@@ -707,10 +693,8 @@ class HotelReservationOrder(models.Model):
                 "w_name": order.waitername.name,
                 "tableno": [(6, 0, table_ids)],
             }
-            kot_rec = order_tickets_obj.browse(self.kitchen_id)
-            kot_rec.write(line_data)
+            self.kitchen_id.write(line_data)
             for order_line in order.order_list:
-
                 if order_line not in order.rest_id.ids:
                     kot_data1 = order_tickets_obj.create(line_data)
                     order.kitchen_id = kot_data1.id
@@ -724,7 +708,7 @@ class HotelReservationOrder(models.Model):
                     rest_order_list_obj.create(o_line)
         return True
 
-    @api.multi
+     
     def done_kot(self):
         """
         This method is used to change the state
@@ -732,16 +716,13 @@ class HotelReservationOrder(models.Model):
         ----------------------------------------
         @param self: object pointer
         """
-        hotel_folio_obj = self.env["hotel.folio"]
         hsl_obj = self.env["hotel.service.line"]
         so_line_obj = self.env["sale.order.line"]
         for order_obj in self:
-            hotelfolio = order_obj.folio_id.order_id.id
             if order_obj.folio_id:
-
                 for order in order_obj.order_list:
                     values = {
-                        "order_id": hotelfolio,
+                        "order_id": order_obj.folio_id.order_id.id,
                         "name": order.name.name,
                         "product_id": order.name.product_id.id,
                         "product_uom_qty": order.item_qty,
@@ -755,18 +736,13 @@ class HotelReservationOrder(models.Model):
                             "service_line_id": sol_rec.id,
                         }
                     )
-                    hf_rec = hotel_folio_obj.browse(order_obj.folio_id.id)
-                    hf_rec.write(
+                    order_obj.folio_id.write(
                         {"hotel_reservation_order_ids": [(4, order_obj.id)]}
                     )
             if order_obj.reservationno:
                 order_obj.reservationno.write({"state": "done"})
-        self.state = "done"
+        self.write({'state': "done"})
         return True
-
-    _name = "hotel.reservation.order"
-    _description = "Reservation Order"
-    _rec_name = "order_number"
 
     order_number = fields.Char("Order No", readonly=True)
     reservationno = fields.Many2one(
@@ -790,10 +766,10 @@ class HotelReservationOrder(models.Model):
     )
     tax = fields.Float("Tax (%) ")
     amount_subtotal = fields.Float(
-        compute="_compute_amount_all_total", method=True, string="Subtotal"
+        compute="_compute_amount_all_total", string="Subtotal"
     )
     amount_total = fields.Float(
-        compute="_compute_amount_all_total", method=True, string="Total"
+        compute="_compute_amount_all_total", string="Total"
     )
     kitchen_id = fields.Integer("Kitchen id")
     rest_id = fields.Many2many(
@@ -811,7 +787,7 @@ class HotelReservationOrder(models.Model):
         readonly=True,
         default=lambda *a: "draft",
     )
-    folio_id = fields.Many2one("hotel.folio", string="Folio No")
+    folio_id = fields.Many2one("hotel.folio","Folio No")
     is_folio = fields.Boolean(
         "Is a Hotel Guest??", help="is customer reside" "in hotel or not"
     )
@@ -834,7 +810,10 @@ class HotelReservationOrder(models.Model):
 
 
 class HotelRestaurantOrderList(models.Model):
-    @api.multi
+
+    _name = "hotel.restaurant.order.list"
+    _description = "Includes Hotel Restaurant Order"
+    
     @api.depends("item_qty", "item_rate")
     def _compute_price_subtotal(self):
         """
@@ -854,9 +833,6 @@ class HotelRestaurantOrderList(models.Model):
         """
         if self.name:
             self.item_rate = self.name.list_price
-
-    _name = "hotel.restaurant.order.list"
-    _description = "Includes Hotel Restaurant Order"
 
     o_list = fields.Many2one("hotel.restaurant.order", "Restaurant Order")
     o_l = fields.Many2one("hotel.reservation.order", "Reservation Order")
