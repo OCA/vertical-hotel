@@ -10,7 +10,7 @@ class HotelActivity(models.Model):
 
     h_id = fields.Many2one(
         "product.product",
-        "Product",
+        "Hotel Activity",
         required=True,
         delegate=True,
         ondelete="cascade",
