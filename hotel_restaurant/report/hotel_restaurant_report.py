@@ -10,6 +10,7 @@ from odoo import api, fields, models
 
 class HotelRestaurantReport(models.AbstractModel):
     _name = "report.hotel_restaurant.report_res_table"
+    _description = "report.hotel_restaurant.report_res_table"
 
     def get_res_data(self, date_start, date_end):
         data = []
@@ -58,6 +59,7 @@ class HotelRestaurantReport(models.AbstractModel):
 
 class ReportKot(models.AbstractModel):
     _name = "report.hotel_restaurant.report_hotel_order_kot"
+    _description = "report.hotel_restaurant.report_hotel_order_kot"
 
     @api.model
     def _get_report_values(self, docids, data):
@@ -172,6 +174,7 @@ class FolioRestReport(models.AbstractModel):
 
 class FolioReservReport(models.AbstractModel):
     _name = "report.hotel_restaurant.report_reserv_order"
+    _description = "report.hotel_restaurant.report_reserv_order"
 
     def get_data(self, date_start, date_end):
         data = []
