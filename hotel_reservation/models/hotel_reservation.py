@@ -15,7 +15,7 @@ class HotelReservation(models.Model):
     _rec_name = "reservation_no"
     _description = "Reservation"
     _order = "reservation_no desc"
-    _inherit = ["mail.thread"]
+    _inherit = ["mail.thread", "mail.activity.mixin"]
 
     reservation_no = fields.Char("Reservation No", readonly=True)
     date_order = fields.Datetime(
@@ -24,6 +24,7 @@ class HotelReservation(models.Model):
         required=True,
         index=True,
         default=(lambda *a: time.strftime(dt)),
+        track_visibility="onchange",
     )
     warehouse_id = fields.Many2one(
         "stock.warehouse",
@@ -41,6 +42,7 @@ class HotelReservation(models.Model):
         index=True,
         required=True,
         states={"draft": [("readonly", False)]},
+        track_visibility="onchange",
     )
     pricelist_id = fields.Many2one(
         "product.pricelist",
@@ -49,6 +51,7 @@ class HotelReservation(models.Model):
         readonly=True,
         states={"draft": [("readonly", False)]},
         help="Pricelist for current reservation.",
+        track_visibility="onchange",
     )
     partner_invoice_id = fields.Many2one(
         "res.partner",
@@ -56,6 +59,7 @@ class HotelReservation(models.Model):
         readonly=True,
         states={"draft": [("readonly", False)]},
         help="Invoice address for " "current reservation.",
+        track_visibility="onchange",
     )
     partner_order_id = fields.Many2one(
         "res.partner",
@@ -65,6 +69,7 @@ class HotelReservation(models.Model):
         help="The name and address of the "
         "contact that requested the order "
         "or quotation.",
+        track_visibility="onchange",
     )
     partner_shipping_id = fields.Many2one(
         "res.partner",
@@ -72,30 +77,35 @@ class HotelReservation(models.Model):
         readonly=True,
         states={"draft": [("readonly", False)]},
         help="Delivery address" "for current reservation. ",
+        track_visibility="onchange",
     )
     checkin = fields.Datetime(
         "Expected-Date-Arrival",
         required=True,
         readonly=True,
         states={"draft": [("readonly", False)]},
+        track_visibility="onchange",
     )
     checkout = fields.Datetime(
         "Expected-Date-Departure",
         required=True,
         readonly=True,
         states={"draft": [("readonly", False)]},
+        track_visibility="onchange",
     )
     adults = fields.Integer(
         "Adults",
         readonly=True,
         states={"draft": [("readonly", False)]},
         help="List of adults there in guest list. ",
+        track_visibility="onchange",
     )
     children = fields.Integer(
         "Children",
         readonly=True,
         states={"draft": [("readonly", False)]},
         help="Number of children there in guest list.",
+        track_visibility="onchange",
     )
     reservation_line = fields.One2many(
         "hotel_reservation.line",
@@ -115,6 +125,7 @@ class HotelReservation(models.Model):
         "State",
         readonly=True,
         default=lambda *a: "draft",
+        track_visibility="onchange",
     )
     folio_id = fields.Many2many(
         "hotel.folio",
@@ -122,9 +133,16 @@ class HotelReservation(models.Model):
         "order_id",
         "invoice_id",
         string="Folio",
+        track_visibility="onchange",
     )
     no_of_folio = fields.Integer("Folio", compute="_compute_folio_id")
     dummy = fields.Datetime("Dummy")
+    open = fields.Boolean(
+        string="Open Rooms",
+        help="Should the rooms be opened for arriving guest.",
+        track_visibility="onchange",
+    )
+    note = fields.Text(string="Note", track_visibility="onchange")
 
     @api.multi
     def _compute_folio_id(self):
