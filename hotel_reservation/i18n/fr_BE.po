@@ -197,6 +197,11 @@ msgstr ""
 
 #. module: hotel_reservation
 #: model:ir.ui.view,arch_db:hotel_reservation.report_checkin_qweb
+msgid "<strong>Adults</strong>"
+msgstr ""
+
+#. module: hotel_reservation
+#: model:ir.ui.view,arch_db:hotel_reservation.report_checkin_qweb
 #: model:ir.ui.view,arch_db:hotel_reservation.report_roomres_qweb
 msgid "<strong>Check-In Date</strong>"
 msgstr ""
@@ -225,6 +230,16 @@ msgstr ""
 #. module: hotel_reservation
 #: model:ir.ui.view,arch_db:hotel_reservation.report_maxroom_qweb
 msgid "<strong>No of Times used</strong>"
+msgstr ""
+
+#. module: hotel_reservation
+#: model:ir.ui.view,arch_db:hotel_reservation.report_checkin_qweb
+msgid "<strong>Note</strong>"
+msgstr ""
+
+#. module: hotel_reservation
+#: model:ir.ui.view,arch_db:hotel_reservation.report_checkin_qweb
+msgid "<strong>Open Rooms</strong>"
 msgstr ""
 
 #. module: hotel_reservation
@@ -260,7 +275,7 @@ msgid "Adults"
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:191
+#: code:addons/hotel_reservation/models/hotel_reservation.py:209
 #, python-format
 msgid "Adults must be more than 0"
 msgstr ""
@@ -327,7 +342,7 @@ msgid "Check-Out Guest List"
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:202
+#: code:addons/hotel_reservation/models/hotel_reservation.py:220
 #, python-format
 msgid ""
 "Check-in date should be greater "
@@ -335,7 +350,7 @@ msgid ""
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:209
+#: code:addons/hotel_reservation/models/hotel_reservation.py:227
 #, python-format
 msgid ""
 "Check-out date should be greater                                          "
@@ -372,7 +387,7 @@ msgid ""
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:510
+#: code:addons/hotel_reservation/models/hotel_reservation.py:528
 #, python-format
 msgid ""
 "Checkout date should be greater                                          "
@@ -688,10 +703,22 @@ msgid "Name"
 msgstr "Name"
 
 #. module: hotel_reservation
+#: model:ir.model.fields,field_description:hotel_reservation.field_hotel_reservation_note
+msgid "Note"
+msgstr ""
+
+#. module: hotel_reservation
 #: model:ir.model.fields,help:hotel_reservation.field_hotel_reservation_children
 #, fuzzy
 msgid "Number of children there in guest list."
 msgstr "Number of children there in guest list. "
+
+#. module: hotel_reservation
+#: model:ir.model.fields,field_description:hotel_reservation.field_hotel_reservation_open
+#, fuzzy
+#| msgid "Rooms"
+msgid "Open Rooms"
+msgstr "Rooms"
 
 #. module: hotel_reservation
 #: model:ir.ui.view,arch_db:hotel_reservation.view_hotel_reservation_search
@@ -719,7 +746,7 @@ msgid ""
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:177
+#: code:addons/hotel_reservation/models/hotel_reservation.py:195
 #, fuzzy, python-format
 msgid "Please Select Rooms For Reservation."
 msgstr "Hotel Room Reservation"
@@ -816,7 +843,7 @@ msgid "Room Analysis"
 msgstr " Room line"
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:184
+#: code:addons/hotel_reservation/models/hotel_reservation.py:202
 #, python-format
 msgid ""
 "Room Capacity Exceeded \n"
@@ -926,6 +953,11 @@ msgid "Set to Draft"
 msgstr ""
 
 #. module: hotel_reservation
+#: model:ir.model.fields,help:hotel_reservation.field_hotel_reservation_open
+msgid "Should the rooms be opened for arriving guest."
+msgstr ""
+
+#. module: hotel_reservation
 #: model:ir.model.fields,field_description:hotel_reservation.field_hotel_reservation_wizard_date_start
 msgid "Start Date"
 msgstr ""
@@ -966,7 +998,7 @@ msgid ""
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:149
+#: code:addons/hotel_reservation/models/hotel_reservation.py:167
 #, python-format
 msgid ""
 "You cannot delete Reservation in %s                                         "
@@ -974,7 +1006,7 @@ msgid ""
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:343
+#: code:addons/hotel_reservation/models/hotel_reservation.py:361
 #, python-format
 msgid ""
 "You tried to Confirm Reservation with room those already reserved in this "

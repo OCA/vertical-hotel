@@ -199,6 +199,12 @@ msgstr ""
 
 #. module: hotel_reservation
 #: model:ir.ui.view,arch_db:hotel_reservation.report_checkin_qweb
+#, fuzzy
+msgid "<strong>Adults</strong>"
+msgstr "Número de veces usado"
+
+#. module: hotel_reservation
+#: model:ir.ui.view,arch_db:hotel_reservation.report_checkin_qweb
 #: model:ir.ui.view,arch_db:hotel_reservation.report_roomres_qweb
 msgid "<strong>Check-In Date</strong>"
 msgstr ""
@@ -228,6 +234,18 @@ msgstr ""
 #: model:ir.ui.view,arch_db:hotel_reservation.report_maxroom_qweb
 #, fuzzy
 msgid "<strong>No of Times used</strong>"
+msgstr "Número de veces usado"
+
+#. module: hotel_reservation
+#: model:ir.ui.view,arch_db:hotel_reservation.report_checkin_qweb
+#, fuzzy
+msgid "<strong>Note</strong>"
+msgstr "Número de veces usado"
+
+#. module: hotel_reservation
+#: model:ir.ui.view,arch_db:hotel_reservation.report_checkin_qweb
+#, fuzzy
+msgid "<strong>Open Rooms</strong>"
 msgstr "Número de veces usado"
 
 #. module: hotel_reservation
@@ -263,7 +281,7 @@ msgid "Adults"
 msgstr "Adultos"
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:191
+#: code:addons/hotel_reservation/models/hotel_reservation.py:209
 #, python-format
 msgid "Adults must be more than 0"
 msgstr ""
@@ -335,7 +353,7 @@ msgid "Check-Out Guest List"
 msgstr "Lista de comprobación de salidas"
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:202
+#: code:addons/hotel_reservation/models/hotel_reservation.py:220
 #, python-format
 msgid ""
 "Check-in date should be greater "
@@ -343,7 +361,7 @@ msgid ""
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:209
+#: code:addons/hotel_reservation/models/hotel_reservation.py:227
 #, python-format
 msgid ""
 "Check-out date should be greater                                          "
@@ -380,7 +398,7 @@ msgid ""
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:510
+#: code:addons/hotel_reservation/models/hotel_reservation.py:528
 #, python-format
 msgid ""
 "Checkout date should be greater                                          "
@@ -701,10 +719,22 @@ msgid "Name"
 msgstr "Name"
 
 #. module: hotel_reservation
+#: model:ir.model.fields,field_description:hotel_reservation.field_hotel_reservation_note
+msgid "Note"
+msgstr ""
+
+#. module: hotel_reservation
 #: model:ir.model.fields,help:hotel_reservation.field_hotel_reservation_children
 #, fuzzy
 msgid "Number of children there in guest list."
 msgstr "Number of children there in guest list. "
+
+#. module: hotel_reservation
+#: model:ir.model.fields,field_description:hotel_reservation.field_hotel_reservation_open
+#, fuzzy
+#| msgid "No Of Rooms"
+msgid "Open Rooms"
+msgstr "No de habitaciones"
 
 #. module: hotel_reservation
 #: model:ir.ui.view,arch_db:hotel_reservation.view_hotel_reservation_search
@@ -733,7 +763,7 @@ msgid ""
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:177
+#: code:addons/hotel_reservation/models/hotel_reservation.py:195
 #, fuzzy, python-format
 msgid "Please Select Rooms For Reservation."
 msgstr "Informe de reserva de hotel"
@@ -835,7 +865,7 @@ msgid "Room Analysis"
 msgstr "Tipo de habitación"
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:184
+#: code:addons/hotel_reservation/models/hotel_reservation.py:202
 #, python-format
 msgid ""
 "Room Capacity Exceeded \n"
@@ -952,6 +982,11 @@ msgid "Set to Draft"
 msgstr ""
 
 #. module: hotel_reservation
+#: model:ir.model.fields,help:hotel_reservation.field_hotel_reservation_open
+msgid "Should the rooms be opened for arriving guest."
+msgstr ""
+
+#. module: hotel_reservation
 #: model:ir.model.fields,field_description:hotel_reservation.field_hotel_reservation_wizard_date_start
 msgid "Start Date"
 msgstr "Fecha de inicio"
@@ -992,7 +1027,7 @@ msgid ""
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:149
+#: code:addons/hotel_reservation/models/hotel_reservation.py:167
 #, python-format
 msgid ""
 "You cannot delete Reservation in %s                                         "
@@ -1000,7 +1035,7 @@ msgid ""
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:343
+#: code:addons/hotel_reservation/models/hotel_reservation.py:361
 #, python-format
 msgid ""
 "You tried to Confirm Reservation with room those already reserved in this "
@@ -1153,9 +1188,6 @@ msgstr "wizard.make.folio"
 
 #~ msgid "Shipping Address"
 #~ msgstr "Dirección del envío"
-
-#~ msgid "No Of Rooms"
-#~ msgstr "No de habitaciones"
 
 #~ msgid "Invalid XML for View Architecture!"
 #~ msgstr "¡XML inválido para la arquitectura de la vista!"
