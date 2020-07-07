@@ -407,6 +407,7 @@ class HotelFolio(models.Model):
         """
         @param self: object pointer
         """
+        # fixme does not seem to go through here
         room_lst = []
         invoice_id = self.order_id.action_invoice_create(
             grouped=False, final=False
