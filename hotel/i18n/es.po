@@ -1729,8 +1729,8 @@ msgid "Order Status"
 msgstr "Estados"
 
 #. module: hotel
-#: code:addons/hotel/models/hotel_folio.py:432
-#: code:addons/hotel/models/hotel_folio.py:445
+#: code:addons/hotel/models/hotel_folio.py:433
+#: code:addons/hotel/models/hotel_folio.py:446
 #, python-format
 msgid "Order id is not available"
 msgstr ""
