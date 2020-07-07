@@ -143,7 +143,7 @@
             model="ir.actions.act_window">
         <field name="name">Housekeeping Services</field>
         <field name="res_model">hotel.housekeeping</field>
-        <field name="view_type">form</field>
+        <field name="binding_view_types">form</field>
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="view_hotel_housekeeping_tree"/>
     </record>
@@ -188,7 +188,7 @@
             model="ir.actions.act_window">
         <field name="name">Activity Types</field>
         <field name="res_model">hotel.housekeeping.activity.type</field>
-        <field name="view_type">form</field>
+        <field name="binding_view_types">form</field>
         <field name="view_mode">tree,form</field>
     </record>
     <menuitem id="menu_hotel_activity" name="Activity"
@@ -249,7 +249,7 @@
     <record id="action_h_activity_form" model="ir.actions.act_window">
         <field name="name">Activities</field>
         <field name="res_model">hotel.activity</field>
-        <field name="view_type">form</field>
+        <field name="binding_view_types">form</field>
         <field name="view_mode">tree,form</field>
         <field name="context">{'default_isactivitytype':1}</field>
     </record>
