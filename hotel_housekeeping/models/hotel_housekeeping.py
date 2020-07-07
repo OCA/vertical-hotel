@@ -83,7 +83,7 @@ class HotelHousekeeping(models.Model):
         default="inspect",
     )
 
-    @api.multi
+      
     def action_set_to_dirty(self):
         """
         This method is used to change the state
@@ -94,7 +94,7 @@ class HotelHousekeeping(models.Model):
         self.write({"state": "dirty", "quality": False})
         self.activity_line_ids.write({"clean": False, "dirty": True})
 
-    @api.multi
+      
     def room_cancel(self):
         """
         This method is used to change the state
@@ -104,7 +104,7 @@ class HotelHousekeeping(models.Model):
         """
         self.write({"state": "cancel", "quality": False})
 
-    @api.multi
+      
     def room_done(self):
         """
         This method is used to change the state
@@ -114,9 +114,9 @@ class HotelHousekeeping(models.Model):
         """
         if not self.quality:
             raise ValidationError(_("Please update quality of work!"))
-        self.state = "done"
+        self.write({'state':"done"})
 
-    @api.multi
+      
     def room_inspect(self):
         """
         This method is used to change the state
@@ -126,7 +126,7 @@ class HotelHousekeeping(models.Model):
         """
         self.write({"state": "inspect", "quality": False})
 
-    @api.multi
+      
     def room_clean(self):
         """
         This method is used to change the state
