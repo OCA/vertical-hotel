@@ -18,8 +18,8 @@
                     <field name="hotel_reservation_order_ids" colspan="4"
                            nolabel="1" readonly="1">
                         <tree string="Order"
-                              colors="blue:state == 'draft';green:state == 'order'"
-                              toolbar="1">
+                              decoration-success="state=='order'" decoration-info="state=='draft'"
+                              >
                             <field name="order_number"/>
                             <field name="order_date"/>
                             <field name="waitername"/>
@@ -33,8 +33,7 @@
                            nolabel="1"
                            readonly="1">
                         <tree string="Order"
-                              colors="blue:state == 'draft';green:state == 'order';black:state == 'done';"
-                              toolbar="1">
+                               decoration-success="state=='order'" decoration-info="state=='draft'">
                             <field name="order_no"/>
                             <field name="o_date"/>
                             <field name="waiter_name"/>
@@ -101,7 +100,7 @@
             model="ir.actions.act_window">
         <field name="name">Tables</field>
         <field name="res_model">hotel.restaurant.tables</field>
-        <field name="view_type">form</field>
+        <field name="binding_view_types">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 
@@ -174,8 +173,7 @@
         <field name="model">hotel.restaurant.reservation</field>
         <field name="arch" type="xml">
             <tree string="Table Reservation"
-                  colors="blue:state == 'draft';red:state == 'cancel';grey:state == 'done';black:state == 'order';green:state == 'confirm'"
-                  toolbar="1">
+                  decoration-success="state=='confirm'" decoration-info="state=='draft'" decoration-danger="state=='cancel'" decoration-muted="state=='done'">
                 <field name="reservation_id"/>
                 <field name="folio_id"/>
                 <field name="room_no"/>
@@ -234,7 +232,7 @@
             model="ir.actions.act_window">
         <field name="name">Table Booking</field>
         <field name="res_model">hotel.restaurant.reservation</field>
-        <field name="view_type">form</field>
+        <field name="binding_view_types">form</field>
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="view_hotel_restaurant_reservation_tree"/>
     </record>
@@ -294,15 +292,7 @@
                         <newline/>
                         <separator colspan='4' string='Order List'/>
                         <field name="order_list" colspan="4" nolabel='1'>
-                            <form string="Order List">
-                                <group>
-                                    <field name="name"/>
-                                    <field name="item_qty"/>
-                                    <field name="item_rate"/>
-                                    <field name="price_subtotal" invisible="1"/>
-                                </group>
-                            </form>
-                            <tree string="Order List">
+                            <tree string="Order List" editable="top">
                                 <field name="name"/>
                                 <field name="item_qty"/>
                                 <field name="item_rate"/>
@@ -331,8 +321,7 @@
         <field name="model">hotel.reservation.order</field>
         <field name="arch" type="xml">
             <tree string="Order"
-                  colors="blue:state == 'draft';green:state == 'order';grey:state == 'done';"
-                  toolbar="1">
+                    decoration-success="state=='order'" decoration-info="state=='draft'" decoration-muted="state=='done'">
                 <field name="order_number"/>
                 <field name="reservationno"/>
                 <field name="order_date"/>
@@ -370,7 +359,7 @@
             model="ir.actions.act_window">
         <field name="name">Order</field>
         <field name="res_model">hotel.reservation.order</field>
-        <field name="view_type">form</field>
+        <!-- <field name="binding_view_types">form</field> -->
         <field name="view_mode">tree,form</field>
     </record>
 
@@ -440,15 +429,7 @@
                         <newline/>
                         <separator colspan='4' string='Order List'/>
                         <field name="order_list" colspan="4" nolabel='1'>
-                            <form string="Order List">
-                                <group>
-                                    <field name="name"/>
-                                    <field name="item_qty"/>
-                                    <field name="item_rate"/>
-                                    <field name="price_subtotal" invisible="1"/>
-                                </group>
-                            </form>
-                            <tree string="Order List">
+                            <tree string="Order List" editable="top">
                                 <field name="name"/>
                                 <field name="item_qty"/>
                                 <field name="item_rate"/>
@@ -477,8 +458,7 @@
         <field name="model">hotel.restaurant.order</field>
         <field name="arch" type="xml">
             <tree string="Order"
-                  colors="blue:state == 'draft';green:state == 'order';grey:state == 'done';"
-                  toolbar="1">
+                    decoration-success="state=='order'" decoration-info="state=='draft'" decoration-muted="state=='done'">
                 <field name="order_no"/>
                 <field name="o_date"/>
                 <field name="table_no"/>
@@ -516,7 +496,7 @@
             model="ir.actions.act_window">
         <field name="name">Table Order</field>
         <field name="res_model">hotel.restaurant.order</field>
-        <field name="view_type">form</field>
+        <field name="binding_view_types">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 
@@ -616,7 +596,7 @@
             model="ir.actions.act_window">
         <field name="name">Kitchen Order Tickets</field>
         <field name="res_model">hotel.restaurant.kitchen.order.tickets</field>
-        <field name="view_type">form</field>
+        <field name="binding_view_types">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 
@@ -659,7 +639,7 @@
             model="ir.actions.act_window">
         <field name="name">Food Item Type</field>
         <field name="res_model">hotel.menucard.type</field>
-        <field name="view_type">form</field>
+        <field name="binding_view_types">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 
@@ -678,7 +658,7 @@
         <field name="arch" type="xml">
             <form string="Hotel Menucard">
                 <sheet>
-                    <field name="image" widget="image"
+                    <field name="image_1920" widget="image"
                            class="oe_avatar oe_left"/>
                     <div class="oe_title">
                         <div class="oe_edit_only">
@@ -779,14 +759,14 @@
         <field name="arch" type="xml">
             <kanban>
                 <field name="id"/>
-                <field name="image_small"/>
+                <field name="image_1920"/>
                 <field name="lst_price"/>
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_global_click">
                             <div class="o_kanban_image">
                                 <img alt=""
-                                     t-att-src="kanban_image('hotel.menucard', 'image_small', record.id.raw_value)"/>
+                                     t-att-src="kanban_image('hotel.menucard', 'image_1920', record.id.raw_value)"/>
                             </div>
                             <div class="oe_kanban_details">
                                 <h4>
@@ -822,7 +802,7 @@
     <record id="action_hotel_menucard_form" model="ir.actions.act_window">
         <field name="name">Food Item</field>
         <field name="res_model">hotel.menucard</field>
-        <field name="view_type">form</field>
+        <field name="binding_view_types">form</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="context">{'default_available_in_pos':0}
         </field>
