@@ -5,12 +5,13 @@ from odoo import api, fields, models
 
 class HotelHousekeepingWizard(models.TransientModel):
     _name = "hotel.housekeeping.wizard"
+    _description = "hotel.housekeeping.wizard"
 
     date_start = fields.Datetime("Activity Start Date", required=True)
     date_end = fields.Datetime("Activity End Date", required=True)
     room_id = fields.Many2one("hotel.room", "Room No", required=True)
 
-    @api.multi
+      
     def print_report(self):
         data = {
             "ids": self.ids,
