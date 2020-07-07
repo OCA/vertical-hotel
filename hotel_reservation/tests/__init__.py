@@ -1,3 +1,2 @@
-# See LICENSE file for full copyright and licensing details.
-
-from . import test_hotel_reservation
+from . import test_hotel_reservation_coverage
+from . import test_hotel_reservation_flow
