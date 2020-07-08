@@ -31,6 +31,7 @@ class HotelDailyServiceLineWizard(models.TransientModel):
     include_checkin_day = fields.Boolean(
         string="Include Arrival Day", default=False
     )
+    note = fields.Text(string="Note")
 
     @api.model
     def default_get(self, field_names):
@@ -61,6 +62,7 @@ class HotelDailyServiceLineWizard(models.TransientModel):
                         "product_uom_qty": self.quantity,
                         "product_uom": self.hotel_service_id.product_id.uom_id.id,
                         "price_unit": self.hotel_service_id.product_id.list_price,
+                        "note": self.note,
                     }
                 )
                 self.hotel_folio_id.service_lines |= service_line
