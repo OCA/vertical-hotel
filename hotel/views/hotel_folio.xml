@@ -168,6 +168,12 @@
                                             </group>
                                             <newline/>
                                             <field name="tax_id" colspan="4"/>
+                                            <separator string="Note"/>
+                                            <group>
+                                                <group>
+                                                    <field name="note"/>
+                                                </group>
+                                            </group>
                                             <group>
                                                 <separator string="States"
                                                            colspan="4"/>
@@ -191,6 +197,7 @@
                                     <field name="product_uom_qty"/>
                                     <field name="price_unit"/>
                                     <field name="price_subtotal"/>
+                                    <field name="note"/>
                                     <field name="state"/>
                                 </tree>
                             </field>

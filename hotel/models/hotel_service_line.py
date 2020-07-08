@@ -45,6 +45,7 @@ class HotelServiceLine(models.Model):
     ser_checkout_date = fields.Datetime(
         "To Date", required=True, default=_service_checkout_date
     )
+    note = fields.Text(string="Note")
 
     @api.model
     def create(self, vals, check=True):
