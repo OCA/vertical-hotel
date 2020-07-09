@@ -1,0 +1,15 @@
+<odoo>
+    <record id="hotel_service_daily_report_wizard_action" model="ir.actions.act_window">
+        <field name="name">Hotel Service Daily Report Action</field>
+        <field name="res_model">hotel.service.daily.report.wizard</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem name="Hotel Service Daily Report"
+              id="menu_hotel_service_daily_report"
+              action="hotel_service_daily_report_wizard_action"
+              parent="hotel.hotel_report_menu"
+              sequence="5"/>
+</odoo>

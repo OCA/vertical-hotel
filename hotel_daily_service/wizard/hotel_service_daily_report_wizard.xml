@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="hotel_service_daily_report_wizard_view" model="ir.ui.view">
+        <field name="name">Hotel Service Daily Report Wizard View</field>
+        <field name="model">hotel.service.daily.report.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="hotel_service_id"/>
+                        <field name="only_daily"/>
+                    </group>
+                    <group>
+                        <field name="date"/>
+                    </group>
+                </group>
+                <footer>
+                    <button type="object"
+                            name="action_hotel_service_daily_report"
+                            string="Print Daily Report Lines"
+                            class="oe_highlight"/>
+                    <button special="cancel"
+                            string="Cancel"
+                            class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="hotel_daily_service_wizard_view_action" model="ir.actions.act_window">
+        <field name="name">Hotel Daily Service Wizard</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hotel.daily.service.line.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

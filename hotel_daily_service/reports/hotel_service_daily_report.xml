@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright 2020 Coop IT Easy
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <report
+        id="hotel_service_daily_report_action"
+        model="hotel.service.line"
+        string="Hotel Service Daily Report"
+        report_type="qweb-pdf"
+        name="hotel_daily_service.hotel_service_daily_report"
+        file="hotel_daily_service.hotel_service_daily_report"
+    />
+
+    <template id="hotel_service_daily_report">
+        <t t-call="web.html_container">
+            <t t-call="web.internal_layout">
+                <div class="page">
+                    <h1>Service Daily Report</h1>
+                    <div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Guest</th>
+                                    <th>Rooms</th>
+                                    <th>Service</th>
+                                    <th>Quantity</th>
+                                    <th>Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="docs" t-as="service_line">
+                                    <tr>
+                                        <td><span t-field="service_line.ser_checkin_date"/></td>
+                                        <td><span t-field="service_line.folio_id.partner_id.name"/></td>
+                                        <td><span t-esc="', '.join(service_line.folio_id.room_lines.mapped('name'))"/></td>
+                                        <td><span t-field="service_line.name"/></td>
+                                        <td><span t-field="service_line.product_uom_qty"/></td>
+                                        <td><span t-field="service_line.note"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

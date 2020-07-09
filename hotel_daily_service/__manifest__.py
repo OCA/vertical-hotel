@@ -11,6 +11,12 @@
     "external_dependencies": {"python": ["dateutil"]},
     "depends": ["hotel"],
     "demo": ["demo/hotel_daily_service_demo.xml"],
-    "data": ["wizard/hotel_daily_service_wizard.xml", "views/hotel_folio.xml"],
+    "data": [
+        "wizard/hotel_daily_service_wizard.xml",
+        "wizard/hotel_service_daily_report_wizard.xml",
+        "reports/hotel_service_daily_report.xml",
+        "views/hotel_folio.xml",
+        "views/menus.xml",
+    ],
     "installable": True,
 }
