@@ -291,7 +291,7 @@ msgid "Assigned"
 msgstr "Assigned"
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation_line.py:36
+#: code:addons/hotel_reservation/models/hotel_reservation_line.py:38
 #, python-format
 msgid ""
 "Before choosing a room,\n"
@@ -534,11 +534,13 @@ msgstr "Fin"
 
 #. module: hotel_reservation
 #: model:ir.model.fields,field_description:hotel_reservation.field_hotel_reservation_checkin
+#: model:ir.model.fields,field_description:hotel_reservation.field_hotel_reservation_line_checkin
 msgid "Expected-Date-Arrival"
 msgstr "Arrivé"
 
 #. module: hotel_reservation
 #: model:ir.model.fields,field_description:hotel_reservation.field_hotel_reservation_checkout
+#: model:ir.model.fields,field_description:hotel_reservation.field_hotel_reservation_line_checkout
 msgid "Expected-Date-Departure"
 msgstr "Depart"
 
