@@ -8,11 +8,31 @@ class HotelRoomType(models.Model):
     _name = "hotel.room.type"
     _description = "Room Type"
 
-    name = fields.Char(required=True)
     categ_id = fields.Many2one("hotel.room.type", "Category")
     child_ids = fields.One2many(
         "hotel.room.type", "categ_id", "Child Categories"
     )
+    product_categ_id = fields.Many2one(
+        "product.category", "Product Category", delegate=True
+    )
+
+    @api.model
+    def create(self, vals):
+        if "categ_id" in vals:
+            room_categ = self.env["hotel.room.type"].browse(
+                vals.get("categ_id")
+            )
+            vals.update({"parent_id": room_categ.product_categ_id.id})
+        return super(HotelRoomType, self).create(vals)
+
+    @api.multi
+    def write(self, vals):
+        if "categ_id" in vals:
+            room_categ = self.env["hotel.room.type"].browse(
+                vals.get("categ_id")
+            )
+            vals.update({"parent_id": room_categ.product_categ_id.id})
+        return super(HotelRoomType, self).write(vals)
 
     @api.multi
     def name_get(self):

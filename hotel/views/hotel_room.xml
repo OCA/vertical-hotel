@@ -56,7 +56,7 @@
                               string="Information">
                             <group colspan="4" col="4">
                                 <field name="floor_id" string="Floor"/>
-                                <field name="categ_id" select="1"/>
+                                <field name="room_categ_id" select="1"/>
                                 <field name="product_manager" select="2"
                                        string="Room Manager"/>
                                 <field name="capacity"/>
@@ -132,7 +132,7 @@
         <field name="arch" type="xml">
             <search string="Hotel Room">
                 <field name="name"/>
-                <field name="categ_id"/>
+                <field name="room_categ_id"/>
                 <field name="list_price" string="Room rate"/>
                 <field name="status" string="Status"/>
                 <newline/>
@@ -152,7 +152,7 @@
         <field name="arch" type="xml">
             <tree string="Hotel Room">
                 <field name="name"/>
-                <field name="categ_id"/>
+                <field name="room_categ_id"/>
                 <field name="list_price" string="Room rate"/>
                 <field name="status"/>
                 <field name="capacity"/>
