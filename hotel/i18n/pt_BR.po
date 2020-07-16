@@ -427,7 +427,7 @@ msgid "Check if you want this product to appear in the Point of Sale"
 msgstr "Marque se você deseja que este produto apareça no Ponto de Vendas"
 
 #. module: hotel
-#: code:addons/hotel/models/hotel_service_line.py:279
+#: code:addons/hotel/models/hotel_service_line.py:282
 #, python-format
 msgid "Checkout must be greater or equal checkin date"
 msgstr "Checkout must be greater or equal checkin date"
@@ -2943,8 +2943,8 @@ msgid "Warehouse"
 msgstr "Armazém"
 
 #. module: hotel
-#: code:addons/hotel/models/hotel_folio_line.py:284
-#: code:addons/hotel/models/hotel_service_line.py:237
+#: code:addons/hotel/models/hotel_folio_line.py:287
+#: code:addons/hotel/models/hotel_service_line.py:240
 #, fuzzy, python-format
 #| msgid "Warning"
 msgid "Warning for %s"
