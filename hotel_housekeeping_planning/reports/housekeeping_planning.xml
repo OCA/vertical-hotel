@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright 2020 Coop IT Easy
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <template id="hotel_housekeeping_planning_report">
+        <t t-call="web.html_container">
+            <t t-call="web.internal_layout">
+                <div class="page">
+                    <h1>Housekeeping Week
+                        <t t-esc="datetime.date.today().strftime('%V')"/>
+                    </h1>
+                    <div>
+                        <t t-set="rooms_occupation"
+                           t-value="docs.get_housekeeping_weekly_report_data()"/>
+                        <!-- I made sure in room.get_housekeeping_weekly_report_data
+                             that there is always at least one room passed to the report -->
+                        <table class="table" name="weekly_planning_table">
+                            <thead>
+                                <tr>
+                                    <th>Room</th>
+                                    <t t-foreach="rooms_occupation['days']"
+                                       t-as="day">
+                                        <th t-esc="day.strftime('%a %d %b')"/>
+                                    </t>
+                                    <th>Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="rooms_occupation['rooms']"
+                                   t-as="room_data">
+                                    <t t-set="room"
+                                       t-value="room_data['room']"/>
+                                    <tr>
+                                        <td t-esc="room.name"/>
+                                        <t t-foreach="room_data['occupation']"
+                                           t-as="day_occupation">
+                                            <td t-esc="room.get_occupation_acronym(day_occupation)"/>
+                                        </t>
+                                        <td t-esc="room_data['notes']"/>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

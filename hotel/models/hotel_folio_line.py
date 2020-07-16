@@ -147,7 +147,10 @@ class HotelFolioLine(models.Model):
                     and pricelist_item.base_pricelist_id.discount_policy
                     == "without_discount"
                 ):
-                    price, rule_id = pricelist_item.base_pricelist_id.with_context(
+                    (
+                        price,
+                        rule_id,
+                    ) = pricelist_item.base_pricelist_id.with_context(
                         uom=uom.id
                     ).get_product_price_rule(
                         product, qty, self.folio_id.partner_id

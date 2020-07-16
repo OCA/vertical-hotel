@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright 2020 Coop IT Easy
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <report
+        id="action_hotel_housekeeping_planning_report"
+        model="hotel.room"
+        string="Weekly Housekeeping Planning"
+        report_type="qweb-pdf"
+        name="hotel_housekeeping_planning.hotel_housekeeping_planning_report"
+        file="hotel_housekeeping_planning.hotel_housekeeping_planning_report"
+    />
+
+    <record id="housekeeping_weekly_planning_server_action" model="ir.actions.server">
+        <field name="name">Housekeeping Weekly Planning </field>
+        <field name="model_id" ref="hotel.model_hotel_room"/>
+        <field name="state">code</field>
+        <field name="code">
+            action = model.action_housekeeping_planning_report()
+        </field>
+    </record>
+
+    <menuitem name="Weekly Planning"
+              id="menu_housekeeping_planning_report"
+              action="housekeeping_weekly_planning_server_action"
+              parent="hotel_housekeeping.menu_housekeeping"
+              sequence="5"/>
+
+</odoo>

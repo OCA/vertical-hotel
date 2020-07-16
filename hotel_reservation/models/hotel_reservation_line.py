@@ -17,6 +17,8 @@ class HotelReservationLine(models.Model):
                                ('categ_id','=',categ_id)]",
     )
     categ_id = fields.Many2one("hotel.room.type", "Room Type")
+    checkin = fields.Datetime(related="line_id.checkin")
+    checkout = fields.Datetime(related="line_id.checkout")
 
     @api.onchange("categ_id")
     def on_change_categ(self):
