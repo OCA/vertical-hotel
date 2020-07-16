@@ -1,0 +1,72 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* hotel_housekeeping_planning
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: hotel_housekeeping_planning
+#: code:addons/hotel_housekeeping_planning/models/hotel_room.py:127
+#, python-format
+msgid "D/A"
+msgstr ""
+
+#. module: hotel_housekeeping_planning
+#: model:ir.model,name:hotel_housekeeping_planning.model_hotel_room
+msgid "Hotel Room"
+msgstr ""
+
+#. module: hotel_housekeeping_planning
+#: model:ir.model.fields,field_description:hotel_housekeeping_planning.field_hotel_reservation_housekeeping_note
+msgid "Housekeeping Note"
+msgstr ""
+
+#. module: hotel_housekeeping_planning
+#: model:ir.ui.view,arch_db:hotel_housekeeping_planning.hotel_housekeeping_planning_report
+msgid "Housekeeping Week"
+msgstr ""
+
+#. module: hotel_housekeeping_planning
+#: model:ir.actions.server,name:hotel_housekeeping_planning.housekeeping_weekly_planning_server_action
+msgid "Housekeeping Weekly Planning "
+msgstr ""
+
+#. module: hotel_housekeeping_planning
+#: code:addons/hotel_housekeeping_planning/models/hotel_room.py:105
+#, python-format
+msgid "No rooms defined in the hotel."
+msgstr ""
+
+#. module: hotel_housekeeping_planning
+#: model:ir.ui.view,arch_db:hotel_housekeeping_planning.hotel_housekeeping_planning_report
+msgid "Notes"
+msgstr ""
+
+#. module: hotel_housekeeping_planning
+#: model:ir.model,name:hotel_housekeeping_planning.model_hotel_reservation
+msgid "Reservation"
+msgstr ""
+
+#. module: hotel_housekeeping_planning
+#: model:ir.ui.view,arch_db:hotel_housekeeping_planning.hotel_housekeeping_planning_report
+msgid "Room"
+msgstr ""
+
+#. module: hotel_housekeeping_planning
+#: model:ir.actions.report,name:hotel_housekeeping_planning.action_hotel_housekeeping_planning_report
+msgid "Weekly Housekeeping Planning"
+msgstr ""
+
+#. module: hotel_housekeeping_planning
+#: model:ir.ui.menu,name:hotel_housekeeping_planning.menu_housekeeping_planning_report
+msgid "Weekly Planning"
+msgstr ""
+
