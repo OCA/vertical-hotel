@@ -52,7 +52,7 @@ class TestHousekeeping(common.TransactionCase):
             {
                 "name": "test-room-1",
                 "isroom": True,
-                "categ_id": self.ref("hotel.hotel_room_type_1"),
+                "room_categ_id": self.ref("hotel.hotel_room_type_1"),
                 "list_price": 100.0,
                 "capacity": 2,
             }
@@ -61,7 +61,7 @@ class TestHousekeeping(common.TransactionCase):
             {
                 "name": "test-room-2",
                 "isroom": True,
-                "categ_id": self.ref("hotel.hotel_room_type_1"),
+                "room_categ_id": self.ref("hotel.hotel_room_type_1"),
                 "list_price": 110.0,
                 "capacity": 2,
             }
@@ -70,7 +70,7 @@ class TestHousekeeping(common.TransactionCase):
             {
                 "name": "test-room-3",
                 "isroom": True,
-                "categ_id": self.ref("hotel.hotel_room_type_2"),
+                "room_categ_id": self.ref("hotel.hotel_room_type_2"),
                 "list_price": 150.0,
                 "capacity": 3,
             }
