@@ -73,7 +73,7 @@ class HotelRoom(models.Model):
 
     @api.model
     def create(self, vals):
-        if "room_categ_id" in vals:
+        if vals.get("room_categ_id", False):
             room_categ = self.env["hotel.room.type"].browse(
                 vals.get("room_categ_id")
             )
@@ -87,7 +87,7 @@ class HotelRoom(models.Model):
         @param self: The object pointer
         @param vals: dictionary of fields value.
         """
-        if "room_categ_id" in vals:
+        if vals.get("room_categ_id", False):
             room_categ = self.env["hotel.room.type"].browse(
                 vals.get("room_categ_id")
             )

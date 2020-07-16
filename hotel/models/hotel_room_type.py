@@ -18,7 +18,7 @@ class HotelRoomType(models.Model):
 
     @api.model
     def create(self, vals):
-        if "categ_id" in vals:
+        if vals.get("categ_id", False):
             room_categ = self.env["hotel.room.type"].browse(
                 vals.get("categ_id")
             )
@@ -27,7 +27,7 @@ class HotelRoomType(models.Model):
 
     @api.multi
     def write(self, vals):
-        if "categ_id" in vals:
+        if vals.get("categ_id", False):
             room_categ = self.env["hotel.room.type"].browse(
                 vals.get("categ_id")
             )
