@@ -26,6 +26,12 @@ msgid "# Product Variants"
 msgstr ""
 
 #. module: hotel
+#: model:ir.model.fields,field_description:hotel.field_hotel_room_type_product_count
+#, fuzzy
+msgid "# Products"
+msgstr "Product"
+
+#. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_sales_count
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_sales_count
 #: model:ir.model.fields,field_description:hotel.field_hotel_services_sales_count
@@ -156,6 +162,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel.field_res_company_additional_hours
 msgid "Additional Hours"
 msgstr "Additional Hours"
+
+#. module: hotel
+#: model:hotel.room.type,name:hotel.rooms
+#: model:product.category,name:hotel.rooms_product_category
+#, fuzzy
+#| msgid "Available Rooms"
+msgid "All Rooms"
+msgstr "Available Rooms"
 
 #. module: hotel
 #: model:ir.actions.act_window,name:hotel.action_hotel_room_amenities_view_form
@@ -413,6 +427,7 @@ msgstr ""
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_type_child_ids
+#: model:ir.model.fields,field_description:hotel.field_hotel_room_type_child_id
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_type_child_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_type_child_ids
 msgid "Child Categories"
@@ -440,6 +455,11 @@ msgstr "Companies"
 #, fuzzy
 msgid "Company"
 msgstr "Companies"
+
+#. module: hotel
+#: model:ir.model.fields,field_description:hotel.field_hotel_room_type_complete_name
+msgid "Complete Name"
+msgstr ""
 
 #. module: hotel
 #: model:ir.ui.menu,name:hotel.hotel_configuration_menu
@@ -495,6 +515,7 @@ msgstr ""
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_property_cost_method
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_property_cost_method
+#: model:ir.model.fields,field_description:hotel.field_hotel_room_type_property_cost_method
 #: model:ir.model.fields,field_description:hotel.field_hotel_services_property_cost_method
 msgid "Costing Method"
 msgstr ""
@@ -768,6 +789,12 @@ msgid "Display Name"
 msgstr ""
 
 #. module: hotel
+#: model:hotel.room.type,name:hotel.hotel_room_type_2
+#: model:product.category,name:hotel.hotel_room_type_2_product_category
+msgid "Double"
+msgstr ""
+
+#. module: hotel
 #: model:hotel.room,name:hotel.hotel_room_3
 #: model:product.product,name:hotel.hotel_room_3_product_product
 #: model:product.template,name:hotel.hotel_room_3_product_template
@@ -826,6 +853,7 @@ msgstr ""
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_property_account_expense_id
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_property_account_expense_id
+#: model:ir.model.fields,field_description:hotel.field_hotel_room_type_property_account_expense_categ_id
 #: model:ir.model.fields,field_description:hotel.field_hotel_services_property_account_expense_id
 msgid "Expense Account"
 msgstr ""
@@ -922,6 +950,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_message_partner_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_services_message_partner_ids
 msgid "Followers (Partners)"
+msgstr ""
+
+#. module: hotel
+#: model:ir.model.fields,field_description:hotel.field_hotel_room_type_removal_strategy_id
+msgid "Force Removal Strategy"
 msgstr ""
 
 #. module: hotel
@@ -1184,6 +1217,7 @@ msgstr ""
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_property_account_income_id
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_property_account_income_id
+#: model:ir.model.fields,field_description:hotel.field_hotel_room_type_property_account_income_categ_id
 #: model:ir.model.fields,field_description:hotel.field_hotel_services_property_account_income_id
 msgid "Income Account"
 msgstr ""
@@ -1206,6 +1240,12 @@ msgstr ""
 #: model:ir.ui.view,arch_db:hotel.view_hotel_services_form
 msgid "Information"
 msgstr ""
+
+#. module: hotel
+#: model:ir.model.fields,field_description:hotel.field_hotel_room_categ_id
+#, fuzzy
+msgid "Internal Category"
+msgstr "Sobe po kategorijama"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_default_code
@@ -1245,6 +1285,7 @@ msgstr ""
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_property_valuation
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_property_valuation
+#: model:ir.model.fields,field_description:hotel.field_hotel_room_type_property_valuation
 #: model:ir.model.fields,field_description:hotel.field_hotel_services_property_valuation
 msgid "Inventory Valuation"
 msgstr ""
@@ -1451,6 +1492,11 @@ msgid "Layout Sequence"
 msgstr "Sekvenca"
 
 #. module: hotel
+#: model:ir.model.fields,field_description:hotel.field_hotel_room_type_parent_left
+msgid "Left Parent"
+msgstr ""
+
+#. module: hotel
 #: model:ir.ui.view,arch_db:hotel.view_hotel_room_amenities_form
 #, fuzzy
 msgid "List of customer taxes applied on the ty."
@@ -1495,6 +1541,16 @@ msgid ""
 "automatically.\n"
 "        Automated: An accounting entry is automatically created to value the "
 "inventory when a product enters or leaves the company."
+msgstr ""
+
+#. module: hotel
+#: model:ir.model.fields,help:hotel.field_hotel_room_type_property_valuation
+msgid ""
+"Manual: The accounting entries to value the inventory are not posted "
+"automatically.\n"
+"        Automated: An accounting entry is automatically created to value the "
+"inventory when a product enters or leaves the company.\n"
+"        "
 msgstr ""
 
 #. module: hotel
@@ -1737,6 +1793,12 @@ msgid "Package"
 msgstr ""
 
 #. module: hotel
+#: model:ir.model.fields,field_description:hotel.field_hotel_room_type_parent_id
+#, fuzzy
+msgid "Parent Category"
+msgstr "Sobe po kategorijama"
+
+#. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_payment_term_id
 msgid "Payment Terms"
 msgstr ""
@@ -1855,6 +1917,7 @@ msgstr ""
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_product_id
+#: model:ir.model.fields,field_description:hotel.field_hotel_room_type_product_categ_id
 msgid "Product Category"
 msgstr ""
 
@@ -2071,6 +2134,11 @@ msgid "Responsible"
 msgstr ""
 
 #. module: hotel
+#: model:ir.model.fields,field_description:hotel.field_hotel_room_type_parent_right
+msgid "Right Parent"
+msgstr ""
+
+#. module: hotel
 #: model:ir.actions.act_window,name:hotel.action_hotel_room_form
 #: model:ir.ui.menu,name:hotel.menu_hotel_room
 #, fuzzy
@@ -2084,7 +2152,7 @@ msgid "Room Amenities"
 msgstr "Oprema sobe"
 
 #. module: hotel
-#: model:ir.model.fields,field_description:hotel.field_hotel_room_categ_id
+#: model:ir.model.fields,field_description:hotel.field_hotel_room_room_categ_id
 #, fuzzy
 msgid "Room Category"
 msgstr "Sobe po kategorijama"
@@ -2134,7 +2202,7 @@ msgid "Room amenities"
 msgstr ""
 
 #. module: hotel
-#: code:addons/hotel/models/hotel_room.py:56
+#: code:addons/hotel/models/hotel_room.py:60
 #, python-format
 msgid "Room capacity must be more than 0"
 msgstr ""
@@ -2187,6 +2255,7 @@ msgstr ""
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_route_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_route_ids
+#: model:ir.model.fields,field_description:hotel.field_hotel_room_type_route_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_services_route_ids
 msgid "Routes"
 msgstr ""
@@ -2248,6 +2317,11 @@ msgstr ""
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_access_token
 msgid "Security Token"
+msgstr ""
+
+#. module: hotel
+#: model:ir.model.fields,help:hotel.field_hotel_room_categ_id
+msgid "Select category for the current product"
 msgstr ""
 
 #. module: hotel
@@ -2339,6 +2413,13 @@ msgid "Services"
 msgstr "Usluge"
 
 #. module: hotel
+#: model:ir.model.fields,help:hotel.field_hotel_room_type_removal_strategy_id
+msgid ""
+"Set a specific removal strategy that will be used regardless of the source "
+"location for this product category"
+msgstr ""
+
+#. module: hotel
 #: model:ir.ui.view,arch_db:hotel.view_hotel_folio1_form
 msgid "Set to Done"
 msgstr ""
@@ -2352,6 +2433,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_picking_policy
 msgid "Shipping Policy"
 msgstr ""
+
+#. module: hotel
+#: model:hotel.room.type,name:hotel.hotel_room_type_1
+#: model:product.category,name:hotel.hotel_room_type_1_product_category
+#, fuzzy
+msgid "Single"
+msgstr "Jednokrevetna"
 
 #. module: hotel
 #: model:hotel.room,name:hotel.hotel_room_0
@@ -2407,6 +2495,18 @@ msgid ""
 "cost.\n"
 "        First In First Out (FIFO): The products are valued supposing those "
 "that enter the company first will also leave it first."
+msgstr ""
+
+#. module: hotel
+#: model:ir.model.fields,help:hotel.field_hotel_room_type_property_cost_method
+msgid ""
+"Standard Price: The products are valued at their standard cost defined on "
+"the product.\n"
+"        Average Cost (AVCO): The products are valued at weighted average "
+"cost.\n"
+"        First In First Out (FIFO): The products are valued supposing those "
+"that enter the company first will also leave it first.\n"
+"        "
 msgstr ""
 
 #. module: hotel
@@ -2472,8 +2572,14 @@ msgstr ""
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_property_stock_account_input
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_property_stock_account_input
+#: model:ir.model.fields,field_description:hotel.field_hotel_room_type_property_stock_account_input_categ_id
 #: model:ir.model.fields,field_description:hotel.field_hotel_services_property_stock_account_input
 msgid "Stock Input Account"
+msgstr ""
+
+#. module: hotel
+#: model:ir.model.fields,field_description:hotel.field_hotel_room_type_property_stock_journal
+msgid "Stock Journal"
 msgstr ""
 
 #. module: hotel
@@ -2492,6 +2598,7 @@ msgstr ""
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_property_stock_account_output
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_property_stock_account_output
+#: model:ir.model.fields,field_description:hotel.field_hotel_room_type_property_stock_account_output_categ_id
 #: model:ir.model.fields,field_description:hotel.field_hotel_services_property_stock_account_output
 msgid "Stock Output Account"
 msgstr ""
@@ -2501,6 +2608,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_stock_quant_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_services_stock_quant_ids
 msgid "Stock Quant"
+msgstr ""
+
+#. module: hotel
+#: model:ir.model.fields,field_description:hotel.field_hotel_room_type_property_stock_valuation_account_id
+msgid "Stock Valuation Account"
 msgstr ""
 
 #. module: hotel
@@ -2588,6 +2700,15 @@ msgid ""
 msgstr ""
 
 #. module: hotel
+#: model:ir.model.fields,help:hotel.field_hotel_room_type_property_account_expense_categ_id
+msgid ""
+"The expense is accounted for when a vendor bill is validated, except in "
+"anglo-saxon accounting with perpetual inventory valuation in which case the "
+"expense (Cost of Goods Sold account) is recognized at the customer invoice "
+"validation."
+msgstr ""
+
+#. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities_property_account_expense_id
 #: model:ir.model.fields,help:hotel.field_hotel_room_property_account_expense_id
 #: model:ir.model.fields,help:hotel.field_hotel_services_property_account_expense_id
@@ -2597,6 +2718,13 @@ msgid ""
 "expense (Cost of Goods Sold account) is recognized at the customer invoice "
 "validation. If the field is empty, it uses the one defined in the product "
 "category."
+msgstr ""
+
+#. module: hotel
+#: model:ir.model.fields,help:hotel.field_hotel_room_type_product_count
+msgid ""
+"The number of products under this category (Does not consider the children "
+"categories)"
 msgstr ""
 
 #. module: hotel
@@ -2620,6 +2748,11 @@ msgstr ""
 #: model:ir.model.fields,help:hotel.field_hotel_room_weight
 #: model:ir.model.fields,help:hotel.field_hotel_services_weight
 msgid "The weight of the contents in Kg, not including any packaging, etc."
+msgstr ""
+
+#. module: hotel
+#: model:ir.model.fields,help:hotel.field_hotel_room_type_property_account_income_categ_id
+msgid "This account will be used when validating a customer invoice."
 msgstr ""
 
 #. module: hotel
@@ -2708,6 +2841,13 @@ msgid "Total amount"
 msgstr "Ukupni iznos"
 
 #. module: hotel
+#: model:ir.model.fields,field_description:hotel.field_hotel_room_type_total_route_ids
+#, fuzzy
+#| msgid "Total amount"
+msgid "Total routes"
+msgstr "Ukupni iznos"
+
+#. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_service_type
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_service_type
 #: model:ir.model.fields,field_description:hotel.field_hotel_services_service_type
@@ -2720,6 +2860,12 @@ msgstr "Usluge"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_tracking
 #: model:ir.model.fields,field_description:hotel.field_hotel_services_tracking
 msgid "Tracking"
+msgstr ""
+
+#. module: hotel
+#: model:hotel.room.type,name:hotel.hotel_room_type_3
+#: model:product.category,name:hotel.hotel_room_type_3_product_category
+msgid "Triple"
 msgstr ""
 
 #. module: hotel
@@ -2881,6 +3027,16 @@ msgid "Weight"
 msgstr ""
 
 #. module: hotel
+#: model:ir.model.fields,help:hotel.field_hotel_room_type_property_stock_account_input_categ_id
+msgid ""
+"When doing real-time inventory valuation, counterpart journal items for all "
+"incoming stock moves will be posted in this account, unless there is a "
+"specific valuation account set on the source location. This is the default "
+"value for all products in this category. It can also directly be set on each "
+"product"
+msgstr ""
+
+#. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities_property_stock_account_input
 #: model:ir.model.fields,help:hotel.field_hotel_room_property_stock_account_input
 #: model:ir.model.fields,help:hotel.field_hotel_services_property_stock_account_input
@@ -2892,6 +3048,16 @@ msgid ""
 msgstr ""
 
 #. module: hotel
+#: model:ir.model.fields,help:hotel.field_hotel_room_type_property_stock_account_output_categ_id
+msgid ""
+"When doing real-time inventory valuation, counterpart journal items for all "
+"outgoing stock moves will be posted in this account, unless there is a "
+"specific valuation account set on the destination location. This is the "
+"default value for all products in this category. It can also directly be set "
+"on each product"
+msgstr ""
+
+#. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities_property_stock_account_output
 #: model:ir.model.fields,help:hotel.field_hotel_room_property_stock_account_output
 #: model:ir.model.fields,help:hotel.field_hotel_services_property_stock_account_output
@@ -2900,6 +3066,20 @@ msgid ""
 "outgoing stock moves will be posted in this account, unless there is a "
 "specific valuation account set on the destination location. When not set on "
 "the product, the one from the product category is used."
+msgstr ""
+
+#. module: hotel
+#: model:ir.model.fields,help:hotel.field_hotel_room_type_property_stock_journal
+msgid ""
+"When doing real-time inventory valuation, this is the Accounting Journal in "
+"which entries will be automatically posted when stock moves are processed."
+msgstr ""
+
+#. module: hotel
+#: model:ir.model.fields,help:hotel.field_hotel_room_type_property_stock_valuation_account_id
+msgid ""
+"When real-time inventory valuation is enabled on a product, this account "
+"will hold the current value of the products."
 msgstr ""
 
 #. module: hotel
