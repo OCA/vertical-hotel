@@ -28,8 +28,12 @@ class HotelRoom(models.Model):
     )
     max_adult = fields.Integer()
     max_child = fields.Integer()
-    categ_id = fields.Many2one(
-        "hotel.room.type", string="Room Category", required=True
+    room_categ_id = fields.Many2one(
+        "hotel.room.type",
+        "Room Category",
+        required=True,
+        oldname="categ_id",
+        ondelete="restrict",
     )
     room_amenities = fields.Many2many(
         "hotel.room.amenities",
@@ -67,6 +71,15 @@ class HotelRoom(models.Model):
         if self.isroom is True:
             self.status = "available"
 
+    @api.model
+    def create(self, vals):
+        if vals.get("room_categ_id", False):
+            room_categ = self.env["hotel.room.type"].browse(
+                vals.get("room_categ_id")
+            )
+            vals.update({"categ_id": room_categ.product_categ_id.id})
+        return super(HotelRoom, self).create(vals)
+
     @api.multi
     def write(self, vals):
         """
@@ -74,12 +87,16 @@ class HotelRoom(models.Model):
         @param self: The object pointer
         @param vals: dictionary of fields value.
         """
+        if vals.get("room_categ_id", False):
+            room_categ = self.env["hotel.room.type"].browse(
+                vals.get("room_categ_id")
+            )
+            vals.update({"categ_id": room_categ.product_categ_id.id})
         if "isroom" in vals and vals["isroom"] is False:
             vals.update({"color": 2, "status": "occupied"})
         if "isroom" in vals and vals["isroom"] is True:
             vals.update({"color": 5, "status": "available"})
-        ret_val = super(HotelRoom, self).write(vals)
-        return ret_val
+        return super(HotelRoom, self).write(vals)
 
     @api.multi
     def set_room_status_occupied(self):

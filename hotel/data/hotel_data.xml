@@ -74,7 +74,7 @@
     <record id="hotel_room_0" model="hotel.room">
         <field name="name">Single-101</field>
         <field name="isroom">1</field>
-        <field name="categ_id" search="[('name', '=', 'Single')]"/>
+        <field name="room_categ_id" search="[('name', '=', 'Single')]"/>
         <field name="list_price">100.00</field>
         <field name="capacity">2</field>
         <field name="available_in_pos">0</field>
@@ -82,7 +82,7 @@
     <record id="hotel_room_1" model="hotel.room">
         <field name="name">Single-102</field>
         <field name="isroom">1</field>
-        <field name="categ_id" search="[('name', '=', 'Single')]"/>
+        <field name="room_categ_id" search="[('name', '=', 'Single')]"/>
         <field name="list_price">100.00</field>
         <field name="capacity">2</field>
         <field name="available_in_pos">0</field>
@@ -90,7 +90,7 @@
     <record id="hotel_room_2" model="hotel.room">
         <field name="name">Single-103</field>
         <field name="isroom">1</field>
-        <field name="categ_id" search="[('name', '=', 'Single')]"/>
+        <field name="room_categ_id" search="[('name', '=', 'Single')]"/>
         <field name="list_price">100.00</field>
         <field name="capacity">2</field>
         <field name="available_in_pos">0</field>
@@ -98,7 +98,7 @@
     <record id="hotel_room_3" model="hotel.room">
         <field name="name">Double-201</field>
         <field name="isroom">1</field>
-        <field name="categ_id" search="[('name', '=', 'Double')]"/>
+        <field name="room_categ_id" search="[('name', '=', 'Double')]"/>
         <field name="list_price">200.00</field>
         <field name="capacity">5</field>
         <field name="available_in_pos">0</field>
@@ -106,7 +106,7 @@
     <record id="hotel_room_4" model="hotel.room">
         <field name="name">Double-202</field>
         <field name="isroom">1</field>
-        <field name="categ_id" search="[('name', '=', 'Double')]"/>
+        <field name="room_categ_id" search="[('name', '=', 'Double')]"/>
         <field name="list_price">200.00</field>
         <field name="capacity">5</field>
         <field name="available_in_pos">0</field>
@@ -114,7 +114,7 @@
     <record id="hotel_room_5" model="hotel.room">
         <field name="name">Double-203</field>
         <field name="isroom">1</field>
-        <field name="categ_id" search="[('name', '=', 'Double')]"/>
+        <field name="room_categ_id" search="[('name', '=', 'Double')]"/>
         <field name="list_price">200.00</field>
         <field name="capacity">5</field>
         <field name="available_in_pos">0</field>
@@ -123,14 +123,14 @@
         <field name="name">Triple-101</field>
         <field name="isroom">1</field>
         <field name="available_in_pos">0</field>
-        <field name="categ_id" search="[('name', '=', 'Triple')]"/>
+        <field name="room_categ_id" search="[('name', '=', 'Triple')]"/>
         <field name="list_price">300.00</field>
         <field name="capacity">6</field>
     </record>
     <record id="hotel_room_61" model="hotel.room">
         <field name="name">Triple-102</field>
         <field name="isroom">1</field>
-        <field name="categ_id" search="[('name', '=', 'Triple')]"/>
+        <field name="room_categ_id" search="[('name', '=', 'Triple')]"/>
         <field name="list_price">300.00</field>
         <field name="capacity">6</field>
         <field name="available_in_pos">6</field>
