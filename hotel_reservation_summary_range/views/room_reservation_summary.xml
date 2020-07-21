@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Form view of room reservation summary -->
+    <record id="hotel_room_reservation_summary_range_form_view"
+            model="ir.ui.view">
+        <field name="name">hotel.room.reservation.summary.range</field>
+        <field name="model">hotel.room.reservation.summary.range</field>
+        <field name="arch" type="xml">
+            <form string="Reservation Summary">
+                <header>
+                    <separator string="Room Reservation Summary" colspan="4"/>
+                </header>
+                <sheet>
+                    <group colspan="4" col="4">
+                        <div>
+                            <label for="date_from" string="Summary Period"/>
+                            <field name="date_from" class="oe_inline"/>
+                            to
+                            <field name="date_to" class="oe_inline"/>
+                        </div>
+                    </group>
+                    <group>
+                        <field name="room_summary"
+                               colspan="4"
+                               widget="room_reservation_widget"
+                               nolabel="1"
+                        />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_generate_summary_range" model="ir.actions.server">
+        <field name="name">action_generate_summary_range</field>
+        <field name="type">ir.actions.server</field>
+        <field name="model_id"
+               ref="hotel_reservation_summary_range.model_hotel_room_reservation_summary_range"/>
+        <field name="state">code</field>
+        <field name="code">action = model.action_generate_summary()</field>
+    </record>
+
+    <menuitem id="menu_action_hotel_reservation_summary_range"
+              name="Range Summary"
+              action="action_generate_summary_range"
+              parent="hotel_reservation.menu_hotel_reservation"
+              sequence="4"/>
+</odoo>
