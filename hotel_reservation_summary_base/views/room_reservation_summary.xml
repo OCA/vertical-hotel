@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright 2020 Coop IT Easy
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+    <!-- Hide builtin reservation summary -->
+    <record id="make_invisible" model="res.groups">
+        <field name="name">Invisible</field>
+    </record>
+
+    <record id="hotel_reservation.menu_action_hotel_reservation_summary" model="ir.ui.menu" >
+        <field name="groups_id" eval="[(6,0,[ref('make_invisible')])]"/>
+    </record>
+</odoo>

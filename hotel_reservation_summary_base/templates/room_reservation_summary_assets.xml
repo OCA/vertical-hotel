@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <template id="assets_backend" name="Hotel Reservation Summary Assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" href="/hotel_reservation_summary_base/static/src/css/hotel_reservation_summary.css"/>
+            <script type="text/javascript" src="/hotel_reservation_summary_base/static/src/js/hotel_reservation_summary.js"></script>
+        </xpath>
+    </template>
+
+</odoo>
