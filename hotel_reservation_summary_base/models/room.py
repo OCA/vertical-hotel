@@ -62,9 +62,12 @@ class HotelRoom(models.Model):
 
     @api.multi
     def get_room_summary(self, date_from, date_to):
+        """
+        :param date_from: datetime.datew
+        :param date_to: datetime.date
+        :return:
+        """
         self.ensure_one()
-        date_from = Date.from_string(date_from)
-        date_to = Date.from_string(date_to)
         nb_days = (date_to - date_from).days
 
         days = (date_from + timedelta(days=i) for i in range(nb_days))

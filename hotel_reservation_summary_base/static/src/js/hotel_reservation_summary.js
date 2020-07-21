@@ -17,7 +17,6 @@ odoo.define('hotel_reservation_summary_base.hotel_reservation_summary', function
                 this.tagName = 'span';
             }
             this.set({
-                summary_header: py.eval(this.recordData.summary_header),
                 room_summary: py.eval(this.recordData.room_summary),
             });
         },
@@ -27,7 +26,7 @@ odoo.define('hotel_reservation_summary_base.hotel_reservation_summary', function
                 return;
             }
 
-            if (!this.get("summary_header") || !this.get("room_summary")) {
+            if (!this.get("room_summary")) {
                 return;
             }
 
@@ -62,7 +61,6 @@ odoo.define('hotel_reservation_summary_base.hotel_reservation_summary', function
         reset: function (record, event) {
             var res = this._super(record, event);
             this.set({
-                "summary_header": py.eval(this.recordData.summary_header),
                 "room_summary": py.eval(this.recordData.room_summary),
             });
             this.renderElement();

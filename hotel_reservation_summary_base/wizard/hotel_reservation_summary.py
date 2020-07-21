@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 
-from datetime import date, timedelta
+from datetime import timedelta
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
@@ -13,16 +13,13 @@ from odoo.fields import Date
 class RoomReservationSummary(models.AbstractModel):
     _name = "hotel.room.reservation.summary"
     _description = "Alternative Room reservation summary"
-    _form_view = "implementation_module.set_in_implementation_model"  # todo doc
+    _form_view = "implementation_module.set_in_implementation_model"
 
     name = fields.Char(compute="_compute_name")
     date_from = fields.Date(string="Date From", required=True)
     date_to = fields.Date(string="Date To", required=True)
-    summary_header = fields.Text(
-        string="Summary Header", compute="_compute_summary_data"
-    )
     room_summary = fields.Text(
-        string="Room Summary", compute="_compute_summary_data"
+        string="Room Summary", compute="_compute_room_summary"
     )
 
     @api.model
@@ -54,37 +51,54 @@ class RoomReservationSummary(models.AbstractModel):
             summary.name = "{} - {}".format(self.date_from, self.date_to)
 
     @api.multi
-    def _compute_headers(self):
+    def _compute_headers(self, date_from, date_to):
+        """
+        :param date_from: datetime.date
+        :param date_to: datetime.date
+        :return:
+        """
         self.ensure_one()
-        date_from = Date.from_string(self.date_from)
-        date_to = Date.from_string(self.date_to)
         nb_days = (date_to - date_from).days
 
         days = (date_from + timedelta(days=i) for i in range(nb_days))
         days = [day.strftime("%a %d %b") for day in days]
-        headers = [{"header": [_("Rooms")] + days}]
+        headers = [_("Rooms")] + days
         return headers
 
     @api.multi
+    @api.depends("date_from", "date_to")
     def _compute_room_summary(self, rooms=None):
         self.ensure_one()
-        if not rooms:
+        if rooms is None:
             rooms = self.env["hotel.room"].search([])
 
         if not rooms:
             raise ValidationError(_("No room defined in the hotel."))
 
-        rooms_summary = [
-            room.get_room_summary(self.date_from, self.date_to)
-            for room in rooms
-        ]
+        date_from = Date.from_string(self.date_from)
+        date_to = Date.from_string(self.date_to)
 
-        return rooms_summary
+        # align to previous monday
+        date_from = date_from - timedelta(days=date_from.weekday())
 
-    @api.multi
-    @api.depends("date_from", "date_to")
-    def _compute_summary_data(self):
-        self.ensure_one()
-        # todo only send one data dictionary?
-        self.summary_header = str(self._compute_headers())
-        self.room_summary = str(self._compute_room_summary())
+        # align to next monday
+        if date_to.weekday() != 0:
+            date_to = date_to + timedelta(days=7 - date_to.weekday())
+
+        week_start = date_from
+        week_end = date_from + timedelta(days=7)
+
+        room_summary = []
+        while week_end <= date_to:
+            week_data = {
+                "headers": self._compute_headers(week_start, week_end),
+                "rows": [
+                    room.get_room_summary(week_start, week_end)
+                    for room in rooms
+                ],
+            }
+            room_summary.append(week_data)
+            week_start += timedelta(days=7)
+            week_end += timedelta(days=7)
+
+        self.room_summary = str(room_summary)
