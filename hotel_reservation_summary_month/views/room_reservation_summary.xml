@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Form view of room reservation summary -->
+    <record id="hotel_room_reservation_summary_month_form_view"
+            model="ir.ui.view">
+        <field name="name">hotel.room.reservation.summary.month</field>
+        <field name="model">hotel.room.reservation.summary.month</field>
+        <field name="arch" type="xml">
+            <form string="Reservation Summary">
+                <header>
+                    <separator string="Room Reservation Summary" colspan="4"/>
+                </header>
+                <sheet>
+                    <div>
+                        <button name="last_month_action"
+                                string=" Last Month"
+                                class="oe_left"
+                                type="object"/>
+                        <button name="next_month_action"
+                                string="Next Month"
+                                class="oe_right"
+                                type="object"/>
+                    </div>
+                    <group colspan="4" col="4">
+                        <field name="room_summary"
+                               colspan="4"
+                               widget="room_reservation_widget"
+                               nolabel="1"
+                        />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_generate_summary_month" model="ir.actions.server">
+        <field name="name">action_generate_summary_month</field>
+        <field name="type">ir.actions.server</field>
+        <field name="model_id"
+               ref="hotel_reservation_summary_month.model_hotel_room_reservation_summary_month"/>
+        <field name="state">code</field>
+        <field name="code">action = model.action_generate_summary()</field>
+    </record>
+
+    <menuitem id="menu_action_hotel_reservation_summary_month"
+              name="Month Summary"
+              action="action_generate_summary_month"
+              parent="hotel_reservation.menu_hotel_reservation"
+              sequence="5"/>
+</odoo>
