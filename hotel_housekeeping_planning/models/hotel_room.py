@@ -74,7 +74,23 @@ class HotelRoom(models.Model):
             )
             .sorted(lambda rl: rl.checkin)
         )
-        notes = (rl.line_id.housekeeping_note for rl in reservation_lines)
+
+        # Since we cannot in the current code state add note to
+        # reservation lines but only on reservation, the note
+        # is duplicated on each room of the reservation in the report.
+        # We add the date to the housekeeping note to make it clearer.
+
+        def format_note(rl):
+            if rl.line_id.housekeeping_note:
+                local_timestamp = Datetime.context_timestamp(
+                    self, Datetime.from_string(rl.checkin)
+                )
+                checkin = local_timestamp.strftime("%a %d %b")
+                return "{}: {}".format(checkin, rl.line_id.housekeeping_note)
+            else:
+                return False
+
+        notes = (format_note(rl) for rl in reservation_lines)
         notes = (note for note in notes if note)  # remove empty notes (False)
         return "\n".join(notes)
 
