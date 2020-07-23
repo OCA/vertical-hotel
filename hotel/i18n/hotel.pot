@@ -1619,7 +1619,7 @@ msgstr ""
 #. module: hotel
 #: code:addons/hotel/models/hotel.py:667
 #, python-format
-msgid "Not Any Order For  %s "
+msgid "No Order found for %s !"
 msgstr ""
 
 #. module: hotel
@@ -3184,3 +3184,4 @@ msgstr ""
 #: model:ir.model.fields,help:hotel.field_hotel_folio__amount_by_group
 msgid "type: [(name, amount, base, formated amount, formated base)]"
 msgstr ""
+
