@@ -2,6 +2,7 @@
 
 from datetime import datetime, timedelta
 
+from odoo.fields import Datetime
 from odoo.tests import common
 
 _TODAY = datetime.today().replace(hour=10)
@@ -47,7 +48,7 @@ _ROOM_3_OCCUPATION = [
 class TestHousekeeping(common.TransactionCase):
     def setUp(self):
         super(TestHousekeeping, self).setUp()
-
+        self.browse_ref("base.partner_root").tz = "UTC"
         self.room_1 = self.env["hotel.room"].create(
             {
                 "name": "test-room-1",
@@ -169,25 +170,51 @@ class TestHousekeeping(common.TransactionCase):
         )
 
     def test_get_notes(self):
-        self.assertEquals(
-            "fix leaking tap\nadd bed in room 1", self.room_1._get_notes()
+        date_1 = Datetime.from_string(self.reservation_1.checkin)
+        date_str_1 = date_1.strftime("%a %d %b")
+
+        date_2 = Datetime.from_string(self.reservation_2.checkin)
+        date_str_2 = date_2.strftime("%a %d %b")
+
+        expected_room_1 = "\n".join(
+            [
+                "{}: {}".format(date_str_1, "fix leaking tap"),
+                "{}: {}".format(date_str_2, "add bed in room 1"),
+            ]
         )
-        self.assertEquals("add bed in room 1", self.room_2._get_notes())
+        self.assertEquals(expected_room_1, self.room_1._get_notes())
+        self.assertEquals(
+            "{}: {}".format(date_str_2, "add bed in room 1"),
+            self.room_2._get_notes(),
+        )
         self.assertEquals("", self.room_3._get_notes())
 
     def test_get_housekeeping_weekly_report_data(self):
+        date_1 = Datetime.from_string(self.reservation_1.checkin)
+        date_str_1 = date_1.strftime("%a %d %b")
+
+        date_2 = Datetime.from_string(self.reservation_2.checkin)
+        date_str_2 = date_2.strftime("%a %d %b")
+
+        expected_room_1_note = "\n".join(
+            [
+                "{}: {}".format(date_str_1, "fix leaking tap"),
+                "{}: {}".format(date_str_2, "add bed in room 1"),
+            ]
+        )
+
         expected_weekly_planning = {
             "days": [day.date() for day in sorted(_WEEKDAYS.values())],
             "rooms": [
                 {
                     "room": self.room_1,
                     "occupation": _ROOM_1_OCCUPATION,
-                    "notes": "fix leaking tap\nadd bed in room 1",
+                    "notes": expected_room_1_note,
                 },
                 {
                     "room": self.room_2,
                     "occupation": _ROOM_2_OCCUPATION,
-                    "notes": "add bed in room 1",
+                    "notes": "{}: {}".format(date_str_2, "add bed in room 1"),
                 },
                 {
                     "room": self.room_3,
