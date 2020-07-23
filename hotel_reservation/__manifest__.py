@@ -12,6 +12,7 @@
     "depends": ["hotel", "stock", "mail"],
     "demo": ["data/hotel_reservation_data.xml"],
     "data": [
+        "security/reservation_security.xml",
         "security/ir.model.access.csv",
         "data/hotel_scheduler.xml",
         "data/hotel_reservation_sequence.xml",

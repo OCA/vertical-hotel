@@ -2265,4 +2265,3 @@ msgstr ""
 #: model:ir.model,name:hotel_restaurant.model_wizard_hotel_restaurant
 msgid "wizard.hotel.restaurant"
 msgstr ""
-

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE xml>
+<odoo noupdate="1">
+	<!-- Hotel Room Access Rule -->
+	<record id="manager_hotel_room_accessx" model="ir.rule">
+	     <field name="name">Hotel Room Access Rule</field>
+	     <field name="model_id" ref="model_hotel_room"/>
+	     <field name="domain_force"> ['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+	     <field name="groups" eval="[(4, ref('hotel.group_hotel_manager'))]"/>
+	</record>
+
+	<!-- Hotel Reservation Access Rule -->
+	<record id="manager_hotel_reservation_access" model="ir.rule">
+	     <field name="name">Hotel Reservation Access Rule</field>
+	     <field name="model_id" ref="model_hotel_reservation"/>
+	     <field name="domain_force">
+	     	['|',('warehouse_id','=',False),('warehouse_id.company_id','child_of',[user.company_id.id])]
+	     </field>
+	     <field name="groups" eval="[(4, ref('hotel.group_hotel_manager'))]"/>
+	</record>
+
+</odoo>

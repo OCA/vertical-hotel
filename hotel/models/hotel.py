@@ -664,7 +664,7 @@ class HotelFolio(models.Model):
                 self.partner_shipping_id = partner_rec.id
                 self.pricelist_id = partner_rec.property_product_pricelist.id
                 raise ValidationError(
-                    _("Not Any Order For  %s " % (partner_rec.name))
+                    _("No Order found for %s !") % partner_rec.name
                 )
             else:
                 self.partner_invoice_id = partner_rec.id

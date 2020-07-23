@@ -100,4 +100,3 @@ msgstr ""
 #: model:ir.actions.act_window,name:report_hotel_restaurant.action_report_hotel_restaurant_board
 msgid "States By Restaurants"
 msgstr ""
-
