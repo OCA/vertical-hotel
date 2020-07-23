@@ -1132,3 +1132,4 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:hotel_reservation.room_reservation_summary_form_view
 msgid "to"
 msgstr ""
+
