@@ -1687,7 +1687,7 @@ msgstr ""
 #. module: hotel
 #: code:addons/hotel/models/hotel.py:667
 #, python-format
-msgid "Not Any Order For  %s "
+msgid "No Order found for %s !"
 msgstr ""
 
 #. module: hotel
