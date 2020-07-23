@@ -14,7 +14,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: hotel_housekeeping_planning
-#: code:addons/hotel_housekeeping_planning/models/hotel_room.py:127
+#: code:addons/hotel_housekeeping_planning/models/hotel_room.py:143
 #, python-format
 msgid "D/A"
 msgstr ""
@@ -40,7 +40,7 @@ msgid "Housekeeping Weekly Planning "
 msgstr ""
 
 #. module: hotel_housekeeping_planning
-#: code:addons/hotel_housekeeping_planning/models/hotel_room.py:105
+#: code:addons/hotel_housekeeping_planning/models/hotel_room.py:121
 #, python-format
 msgid "No rooms defined in the hotel."
 msgstr ""
