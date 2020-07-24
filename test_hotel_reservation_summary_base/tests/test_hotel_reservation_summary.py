@@ -2,26 +2,19 @@
 #   Robin Keunen <robin@coopiteasy.be>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 
-from odoo.fields import Date, Datetime
+from odoo.fields import Datetime
 
 from odoo.addons.hotel_reservation.tests import test_hotel_reservation_base
 
 
 class TestReservationSummary(test_hotel_reservation_base.TestReservationBase):
     def test_compute_headers(self):
-        today = date.today()
+        today = datetime.today()
         today_plus_1 = today + timedelta(days=1)
         today_plus_2 = today + timedelta(days=2)
         today_plus_3 = today + timedelta(days=3)
-
-        summary = self.env["hotel.room.reservation.summary.test"].create(
-            {
-                "date_from": Date.to_string(today),
-                "date_to": Date.to_string(today_plus_3),
-            }
-        )
 
         expected_headers = [
             "Rooms",
@@ -29,218 +22,126 @@ class TestReservationSummary(test_hotel_reservation_base.TestReservationBase):
             today_plus_1.strftime("%a %d %b"),
             today_plus_2.strftime("%a %d %b"),
         ]
-        computed_headers = summary._compute_headers(today, today_plus_3)
+        computed_headers = self.env[
+            "hotel.room.reservation.summary.test"
+        ]._compute_headers(today, today_plus_3)
         self.assertEquals(expected_headers, computed_headers)
 
-    def test_compute_room_summary(self):
+    def test_get_room_status(self):
         today = date.today()
         monday = today - timedelta(days=today.weekday())
         tuesday = monday + timedelta(days=1)
         sunday = monday + timedelta(days=6)
 
-        expected_room_summary = [
-            {
-                "headers": [
-                    "Rooms",
-                    (monday + timedelta(days=0)).strftime("%a %d %b"),
-                    (monday + timedelta(days=1)).strftime("%a %d %b"),
-                    (monday + timedelta(days=2)).strftime("%a %d %b"),
-                    (monday + timedelta(days=3)).strftime("%a %d %b"),
-                    (monday + timedelta(days=4)).strftime("%a %d %b"),
-                    (monday + timedelta(days=5)).strftime("%a %d %b"),
-                    (monday + timedelta(days=6)).strftime("%a %d %b"),
-                ],
-                "rows": [
-                    {
-                        "name": self.room_1.name,
-                        "value": [
-                            {
-                                "date": Datetime.to_string(monday),
-                                "state": "free",
-                                "state_text": "",
-                                "room_id": self.room_1.id,
-                            },
-                            {
-                                "date": Datetime.to_string(
-                                    monday + timedelta(days=1)
-                                ),
-                                "state": "busy",
-                                "state_text": "A 10:10",
-                                "room_id": self.room_1.id,
-                            },
-                            {
-                                "date": Datetime.to_string(
-                                    monday + timedelta(days=2)
-                                ),
-                                "state": "busy",
-                                "state_text": self.reservation_1.partner_id.name,
-                                "room_id": self.room_1.id,
-                            },
-                            {
-                                "date": Datetime.to_string(
-                                    monday + timedelta(days=3)
-                                ),
-                                "state": "busy",
-                                "state_text": "10:10 D/A 10:10",
-                                "room_id": self.room_1.id,
-                            },
-                            {
-                                "date": Datetime.to_string(
-                                    monday + timedelta(days=4)
-                                ),
-                                "state": "busy",
-                                "state_text": self.reservation_2.partner_id.name,
-                                "room_id": self.room_1.id,
-                            },
-                            {
-                                "date": Datetime.to_string(
-                                    monday + timedelta(days=5)
-                                ),
-                                "state": "busy",
-                                "state_text": "10:10 D",
-                                "room_id": self.room_1.id,
-                            },
-                            {
-                                "date": Datetime.to_string(
-                                    monday + timedelta(days=6)
-                                ),
-                                "state": "free",
-                                "state_text": "",
-                                "room_id": self.room_1.id,
-                            },
-                        ],
-                    },
-                    {
-                        "name": self.room_2.name,
-                        "value": [
-                            {
-                                "date": Datetime.to_string(monday),
-                                "state": "free",
-                                "state_text": "",
-                                "room_id": self.room_2.id,
-                            },
-                            {
-                                "date": Datetime.to_string(
-                                    monday + timedelta(days=1)
-                                ),
-                                "state": "free",
-                                "state_text": "",
-                                "room_id": self.room_2.id,
-                            },
-                            {
-                                "date": Datetime.to_string(
-                                    monday + timedelta(days=2)
-                                ),
-                                "state": "free",
-                                "state_text": "",
-                                "room_id": self.room_2.id,
-                            },
-                            {
-                                "date": Datetime.to_string(
-                                    monday + timedelta(days=3)
-                                ),
-                                "state": "busy",
-                                "state_text": "A 10:10",
-                                "room_id": self.room_2.id,
-                            },
-                            {
-                                "date": Datetime.to_string(
-                                    monday + timedelta(days=4)
-                                ),
-                                "state": "busy",
-                                "state_text": self.reservation_2.partner_id.name,
-                                "room_id": self.room_2.id,
-                            },
-                            {
-                                "date": Datetime.to_string(
-                                    monday + timedelta(days=5)
-                                ),
-                                "state": "busy",
-                                "state_text": "10:10 D",
-                                "room_id": self.room_2.id,
-                            },
-                            {
-                                "date": Datetime.to_string(
-                                    monday + timedelta(days=6)
-                                ),
-                                "state": "free",
-                                "state_text": "",
-                                "room_id": self.room_2.id,
-                            },
-                        ],
-                    },
-                    {
-                        "name": self.room_3.name,
-                        "value": [
-                            {
-                                "date": Datetime.to_string(monday),
-                                "state": "free",
-                                "state_text": "",
-                                "room_id": self.room_3.id,
-                            },
-                            {
-                                "date": Datetime.to_string(
-                                    monday + timedelta(days=1)
-                                ),
-                                "state": "draft",
-                                "state_text": "A 10:10",
-                                "room_id": self.room_3.id,
-                            },
-                            {
-                                "date": Datetime.to_string(
-                                    monday + timedelta(days=2)
-                                ),
-                                "state": "draft",
-                                "state_text": self.reservation_3.partner_id.name,
-                                "room_id": self.room_3.id,
-                            },
-                            {
-                                "date": Datetime.to_string(
-                                    monday + timedelta(days=3)
-                                ),
-                                "state": "draft",
-                                "state_text": self.reservation_3.partner_id.name,
-                                "room_id": self.room_3.id,
-                            },
-                            {
-                                "date": Datetime.to_string(
-                                    monday + timedelta(days=4)
-                                ),
-                                "state": "draft",
-                                "state_text": self.reservation_3.partner_id.name,
-                                "room_id": self.room_3.id,
-                            },
-                            {
-                                "date": Datetime.to_string(
-                                    monday + timedelta(days=5)
-                                ),
-                                "state": "draft",
-                                "state_text": "10:10 D",
-                                "room_id": self.room_3.id,
-                            },
-                            {
-                                "date": Datetime.to_string(
-                                    monday + timedelta(days=6)
-                                ),
-                                "state": "free",
-                                "state_text": "",
-                                "room_id": self.room_3.id,
-                            },
-                        ],
-                    },
-                ],
-            }
-        ]
+        ReservationLine = self.env["hotel_reservation.line"]
 
-        summary = self.env["hotel.room.reservation.summary.test"].create(
-            {
-                "date_from": Date.to_string(tuesday),
-                "date_to": Date.to_string(sunday),
-            }
+        self.assertEquals(
+            self.room_1.get_room_status(monday), ("free", ReservationLine)
         )
-        rooms = self.room_1 | self.room_2 | self.room_3
-        summary._compute_room_summary(rooms=rooms)
+        self.assertEquals(
+            self.room_1.get_room_status(tuesday),
+            ("busy", self.reservation_1_line),
+        )
+        self.assertEquals(
+            self.room_1.get_room_status(sunday), ("free", ReservationLine)
+        )
 
-        # pylint: disable=eval-used,eval-referenced
-        room_summary = eval(summary.room_summary)
-        self.assertEquals(room_summary, expected_room_summary)
+        self.assertEquals(
+            self.room_3.get_room_status(monday), ("free", ReservationLine)
+        )
+        self.assertEquals(
+            self.room_3.get_room_status(tuesday),
+            ("draft", self.reservation_3_line),
+        )
+        self.assertEquals(
+            self.room_3.get_room_status(sunday), ("free", ReservationLine)
+        )
+
+    def test_get_room_daily_summary(self):
+        today = date.today()
+        monday = today - timedelta(days=today.weekday())
+        tuesday = monday + timedelta(days=1)
+        thursday = monday + timedelta(days=3)
+        sunday = monday + timedelta(days=6)
+
+        self.assertEquals(
+            self.room_1.get_room_daily_summary(monday),
+            {
+                "date": Datetime.to_string(monday),
+                "state": "free",
+                "state_text": "",
+                "room_id": self.room_1.id,
+                "reservation_id": False,
+            },
+        )
+        self.assertEquals(
+            self.room_1.get_room_daily_summary(tuesday),
+            {
+                "date": Datetime.to_string(tuesday),
+                "state": "busy",
+                "state_text": "A 10:10",
+                "room_id": self.room_1.id,
+                "reservation_id": self.reservation_1.id,
+            },
+        )
+        self.assertEquals(
+            self.room_1.get_room_daily_summary(thursday),
+            {
+                "date": Datetime.to_string(thursday),
+                "state": "busy",
+                "state_text": "10:10 D/A 10:10",
+                "room_id": self.room_1.id,
+                "reservation_id": self.reservation_2.id,
+            },
+        )
+        self.assertEquals(
+            self.room_1.get_room_daily_summary(sunday),
+            {
+                "date": Datetime.to_string(sunday),
+                "state": "free",
+                "state_text": "",
+                "room_id": self.room_1.id,
+                "reservation_id": False,
+            },
+        )
+
+        self.assertEquals(
+            self.room_3.get_room_daily_summary(monday),
+            {
+                "date": Datetime.to_string(monday),
+                "state": "free",
+                "state_text": "",
+                "room_id": self.room_3.id,
+                "reservation_id": False,
+            },
+        )
+        self.assertEquals(
+            self.room_3.get_room_daily_summary(tuesday),
+            {
+                "date": Datetime.to_string(tuesday),
+                "state": "draft",
+                "state_text": "A 10:10",
+                "room_id": self.room_3.id,
+                "reservation_id": self.reservation_3.id,
+            },
+        )
+        self.assertEquals(
+            self.room_3.get_room_daily_summary(thursday),
+            {
+                "date": Datetime.to_string(thursday),
+                "state": "draft",
+                "state_text": self.reservation_3.partner_id.name,
+                "room_id": self.room_3.id,
+                "reservation_id": self.reservation_3.id,
+            },
+        )
+        self.assertEquals(
+            self.room_3.get_room_daily_summary(sunday),
+            {
+                "date": Datetime.to_string(sunday),
+                "state": "free",
+                "state_text": "",
+                "room_id": self.room_3.id,
+                "reservation_id": False,
+            },
+        )

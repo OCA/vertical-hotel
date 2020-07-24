@@ -50,14 +50,13 @@ class RoomReservationSummary(models.AbstractModel):
         for summary in self:
             summary.name = "{} - {}".format(self.date_from, self.date_to)
 
-    @api.multi
+    @api.model
     def _compute_headers(self, date_from, date_to):
         """
         :param date_from: datetime.date
         :param date_to: datetime.date
         :return:
         """
-        self.ensure_one()
         nb_days = (date_to - date_from).days
 
         days = (date_from + timedelta(days=i) for i in range(nb_days))
@@ -102,3 +101,4 @@ class RoomReservationSummary(models.AbstractModel):
             week_end += timedelta(days=7)
 
         self.room_summary = str(room_summary)
+        return room_summary

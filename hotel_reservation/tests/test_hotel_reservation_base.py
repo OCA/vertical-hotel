@@ -92,7 +92,7 @@ class TestReservationBase(common.TransactionCase):
                 "state": "draft",
             }
         )
-        self.reservation3_line = self.env["hotel_reservation.line"].create(
+        self.reservation_3_line = self.env["hotel_reservation.line"].create(
             {
                 "line_id": self.reservation_3.id,
                 "categ_id": self.ref("hotel.hotel_room_type_2"),
