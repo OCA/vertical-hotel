@@ -74,6 +74,7 @@ class HotelRoom(models.Model):
 
         room_summary = {
             "name": self.name,
+            "room_id": self.id,
             "value": [self.get_room_daily_summary(day) for day in days],
         }
         return room_summary

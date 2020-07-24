@@ -37,6 +37,10 @@ odoo.define('hotel_reservation_summary_base.hotel_reservation_summary', function
             return this.load_form(r);
         },
         load_form: function () {
+            this.bind_quick_room_reservation_action();
+            this.bind_room_action();
+        },
+        bind_quick_room_reservation_action: function () {
             var self = this;
             this.$el.find(".table_free").bind("click", function () {
                 self.do_action({
@@ -49,6 +53,21 @@ odoo.define('hotel_reservation_summary_base.hotel_reservation_summary', function
                         'date': $(this).attr("date"),
                         'default_adults': 1,
                     },
+                });
+            });
+        },
+        bind_room_action: function () {
+            var self = this;
+            this.$el.find(".table_room").bind("click", function () {
+                var room_id = Number($(this).attr("room_id"));
+                self.do_action({
+                    name: 'Hotel Room',
+                    res_model: 'hotel.room',
+                    res_id: room_id,
+                    views: [[false, 'form']],
+                    type: 'ir.actions.act_window',
+                    target: 'new',
+                    context: self.context,
                 });
             });
         },

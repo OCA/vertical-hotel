@@ -16,7 +16,8 @@
                     </tr>
                     <t t-foreach="week_data.rows" t-as="row">
                         <tr>
-                            <td style="text-align:center;">
+                            <td t-attf-class="table_room"
+                                t-att-room_id="row.room_id">
                                 <t t-esc="row.name"/>
                             </td>
                             <t t-foreach="row.value" t-as="status">
