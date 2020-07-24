@@ -39,6 +39,7 @@ odoo.define('hotel_reservation_summary_base.hotel_reservation_summary', function
         load_form: function () {
             this.bind_quick_room_reservation_action();
             this.bind_room_action();
+            this.bind_reservation_action();
         },
         bind_quick_room_reservation_action: function () {
             var self = this;
@@ -49,7 +50,7 @@ odoo.define('hotel_reservation_summary_base.hotel_reservation_summary', function
                     views: [[false, 'form']],
                     target: 'new',
                     context: {
-                        "room_id": $(this).attr("data"),
+                        "room_id": $(this).attr("room_id"),
                         'date': $(this).attr("date"),
                         'default_adults': 1,
                     },
@@ -66,7 +67,23 @@ odoo.define('hotel_reservation_summary_base.hotel_reservation_summary', function
                     res_id: room_id,
                     views: [[false, 'form']],
                     type: 'ir.actions.act_window',
-                    target: 'new',
+                    context: self.context,
+                });
+            });
+        },
+        bind_reservation_action: function () {
+            var self = this;
+            console.log("bind_reservation_action");
+            this.$el.find(".table_busy,.table_draft").bind("click", function () {
+            // this.$el.querySelectorAll(".table_busy,.table_draft").bind("click", function () {
+                console.log("call reservation_action");
+                var reservation_id = Number($(this).attr("reservation_id"));
+                self.do_action({
+                    name: 'Hotel Reservation',
+                    res_model: 'hotel.reservation',
+                    res_id: reservation_id,
+                    views: [[false, 'form']],
+                    type: 'ir.actions.act_window',
                     context: self.context,
                 });
             });

@@ -52,11 +52,20 @@ class HotelRoom(models.Model):
         room_status, reservation_lines = self.get_room_status(day)
         room_status_text = reservation_lines.get_room_summary_cell_text(day)
 
+        if reservation_lines:
+            reservation_lines = reservation_lines.sorted(
+                lambda rl: rl.checkin, reverse=True
+            )
+            reservation_id = reservation_lines[0].line_id.id
+        else:
+            reservation_id = False
+
         daily_summary = {
             "date": Datetime.to_string(day),
             "state": room_status,
             "state_text": room_status_text,
             "room_id": self.id,
+            "reservation_id": reservation_id,
         }
         return daily_summary
 

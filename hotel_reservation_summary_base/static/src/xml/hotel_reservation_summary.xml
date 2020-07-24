@@ -22,7 +22,8 @@
                             </td>
                             <t t-foreach="row.value" t-as="status">
                                 <td t-attf-class="table_#{status.state}"
-                                    t-att-data="status.room_id"
+                                    t-att-room_id="status.room_id"
+                                    t-att-reservation_id="status.reservation_id"
                                     t-att-date="status.date"
                                     style="text-align:center;">
                                     <t t-esc="status.state_text"/>
