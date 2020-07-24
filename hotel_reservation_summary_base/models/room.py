@@ -4,7 +4,7 @@
 from datetime import date, timedelta
 
 from odoo import api, models
-from odoo.fields import Date
+from odoo.fields import Date, Datetime
 
 
 class HotelRoom(models.Model):
@@ -53,7 +53,7 @@ class HotelRoom(models.Model):
         room_status_text = reservation_lines.get_room_summary_cell_text(day)
 
         daily_summary = {
-            "date": Date.to_string(day),
+            "date": Datetime.to_string(day),
             "state": room_status,
             "state_text": room_status_text,
             "room_id": self.id,

@@ -4,7 +4,7 @@
 
 from datetime import date, timedelta
 
-from odoo.fields import Date
+from odoo.fields import Date, Datetime
 
 from odoo.addons.hotel_reservation.tests import test_hotel_reservation_base
 
@@ -55,13 +55,13 @@ class TestReservationSummary(test_hotel_reservation_base.TestReservationBase):
                         "name": self.room_1.name,
                         "value": [
                             {
-                                "date": Date.to_string(monday),
+                                "date": Datetime.to_string(monday),
                                 "state": "free",
                                 "state_text": "",
                                 "room_id": self.room_1.id,
                             },
                             {
-                                "date": Date.to_string(
+                                "date": Datetime.to_string(
                                     monday + timedelta(days=1)
                                 ),
                                 "state": "busy",
@@ -69,7 +69,7 @@ class TestReservationSummary(test_hotel_reservation_base.TestReservationBase):
                                 "room_id": self.room_1.id,
                             },
                             {
-                                "date": Date.to_string(
+                                "date": Datetime.to_string(
                                     monday + timedelta(days=2)
                                 ),
                                 "state": "busy",
@@ -77,7 +77,7 @@ class TestReservationSummary(test_hotel_reservation_base.TestReservationBase):
                                 "room_id": self.room_1.id,
                             },
                             {
-                                "date": Date.to_string(
+                                "date": Datetime.to_string(
                                     monday + timedelta(days=3)
                                 ),
                                 "state": "busy",
@@ -85,7 +85,7 @@ class TestReservationSummary(test_hotel_reservation_base.TestReservationBase):
                                 "room_id": self.room_1.id,
                             },
                             {
-                                "date": Date.to_string(
+                                "date": Datetime.to_string(
                                     monday + timedelta(days=4)
                                 ),
                                 "state": "busy",
@@ -93,7 +93,7 @@ class TestReservationSummary(test_hotel_reservation_base.TestReservationBase):
                                 "room_id": self.room_1.id,
                             },
                             {
-                                "date": Date.to_string(
+                                "date": Datetime.to_string(
                                     monday + timedelta(days=5)
                                 ),
                                 "state": "busy",
@@ -101,7 +101,7 @@ class TestReservationSummary(test_hotel_reservation_base.TestReservationBase):
                                 "room_id": self.room_1.id,
                             },
                             {
-                                "date": Date.to_string(
+                                "date": Datetime.to_string(
                                     monday + timedelta(days=6)
                                 ),
                                 "state": "free",
@@ -114,13 +114,13 @@ class TestReservationSummary(test_hotel_reservation_base.TestReservationBase):
                         "name": self.room_2.name,
                         "value": [
                             {
-                                "date": Date.to_string(monday),
+                                "date": Datetime.to_string(monday),
                                 "state": "free",
                                 "state_text": "",
                                 "room_id": self.room_2.id,
                             },
                             {
-                                "date": Date.to_string(
+                                "date": Datetime.to_string(
                                     monday + timedelta(days=1)
                                 ),
                                 "state": "free",
@@ -128,7 +128,7 @@ class TestReservationSummary(test_hotel_reservation_base.TestReservationBase):
                                 "room_id": self.room_2.id,
                             },
                             {
-                                "date": Date.to_string(
+                                "date": Datetime.to_string(
                                     monday + timedelta(days=2)
                                 ),
                                 "state": "free",
@@ -136,7 +136,7 @@ class TestReservationSummary(test_hotel_reservation_base.TestReservationBase):
                                 "room_id": self.room_2.id,
                             },
                             {
-                                "date": Date.to_string(
+                                "date": Datetime.to_string(
                                     monday + timedelta(days=3)
                                 ),
                                 "state": "busy",
@@ -144,7 +144,7 @@ class TestReservationSummary(test_hotel_reservation_base.TestReservationBase):
                                 "room_id": self.room_2.id,
                             },
                             {
-                                "date": Date.to_string(
+                                "date": Datetime.to_string(
                                     monday + timedelta(days=4)
                                 ),
                                 "state": "busy",
@@ -152,7 +152,7 @@ class TestReservationSummary(test_hotel_reservation_base.TestReservationBase):
                                 "room_id": self.room_2.id,
                             },
                             {
-                                "date": Date.to_string(
+                                "date": Datetime.to_string(
                                     monday + timedelta(days=5)
                                 ),
                                 "state": "busy",
@@ -160,7 +160,7 @@ class TestReservationSummary(test_hotel_reservation_base.TestReservationBase):
                                 "room_id": self.room_2.id,
                             },
                             {
-                                "date": Date.to_string(
+                                "date": Datetime.to_string(
                                     monday + timedelta(days=6)
                                 ),
                                 "state": "free",
@@ -173,13 +173,13 @@ class TestReservationSummary(test_hotel_reservation_base.TestReservationBase):
                         "name": self.room_3.name,
                         "value": [
                             {
-                                "date": Date.to_string(monday),
+                                "date": Datetime.to_string(monday),
                                 "state": "free",
                                 "state_text": "",
                                 "room_id": self.room_3.id,
                             },
                             {
-                                "date": Date.to_string(
+                                "date": Datetime.to_string(
                                     monday + timedelta(days=1)
                                 ),
                                 "state": "draft",
@@ -187,7 +187,7 @@ class TestReservationSummary(test_hotel_reservation_base.TestReservationBase):
                                 "room_id": self.room_3.id,
                             },
                             {
-                                "date": Date.to_string(
+                                "date": Datetime.to_string(
                                     monday + timedelta(days=2)
                                 ),
                                 "state": "draft",
@@ -195,7 +195,7 @@ class TestReservationSummary(test_hotel_reservation_base.TestReservationBase):
                                 "room_id": self.room_3.id,
                             },
                             {
-                                "date": Date.to_string(
+                                "date": Datetime.to_string(
                                     monday + timedelta(days=3)
                                 ),
                                 "state": "draft",
@@ -203,7 +203,7 @@ class TestReservationSummary(test_hotel_reservation_base.TestReservationBase):
                                 "room_id": self.room_3.id,
                             },
                             {
-                                "date": Date.to_string(
+                                "date": Datetime.to_string(
                                     monday + timedelta(days=4)
                                 ),
                                 "state": "draft",
@@ -211,7 +211,7 @@ class TestReservationSummary(test_hotel_reservation_base.TestReservationBase):
                                 "room_id": self.room_3.id,
                             },
                             {
-                                "date": Date.to_string(
+                                "date": Datetime.to_string(
                                     monday + timedelta(days=5)
                                 ),
                                 "state": "draft",
@@ -219,7 +219,7 @@ class TestReservationSummary(test_hotel_reservation_base.TestReservationBase):
                                 "room_id": self.room_3.id,
                             },
                             {
-                                "date": Date.to_string(
+                                "date": Datetime.to_string(
                                     monday + timedelta(days=6)
                                 ),
                                 "state": "free",
