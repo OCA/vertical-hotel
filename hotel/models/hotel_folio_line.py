@@ -151,7 +151,8 @@ class HotelFolioLine(models.Model):
                         price,
                         rule_id,
                     ) = pricelist_item.base_pricelist_id.with_context(
-                        uom=uom.id
+                        uom=uom.id,
+                        date=fields.Date.from_string(self.checkin_date),
                     ).get_product_price_rule(
                         product, qty, self.folio_id.partner_id
                     )
@@ -199,12 +200,13 @@ class HotelFolioLine(models.Model):
         # TO DO: move me in master/saas-16 on sale.order
         if self.folio_id.pricelist_id.discount_policy == "with_discount":
             return product.with_context(
-                pricelist=self.folio_id.pricelist_id.id
+                pricelist=self.folio_id.pricelist_id.id,
+                date=fields.Date.from_string(self.checkin_date),
             ).price
         product_context = dict(
             self.env.context,
             partner_id=self.folio_id.partner_id.id,
-            date=self.folio_id.date_order,
+            date=fields.Date.from_string(self.checkin_date),
             uom=self.product_uom.id,
         )
         final_price, rule_id = self.folio_id.pricelist_id.with_context(
@@ -254,7 +256,7 @@ class HotelFolioLine(models.Model):
             )
 
     @api.multi
-    @api.onchange("product_id")
+    @api.onchange("product_id", "checkin_date", "checkout_date")
     def product_id_change(self):
 
         if not self.product_id:
@@ -273,7 +275,7 @@ class HotelFolioLine(models.Model):
             lang=self.folio_id.partner_id.lang,
             partner=self.folio_id.partner_id.id,
             quantity=vals.get("product_uom_qty") or self.product_uom_qty,
-            date=self.folio_id.date_order,
+            date=fields.Date.from_string(self.checkin_date),
             pricelist=self.folio_id.pricelist_id.id,
             uom=self.product_uom.id,
         )
