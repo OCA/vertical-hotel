@@ -10,6 +10,7 @@
                     <group>
                         <field name="hotel_service_id"/>
                         <field name="include_checkin_day"/>
+                        <field name="include_checkout_day"/>
                     </group>
                     <group>
                         <field name="quantity"/>

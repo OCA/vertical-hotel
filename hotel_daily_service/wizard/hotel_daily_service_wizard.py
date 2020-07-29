@@ -31,6 +31,9 @@ class HotelDailyServiceLineWizard(models.TransientModel):
     include_checkin_day = fields.Boolean(
         string="Include Arrival Day", default=False
     )
+    include_checkout_day = fields.Boolean(
+        string="Include Departure Day", default=False
+    )
     note = fields.Text(string="Note")
 
     @api.model
@@ -42,17 +45,21 @@ class HotelDailyServiceLineWizard(models.TransientModel):
     @api.multi
     def add_daily_service_line(self):
         self.ensure_one()
-        checkin_date = fields.Datetime.from_string(
+        checkin_date = fields.Date.from_string(
             self.hotel_folio_id.checkin_date
         )
-        checkout_date = fields.Datetime.from_string(
+        checkout_date = fields.Date.from_string(
             self.hotel_folio_id.checkout_date
         )
         for date in [
             checkin_date + timedelta(days=n)
             for n in range(int((checkout_date - checkin_date).days) + 1)
         ]:
-            if self.include_checkin_day or date != checkin_date:
+            if (
+                (date != checkin_date and date != checkout_date)
+                or (date == checkin_date and self.include_checkin_day)
+                or (date == checkout_date and self.include_checkout_day)
+            ):
                 service_line = self.env["hotel.service.line"].create(
                     {
                         "order_id": self.hotel_folio_id.order_id.id,
