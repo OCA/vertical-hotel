@@ -32,7 +32,7 @@ class HotelDailyServiceLineWizard(models.TransientModel):
         string="Include Arrival Day", default=False
     )
     include_checkout_day = fields.Boolean(
-        string="Include Departure Day", default=False
+        string="Include Departure Day", default=True
     )
     note = fields.Text(string="Note")
 
