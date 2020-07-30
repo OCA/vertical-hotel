@@ -1,6 +1,6 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
-from odoo.fields import Date, Datetime
+from odoo.fields import Date
 
 
 class HotelDailyServiceLineWizard(models.TransientModel):
@@ -31,7 +31,7 @@ class HotelDailyServiceLineWizard(models.TransientModel):
     def action_hotel_service_daily_report(self):
         service_lines = self.env["hotel.service.line"].search([])
         service_lines = service_lines.filtered(
-            lambda sl: Datetime.from_string(sl.ser_checkin_date).date()
+            lambda sl: fields.Date.from_string(sl.ser_checkin_date)
             == Date.from_string(self.date)
         )
         service_lines = service_lines.filtered(
@@ -44,6 +44,10 @@ class HotelDailyServiceLineWizard(models.TransientModel):
         if self.only_daily:
             service_lines = service_lines.filtered(
                 lambda sl: sl.ser_checkin_date == sl.ser_checkout_date
+            )
+        if not service_lines:
+            raise ValidationError(
+                _("No service lines comply with these filters")
             )
         return self.env.ref(
             "hotel_daily_service.hotel_service_daily_report_action"
