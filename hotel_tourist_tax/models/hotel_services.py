@@ -8,6 +8,6 @@ class HotelServices(models.Model):
 
     @api.model
     def create(self, vals):
-        vals["categ_id"] = self.env.context.get("categ_id")
+        vals["categ_id"] = self.env.context.get("my_service_category_id")
         res = super().create(vals)
         return res
