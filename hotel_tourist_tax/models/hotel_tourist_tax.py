@@ -30,6 +30,6 @@ class HotelTouristTax(models.Model):
             "hotel_tourist_tax.hotel_service_type_tourist_tax"
         )
         res = super(
-            HotelTouristTax, self.with_context(default_categ_id=cat_id.id)
+            HotelTouristTax, self.with_context(categ_id=cat_id.id)
         ).create(vals)
         return res
