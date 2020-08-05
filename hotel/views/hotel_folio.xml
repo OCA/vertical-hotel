@@ -278,6 +278,7 @@
                 <field name="partner_id" />
                 <field name="date_order" />
                 <field name="state" />
+                <field name="invoice_status" />
                 <field name="amount_total" sum="Total amount" />
             </tree>
         </field>
