@@ -1,5 +1,6 @@
 # See LICENSE file for full copyright and licensing details.
 import time
+from ast import literal_eval
 from datetime import timedelta
 
 from odoo import _, api, fields, models

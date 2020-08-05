@@ -64,4 +64,25 @@
         </field>
         <field name="view_mode">tree,form</field>
     </record>
+
+    <record id="ir_actions_server_confirm" model="ir.actions.server">
+        <field name="name">Confirm Sale</field>
+        <field name="type">ir.actions.server</field>
+        <field name="model_id" ref="model_hotel_folio"/>
+        <field name="binding_model_id" ref="model_hotel_folio"/>
+        <field name="state">code</field>
+        <field name="code">
+            records.action_confirm()
+        </field>
+    </record>
+
+    <record id="action_view_sale_advance_payment_inv" model="ir.actions.act_window">
+            <field name="name">Create invoices</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.advance.payment.inv</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="hotel.model_hotel_folio" />
+            <field name="binding_view_types">list</field>
+        </record>
 </odoo>
