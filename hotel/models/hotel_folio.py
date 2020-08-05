@@ -409,11 +409,11 @@ class HotelFolio(models.Model):
         """
         # fixme does not seem to go through here
         room_lst = []
-        invoice_id = self.order_id.action_invoice_create(
+        invoice_id = self.mapped("order_id").action_invoice_create(
             grouped=False, final=False
         )
         for line in self:
-            values = {"invoiced": True, "hotel_invoice_id": invoice_id}
+            values = {"invoiced": True, "hotel_invoice_id": invoice_id[0]}
             line.write(values)
             for rec in line.room_lines:
                 room_lst.append(rec.product_id)
@@ -451,7 +451,7 @@ class HotelFolio(models.Model):
 
     @api.multi
     def action_confirm(self):
-        for order in self.order_id:
+        for order in self.mapped("order_id"):
             order.state = "sale"
             if not order.analytic_account_id:
                 for line in order.order_line:
@@ -460,7 +460,7 @@ class HotelFolio(models.Model):
                         break
         config_parameter_obj = self.env["ir.config_parameter"]
         if config_parameter_obj.sudo().get_param("sale.auto_done_setting"):
-            self.order_id.action_done()
+            self.mapped("order_id").action_done()
 
     @api.multi
     def test_state(self, mode):
