@@ -16,6 +16,8 @@ class HotelFolio(models.Model):
                 or bool(vals.get("children"))
             ) and not bool(
                 vals.get("service_lines")  # prevent recursion
+                or rec.invoice_status == "invoiced"
+                or bool(rec.hotel_invoice_id)
             ):
                 rec.update_tourist_tax()
         return res
@@ -26,9 +28,16 @@ class HotelFolio(models.Model):
         res.update_tourist_tax()
         return res
 
+    @api.onchange("duration", "adults", "children")
+    def onchange_fieldname(self):
+        self.update_tourist_tax()
+
     @api.multi
     def update_tourist_tax(self):
         self.ensure_one()
+
+        if not self.order_id:
+            return
 
         # Remove existing taxes
         for service_line in self.service_lines:
