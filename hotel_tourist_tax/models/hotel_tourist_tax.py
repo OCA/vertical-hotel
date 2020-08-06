@@ -33,4 +33,7 @@ class HotelTouristTax(models.Model):
             HotelTouristTax,
             self.with_context(my_service_category_id=cat_id.id),
         ).create(vals)
+        res.hotel_service_id.product_id.taxes_id = (
+            False
+        )  # No taxes on the related product
         return res
