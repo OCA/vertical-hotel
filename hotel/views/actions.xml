@@ -87,7 +87,6 @@
         <field name="model_id" ref="model_hotel_folio"/>
         <field name="binding_model_id" ref="model_hotel_folio"/>
         <field name="state">code</field>
-        <field name="multi" eval="True"/>
         <field name="code">
             records.action_confirm()
         </field>
@@ -99,7 +98,6 @@
         <field name="model_id" ref="model_hotel_folio"/>
         <field name="binding_model_id" ref="model_hotel_folio"/>
         <field name="state">code</field>
-        <field name="multi" eval="True"/>
         <field name="code">
             records.action_invoice_create()
         </field>
