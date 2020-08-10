@@ -49,7 +49,7 @@ class RoomReservationSummary(models.TransientModel):
         return self.get_summary_action()
 
     @api.multi
-    def last_month_action(self):
+    def previous_month_action(self):
         self.ensure_one()
         date_from = Date.from_string(self.date_from)
         self.date_from = date_from.replace(month=(date_from.month - 1) % 12)

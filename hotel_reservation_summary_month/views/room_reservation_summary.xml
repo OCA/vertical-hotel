@@ -12,8 +12,8 @@
                 </header>
                 <sheet>
                     <div>
-                        <button name="last_month_action"
-                                string=" Last Month"
+                        <button name="previous_month_action"
+                                string=" Previous Month"
                                 class="oe_left"
                                 type="object"/>
                         <button name="next_month_action"

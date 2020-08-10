@@ -12,8 +12,8 @@
                 </header>
                 <sheet>
                     <div>
-                        <button name="last_week_action"
-                                string="Last Week"
+                        <button name="previous_week_action"
+                                string="Previous Week"
                                 class="oe_left"
                                 type="object"/>
                         <button name="next_week_action"

@@ -43,7 +43,7 @@ class RoomReservationSummary(models.TransientModel):
         return self.get_summary_action()
 
     @api.multi
-    def last_week_action(self):
+    def previous_week_action(self):
         self.ensure_one()
         week_start = Date.from_string(self.date_from) - timedelta(days=7)
         next_week_start = Date.from_string(self.date_to) - timedelta(days=7)
