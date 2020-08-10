@@ -30,7 +30,7 @@ class HotelReservationLine(models.Model):
         """
         hotel_room_obj = self.env["hotel.room"]
         hotel_room_ids = hotel_room_obj.search(
-            [("categ_id", "=", self.categ_id.id)]
+            [("room_categ_id", "=", self.categ_id.id)]
         )
         room_ids = []
         if not self.line_id.checkin:
