@@ -1891,6 +1891,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_price
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_price
 #: model:ir.model.fields,field_description:hotel.field_hotel_services_price
+#: model:ir.ui.view,arch_db:hotel.view_hotel_room_form
 msgid "Price"
 msgstr "Preço"
 
@@ -1917,6 +1918,7 @@ msgstr "Price Reduce Tax inc"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_pricelist_id
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_pricelist_id
 #: model:ir.model.fields,field_description:hotel.field_hotel_services_pricelist_id
+#: model:ir.ui.view,arch_db:hotel.view_hotel_room_form
 msgid "Pricelist"
 msgstr "Lista de Preço"
 
@@ -1932,6 +1934,7 @@ msgstr "Itens da lista de preço"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_item_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_item_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_services_item_ids
+#: model:ir.ui.view,arch_db:hotel.view_hotel_room_form
 msgid "Pricelist Items"
 msgstr "Itens da lista de preço"
 
@@ -1939,6 +1942,13 @@ msgstr "Itens da lista de preço"
 #: model:ir.model.fields,help:hotel.field_hotel_folio_pricelist_id
 msgid "Pricelist for current sales order."
 msgstr "Lista de preços para o pedido de venda atual."
+
+#. module: hotel
+#: model:ir.ui.view,arch_db:hotel.view_hotel_room_form
+#, fuzzy
+#| msgid "Price"
+msgid "Pricing"
+msgstr "Preço"
 
 #. module: hotel
 #: model:ir.ui.view,arch_db:hotel.view_hotel_folio_wizard
@@ -3092,7 +3102,7 @@ msgid "Warehouse"
 msgstr "Armazém"
 
 #. module: hotel
-#: code:addons/hotel/models/hotel_folio_line.py:287
+#: code:addons/hotel/models/hotel_folio_line.py:289
 #: code:addons/hotel/models/hotel_service_line.py:240
 #, fuzzy, python-format
 #| msgid "Warning"

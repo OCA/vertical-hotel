@@ -1831,6 +1831,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_price
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_price
 #: model:ir.model.fields,field_description:hotel.field_hotel_services_price
+#: model:ir.ui.view,arch_db:hotel.view_hotel_room_form
 msgid "Price"
 msgstr ""
 
@@ -1857,6 +1858,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_pricelist_id
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_pricelist_id
 #: model:ir.model.fields,field_description:hotel.field_hotel_services_pricelist_id
+#: model:ir.ui.view,arch_db:hotel.view_hotel_room_form
 msgid "Pricelist"
 msgstr ""
 
@@ -1871,12 +1873,18 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_item_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_item_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_services_item_ids
+#: model:ir.ui.view,arch_db:hotel.view_hotel_room_form
 msgid "Pricelist Items"
 msgstr ""
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio_pricelist_id
 msgid "Pricelist for current sales order."
+msgstr ""
+
+#. module: hotel
+#: model:ir.ui.view,arch_db:hotel.view_hotel_room_form
+msgid "Pricing"
 msgstr ""
 
 #. module: hotel
@@ -2997,7 +3005,7 @@ msgid "Warehouse"
 msgstr ""
 
 #. module: hotel
-#: code:addons/hotel/models/hotel_folio_line.py:287
+#: code:addons/hotel/models/hotel_folio_line.py:289
 #: code:addons/hotel/models/hotel_service_line.py:240
 #, python-format
 msgid "Warning for %s"
