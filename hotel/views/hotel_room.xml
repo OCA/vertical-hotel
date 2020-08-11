@@ -62,6 +62,24 @@
                                 <field name="capacity"/>
                                 <field name="uom_id" invisible="1"/>
                             </group>
+                            <div name="pricelist_item" groups="product.group_product_pricelist">
+                                <newline/>
+                                <separator colspan='4' string="Pricing"/>
+                                <group>
+                                    <group>
+                                        <field name="list_price"/>
+                                    </group>
+                                </group>
+                                <field name="item_ids" nolabel="1" context="{'default_base':'list_price', 'default_applied_on' :'1_product'}">
+                                    <tree string="Pricelist Items" editable="bottom">
+                                        <field name="pricelist_id" string="Pricelist" required='1'/>
+                                        <field name="fixed_price" string="Price" required='1'/>
+                                        <field name="date_start"/>
+                                        <field name="date_end"/>
+                                        <field name="applied_on" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </div>
                             <newline/>
                             <separator colspan='4' string="Supplier Taxes"/>
                             <field name="supplier_taxes_id" colspan="4"
