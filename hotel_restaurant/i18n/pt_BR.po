@@ -61,7 +61,6 @@ msgstr "<strong>Nome do Cliente</strong>"
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.report_order_bill
 #, fuzzy
-#| msgid "<strong>Date : </strong>"
 msgid "<strong>Date :</strong>"
 msgstr "<strong> Data: </strong>"
 
@@ -302,7 +301,6 @@ msgstr "Endereço"
 #: model:hotel.menucard,name:hotel_restaurant.hotel_fooditem_19
 #: model:product.product,name:hotel_restaurant.hotel_fooditem_19_product_product
 #, fuzzy
-#| msgid "Appam "
 msgid "Appam"
 msgstr "Appam "
 

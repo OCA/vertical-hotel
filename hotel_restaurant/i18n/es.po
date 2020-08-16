@@ -26,7 +26,6 @@ msgstr ""
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.report_hotel_order_kot
 #, fuzzy
-#| msgid "Food Item List"
 msgid "<span>Food Item List</span>"
 msgstr "Lista de alimentos"
 
@@ -34,7 +33,6 @@ msgstr "Lista de alimentos"
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.report_order_bill
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.report_res_order_bill
 #, fuzzy
-#| msgid "Order List"
 msgid "<span>Order List</span>"
 msgstr "Lista de pedidos"
 
@@ -62,14 +60,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.report_reserv_order
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.report_rest_order
 #, fuzzy
-#| msgid "Customer Name"
 msgid "<strong>Customer Name</strong>"
 msgstr "Nombre del cliente"
 
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.report_order_bill
 #, fuzzy
-#| msgid "Customer Name"
 msgid "<strong>Date :</strong>"
 msgstr "Nombre del cliente"
 
@@ -163,7 +159,6 @@ msgstr ""
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.report_res_table
 #, fuzzy
-#| msgid "Reservation No"
 msgid "<strong>Reservation No</strong>"
 msgstr "Número de reserva"
 
@@ -210,7 +205,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.report_order_bill
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.report_res_order_bill
 #, fuzzy
-#| msgid "Table Information"
 msgid "<strong>Table Information</strong>"
 msgstr "Información de la mesa"
 
@@ -374,7 +368,6 @@ msgstr "Capacidad"
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__route_from_categ_ids
 #, fuzzy
-#| msgid "category"
 msgid "Category Routes"
 msgstr "categoría"
 
@@ -386,14 +379,12 @@ msgstr ""
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.hotel_manucard_kanban_view
 #, fuzzy
-#| msgid "category"
 msgid "Category:"
 msgstr "categoría"
 
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_menucard_search_new
 #, fuzzy
-#| msgid "category"
 msgid "Categoty"
 msgstr "categoría"
 
@@ -428,7 +419,6 @@ msgstr ""
 #. module: hotel_restaurant
 #: model_terms:ir.actions.act_window,help:hotel_restaurant.action_hotel_menucard_form
 #, fuzzy
-#| msgid "Food Items"
 msgid "Click to Add Food Items"
 msgstr "Alimentos"
 
@@ -498,7 +488,6 @@ msgstr "Crear pedido"
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_tables__create_uid
 #: model:ir.model.fields,field_description:hotel_restaurant.field_wizard_hotel_restaurant__create_uid
 #, fuzzy
-#| msgid "Create Kot"
 msgid "Created by"
 msgstr "Create Kot"
 
@@ -514,7 +503,6 @@ msgstr "Create Kot"
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_tables__create_date
 #: model:ir.model.fields,field_description:hotel_restaurant.field_wizard_hotel_restaurant__create_date
 #, fuzzy
-#| msgid "Create Kot"
 msgid "Created on"
 msgstr "Create Kot"
 
@@ -526,7 +514,6 @@ msgstr ""
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_reservation_search
 #, fuzzy
-#| msgid "Table Booking"
 msgid "Current Booking"
 msgstr "Reserva de mesa"
 
@@ -553,7 +540,6 @@ msgstr "Factura cliente"
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__sale_delay
 #, fuzzy
-#| msgid "Customer Name"
 msgid "Customer Lead Time"
 msgstr "Nombre del cliente"
 
@@ -573,7 +559,6 @@ msgstr "Factura pedido de cliente"
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__partner_ref
 #, fuzzy
-#| msgid "Customer Name"
 msgid "Customer Ref"
 msgstr "Nombre del cliente"
 
@@ -581,7 +566,6 @@ msgstr "Nombre del cliente"
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__taxes_id
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_menucard_form
 #, fuzzy
-#| msgid "Customer Name"
 msgid "Customer Taxes"
 msgstr "Nombre del cliente"
 
@@ -648,14 +632,12 @@ msgstr ""
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__description_picking
 #, fuzzy
-#| msgid "Description"
 msgid "Description on Picking"
 msgstr "Descripción"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__description_pickingin
 #, fuzzy
-#| msgid "Descriptions"
 msgid "Description on Receptions"
 msgstr "Descripciones"
 
@@ -722,7 +704,6 @@ msgstr ""
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_reservation__end_date
 #, fuzzy
-#| msgid "End Date"
 msgid "End Time"
 msgstr "Fecha fin"
 
@@ -775,7 +756,6 @@ msgstr "Alimento"
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__categ_id
 #, fuzzy
-#| msgid "Food Item List"
 msgid "Food Item Category"
 msgstr "Lista de alimentos"
 
@@ -783,14 +763,12 @@ msgstr "Lista de alimentos"
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_menucard_form
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_menucard_type_form
 #, fuzzy
-#| msgid "Food Item"
 msgid "Food Item Name"
 msgstr "Alimento"
 
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_menucard_tree
 #, fuzzy
-#| msgid "Food Item List"
 msgid "Food Item Rate"
 msgstr "Lista de alimentos"
 
@@ -803,14 +781,12 @@ msgstr "Lista de alimentos"
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_menucard_tree
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_menucard_type_form
 #, fuzzy
-#| msgid "FoodItem Types"
 msgid "Food Item Type"
 msgstr "Tipo de alimentos"
 
 #. module: hotel_restaurant
 #: model:ir.ui.menu,name:hotel_restaurant.menu_action_hotel_menucard_type_view_form
 #, fuzzy
-#| msgid "FoodItem Types"
 msgid "Food Item Types"
 msgstr "Tipo de alimentos"
 
@@ -827,14 +803,12 @@ msgstr ""
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_menucard_form
 #, fuzzy
-#| msgid "FoodItem Types"
 msgid "Food Type"
 msgstr "Tipo de alimentos"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__virtual_available
 #, fuzzy
-#| msgid "Quantity"
 msgid "Forecast Quantity"
 msgstr "Cantidad"
 
@@ -854,7 +828,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_reservation_order_form
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_order_form
 #, fuzzy
-#| msgid "Generate KOT"
 msgid "Generate Bill"
 msgstr "Generate KOT"
 
@@ -1023,14 +996,12 @@ msgstr ""
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__property_stock_inventory
 #, fuzzy
-#| msgid "Information"
 msgid "Inventory Location"
 msgstr "Información"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__property_valuation
 #, fuzzy
-#| msgid "Information"
 msgid "Inventory Valuation"
 msgstr "Información"
 
@@ -1119,14 +1090,12 @@ msgstr "Tickets de pedido de cocina"
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_reservation_order__kitchen_id
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_order__kitchen_id
 #, fuzzy
-#| msgid "Kitchen Order List"
 msgid "Kitchen id"
 msgstr "Lista de pedidos de cocina"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_restaurant_kitchen_order_tickets__kot_list
 #, fuzzy
-#| msgid "Kitchen Order List"
 msgid "Kitchen order list"
 msgstr "Lista de pedidos de cocina"
 
@@ -1189,7 +1158,6 @@ msgstr ""
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__location_id
 #, fuzzy
-#| msgid "Information"
 msgid "Location"
 msgstr "Información"
 
@@ -1265,7 +1233,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__name
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard_type__name
 #, fuzzy
-#| msgid "Item Name"
 msgid "Name"
 msgstr "Nombre del detalle"
 
@@ -1287,7 +1254,6 @@ msgstr ""
 #. module: hotel_restaurant
 #: model_terms:ir.actions.act_window,help:hotel_restaurant.action_hotel_menucard_form
 #, fuzzy
-#| msgid "Food Items"
 msgid "No Food Items"
 msgstr "Alimentos"
 
@@ -1343,14 +1309,12 @@ msgstr "Pedido"
 #: selection:hotel.restaurant.order,state:0
 #: selection:hotel.restaurant.reservation,state:0
 #, fuzzy
-#| msgid "Order Generate"
 msgid "Order Created"
 msgstr "Generar pedido"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_order__o_date
 #, fuzzy
-#| msgid "Order Generate"
 msgid "Order Date"
 msgstr "Generar pedido"
 
@@ -1378,7 +1342,6 @@ msgstr "Número de pedido"
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_folio_rest_reservation
 #, fuzzy
-#| msgid "Order No"
 msgid "Order Report"
 msgstr "Pedido No"
 
@@ -1386,7 +1349,6 @@ msgstr "Pedido No"
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_reservation_order_tree
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotelfolio1_form1_inherited
 #, fuzzy
-#| msgid "Order No"
 msgid "Order Total"
 msgstr "Pedido No"
 
@@ -1443,7 +1405,6 @@ msgstr ""
 #: code:addons/hotel_restaurant/models/hotel_restaurant.py:460
 #: code:addons/hotel_restaurant/models/hotel_restaurant.py:667
 #, fuzzy, python-format
-#| msgid "Reservation Order"
 msgid "Please Give an Order"
 msgstr "Pedido de reserva"
 
@@ -1504,7 +1465,6 @@ msgstr "Adquisición"
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__product_id
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__product_variant_id
 #, fuzzy
-#| msgid "Product_id"
 msgid "Product"
 msgstr "Product_id"
 
@@ -1531,7 +1491,6 @@ msgstr ""
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__type
 #, fuzzy
-#| msgid "Product_id"
 msgid "Product Type"
 msgstr "Product_id"
 
@@ -1543,7 +1502,6 @@ msgstr ""
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__product_variant_ids
 #, fuzzy
-#| msgid "Product_id"
 msgid "Products"
 msgstr "Product_id"
 
@@ -1571,7 +1529,6 @@ msgstr "Cantidad"
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__qty_available
 #, fuzzy
-#| msgid "Quantity"
 msgid "Quantity On Hand"
 msgstr "Cantidad"
 
@@ -1677,21 +1634,18 @@ msgstr "Restaurante"
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_order_list__o_list
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_order_search
 #, fuzzy
-#| msgid "Restaurant"
 msgid "Restaurant Order"
 msgstr "Restaurante"
 
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotelfolio1_form1_inherited
 #, fuzzy
-#| msgid "Includes Hotel Restaurant Reservation"
 msgid "Restaurant Order Reservation Details"
 msgstr "Incluye reserva en el restaurante del hotel"
 
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_folio_rest_reservation
 #, fuzzy
-#| msgid "Restaurant"
 msgid "Restaurant Orders"
 msgstr "Restaurante"
 
@@ -1704,14 +1658,12 @@ msgstr ""
 #: model:ir.actions.act_window,name:hotel_restaurant.action_folio_rest_reservation
 #: model:ir.ui.menu,name:hotel_restaurant.folio_rest_reservation_menu
 #, fuzzy
-#| msgid "Restaurant"
 msgid "Restaurant Reports"
 msgstr "Restaurante"
 
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_reservation_search
 #, fuzzy
-#| msgid "Includes Hotel Restaurant Reservation"
 msgid "Restaurant Reservation"
 msgstr "Incluye reserva en el restaurante del hotel"
 
@@ -1723,7 +1675,6 @@ msgstr ""
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_kitchen_order_search
 #, fuzzy
-#| msgid "Reservation Order"
 msgid "Restaurant kitchen Order"
 msgstr "Pedido de reserva"
 
@@ -1736,14 +1687,12 @@ msgstr ""
 #: model:ir.actions.report,name:hotel_restaurant.report_hotel_res_folio
 #: model:ir.actions.report,name:hotel_restaurant.report_hotel_res_folio1
 #, fuzzy
-#| msgid "Restaurant"
 msgid "Restaurants Reports"
 msgstr "Restaurante"
 
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.report_rest_order
 #, fuzzy
-#| msgid "Reservation Order"
 msgid "Restaurants Reservation Order Details"
 msgstr "Pedido de reserva"
 
@@ -1778,7 +1727,6 @@ msgstr ""
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__sale_line_warn
 #, fuzzy
-#| msgid "Table Order"
 msgid "Sales Order Line"
 msgstr "Pedido mesa"
 
@@ -1848,7 +1796,6 @@ msgstr ""
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_reservation__start_date
 #, fuzzy
-#| msgid "Start Date"
 msgid "Start Time"
 msgstr "Fecha de inicio"
 
@@ -1856,14 +1803,12 @@ msgstr "Fecha de inicio"
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_reservation_order__state
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_order__state
 #, fuzzy
-#| msgid "state"
 msgid "State"
 msgstr "estado"
 
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_reservation_search
 #, fuzzy
-#| msgid "state"
 msgid "States"
 msgstr "estado"
 
@@ -1941,7 +1886,6 @@ msgstr "Reserva de mesa"
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_order_form
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_reservation_form
 #, fuzzy
-#| msgid "Tables"
 msgid "Table List"
 msgstr "Mesas"
 
@@ -1965,7 +1909,6 @@ msgstr "Pedido mesa"
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_order_tree
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotelfolio1_form1_inherited
 #, fuzzy
-#| msgid "Table Order"
 msgid "Table Order Total"
 msgstr "Pedido mesa"
 
@@ -1987,14 +1930,12 @@ msgstr "Lista de reserva de mesas"
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_restaurant_kitchen_order_tickets__tableno
 #, fuzzy
-#| msgid "Table Reservation List"
 msgid "Table reservation detail."
 msgstr "Lista de reserva de mesas"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_restaurant_reservation__tableno
 #, fuzzy
-#| msgid "Table Reservation List"
 msgid "Table reservation detail. "
 msgstr "Lista de reserva de mesas"
 
@@ -2112,7 +2053,6 @@ msgstr ""
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_reservation_search
 #, fuzzy
-#| msgid "Table Booking"
 msgid "Today's Booking"
 msgstr "Reserva de mesa"
 
@@ -2121,7 +2061,6 @@ msgstr "Reserva de mesa"
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_kitchen_order_search
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_order_search
 #, fuzzy
-#| msgid "Table Order"
 msgid "Today's Orders"
 msgstr "Pedido mesa"
 
@@ -2370,7 +2309,6 @@ msgstr ""
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_folio_rest_reservation__check
 #, fuzzy
-#| msgid "Tables Details"
 msgid "With Details"
 msgstr "Detalle de las mesas"
 
@@ -2391,7 +2329,6 @@ msgstr ""
 #. module: hotel_restaurant
 #: model:ir.model,name:hotel_restaurant.model_folio_rest_reservation
 #, fuzzy
-#| msgid "Table Reservation"
 msgid "folio.rest.reservation"
 msgstr "Reserva de Mesas"
 
@@ -2478,14 +2415,12 @@ msgstr "estado"
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_order_search
 #, fuzzy
-#| msgid "Waiter Name"
 msgid "waiter name"
 msgstr "Nombre camarero"
 
 #. module: hotel_restaurant
 #: model:ir.model,name:hotel_restaurant.model_wizard_hotel_restaurant
 #, fuzzy
-#| msgid "Hotel Restaurant"
 msgid "wizard.hotel.restaurant"
 msgstr "Hotel Restaurante"
 
