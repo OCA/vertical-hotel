@@ -44,7 +44,6 @@ msgstr "Reserva borrador"
 #. module: report_hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:report_hotel_restaurant.report_hotel_restaurant_status_search
 #, fuzzy
-#| msgid "States By Restaurant"
 msgid "Hotel Restaurant Status"
 msgstr "Estados por restaurante"
 
@@ -71,7 +70,6 @@ msgstr "Número de reserva"
 #. module: report_hotel_restaurant
 #: model:ir.model.fields,field_description:report_hotel_restaurant.field_report_hotel_restaurant_status__nbr
 #, fuzzy
-#| msgid "Reservation"
 msgid "Reservatioorder_datan"
 msgstr "Reserva"
 
@@ -108,7 +106,6 @@ msgstr "Estados por restaurante"
 #. module: report_hotel_restaurant
 #: model:ir.actions.act_window,name:report_hotel_restaurant.action_report_hotel_restaurant_board
 #, fuzzy
-#| msgid "States By Restaurant"
 msgid "States By Restaurants"
 msgstr "Estados por restaurante"
 
