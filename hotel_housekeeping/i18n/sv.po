@@ -621,7 +621,6 @@ msgstr ""
 #: model:ir.ui.menu,name:hotel_housekeeping.menu_housekeeping
 #: model:ir.ui.menu,name:hotel_housekeeping.menu_open_hotel_housekeeping_form_tree
 #, fuzzy
-#| msgid "Hotel Housekeeping Management"
 msgid "Housekeeping Services"
 msgstr "Hotel Housekeeping Management"
 

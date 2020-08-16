@@ -31,14 +31,12 @@ msgstr ""
 #. module: hotel_housekeeping
 #: model_terms:ir.ui.view,arch_db:hotel_housekeeping.housekeeping_report
 #, fuzzy
-#| msgid "Clean End Time"
 msgid "<strong>Clean End Time</strong>"
 msgstr "Fin de la limpieza"
 
 #. module: hotel_housekeeping
 #: model_terms:ir.ui.view,arch_db:hotel_housekeeping.housekeeping_report
 #, fuzzy
-#| msgid "Clean Start Time"
 msgid "<strong>Clean Start Time</strong>"
 msgstr "Hora de comienzo de la limpieza"
 
@@ -65,7 +63,6 @@ msgstr ""
 #. module: hotel_housekeeping
 #: model_terms:ir.ui.view,arch_db:hotel_housekeeping.housekeeping_report
 #, fuzzy
-#| msgid "Housekeeper Name"
 msgid "<strong>Housekeeper Name</strong>"
 msgstr "Nombre del encargado de limpieza"
 
@@ -77,7 +74,6 @@ msgstr ""
 #. module: hotel_housekeeping
 #: model_terms:ir.ui.view,arch_db:hotel_housekeeping.housekeeping_report
 #, fuzzy
-#| msgid "Room Activities Report"
 msgid "<u>Room Activities Report</u>"
 msgstr "Informe de la actividad de las habitaciones"
 
@@ -106,7 +102,6 @@ msgstr ""
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__active
 #, fuzzy
-#| msgid "Activities"
 msgid "Active"
 msgstr "Actividades"
 
@@ -121,7 +116,6 @@ msgstr "Actividades"
 #. module: hotel_housekeeping
 #: model:ir.ui.menu,name:hotel_housekeeping.menu_hotel_activity
 #, fuzzy
-#| msgid "Is Activity"
 msgid "Activity"
 msgstr "Es Actividad"
 
@@ -133,7 +127,6 @@ msgstr "Detalle de actividades"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_wizard__date_end
 #, fuzzy
-#| msgid "Activity Lines"
 msgid "Activity End Date"
 msgstr "Líneas de actividad"
 
@@ -146,7 +139,6 @@ msgstr "Líneas de actividad"
 #: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_h_activity_form
 #: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_hotel_housekeeping_activity_type_form
 #, fuzzy
-#| msgid "Activity Type"
 msgid "Activity Name"
 msgstr "Tipo de actividad"
 
@@ -160,14 +152,12 @@ msgstr "Informe de actividades"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_wizard__date_start
 #, fuzzy
-#| msgid "Start Date"
 msgid "Activity Start Date"
 msgstr "Fecha de inicio"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__activity_state
 #, fuzzy
-#| msgid "Activity Detail"
 msgid "Activity State"
 msgstr "Detalle de actividades"
 
@@ -248,21 +238,18 @@ msgstr "Cancelado"
 #. module: hotel_housekeeping
 #: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_h_activity_search
 #, fuzzy
-#| msgid "category"
 msgid "Catagory"
 msgstr "categoría"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__categ_id
 #, fuzzy
-#| msgid "category"
 msgid "Category"
 msgstr "categoría"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__route_from_categ_ids
 #, fuzzy
-#| msgid "category"
 msgid "Category Routes"
 msgstr "categoría"
 
@@ -285,14 +272,12 @@ msgstr ""
 #. module: hotel_housekeeping
 #: selection:hotel.housekeeping,clean_type:0
 #, fuzzy
-#| msgid "Checkin"
 msgid "Check-In"
 msgstr "Entrada"
 
 #. module: hotel_housekeeping
 #: selection:hotel.housekeeping,clean_type:0
 #, fuzzy
-#| msgid "Checkout"
 msgid "Check-Out"
 msgstr "Salida"
 
@@ -468,7 +453,6 @@ msgstr ""
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__description
 #, fuzzy
-#| msgid "Reservation"
 msgid "Description"
 msgstr "Reserva"
 
@@ -634,7 +618,6 @@ msgstr "Limpieza"
 #. module: hotel_housekeeping
 #: model:ir.model,name:hotel_housekeeping.model_hotel_housekeeping_activities
 #, fuzzy
-#| msgid "Housekeeping Activities "
 msgid "Housekeeping Activities"
 msgstr "Actividades de limpieza "
 
@@ -656,7 +639,6 @@ msgstr "Tipo de actividades de limpieza"
 #: model:ir.ui.menu,name:hotel_housekeeping.menu_housekeeping
 #: model:ir.ui.menu,name:hotel_housekeeping.menu_open_hotel_housekeeping_form_tree
 #, fuzzy
-#| msgid "Housekeeping Activities "
 msgid "Housekeeping Services"
 msgstr "Actividades de limpieza "
 
@@ -743,7 +725,6 @@ msgstr "Inspector"
 #. module: hotel_housekeeping
 #: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_hotel_housekeeping_search
 #, fuzzy
-#| msgid "Inspector"
 msgid "Inspector Name"
 msgstr "Inspector"
 
@@ -787,14 +768,12 @@ msgstr ""
 #. module: hotel_housekeeping
 #: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_hotel_housekeeping_form
 #, fuzzy
-#| msgid "Clean"
 msgid "Is Clean?"
 msgstr "Limpio"
 
 #. module: hotel_housekeeping
 #: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_hotel_housekeeping_form
 #, fuzzy
-#| msgid "Dirty"
 msgid "Is Dirty?"
 msgstr "Sin limpiar"
 
@@ -863,7 +842,6 @@ msgstr ""
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__location_id
 #, fuzzy
-#| msgid "Duration"
 msgid "Location"
 msgstr "Duración"
 
@@ -932,7 +910,6 @@ msgstr ""
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__activity_date_deadline
 #, fuzzy
-#| msgid "Activity Detail"
 msgid "Next Activity Deadline"
 msgstr "Detalle de actividades"
 
@@ -944,7 +921,6 @@ msgstr ""
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__activity_type_id
 #, fuzzy
-#| msgid "Activity Type"
 msgid "Next Activity Type"
 msgstr "Tipo de actividad"
 
@@ -1042,7 +1018,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__h_id
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__product_variant_id
 #, fuzzy
-#| msgid "Product_id"
 msgid "Product"
 msgstr "Product_id"
 
@@ -1064,7 +1039,6 @@ msgstr ""
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__type
 #, fuzzy
-#| msgid "Product_id"
 msgid "Product Type"
 msgstr "Product_id"
 
@@ -1076,7 +1050,6 @@ msgstr ""
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__product_variant_ids
 #, fuzzy
-#| msgid "Product_id"
 msgid "Products"
 msgstr "Product_id"
 
@@ -1250,7 +1223,6 @@ msgstr ""
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping__state
 #, fuzzy
-#| msgid "state"
 msgid "State"
 msgstr "estado"
 
@@ -1386,7 +1358,6 @@ msgstr ""
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_activities__today_date
 #, fuzzy
-#| msgid "Today's Date"
 msgid "Today Date"
 msgstr "Fecha de hoy"
 
@@ -1490,7 +1461,6 @@ msgstr ""
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__valuation
 #, fuzzy
-#| msgid "Duration"
 msgid "Valuation"
 msgstr "Duración"
 
