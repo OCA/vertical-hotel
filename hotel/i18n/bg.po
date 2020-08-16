@@ -168,7 +168,6 @@ msgstr "Additional Hours"
 #: model:hotel.room.type,name:hotel.rooms
 #: model:product.category,name:hotel.rooms_product_category
 #, fuzzy
-#| msgid "Available Rooms"
 msgid "All Rooms"
 msgstr "Available Rooms"
 
@@ -461,7 +460,6 @@ msgstr "Companies"
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_type_complete_name
 #, fuzzy
-#| msgid "Guest Name"
 msgid "Complete Name"
 msgstr "Име на госта"
 
@@ -1805,7 +1803,6 @@ msgstr ""
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_type_parent_id
 #, fuzzy
-#| msgid "Product Category"
 msgid "Parent Category"
 msgstr "Категория на продукта"
 
@@ -2869,7 +2866,6 @@ msgstr "Обща сума"
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_type_total_route_ids
 #, fuzzy
-#| msgid "Total amount"
 msgid "Total routes"
 msgstr "Обща сума"
 

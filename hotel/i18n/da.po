@@ -465,7 +465,6 @@ msgstr "Udregner"
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_type_complete_name
 #, fuzzy
-#| msgid "Guest Name"
 msgid "Complete Name"
 msgstr "Lejer"
 
@@ -1821,7 +1820,6 @@ msgstr ""
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_type_parent_id
 #, fuzzy
-#| msgid "Product Category"
 msgid "Parent Category"
 msgstr "Produkt katagori"
 
@@ -2888,7 +2886,6 @@ msgstr "Total beløb"
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_type_total_route_ids
 #, fuzzy
-#| msgid "Total amount"
 msgid "Total routes"
 msgstr "Total beløb"
 

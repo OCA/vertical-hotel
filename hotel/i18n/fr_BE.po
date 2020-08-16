@@ -163,7 +163,6 @@ msgstr "Additional Hours"
 #: model:hotel.room.type,name:hotel.rooms
 #: model:product.category,name:hotel.rooms_product_category
 #, fuzzy
-#| msgid "Available Rooms"
 msgid "All Rooms"
 msgstr "Available Rooms"
 

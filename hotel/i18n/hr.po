@@ -167,7 +167,6 @@ msgstr "Additional Hours"
 #: model:hotel.room.type,name:hotel.rooms
 #: model:product.category,name:hotel.rooms_product_category
 #, fuzzy
-#| msgid "Available Rooms"
 msgid "All Rooms"
 msgstr "Available Rooms"
 
@@ -2851,7 +2850,6 @@ msgstr "Ukupni iznos"
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_type_total_route_ids
 #, fuzzy
-#| msgid "Total amount"
 msgid "Total routes"
 msgstr "Ukupni iznos"
 

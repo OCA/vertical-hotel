@@ -462,7 +462,6 @@ msgstr "Beräkna"
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_type_complete_name
 #, fuzzy
-#| msgid "Compute"
 msgid "Complete Name"
 msgstr "Beräkna"
 
@@ -1816,7 +1815,6 @@ msgstr ""
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_type_parent_id
 #, fuzzy
-#| msgid "Product Category"
 msgid "Parent Category"
 msgstr "Produktkategori"
 

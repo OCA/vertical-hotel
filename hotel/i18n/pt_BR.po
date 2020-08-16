@@ -477,7 +477,6 @@ msgstr "Empresa"
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_type_complete_name
 #, fuzzy
-#| msgid "Hotel Name"
 msgid "Complete Name"
 msgstr "Hotel Name"
 
@@ -1946,7 +1945,6 @@ msgstr "Lista de preços para o pedido de venda atual."
 #. module: hotel
 #: model:ir.ui.view,arch_db:hotel.view_hotel_room_form
 #, fuzzy
-#| msgid "Price"
 msgid "Pricing"
 msgstr "Preço"
 
@@ -2851,7 +2849,6 @@ msgstr ""
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room_type_property_account_income_categ_id
 #, fuzzy
-#| msgid "This account will be used for invoices to value expenses."
 msgid "This account will be used when validating a customer invoice."
 msgstr "Esta conta será usada para as faturas para os valores de despesas."
 
@@ -3105,7 +3102,6 @@ msgstr "Armazém"
 #: code:addons/hotel/models/hotel_folio_line.py:289
 #: code:addons/hotel/models/hotel_service_line.py:240
 #, fuzzy, python-format
-#| msgid "Warning"
 msgid "Warning for %s"
 msgstr "Warning"
 
