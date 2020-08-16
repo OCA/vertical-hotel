@@ -72,7 +72,6 @@ msgstr "Reserva"
 #. module: board_frontdesk
 #: model:ir.ui.view,arch_db:board_frontdesk.board_frontdesk_form
 #, fuzzy
-#| msgid "Reservation"
 msgid "Reservation Summary"
 msgstr "Reserva"
 
@@ -85,7 +84,6 @@ msgstr ""
 #: model:ir.actions.act_window,name:board_frontdesk.action_report_hotel_reservation_status_tree_graph_bar12
 #: model:ir.ui.menu,name:board_frontdesk.menu_hotel_reservation_status_tree_graph_bar11
 #, fuzzy
-#| msgid "Reservation"
 msgid "States By Reservation"
 msgstr "Reserva"
 
@@ -102,7 +100,6 @@ msgstr ""
 #. module: board_frontdesk
 #: model:ir.ui.view,arch_db:board_frontdesk.view_board_hotel_restaurant_reservation_tree
 #, fuzzy
-#| msgid "Reservation"
 msgid "Table Reservation"
 msgstr "Reserva"
 
