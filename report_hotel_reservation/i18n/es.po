@@ -44,7 +44,6 @@ msgstr "Reserva borrador"
 #. module: report_hotel_reservation
 #: model_terms:ir.ui.view,arch_db:report_hotel_reservation.report_hotel_reservation_status_search
 #, fuzzy
-#| msgid "Hotel Reservation Report"
 msgid "Hotel Reservation Status"
 msgstr "Informe de reserva de hotel"
 
@@ -71,7 +70,6 @@ msgstr "Reserva"
 #. module: report_hotel_reservation
 #: model:ir.model,name:report_hotel_reservation.model_report_hotel_reservation_status
 #, fuzzy
-#| msgid "Reservation Detail"
 msgid "Reservation By State"
 msgstr "Detalle de reserva"
 
@@ -109,7 +107,6 @@ msgstr "Estado"
 #: model_terms:ir.ui.view,arch_db:report_hotel_reservation.view_hotel_reservation_status_graph_bar
 #: model_terms:ir.ui.view,arch_db:report_hotel_reservation.view_hotel_reservation_status_tree
 #, fuzzy
-#| msgid " Reservation"
 msgid "States By Reservation"
 msgstr " Reserva"
 
