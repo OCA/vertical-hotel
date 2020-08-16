@@ -732,7 +732,6 @@ msgstr "Number of children there in guest list. "
 #. module: hotel_reservation
 #: model:ir.model.fields,field_description:hotel_reservation.field_hotel_reservation_open
 #, fuzzy
-#| msgid "No Of Rooms"
 msgid "Open Rooms"
 msgstr "No des chambres"
 
