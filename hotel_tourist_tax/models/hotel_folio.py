@@ -11,13 +11,11 @@ class HotelFolio(models.Model):
         res = super(HotelFolio, self).write(vals)
         for rec in self:
             if (
-                bool(vals.get("duration"))
-                or bool(vals.get("adults"))
-                or bool(vals.get("children"))
-            ) and not bool(
-                vals.get("service_lines")  # prevent recursion
+                "duration" in vals or "adults" in vals or "children" in vals
+            ) and not (
+                "service_lines" in vals  # prevent recursion
                 or rec.invoice_status == "invoiced"
-                or bool(rec.hotel_invoice_id)
+                or rec.hotel_invoice_id
             ):
                 rec.update_tourist_tax()
         return res
