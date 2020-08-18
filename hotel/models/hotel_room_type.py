@@ -13,7 +13,7 @@ class HotelRoomType(models.Model):
         "hotel.room.type", "categ_id", "Child Categories"
     )
     product_categ_id = fields.Many2one(
-        "product.category", "Product Category", delegate=True
+        "product.category", "Product Category", delegate=True, required=True
     )
 
     @api.model
