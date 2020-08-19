@@ -409,20 +409,20 @@ class HotelFolio(models.Model):
         """
         # fixme does not seem to go through here
         room_lst = []
-        invoice_id = self.mapped("order_id").action_invoice_create(
+        invoice_list = self.mapped("order_id").action_invoice_create(
             grouped=False, final=False
         )
-        for line in self:
-            values = {"invoiced": True, "hotel_invoice_id": invoice_id[0]}
-            line.write(values)
-            for rec in line.room_lines:
+        for folio in self:
+            values = {"invoiced": True, "hotel_invoice_id": invoice_list[0]}
+            folio.write(values)
+            for rec in folio.room_lines:
                 room_lst.append(rec.product_id)
             for room in room_lst:
                 room_rec = self.env["hotel.room"].search(
                     [("name", "=", room.name)]
                 )
                 room_rec.write({"isroom": True})
-        return invoice_id
+        return invoice_list
 
     @api.multi
     def action_invoice_cancel(self):
