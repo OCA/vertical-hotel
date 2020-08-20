@@ -13,7 +13,9 @@ from odoo.fields import Date
 class RoomReservationSummary(models.AbstractModel):
     _name = "hotel.room.reservation.summary"
     _description = "Alternative Room reservation summary"
-    _form_view = "implementation_module.set_in_implementation_model"
+    _form_view = (
+        "implementation_module.set_in_implementation_model"
+    )  # todo doc
 
     name = fields.Char(compute="_compute_name")
     date_from = fields.Date(string="Date From", required=True)
