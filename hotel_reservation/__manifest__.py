@@ -32,7 +32,7 @@
         "report/hotel_reservation_report.xml",
     ],
     "qweb": ["static/src/xml/hotel_room_summary.xml"],
-    "external_dependencies": {"python": ["dateutil"]},
+    "external_dependencies": {"python": ["dateutil", "pytz"]},
     "installable": True,
     "auto_install": False,
 }

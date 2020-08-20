@@ -1,11 +1,17 @@
+import logging
 from datetime import datetime, timedelta
-
-import pytz
-from dateutil.relativedelta import relativedelta
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT as dt
+
+_logger = logging.getLogger(__name__)
+
+try:
+    import pytz
+    from dateutil.relativedelta import relativedelta
+except (ImportError, IOError) as err:
+    _logger.debug(err)
 
 
 class RoomReservationSummary(models.Model):
