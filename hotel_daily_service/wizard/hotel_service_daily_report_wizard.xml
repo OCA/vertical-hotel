@@ -27,11 +27,4 @@
         </field>
     </record>
 
-    <record id="hotel_daily_service_wizard_view_action" model="ir.actions.act_window">
-        <field name="name">Hotel Daily Service Wizard</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">hotel.daily.service.line.wizard</field>
-        <field name="view_mode">form</field>
-        <field name="target">new</field>
-    </record>
 </odoo>
