@@ -24,14 +24,14 @@ class SaleAdvancePaymentInv(models.TransientModel):
         ctx = self.env.context.copy()
         if self._context.get("active_model") == "hotel.folio":
 
-            hotel_fol = self.env["hotel.folio"]
-            hotel = hotel_fol.browse(self._context.get("active_ids", []))
-            hotel.room_lines.mapped("product_id").write({"isroom": True})
+            HotelFolio = self.env["hotel.folio"]
+            folio = HotelFolio.browse(self._context.get("active_ids", []))
+            folio.room_lines.mapped("product_id").write({"isroom": True})
             ctx.update(
                 {
-                    "active_ids": [hotel.order_id.id],
-                    "active_id": hotel.order_id.id,
-                    "folio_id": hotel.id,
+                    "active_ids": [folio.order_id.id],
+                    "active_id": folio.order_id.id,
+                    "folio_id": folio.id,
                 }
             )
         res = super(
