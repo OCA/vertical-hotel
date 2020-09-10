@@ -10,7 +10,7 @@
     "depends": ["sale_stock", "point_of_sale"],
     "license": "AGPL-3",
     "summary": "Hotel Management to Manage Folio and Hotel Configuration",
-    "demo": ["data/hotel_data.xml"],
+    "demo": ["demo/hotel_data.xml"],
     "data": [
         "security/hotel_security.xml",
         "security/ir.model.access.csv",
