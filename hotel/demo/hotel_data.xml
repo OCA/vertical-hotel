@@ -1,4 +1,4 @@
-<odoo noupdate="0">
+<odoo noupdate="1">
     <!-- Floor -->
     <record id="hotel_floor_ground0" model="hotel.floor">
         <field eval="&quot;Ground&quot;" name="name" />
