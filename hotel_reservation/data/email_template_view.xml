@@ -2,10 +2,10 @@
     <!-- Email Template For Hotel Reservation -->
     <record id="email_template_hotel_reservation" model="mail.template">
         <field name="name">Reservation-Send by Email</field>
-        <field name="email_from">${object.warehouse_id.partner_id.email |safe}
+        <field name="email_from">${object.warehouse_id.partner_id.email or ''|safe}
         </field>
         <field name="subject">Hotel Reservation Detail</field>
-        <field name="partner_to">${object.partner_id.id}</field>
+        <field name="partner_to">${object.partner_id.id or ''}</field>
         <field name="model_id" ref="hotel_reservation.model_hotel_reservation" />
         <field name="auto_delete" eval="True" />
         <field name="lang">${object.partner_id.lang}</field>
@@ -29,7 +29,7 @@
                         gratitude to you for choosing our services.
                         Please find all the details regarding the confirmation
                         of the reservation on Date <strong>
-                            ${format_tz(object.date_order,tz=user.tz,format='%Y-%m-%d %H:%M:%S')}
+                            ${format_datetime(object.date_order,tz=user.tz,dt_format='%Y-%m-%d %H:%M:%S')}
                         </strong> are listed below:
                     </p>
                     <strong>Details :</strong>
@@ -40,12 +40,12 @@
                         <br />
                         Date Of Arrival :
                         <strong>
-                            ${format_tz(object.checkin,tz=user.tz, format='%Y-%m-%d %H:%M:%S')}
+                            ${format_datetime(object.checkin,tz=user.tz, dt_format='%Y-%m-%d %H:%M:%S')}
                         </strong>
                         <br />
                         Date Of Departure :
                         <strong>
-                            ${format_tz(object.checkout,tz=user.tz, format='%Y-%m-%d %H:%M:%S')}
+                            ${format_datetime(object.checkout,tz=user.tz, dt_format='%Y-%m-%d %H:%M:%S')}
                         </strong>
                         <br />
                         Reservation Number :
