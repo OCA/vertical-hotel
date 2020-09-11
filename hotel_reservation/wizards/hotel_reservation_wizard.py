@@ -16,9 +16,9 @@ class HotelReservationWizard(models.TransientModel):
             "model": "hotel.reservation",
             "form": self.read(["date_start", "date_end"])[0],
         }
-        return self.env.ref("hotel_reservation.hotel_roomres_details").report_action(
-            self, data=data
-        )
+        return self.env.ref(
+            "hotel_reservation.hotel_roomres_details"
+        ).report_action(self, data=data)
 
     def report_checkin_detail(self):
         data = {
@@ -26,9 +26,9 @@ class HotelReservationWizard(models.TransientModel):
             "model": "hotel.reservation",
             "form": self.read(["date_start", "date_end"])[0],
         }
-        return self.env.ref("hotel_reservation.hotel_checkin_details").report_action(
-            self, data=data
-        )
+        return self.env.ref(
+            "hotel_reservation.hotel_checkin_details"
+        ).report_action(self, data=data)
 
     def report_checkout_detail(self):
         data = {
@@ -36,9 +36,9 @@ class HotelReservationWizard(models.TransientModel):
             "model": "hotel.reservation",
             "form": self.read(["date_start", "date_end"])[0],
         }
-        return self.env.ref("hotel_reservation.hotel_checkout_details").report_action(
-            self, data=data
-        )
+        return self.env.ref(
+            "hotel_reservation.hotel_checkout_details"
+        ).report_action(self, data=data)
 
     def report_maxroom_detail(self):
         data = {
@@ -46,9 +46,9 @@ class HotelReservationWizard(models.TransientModel):
             "model": "hotel.reservation",
             "form": self.read(["date_start", "date_end"])[0],
         }
-        return self.env.ref("hotel_reservation.hotel_maxroom_details").report_action(
-            self, data=data
-        )
+        return self.env.ref(
+            "hotel_reservation.hotel_maxroom_details"
+        ).report_action(self, data=data)
 
 
 class MakeFolioWizard(models.TransientModel):
