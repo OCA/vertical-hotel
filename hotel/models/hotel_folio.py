@@ -79,7 +79,6 @@ class HotelFolio(models.Model):
     _name = "hotel.folio"
     _description = "hotel folio new"
     _rec_name = "order_id"
-    _order = "id"
 
     def name_get(self):
         res = []
@@ -97,14 +96,6 @@ class HotelFolio(models.Model):
         args += [("name", operator, name)]
         folio = self.search(args, limit=100)
         return folio.name_get()
-
-    @api.model
-    def _needaction_count(self, domain=None):
-        """
-         Show a count of draft state folio on the menu badge.
-         @param self: object pointer
-        """
-        return self.search_count([("state", "=", "draft")])
 
     @api.model
     def _get_checkin_date(self):
@@ -293,11 +284,12 @@ class HotelFolio(models.Model):
                 for rec in folio_id:
                     if not rec.reservation_id:
                         for room_rec in rec.room_lines:
-                            prod = room_rec.product_id.name
-                            room_obj = h_room_obj.search([("name", "=", prod)])
-                            room_obj.write({"isroom": False})
+                            room = h_room_obj.search(
+                                [("product_id", "=", room_rec.product_id.id)]
+                            )
+                            room.write({"isroom": False})
                             vals = {
-                                "room_id": room_obj.id,
+                                "room_id": room.id,
                                 "check_in": rec.checkin_date,
                                 "check_out": rec.checkout_date,
                                 "folio_id": rec.id,
@@ -306,11 +298,12 @@ class HotelFolio(models.Model):
             except Exception:
                 for rec in folio_id:
                     for room_rec in rec.room_lines:
-                        prod = room_rec.product_id.name
-                        room_obj = h_room_obj.search([("name", "=", prod)])
-                        room_obj.write({"isroom": False})
+                        room = h_room_obj.search(
+                            [("product_id", "=", room_rec.product_id.id)]
+                        )
+                        room.write({"isroom": False})
                         vals = {
-                            "room_id": room_obj.id,
+                            "room_id": room.id,
                             "check_in": rec.checkin_date,
                             "check_out": rec.checkout_date,
                             "folio_id": rec.id,
