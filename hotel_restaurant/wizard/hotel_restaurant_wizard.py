@@ -1,6 +1,6 @@
 # See LICENSE file for full copyright and licensing details.
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class WizardHotelRestaurant(models.TransientModel):
@@ -11,7 +11,6 @@ class WizardHotelRestaurant(models.TransientModel):
     date_start = fields.Datetime("Start Date", required=True)
     date_end = fields.Datetime("End Date", required=True)
 
-     
     def print_report(self):
         data = {
             "ids": self.ids,
@@ -32,7 +31,6 @@ class FolioRestReservation(models.TransientModel):
     date_end = fields.Datetime("End Date")
     check = fields.Boolean("With Details")
 
-     
     def print_rest_report(self):
         data = {
             "ids": self.ids,
@@ -43,7 +41,6 @@ class FolioRestReservation(models.TransientModel):
             "hotel_restaurant.report_hotel_res_folio"
         ).report_action(self, data=data)
 
-     
     def print_reserv_report(self):
         data = {
             "ids": self.ids,
