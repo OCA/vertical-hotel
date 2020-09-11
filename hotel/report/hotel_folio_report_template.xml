@@ -1,0 +1,77 @@
+<odoo>
+    <!--Template for hotel folio -->
+    <template id="report_hotel_folio">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <br />
+                    <br />
+                    <div class="row mt32 mb32">
+                        <h4>
+                            <span>
+                                <center>Total Collection</center>
+                            </span>
+                        </h4>
+                    </div>
+                    <div class="row mt32 mb32">
+                        <div class="text-center">
+                            <strong>From:</strong>
+                            <span t-esc="data['date_start']" />
+                            <strong>To:</strong>
+                            <span t-esc="data['date_end']" />
+                        </div>
+                    </div>
+                    <table class="table table-condensed">
+                        <tr>
+                            <td>
+                                <strong>Folio No.</strong>
+                            </td>
+                            <td>
+                                <strong>Customer Name</strong>
+                            </td>
+                            <td>
+                                <strong>CheckIN</strong>
+                            </td>
+                            <td>
+                                <strong>CheckOut</strong>
+                            </td>
+                            <td>
+                                <strong>Total</strong>
+                            </td>
+                        </tr>
+                        <tr t-foreach="folio_data" t-as="folio">
+                            <td>
+                                <span t-esc="folio.get('name', '')" />
+                            </td>
+                            <td>
+                                <span t-esc="folio.get('partner', '')" />
+                            </td>
+                            <td>
+                                <span t-esc="folio.get('checkin', '')" />
+                            </td>
+                            <td>
+                                <span t-esc="folio.get('checkout', '')" />
+                            </td>
+                            <td>
+                                <span t-esc="folio.get('amount', '')" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td />
+                            <td />
+                            <td />
+                            <td>
+                                <strong>Net Total:</strong>
+                            </td>
+                            <td>
+                                <t t-foreach="folio_data" t-as="folio">
+                                    <t t-esc="folio.get('total_amount', '')" />
+                                </t>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
