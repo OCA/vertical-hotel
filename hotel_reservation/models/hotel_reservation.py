@@ -31,8 +31,7 @@ class HotelFolio(models.Model):
             )
             if len(reservation_obj) == 1:
                 for line in folio.reservation_id.reservation_line:
-                    line = line.reserve
-                    for room_id in line:
+                    for room_id in line.reserve:
                         vals = {
                             "room_id": room_id.id,
                             "check_in": folio.checkin_date,
@@ -539,9 +538,8 @@ class HotelReservation(models.Model):
         now_date = datetime.strptime(now_str, dt)
         template_id = self.env.ref(
             "hotel_reservation.mail_template_reservation_reminder_24hrs"
-        ).id
-        template_rec = self.env["mail.template"].browse(template_id)
-        for reserv_rec in self.search([]):
+        )
+        for reserv_rec in self:
             checkin_date = reserv_rec.checkin
             difference = relativedelta(now_date, checkin_date)
             if (
@@ -549,7 +547,7 @@ class HotelReservation(models.Model):
                 and reserv_rec.partner_id.email
                 and reserv_rec.state == "confirm"
             ):
-                template_rec.send_mail(reserv_rec.id, force_send=True)
+                template_id.send_mail(reserv_rec.id, force_send=True)
         return True
 
     def create_folio(self):
@@ -560,7 +558,6 @@ class HotelReservation(models.Model):
         @return: new record set for hotel folio.
         """
         hotel_folio_obj = self.env["hotel.folio"]
-        room_obj = self.env["hotel.room"]
         for reservation in self:
             folio_lines = []
             checkin_date = reservation["checkin"]
@@ -607,8 +604,7 @@ class HotelReservation(models.Model):
                             },
                         )
                     )
-                    res_obj = room_obj.search([("id", "=", r.id)])
-                    res_obj.write({"status": "occupied", "isroom": False})
+                    r.write({"status": "occupied", "isroom": False})
             folio_vals.update({"room_lines": folio_lines})
             folio = hotel_folio_obj.create(folio_vals)
             if folio:
