@@ -128,24 +128,19 @@ class ReportTestMaxroom(models.AbstractModel):
     _description = "Auxiliar to get the room report"
 
     def _get_room_type(self, date_start, date_end):
-        reservation_obj = self.env["hotel.reservation"]
-        tids = reservation_obj.search(
+        res = self.env["hotel.reservation"].search(
             [("checkin", ">=", date_start), ("checkout", "<=", date_end)]
         )
-        res = reservation_obj.browse(tids)
         return res
 
     def _get_room_nos(self, date_start, date_end):
-        reservation_obj = self.env["hotel.reservation"]
-        tids = reservation_obj.search(
+        res = self.env["hotel.reservation"].search(
             [("checkin", ">=", date_start), ("checkout", "<=", date_end)]
         )
-        res = reservation_obj.browse(tids)
         return res
 
     def _get_data(self, date_start, date_end):
-        reservation_obj = self.env["hotel.reservation"]
-        res = reservation_obj.search(
+        res = self.env["hotel.reservation"].search(
             [("checkin", ">=", date_start), ("checkout", "<=", date_end)]
         )
         return res
@@ -153,8 +148,7 @@ class ReportTestMaxroom(models.AbstractModel):
     def _get_room_used_detail(self, date_start, date_end):
         room_used_details = []
         hotel_room_obj = self.env["hotel.room"]
-        room_ids = hotel_room_obj.search([])
-        for room in hotel_room_obj.browse(room_ids.ids):
+        for room in hotel_room_obj.search([]):
             counter = 0
             details = {}
             if room.room_reservation_line_ids:

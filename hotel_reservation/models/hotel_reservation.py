@@ -26,22 +26,20 @@ class HotelFolio(models.Model):
         res = super(HotelFolio, self).write(vals)
         reservation_line_obj = self.env["hotel.room.reservation.line"]
         for folio in self:
-            for reservation in folio.reservation_id:
-                reservation_obj = reservation_line_obj.search(
-                    [("reservation_id", "=", reservation.id)]
-                )
-                if len(reservation_obj) == 1:
-                    for line_id in reservation.reservation_line:
-                        line_id = line_id.reserve
-                        for room_id in line_id:
-                            vals = {
-                                "room_id": room_id.id,
-                                "check_in": folio.checkin_date,
-                                "check_out": folio.checkout_date,
-                                "state": "assigned",
-                                "reservation_id": reservation.id,
-                            }
-                            reservation_obj.write(vals)
+            reservation_obj = reservation_line_obj.search(
+                [("reservation_id", "=", folio.reservation_id.id)]
+            )
+            if len(reservation_obj) == 1:
+                for line in folio.reservation_id.reservation_line:
+                    for room_id in line.reserve:
+                        vals = {
+                            "room_id": room_id.id,
+                            "check_in": folio.checkin_date,
+                            "check_out": folio.checkout_date,
+                            "state": "assigned",
+                            "reservation_id": folio.reservation_id.id,
+                        }
+                        reservation_obj.write(vals)
         return res
 
 
@@ -234,13 +232,9 @@ class HotelReservation(models.Model):
     no_of_folio = fields.Integer("No. Folio", compute="_compute_folio_id")
 
     def _compute_folio_id(self):
-        folio_list = []
         for res in self:
-            for folio in res.folio_id:
-                folio_list.append(folio.id)
-            folio_len = len(folio_list)
-            res.no_of_folio = folio_len
-        return folio_len
+            res.update({"no_of_folio": len(res.folio_id.ids)})
+        return len(res.folio_id.ids)
 
     def unlink(self):
         """
@@ -278,8 +272,7 @@ class HotelReservation(models.Model):
                     raise ValidationError(
                         _("Please Select Rooms For Reservation.")
                     )
-                for room in rec.reserve:
-                    cap += room.capacity
+                cap = sum(room.capacity for room in rec.reserve)
             if not ctx.get("duplicate"):
                 if (reservation.adults + reservation.children) > cap:
                     raise ValidationError(
@@ -313,13 +306,6 @@ class HotelReservation(models.Model):
                                          than Check-in date."
                     )
                 )
-
-    @api.model
-    def _needaction_count(self, domain=None):
-        """
-         Show a count of draft state reservations on the menu badge.
-         """
-        return self.search_count([("state", "=", "draft")])
 
     @api.onchange("partner_id")
     def onchange_partner_id(self):
@@ -506,17 +492,16 @@ class HotelReservation(models.Model):
         @param self: object pointer
         """
         assert len(self._ids) == 1, "This is for a single id at a time."
-        ir_model_data = self.env["ir.model.data"]
         try:
-            template_id = ir_model_data.get_object_reference(
-                "hotel_reservation", "email_template_hotel_reservation"
-            )[1]
+            template_id = self.env.ref(
+                "hotel_reservation.email_template_hotel_reservation"
+            ).id
         except ValueError:
             template_id = False
         try:
-            compose_form_id = ir_model_data.get_object_reference(
-                "mail", "email_compose_message_wizard_form"
-            )[1]
+            compose_form_id = self.env.ref(
+                "mail.email_compose_message_wizard_form"
+            ).id
         except ValueError:
             compose_form_id = False
         ctx = {
@@ -551,12 +536,10 @@ class HotelReservation(models.Model):
         """
         now_str = time.strftime(dt)
         now_date = datetime.strptime(now_str, dt)
-        ir_model_data = self.env["ir.model.data"]
-        template_id = ir_model_data.get_object_reference(
-            "hotel_reservation", "mail_template_reservation_reminder_24hrs"
-        )[1]
-        template_rec = self.env["mail.template"].browse(template_id)
-        for reserv_rec in self.search([]):
+        template_id = self.env.ref(
+            "hotel_reservation.mail_template_reservation_reminder_24hrs"
+        )
+        for reserv_rec in self:
             checkin_date = reserv_rec.checkin
             difference = relativedelta(now_date, checkin_date)
             if (
@@ -564,7 +547,7 @@ class HotelReservation(models.Model):
                 and reserv_rec.partner_id.email
                 and reserv_rec.state == "confirm"
             ):
-                template_rec.send_mail(reserv_rec.id, force_send=True)
+                template_id.send_mail(reserv_rec.id, force_send=True)
         return True
 
     def create_folio(self):
@@ -575,7 +558,6 @@ class HotelReservation(models.Model):
         @return: new record set for hotel folio.
         """
         hotel_folio_obj = self.env["hotel.folio"]
-        room_obj = self.env["hotel.room"]
         for reservation in self:
             folio_lines = []
             checkin_date = reservation["checkin"]
@@ -622,8 +604,7 @@ class HotelReservation(models.Model):
                             },
                         )
                     )
-                    res_obj = room_obj.browse([r.id])
-                    res_obj.write({"status": "occupied", "isroom": False})
+                    r.write({"status": "occupied", "isroom": False})
             folio_vals.update({"room_lines": folio_lines})
             folio = hotel_folio_obj.create(folio_vals)
             if folio:
@@ -888,19 +869,16 @@ class RoomReservationSummary(models.Model):
     _name = "room.reservation.summary"
     _description = "Room reservation summary"
 
-    @api.model
-    def _default_date_from(self):
-        return datetime.today()
-
-    @api.model
-    def _default_date_to(self):
-        return datetime.today() + relativedelta(days=30)
-
     name = fields.Char(
         "Reservation Summary", default="Reservations Summary", invisible=True
     )
-    date_from = fields.Datetime("Date From", default=_default_date_from)
-    date_to = fields.Datetime("Date To", default=_default_date_to)
+    date_from = fields.Datetime(
+        "Date From", default=lambda self: fields.Date.today()
+    )
+    date_to = fields.Datetime(
+        "Date To",
+        default=lambda self: fields.Date.today() + relativedelta(days=30),
+    )
     summary_header = fields.Text("Summary Header")
     room_summary = fields.Text("Room Summary")
 
@@ -908,16 +886,9 @@ class RoomReservationSummary(models.Model):
         """
         @param self: object pointer
         """
-        mod_obj = self.env["ir.model.data"]
-        if self._context is None:
-            self._context = {}
-        model_data_ids = mod_obj.search(
-            [
-                ("model", "=", "ir.ui.view"),
-                ("name", "=", "view_hotel_reservation_form"),
-            ]
-        )
-        resource_id = model_data_ids.read(fields=["res_id"])[0]["res_id"]
+        resource_id = self.env.ref(
+            "hotel_reservation.view_hotel_reservation_form"
+        ).id
         return {
             "name": _("Reconcile Write-Off"),
             "context": self._context,
