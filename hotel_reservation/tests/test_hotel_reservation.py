@@ -148,13 +148,6 @@ class TestReservation(common.TransactionCase):
         date2 = datetime.now().strftime("%Y-%m-23")
         self.hotel_reserv.check_overlap(date1, date2)
 
-    def test_needaction_count(self):
-        self.hotel_reserv._needaction_count()
-        self.assertEqual(self.hotel_reserv.state == "draft", True)
-
-    # def test_on_change_checkout(self):
-    #     self.hotel_reserv.on_change_checkout()
-
     def test_onchange_partner_id(self):
         self.hotel_reserv.onchange_partner_id()
 

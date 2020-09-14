@@ -28,5 +28,4 @@
     "qweb": ["static/src/xml/hotel_room_summary.xml"],
     "external_dependencies": {"python": ["dateutil"]},
     "installable": True,
-    "auto_install": False,
 }
