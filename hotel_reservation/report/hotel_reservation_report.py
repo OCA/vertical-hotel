@@ -14,27 +14,22 @@ class ReportTestCheckin(models.AbstractModel):
     _description = "Auxiliar to get the check in report"
 
     def _get_room_type(self, date_start, date_end):
-        reservation_obj = self.env["hotel.reservation"]
-        room_dom = [
-            ("checkin", ">=", date_start),
-            ("checkout", "<=", date_end),
-        ]
-        res = reservation_obj.search(room_dom)
-        return res
-
-    def _get_room_nos(self, date_start, date_end):
-        reservation_obj = self.env["hotel.reservation"]
-        res = reservation_obj.search(
+        reservations = self.env["hotel.reservation"].search(
             [("checkin", ">=", date_start), ("checkout", "<=", date_end)]
         )
-        return res
+        return reservations
+
+    def _get_room_nos(self, date_start, date_end):
+        reservations = self.env["hotel.reservation"].search(
+            [("checkin", ">=", date_start), ("checkout", "<=", date_end)]
+        )
+        return reservations
 
     def get_checkin(self, date_start, date_end):
-        reservation_obj = self.env["hotel.reservation"]
-        res = reservation_obj.search(
+        reservations = self.env["hotel.reservation"].search(
             [("checkin", ">=", date_start), ("checkin", "<=", date_end)]
         )
-        return res
+        return reservations
 
     @api.model
     def _get_report_values(self, docids, data):
@@ -72,25 +67,22 @@ class ReportTestCheckout(models.AbstractModel):
     _description = "Auxiliar to get the check out report"
 
     def _get_room_type(self, date_start, date_end):
-        reservation_obj = self.env["hotel.reservation"]
-        res = reservation_obj.search(
+        reservations = self.env["hotel.reservation"].search(
             [("checkout", ">=", date_start), ("checkout", "<=", date_end)]
         )
-        return res
+        return reservations
 
     def _get_room_nos(self, date_start, date_end):
-        reservation_obj = self.env["hotel.reservation"]
-        res = reservation_obj.search(
+        reservations = self.env["hotel.reservation"].search(
             [("checkout", ">=", date_start), ("checkout", "<=", date_end)]
         )
-        return res
+        return reservations
 
     def _get_checkout(self, date_start, date_end):
-        reservation_obj = self.env["hotel.reservation"]
-        res = reservation_obj.search(
+        reservations = self.env["hotel.reservation"].search(
             [("checkout", ">=", date_start), ("checkout", "<=", date_end)]
         )
-        return res
+        return reservations
 
     @api.model
     def _get_report_values(self, docids, data):

@@ -16,30 +16,30 @@ class HotelFolio(models.Model):
     _inherit = "hotel.folio"
     _order = "reservation_id desc"
 
-    reservation_id = fields.Many2one("hotel.reservation", "Reservation Id")
+    reservation_id = fields.Many2one(
+        "hotel.reservation", "Reservation", ondelete="restrict"
+    )
 
     def write(self, vals):
         context = dict(self._context)
-        if not context:
-            context = {}
         context.update({"from_reservation": True})
         res = super(HotelFolio, self).write(vals)
         reservation_line_obj = self.env["hotel.room.reservation.line"]
         for folio in self:
-            reservation_obj = reservation_line_obj.search(
+            reservations = reservation_line_obj.search(
                 [("reservation_id", "=", folio.reservation_id.id)]
             )
-            if len(reservation_obj) == 1:
+            if len(reservations) == 1:
                 for line in folio.reservation_id.reservation_line:
-                    for room_id in line.reserve:
+                    for room in line.reserve:
                         vals = {
-                            "room_id": room_id.id,
+                            "room_id": room.id,
                             "check_in": folio.checkin_date,
                             "check_out": folio.checkout_date,
                             "state": "assigned",
                             "reservation_id": folio.reservation_id.id,
                         }
-                        reservation_obj.write(vals)
+                        reservations.write(vals)
         return res
 
 
@@ -122,6 +122,10 @@ class HotelReservation(models.Model):
     _description = "Reservation"
     _order = "reservation_no desc"
     _inherit = ["mail.thread"]
+
+    def _compute_folio_id(self):
+        for res in self:
+            res.update({"no_of_folio": len(res.folio_id.ids)})
 
     reservation_no = fields.Char("Reservation No", readonly=True)
     date_order = fields.Datetime(
@@ -231,11 +235,6 @@ class HotelReservation(models.Model):
     )
     no_of_folio = fields.Integer("No. Folio", compute="_compute_folio_id")
 
-    def _compute_folio_id(self):
-        for res in self:
-            res.update({"no_of_folio": len(res.folio_id.ids)})
-        return len(res.folio_id.ids)
-
     def unlink(self):
         """
         Overrides orm unlink method.
@@ -343,8 +342,6 @@ class HotelReservation(models.Model):
         @param self: The object pointer
         @param vals: dictionary of fields value.
         """
-        if not vals:
-            vals = {}
         vals["reservation_no"] = (
             self.env["ir.sequence"].next_by_code("hotel.reservation") or "New"
         )
@@ -370,12 +367,12 @@ class HotelReservation(models.Model):
             reserv_checkout = reservation.checkout
             room_bool = False
             for line_id in reservation.reservation_line:
-                for room_id in line_id.reserve:
-                    if room_id.room_reservation_line_ids:
-                        for reserv in room_id.room_reservation_line_ids.search(
+                for room in line_id.reserve:
+                    if room.room_reservation_line_ids:
+                        for reserv in room.room_reservation_line_ids.search(
                             [
                                 ("status", "in", ("confirm", "done")),
-                                ("room_id", "=", room_id.id),
+                                ("room_id", "=", room.id),
                             ]
                         ):
                             check_in = reserv.check_in
@@ -423,37 +420,35 @@ class HotelReservation(models.Model):
                             else:
                                 self.state = "confirm"
                                 vals = {
-                                    "room_id": room_id.id,
+                                    "room_id": room.id,
                                     "check_in": reservation.checkin,
                                     "check_out": reservation.checkout,
                                     "state": "assigned",
                                     "reservation_id": reservation.id,
                                 }
-                                room_id.write(
+                                room.write(
                                     {"isroom": False, "status": "occupied"}
                                 )
                         else:
                             self.state = "confirm"
                             vals = {
-                                "room_id": room_id.id,
+                                "room_id": room.id,
                                 "check_in": reservation.checkin,
                                 "check_out": reservation.checkout,
                                 "state": "assigned",
                                 "reservation_id": reservation.id,
                             }
-                            room_id.write(
-                                {"isroom": False, "status": "occupied"}
-                            )
+                            room.write({"isroom": False, "status": "occupied"})
                     else:
                         self.state = "confirm"
                         vals = {
-                            "room_id": room_id.id,
+                            "room_id": room.id,
                             "check_in": reservation.checkin,
                             "check_out": reservation.checkout,
                             "state": "assigned",
                             "reservation_id": reservation.id,
                         }
-                        room_id.write({"isroom": False, "status": "occupied"})
+                        room.write({"isroom": False, "status": "occupied"})
                     reservation_line_obj.create(vals)
         return True
 
@@ -482,8 +477,7 @@ class HotelReservation(models.Model):
         return True
 
     def set_to_draft_reservation(self):
-        self.state = "draft"
-        return True
+        self.update({"state": "draft"})
 
     def action_send_reservation_mail(self):
         """
@@ -1104,7 +1098,7 @@ class QuickRoomReservation(models.TransientModel):
     partner_shipping_id = fields.Many2one(
         "res.partner", "Delivery Address", required=True
     )
-    adults = fields.Integer("Adults", size=64)
+    adults = fields.Integer("Adults")
 
     @api.onchange("check_out", "check_in")
     def on_change_check_out(self):
@@ -1162,8 +1156,6 @@ class QuickRoomReservation(models.TransientModel):
         @param fields: List of fields for which we want default values
         @return: A dictionary which of fields with values.
         """
-        if self._context is None:
-            self._context = {}
         res = super(QuickRoomReservation, self).default_get(fields)
         if self._context:
             keys = self._context.keys()
