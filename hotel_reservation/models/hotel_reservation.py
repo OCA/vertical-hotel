@@ -490,11 +490,7 @@ class HotelReservation(models.Model):
             if folio:
                 for rm_line in folio.room_lines:
                     rm_line.product_id_change()
-            self._cr.execute(
-                "insert into hotel_folio_reservation_rel"
-                "(order_id, invoice_id) values (%s,%s)",
-                (reservation.id, folio.id),
-            )
+            self.folios_ids = [(6, 0, folio.ids)]
             self.state = "done"
         return True
 
