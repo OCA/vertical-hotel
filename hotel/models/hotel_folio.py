@@ -362,7 +362,7 @@ class HotelFolio(models.Model):
         return super(HotelFolio, self).write(vals)
 
     @api.onchange("partner_id")
-    def onchange_partner_id(self):
+    def _onchange_partner_id(self):
         """
         When you change partner_id it will update the partner_invoice_id,
         partner_shipping_id and pricelist_id of the hotel folio as well
@@ -712,7 +712,7 @@ class HotelFolioLine(models.Model):
         return result
 
     @api.onchange("checkin_date", "checkout_date")
-    def on_change_checkout(self):
+    def _onchange_checkout_dates(self):
         """
         When you change checkin_date or checkout_date it will checked it
         and update the qty of hotel folio line

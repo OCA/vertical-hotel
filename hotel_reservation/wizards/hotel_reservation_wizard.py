@@ -57,11 +57,11 @@ class MakeFolioWizard(models.TransientModel):
 
     grouped = fields.Boolean("Group the Folios")
 
-    def makeFolios(self):
+    def make_folios(self):
         order_obj = self.env["hotel.reservation"]
         newinv = []
         for order in order_obj.browse(self.env.context.get("active_ids", [])):
-            for folio in order.folio_id:
+            for folio in order.folios_ids:
                 newinv.append(folio.id)
         return {
             "domain": "[('id','in', [" + ",".join(map(str, newinv)) + "])]",

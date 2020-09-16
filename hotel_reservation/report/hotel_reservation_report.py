@@ -9,23 +9,11 @@ from odoo import api, fields, models
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 
-class ReportTestCheckin(models.AbstractModel):
+class ReportCheckin(models.AbstractModel):
     _name = "report.hotel_reservation.report_checkin_qweb"
     _description = "Auxiliar to get the check in report"
 
-    def _get_room_type(self, date_start, date_end):
-        reservations = self.env["hotel.reservation"].search(
-            [("checkin", ">=", date_start), ("checkout", "<=", date_end)]
-        )
-        return reservations
-
-    def _get_room_nos(self, date_start, date_end):
-        reservations = self.env["hotel.reservation"].search(
-            [("checkin", ">=", date_start), ("checkout", "<=", date_end)]
-        )
-        return reservations
-
-    def get_checkin(self, date_start, date_end):
+    def _get_checkin_reservation(self, date_start, date_end):
         reservations = self.env["hotel.reservation"].search(
             [("checkin", ">=", date_start), ("checkin", "<=", date_end)]
         )
@@ -47,38 +35,24 @@ class ReportTestCheckin(models.AbstractModel):
             ],
         )
         rm_act = self.with_context(data["form"].get("used_context", {}))
-        _get_room_type = rm_act._get_room_type(date_start, date_end)
-        _get_room_nos = rm_act._get_room_nos(date_start, date_end)
-        get_checkin = rm_act.get_checkin(date_start, date_end)
+        _get_checkin_reservation = rm_act._get_checkin_reservation(
+            date_start, date_end
+        )
         return {
             "doc_ids": docids,
             "doc_model": self.model,
             "data": data["form"],
             "docs": folio_profile,
             "time": time,
-            "get_room_type": _get_room_type,
-            "get_room_nos": _get_room_nos,
-            "get_checkin": get_checkin,
+            "get_checkin": _get_checkin_reservation,
         }
 
 
-class ReportTestCheckout(models.AbstractModel):
+class ReportCheckout(models.AbstractModel):
     _name = "report.hotel_reservation.report_checkout_qweb"
     _description = "Auxiliar to get the check out report"
 
-    def _get_room_type(self, date_start, date_end):
-        reservations = self.env["hotel.reservation"].search(
-            [("checkout", ">=", date_start), ("checkout", "<=", date_end)]
-        )
-        return reservations
-
-    def _get_room_nos(self, date_start, date_end):
-        reservations = self.env["hotel.reservation"].search(
-            [("checkout", ">=", date_start), ("checkout", "<=", date_end)]
-        )
-        return reservations
-
-    def _get_checkout(self, date_start, date_end):
+    def _get_checkout_reservation(self, date_start, date_end):
         reservations = self.env["hotel.reservation"].search(
             [("checkout", ">=", date_start), ("checkout", "<=", date_end)]
         )
@@ -100,42 +74,22 @@ class ReportTestCheckout(models.AbstractModel):
             ],
         )
         rm_act = self.with_context(data["form"].get("used_context", {}))
-        _get_room_type = rm_act._get_room_type(date_start, date_end)
-        _get_room_nos = rm_act._get_room_nos(date_start, date_end)
-        _get_checkout = rm_act._get_checkout(date_start, date_end)
+        _get_checkout_reservation = rm_act._get_checkout_reservation(
+            date_start, date_end
+        )
         return {
             "doc_ids": docids,
             "doc_model": self.model,
             "data": data["form"],
             "docs": folio_profile,
             "time": time,
-            "get_room_type": _get_room_type,
-            "get_room_nos": _get_room_nos,
-            "get_checkout": _get_checkout,
+            "get_checkout": _get_checkout_reservation,
         }
 
 
-class ReportTestMaxroom(models.AbstractModel):
+class ReportMaxroom(models.AbstractModel):
     _name = "report.hotel_reservation.report_maxroom_qweb"
     _description = "Auxiliar to get the room report"
-
-    def _get_room_type(self, date_start, date_end):
-        res = self.env["hotel.reservation"].search(
-            [("checkin", ">=", date_start), ("checkout", "<=", date_end)]
-        )
-        return res
-
-    def _get_room_nos(self, date_start, date_end):
-        res = self.env["hotel.reservation"].search(
-            [("checkin", ">=", date_start), ("checkout", "<=", date_end)]
-        )
-        return res
-
-    def _get_data(self, date_start, date_end):
-        res = self.env["hotel.reservation"].search(
-            [("checkin", ">=", date_start), ("checkout", "<=", date_end)]
-        )
-        return res
 
     def _get_room_used_detail(self, date_start, date_end):
         room_used_details = []
@@ -178,9 +132,6 @@ class ReportTestMaxroom(models.AbstractModel):
             ],
         )
         rm_act = self.with_context(data["form"].get("used_context", {}))
-        _get_room_type = rm_act._get_room_type(date_start, date_end)
-        _get_room_nos = rm_act._get_room_nos(date_start, date_end)
-        _get_data = rm_act._get_data(date_start, date_end)
         _get_room_used_detail = rm_act._get_room_used_detail(
             date_start, date_end
         )
@@ -190,39 +141,19 @@ class ReportTestMaxroom(models.AbstractModel):
             "data": data["form"],
             "docs": folio_profile,
             "time": time,
-            "get_room_type": _get_room_type,
-            "get_room_nos": _get_room_nos,
-            "get_data": _get_data,
             "get_room_used_detail": _get_room_used_detail,
         }
 
 
-class ReportTestRoomres(models.AbstractModel):
+class ReportRoomReservation(models.AbstractModel):
     _name = "report.hotel_reservation.report_roomres_qweb"
     _description = "Auxiliar to get the room report"
 
-    def _get_room_type(self, date_start, date_end):
-        reservation_obj = self.env["hotel.reservation"]
-        tids = reservation_obj.search(
+    def _get_reservation_data(self, date_start, date_end):
+        reservation = self.env["hotel.reservation"].search(
             [("checkin", ">=", date_start), ("checkout", "<=", date_end)]
         )
-        res = reservation_obj.browse(tids)
-        return res
-
-    def _get_room_nos(self, date_start, date_end):
-        reservation_obj = self.env["hotel.reservation"]
-        tids = reservation_obj.search(
-            [("checkin", ">=", date_start), ("checkout", "<=", date_end)]
-        )
-        res = reservation_obj.browse(tids)
-        return res
-
-    def _get_data(self, date_start, date_end):
-        reservation_obj = self.env["hotel.reservation"]
-        res = reservation_obj.search(
-            [("checkin", ">=", date_start), ("checkout", "<=", date_end)]
-        )
-        return res
+        return reservation
 
     @api.model
     def _get_report_values(self, docids, data):
@@ -240,16 +171,14 @@ class ReportTestRoomres(models.AbstractModel):
             ],
         )
         rm_act = self.with_context(data["form"].get("used_context", {}))
-        _get_room_type = rm_act._get_room_type(date_start, date_end)
-        _get_room_nos = rm_act._get_room_nos(date_start, date_end)
-        _get_data = rm_act._get_data(date_start, date_end)
+        _get_reservation_data = rm_act._get_reservation_data(
+            date_start, date_end
+        )
         return {
             "doc_ids": docids,
             "doc_model": self.model,
             "data": data["form"],
             "docs": folio_profile,
             "time": time,
-            "get_room_type": _get_room_type,
-            "get_room_nos": _get_room_nos,
-            "get_data": _get_data,
+            "get_data": _get_reservation_data,
         }

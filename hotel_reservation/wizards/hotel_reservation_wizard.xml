@@ -62,7 +62,7 @@
         <field name="name">make.folio.wizard.form</field>
         <field name="model">wizard.make.folio</field>
         <field name="arch" type="xml">
-            <form string="Create Folio" version='8.0'>
+            <form string="Create Folio">
                 <separator
                     colspan="4"
                     string="Do you really want to create the Folio ?"
@@ -71,7 +71,7 @@
                 <newline />
                 <footer>
                     <button
-                        name="makeFolios"
+                        name="make_folios"
                         string="Create Folio"
                         type="object"
                         icon="fa-files-o"

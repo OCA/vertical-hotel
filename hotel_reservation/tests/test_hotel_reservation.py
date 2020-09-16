@@ -49,7 +49,7 @@ class TestReservation(common.TransactionCase):
                 "adults": 1,
                 "state": "draft",
                 "children": 1,
-                "reservation_line": [(6, 0, [self.room.id])],
+                "reservation_line_ids": [(6, 0, [self.room.id])],
             }
         )
 
@@ -110,7 +110,7 @@ class TestReservation(common.TransactionCase):
         self.quick_room_reserv.on_change_check_out()
 
     def test_quick_room_reserv_onchange_partner_id_res(self):
-        self.quick_room_reserv.onchange_partner_id_res()
+        self.quick_room_reserv._onchange_partner_id_res()
 
     def test_quick_room_reserv_default_get(self):
         fields = ["date_from", "room_id"]
@@ -127,7 +127,7 @@ class TestReservation(common.TransactionCase):
         self.reserv_summary.get_room_summary()
 
     def test_check_reservation_rooms(self):
-        for rec in self.hotel_reserv.reservation_line:
+        for rec in self.hotel_reserv.reservation_line_ids:
             self.assertEqual(
                 len(rec.reserve), 1, "Please Select Rooms For Reservation"
             )
@@ -149,7 +149,7 @@ class TestReservation(common.TransactionCase):
         self.hotel_reserv.check_overlap(date1, date2)
 
     def test_onchange_partner_id(self):
-        self.hotel_reserv.onchange_partner_id()
+        self.hotel_reserv._onchange_partner_id()
 
     def test_set_to_draft_reservation(self):
         self.hotel_reserv.set_to_draft_reservation()
@@ -159,7 +159,7 @@ class TestReservation(common.TransactionCase):
         self.hotel_reserv.action_send_reservation_mail()
 
     def test_reservation_reminder_24hrs(self):
-        self.hotel_reserv.reservation_reminder_24hrs()
+        self.hotel_reserv._reservation_reminder_24hrs()
 
     def test_create_folio(self):
         with self.assertRaises(ValidationError):
@@ -168,15 +168,15 @@ class TestReservation(common.TransactionCase):
     def test_onchange_check_dates(self):
         self.hotel_reserv.onchange_check_dates()
 
-    def test_confirmed_reservation(self):
-        self.hotel_reserv.confirmed_reservation()
+    def test_confirm_reservation(self):
+        self.hotel_reserv.confirm_reservation()
 
     def test_cancel_reservation(self):
         self.hotel_reserv.cancel_reservation()
         self.assertEqual(self.hotel_reserv.state == "cancel", True)
 
-    def test_on_change_categ(self):
-        self.hotel_reserv_line.on_change_categ()
+    def test_onchange_categ(self):
+        self.hotel_reserv_line._onchange_categ()
 
     def test_unlink(self):
         self.hotel_reserv_line.unlink()

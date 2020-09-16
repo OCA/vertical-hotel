@@ -51,11 +51,11 @@
                         Reservation Number :
                         <strong>${object.reservation_no}</strong>
                         <br />
-                        Number Of Persons : <strong>${object.adults}</strong> Adults
+                        Number Of Persons: <strong>${object.adults}</strong> Adults
                         and <strong>${object.children}</strong> Childrens
                         <br />
                     </p>
-                    <strong>Rooms Rates Per Night :</strong>
+                    <strong>Rooms Rate Per Night:</strong>
                     <br />
                     <br />
                     <table border="1" cellpadding="4" style="margin-left: 30px;">
@@ -63,7 +63,7 @@
                             <th>Room No</th>
                             <th>Amount</th>
                         </tr>
-                        %for line in object.reservation_line:
+                        %for line in object.reservation_line_ids:
                         %for line2 in line.reserve:
                         <tr>
                             <td>${line2.product_id.name}</td>
@@ -174,7 +174,7 @@
                         <br />
                     </p>
                     &amp;nbsp;&amp;nbsp;
-                    <strong>Rooms Rates Per Night :</strong>
+                    <strong>Rooms Rate Per Night:</strong>
                     <br />
                     <br />
                     <table border="1" cellpadding="4" style="margin-left: 30px;">
@@ -182,7 +182,7 @@
                             <th>Room No</th>
                             <th>Amount</th>
                         </tr>
-                        %for line in object.reservation_line:
+                        %for line in object.reservation_line_ids:
                         %for line2 in line.reserve:
                         <tr>
                             <td>${line2.product_id.name}</td>

@@ -53,7 +53,7 @@
                             <td>
                                 <table
                                     class="table-borderless"
-                                    t-foreach="info.reservation_line"
+                                    t-foreach="info.reservation_line_ids"
                                     t-as="line"
                                 >
                                     <tr>
@@ -66,7 +66,7 @@
                             <td>
                                 <table
                                     class="table-borderless"
-                                    t-foreach="info.reservation_line"
+                                    t-foreach="info.reservation_line_ids"
                                     t-as="line"
                                 >
                                     <tr t-foreach="line.reserve" t-as="o">
