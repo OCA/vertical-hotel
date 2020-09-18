@@ -1,6 +1,6 @@
 # See LICENSE file for full copyright and licensing details.
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from odoo.exceptions import ValidationError
 from odoo.tests import common
@@ -144,8 +144,8 @@ class TestReservation(common.TransactionCase):
         self.hotel_reserv.check_in_out_dates()
 
     def test_reserv_check_overlap(self):
-        date1 = datetime.now().strftime("%Y-%m-21")
-        date2 = datetime.now().strftime("%Y-%m-23")
+        date1 = datetime.now()
+        date2 = datetime.now() + timedelta(days=1)
         self.hotel_reserv.check_overlap(date1, date2)
 
     def test_onchange_partner_id(self):

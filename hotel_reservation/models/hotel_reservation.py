@@ -1,12 +1,12 @@
 # See LICENSE file for full copyright and licensing details.
 
-import time
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 import pytz
 from dateutil.relativedelta import relativedelta
 
 from odoo import _, api, fields, models
+
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT as dt
 
@@ -113,6 +113,7 @@ class HotelFolioLineExt(models.Model):
                         }
                         rm_lines.write(rm_line_vals)
         return super(HotelFolioLineExt, self).write(vals)
+
 
 
 class HotelReservation(models.Model):
@@ -348,8 +349,11 @@ class HotelReservation(models.Model):
         return super(HotelReservation, self).create(vals)
 
     def check_overlap(self, date1, date2):
+<<<<<<< HEAD
         date2 = datetime.strptime(date2, "%Y-%m-%d")
         date1 = datetime.strptime(date1, "%Y-%m-%d")
+=======
+>>>>>>> [IMP]hotel_reservation:Improved and optimised code.
         delta = date2 - date1
         return {date1 + timedelta(days=i) for i in range(delta.days + 1)}
 
@@ -386,24 +390,15 @@ class HotelReservation(models.Model):
                                 and reserv_checkout >= check_out
                             ):
                                 room_bool = True
-                            mytime = "%Y-%m-%d"
                             r_checkin = (reservation.checkin).date()
-                            r_checkin = r_checkin.strftime(mytime)
                             r_checkout = (reservation.checkout).date()
-                            r_checkout = r_checkout.strftime(mytime)
                             check_intm = (reserv.check_in).date()
                             check_outtm = (reserv.check_out).date()
-                            check_intm = check_intm.strftime(mytime)
-                            check_outtm = check_outtm.strftime(mytime)
                             range1 = [r_checkin, r_checkout]
                             range2 = [check_intm, check_outtm]
                             overlap_dates = self.check_overlap(
                                 *range1
                             ) & self.check_overlap(*range2)
-                            overlap_dates = [
-                                datetime.strftime(dates, "%d/%m/%Y")
-                                for dates in overlap_dates
-                            ]
                             if room_bool:
                                 raise ValidationError(
                                     _(
@@ -485,6 +480,7 @@ class HotelReservation(models.Model):
         template message loaded by default.
         @param self: object pointer
         """
+<<<<<<< HEAD
         assert len(self._ids) == 1, "This is for a single id at a time."
         try:
             template_id = self.env.ref(
@@ -498,6 +494,15 @@ class HotelReservation(models.Model):
             ).id
         except ValueError:
             compose_form_id = False
+=======
+        self.ensure_one(), "This is for a single id at a time."
+        template_id = self.env.ref(
+            "hotel_reservation.email_template_hotel_reservation"
+        ).id
+        compose_form_id = self.env.ref(
+            "mail.email_compose_message_wizard_form"
+        ).id
+>>>>>>> [IMP]hotel_reservation:Improved and optimised code.
         ctx = {
             "default_model": "hotel.reservation",
             "default_res_id": self.id,
@@ -528,8 +533,7 @@ class HotelReservation(models.Model):
         @param self: The object pointer
         @return: send a mail
         """
-        now_str = time.strftime(dt)
-        now_date = datetime.strptime(now_str, dt)
+        now_date = fields.Date.today()
         template_id = self.env.ref(
             "hotel_reservation.mail_template_reservation_reminder_24hrs"
         )
@@ -601,6 +605,7 @@ class HotelReservation(models.Model):
                     r.write({"status": "occupied", "isroom": False})
             folio_vals.update({"room_lines": folio_lines})
             folio = hotel_folio_obj.create(folio_vals)
+<<<<<<< HEAD
             if folio:
                 for rm_line in folio.room_lines:
                     rm_line.product_id_change()
@@ -610,6 +615,11 @@ class HotelReservation(models.Model):
                 (reservation.id, folio.id),
             )
             self.state = "done"
+=======
+            for rm_line in folio.room_lines:
+                rm_line.product_id_change()
+            self.write({"folios_ids": [(6, 0, folio.ids)], "state": "done"})
+>>>>>>> [IMP]hotel_reservation:Improved and optimised code.
         return True
 
     def onchange_check_dates(
