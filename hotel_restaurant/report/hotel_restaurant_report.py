@@ -24,7 +24,7 @@ class HotelRestaurantReport(models.AbstractModel):
             data.append(
                 {
                     "reservation": record.reservation_id,
-                    "name": record.cname.name,
+                    "name": record.customer_id.name,
                     "start_date": (record.start_date).strftime("%m/%d/%Y"),
                     "end_date": (record.end_date).strftime("%m/%d/%Y"),
                 }
@@ -89,10 +89,10 @@ class FolioRestReport(models.AbstractModel):
         tids = self.env["hotel.folio"].search(act_domain)
         total = 0.0
         for record in tids:
-            if record.hotel_reservation_order_ids:
+            if record.hotel_reservation_orders_ids:
                 total_amount = 0.0
                 total_order = 0
-                for order in record.hotel_reservation_order_ids:
+                for order in record.hotel_reservation_orders_ids:
                     total_amount = total_amount + order.amount_total
                     total_order += 1
                 total += total_amount
@@ -121,9 +121,9 @@ class FolioRestReport(models.AbstractModel):
         ]
         tids = self.env["hotel.folio"].search(rest_domain)
         for record in tids:
-            if record.hotel_reservation_order_ids:
+            if record.hotel_reservation_orders_ids:
                 order_data = []
-                for order in record.hotel_reservation_order_ids:
+                for order in record.hotel_reservation_orders_ids:
                     order_data.append(
                         {
                             "order_no": order.order_number,
@@ -131,8 +131,8 @@ class FolioRestReport(models.AbstractModel):
                                 "%m/%d/%Y %H:%M:%S"
                             ),
                             "state": order.state,
-                            "table_no": len(order.table_no),
-                            "order_len": len(order.order_list),
+                            "table_nos_ids": len(order.table_nos_ids),
+                            "order_len": len(order.order_list_ids),
                             "amount_total": order.amount_total,
                         }
                     )
@@ -186,10 +186,10 @@ class FolioReservReport(models.AbstractModel):
         tids = folio_obj.search(reserve_domain)
         total = 0.0
         for record in tids:
-            if record.hotel_restaurant_order_ids:
+            if record.hotel_restaurant_orders_ids:
                 total_amount = 0.0
                 total_order = 0
-                for order in record.hotel_restaurant_order_ids:
+                for order in record.hotel_restaurant_orders_ids:
                     total_amount = total_amount + order.amount_total
                     total_order += 1
                 total += total_amount
@@ -219,9 +219,9 @@ class FolioReservReport(models.AbstractModel):
         ]
         tids = folio_obj.search(res_domain)
         for record in tids:
-            if record.hotel_restaurant_order_ids:
+            if record.hotel_restaurant_orders_ids:
                 order_data = []
-                for order in record.hotel_restaurant_order_ids:
+                for order in record.hotel_restaurant_orders_ids:
                     order_date = order.o_date
                     order_date = order_date.strftime("%m/%d/%Y %H:%M:%S")
                     order_data.append(
@@ -229,8 +229,8 @@ class FolioReservReport(models.AbstractModel):
                             "order_no": order.order_no,
                             "order_date": order_date,
                             "state": order.state,
-                            "room_no": order.room_no.name,
-                            "table_no": len(order.table_no),
+                            "room_id": order.room_id.name,
+                            "table_nos_ids": len(order.table_nos_ids),
                             "amount_total": order.amount_total,
                         }
                     )

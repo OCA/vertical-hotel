@@ -24,7 +24,7 @@
                             <tr>
                                 <td width="50%" style="text-align:left;">
                                     <strong>Customer Name :</strong>
-                                    <span t-field="o.cname"/>
+                                    <span t-field="customer_id"/>
                                 </td>
                                 <td width="50%" style="text-align:right;">
                                     <strong>Date :</strong>
@@ -56,17 +56,17 @@
                                 </td>
                                 <td style="white-space: nowrap;">
                                     <span t-att-style="style"
-                                          t-esc="o.waiter_name.name"/>
+                                          t-esc="o.waiter_id.name"/>
                                 </td>
                                 <td t-if="o.folio_id.id"
                                     style="white-space: nowrap;">
                                     <span t-att-style="style"
                                           t-esc="o.folio_id.name"/>
                                 </td>
-                                <td t-if="o.room_no.id"
+                                <td t-if="o.room_id.id"
                                     style="white-space: nowrap;">
                                     <span t-att-style="style"
-                                          t-esc="o.room_no.name"/>
+                                          t-esc="o.room_id.name"/>
                                 </td>
                             </tbody>
                         </table>
@@ -79,7 +79,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr t-foreach="o.table_no" t-as="rec2">
+                                <tr t-foreach="o.table_nos_ids" t-as="rec2">
                                     <td>
                                         <span t-esc="rec2.name"/>
                                     </td>
@@ -109,7 +109,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr t-foreach="o.order_list" t-as="rec">
+                                <tr t-foreach="o.order_list_ids" t-as="rec">
                                     <td>
                                         <span t-esc="rec.name.name"/>
                                     </td>
@@ -217,7 +217,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr t-foreach="o.table_no" t-as="rec2">
+                                <tr t-foreach="o.table_nos_ids" t-as="rec2">
                                     <td>
                                         <span t-esc="rec2.name"/>
                                     </td>
@@ -247,7 +247,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr t-foreach="o.order_list" t-as="rec">
+                                <tr t-foreach="o.order_list_ids" t-as="rec">
                                     <td>
                                         <span t-esc="rec.name.name"/>
                                     </td>

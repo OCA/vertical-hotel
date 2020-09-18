@@ -248,11 +248,11 @@
                                             </td>
                                             <td>
                                                 <span
-                                                    t-esc="infodata.get('table_no', '')"/>
+                                                    t-esc="infodata.get('table_nos_ids', '')"/>
                                             </td>
                                             <td>
                                                 <span
-                                                    t-esc="infodata.get('room_no', '')"/>
+                                                    t-esc="infodata.get('room_id', '')"/>
                                             </td>
                                             <td>
                                                 <span
