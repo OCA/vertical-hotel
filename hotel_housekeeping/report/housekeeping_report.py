@@ -17,12 +17,13 @@ class ActivityReport(models.AbstractModel):
         activity_detail = []
         house_keep_act_obj = self.env["hotel.housekeeping.activities"]
 
-        act_domain = [
-            ("clean_start_time", ">=", date_start),
-            ("clean_end_time", "<=", date_end),
-            ("a_list.room_no", "=", room_id),
-        ]
-        activity_line_ids = house_keep_act_obj.search(act_domain)
+        activity_line_ids = house_keep_act_obj.search(
+            [
+                ("clean_start_time", ">=", date_start),
+                ("clean_end_time", "<=", date_end),
+                ("housekeeping_id.room_id", "=", room_id),
+            ]
+        )
 
         for activity in activity_line_ids:
             ss_date = activity.clean_start_time
@@ -31,7 +32,7 @@ class ActivityReport(models.AbstractModel):
             activity_detail.append(
                 {
                     "current_date": activity.today_date,
-                    "activity": (activity.activity_name.name or ""),
+                    "activity": (activity.activity_id.name or ""),
                     "login": (activity.housekeeper_id.name or ""),
                     "clean_start_time": activity.clean_start_time,
                     "clean_end_time": activity.clean_end_time,
@@ -42,7 +43,7 @@ class ActivityReport(models.AbstractModel):
 
     @api.model
     def _get_report_values(self, docids, data=None):
-        self.model = self.env.context.get("active_model")
+        active_model = self.env.context.get("active_model")
         if data is None:
             data = {}
         if not docids:
@@ -58,7 +59,7 @@ class ActivityReport(models.AbstractModel):
         room_id = data["form"].get("room_id")[0]
         return {
             "doc_ids": docids,
-            "doc_model": self.model,
+            "doc_model": active_model,
             "data": data["form"],
             "docs": activity_doc,
             "time": time,

@@ -1,6 +1,6 @@
 # See LICENSE file for full copyright and licensing details.
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class HotelHousekeepingWizard(models.TransientModel):
@@ -11,7 +11,6 @@ class HotelHousekeepingWizard(models.TransientModel):
     date_end = fields.Datetime("Activity End Date", required=True)
     room_id = fields.Many2one("hotel.room", "Room No", required=True)
 
-      
     def print_report(self):
         data = {
             "ids": self.ids,

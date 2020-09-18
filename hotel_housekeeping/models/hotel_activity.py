@@ -8,7 +8,7 @@ class HotelActivity(models.Model):
     _name = "hotel.activity"
     _description = "Housekeeping Activity"
 
-    h_id = fields.Many2one(
+    product_id = fields.Many2one(
         "product.product",
         "Hotel Activity",
         required=True,
