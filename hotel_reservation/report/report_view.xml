@@ -16,8 +16,8 @@
         string="Room Reservation Detail"
         model="hotel.reservation"
         report_type="qweb-pdf"
-        file="hotel_reservation.report_roomres_qweb"
-        name="hotel_reservation.report_roomres_qweb"
+        file="hotel_reservation.report_room_reservation_qweb"
+        name="hotel_reservation.report_room_reservation_qweb"
         menu="False"
     />
     <!--Report for hotel check-out details -->

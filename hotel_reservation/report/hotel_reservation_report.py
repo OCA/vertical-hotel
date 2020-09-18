@@ -21,7 +21,7 @@ class ReportCheckin(models.AbstractModel):
 
     @api.model
     def _get_report_values(self, docids, data):
-        self.model = self.env.context.get("active_model")
+        active_model = self.env.context.get("active_model")
         if data is None:
             data = {}
         if not docids:
@@ -40,7 +40,7 @@ class ReportCheckin(models.AbstractModel):
         )
         return {
             "doc_ids": docids,
-            "doc_model": self.model,
+            "doc_model": active_model,
             "data": data["form"],
             "docs": folio_profile,
             "time": time,
@@ -60,7 +60,7 @@ class ReportCheckout(models.AbstractModel):
 
     @api.model
     def _get_report_values(self, docids, data):
-        self.model = self.env.context.get("active_model")
+        active_model = self.env.context.get("active_model")
         if data is None:
             data = {}
         if not docids:
@@ -79,7 +79,7 @@ class ReportCheckout(models.AbstractModel):
         )
         return {
             "doc_ids": docids,
-            "doc_model": self.model,
+            "doc_model": active_model,
             "data": data["form"],
             "docs": folio_profile,
             "time": time,
@@ -118,7 +118,7 @@ class ReportMaxroom(models.AbstractModel):
 
     @api.model
     def _get_report_values(self, docids, data):
-        self.model = self.env.context.get("active_model")
+        active_model = self.env.context.get("active_model")
         if data is None:
             data = {}
         if not docids:
@@ -137,7 +137,7 @@ class ReportMaxroom(models.AbstractModel):
         )
         return {
             "doc_ids": docids,
-            "doc_model": self.model,
+            "doc_model": active_model,
             "data": data["form"],
             "docs": folio_profile,
             "time": time,
@@ -146,7 +146,7 @@ class ReportMaxroom(models.AbstractModel):
 
 
 class ReportRoomReservation(models.AbstractModel):
-    _name = "report.hotel_reservation.report_roomres_qweb"
+    _name = "report.hotel_reservation.report_room_reservation_qweb"
     _description = "Auxiliar to get the room report"
 
     def _get_reservation_data(self, date_start, date_end):
@@ -157,7 +157,7 @@ class ReportRoomReservation(models.AbstractModel):
 
     @api.model
     def _get_report_values(self, docids, data):
-        self.model = self.env.context.get("active_model")
+        active_model = self.env.context.get("active_model")
         if data is None:
             data = {}
         if not docids:
@@ -176,7 +176,7 @@ class ReportRoomReservation(models.AbstractModel):
         )
         return {
             "doc_ids": docids,
-            "doc_model": self.model,
+            "doc_model": active_model,
             "data": data["form"],
             "docs": folio_profile,
             "time": time,

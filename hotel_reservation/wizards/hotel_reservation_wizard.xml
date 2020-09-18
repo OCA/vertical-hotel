@@ -94,7 +94,7 @@
         view_mode="form"
         target="new"
         binding_model="hotel.reservation"
-        binding_views="form"
+        binding_views="list"
     />
     <menuitem
         id="wizard_res_menu"
