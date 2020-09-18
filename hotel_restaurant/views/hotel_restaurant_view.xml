@@ -15,7 +15,7 @@
                 <page name="hotel_restaurant" string="Hotel Restaurant">
                     <separator string="Restaurant Order Reservation Details"
                                colspan="4"/>
-                    <field name="hotel_reservation_order_ids" colspan="4"
+                    <field name="hotel_reservation_orders_ids" colspan="4"
                            nolabel="1" readonly="1">
                         <tree string="Order"
                               decoration-success="state=='order'" decoration-info="state=='draft'"
@@ -23,21 +23,21 @@
                             <field name="order_number"/>
                             <field name="order_date"/>
                             <field name="waitername"/>
-                            <field name="table_no"/>
+                            <field name="table_nos_ids"/>
                             <field name="state"/>
                             <field name="amount_total" sum="Order Total"/>
                         </tree>
                     </field>
                     <separator string="Restaurant Orders Details" colspan="4"/>
-                    <field name="hotel_restaurant_order_ids" colspan="4"
+                    <field name="hotel_restaurant_orders_ids" colspan="4"
                            nolabel="1"
                            readonly="1">
                         <tree string="Order"
                                decoration-success="state=='order'" decoration-info="state=='draft'">
                             <field name="order_no"/>
                             <field name="o_date"/>
-                            <field name="waiter_name"/>
-                            <field name="table_no"/>
+                            <field name="waiter_id"/>
+                            <field name="table_nos_ids"/>
                             <field name="state"/>
                             <field name="amount_total" sum="Table Order Total"/>
                         </tree>
@@ -147,19 +147,19 @@
                             <newline/>
                             <field name="folio_id"
                                    attrs="{'invisible':[('is_folio','=',False)], 'required':[('is_folio','=',True)]}"/>
-                            <field name="room_no"
+                            <field name="room_id"
                                    attrs="{'invisible':[('is_folio','=',False)] ,'required':[('is_folio','=',True)]}"/>
                         </group>
                         <newline/>
                         <group colspan="4" col="4">
-                            <field name="cname"/>
+                            <field name="customer_id"/>
                             <field name="partner_address_id"/>
                             <field name="start_date"/>
                             <field name="end_date"/>
                         </group>
                         <group colspan="4">
                             <separator colspan='4' string="Table List"/>
-                            <field name="tableno" colspan="4" nolabel='1'/>
+                            <field name="table_nos_ids" colspan="4" nolabel='1'/>
                         </group>
                     </group>
                 </sheet>
@@ -176,12 +176,12 @@
                   decoration-success="state=='confirm'" decoration-info="state=='draft'" decoration-danger="state=='cancel'" decoration-muted="state=='done'">
                 <field name="reservation_id"/>
                 <field name="folio_id"/>
-                <field name="room_no"/>
+                <field name="room_id"/>
                 <field name="start_date"/>
                 <field name="end_date"/>
-                <field name="cname"/>
+                <field name="customer_id"/>
                 <field name="partner_address_id"/>
-                <field name="tableno"/>
+                <field name="table_nos_ids"/>
                 <field name="state"/>
             </tree>
         </field>
@@ -211,17 +211,17 @@
                     <filter domain="[('state','=','done')]" string="Done"
                             name="done"/>
                 </group>
-                <field name="room_no"/>
+                <field name="room_id"/>
                 <field name="start_date"/>
                 <field name="end_date"/>
-                <field name="cname"/>
+                <field name="customer_id"/>
                 <newline/>
                 <group expand="0" string="Group By">
-                    <filter name="room_no" string="Room Number"
+                    <filter name="room_id" string="Room Number"
                             icon="terp-personal"
-                            domain="[]" context="{'group_by':'room_no'}"/>
-                    <filter name="cname" string="Customer Name" domain="[]"
-                            context="{'group_by':'cname'}"/>
+                            domain="[]" context="{'group_by':'room_id'}"/>
+                    <filter name="customer_id" string="Customer Name" domain="[]"
+                            context="{'group_by':'customer_id'}"/>
                 </group>
             </search>
         </field>
@@ -283,17 +283,17 @@
                             <field name="order_date"/>
                             <field name="waitername"/>
                             <field name="kitchen_id" invisible="1"/>
-                            <field name="rest_id" widget="many2many_tags"
+                            <field name="rests_ids" widget="many2many_tags"
                                    invisible="1"/>
                         </group>
                         <newline/>
                         <separator colspan='4' string='Table List'/>
-                        <field name="table_no" colspan="4" nolabel='1'/>
+                        <field name="table_nos_ids" colspan="4" nolabel='1'/>
                         <newline/>
                         <separator colspan='4' string='Order List'/>
-                        <field name="order_list" colspan="4" nolabel='1'>
+                        <field name="order_list_ids" colspan="4" nolabel='1'>
                             <tree string="Order List" editable="top">
-                                <field name="name"/>
+                                <field name="menucard_id"/>
                                 <field name="item_qty"/>
                                 <field name="item_rate"/>
                                 <field name="price_subtotal"/>
@@ -326,7 +326,7 @@
                 <field name="reservationno"/>
                 <field name="order_date"/>
                 <field name="waitername"/>
-                <field name="table_no"/>
+                <field name="table_nos_ids"/>
                 <field name="state"/>
                 <field name="amount_total" sum="Order Total"/>
             </tree>
@@ -413,24 +413,24 @@
                         <group colspan="2" col="4">
                             <field name="folio_id"
                                    attrs="{'invisible':[('is_folio','=',False)], 'required':[('is_folio','=',True)]}"/>
-                            <field name="room_no"
+                            <field name="room_id"
                                    attrs="{'invisible':[('is_folio','=',False)], 'required':[('is_folio','=',True)]}"/>
                         </group>
                         <group colspan="2" col="4">
-                            <field name="cname"/>
-                            <field name="waiter_name"/>
+                            <field name="customer_id"/>
+                            <field name="waiter_id"/>
                             <field name="kitchen_id" invisible="1"/>
                             <field name="rest_item_id" widget="many2many_tags"
                                    invisible="1"/>
                         </group>
                         <newline/>
                         <separator colspan='4' string='Table List'/>
-                        <field name="table_no" colspan="4" nolabel='1'/>
+                        <field name="table_nos_ids" colspan="4" nolabel='1'/>
                         <newline/>
                         <separator colspan='4' string='Order List'/>
-                        <field name="order_list" colspan="4" nolabel='1'>
+                        <field name="order_list_ids" colspan="4" nolabel='1'>
                             <tree string="Order List" editable="top">
-                                <field name="name"/>
+                                <field name="menucard_id"/>
                                 <field name="item_qty"/>
                                 <field name="item_rate"/>
                                 <field name="price_subtotal"/>
@@ -461,9 +461,9 @@
                     decoration-success="state=='order'" decoration-info="state=='draft'" decoration-muted="state=='done'">
                 <field name="order_no"/>
                 <field name="o_date"/>
-                <field name="table_no"/>
-                <field name="room_no"/>
-                <field name="waiter_name"/>
+                <field name="table_nos_ids"/>
+                <field name="room_id"/>
+                <field name="waiter_id"/>
                 <field name="state"/>
                 <field name="amount_total" sum="Table Order Total"/>
             </tree>
@@ -481,9 +481,9 @@
                         string="Today's Orders"/>
                 <field name="order_no"/>
                 <group expand="0" string="Group By">
-                    <filter name="waiter_name" string="waiter name"
+                    <filter name="waiter_id" string="waiter name"
                             icon="terp-personal"
-                            domain="[]" context="{'group_by':'waiter_name'}"/>
+                            domain="[]" context="{'group_by':'waiter_id'}"/>
                     <filter name="o_date" string="date" domain="[]"
                             context="{'group_by':'o_date'}"/>
                 </group>
@@ -529,19 +529,19 @@
                         </group>
                         <newline/>
                         <separator colspan='4' string='Table List'/>
-                        <field name="tableno" colspan="4" nolabel='1'/>
+                        <field name="table_nos_ids" colspan="4" nolabel='1'/>
                         <newline/>
                         <separator colspan='4' string='Order List'/>
-                        <field name="kot_list" colspan="4" nolabel='1'>
+                        <field name="kot_list_ids" colspan="4" nolabel='1'>
                             <form string="Order List">
                                 <group>
-                                    <field name="name"/>
+                                    <field name="menucard_id"/>
                                     <field name="item_qty"/>
                                     <field name="item_rate"/>
                                 </group>
                             </form>
                             <tree string="Order List">
-                                <field name="name"/>
+                                <field name="menucard_id"/>
                                 <field name="item_qty"/>
                             </tree>
                         </field>
@@ -563,8 +563,8 @@
                 <field name="kot_date"/>
                 <field name="room_no"/>
                 <field name="w_name"/>
-                <field name="tableno"/>
-                <field name="kot_list"/>
+                <field name="table_nos_ids"/>
+                <field name="kot_list_ids"/>
             </tree>
         </field>
     </record>
@@ -676,7 +676,7 @@
                                            string="Food Type"/>
                                     <field name="categ_id"
                                            string="Food Item Type"/>
-                                    <field name="product_manager" select="2"
+                                    <field name="product_manager_id" select="2"
                                            string="Food Manager"/>
                                     <field name="uom_id"/>
                                     <field name="uom_po_id"/>
