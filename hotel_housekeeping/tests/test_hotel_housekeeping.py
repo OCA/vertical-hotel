@@ -31,7 +31,7 @@ class TestHousekeeping(common.TransactionCase):
         self.housekeeping = self.housekeeping_obj.create(
             {
                 "current_date": time.strftime("%Y-%m-%d"),
-                "room_no": self.room.id,
+                "room_id": self.room.id,
                 "clean_type": "daily",
                 "inspector_id": self.inspector_id.id,
                 "state": "dirty",
@@ -46,9 +46,9 @@ class TestHousekeeping(common.TransactionCase):
 
         self.hotel_activity = self.hotel_act_obj.create(
             {
-                "a_list": self.housekeeping.id,
+                "housekeeping_id": self.housekeeping.id,
                 "today_date": time.strftime("%Y-%m-%d"),
-                "activity_name": self.activity.id,
+                "activity_id": self.activity.id,
                 "housekeeper_id": self.housekeeper_id.id,
                 "clean_start_time": cur_date,
                 "clean_end_time": cur_date1,
