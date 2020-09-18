@@ -1,6 +1,6 @@
 # See LICENSE file for full copyright and licensing details.
 
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -8,7 +8,7 @@ class HotelHousekeeping(models.Model):
 
     _name = "hotel.housekeeping"
     _description = "Reservation"
-    _rec_name = "room_no"
+    _rec_name = "room_id"
 
     current_date = fields.Date(
         "Today's Date",
@@ -27,7 +27,7 @@ class HotelHousekeeping(models.Model):
         required=True,
         states={"done": [("readonly", True)]},
     )
-    room_no = fields.Many2one(
+    room_id = fields.Many2one(
         "hotel.room",
         "Room No",
         required=True,
@@ -36,7 +36,7 @@ class HotelHousekeeping(models.Model):
     )
     activity_line_ids = fields.One2many(
         "hotel.housekeeping.activities",
-        "a_list",
+        "housekeeping_id",
         "Activities",
         states={"done": [("readonly", True)]},
         help="Detail of housekeeping \
@@ -46,7 +46,6 @@ class HotelHousekeeping(models.Model):
         "res.users",
         "Inspector",
         required=True,
-        index=True,
         states={"done": [("readonly", True)]},
     )
     inspect_date_time = fields.Datetime(
@@ -77,13 +76,11 @@ class HotelHousekeeping(models.Model):
         ],
         "State",
         states={"done": [("readonly", True)]},
-        index=True,
         required=True,
         readonly=True,
         default="inspect",
     )
 
-      
     def action_set_to_dirty(self):
         """
         This method is used to change the state
@@ -92,9 +89,8 @@ class HotelHousekeeping(models.Model):
         @param self: object pointer
         """
         self.write({"state": "dirty", "quality": False})
-        self.activity_line_ids.write({"clean": False, "dirty": True})
+        self.activity_line_ids.write({"is_clean": False, "is_dirty": True})
 
-      
     def room_cancel(self):
         """
         This method is used to change the state
@@ -104,7 +100,6 @@ class HotelHousekeeping(models.Model):
         """
         self.write({"state": "cancel", "quality": False})
 
-      
     def room_done(self):
         """
         This method is used to change the state
@@ -114,9 +109,8 @@ class HotelHousekeeping(models.Model):
         """
         if not self.quality:
             raise ValidationError(_("Please update quality of work!"))
-        self.write({'state':"done"})
+        self.write({"state": "done"})
 
-      
     def room_inspect(self):
         """
         This method is used to change the state
@@ -126,7 +120,6 @@ class HotelHousekeeping(models.Model):
         """
         self.write({"state": "inspect", "quality": False})
 
-      
     def room_clean(self):
         """
         This method is used to change the state
@@ -135,4 +128,4 @@ class HotelHousekeeping(models.Model):
         @param self: object pointer
         """
         self.write({"state": "clean", "quality": False})
-        self.activity_line_ids.write({"clean": True, "dirty": False})
+        self.activity_line_ids.write({"is_clean": True, "is_dirty": False})
