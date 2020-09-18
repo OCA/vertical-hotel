@@ -9,17 +9,17 @@ class HotelHousekeepingActivities(models.Model):
     _name = "hotel.housekeeping.activities"
     _description = "Housekeeping Activities"
 
-    a_list = fields.Many2one("hotel.housekeeping", "Reservation")
+    housekeeping_id = fields.Many2one("hotel.housekeeping", "Reservation")
     today_date = fields.Date("Today Date")
-    activity_name = fields.Many2one("hotel.activity", "Housekeeping Activity")
+    activity_id = fields.Many2one("hotel.activity", "Housekeeping Activity")
     housekeeper_id = fields.Many2one("res.users", "Housekeeper", required=True)
     clean_start_time = fields.Datetime("Clean Start Time", required=True)
     clean_end_time = fields.Datetime("Clean End Time", required=True)
-    dirty = fields.Boolean(
+    is_dirty = fields.Boolean(
         "Dirty",
         help="Checked if the housekeeping activity" "results as Dirty.",
     )
-    clean = fields.Boolean(
+    is_clean = fields.Boolean(
         "Clean",
         help="Checked if the housekeeping" "activity results as Clean.",
     )
@@ -47,8 +47,6 @@ class HotelHousekeepingActivities(models.Model):
         @param fields: List of fields for which we want default values
         @return: A dictionary which of fields with values.
         """
-        if self._context is None:
-            self._context = {}
         res = super().default_get(fields)
         if self._context.get("room_id", False):
             res.update({"room_id": self._context["room_id"]})
