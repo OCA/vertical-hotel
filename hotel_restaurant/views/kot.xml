@@ -48,11 +48,11 @@
                                 </td>
                                 <td style="white-space: nowrap;">
                                     <span t-att-style="style"
-                                          t-esc="o.waiter_name.name"/>
+                                          t-esc="o.waiter_id.name"/>
                                 </td>
                                 <td style="white-space: nowrap;">
                                     <span t-att-style="style"
-                                          t-esc="o.room_no.name"/>
+                                          t-esc="o.room_id.name"/>
                                 </td>
                             </tbody>
                         </table>
@@ -66,7 +66,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr t-foreach="o.table_no" t-as="rec2">
+                                <tr t-foreach="o.table_nos_ids" t-as="rec2">
                                     <td>
                                         <span t-esc="rec2.name"/>
                                     </td>
@@ -90,7 +90,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr t-foreach="o.order_list" t-as="rec">
+                                <tr t-foreach="o.order_list_ids" t-as="rec">
                                     <td>
                                         <span t-esc="rec.name.name"/>
                                     </td>
