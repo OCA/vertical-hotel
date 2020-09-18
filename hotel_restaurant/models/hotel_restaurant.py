@@ -4,119 +4,7 @@ import time
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
-from odoo.osv import expression
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
-
-
-class HotelFolio(models.Model):
-
-    _inherit = "hotel.folio"
-
-    hotel_reservation_order_ids = fields.Many2many(
-        "hotel.reservation.order",
-        "hotel_res_rel",
-        "hotel_folio_id",
-        "reste_id",
-        "Reservation Orders",
-    )
-    hotel_restaurant_order_ids = fields.Many2many(
-        "hotel.restaurant.order",
-        "hotel_res_resv",
-        "hfolio_id",
-        "reserves_id",
-        "Restaurant Orders",
-    )
-
-
-class HotelMenucardType(models.Model):
-
-    _name = "hotel.menucard.type"
-    _description = "Food Item Type"
-
-    name = fields.Char("Name", required=True)
-    menu_id = fields.Many2one("hotel.menucard.type", "Food Item Type")
-    child_ids = fields.One2many(
-        "hotel.menucard.type", "menu_id", "Child Categories"
-    )
-
-    def name_get(self):
-        def get_names(cat):
-            """ Return the list [cat.name, cat.menu_id.name, ...] """
-            res = []
-            while cat:
-                res.append(cat.name)
-                cat = cat.menu_id
-            return res
-
-        return [(cat.id, " / ".join(reversed(get_names(cat)))) for cat in self]
-
-    @api.model
-    def name_search(self, name, args=None, operator="ilike", limit=100):
-        if not args:
-            args = []
-        if name:
-            # Be sure name_search is symetric to name_get
-            category_names = name.split(" / ")
-            parents = list(category_names)
-            child = parents.pop()
-            domain = [("name", operator, child)]
-            if parents:
-                names_ids = self.name_search(
-                    " / ".join(parents),
-                    args=args,
-                    operator="ilike",
-                    limit=limit,
-                )
-                category_ids = [name_id[0] for name_id in names_ids]
-                if operator in expression.NEGATIVE_TERM_OPERATORS:
-                    categories = self.search([("id", "not in", category_ids)])
-                    domain = expression.OR(
-                        [[("menu_id", "in", categories.ids)], domain]
-                    )
-                else:
-                    domain = expression.AND(
-                        [[("menu_id", "in", category_ids)], domain]
-                    )
-                for i in range(1, len(category_names)):
-                    domain = [
-                        [
-                            (
-                                "name",
-                                operator,
-                                " / ".join(category_names[-1 - i :]),
-                            )
-                        ],
-                        domain,
-                    ]
-                    if operator in expression.NEGATIVE_TERM_OPERATORS:
-                        domain = expression.AND(domain)
-                    else:
-                        domain = expression.OR(domain)
-            categories = self.search(
-                expression.AND([domain, args]), limit=limit
-            )
-        else:
-            categories = self.search(args, limit=limit)
-        return categories.name_get()
-
-
-class HotelMenucard(models.Model):
-
-    _name = "hotel.menucard"
-    _description = "Hotel Menucard"
-
-    product_id = fields.Many2one(
-        "product.product",
-        "Hotel Menucard",
-        required=True,
-        delegate=True,
-        ondelete="cascade",
-        index=True,
-    )
-    categ_id = fields.Many2one(
-        "hotel.menucard.type", "Food Item Category", required=True
-    )
-    product_manager = fields.Many2one("res.users", "Product Manager")
 
 
 class HotelRestaurantTables(models.Model):
@@ -124,7 +12,7 @@ class HotelRestaurantTables(models.Model):
     _name = "hotel.restaurant.tables"
     _description = "Includes Hotel Restaurant Table"
 
-    name = fields.Char("Table Number", required=True, index=True)
+    name = fields.Char("Table Number", required=True)
     capacity = fields.Integer("Capacity")
 
 
@@ -146,45 +34,45 @@ class HotelRestaurantReservation(models.Model):
         """
         reservation_order = self.env["hotel.reservation.order"]
         for record in self:
-            table_ids = [tableno.id for tableno in record.tableno]
+            table_ids = [tableno.id for tableno in record.table_nos_ids]
             values = {
                 "reservationno": record.id,
                 "order_date": record.start_date,
                 "folio_id": record.folio_id.id,
-                "table_no": [(6, 0, table_ids)],
+                "table_nos_ids": [(6, 0, table_ids)],
                 "is_folio": record.is_folio,
             }
             reservation_order.create(values)
         self.write({"state": "order"})
         return True
 
-    @api.onchange("cname")
-    def onchange_partner_id(self):
+    @api.onchange("customer_id")
+    def _onchange_partner_id(self):
         """
         When Customer name is changed respective adress will display
         in Adress field
         @param self: object pointer
         """
-        if not self.cname:
+        if not self.customer_id:
             self.partner_address_id = False
         else:
-            addr = self.cname.address_get(["default"])
+            addr = self.customer_id.address_get(["default"])
             self.partner_address_id = addr["default"]
 
     @api.onchange("folio_id")
-    def get_folio_id(self):
+    def _onchange_folio_id(self):
         """
         When you change folio_id, based on that it will update
-        the cname and room_number as well
+        the customer_id and room_number as well
         ---------------------------------------------------------
         @param self: object pointer
         """
         for rec in self:
-            rec.write({"cname": False, "room_no": False})
+            rec.write({"customer_id": False, "room_id": False})
             if rec.folio_id:
-                rec.cname = rec.folio_id.partner_id.id
+                rec.customer_id = rec.folio_id.partner_id.id
                 if rec.folio_id.room_lines:
-                    rec.room_no = rec.folio_id.room_lines[0].product_id.id
+                    rec.room_id = rec.folio_id.room_lines[0].product_id.id
 
     def action_set_to_draft(self):
         """
@@ -225,7 +113,7 @@ class HotelRestaurantReservation(models.Model):
             )
             res = self._cr.fetchone()
             roomcount = res and res[0] or 0.0
-            if len(reservation.tableno.ids) == 0:
+            if len(reservation.table_nos_ids.ids) == 0:
                 raise ValidationError(
                     _(
                         "Please Select Tables For \
@@ -262,26 +150,23 @@ class HotelRestaurantReservation(models.Model):
         self.write({"state": "done"})
 
     reservation_id = fields.Char("Reservation No", readonly=True, index=True)
-    room_no = fields.Many2one("product.product", "Room No", index=True)
+    room_id = fields.Many2one("product.product", "Room No")
     folio_id = fields.Many2one("hotel.folio", "Folio No")
     start_date = fields.Datetime(
-        "Start Time",
-        required=True,
-        default=(lambda *a: time.strftime(DEFAULT_SERVER_DATETIME_FORMAT)),
+        "Start Time", required=True, default=lambda self: fields.Datetime.now()
     )
     end_date = fields.Datetime("End Time", required=True)
-    cname = fields.Many2one(
-        "res.partner", "Customer Name", required=True, index=True
+    customer_id = fields.Many2one(
+        "res.partner", "Customer Name", required=True
     )
     partner_address_id = fields.Many2one("res.partner", "Address")
-    tableno = fields.Many2many(
+    table_nos_ids = fields.Many2many(
         "hotel.restaurant.tables",
-        relation="reservation_table",
-        index=True,
-        column1="reservation_table_id",
-        column2="name",
+        "reservation_table",
+        "reservation_table_id",
+        "name",
         string="Table Number",
-        help="Table reservation detail. ",
+        help="Table reservation detail.",
     )
     state = fields.Selection(
         [
@@ -292,10 +177,9 @@ class HotelRestaurantReservation(models.Model):
             ("order", "Order Created"),
         ],
         "state",
-        index=True,
         required=True,
         readonly=True,
-        default=lambda *a: "draft",
+        default="draft",
     )
     is_folio = fields.Boolean("Is a Hotel Guest??")
 
@@ -306,13 +190,9 @@ class HotelRestaurantReservation(models.Model):
         @param self: The object pointer
         @param vals: dictionary of fields value.
         """
-        if not vals:
-            vals = {}
-        if self._context is None:
-            self._context = {}
         seq_obj = self.env["ir.sequence"]
-        resrve = seq_obj.next_by_code("hotel.restaurant.reservation") or "New"
-        vals["reservation_id"] = resrve
+        reserve = seq_obj.next_by_code("hotel.restaurant.reservation") or "New"
+        vals["reservation_id"] = reserve
         return super(HotelRestaurantReservation, self).create(vals)
 
     @api.constrains("start_date", "end_date")
@@ -351,7 +231,7 @@ class HotelRestaurantKitchenOrderTickets(models.Model):
     kot_date = fields.Datetime("Date")
     room_no = fields.Char("Room No", readonly=True)
     w_name = fields.Char("Waiter Name", readonly=True)
-    tableno = fields.Many2many(
+    table_nos_ids = fields.Many2many(
         "hotel.restaurant.tables",
         "temp_table3",
         "table_no",
@@ -359,9 +239,9 @@ class HotelRestaurantKitchenOrderTickets(models.Model):
         "Table Number",
         help="Table reservation detail.",
     )
-    kot_list = fields.One2many(
+    kot_list_ids = fields.One2many(
         "hotel.restaurant.order.list",
-        "kot_order_list",
+        "kot_order_id",
         "Order List",
         help="Kitchen order list",
     )
@@ -373,16 +253,16 @@ class HotelRestaurantOrder(models.Model):
     _description = "Includes Hotel Restaurant Order"
     _rec_name = "order_no"
 
-    @api.depends("order_list")
+    @api.depends("order_list_ids")
     def _compute_amount_all_total(self):
         """
-        amount_subtotal and amount_total will display on change of order_list
+        amount_subtotal and amount_total will display on change of order_list_ids
         ---------------------------------------------------------------------
         @param self: object pointer
         """
         for sale in self:
             sale.amount_subtotal = sum(
-                line.price_subtotal for line in sale.order_list
+                line.price_subtotal for line in sale.order_list_ids
             )
             if sale.amount_subtotal:
                 sale.amount_total = (
@@ -391,20 +271,20 @@ class HotelRestaurantOrder(models.Model):
                 )
 
     @api.onchange("folio_id")
-    def get_folio_id(self):
+    def _onchange_folio_id(self):
         """
         When you change folio_id, based on that it will update
-        the cname and room_number as well
+        the customer_id and room_number as well
         ---------------------------------------------------------
         @param self: object pointer
         """
         for rec in self:
-            self.cname = False
-            self.room_no = False
+            self.customer_id = False
+            self.room_id = False
             if rec.folio_id:
-                self.cname = rec.folio_id.partner_id.id
+                self.customer_id = rec.folio_id.partner_id.id
                 if rec.folio_id.room_lines:
-                    self.room_no = rec.folio_id.room_lines[0].product_id.id
+                    self.room_id = rec.folio_id.room_lines[0].product_id.id
 
     def done_cancel(self):
         """
@@ -434,25 +314,25 @@ class HotelRestaurantOrder(models.Model):
         order_tickets_obj = self.env["hotel.restaurant.kitchen.order.tickets"]
         restaurant_order_list_obj = self.env["hotel.restaurant.order.list"]
         for order in self:
-            if len(order.order_list.ids) == 0:
+            if len(order.order_list_ids.ids) == 0:
                 raise ValidationError(_("Please Give an Order"))
-            if len(order.table_no.ids) == 0:
+            if len(order.table_nos_ids.ids) == 0:
                 raise ValidationError(_("Please Assign a Table"))
-            table_ids = [x.id for x in order.table_no]
+            table_ids = [x.id for x in order.table_nos_ids]
             kot_data = order_tickets_obj.create(
                 {
                     "orderno": order.order_no,
                     "kot_date": order.o_date,
-                    "room_no": order.room_no.name,
-                    "w_name": order.waiter_name.name,
-                    "tableno": [(6, 0, table_ids)],
+                    "room_no": order.room_id.name,
+                    "w_name": order.waiter_id.name,
+                    "table_nos_ids": [(6, 0, table_ids)],
                 }
             )
             self.kitchen_id = kot_data.id
-            for order_line in order.order_list:
+            for order_line in order.order_list_ids:
                 o_line = {
-                    "kot_order_list": kot_data.id,
-                    "name": order_line.name.id,
+                    "kot_order_id": kot_data.id,
+                    "menucard_id": order_line.menucard_id.id,
                     "item_qty": order_line.item_qty,
                     "item_rate": order_line.item_rate,
                 }
@@ -464,22 +344,20 @@ class HotelRestaurantOrder(models.Model):
 
     order_no = fields.Char("Order Number", readonly=True)
     o_date = fields.Datetime(
-        "Order Date",
-        required=True,
-        default=(lambda *a: time.strftime(DEFAULT_SERVER_DATETIME_FORMAT)),
+        "Order Date", required=True, default=lambda self: fields.Datetime.now()
     )
-    room_no = fields.Many2one("product.product", "Room No")
+    room_id = fields.Many2one("product.product", "Room No")
     folio_id = fields.Many2one("hotel.folio", "Folio No")
-    waiter_name = fields.Many2one("res.partner", "Waiter Name")
-    table_no = fields.Many2many(
+    waiter_id = fields.Many2one("res.partner", "Waiter Name")
+    table_nos_ids = fields.Many2many(
         "hotel.restaurant.tables",
         "temp_table2",
         "table_no",
         "name",
         "Table Number",
     )
-    order_list = fields.One2many(
-        "hotel.restaurant.order.list", "o_list", "Order List"
+    order_list_ids = fields.One2many(
+        "hotel.restaurant.order.list", "restaurant_order_id", "Order List"
     )
     tax = fields.Float("Tax (%) ")
     amount_subtotal = fields.Float(
@@ -496,7 +374,6 @@ class HotelRestaurantOrder(models.Model):
             ("cancel", "Cancelled"),
         ],
         "State",
-        index=True,
         required=True,
         readonly=True,
         default="draft",
@@ -504,7 +381,9 @@ class HotelRestaurantOrder(models.Model):
     is_folio = fields.Boolean(
         "Is a Hotel Guest??", help="is customer reside" "in hotel or not"
     )
-    cname = fields.Many2one("res.partner", "Customer Name", required=True)
+    customer_id = fields.Many2one(
+        "res.partner", "Customer Name", required=True
+    )
     kitchen_id = fields.Integer("Kitchen id")
     rest_item_id = fields.Many2many(
         "hotel.restaurant.order.list",
@@ -543,18 +422,18 @@ class HotelRestaurantOrder(models.Model):
             line_data = {
                 "orderno": order.order_no,
                 "kot_date": time.strftime(DEFAULT_SERVER_DATETIME_FORMAT),
-                "room_no": order.room_no.name,
-                "w_name": order.waiter_name.name,
-                "tableno": [(6, 0, order.table_no.ids)],
+                "room_no": order.room_id.name,
+                "w_name": order.waiter_id.name,
+                "table_nos_ids": [(6, 0, order.table_nos_ids.ids)],
             }
             self.kitchen_id.write(line_data)
-            for order_line in order.order_list:
+            for order_line in order.order_list_ids:
                 if order_line.id not in order.rest_item_id.ids:
                     kot_data1 = order_tickets_obj.create(line_data)
                     order.kitchen_id = kot_data1.id
                     o_line = {
-                        "kot_order_list": kot_data1.id,
-                        "name": order_line.name.id,
+                        "kot_order_id": kot_data1.id,
+                        "menucard_id": order_line.menucard_id.id,
                         "item_qty": order_line.item_qty,
                         "item_rate": order_line.item_rate,
                     }
@@ -573,7 +452,7 @@ class HotelRestaurantOrder(models.Model):
         so_line_obj = self.env["sale.order.line"]
         for order_obj in self:
             if order_obj.folio_id:
-                for order in order_obj.order_list:
+                for order in order_obj.order_list_ids:
                     values = {
                         "order_id": order_obj.folio_id.order_id.id,
                         "name": order.name.name,
@@ -591,7 +470,7 @@ class HotelRestaurantOrder(models.Model):
                         }
                     )
                     order_obj.folio_id.write(
-                        {"hotel_restaurant_order_ids": [(4, order_obj.id)]}
+                        {"hotel_restaurant_orders_ids": [(4, order_obj.id)]}
                     )
             self.write({"state": "done"})
         return True
@@ -603,16 +482,16 @@ class HotelReservationOrder(models.Model):
     _description = "Reservation Order"
     _rec_name = "order_number"
 
-    @api.depends("order_list")
+    @api.depends("order_list_ids")
     def _compute_amount_all_total(self):
         """
-        amount_subtotal and amount_total will display on change of order_list
+        amount_subtotal and amount_total will display on change of order_list_ids
         ---------------------------------------------------------------------
         @param self: object pointer
         """
         for sale in self:
             sale.amount_subtotal = sum(
-                line.price_subtotal for line in sale.order_list
+                line.price_subtotal for line in sale.order_list_ids
             )
             sale.amount_total = (
                 sale.amount_subtotal + (sale.amount_subtotal * sale.tax) / 100
@@ -629,28 +508,28 @@ class HotelReservationOrder(models.Model):
         order_tickets_obj = self.env["hotel.restaurant.kitchen.order.tickets"]
         rest_order_list_obj = self.env["hotel.restaurant.order.list"]
         for order in self:
-            if len(order.order_list) == 0:
+            if len(order.order_list_ids) == 0:
                 raise ValidationError(_("Please Give an Order"))
-            table_ids = [x.id for x in order.table_no]
+            table_ids = [x.id for x in order.table_nos_ids]
             line_data = {
                 "orderno": order.order_number,
                 "resno": order.reservationno.reservation_id,
                 "kot_date": order.order_date,
                 "w_name": order.waitername.name,
-                "tableno": [(6, 0, table_ids)],
+                "table_nos_ids": [(6, 0, table_ids)],
             }
             kot_data = order_tickets_obj.create(line_data)
             self.kitchen_id = kot_data.id
-            for order_line in order.order_list:
+            for order_line in order.order_list_ids:
                 o_line = {
-                    "kot_order_list": kot_data.id,
-                    "name": order_line.name.id,
+                    "kot_order_id": kot_data.id,
+                    "menucard_id": order_line.menucard_id.id,
                     "item_qty": order_line.item_qty,
                     "item_rate": order_line.item_rate,
                 }
                 rest_order_list_obj.create(o_line)
                 res.append(order_line.id)
-            self.rest_id = [(6, 0, res)]
+            self.rests_ids = [(6, 0, res)]
             self.state = "order"
         return res
 
@@ -664,26 +543,26 @@ class HotelReservationOrder(models.Model):
         order_tickets_obj = self.env["hotel.restaurant.kitchen.order.tickets"]
         rest_order_list_obj = self.env["hotel.restaurant.order.list"]
         for order in self:
-            table_ids = [x.id for x in order.table_no]
+            table_ids = [x.id for x in order.table_nos_ids]
             line_data = {
                 "orderno": order.order_number,
                 "resno": order.reservationno.reservation_id,
                 "kot_date": time.strftime(DEFAULT_SERVER_DATETIME_FORMAT),
                 "w_name": order.waitername.name,
-                "tableno": [(6, 0, table_ids)],
+                "table_nos_ids": [(6, 0, table_ids)],
             }
             self.kitchen_id.write(line_data)
-            for order_line in order.order_list:
-                if order_line not in order.rest_id.ids:
+            for order_line in order.order_list_ids:
+                if order_line not in order.rests_ids.ids:
                     kot_data1 = order_tickets_obj.create(line_data)
                     order.kitchen_id = kot_data1.id
                     o_line = {
-                        "kot_order_list": kot_data1.id,
-                        "name": order_line.name.id,
+                        "kot_order_id": kot_data1.id,
+                        "menucard_id": order_line.menucard_id.id,
                         "item_qty": order_line.item_qty,
                         "item_rate": order_line.item_rate,
                     }
-                    self.rest_id = [(4, order_line.id)]
+                    self.rests_ids = [(4, order_line.id)]
                     rest_order_list_obj.create(o_line)
         return True
 
@@ -698,7 +577,7 @@ class HotelReservationOrder(models.Model):
         so_line_obj = self.env["sale.order.line"]
         for order_obj in self:
             if order_obj.folio_id:
-                for order in order_obj.order_list:
+                for order in order_obj.order_list_ids:
                     values = {
                         "order_id": order_obj.folio_id.order_id.id,
                         "name": order.name.name,
@@ -715,7 +594,7 @@ class HotelReservationOrder(models.Model):
                         }
                     )
                     order_obj.folio_id.write(
-                        {"hotel_reservation_order_ids": [(4, order_obj.id)]}
+                        {"hotel_reservation_orders_ids": [(4, order_obj.id)]}
                     )
             if order_obj.reservationno:
                 order_obj.reservationno.write({"state": "done"})
@@ -732,15 +611,15 @@ class HotelReservationOrder(models.Model):
         default=(lambda *a: time.strftime(DEFAULT_SERVER_DATETIME_FORMAT)),
     )
     waitername = fields.Many2one("res.partner", "Waiter Name")
-    table_no = fields.Many2many(
+    table_nos_ids = fields.Many2many(
         "hotel.restaurant.tables",
         "temp_table4",
         "table_no",
         "name",
         "Table Number",
     )
-    order_list = fields.One2many(
-        "hotel.restaurant.order.list", "o_l", "Order List"
+    order_list_ids = fields.One2many(
+        "hotel.restaurant.order.list", "reservation_order_id", "Order List"
     )
     tax = fields.Float("Tax (%) ")
     amount_subtotal = fields.Float(
@@ -750,7 +629,7 @@ class HotelReservationOrder(models.Model):
         compute="_compute_amount_all_total", string="Total"
     )
     kitchen_id = fields.Integer("Kitchen id")
-    rest_id = fields.Many2many(
+    rests_ids = fields.Many2many(
         "hotel.restaurant.order.list",
         "reserv_id",
         "kitchen_id",
@@ -763,7 +642,7 @@ class HotelReservationOrder(models.Model):
         index=True,
         required=True,
         readonly=True,
-        default=lambda *a: "draft",
+        default="draft",
     )
     folio_id = fields.Many2one("hotel.folio", "Folio No")
     is_folio = fields.Boolean(
@@ -802,22 +681,26 @@ class HotelRestaurantOrderList(models.Model):
         for line in self:
             line.price_subtotal = line.item_rate * int(line.item_qty)
 
-    @api.onchange("name")
-    def on_change_item_name(self):
+    @api.onchange("menucard_id")
+    def _onchange_item_name(self):
         """
         item rate will display on change of item name
         ---------------------------------------------
         @param self: object pointer
         """
-        if self.name:
-            self.item_rate = self.name.list_price
+        if self.menucard_id:
+            self.item_rate = self.menucard_id.list_price
 
-    o_list = fields.Many2one("hotel.restaurant.order", "Restaurant Order")
-    o_l = fields.Many2one("hotel.reservation.order", "Reservation Order")
-    kot_order_list = fields.Many2one(
+    restaurant_order_id = fields.Many2one(
+        "hotel.restaurant.order", "Restaurant Order"
+    )
+    reservation_order_id = fields.Many2one(
+        "hotel.reservation.order", "Reservation Order"
+    )
+    kot_order_id = fields.Many2one(
         "hotel.restaurant.kitchen.order.tickets", "Kitchen Order Tickets"
     )
-    name = fields.Many2one("hotel.menucard", "Item Name", required=True)
+    menucard_id = fields.Many2one("hotel.menucard", "Item Name", required=True)
     item_qty = fields.Integer("Qty", required=True, default=1)
     item_rate = fields.Float("Rate")
     price_subtotal = fields.Float(
