@@ -603,23 +603,11 @@ class HotelReservation(models.Model):
                         )
                     )
                     r.write({"status": "occupied", "isroom": False})
-            folio_vals.update({"room_lines": folio_lines})
+            folio_vals.update({"room_line_ids": folio_lines})
             folio = hotel_folio_obj.create(folio_vals)
-<<<<<<< HEAD
-            if folio:
-                for rm_line in folio.room_lines:
-                    rm_line.product_id_change()
-            self._cr.execute(
-                "insert into hotel_folio_reservation_rel"
-                "(order_id, invoice_id) values (%s,%s)",
-                (reservation.id, folio.id),
-            )
-            self.state = "done"
-=======
-            for rm_line in folio.room_lines:
+            for rm_line in folio.room_line_ids:
                 rm_line.product_id_change()
             self.write({"folios_ids": [(6, 0, folio.ids)], "state": "done"})
->>>>>>> [IMP]hotel_reservation:Improved and optimised code.
         return True
 
     def onchange_check_dates(
