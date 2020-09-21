@@ -152,14 +152,14 @@ class HotelFolio(models.Model):
         states={"draft": [("readonly", False)]},
         default=_get_checkout_date,
     )
-    room_lines = fields.One2many(
+    room_line_ids = fields.One2many(
         "hotel.folio.line",
         "folio_id",
         readonly=True,
         states={"draft": [("readonly", False)], "sent": [("readonly", False)]},
         help="Hotel room reservation detail.",
     )
-    service_lines = fields.One2many(
+    service_line_ids = fields.One2many(
         "hotel.service.line",
         "folio_id",
         readonly=True,
@@ -189,7 +189,7 @@ class HotelFolio(models.Model):
     hotel_invoice_id = fields.Many2one("account.move", "Invoice", copy=False)
     duration_dummy = fields.Float("Duration Dummy")
 
-    @api.constrains("room_lines")
+    @api.constrains("room_line_ids")
     def folio_room_lines(self):
         """
         This method is used to validate the room_lines.
@@ -198,8 +198,8 @@ class HotelFolio(models.Model):
         @return: raise warning depending on the validation
         """
         for rec in self:
-            for room_no in rec.room_lines.mapped("product_id"):
-                for line in rec.room_lines:
+            for room_no in rec.room_line_ids.mapped("product_id"):
+                for line in rec.room_line_ids:
                     record = line.search(
                         [
                             ("product_id", "=", room_no.id),
@@ -232,11 +232,9 @@ class HotelFolio(models.Model):
         @param self: object pointer
         @return: Duration and checkout_date
         """
-        configured_addition_hours = 0
-        wid = self.warehouse_id
-        whouse_com_id = wid or wid.company_id
-        if whouse_com_id:
-            configured_addition_hours = wid.company_id.additional_hours
+        configured_addition_hours = (
+            self.warehouse_id.company_id.additional_hours
+        )
         myduration = 0
         if self.checkout_date and self.checkin_date:
             dur = self.checkin_date - self.checkin_date
@@ -261,14 +259,14 @@ class HotelFolio(models.Model):
         @param vals: dictionary of fields value.
         @return: new record set for hotel folio.
         """
-        if not "service_lines" and "folio_id" in vals:
-            tmp_room_lines = vals.get("room_lines", [])
+        if not "service_line_ids" and "folio_id" in vals:
+            tmp_room_lines = vals.get("room_line_ids", [])
             vals["order_policy"] = vals.get("hotel_policy", "manual")
-            vals.update({"room_lines": []})
+            vals.update({"room_line_ids": []})
             folio_id = super(HotelFolio, self).create(vals)
             for line in tmp_room_lines:
                 line[2].update({"folio_id": folio_id.id})
-            vals.update({"room_lines": tmp_room_lines})
+            vals.update({"room_line_ids": tmp_room_lines})
             folio_id.write(vals)
         else:
             if not vals:
@@ -283,7 +281,7 @@ class HotelFolio(models.Model):
             try:
                 for rec in folio_id:
                     if not rec.reservation_id:
-                        for room_rec in rec.room_lines:
+                        for room_rec in rec.room_line_ids:
                             room = h_room_obj.search(
                                 [("product_id", "=", room_rec.product_id.id)]
                             )
@@ -297,7 +295,7 @@ class HotelFolio(models.Model):
                             folio_room_line_obj.create(vals)
             except Exception:
                 for rec in folio_id:
-                    for room_rec in rec.room_lines:
+                    for room_rec in rec.room_line_ids:
                         room = h_room_obj.search(
                             [("product_id", "=", room_rec.product_id.id)]
                         )
@@ -320,17 +318,15 @@ class HotelFolio(models.Model):
         product_obj = self.env["product.product"]
         h_room_obj = self.env["hotel.room"]
         folio_room_line_obj = self.env["folio.room.line"]
-        room_lst = []
-        room_lst1 = []
         for rec in self:
-            for res in rec.room_lines:
-                room_lst1.append(res.product_id.id)
+            room_lst1 = [res.product_id.id for res in rec.room_line_ids]
             if vals and vals.get("duration_dummy", False):
                 vals["duration"] = vals.get("duration_dummy", 0.0)
             else:
                 vals["duration"] = rec.duration
-            for folio_rec in rec.room_lines:
-                room_lst.append(folio_rec.product_id.id)
+            room_lst = [
+                folio_rec.product_id.id for folio_rec in rec.room_line_ids
+            ]
             new_rooms = set(room_lst).difference(set(room_lst1))
             if len(list(new_rooms)) != 0:
                 room_list = product_obj.browse(list(new_rooms))
@@ -719,16 +715,11 @@ class HotelFolioLine(models.Model):
         -----------------------------------------------------------------
         @param self: object pointer
         """
-        configured_addition_hours = 0
-        fwhouse_id = self.folio_id.warehouse_id
-        fwc_id = fwhouse_id or fwhouse_id.company_id
-        if fwc_id:
-            configured_addition_hours = fwhouse_id.company_id.additional_hours
+
+        configured_addition_hours = (
+            self.folio_id.warehouse_id.company_id.additional_hours
+        )
         myduration = 0
-        if not self.checkin_date:
-            self.checkin_date = time.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
-        if not self.checkout_date:
-            self.checkout_date = time.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
         if self.checkin_date and self.checkout_date:
             dur = self.checkout_date - self.checkin_date
             sec_dur = dur.seconds
@@ -743,9 +734,8 @@ class HotelFolioLine(models.Model):
                     myduration += 1
         self.product_uom_qty = myduration
         hotel_room_obj = self.env["hotel.room"]
-        hotel_room_ids = hotel_room_obj.search([])
         avail_prod_ids = []
-        for room in hotel_room_ids:
+        for room in hotel_room_obj.search([]):
             assigned = False
             for rm_line in room.room_line_ids:
                 if rm_line.status != "cancel":

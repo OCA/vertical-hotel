@@ -103,7 +103,7 @@
                             </group>
                             <separator string="Room Lines" colspan="4" />
                             <field
-                                name="room_lines"
+                                name="room_line_ids"
                                 colspan="4"
                                 string="Room Line"
                                 nolabel="1"
@@ -167,7 +167,7 @@
                             </field>
                             <separator string="Service Lines" colspan="4" />
                             <field
-                                name="service_lines"
+                                name="service_line_ids"
                                 colspan="4"
                                 string="Service Line"
                                 nolabel="1"
