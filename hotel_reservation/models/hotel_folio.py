@@ -13,11 +13,7 @@ class HotelFolio(models.Model):
     )
 
     def write(self, vals):
-        res = (
-            super(HotelFolio, self)
-            .with_context({"from_reservation": True})
-            .write(vals)
-        )
+        res = super(HotelFolio, self).write(vals)
         reservation_line_obj = self.env["hotel.room.reservation.line"]
         for folio in self:
             reservations = reservation_line_obj.search(
