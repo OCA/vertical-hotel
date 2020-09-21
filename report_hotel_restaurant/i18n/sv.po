@@ -1,11 +1,12 @@
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
 # 	* report_hotel_restaurant
-#
+
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 5.0.14\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
+
 "POT-Creation-Date: 2009-11-26 11:13:31+0000\n"
 "PO-Revision-Date: 2011-02-15 15:26+0000\n"
 "Last-Translator: Olivier Dony (OpenERP) <Unknown>\n"
