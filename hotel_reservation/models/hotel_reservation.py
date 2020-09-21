@@ -467,9 +467,9 @@ class HotelReservation(models.Model):
                         )
                     )
                     r.write({"status": "occupied", "isroom": False})
-            folio_vals.update({"room_lines": folio_lines})
+            folio_vals.update({"room_line_ids": folio_lines})
             folio = hotel_folio_obj.create(folio_vals)
-            for rm_line in folio.room_lines:
+            for rm_line in folio.room_line_ids:
                 rm_line.product_id_change()
             self.write({"folios_ids": [(6, 0, folio.ids)], "state": "done"})
         return True
