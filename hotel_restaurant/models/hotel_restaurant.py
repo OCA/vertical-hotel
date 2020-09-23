@@ -91,7 +91,7 @@ class HotelRestaurantReservation(models.Model):
         @return: change a state depending on the condition
         """
         for reservation in self:
-            self._cr.execute(
+            reservation._cr.execute(
                 "select count(*) from "
                 "hotel_restaurant_reservation as hrr "
                 "inner join reservation_table as rt on \
@@ -113,7 +113,7 @@ class HotelRestaurantReservation(models.Model):
             )
             res = self._cr.fetchone()
             roomcount = res and res[0] or 0.0
-            if len(reservation.table_nos_ids.ids) == 0:
+            if not reservation.table_nos_ids:
                 raise ValidationError(
                     _(
                         "Please Select Tables For \
@@ -128,8 +128,8 @@ class HotelRestaurantReservation(models.Model):
                                          in this reservation period"
                     )
                 )
-            self.state = "confirm"
-            return True
+            reservation.state = "confirm"
+        return True
 
     def table_cancel(self):
         """
@@ -196,7 +196,7 @@ class HotelRestaurantReservation(models.Model):
         return super(HotelRestaurantReservation, self).create(vals)
 
     @api.constrains("start_date", "end_date")
-    def check_start_dates(self):
+    def _check_start_dates(self):
         """
         This method is used to validate the start_date and end_date.
         -------------------------------------------------------------
@@ -207,17 +207,21 @@ class HotelRestaurantReservation(models.Model):
             raise ValidationError(
                 _("Start Date Should be less than the End Date!")
             )
-        if self.is_folio is True:
-            if self.start_date < self.folio_id.room_lines.checkin_date:
-                raise ValidationError(
-                    _(
-                        "Start Date Should be greater than the Folio Check-in Date!"
+        if self.is_folio:
+            for line in self.folio_id.room_lines:
+                if self.start_date < line.checkin_date:
+                    raise ValidationError(
+                        _(
+                            "Start Date Should be greater \
+                            than the Folio Check-in Date!"
+                        )
                     )
-                )
-            if self.end_date > self.folio_id.room_lines.checkout_date:
-                raise ValidationError(
-                    _("End Date Should be less than the Folio Check-out Date!")
-                )
+                if self.end_date > line.checkout_date:
+                    raise ValidationError(
+                        _(
+                            "End Date Should be less than the Folio Check-out Date!"
+                        )
+                    )
 
 
 class HotelRestaurantKitchenOrderTickets(models.Model):
@@ -317,7 +321,7 @@ class HotelRestaurantOrder(models.Model):
                 raise ValidationError(_("Please Give an Order"))
             if not order.table_nos_ids:
                 raise ValidationError(_("Please Assign a Table"))
-            table_ids = [x.id for x in order.table_nos_ids]
+            table_ids = order.table_nos_ids.ids
             kot_data = order_tickets_obj.create(
                 {
                     "orderno": order.order_no,
@@ -327,7 +331,7 @@ class HotelRestaurantOrder(models.Model):
                     "table_nos_ids": [(6, 0, table_ids)],
                 }
             )
-            self.kitchen_id = kot_data.id
+            order.kitchen_id = kot_data.id
             for order_line in order.order_list_ids:
                 o_line = {
                     "kot_order_id": kot_data.id,
@@ -337,8 +341,8 @@ class HotelRestaurantOrder(models.Model):
                 }
                 restaurant_order_list_obj.create(o_line)
                 res.append(order_line.id)
-            self.rest_item_id = [(6, 0, res)]
-            self.state = "order"
+            order.rest_item_id = [(6, 0, res)]
+            order.state = "order"
         return True
 
     order_no = fields.Char("Order Number", readonly=True)
@@ -421,13 +425,13 @@ class HotelRestaurantOrder(models.Model):
                 "w_name": order.waiter_id.name,
                 "table_nos_ids": [(6, 0, order.table_nos_ids.ids)],
             }
-            self.kitchen_id.write(line_data)
+            order.kitchen_id.write(line_data)
             for order_line in order.order_list_ids:
                 if order_line.id not in order.rest_item_id.ids:
-                    kot_data1 = order_tickets_obj.create(line_data)
-                    order.kitchen_id = kot_data1.id
+                    kot_data = order_tickets_obj.create(line_data)
+                    order.kitchen_id = kot_data.id
                     o_line = {
-                        "kot_order_id": kot_data1.id,
+                        "kot_order_id": kot_data.id,
                         "menucard_id": order_line.menucard_id.id,
                         "item_qty": order_line.item_qty,
                         "item_rate": order_line.item_rate,
@@ -503,7 +507,7 @@ class HotelReservationOrder(models.Model):
         order_tickets_obj = self.env["hotel.restaurant.kitchen.order.tickets"]
         rest_order_list_obj = self.env["hotel.restaurant.order.list"]
         for order in self:
-            if len(order.order_list_ids) == 0:
+            if not order.order_list_ids:
                 raise ValidationError(_("Please Give an Order"))
             table_ids = order.table_nos_ids.ids
             line_data = {
@@ -514,7 +518,7 @@ class HotelReservationOrder(models.Model):
                 "table_nos_ids": [(6, 0, table_ids)],
             }
             kot_data = order_tickets_obj.create(line_data)
-            self.kitchen_id = kot_data.id
+            order.kitchen_id = kot_data.id
             for order_line in order.order_list_ids:
                 o_line = {
                     "kot_order_id": kot_data.id,
@@ -524,8 +528,8 @@ class HotelReservationOrder(models.Model):
                 }
                 rest_order_list_obj.create(o_line)
                 res.append(order_line.id)
-            self.rests_ids = [(6, 0, res)]
-            self.state = "order"
+            order.rests_ids = [(6, 0, res)]
+            order.state = "order"
         return res
 
     def reservation_update_kot(self):
@@ -546,18 +550,18 @@ class HotelReservationOrder(models.Model):
                 "w_name": order.waitername.name,
                 "table_nos_ids": [(6, 0, table_ids)],
             }
-            self.kitchen_id.write(line_data)
+            order.kitchen_id.write(line_data)
             for order_line in order.order_list_ids:
                 if order_line not in order.rests_ids.ids:
-                    kot_data1 = order_tickets_obj.create(line_data)
-                    order.kitchen_id = kot_data1.id
+                    kot_data = order_tickets_obj.create(line_data)
+                    order.kitchen_id = kot_data.id
                     o_line = {
-                        "kot_order_id": kot_data1.id,
+                        "kot_order_id": kot_data.id,
                         "menucard_id": order_line.menucard_id.id,
                         "item_qty": order_line.item_qty,
                         "item_rate": order_line.item_rate,
                     }
-                    self.rests_ids = [(4, order_line.id)]
+                    order.rests_ids = [(4, order_line.id)]
                     rest_order_list_obj.create(o_line)
         return True
 
