@@ -34,7 +34,7 @@ class HotelRestaurantReservation(models.Model):
         """
         reservation_order = self.env["hotel.reservation.order"]
         for record in self:
-            table_ids = [tableno.id for tableno in record.table_nos_ids]
+            table_ids = record.table_nos_ids.ids
             values = {
                 "reservationno": record.id,
                 "order_date": record.start_date,
@@ -278,13 +278,12 @@ class HotelRestaurantOrder(models.Model):
         ---------------------------------------------------------
         @param self: object pointer
         """
-        for rec in self:
-            self.customer_id = False
-            self.room_id = False
-            if rec.folio_id:
-                self.customer_id = rec.folio_id.partner_id.id
-                if rec.folio_id.room_lines:
-                    self.room_id = rec.folio_id.room_lines[0].product_id.id
+        self.customer_id = False
+        self.room_id = False
+        if self.folio_id:
+            self.customer_id = self.folio_id.partner_id.id
+            if self.folio_id.room_lines:
+                self.room_id = self.folio_id.room_lines[0].product_id.id
 
     def done_cancel(self):
         """
@@ -314,9 +313,9 @@ class HotelRestaurantOrder(models.Model):
         order_tickets_obj = self.env["hotel.restaurant.kitchen.order.tickets"]
         restaurant_order_list_obj = self.env["hotel.restaurant.order.list"]
         for order in self:
-            if len(order.order_list_ids.ids) == 0:
+            if not order.order_list_ids:
                 raise ValidationError(_("Please Give an Order"))
-            if len(order.table_nos_ids.ids) == 0:
+            if not order.table_nos_ids:
                 raise ValidationError(_("Please Assign a Table"))
             table_ids = [x.id for x in order.table_nos_ids]
             kot_data = order_tickets_obj.create(
@@ -400,10 +399,6 @@ class HotelRestaurantOrder(models.Model):
         @param self: The object pointer
         @param vals: dictionary of fields value.
         """
-        if not vals:
-            vals = {}
-        if self._context is None:
-            self._context = {}
         seq_obj = self.env["ir.sequence"]
         rest_order = seq_obj.next_by_code("hotel.restaurant.order") or "New"
         vals["order_no"] = rest_order
@@ -510,7 +505,7 @@ class HotelReservationOrder(models.Model):
         for order in self:
             if len(order.order_list_ids) == 0:
                 raise ValidationError(_("Please Give an Order"))
-            table_ids = [x.id for x in order.table_nos_ids]
+            table_ids = order.table_nos_ids.ids
             line_data = {
                 "orderno": order.order_number,
                 "resno": order.reservationno.reservation_id,
@@ -543,7 +538,7 @@ class HotelReservationOrder(models.Model):
         order_tickets_obj = self.env["hotel.restaurant.kitchen.order.tickets"]
         rest_order_list_obj = self.env["hotel.restaurant.order.list"]
         for order in self:
-            table_ids = [x.id for x in order.table_nos_ids]
+            table_ids = order.table_nos_ids.ids
             line_data = {
                 "orderno": order.order_number,
                 "resno": order.reservationno.reservation_id,
@@ -656,10 +651,6 @@ class HotelReservationOrder(models.Model):
         @param self: The object pointer
         @param vals: dictionary of fields value.
         """
-        if not vals:
-            vals = {}
-        if self._context is None:
-            self._context = {}
         seq_obj = self.env["ir.sequence"]
         res_oder = seq_obj.next_by_code("hotel.reservation.order") or "New"
         vals["order_number"] = res_oder
