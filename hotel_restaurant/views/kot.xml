@@ -92,7 +92,7 @@
                             <tbody>
                                 <tr t-foreach="o.order_list_ids" t-as="rec">
                                     <td>
-                                        <span t-esc="rec.name.name"/>
+                                        <span t-esc="rec.menucard_id.name"/>
                                     </td>
                                     <td>
                                         <span t-esc="rec.item_qty"/>
