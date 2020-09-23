@@ -7,7 +7,7 @@ from odoo.exceptions import ValidationError
 class HotelHousekeeping(models.Model):
 
     _name = "hotel.housekeeping"
-    _description = "Reservation"
+    _description = "Hotel Housekeeping"
     _rec_name = "room_id"
 
     current_date = fields.Date(
