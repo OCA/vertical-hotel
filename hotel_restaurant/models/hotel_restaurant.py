@@ -1,10 +1,7 @@
 # See LICENSE file for full copyright and licensing details.
 
-import time
-
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
-from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 
 class HotelRestaurantTables(models.Model):
@@ -36,7 +33,7 @@ class HotelRestaurantReservation(models.Model):
         for record in self:
             table_ids = record.table_nos_ids.ids
             values = {
-                "reservationno": record.id,
+                "reservation_id": record.id,
                 "order_date": record.start_date,
                 "folio_id": record.folio_id.id,
                 "table_nos_ids": [(6, 0, table_ids)],
@@ -68,11 +65,12 @@ class HotelRestaurantReservation(models.Model):
         @param self: object pointer
         """
         for rec in self:
-            rec.write({"customer_id": False, "room_id": False})
-            if rec.folio_id:
-                rec.customer_id = rec.folio_id.partner_id.id
-                if rec.folio_id.room_lines:
-                    rec.room_id = rec.folio_id.room_lines[0].product_id.id
+            rec.write(
+                {
+                    "customer_id": rec.folio_id.partner_id.id,
+                    "room_id": rec.folio_id.room_lines[0].product_id.id,
+                }
+            )
 
     def action_set_to_draft(self):
         """
@@ -237,7 +235,7 @@ class HotelRestaurantKitchenOrderTickets(models.Model):
     w_name = fields.Char("Waiter Name", readonly=True)
     table_nos_ids = fields.Many2many(
         "hotel.restaurant.tables",
-        "temp_table3",
+        "restaurant_kitchen_order_rel",
         "table_no",
         "name",
         "Table Number",
@@ -282,12 +280,12 @@ class HotelRestaurantOrder(models.Model):
         ---------------------------------------------------------
         @param self: object pointer
         """
-        self.customer_id = False
-        self.room_id = False
-        if self.folio_id:
-            self.customer_id = self.folio_id.partner_id.id
-            if self.folio_id.room_lines:
-                self.room_id = self.folio_id.room_lines[0].product_id.id
+        self.update(
+            {
+                "customer_id": self.folio_id.partner_id.id,
+                "room_id": self.folio_id.room_lines[0].product_id.id,
+            }
+        )
 
     def done_cancel(self):
         """
@@ -331,7 +329,7 @@ class HotelRestaurantOrder(models.Model):
                     "table_nos_ids": [(6, 0, table_ids)],
                 }
             )
-            order.kitchen_id = kot_data.id
+
             for order_line in order.order_list_ids:
                 o_line = {
                     "kot_order_id": kot_data.id,
@@ -341,8 +339,13 @@ class HotelRestaurantOrder(models.Model):
                 }
                 restaurant_order_list_obj.create(o_line)
                 res.append(order_line.id)
-            order.rest_item_id = [(6, 0, res)]
-            order.state = "order"
+            order.update(
+                {
+                    "kitchen": kot_data.id,
+                    "rest_item_id": [(6, 0, res)],
+                    "state": "order",
+                }
+            )
         return True
 
     order_no = fields.Char("Order Number", readonly=True)
@@ -354,7 +357,7 @@ class HotelRestaurantOrder(models.Model):
     waiter_id = fields.Many2one("res.partner", "Waiter Name")
     table_nos_ids = fields.Many2many(
         "hotel.restaurant.tables",
-        "temp_table2",
+        "restaurant_table_order_rel",
         "table_no",
         "name",
         "Table Number",
@@ -387,10 +390,10 @@ class HotelRestaurantOrder(models.Model):
     customer_id = fields.Many2one(
         "res.partner", "Customer Name", required=True
     )
-    kitchen_id = fields.Integer("Kitchen id")
+    kitchen = fields.Integer("Kitchen Id")
     rest_item_id = fields.Many2many(
         "hotel.restaurant.order.list",
-        "restau_kitc_ids",
+        "restau_kitc_rel",
         "restau_id",
         "kit_id",
         "Rest",
@@ -420,16 +423,17 @@ class HotelRestaurantOrder(models.Model):
         for order in self:
             line_data = {
                 "orderno": order.order_no,
-                "kot_date": time.strftime(DEFAULT_SERVER_DATETIME_FORMAT),
+                "kot_date": fields.Datetime.to_string(fields.datetime.now()),
                 "room_no": order.room_id.name,
                 "w_name": order.waiter_id.name,
                 "table_nos_ids": [(6, 0, order.table_nos_ids.ids)],
             }
-            order.kitchen_id.write(line_data)
+            kot_id = order_tickets_obj.browse(self.kitchen)
+            kot_id.write(line_data)
             for order_line in order.order_list_ids:
                 if order_line.id not in order.rest_item_id.ids:
                     kot_data = order_tickets_obj.create(line_data)
-                    order.kitchen_id = kot_data.id
+                    order.kitchen = kot_data.id
                     o_line = {
                         "kot_order_id": kot_data.id,
                         "menucard_id": order_line.menucard_id.id,
@@ -450,13 +454,13 @@ class HotelRestaurantOrder(models.Model):
         hsl_obj = self.env["hotel.service.line"]
         so_line_obj = self.env["sale.order.line"]
         for order_obj in self:
-            if order_obj.folio_id:
-                for order in order_obj.order_list_ids:
+            for order in order_obj.order_list_ids:
+                if order_obj.folio_id:
                     values = {
                         "order_id": order_obj.folio_id.order_id.id,
-                        "name": order.name.name,
-                        "product_id": order.name.product_id.id,
-                        "product_uom": order.name.uom_id.id,
+                        "name": order.menucard_id.name,
+                        "product_id": order.menucard_id.product_id.id,
+                        "product_uom": order.menucard_id.uom_id.id,
                         "product_uom_qty": order.item_qty,
                         "price_unit": order.item_rate,
                         "price_subtotal": order.price_subtotal,
@@ -512,13 +516,12 @@ class HotelReservationOrder(models.Model):
             table_ids = order.table_nos_ids.ids
             line_data = {
                 "orderno": order.order_number,
-                "resno": order.reservationno.reservation_id,
+                "resno": order.reservation_id.reservation_id,
                 "kot_date": order.order_date,
                 "w_name": order.waitername.name,
                 "table_nos_ids": [(6, 0, table_ids)],
             }
             kot_data = order_tickets_obj.create(line_data)
-            order.kitchen_id = kot_data.id
             for order_line in order.order_list_ids:
                 o_line = {
                     "kot_order_id": kot_data.id,
@@ -528,8 +531,13 @@ class HotelReservationOrder(models.Model):
                 }
                 rest_order_list_obj.create(o_line)
                 res.append(order_line.id)
-            order.rests_ids = [(6, 0, res)]
-            order.state = "order"
+            order.update(
+                {
+                    "kitchen": kot_data.id,
+                    "rests_ids": [(6, 0, res)],
+                    "state": "order",
+                }
+            )
         return res
 
     def reservation_update_kot(self):
@@ -545,23 +553,28 @@ class HotelReservationOrder(models.Model):
             table_ids = order.table_nos_ids.ids
             line_data = {
                 "orderno": order.order_number,
-                "resno": order.reservationno.reservation_id,
-                "kot_date": time.strftime(DEFAULT_SERVER_DATETIME_FORMAT),
+                "resno": order.reservation_id.reservation_id,
+                "kot_date": fields.Datetime.to_string(fields.datetime.now()),
                 "w_name": order.waitername.name,
                 "table_nos_ids": [(6, 0, table_ids)],
             }
-            order.kitchen_id.write(line_data)
+            kot_id = order_tickets_obj.browse(self.kitchen)
+            kot_id.write(line_data)
             for order_line in order.order_list_ids:
                 if order_line not in order.rests_ids.ids:
                     kot_data = order_tickets_obj.create(line_data)
-                    order.kitchen_id = kot_data.id
                     o_line = {
                         "kot_order_id": kot_data.id,
                         "menucard_id": order_line.menucard_id.id,
                         "item_qty": order_line.item_qty,
                         "item_rate": order_line.item_rate,
                     }
-                    order.rests_ids = [(4, order_line.id)]
+                    order.update(
+                        {
+                            "kitchen": kot_data.id,
+                            "rests_ids": [(4, order_line.id)],
+                        }
+                    )
                     rest_order_list_obj.create(o_line)
         return True
 
@@ -574,13 +587,13 @@ class HotelReservationOrder(models.Model):
         """
         hsl_obj = self.env["hotel.service.line"]
         so_line_obj = self.env["sale.order.line"]
-        for order_obj in self:
-            if order_obj.folio_id:
-                for order in order_obj.order_list_ids:
+        for res_order in self:
+            for order in res_order.order_list_ids:
+                if res_order.folio_id:
                     values = {
-                        "order_id": order_obj.folio_id.order_id.id,
-                        "name": order.name.name,
-                        "product_id": order.name.product_id.id,
+                        "order_id": res_order.folio_id.order_id.id,
+                        "name": order.menucard_id.name,
+                        "product_id": order.menucard_id.product_id.id,
                         "product_uom_qty": order.item_qty,
                         "price_unit": order.item_rate,
                         "price_subtotal": order.price_subtotal,
@@ -588,26 +601,23 @@ class HotelReservationOrder(models.Model):
                     sol_rec = so_line_obj.create(values)
                     hsl_obj.create(
                         {
-                            "folio_id": order_obj.folio_id.id,
+                            "folio_id": res_order.folio_id.id,
                             "service_line_id": sol_rec.id,
                         }
                     )
-                    order_obj.folio_id.write(
-                        {"hotel_reservation_orders_ids": [(4, order_obj.id)]}
+                    res_order.folio_id.write(
+                        {"hotel_reservation_orders_ids": [(4, res_order.id)]}
                     )
-            if order_obj.reservationno:
-                order_obj.reservationno.write({"state": "done"})
+            res_order.reservation_id.write({"state": "done"})
         self.write({"state": "done"})
         return True
 
     order_number = fields.Char("Order No", readonly=True)
-    reservationno = fields.Many2one(
+    reservation_id = fields.Many2one(
         "hotel.restaurant.reservation", "Reservation No"
     )
     order_date = fields.Datetime(
-        "Date",
-        required=True,
-        default=(lambda *a: time.strftime(DEFAULT_SERVER_DATETIME_FORMAT)),
+        "Date", required=True, default=lambda self: fields.Datetime.now()
     )
     waitername = fields.Many2one("res.partner", "Waiter Name")
     table_nos_ids = fields.Many2many(
@@ -627,7 +637,7 @@ class HotelReservationOrder(models.Model):
     amount_total = fields.Float(
         compute="_compute_amount_all_total", string="Total"
     )
-    kitchen_id = fields.Integer("Kitchen id")
+    kitchen = fields.Integer("Kitchen Id")
     rests_ids = fields.Many2many(
         "hotel.restaurant.order.list",
         "reserv_id",
@@ -638,7 +648,6 @@ class HotelReservationOrder(models.Model):
     state = fields.Selection(
         [("draft", "Draft"), ("order", "Order Created"), ("done", "Done")],
         "State",
-        index=True,
         required=True,
         readonly=True,
         default="draft",
@@ -683,8 +692,7 @@ class HotelRestaurantOrderList(models.Model):
         ---------------------------------------------
         @param self: object pointer
         """
-        if self.menucard_id:
-            self.item_rate = self.menucard_id.list_price
+        self.item_rate = self.menucard_id.list_price
 
     restaurant_order_id = fields.Many2one(
         "hotel.restaurant.order", "Restaurant Order"
@@ -699,5 +707,5 @@ class HotelRestaurantOrderList(models.Model):
     item_qty = fields.Integer("Qty", required=True, default=1)
     item_rate = fields.Float("Rate")
     price_subtotal = fields.Float(
-        compute="_compute_price_subtotal", method=True, string="Subtotal"
+        compute="_compute_price_subtotal", string="Subtotal"
     )

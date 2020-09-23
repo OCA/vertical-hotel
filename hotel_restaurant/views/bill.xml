@@ -24,7 +24,7 @@
                             <tr>
                                 <td width="50%" style="text-align:left;">
                                     <strong>Customer Name :</strong>
-                                    <span t-field="customer_id"/>
+                                    <span t-field="o.customer_id"/>
                                 </td>
                                 <td width="50%" style="text-align:right;">
                                     <strong>Date :</strong>
@@ -111,7 +111,7 @@
                             <tbody>
                                 <tr t-foreach="o.order_list_ids" t-as="rec">
                                     <td>
-                                        <span t-esc="rec.name.name"/>
+                                        <span t-esc="rec.menucard_id.name"/>
                                     </td>
                                     <td>
                                         <span t-esc="rec.item_qty"/>
@@ -249,7 +249,7 @@
                             <tbody>
                                 <tr t-foreach="o.order_list_ids" t-as="rec">
                                     <td>
-                                        <span t-esc="rec.name.name"/>
+                                        <span t-esc="rec.menucard_id.name"/>
                                     </td>
                                     <td>
                                         <span t-esc="rec.item_qty"/>
