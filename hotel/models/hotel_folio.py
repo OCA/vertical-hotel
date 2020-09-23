@@ -319,7 +319,7 @@ class HotelFolio(models.Model):
         h_room_obj = self.env["hotel.room"]
         folio_room_line_obj = self.env["folio.room.line"]
         for rec in self:
-            room_lst1 = [res.product_id.id for res in rec.room_line_ids]
+            rooms_list = [res.product_id.id for res in rec.room_line_ids]
             if vals and vals.get("duration_dummy", False):
                 vals["duration"] = vals.get("duration_dummy", 0.0)
             else:
@@ -327,7 +327,7 @@ class HotelFolio(models.Model):
             room_lst = [
                 folio_rec.product_id.id for folio_rec in rec.room_line_ids
             ]
-            new_rooms = set(room_lst).difference(set(room_lst1))
+            new_rooms = set(room_lst).difference(set(rooms_list))
             if len(list(new_rooms)) != 0:
                 room_list = product_obj.browse(list(new_rooms))
                 for rm in room_list:
@@ -341,9 +341,9 @@ class HotelFolio(models.Model):
                     }
                     folio_room_line_obj.create(vals)
             if len(list(new_rooms)) == 0:
-                room_list_obj = product_obj.browse(room_lst1)
-                for rom in room_list_obj:
-                    room_obj = h_room_obj.search([("name", "=", rom.name)])
+                room_list_obj = product_obj.browse(rooms_list)
+                for room in room_list_obj:
+                    room_obj = h_room_obj.search([("name", "=", room.name)])
                     room_obj.write({"isroom": False})
                     room_vals = {
                         "room_id": room_obj.id,
