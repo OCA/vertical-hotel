@@ -5,7 +5,7 @@ from odoo import fields, models
 
 class HotelHousekeepingWizard(models.TransientModel):
     _name = "hotel.housekeeping.wizard"
-    _description = "hotel.housekeeping.wizard"
+    _description = "Hotel Housekeeping Wizard"
 
     date_start = fields.Datetime("Activity Start Date", required=True)
     date_end = fields.Datetime("Activity End Date", required=True)
