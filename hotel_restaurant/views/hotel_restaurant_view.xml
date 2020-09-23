@@ -275,14 +275,14 @@
                         <group colspan="4" col="4">
                             <field name="is_folio"/>
                             <newline/>
-                            <field name="reservationno"/>
+                            <field name="reservation_id"/>
                             <field name="folio_id"
                                    attrs="{'invisible': [('is_folio','=',False)]}"/>
                         </group>
                         <group colspan="4" col="4">
                             <field name="order_date"/>
                             <field name="waitername"/>
-                            <field name="kitchen_id" invisible="1"/>
+                            <field name="kitchen" invisible="1"/>
                             <field name="rests_ids" widget="many2many_tags"
                                    invisible="1"/>
                         </group>
@@ -323,7 +323,7 @@
             <tree string="Order"
                     decoration-success="state=='order'" decoration-info="state=='draft'" decoration-muted="state=='done'">
                 <field name="order_number"/>
-                <field name="reservationno"/>
+                <field name="reservation_id"/>
                 <field name="order_date"/>
                 <field name="waitername"/>
                 <field name="table_nos_ids"/>
@@ -342,7 +342,7 @@
                 <filter name="today"
                         domain="[('order_date','&gt;=',datetime.datetime.now().replace(hour=0, minute=0, second=0)),('order_date','&lt;=',datetime.datetime.now().replace(hour=23, minute=59, second=59))]"
                         string="Today's Orders"/>
-                <field name="reservationno"/>
+                <field name="reservation_id"/>
                 <group expand="0" string="Group By">
                     <filter name="waitername" string="Waiter Name"
                             icon="terp-personal"
@@ -419,7 +419,7 @@
                         <group colspan="2" col="4">
                             <field name="customer_id"/>
                             <field name="waiter_id"/>
-                            <field name="kitchen_id" invisible="1"/>
+                            <field name="kitchen" invisible="1"/>
                             <field name="rest_item_id" widget="many2many_tags"
                                    invisible="1"/>
                         </group>
