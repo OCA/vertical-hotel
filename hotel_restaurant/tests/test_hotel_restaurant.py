@@ -55,7 +55,7 @@ class TestRestaurant(common.TransactionCase):
                 "amount_total": 500.00,
                 "waiter_id": self.waiter.id,
                 "table_nos_ids": [(6, 0, [self.table1.id, self.table0.id])],
-                "kitchen_id": 1,
+                "kitchen": 1,
                 "state": "draft",
                 "order_list_ids": [(6, 0, [self.tablelist.id])],
             }
@@ -73,14 +73,14 @@ class TestRestaurant(common.TransactionCase):
         self.hotel_reserv_order = self.hotel_reserv_order_obj.create(
             {
                 "order_number": "0RR/00001",
-                "reservationno": self.rest_res.id,
+                "reservation_id": self.rest_res.id,
                 "order_date": cur_date,
                 "waitername": self.waiter.id,
                 "amount_subtotal": 500.00,
                 "amount_total": 500.00,
                 "rests_ids": [(6, 0, [self.tablelist.id])],
                 "table_nos_ids": [(6, 0, [self.table1.id, self.table0.id])],
-                "kitchen_id": 1,
+                "kitchen": 1,
                 "state": "draft",
                 "order_list_ids": [(6, 0, [self.tablelist.id])],
             }
