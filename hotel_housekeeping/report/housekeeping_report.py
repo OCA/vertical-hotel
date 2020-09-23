@@ -11,7 +11,7 @@ from odoo import api, fields, models
 class ActivityReport(models.AbstractModel):
 
     _name = "report.hotel_housekeeping.housekeeping_report"
-    _description = "report.hotel_housekeeping.housekeeping_report"
+    _description = "Hotel Housekeeping Report"
 
     def get_room_activity_detail(self, date_start, date_end, room_id):
         activity_detail = []
