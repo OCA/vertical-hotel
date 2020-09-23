@@ -431,7 +431,7 @@ class HotelReservation(models.Model):
             folio_lines = []
             checkin_date = reservation["checkin"]
             checkout_date = reservation["checkout"]
-            duration_vals = self.onchange_check_dates(
+            duration_vals = self._onchange_check_dates(
                 checkin_date=checkin_date,
                 checkout_date=checkout_date,
                 duration=False,
@@ -474,7 +474,7 @@ class HotelReservation(models.Model):
             self.write({"folios_ids": [(6, 0, folio.ids)], "state": "done"})
         return True
 
-    def onchange_check_dates(
+    def _onchange_check_dates(
         self, checkin_date=False, checkout_date=False, duration=False
     ):
         """
@@ -488,11 +488,9 @@ class HotelReservation(models.Model):
         @return: Duration and checkout_date
         """
         value = {}
-        configured_addition_hours = 0
-        wc_id = self.warehouse_id
-        whcomp_id = wc_id and wc_id.company_id
-        if whcomp_id:
-            configured_addition_hours = wc_id.company_id.additional_hours
+        configured_addition_hours = (
+            self.warehouse_id.company_id.additional_hours
+        )
         duration = 0
         if checkin_date and checkout_date:
             dur = checkout_date - checkin_date

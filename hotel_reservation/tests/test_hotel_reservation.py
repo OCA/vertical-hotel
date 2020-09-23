@@ -169,7 +169,7 @@ class TestReservation(common.TransactionCase):
             self.hotel_reserv.create_folio()
 
     def test_onchange_check_dates(self):
-        self.hotel_reserv.onchange_check_dates()
+        self.hotel_reserv._onchange_check_dates()
 
     def test_confirm_reservation(self):
         self.hotel_reserv.confirm_reservation()

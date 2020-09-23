@@ -50,13 +50,9 @@ class HotelRoom(models.Model):
         """
         reservation_line_obj = self.env["hotel.room.reservation.line"]
         folio_room_line_obj = self.env["folio.room.line"]
-        now = datetime.now()
-        curr_date = now.strftime(dt)
+        curr_date = fields.Datetime.now().strftime(dt)
         for room in self.search([]):
-            reserv_line_ids = [
-                reservation_line.id
-                for reservation_line in room.room_reservation_line_ids
-            ]
+            reserv_line_ids = room.room_reservation_line_ids.ids
             reservation_line_ids = reservation_line_obj.search(
                 [
                     ("id", "in", reserv_line_ids),
@@ -64,7 +60,7 @@ class HotelRoom(models.Model):
                     ("check_out", ">=", curr_date),
                 ]
             )
-            rooms_ids = [room_line.id for room_line in room.room_line_ids]
+            rooms_ids = room.room_line_ids.ids
             room_line_ids = folio_room_line_obj.search(
                 [
                     ("id", "in", rooms_ids),
