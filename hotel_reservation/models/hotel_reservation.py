@@ -349,11 +349,6 @@ class HotelReservation(models.Model):
         return super(HotelReservation, self).create(vals)
 
     def check_overlap(self, date1, date2):
-<<<<<<< HEAD
-        date2 = datetime.strptime(date2, "%Y-%m-%d")
-        date1 = datetime.strptime(date1, "%Y-%m-%d")
-=======
->>>>>>> [IMP]hotel_reservation:Improved and optimised code.
         delta = date2 - date1
         return {date1 + timedelta(days=i) for i in range(delta.days + 1)}
 
@@ -560,6 +555,7 @@ class HotelReservation(models.Model):
             folio_lines = []
             checkin_date = reservation["checkin"]
             checkout_date = reservation["checkout"]
+<<<<<<< HEAD
             if not self.checkin < self.checkout:
                 raise ValidationError(
                     _(
@@ -568,6 +564,9 @@ class HotelReservation(models.Model):
                     )
                 )
             duration_vals = self.onchange_check_dates(
+=======
+            duration_vals = self._onchange_check_dates(
+>>>>>>> [IMP]hotel,hotel_reservation:Improved code.
                 checkin_date=checkin_date,
                 checkout_date=checkout_date,
                 duration=False,
@@ -610,7 +609,7 @@ class HotelReservation(models.Model):
             self.write({"folios_ids": [(6, 0, folio.ids)], "state": "done"})
         return True
 
-    def onchange_check_dates(
+    def _onchange_check_dates(
         self, checkin_date=False, checkout_date=False, duration=False
     ):
         """
@@ -624,11 +623,17 @@ class HotelReservation(models.Model):
         @return: Duration and checkout_date
         """
         value = {}
+<<<<<<< HEAD
         configured_addition_hours = 0
         wc_id = self.warehouse_id
         whcomp_id = wc_id or wc_id.company_id
         if whcomp_id:
             configured_addition_hours = wc_id.company_id.additional_hours
+=======
+        configured_addition_hours = (
+            self.warehouse_id.company_id.additional_hours
+        )
+>>>>>>> [IMP]hotel,hotel_reservation:Improved code.
         duration = 0
         if checkin_date and checkout_date:
             dur = checkout_date - checkin_date
