@@ -14,32 +14,28 @@ class HotelRestaurantReport(models.AbstractModel):
 
     def get_res_data(self, date_start, date_end):
         data = []
-        rest_reservation_obj = self.env["hotel.restaurant.reservation"]
-        act_domain = [
-            ("start_date", ">=", date_start),
-            ("end_date", "<=", date_end),
-        ]
-        tids = rest_reservation_obj.search(act_domain)
+        tids = self.env["hotel.restaurant.reservation"].search(
+            [("start_date", ">=", date_start), ("end_date", "<=", date_end)]
+        )
         for record in tids:
             data.append(
                 {
                     "reservation": record.reservation_id,
                     "name": record.customer_id.name,
-                    "start_date": (record.start_date).strftime("%m/%d/%Y"),
-                    "end_date": (record.end_date).strftime("%m/%d/%Y"),
+                    "start_date": fields.Datetime.to_string(record.start_date),
+                    "end_date": fields.Datetime.to_string(record.end_date),
                 }
             )
         return data
 
     @api.model
     def _get_report_values(self, docids, data):
-        self.model = self.env.context.get("active_model")
+        active_model = self.env.context.get("active_model")
         if data is None:
             data = {}
         if not docids:
             docids = data["form"].get("docids")
         folio_profile = self.env["hotel.restaurant.tables"].browse(docids)
-        date_start = data.get("date_start", fields.Date.today())
         date_start = data.get("date_start", fields.Date.today())
         date_end = data["form"].get(
             "date_end",
@@ -49,7 +45,7 @@ class HotelRestaurantReport(models.AbstractModel):
         reservation_res = rm_act.get_res_data(date_start, date_end)
         return {
             "doc_ids": docids,
-            "doc_model": self.model,
+            "doc_model": active_model,
             "data": data["form"],
             "docs": folio_profile,
             "time": time,
@@ -63,7 +59,7 @@ class ReportKot(models.AbstractModel):
 
     @api.model
     def _get_report_values(self, docids, data):
-        self.model = self.env.context.get("active_model")
+        active_model = self.env.context.get("active_model")
         if data is None:
             data = {}
         if not docids:
@@ -71,7 +67,7 @@ class ReportKot(models.AbstractModel):
         folio_profile = self.env["hotel.restaurant.order"].browse(docids)
         return {
             "doc_ids": docids,
-            "doc_model": self.model,
+            "doc_model": active_model,
             "docs": folio_profile,
             "data": data,
         }
@@ -82,29 +78,29 @@ class FolioRestReport(models.AbstractModel):
 
     def get_data(self, date_start, date_end):
         data = []
-        act_domain = [
-            ("checkin_date", ">=", date_start),
-            ("checkout_date", "<=", date_end),
-        ]
-        tids = self.env["hotel.folio"].search(act_domain)
+        tids = self.env["hotel.folio"].search(
+            [
+                ("checkin_date", ">=", date_start),
+                ("checkout_date", "<=", date_end),
+            ]
+        )
         total = 0.0
         for record in tids:
             if record.hotel_reservation_orders_ids:
-                total_amount = 0.0
-                total_order = 0
-                for order in record.hotel_reservation_orders_ids:
-                    total_amount = total_amount + order.amount_total
-                    total_order += 1
-                total += total_amount
+                total_amount = sum(
+                    order.amount_total
+                    for order in record.hotel_reservation_orders_ids
+                )
+                total_order = len(record.hotel_reservation_orders_ids.ids)
                 data.append(
                     {
                         "folio_name": record.name,
                         "customer_name": record.partner_id.name,
-                        "checkin_date": (record.checkin_date).strftime(
-                            "%m/%d/%Y %H:%M:%S"
+                        "checkin_date": fields.Datetime.to_string(
+                            record.checkin_date
                         ),
-                        "checkout_date": (record.checkout_date).strftime(
-                            "%m/%d/%Y %H:%M:%S"
+                        "checkout_date": fields.Datetime.to_string(
+                            record.checkout_date
                         ),
                         "total_amount": total_amount,
                         "total_order": total_order,
@@ -115,11 +111,12 @@ class FolioRestReport(models.AbstractModel):
 
     def get_rest(self, date_start, date_end):
         data = []
-        rest_domain = [
-            ("checkin_date", ">=", date_start),
-            ("checkout_date", "<=", date_end),
-        ]
-        tids = self.env["hotel.folio"].search(rest_domain)
+        tids = self.env["hotel.folio"].search(
+            [
+                ("checkin_date", ">=", date_start),
+                ("checkout_date", "<=", date_end),
+            ]
+        )
         for record in tids:
             if record.hotel_reservation_orders_ids:
                 order_data = []
@@ -127,8 +124,8 @@ class FolioRestReport(models.AbstractModel):
                     order_data.append(
                         {
                             "order_no": order.order_number,
-                            "order_date": (order.order_date).strftime(
-                                "%m/%d/%Y %H:%M:%S"
+                            "order_date": fields.Datetime.to_string(
+                                record.order_date
                             ),
                             "state": order.state,
                             "table_nos_ids": len(order.table_nos_ids),
@@ -147,7 +144,7 @@ class FolioRestReport(models.AbstractModel):
 
     @api.model
     def _get_report_values(self, docids, data):
-        self.model = self.env.context.get("active_model")
+        active_model = self.env.context.get("active_model")
         if data is None:
             data = {}
         if not docids:
@@ -163,7 +160,7 @@ class FolioRestReport(models.AbstractModel):
         get_rest_res = rm_act.get_rest(date_start, date_end)
         return {
             "doc_ids": docids,
-            "doc_model": self.model,
+            "doc_model": active_model,
             "data": data["form"],
             "docs": folio_profile,
             "time": time,
@@ -178,30 +175,29 @@ class FolioReservReport(models.AbstractModel):
 
     def get_data(self, date_start, date_end):
         data = []
-        folio_obj = self.env["hotel.folio"]
-        reserve_domain = [
-            ("checkin_date", ">=", date_start),
-            ("checkout_date", "<=", date_end),
-        ]
-        tids = folio_obj.search(reserve_domain)
+        tids = self.env["hotel.folio"].search(
+            [
+                ("checkin_date", ">=", date_start),
+                ("checkout_date", "<=", date_end),
+            ]
+        )
         total = 0.0
         for record in tids:
             if record.hotel_restaurant_orders_ids:
-                total_amount = 0.0
-                total_order = 0
-                for order in record.hotel_restaurant_orders_ids:
-                    total_amount = total_amount + order.amount_total
-                    total_order += 1
-                total += total_amount
+                total_amount = sum(
+                    order.amount_total
+                    for order in record.hotel_restaurant_orders_ids
+                )
+                total_order = len(record.hotel_restaurant_orders_ids.ids)
                 data.append(
                     {
                         "folio_name": record.name,
                         "customer_name": record.partner_id.name,
-                        "checkin_date": (record.checkin_date).strftime(
-                            "%m/%d/%Y %H:%M:%S"
+                        "checkin_date": fields.Datetime.to_string(
+                            record.checkin_date
                         ),
-                        "checkout_date": (record.checkout_date).strftime(
-                            "%m/%d/%Y %H:%M:%S"
+                        "checkout_date": fields.Datetime.to_string(
+                            record.checkout_date
                         ),
                         "total_amount": total_amount,
                         "total_order": total_order,
@@ -212,18 +208,20 @@ class FolioReservReport(models.AbstractModel):
 
     def get_reserv(self, date_start, date_end):
         data = []
-        folio_obj = self.env["hotel.folio"]
-        res_domain = [
-            ("checkin_date", ">=", date_start),
-            ("checkout_date", "<=", date_end),
-        ]
-        tids = folio_obj.search(res_domain)
+        tids = self.env["hotel.folio"].search(
+            [
+                ("checkin_date", ">=", date_start),
+                ("checkout_date", "<=", date_end),
+            ]
+        )
         for record in tids:
             if record.hotel_restaurant_orders_ids:
                 order_data = []
                 for order in record.hotel_restaurant_orders_ids:
                     order_date = order.o_date
-                    order_date = order_date.strftime("%m/%d/%Y %H:%M:%S")
+                    order_date = (
+                        fields.Datetime.to_string(record.order_date),
+                    )
                     order_data.append(
                         {
                             "order_no": order.order_no,
@@ -245,7 +243,7 @@ class FolioReservReport(models.AbstractModel):
 
     @api.model
     def _get_report_values(self, docids, data):
-        self.model = self.env.context.get("active_model")
+        active_model = self.env.context.get("active_model")
         if data is None:
             data = {}
         if not docids:
@@ -261,7 +259,7 @@ class FolioReservReport(models.AbstractModel):
         get_reserv_res = rm_act.get_reserv(date_start, date_end)
         return {
             "doc_ids": docids,
-            "doc_model": self.model,
+            "doc_model": active_model,
             "data": data["form"],
             "docs": folio_profile,
             "time": time,
