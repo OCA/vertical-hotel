@@ -27,7 +27,7 @@ class RoomReservationSummary(models.TransientModel):
     @api.model
     def action_generate_summary(self):
         first = date.today().replace(day=1)
-        next_month = (first.month + 1) % 12
+        next_month = (first.month % 12) + 1
         next_first = first.replace(month=next_month)
         wizard = self.create(
             {
