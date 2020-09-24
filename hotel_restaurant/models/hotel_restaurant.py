@@ -385,7 +385,7 @@ class HotelRestaurantOrder(models.Model):
         default="draft",
     )
     is_folio = fields.Boolean(
-        "Is a Hotel Guest??", help="is customer reside" "in hotel or not"
+        "Is a Hotel Guest??", help="is customer reside in hotel or not"
     )
     customer_id = fields.Many2one(
         "res.partner", "Customer Name", required=True
@@ -654,7 +654,7 @@ class HotelReservationOrder(models.Model):
     )
     folio_id = fields.Many2one("hotel.folio", "Folio No")
     is_folio = fields.Boolean(
-        "Is a Hotel Guest??", help="is customer reside" "in hotel or not"
+        "Is a Hotel Guest??", help="is customer reside in hotel or not"
     )
 
     @api.model
