@@ -55,7 +55,7 @@
                         and <strong>${object.children}</strong> Childrens
                         <br />
                     </p>
-                    <strong>Rooms Rates Per Night :</strong>
+                    <strong>Room Rate Per Night:</strong>
                     <br />
                     <br />
                     <table border="1" cellpadding="4" style="margin-left: 30px;">
@@ -174,7 +174,7 @@
                         <br />
                     </p>
                     &amp;nbsp;&amp;nbsp;
-                    <strong>Rooms Rates Per Night :</strong>
+                    <strong>Room Rate Per Night:</strong>
                     <br />
                     <br />
                     <table border="1" cellpadding="4" style="margin-left: 30px;">
