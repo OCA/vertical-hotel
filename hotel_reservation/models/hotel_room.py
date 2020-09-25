@@ -1,13 +1,18 @@
 # See LICENSE file for full copyright and licensing details.
-
+import logging
 from datetime import datetime, timedelta
 
-import pytz
 from dateutil.relativedelta import relativedelta
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT as dt
+
+_logger = logging.getLogger(__name__)
+try:
+    import pytz
+except (ImportError, IOError) as err:
+    _logger.debug(err)
 
 
 class HotelRoom(models.Model):
