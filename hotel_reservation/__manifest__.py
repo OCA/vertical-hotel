@@ -26,6 +26,6 @@
     ],
     "demo": ["demo/hotel_reservation_data.xml"],
     "qweb": ["static/src/xml/hotel_room_summary.xml"],
-    "external_dependencies": {"python": ["dateutil", "pytz"]},
+    "external_dependencies": {"python": ["dateutil"]},
     "installable": True,
 }
