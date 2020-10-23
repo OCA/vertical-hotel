@@ -340,10 +340,12 @@ class HotelFolio(models.Model):
                         "folio_id": rec.id,
                     }
                     folio_room_line_obj.create(vals)
-            if len(list(new_rooms)) == 0:
+            if not len(list(new_rooms)):
                 room_list_obj = product_obj.browse(rooms_list)
                 for room in room_list_obj:
-                    room_obj = h_room_obj.search([("name", "=", room.name)])
+                    room_obj = h_room_obj.search(
+                        [("product_id", "=", room.id)]
+                    )
                     room_obj.write({"isroom": False})
                     room_vals = {
                         "room_id": room_obj.id,
