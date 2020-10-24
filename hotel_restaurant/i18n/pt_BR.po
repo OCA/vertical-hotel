@@ -61,7 +61,6 @@ msgstr "<strong>Nome do Cliente</strong>"
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.report_order_bill
 #, fuzzy
-#| msgid "<strong>Date : </strong>"
 msgid "<strong>Date :</strong>"
 msgstr "<strong> Data: </strong>"
 
@@ -289,6 +288,11 @@ msgid "Activities"
 msgstr "Atividades"
 
 #. module: hotel_restaurant
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__activity_state
 msgid "Activity State"
 msgstr "Estado de Atividade"
@@ -302,7 +306,6 @@ msgstr "Endereço"
 #: model:hotel.menucard,name:hotel_restaurant.hotel_fooditem_19
 #: model:product.product,name:hotel_restaurant.hotel_fooditem_19_product_product
 #, fuzzy
-#| msgid "Appam "
 msgid "Appam"
 msgstr "Appam "
 
@@ -312,7 +315,7 @@ msgid "Attachment Count"
 msgstr "Contagem de Anexos"
 
 #. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__attribute_value_ids
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__product_template_attribute_value_ids
 msgid "Attribute Values"
 msgstr "Valores dos Atributos"
 
@@ -331,6 +334,16 @@ msgstr "Bahji pav"
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__barcode
 msgid "Barcode"
 msgstr "Cód. de barras"
+
+#. module: hotel_restaurant
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__can_image_1024_be_zoomed
+msgid "Can Image 1024 be zoomed"
+msgstr ""
+
+#. module: hotel_restaurant
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__can_image_variant_1024_be_zoomed
+msgid "Can Variant Image 1024 be zoomed"
+msgstr ""
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__purchase_ok
@@ -357,8 +370,8 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #. module: hotel_restaurant
-#: selection:hotel.restaurant.order,state:0
-#: selection:hotel.restaurant.reservation,state:0
+#: model:ir.model.fields.selection,name:hotel_restaurant.selection__hotel_restaurant_order__state__cancel
+#: model:ir.model.fields.selection,name:hotel_restaurant.selection__hotel_restaurant_reservation__state__cancel
 msgid "Cancelled"
 msgstr "Cancelado"
 
@@ -429,6 +442,11 @@ msgid "Color Index"
 msgstr "Índice de Cores"
 
 #. module: hotel_restaurant
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__combination_indices
+msgid "Combination Indices"
+msgstr ""
+
+#. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__company_id
 msgid "Company"
 msgstr "Empresa"
@@ -440,7 +458,7 @@ msgid "Confirm"
 msgstr "Confirmar"
 
 #. module: hotel_restaurant
-#: selection:hotel.restaurant.reservation,state:0
+#: model:ir.model.fields.selection,name:hotel_restaurant.selection__hotel_restaurant_reservation__state__confirm
 msgid "Confirmed"
 msgstr "Confirmado"
 
@@ -456,22 +474,6 @@ msgstr "Moeda Corrente"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__cost_method
-msgid "Cost Method"
-msgstr "Método do custo"
-
-#. module: hotel_restaurant
-#: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__standard_price
-msgid ""
-"Cost used for stock valuation in standard price and as a first price to set "
-"in average/fifo. Also used as a base price for pricelists. Expressed in the "
-"default unit of measure of the product."
-msgstr ""
-"Custo usado para avaliação de estoque no preço padrão e como primeiro preço "
-"a definir em média/quino. Também usado como preço base para listas de "
-"preços. Expressa na unidade de medida padrão do produto."
-
-#. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__property_cost_method
 msgid "Costing Method"
 msgstr "Método de Formação de Custo"
 
@@ -553,8 +555,8 @@ msgid "Customer Lead Time"
 msgstr "Prazo de entrega do cliente"
 
 #. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_order__cname
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_reservation__cname
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_order__customer_id
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_reservation__customer_id
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_reservation_search
 msgid "Customer Name"
 msgstr "Nome do cliente"
@@ -626,10 +628,9 @@ msgstr ""
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__route_ids
 msgid ""
 "Depending on the modules installed, this will allow you to define the route "
-"of the product: whether it will be bought, manufactured, MTO, etc."
+"of the product: whether it will be bought, manufactured, replenished on "
+"order, etc."
 msgstr ""
-"Dependendo dos módulos instalados, isso permitirá definir a rota do produto: "
-"se ele será comprado, fabricado, MTO etc."
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__description
@@ -676,9 +677,9 @@ msgid "Display Name"
 msgstr "Nome para Exibição"
 
 #. module: hotel_restaurant
-#: selection:hotel.reservation.order,state:0
-#: selection:hotel.restaurant.order,state:0
-#: selection:hotel.restaurant.reservation,state:0
+#: model:ir.model.fields.selection,name:hotel_restaurant.selection__hotel_reservation_order__state__done
+#: model:ir.model.fields.selection,name:hotel_restaurant.selection__hotel_restaurant_order__state__done
+#: model:ir.model.fields.selection,name:hotel_restaurant.selection__hotel_restaurant_reservation__state__done
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_reservation_order_form
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_order_form
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_reservation_form
@@ -693,9 +694,9 @@ msgid "Dosa"
 msgstr "Dosai"
 
 #. module: hotel_restaurant
-#: selection:hotel.reservation.order,state:0
-#: selection:hotel.restaurant.order,state:0
-#: selection:hotel.restaurant.reservation,state:0
+#: model:ir.model.fields.selection,name:hotel_restaurant.selection__hotel_reservation_order__state__draft
+#: model:ir.model.fields.selection,name:hotel_restaurant.selection__hotel_restaurant_order__state__draft
+#: model:ir.model.fields.selection,name:hotel_restaurant.selection__hotel_restaurant_reservation__state__draft
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_reservation_search
 msgid "Draft"
 msgstr "Rascunho"
@@ -707,7 +708,7 @@ msgid "End Date"
 msgstr "Data Final"
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:357
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:0
 #, python-format
 msgid "End Date Should be less than the Folio Check-out Date!"
 msgstr "Data de término Deve ser menor que a data de check-out do fólio!"
@@ -839,6 +840,23 @@ msgstr ""
 "tipo 'interno'."
 
 #. module: hotel_restaurant
+#: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__free_qty
+msgid ""
+"Forecast quantity (computed as Quantity On Hand - reserved quantity)\n"
+"In a context with a single Stock Location, this includes goods stored in "
+"this location, or any of its children.\n"
+"In a context with a single Warehouse, this includes goods stored in the "
+"Stock Location of this Warehouse, or any of its children.\n"
+"Otherwise, this includes goods stored in any Stock Location with 'internal' "
+"type."
+msgstr ""
+
+#. module: hotel_restaurant
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__free_qty
+msgid "Free To Use Quantity "
+msgstr ""
+
+#. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_reservation_order_form
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_order_form
 msgid "Generate Bill"
@@ -877,11 +895,6 @@ msgid "Halva"
 msgstr "Halva."
 
 #. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__hide_expense_policy
-msgid "Hide Expense Policy"
-msgstr "Ocultar política de despesas"
-
-#. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_menucard_type_form
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_menucard_type_list
 msgid "Hotel Food Items Type"
@@ -889,6 +902,7 @@ msgstr "Tipo de itens alimentares do hotel"
 
 #. module: hotel_restaurant
 #: model:ir.model,name:hotel_restaurant.model_hotel_menucard
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__product_id
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_menucard_form
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_menucard_search_new
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_menucard_tree
@@ -919,23 +933,30 @@ msgid "ID"
 msgstr "ID"
 
 #. module: hotel_restaurant
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: hotel_restaurant
+#: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: hotel_restaurant
 #: model:hotel.menucard,name:hotel_restaurant.hotel_fooditem_15
 #: model:product.product,name:hotel_restaurant.hotel_fooditem_15_product_product
 msgid "Idli-Sambar"
 msgstr "Idli-sambar"
 
 #. module: hotel_restaurant
-#: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__message_unread
-msgid "If checked new messages require your attention."
-msgstr "Se marcado, novas mensagens solicitarão sua atenção."
-
-#. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__message_needaction
+#: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__message_unread
 msgid "If checked, new messages require your attention."
 msgstr "Se marcado novas mensagens solicitarão sua atenção."
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__message_has_error
+#: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Se marcado, algumas mensagens tem um erro de entrega."
 
@@ -946,27 +967,41 @@ msgid ""
 msgstr "Se desmarcado, permitirá que você oculte o produto sem removê-lo."
 
 #. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__image
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__image_1920
 msgid "Image"
 msgstr "Imagem"
 
 #. module: hotel_restaurant
-#: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__image_medium
-msgid ""
-"Image of the product variant (Medium-sized image of product template if "
-"false)."
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__image_1024
+msgid "Image 1024"
 msgstr ""
-"Imagem da variante do produto (Imagem media do modelo de produto se for "
-"falso)."
 
 #. module: hotel_restaurant
-#: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__image_small
-msgid ""
-"Image of the product variant (Small-sized image of product template if "
-"false)."
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__image_128
+msgid "Image 128"
 msgstr ""
-"Imagem da variante do produto (Imagem pequena do modelo de produto se for "
-"falso)."
+
+#. module: hotel_restaurant
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__image_256
+msgid "Image 256"
+msgstr ""
+
+#. module: hotel_restaurant
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__image_512
+msgid "Image 512"
+msgstr ""
+
+#. module: hotel_restaurant
+#: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__standard_price
+msgid ""
+"In Standard Price & AVCO: value of the product (automatically computed in "
+"AVCO).\n"
+"        In FIFO: value of the last unit that left the stock (automatically "
+"computed).\n"
+"        Used to value the product when the purchase cost is not known (e.g. "
+"inventory adjustment).\n"
+"        Used to compute margins on sale orders."
+msgstr ""
 
 #. module: hotel_restaurant
 #: model:ir.model,name:hotel_restaurant.model_hotel_restaurant_kitchen_order_tickets
@@ -1016,7 +1051,7 @@ msgid "Inventory Location"
 msgstr "Local do Inventário"
 
 #. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__property_valuation
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__valuation
 msgid "Inventory Valuation"
 msgstr "Valorização de Inventário"
 
@@ -1058,7 +1093,12 @@ msgid "Is a Hotel Guest??"
 msgstr "É um hóspede do hotel ??"
 
 #. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_order_list__name
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__has_configurable_attributes
+msgid "Is a configurable product"
+msgstr ""
+
+#. module: hotel_restaurant
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_order_list__menucard_id
 msgid "Item Name"
 msgstr "Nome do item"
 
@@ -1093,6 +1133,12 @@ msgid "Khandvi"
 msgstr "Khandvvi"
 
 #. module: hotel_restaurant
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_reservation_order__kitchen
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_order__kitchen
+msgid "Kitchen Id"
+msgstr ""
+
+#. module: hotel_restaurant
 #: model:ir.ui.menu,name:hotel_restaurant.menu_open_view_hotel_restaurant_kitchen_order_tickets_form_tree
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.report_hotel_order_kot
 msgid "Kitchen Order Ticket"
@@ -1101,18 +1147,12 @@ msgstr "Ticket de pedido de cozinha"
 #. module: hotel_restaurant
 #: model:ir.actions.act_window,name:hotel_restaurant.open_view_hotel_restaurant_kitchen_order_tickets_form_tree
 #: model:ir.actions.report,name:hotel_restaurant.report_hotel_res_order_kot
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_order_list__kot_order_list
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_order_list__kot_order_id
 msgid "Kitchen Order Tickets"
 msgstr "Tickets de pedido de cozinha"
 
 #. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_reservation_order__kitchen_id
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_order__kitchen_id
-msgid "Kitchen id"
-msgstr "ID da cozinha"
-
-#. module: hotel_restaurant
-#: model:ir.model.fields,help:hotel_restaurant.field_hotel_restaurant_kitchen_order_tickets__kot_list
+#: model:ir.model.fields,help:hotel_restaurant.field_hotel_restaurant_kitchen_order_tickets__kot_list_ids
 msgid "Kitchen order list"
 msgstr "Lista de pedidos de cozinha"
 
@@ -1190,17 +1230,14 @@ msgid "Malai Kofta"
 msgstr "Malai kofta"
 
 #. module: hotel_restaurant
-#: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__property_valuation
+#: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__valuation
 msgid ""
 "Manual: The accounting entries to value the inventory are not posted "
 "automatically.\n"
 "        Automated: An accounting entry is automatically created to value the "
-"inventory when a product enters or leaves the company."
+"inventory when a product enters or leaves the company.\n"
+"        "
 msgstr ""
-"Manual: os lançamentos contábeis para avaliar o estoque não são lançados "
-"automaticamente.\n"
-"         Automatizado: uma entrada contábil é criada automaticamente para "
-"avaliar o estoque quando um produto entra ou sai da empresa."
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__service_type
@@ -1224,11 +1261,6 @@ msgstr ""
 #: model:product.product,name:hotel_restaurant.hotel_fooditem_22_product_product
 msgid "Masala kulcha"
 msgstr "Masala Kulcha"
-
-#. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__image_medium
-msgid "Medium-sized image"
-msgstr "Imagem de tamanho Médio"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__message_has_error
@@ -1289,8 +1321,8 @@ msgstr "Número de ações"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__message_has_error_counter
-msgid "Number of error"
-msgstr "Número de erro"
+msgid "Number of errors"
+msgstr ""
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__message_needaction_counter
@@ -1303,24 +1335,14 @@ msgid "Number of messages with delivery error"
 msgstr "Número de mensagens com erro de entrega"
 
 #. module: hotel_restaurant
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__pricelist_item_count
+msgid "Number of price rules"
+msgstr ""
+
+#. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__message_unread_counter
 msgid "Number of unread messages"
 msgstr "Número de mensagens não lidas"
-
-#. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__optional_product_ids
-msgid "Optional Products"
-msgstr "Produtos Opcionais"
-
-#. module: hotel_restaurant
-#: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__optional_product_ids
-msgid ""
-"Optional Products are suggested whenever the customer hits *Add to Cart* "
-"(cross-sell strategy, e.g. for computers: warranty, software, etc.)."
-msgstr ""
-"Os produtos opcionais são sugeridos sempre que o cliente clicar em * "
-"Adicionar ao carrinho * (estratégia de venda cruzada, por exemplo, para "
-"computadores: garantia, software etc.)."
 
 #. module: hotel_restaurant
 #: model:ir.actions.act_window,name:hotel_restaurant.open_view_hotel_reservation_order_form_tree
@@ -1333,9 +1355,9 @@ msgid "Order"
 msgstr "Ordem"
 
 #. module: hotel_restaurant
-#: selection:hotel.reservation.order,state:0
-#: selection:hotel.restaurant.order,state:0
-#: selection:hotel.restaurant.reservation,state:0
+#: model:ir.model.fields.selection,name:hotel_restaurant.selection__hotel_reservation_order__state__order
+#: model:ir.model.fields.selection,name:hotel_restaurant.selection__hotel_restaurant_order__state__order
+#: model:ir.model.fields.selection,name:hotel_restaurant.selection__hotel_restaurant_reservation__state__order
 msgid "Order Created"
 msgstr "Ordem criada"
 
@@ -1345,9 +1367,9 @@ msgid "Order Date"
 msgstr "Data da Ordem"
 
 #. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_reservation_order__order_list
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_kitchen_order_tickets__kot_list
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_order__order_list
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_reservation_order__order_list_ids
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_kitchen_order_tickets__kot_list_ids
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_order__order_list_ids
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_reservation_order_form
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_kitchen_order_tickets_form
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_order_form
@@ -1386,8 +1408,6 @@ msgstr ""
 "Quantidade entregue: quantidades da fatura entregues ao cliente."
 
 #. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_folio__hotel_reservation_order_ids
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_folio__hotel_restaurant_order_ids
 #: model:ir.ui.menu,name:hotel_restaurant.menu_open_view_hotel_reservation_order_form_tree
 msgid "Orders"
 msgstr "Pedidos"
@@ -1422,20 +1442,19 @@ msgid "Paneer Tikaa"
 msgstr "Paneer tikaa"
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:462
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:0
 #, python-format
 msgid "Please Assign a Table"
 msgstr "Designe uma mesa"
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:460
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:667
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:0
 #, python-format
 msgid "Please Give an Order"
 msgstr "Nomeie um pedido"
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:236
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:0
 #, python-format
 msgid ""
 "Please Select Tables For                                          Reservation"
@@ -1473,22 +1492,11 @@ msgid "Pricelist"
 msgstr "Lista de Preço"
 
 #. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__pricelist_item_ids
-msgid "Pricelist Item"
-msgstr "Item da lista de preço"
-
-#. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__item_ids
-msgid "Pricelist Items"
-msgstr "Itens da lista de preço"
-
-#. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_menucard_form
 msgid "Procurement"
 msgstr "Aquisição"
 
 #. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__product_id
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__product_variant_id
 msgid "Product"
 msgstr "Produto"
@@ -1499,7 +1507,7 @@ msgid "Product Attributes"
 msgstr "Atributos de Produto"
 
 #. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__product_manager
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__product_manager_id
 msgid "Product Manager"
 msgstr "Gerente de Produto"
 
@@ -1529,6 +1537,11 @@ msgid "Products"
 msgstr "Produtos"
 
 #. module: hotel_restaurant
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__lst_price
+msgid "Public Price"
+msgstr ""
+
+#. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__description_purchase
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_menucard_form
 msgid "Purchase Description"
@@ -1540,19 +1553,24 @@ msgid "Purchase Unit of Measure"
 msgstr "Unidade de Medida de Compra"
 
 #. module: hotel_restaurant
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__putaway_rule_ids
+msgid "Putaway Rules"
+msgstr ""
+
+#. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_order_list__item_qty
 msgid "Qty"
 msgstr "Qtd"
 
 #. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__qty_at_date
-msgid "Quantity"
-msgstr "Quantidade"
-
-#. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__qty_available
 msgid "Quantity On Hand"
 msgstr "Quantidade na mão"
+
+#. module: hotel_restaurant
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__quantity_svl
+msgid "Quantity Svl"
+msgstr ""
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__incoming_qty
@@ -1593,14 +1611,24 @@ msgstr ""
 "Estoque com o tipo 'interno'."
 
 #. module: hotel_restaurant
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__visible_qty_configurator
+msgid "Quantity visible in configurator"
+msgstr ""
+
+#. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_order_list__item_rate
 msgid "Rate"
 msgstr "Taxa"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__expense_policy
-msgid "Re-Invoice Policy"
-msgstr "Política de Refaturamento"
+msgid "Re-Invoice Expenses"
+msgstr ""
+
+#. module: hotel_restaurant
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__visible_expense_policy
+msgid "Re-Invoice Policy visible"
+msgstr ""
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__code
@@ -1628,7 +1656,7 @@ msgid "Reservation List"
 msgstr "Lista de reservas"
 
 #. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_reservation_order__reservationno
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_reservation_order__reservation_id
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_reservation__reservation_id
 msgid "Reservation No"
 msgstr "Nº da reserva"
@@ -1640,10 +1668,15 @@ msgstr "Nº da reserva"
 
 #. module: hotel_restaurant
 #: model:ir.model,name:hotel_restaurant.model_hotel_reservation_order
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_order_list__o_l
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_order_list__reservation_order_id
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_reservation_order_search
 msgid "Reservation Order"
 msgstr "Pedido de reserva"
+
+#. module: hotel_restaurant
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_folio__hotel_reservation_orders_ids
+msgid "Reservation Orders"
+msgstr ""
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__responsible_id
@@ -1656,7 +1689,7 @@ msgid "Responsible User"
 msgstr "Usuário Responsável"
 
 #. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_reservation_order__rest_id
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_reservation_order__rests_ids
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_order__rest_item_id
 msgid "Rest"
 msgstr "Rest."
@@ -1667,7 +1700,7 @@ msgid "Restaurant"
 msgstr "Restaurante"
 
 #. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_order_list__o_list
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_order_list__restaurant_order_id
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_order_search
 msgid "Restaurant Order"
 msgstr "Pedido"
@@ -1678,6 +1711,7 @@ msgid "Restaurant Order Reservation Details"
 msgstr "Detalhes da reserva do pedido"
 
 #. module: hotel_restaurant
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_folio__hotel_restaurant_orders_ids
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_folio_rest_reservation
 msgid "Restaurant Orders"
 msgstr "Pedidos"
@@ -1726,8 +1760,8 @@ msgstr "Detalhes do pedido"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_kitchen_order_tickets__room_no
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_order__room_no
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_reservation__room_no
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_order__room_id
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_reservation__room_id
 msgid "Room No"
 msgstr "Número do quarto"
 
@@ -1742,15 +1776,19 @@ msgid "Routes"
 msgstr "Rotas"
 
 #. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__description_sale
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_menucard_form
 msgid "Sale Description"
 msgstr "Descrição da Venda"
 
 #. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__lst_price
-msgid "Sale Price"
-msgstr "Preço de Venda"
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__description_sale
+msgid "Sales Description"
+msgstr ""
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__sale_line_warn
@@ -1785,32 +1823,21 @@ msgid "Set to Draft"
 msgstr "Definir como rascunho"
 
 #. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__image_small
-msgid "Small-sized image"
-msgstr "Imagem pequena"
-
-#. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__sales_count
 msgid "Sold"
 msgstr "Vendido"
 
 #. module: hotel_restaurant
-#: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__property_cost_method
+#: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__cost_method
 msgid ""
 "Standard Price: The products are valued at their standard cost defined on "
 "the product.\n"
 "        Average Cost (AVCO): The products are valued at weighted average "
 "cost.\n"
 "        First In First Out (FIFO): The products are valued supposing those "
-"that enter the company first will also leave it first."
+"that enter the company first will also leave it first.\n"
+"        "
 msgstr ""
-"Preço padrão: os produtos são avaliados pelo custo padrão definido no "
-"produto.\n"
-"         Custo médio (AVCO): os produtos são avaliados pelo custo médio "
-"ponderado.\n"
-"         Primeiro a entrar, primeiro a sair (FIFO): Os produtos são "
-"avaliados supondo que aqueles que entram primeiro na empresa também o deixem "
-"em primeiro lugar."
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_folio_rest_reservation__date_start
@@ -1819,16 +1846,18 @@ msgid "Start Date"
 msgstr "Data de Início"
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:350
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:0
 #, python-format
-msgid "Start Date Should be greater than the Folio Check-in Date!"
-msgstr "Data de início Deve ser maior que a data do check-in do fólio!"
+msgid ""
+"Start Date Should be greater                             than the Folio "
+"Check-in Date!"
+msgstr ""
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:342
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:0
 #, python-format
-msgid "Start Date Should be less             than the End Date!"
-msgstr "Data de início deve ser menor             que a data final!"
+msgid "Start Date Should be less than the End Date!"
+msgstr ""
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_reservation__start_date
@@ -1860,29 +1889,9 @@ msgstr ""
 "Planejado: Atividades futuras."
 
 #. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__stock_fifo_manual_move_ids
-msgid "Stock Fifo Manual Move"
-msgstr "Movimento manual do estoque Fifo"
-
-#. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__stock_fifo_real_time_aml_ids
-msgid "Stock Fifo Real Time Aml"
-msgstr "Estoque Fifo em tempo real Aml"
-
-#. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__property_stock_account_input
-msgid "Stock Input Account"
-msgstr "Conta de Entrada de Estoque"
-
-#. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__stock_move_ids
 msgid "Stock Move"
 msgstr "Movimentação de estoque"
-
-#. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__property_stock_account_output
-msgid "Stock Output Account"
-msgstr "Conta de Saída do Estoque"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__stock_quant_ids
@@ -1890,9 +1899,9 @@ msgid "Stock Quant"
 msgstr "Quantidade em estoque"
 
 #. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__stock_value_currency_id
-msgid "Stock Value Currency"
-msgstr "Moeda da valorização do estoque"
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__stock_valuation_layer_ids
+msgid "Stock Valuation Layer"
+msgstr ""
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_reservation_order__amount_subtotal
@@ -1927,10 +1936,10 @@ msgid "Table List"
 msgstr "Listagem de mesas"
 
 #. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_reservation_order__table_no
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_kitchen_order_tickets__tableno
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_order__table_no
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_reservation__tableno
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_reservation_order__table_nos_ids
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_kitchen_order_tickets__table_nos_ids
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_order__table_nos_ids
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_reservation__table_nos_ids
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_tables__name
 msgid "Table Number"
 msgstr "Nº da mesa"
@@ -1964,14 +1973,10 @@ msgid "Table Reservation List"
 msgstr "Listagem de reserva de mesas"
 
 #. module: hotel_restaurant
-#: model:ir.model.fields,help:hotel_restaurant.field_hotel_restaurant_kitchen_order_tickets__tableno
+#: model:ir.model.fields,help:hotel_restaurant.field_hotel_restaurant_kitchen_order_tickets__table_nos_ids
+#: model:ir.model.fields,help:hotel_restaurant.field_hotel_restaurant_reservation__table_nos_ids
 msgid "Table reservation detail."
 msgstr "Detalhe da reserva da mesa."
-
-#. module: hotel_restaurant
-#: model:ir.model.fields,help:hotel_restaurant.field_hotel_restaurant_reservation__tableno
-msgid "Table reservation detail. "
-msgstr "Detalhe da reserva da mesa. "
 
 #. module: hotel_restaurant
 #: model:ir.actions.act_window,name:hotel_restaurant.open_view_hotel_restaurant_tables_form_tree
@@ -1999,14 +2004,7 @@ msgid "Tax (%) "
 msgstr "Impostos (%) "
 
 #. module: hotel_restaurant
-#: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__valid_archived_variant_ids
-#: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__valid_existing_variant_ids
-#: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__valid_product_attribute_ids
-#: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__valid_product_attribute_value_ids
-#: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__valid_product_attribute_value_wnva_ids
-#: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__valid_product_attribute_wnva_ids
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__valid_product_template_attribute_line_ids
-#: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__valid_product_template_attribute_line_wnva_ids
 msgid "Technical compute"
 msgstr "Cálculo técnico"
 
@@ -2025,11 +2023,6 @@ msgid "Technical: used to compute quantities."
 msgstr "Técnico: usado para calcular quantidades."
 
 #. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__product_template_attribute_value_ids
-msgid "Template Attribute Values"
-msgstr "Valores de atributo do modelo"
-
-#. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__lst_price
 msgid ""
 "The sale price is managed from the product template. Click on the 'Configure "
@@ -2037,28 +2030,6 @@ msgid ""
 msgstr ""
 "O preço de venda é gerenciado a partir do modelo do produto. Clique no botão "
 "'Preços variantes' para definir os preços extras dos atributos."
-
-#. module: hotel_restaurant
-#: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__volume
-msgid "The volume in m3."
-msgstr "Volume em m3."
-
-#. module: hotel_restaurant
-#: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__image_variant
-msgid ""
-"This field holds the image used as image for the product variant, limited to "
-"1024x1024px."
-msgstr ""
-"Este campo contém a imagem usada para a variação do produto, limitada a "
-"1024x1024px."
-
-#. module: hotel_restaurant
-#: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__image
-msgid ""
-"This field holds the image used as image for the product, limited to "
-"1024x1024px."
-msgstr ""
-"Este campo contém a imagem usada para o produto, limitada a 1024x1024px."
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__price_extra
@@ -2126,6 +2097,11 @@ msgid "Tracking"
 msgstr "Rastreamento"
 
 #. module: hotel_restaurant
+#: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__uom_id
 msgid "Unit of Measure"
 msgstr "Unidade de Medida"
@@ -2176,8 +2152,8 @@ msgstr "Nome da Unidade de Medida"
 #: model:product.product,uom_name:hotel_restaurant.hotel_fooditem_6_product_product
 #: model:product.product,uom_name:hotel_restaurant.hotel_fooditem_7_product_product
 #: model:product.product,uom_name:hotel_restaurant.hotel_fooditem_8_product_product
-msgid "Unit(s)"
-msgstr "Unidade(s)"
+msgid "Units"
+msgstr ""
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__message_unread
@@ -2208,59 +2184,39 @@ msgid "Vada-Sambar"
 msgstr "vada-sambar"
 
 #. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__valid_archived_variant_ids
-msgid "Valid Archived Variants"
-msgstr "Variantes Válidas Arquivadas"
-
-#. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__valid_existing_variant_ids
-msgid "Valid Existing Variants"
-msgstr "Variantes Válida Existente"
-
-#. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__valid_product_template_attribute_line_ids
 msgid "Valid Product Attribute Lines"
 msgstr "Linhas de atributo do produto válidas"
 
 #. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__valid_product_template_attribute_line_wnva_ids
-msgid "Valid Product Attribute Lines Without No Variant Attributes"
-msgstr "Linhas de atributo de produto válidas sem atributos de variante"
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__value_svl
+msgid "Value Svl"
+msgstr ""
 
 #. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__valid_product_attribute_value_ids
-msgid "Valid Product Attribute Values"
-msgstr "Valores de atributo do produto válidas"
-
-#. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__valid_product_attribute_value_wnva_ids
-msgid "Valid Product Attribute Values Without No Variant Attributes"
-msgstr "Valores válidos de atributos do produto sem atributos variantes"
-
-#. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__valid_product_attribute_ids
-msgid "Valid Product Attributes"
-msgstr "Atributos de Produto Válido"
-
-#. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__valid_product_attribute_wnva_ids
-msgid "Valid Product Attributes Without No Variant Attributes"
-msgstr "Atributos de produto válidos sem atributos de variante"
-
-#. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__valuation
-msgid "Valuation"
-msgstr "Valorização"
-
-#. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__stock_value
-msgid "Value"
-msgstr "Valor"
-
-#. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__image_variant
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__image_variant_1920
 msgid "Variant Image"
 msgstr "Imagem da Variante"
+
+#. module: hotel_restaurant
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__image_variant_1024
+msgid "Variant Image 1024"
+msgstr ""
+
+#. module: hotel_restaurant
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__image_variant_128
+msgid "Variant Image 128"
+msgstr ""
+
+#. module: hotel_restaurant
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__image_variant_256
+msgid "Variant Image 256"
+msgstr ""
+
+#. module: hotel_restaurant
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__image_variant_512
+msgid "Variant Image 512"
+msgstr ""
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__price_extra
@@ -2288,9 +2244,14 @@ msgid "Volume"
 msgstr "Volume"
 
 #. module: hotel_restaurant
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__volume_uom_name
+msgid "Volume unit of measure label"
+msgstr ""
+
+#. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_reservation_order__waitername
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_kitchen_order_tickets__w_name
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_order__waiter_name
+#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_order__waiter_id
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_reservation_order_search
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_kitchen_order_search
 msgid "Waiter Name"
@@ -2317,49 +2278,9 @@ msgid "Weight"
 msgstr "Peso"
 
 #. module: hotel_restaurant
-#: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__weight_uom_id
-msgid "Weight Unit of Measure"
-msgstr "Unidade de medida de peso"
-
-#. module: hotel_restaurant
-#: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__weight
-msgid ""
-"Weight of the product, packaging not included. The unit of measure can be "
-"changed in the general settings"
-msgstr ""
-"Peso do produto, embalagem não incluída. A unidade de medida pode ser "
-"alterada nas configurações gerais"
-
-#. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__weight_uom_name
 msgid "Weight unit of measure label"
 msgstr "Etiqueta da unidade de medida de peso"
-
-#. module: hotel_restaurant
-#: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__property_stock_account_input
-msgid ""
-"When doing real-time inventory valuation, counterpart journal items for all "
-"incoming stock moves will be posted in this account, unless there is a "
-"specific valuation account set on the source location. When not set on the "
-"product, the one from the product category is used."
-msgstr ""
-"Ao fazer avaliação de estoque em tempo real, itens de diário de "
-"contrapartida para toda movimento recebidas serão publicadas nesta conta, a "
-"menos que há um conta de avaliação específica no local de origem. Quando não "
-"definido no produto, o da categoria de produto é usado."
-
-#. module: hotel_restaurant
-#: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__property_stock_account_output
-msgid ""
-"When doing real-time inventory valuation, counterpart journal items for all "
-"outgoing stock moves will be posted in this account, unless there is a "
-"specific valuation account set on the destination location. When not set on "
-"the product, the one from the product category is used."
-msgstr ""
-"Ao fazer avaliação de estoque em tempo real, itens de diário da "
-"contrapartida para todos os movimentos de saída será lançado nesta conta, a "
-"menos que há uma conta específica de valorização sobre o local de destino. "
-"Quando não definido no produto, o da categoria de produto é usado."
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_folio_rest_reservation__check
@@ -2367,7 +2288,7 @@ msgid "With Details"
 msgstr "Com detalhes"
 
 #. module: hotel_restaurant
-#: code:addons/hotel_restaurant/models/hotel_restaurant.py:243
+#: code:addons/hotel_restaurant/models/hotel_restaurant.py:0
 #, python-format
 msgid ""
 "You tried to confirm reservation                                          "
@@ -2395,52 +2316,8 @@ msgstr "nova ficha do hotel"
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_reservation_order__is_folio
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_restaurant_order__is_folio
-msgid "is customer residein hotel or not"
-msgstr "o cliente reside no hotel ou não"
-
-#. module: hotel_restaurant
-#: model:hotel.menucard,weight_uom_name:hotel_restaurant.hotel_fooditem_0
-#: model:hotel.menucard,weight_uom_name:hotel_restaurant.hotel_fooditem_1
-#: model:hotel.menucard,weight_uom_name:hotel_restaurant.hotel_fooditem_10
-#: model:hotel.menucard,weight_uom_name:hotel_restaurant.hotel_fooditem_12
-#: model:hotel.menucard,weight_uom_name:hotel_restaurant.hotel_fooditem_13
-#: model:hotel.menucard,weight_uom_name:hotel_restaurant.hotel_fooditem_14
-#: model:hotel.menucard,weight_uom_name:hotel_restaurant.hotel_fooditem_15
-#: model:hotel.menucard,weight_uom_name:hotel_restaurant.hotel_fooditem_16
-#: model:hotel.menucard,weight_uom_name:hotel_restaurant.hotel_fooditem_17
-#: model:hotel.menucard,weight_uom_name:hotel_restaurant.hotel_fooditem_18
-#: model:hotel.menucard,weight_uom_name:hotel_restaurant.hotel_fooditem_19
-#: model:hotel.menucard,weight_uom_name:hotel_restaurant.hotel_fooditem_2
-#: model:hotel.menucard,weight_uom_name:hotel_restaurant.hotel_fooditem_20
-#: model:hotel.menucard,weight_uom_name:hotel_restaurant.hotel_fooditem_21
-#: model:hotel.menucard,weight_uom_name:hotel_restaurant.hotel_fooditem_22
-#: model:hotel.menucard,weight_uom_name:hotel_restaurant.hotel_fooditem_4
-#: model:hotel.menucard,weight_uom_name:hotel_restaurant.hotel_fooditem_5
-#: model:hotel.menucard,weight_uom_name:hotel_restaurant.hotel_fooditem_6
-#: model:hotel.menucard,weight_uom_name:hotel_restaurant.hotel_fooditem_7
-#: model:hotel.menucard,weight_uom_name:hotel_restaurant.hotel_fooditem_8
-#: model:product.product,weight_uom_name:hotel_restaurant.hotel_fooditem_0_product_product
-#: model:product.product,weight_uom_name:hotel_restaurant.hotel_fooditem_10_product_product
-#: model:product.product,weight_uom_name:hotel_restaurant.hotel_fooditem_12_product_product
-#: model:product.product,weight_uom_name:hotel_restaurant.hotel_fooditem_13_product_product
-#: model:product.product,weight_uom_name:hotel_restaurant.hotel_fooditem_14_product_product
-#: model:product.product,weight_uom_name:hotel_restaurant.hotel_fooditem_15_product_product
-#: model:product.product,weight_uom_name:hotel_restaurant.hotel_fooditem_16_product_product
-#: model:product.product,weight_uom_name:hotel_restaurant.hotel_fooditem_17_product_product
-#: model:product.product,weight_uom_name:hotel_restaurant.hotel_fooditem_18_product_product
-#: model:product.product,weight_uom_name:hotel_restaurant.hotel_fooditem_19_product_product
-#: model:product.product,weight_uom_name:hotel_restaurant.hotel_fooditem_1_product_product
-#: model:product.product,weight_uom_name:hotel_restaurant.hotel_fooditem_20_product_product
-#: model:product.product,weight_uom_name:hotel_restaurant.hotel_fooditem_21_product_product
-#: model:product.product,weight_uom_name:hotel_restaurant.hotel_fooditem_22_product_product
-#: model:product.product,weight_uom_name:hotel_restaurant.hotel_fooditem_2_product_product
-#: model:product.product,weight_uom_name:hotel_restaurant.hotel_fooditem_4_product_product
-#: model:product.product,weight_uom_name:hotel_restaurant.hotel_fooditem_5_product_product
-#: model:product.product,weight_uom_name:hotel_restaurant.hotel_fooditem_6_product_product
-#: model:product.product,weight_uom_name:hotel_restaurant.hotel_fooditem_7_product_product
-#: model:product.product,weight_uom_name:hotel_restaurant.hotel_fooditem_8_product_product
-msgid "kg"
-msgstr "Kg"
+msgid "is customer reside in hotel or not"
+msgstr ""
 
 #. module: hotel_restaurant
 #: model:ir.model,name:hotel_restaurant.model_report_hotel_restaurant_report_hotel_order_kot
@@ -2476,6 +2353,222 @@ msgstr "Nome do garçom"
 #: model:ir.model,name:hotel_restaurant.model_wizard_hotel_restaurant
 msgid "wizard.hotel.restaurant"
 msgstr "wizard.hotel.restaurant"
+
+#~ msgid "Cost Method"
+#~ msgstr "Método do custo"
+
+#~ msgid ""
+#~ "Cost used for stock valuation in standard price and as a first price to "
+#~ "set in average/fifo. Also used as a base price for pricelists. Expressed "
+#~ "in the default unit of measure of the product."
+#~ msgstr ""
+#~ "Custo usado para avaliação de estoque no preço padrão e como primeiro "
+#~ "preço a definir em média/quino. Também usado como preço base para listas "
+#~ "de preços. Expressa na unidade de medida padrão do produto."
+
+#~ msgid ""
+#~ "Depending on the modules installed, this will allow you to define the "
+#~ "route of the product: whether it will be bought, manufactured, MTO, etc."
+#~ msgstr ""
+#~ "Dependendo dos módulos instalados, isso permitirá definir a rota do "
+#~ "produto: se ele será comprado, fabricado, MTO etc."
+
+#~ msgid "Hide Expense Policy"
+#~ msgstr "Ocultar política de despesas"
+
+#~ msgid "If checked new messages require your attention."
+#~ msgstr "Se marcado, novas mensagens solicitarão sua atenção."
+
+#~ msgid ""
+#~ "Image of the product variant (Medium-sized image of product template if "
+#~ "false)."
+#~ msgstr ""
+#~ "Imagem da variante do produto (Imagem media do modelo de produto se for "
+#~ "falso)."
+
+#~ msgid ""
+#~ "Image of the product variant (Small-sized image of product template if "
+#~ "false)."
+#~ msgstr ""
+#~ "Imagem da variante do produto (Imagem pequena do modelo de produto se for "
+#~ "falso)."
+
+#~ msgid "Kitchen id"
+#~ msgstr "ID da cozinha"
+
+#~ msgid ""
+#~ "Manual: The accounting entries to value the inventory are not posted "
+#~ "automatically.\n"
+#~ "        Automated: An accounting entry is automatically created to value "
+#~ "the inventory when a product enters or leaves the company."
+#~ msgstr ""
+#~ "Manual: os lançamentos contábeis para avaliar o estoque não são lançados "
+#~ "automaticamente.\n"
+#~ "         Automatizado: uma entrada contábil é criada automaticamente para "
+#~ "avaliar o estoque quando um produto entra ou sai da empresa."
+
+#~ msgid "Medium-sized image"
+#~ msgstr "Imagem de tamanho Médio"
+
+#~ msgid "Number of error"
+#~ msgstr "Número de erro"
+
+#~ msgid "Optional Products"
+#~ msgstr "Produtos Opcionais"
+
+#~ msgid ""
+#~ "Optional Products are suggested whenever the customer hits *Add to Cart* "
+#~ "(cross-sell strategy, e.g. for computers: warranty, software, etc.)."
+#~ msgstr ""
+#~ "Os produtos opcionais são sugeridos sempre que o cliente clicar em * "
+#~ "Adicionar ao carrinho * (estratégia de venda cruzada, por exemplo, para "
+#~ "computadores: garantia, software etc.)."
+
+#~ msgid "Pricelist Item"
+#~ msgstr "Item da lista de preço"
+
+#~ msgid "Pricelist Items"
+#~ msgstr "Itens da lista de preço"
+
+#~ msgid "Quantity"
+#~ msgstr "Quantidade"
+
+#~ msgid "Re-Invoice Policy"
+#~ msgstr "Política de Refaturamento"
+
+#~ msgid "Sale Price"
+#~ msgstr "Preço de Venda"
+
+#~ msgid "Small-sized image"
+#~ msgstr "Imagem pequena"
+
+#~ msgid ""
+#~ "Standard Price: The products are valued at their standard cost defined on "
+#~ "the product.\n"
+#~ "        Average Cost (AVCO): The products are valued at weighted average "
+#~ "cost.\n"
+#~ "        First In First Out (FIFO): The products are valued supposing "
+#~ "those that enter the company first will also leave it first."
+#~ msgstr ""
+#~ "Preço padrão: os produtos são avaliados pelo custo padrão definido no "
+#~ "produto.\n"
+#~ "         Custo médio (AVCO): os produtos são avaliados pelo custo médio "
+#~ "ponderado.\n"
+#~ "         Primeiro a entrar, primeiro a sair (FIFO): Os produtos são "
+#~ "avaliados supondo que aqueles que entram primeiro na empresa também o "
+#~ "deixem em primeiro lugar."
+
+#~ msgid "Start Date Should be greater than the Folio Check-in Date!"
+#~ msgstr "Data de início Deve ser maior que a data do check-in do fólio!"
+
+#~ msgid "Start Date Should be less             than the End Date!"
+#~ msgstr "Data de início deve ser menor             que a data final!"
+
+#~ msgid "Stock Fifo Manual Move"
+#~ msgstr "Movimento manual do estoque Fifo"
+
+#~ msgid "Stock Fifo Real Time Aml"
+#~ msgstr "Estoque Fifo em tempo real Aml"
+
+#~ msgid "Stock Input Account"
+#~ msgstr "Conta de Entrada de Estoque"
+
+#~ msgid "Stock Output Account"
+#~ msgstr "Conta de Saída do Estoque"
+
+#~ msgid "Stock Value Currency"
+#~ msgstr "Moeda da valorização do estoque"
+
+#~ msgid "Table reservation detail. "
+#~ msgstr "Detalhe da reserva da mesa. "
+
+#~ msgid "Template Attribute Values"
+#~ msgstr "Valores de atributo do modelo"
+
+#~ msgid "The volume in m3."
+#~ msgstr "Volume em m3."
+
+#~ msgid ""
+#~ "This field holds the image used as image for the product variant, limited "
+#~ "to 1024x1024px."
+#~ msgstr ""
+#~ "Este campo contém a imagem usada para a variação do produto, limitada a "
+#~ "1024x1024px."
+
+#~ msgid ""
+#~ "This field holds the image used as image for the product, limited to "
+#~ "1024x1024px."
+#~ msgstr ""
+#~ "Este campo contém a imagem usada para o produto, limitada a 1024x1024px."
+
+#~ msgid "Unit(s)"
+#~ msgstr "Unidade(s)"
+
+#~ msgid "Valid Archived Variants"
+#~ msgstr "Variantes Válidas Arquivadas"
+
+#~ msgid "Valid Existing Variants"
+#~ msgstr "Variantes Válida Existente"
+
+#~ msgid "Valid Product Attribute Lines Without No Variant Attributes"
+#~ msgstr "Linhas de atributo de produto válidas sem atributos de variante"
+
+#~ msgid "Valid Product Attribute Values"
+#~ msgstr "Valores de atributo do produto válidas"
+
+#~ msgid "Valid Product Attribute Values Without No Variant Attributes"
+#~ msgstr "Valores válidos de atributos do produto sem atributos variantes"
+
+#~ msgid "Valid Product Attributes"
+#~ msgstr "Atributos de Produto Válido"
+
+#~ msgid "Valid Product Attributes Without No Variant Attributes"
+#~ msgstr "Atributos de produto válidos sem atributos de variante"
+
+#~ msgid "Valuation"
+#~ msgstr "Valorização"
+
+#~ msgid "Value"
+#~ msgstr "Valor"
+
+#~ msgid "Weight Unit of Measure"
+#~ msgstr "Unidade de medida de peso"
+
+#~ msgid ""
+#~ "Weight of the product, packaging not included. The unit of measure can be "
+#~ "changed in the general settings"
+#~ msgstr ""
+#~ "Peso do produto, embalagem não incluída. A unidade de medida pode ser "
+#~ "alterada nas configurações gerais"
+
+#~ msgid ""
+#~ "When doing real-time inventory valuation, counterpart journal items for "
+#~ "all incoming stock moves will be posted in this account, unless there is "
+#~ "a specific valuation account set on the source location. When not set on "
+#~ "the product, the one from the product category is used."
+#~ msgstr ""
+#~ "Ao fazer avaliação de estoque em tempo real, itens de diário de "
+#~ "contrapartida para toda movimento recebidas serão publicadas nesta conta, "
+#~ "a menos que há um conta de avaliação específica no local de origem. "
+#~ "Quando não definido no produto, o da categoria de produto é usado."
+
+#~ msgid ""
+#~ "When doing real-time inventory valuation, counterpart journal items for "
+#~ "all outgoing stock moves will be posted in this account, unless there is "
+#~ "a specific valuation account set on the destination location. When not "
+#~ "set on the product, the one from the product category is used."
+#~ msgstr ""
+#~ "Ao fazer avaliação de estoque em tempo real, itens de diário da "
+#~ "contrapartida para todos os movimentos de saída será lançado nesta conta, "
+#~ "a menos que há uma conta específica de valorização sobre o local de "
+#~ "destino. Quando não definido no produto, o da categoria de produto é "
+#~ "usado."
+
+#~ msgid "is customer residein hotel or not"
+#~ msgstr "o cliente reside no hotel ou não"
+
+#~ msgid "kg"
+#~ msgstr "Kg"
 
 #~ msgid "<strong>Customer Name : </strong>"
 #~ msgstr "<strong> Nome do cliente: </strong>"
