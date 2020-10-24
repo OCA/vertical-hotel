@@ -303,7 +303,7 @@ class HotelServiceLine(models.Model):
         return result
 
     @api.onchange("ser_checkin_date", "ser_checkout_date")
-    def on_change_checkout(self):
+    def _onchange_checkout_dates(self):
         """
         When you change checkin_date or checkout_date it will checked it
         and update the qty of hotel service line
