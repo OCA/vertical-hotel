@@ -46,7 +46,7 @@
         <field name="arch" type="xml">
             <graph string="States By Restaurant" type="pie">
                 <field name="state" />
-                <field name="nbr" operator="+" />
+                <field name="no_of_reservation_order" operator="+" />
             </graph>
         </field>
     </record>
@@ -58,7 +58,7 @@
         <field name="arch" type="xml">
             <graph string="States By Restaurant" type="bar" orientation="verticle">
                 <field name="state" />
-                <field name="nbr" operator="+" />
+                <field name="no_of_reservation_order" operator="+" />
             </graph>
         </field>
     </record>
