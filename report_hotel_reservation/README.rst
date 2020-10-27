@@ -51,7 +51,7 @@ Credits
 Authors
 ~~~~~~~
 
-* Serpent Consulting Services Pvt. Ltd.
+* Serpent Consulting                Services Pvt. Ltd.
 * Odoo S.A.
 
 Contributors
@@ -64,7 +64,7 @@ Contributors
 Maintainers
 ~~~~~~~~~~~
 
-This module is maintained by the Serpent Consulting Services Pvt. Ltd.
+This module is maintained by the OCA.
 
 .. image:: https://odoo-community.org/logo.png
    :alt: Odoo Community Association
