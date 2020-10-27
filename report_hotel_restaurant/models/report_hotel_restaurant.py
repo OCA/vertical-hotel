@@ -9,7 +9,9 @@ class ReportHotelRestaurantStatus(models.Model):
     _auto = False
 
     reservation_id = fields.Char("Reservation No", readonly=True)
-    nbr = fields.Integer("Reservatioorder_datan", readonly=True)
+    no_of_reservation_order = fields.Integer(
+        "Reservation Order No", readonly=True
+    )
     state = fields.Selection(
         [("draft", "Draft"), ("confirm", "Confirm"), ("done", "Done")],
         "State",
@@ -30,7 +32,7 @@ class ReportHotelRestaurantStatus(models.Model):
                     min(c.id) as id,
                     c.reservation_id,
                     c.state,
-                    count(*) as nbr
+                    count(*) as no_of_reservation_order
                 from
                     hotel_restaurant_reservation c
                 group by c.state,c.reservation_id
