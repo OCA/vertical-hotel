@@ -32,9 +32,9 @@
         <field name="model">report.hotel.restaurant.status</field>
         <field name="arch" type="xml">
         <search string="Hotel Restaurant Status">
-            <filter string="Draft" domain="[('state','=', 'draft')]" help="Rooms in draft state" />
-            <filter string="Confirm" domain="[('state','=', 'confirm')]" help="Rooms in confirm state" />
-            <filter string="done" domain="[('state','=', 'done')]" help="Rooms in done state" />
+            <filter name="Draft" string="Draft" domain="[('state','=', 'draft')]" help="Rooms in draft state" />
+            <filter name="Confirm" string="Confirm" domain="[('state','=', 'confirm')]" help="Rooms in confirm state" />
+            <filter name="done" string="Done" domain="[('state','=', 'done')]" help="Rooms in done state" />
         </search>
         </field>
     </record>
@@ -67,7 +67,7 @@
     <record id="action_report_hotel_restaurant_status_tree_graph" model="ir.actions.act_window">
         <field name="name">States By Restaurant</field>
         <field name="res_model">report.hotel.restaurant.status</field>
-        <field name="view_type">form</field>
+        <field name="binding_view_types">form</field>
         <field name="view_mode">graph,tree</field>
     </record>
 
@@ -75,7 +75,7 @@
     <record id="action_report_hotel_restaurant_board" model="ir.actions.act_window">
         <field name="name">States By Restaurants</field>
         <field name="res_model">report.hotel.restaurant.status</field>
-        <field name="view_type">form</field>
+        <field name="binding_view_types">form</field>
         <field name="view_mode">pivot,graph,tree</field>
         <field name="context">{'graph_view_ref':'report_hotel_restaurant.view_hotel_restaurant_status_graph_bar','tree_view_ref':'report_hotel_restaurant.view_hotel_restaurant_status_tree'}
         </field>
