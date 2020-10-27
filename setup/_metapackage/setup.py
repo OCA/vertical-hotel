@@ -12,6 +12,7 @@ setuptools.setup(
         'odoo13-addon-hotel_housekeeping',
         'odoo13-addon-hotel_reservation',
         'odoo13-addon-hotel_restaurant',
+        'odoo13-addon-report_hotel_reservation',
     ],
     classifiers=[
         'Programming Language :: Python',
