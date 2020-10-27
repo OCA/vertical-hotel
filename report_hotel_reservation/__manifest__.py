@@ -14,5 +14,4 @@
         "views/report_hotel_reservation_view.xml",
     ],
     "installable": True,
-    "auto_install": False,
 }
