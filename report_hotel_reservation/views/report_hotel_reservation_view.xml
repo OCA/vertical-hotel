@@ -51,7 +51,7 @@
         <field name="arch" type="xml">
             <graph string="States By Reservation" type="pie">
                 <field name="state"/>
-                <field name="nbr" operator="+"/>
+                <field name="no_of_reservation" operator="+"/>
             </graph>
         </field>
     </record>
@@ -64,7 +64,7 @@
             <graph string="States By Reservation" type="bar"
                    orientation="verticle">
                 <field name="state"/>
-                <field name="nbr" operator="+"/>
+                <field name="no_of_reservation" operator="+"/>
             </graph>
         </field>
     </record>
