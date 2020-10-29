@@ -420,13 +420,9 @@ msgstr "Auxiliar para obter o relatório de quartos"
 #, python-format
 msgid ""
 "Before choosing a room,\n"
-" You have to                                      select a Check in date or "
-"a Check out                                      date in the reservation "
+" You have to select a Check in date or a Check out  date in the reservation "
 "form."
 msgstr ""
-"Antes de escolher um quarto,  \n"
-"Você deve selecionar………………… uma data de check-in ou uma data………………………… de "
-"check-out no formulário de reserva."
 
 #. module: hotel_reservation
 #: model:ir.model.fields.selection,name:hotel_reservation.selection__hotel_reservation__state__cancel
@@ -465,22 +461,14 @@ msgstr "Data do check-out"
 #. module: hotel_reservation
 #: code:addons/hotel_reservation/models/hotel_reservation.py:0
 #, python-format
-msgid ""
-"Check-in date should be greater "
-"than                                          the current date."
+msgid "Check-in date should be greater than the current date."
 msgstr ""
-"A data de check-in deve ser posterior "
-"a                                          hoje."
 
 #. module: hotel_reservation
 #: code:addons/hotel_reservation/models/hotel_reservation.py:0
 #, python-format
-msgid ""
-"Check-out date should be greater                                          "
-"than Check-in date."
+msgid "Check-out date should be greater than Check-in date."
 msgstr ""
-"A data de check-out deve ser maior                                          "
-"data de check-in."
 
 #. module: hotel_reservation
 #: model:ir.actions.report,name:hotel_reservation.hotel_checkin_details
@@ -504,15 +492,6 @@ msgstr "Listagem do check-out"
 
 #. module: hotel_reservation
 #: code:addons/hotel_reservation/models/hotel_quick_reservation.py:0
-#, python-format
-msgid ""
-"Checkout date should be greater                                          "
-"than Checkin date."
-msgstr ""
-"A data de check-out deve ser maior                                          "
-"que a data de check-in."
-
-#. module: hotel_reservation
 #: code:addons/hotel_reservation/models/hotel_room.py:0
 #, python-format
 msgid "Checkout date should be greater than Checkin date."
@@ -1220,12 +1199,8 @@ msgstr "Contador de Mensagens Não Lidas"
 #: code:addons/hotel_reservation/models/hotel_room.py:0
 #, python-format
 msgid ""
-"User is not able to delete the                                             "
-"room after the room in %s state                                             "
-"in reservation"
+"User is not able to delete the room after the room in %s state in reservation"
 msgstr ""
-"O usuário não pode excluir o                                             "
-"quarto após o quarto em %s"
 
 #. module: hotel_reservation
 #: model:ir.model.fields,field_description:hotel_reservation.field_hotel_reservation__website_message_ids
@@ -1266,6 +1241,45 @@ msgstr "Estado"
 #: model_terms:ir.ui.view,arch_db:hotel_reservation.room_reservation_summary_form_view
 msgid "to"
 msgstr "até"
+
+#~ msgid ""
+#~ "Before choosing a room,\n"
+#~ " You have to                                      select a Check in date "
+#~ "or a Check out                                      date in the "
+#~ "reservation form."
+#~ msgstr ""
+#~ "Antes de escolher um quarto,  \n"
+#~ "Você deve selecionar………………… uma data de check-in ou uma data………………………… de "
+#~ "check-out no formulário de reserva."
+
+#~ msgid ""
+#~ "Check-in date should be greater "
+#~ "than                                          the current date."
+#~ msgstr ""
+#~ "A data de check-in deve ser posterior "
+#~ "a                                          hoje."
+
+#~ msgid ""
+#~ "Check-out date should be greater                                          "
+#~ "than Check-in date."
+#~ msgstr ""
+#~ "A data de check-out deve ser "
+#~ "maior                                          data de check-in."
+
+#~ msgid ""
+#~ "Checkout date should be greater                                          "
+#~ "than Checkin date."
+#~ msgstr ""
+#~ "A data de check-out deve ser "
+#~ "maior                                          que a data de check-in."
+
+#~ msgid ""
+#~ "User is not able to delete "
+#~ "the                                             room after the room in %s "
+#~ "state                                             in reservation"
+#~ msgstr ""
+#~ "O usuário não pode excluir o                                             "
+#~ "quarto após o quarto em %s"
 
 #, fuzzy
 #~| msgid ""
