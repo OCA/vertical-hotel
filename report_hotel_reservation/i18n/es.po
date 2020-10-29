@@ -19,8 +19,8 @@ msgstr ""
 "X-Generator: Launchpad (build 15185)\n"
 
 #. module: report_hotel_reservation
+#: model:ir.model.fields.selection,name:report_hotel_reservation.selection__report_hotel_reservation_status__state__confirm
 #: model_terms:ir.ui.view,arch_db:report_hotel_reservation.report_hotel_reservation_status_search
-#: selection:report.hotel.reservation.status,state:0
 msgid "Confirm"
 msgstr "Confirmar"
 
@@ -30,21 +30,20 @@ msgid "Display Name"
 msgstr ""
 
 #. module: report_hotel_reservation
+#: model:ir.model.fields.selection,name:report_hotel_reservation.selection__report_hotel_reservation_status__state__done
 #: model_terms:ir.ui.view,arch_db:report_hotel_reservation.report_hotel_reservation_status_search
-#: selection:report.hotel.reservation.status,state:0
 msgid "Done"
 msgstr "Realizado"
 
 #. module: report_hotel_reservation
+#: model:ir.model.fields.selection,name:report_hotel_reservation.selection__report_hotel_reservation_status__state__draft
 #: model_terms:ir.ui.view,arch_db:report_hotel_reservation.report_hotel_reservation_status_search
-#: selection:report.hotel.reservation.status,state:0
 msgid "Draft"
 msgstr "Reserva borrador"
 
 #. module: report_hotel_reservation
 #: model_terms:ir.ui.view,arch_db:report_hotel_reservation.report_hotel_reservation_status_search
 #, fuzzy
-#| msgid "Hotel Reservation Report"
 msgid "Hotel Reservation Status"
 msgstr "Informe de reserva de hotel"
 
@@ -64,14 +63,13 @@ msgid "Reports"
 msgstr ""
 
 #. module: report_hotel_reservation
-#: model:ir.model.fields,field_description:report_hotel_reservation.field_report_hotel_reservation_status__nbr
+#: model:ir.model.fields,field_description:report_hotel_reservation.field_report_hotel_reservation_status__no_of_reservation
 msgid "Reservation"
 msgstr "Reserva"
 
 #. module: report_hotel_reservation
 #: model:ir.model,name:report_hotel_reservation.model_report_hotel_reservation_status
 #, fuzzy
-#| msgid "Reservation Detail"
 msgid "Reservation By State"
 msgstr "Detalle de reserva"
 
@@ -109,7 +107,6 @@ msgstr "Estado"
 #: model_terms:ir.ui.view,arch_db:report_hotel_reservation.view_hotel_reservation_status_graph_bar
 #: model_terms:ir.ui.view,arch_db:report_hotel_reservation.view_hotel_reservation_status_tree
 #, fuzzy
-#| msgid " Reservation"
 msgid "States By Reservation"
 msgstr " Reserva"
 
