@@ -27,7 +27,7 @@ Hotel Reservation Management - Reporting
 
 This Module provides state-wise view for hotel reservation for better business intelligence.
 
-.. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/13.0/report_hotel_reservation/static/description/sbres.png
+.. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/10.0/report_hotel_reservation/static/description/sbres.png
    :width: 750px
 
 **Table of contents**
@@ -51,7 +51,7 @@ Credits
 Authors
 ~~~~~~~
 
-* Serpent Consulting Services Pvt. Ltd.
+* Serpent Consulting                Services Pvt. Ltd.
 * Odoo S.A.
 
 Contributors
