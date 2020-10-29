@@ -68,7 +68,7 @@ class HotelRestaurantReservation(models.Model):
             rec.write(
                 {
                     "customer_id": rec.folio_id.partner_id.id,
-                    "room_id": rec.folio_id.room_lines[0].product_id.id,
+                    "room_id": rec.folio_id.room_line_ids[0].product_id.id,
                 }
             )
 
@@ -113,17 +113,14 @@ class HotelRestaurantReservation(models.Model):
             roomcount = res and res[0] or 0.0
             if not reservation.table_nos_ids:
                 raise ValidationError(
-                    _(
-                        "Please Select Tables For \
-                                         Reservation"
-                    )
+                    _("Please Select Tables For Reservation")
                 )
             if roomcount:
                 raise ValidationError(
                     _(
-                        "You tried to confirm reservation \
-                                         with table those already reserved \
-                                         in this reservation period"
+                        """You tried to confirm reservation """
+                        """with table those already reserved """
+                        """in this reservation period"""
                     )
                 )
             reservation.state = "confirm"
@@ -206,12 +203,12 @@ class HotelRestaurantReservation(models.Model):
                 _("Start Date Should be less than the End Date!")
             )
         if self.is_folio:
-            for line in self.folio_id.room_lines:
+            for line in self.folio_id.room_line_ids:
                 if self.start_date < line.checkin_date:
                     raise ValidationError(
                         _(
-                            "Start Date Should be greater \
-                            than the Folio Check-in Date!"
+                            """Start Date Should be greater """
+                            """than the Folio Check-in Date!"""
                         )
                     )
                 if self.end_date > line.checkout_date:
@@ -266,26 +263,12 @@ class HotelRestaurantOrder(models.Model):
             sale.amount_subtotal = sum(
                 line.price_subtotal for line in sale.order_list_ids
             )
+            sale.amount_total = 0.0
             if sale.amount_subtotal:
                 sale.amount_total = (
                     sale.amount_subtotal
                     + (sale.amount_subtotal * sale.tax) / 100
                 )
-
-    @api.onchange("folio_id")
-    def _onchange_folio_id(self):
-        """
-        When you change folio_id, based on that it will update
-        the customer_id and room_number as well
-        ---------------------------------------------------------
-        @param self: object pointer
-        """
-        self.update(
-            {
-                "customer_id": self.folio_id.partner_id.id,
-                "room_id": self.folio_id.room_lines[0].product_id.id,
-            }
-        )
 
     def done_cancel(self):
         """
@@ -410,6 +393,22 @@ class HotelRestaurantOrder(models.Model):
         rest_order = seq_obj.next_by_code("hotel.restaurant.order") or "New"
         vals["order_no"] = rest_order
         return super(HotelRestaurantOrder, self).create(vals)
+
+    @api.onchange("folio_id")
+    def _onchange_folio_id(self):
+        """
+        When you change folio_id, based on that it will update
+        the customer_id and room_number as well
+        ---------------------------------------------------------
+        @param self: object pointer
+        """
+        if self.folio_id:
+            self.update(
+                {
+                    "customer_id": self.folio_id.partner_id.id,
+                    "room_id": self.folio_id.room_line_ids[0].product_id.id,
+                }
+            )
 
     def generate_kot_update(self):
         """
