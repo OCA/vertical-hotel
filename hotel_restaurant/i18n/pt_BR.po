@@ -1456,9 +1456,8 @@ msgstr "Nomeie um pedido"
 #. module: hotel_restaurant
 #: code:addons/hotel_restaurant/models/hotel_restaurant.py:0
 #, python-format
-msgid ""
-"Please Select Tables For                                          Reservation"
-msgstr "Selecione mesas para                                          Reserva"
+msgid "Please Select Tables For Reservation"
+msgstr ""
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__pos_categ_id
@@ -1848,10 +1847,8 @@ msgstr "Data de Início"
 #. module: hotel_restaurant
 #: code:addons/hotel_restaurant/models/hotel_restaurant.py:0
 #, python-format
-msgid ""
-"Start Date Should be greater                             than the Folio "
-"Check-in Date!"
-msgstr ""
+msgid "Start Date Should be greater than the Folio Check-in Date!"
+msgstr "Data de início Deve ser maior que a data do check-in do fólio!"
 
 #. module: hotel_restaurant
 #: code:addons/hotel_restaurant/models/hotel_restaurant.py:0
@@ -2291,12 +2288,9 @@ msgstr "Com detalhes"
 #: code:addons/hotel_restaurant/models/hotel_restaurant.py:0
 #, python-format
 msgid ""
-"You tried to confirm reservation                                          "
-"with table those already reserved                                          "
-"in this reservation period"
+"You tried to confirm reservation with table those already reserved in this "
+"reservation period"
 msgstr ""
-"Você tentou confirmar a reserva                                          com "
-"mesa já reservada                                          neste período"
 
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_order_search
@@ -2353,6 +2347,22 @@ msgstr "Nome do garçom"
 #: model:ir.model,name:hotel_restaurant.model_wizard_hotel_restaurant
 msgid "wizard.hotel.restaurant"
 msgstr "wizard.hotel.restaurant"
+
+#~ msgid ""
+#~ "Please Select Tables For                                          "
+#~ "Reservation"
+#~ msgstr ""
+#~ "Selecione mesas para                                          Reserva"
+
+#~ msgid ""
+#~ "You tried to confirm reservation                                          "
+#~ "with table those already "
+#~ "reserved                                          in this reservation "
+#~ "period"
+#~ msgstr ""
+#~ "Você tentou confirmar a reserva                                          "
+#~ "com mesa já reservada                                          neste "
+#~ "período"
 
 #~ msgid "Cost Method"
 #~ msgstr "Método do custo"
@@ -2457,9 +2467,6 @@ msgstr "wizard.hotel.restaurant"
 #~ "         Primeiro a entrar, primeiro a sair (FIFO): Os produtos são "
 #~ "avaliados supondo que aqueles que entram primeiro na empresa também o "
 #~ "deixem em primeiro lugar."
-
-#~ msgid "Start Date Should be greater than the Folio Check-in Date!"
-#~ msgstr "Data de início Deve ser maior que a data do check-in do fólio!"
 
 #~ msgid "Start Date Should be less             than the End Date!"
 #~ msgstr "Data de início deve ser menor             que a data final!"
