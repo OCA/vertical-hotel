@@ -214,8 +214,8 @@ class HotelFolio(models.Model):
                 if record:
                     raise ValidationError(
                         _(
-                            """Room Duplicate Exceeded!,
-                        You Cannot Take Same %s Room Twice!"""
+                            """Room Duplicate Exceeded!, """
+                            """You Cannot Take Same %s Room Twice!"""
                         )
                         % (room_no.name)
                     )
@@ -487,16 +487,16 @@ class HotelFolioLine(models.Model):
         if self.checkin_date >= self.checkout_date:
             raise ValidationError(
                 _(
-                    """Room line Check In Date Should be
-                less than the Check Out Date!"""
+                    """Room line Check In Date Should be """
+                    """less than the Check Out Date!"""
                 )
             )
         if self.folio_id.date_order and self.checkin_date:
             if self.checkin_date.date() < self.folio_id.date_order.date():
                 raise ValidationError(
                     _(
-                        """Room line check in date should be
-                greater than the current date."""
+                        """Room line check in date should be """
+                        """greater than the current date."""
                     )
                 )
 
