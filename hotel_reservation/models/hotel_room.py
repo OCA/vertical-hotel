@@ -35,9 +35,9 @@ class HotelRoom(models.Model):
                 if reserv_line.status == "confirm":
                     raise ValidationError(
                         _(
-                            "User is not able to delete the \
-                                            room after the room in %s state \
-                                            in reservation"
+                            """User is not able to delete the """
+                            """room after the room in %s state """
+                            """in reservation"""
                         )
                         % (reserv_line.status)
                     )
