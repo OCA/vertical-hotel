@@ -423,8 +423,7 @@ msgstr ""
 #, python-format
 msgid ""
 "Before choosing a room,\n"
-" You have to                                      select a Check in date or "
-"a Check out                                      date in the reservation "
+" You have to select a Check in date or a Check out  date in the reservation "
 "form."
 msgstr ""
 
@@ -470,17 +469,13 @@ msgstr "Depart"
 #. module: hotel_reservation
 #: code:addons/hotel_reservation/models/hotel_reservation.py:0
 #, python-format
-msgid ""
-"Check-in date should be greater "
-"than                                          the current date."
+msgid "Check-in date should be greater than the current date."
 msgstr ""
 
 #. module: hotel_reservation
 #: code:addons/hotel_reservation/models/hotel_reservation.py:0
 #, python-format
-msgid ""
-"Check-out date should be greater                                          "
-"than Check-in date."
+msgid "Check-out date should be greater than Check-in date."
 msgstr ""
 
 #. module: hotel_reservation
@@ -506,13 +501,6 @@ msgstr "Liste departs"
 
 #. module: hotel_reservation
 #: code:addons/hotel_reservation/models/hotel_quick_reservation.py:0
-#, python-format
-msgid ""
-"Checkout date should be greater                                          "
-"than Checkin date."
-msgstr ""
-
-#. module: hotel_reservation
 #: code:addons/hotel_reservation/models/hotel_room.py:0
 #, python-format
 msgid "Checkout date should be greater than Checkin date."
@@ -1250,9 +1238,7 @@ msgstr ""
 #: code:addons/hotel_reservation/models/hotel_room.py:0
 #, python-format
 msgid ""
-"User is not able to delete the                                             "
-"room after the room in %s state                                             "
-"in reservation"
+"User is not able to delete the room after the room in %s state in reservation"
 msgstr ""
 
 #. module: hotel_reservation
