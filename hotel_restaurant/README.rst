@@ -33,27 +33,27 @@ You can manage:
 
 * **Table Reservation**
 
-.. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/13.0/hotel_restaurant/static/description/res2.png
+.. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/11.0/hotel_restaurant/static/description/res2.png
    :width: 750px
 
 * **Manage Food Orders**
 
-.. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/13.0/hotel_restaurant/static/description/res3.png
+.. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/11.0/hotel_restaurant/static/description/res3.png
    :width: 750px
 
 * **Manage Kitchen Order ticket**
 
-.. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/13.0/hotel_restaurant/static/description/res4.png
+.. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/11.0/hotel_restaurant/static/description/res4.png
    :width: 750px
 
 * **Quick Table Reservation Facility With Its Food Order**
 
-.. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/13.0/hotel_restaurant/static/description/res5.png
+.. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/11.0/hotel_restaurant/static/description/res5.png
    :width: 750px
 
 * **Order's History In Hotel Folio**
 
-.. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/13.0/hotel_restaurant/static/description/res6.png
+.. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/11.0/hotel_restaurant/static/description/res6.png
    :width: 750px
 
 * Payment
