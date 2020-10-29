@@ -1409,8 +1409,7 @@ msgstr ""
 #. module: hotel_restaurant
 #: code:addons/hotel_restaurant/models/hotel_restaurant.py:0
 #, python-format
-msgid ""
-"Please Select Tables For                                          Reservation"
+msgid "Please Select Tables For Reservation"
 msgstr ""
 
 #. module: hotel_restaurant
@@ -1784,9 +1783,7 @@ msgstr ""
 #. module: hotel_restaurant
 #: code:addons/hotel_restaurant/models/hotel_restaurant.py:0
 #, python-format
-msgid ""
-"Start Date Should be greater                             than the Folio "
-"Check-in Date!"
+msgid "Start Date Should be greater than the Folio Check-in Date!"
 msgstr ""
 
 #. module: hotel_restaurant
@@ -2213,9 +2210,8 @@ msgstr ""
 #: code:addons/hotel_restaurant/models/hotel_restaurant.py:0
 #, python-format
 msgid ""
-"You tried to confirm reservation                                          "
-"with table those already reserved                                          "
-"in this reservation period"
+"You tried to confirm reservation with table those already reserved in this "
+"reservation period"
 msgstr ""
 
 #. module: hotel_restaurant
