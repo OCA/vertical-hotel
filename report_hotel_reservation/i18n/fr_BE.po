@@ -17,8 +17,8 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: report_hotel_reservation
+#: model:ir.model.fields.selection,name:report_hotel_reservation.selection__report_hotel_reservation_status__state__confirm
 #: model_terms:ir.ui.view,arch_db:report_hotel_reservation.report_hotel_reservation_status_search
-#: selection:report.hotel.reservation.status,state:0
 msgid "Confirm"
 msgstr ""
 
@@ -28,14 +28,14 @@ msgid "Display Name"
 msgstr ""
 
 #. module: report_hotel_reservation
+#: model:ir.model.fields.selection,name:report_hotel_reservation.selection__report_hotel_reservation_status__state__done
 #: model_terms:ir.ui.view,arch_db:report_hotel_reservation.report_hotel_reservation_status_search
-#: selection:report.hotel.reservation.status,state:0
 msgid "Done"
 msgstr ""
 
 #. module: report_hotel_reservation
+#: model:ir.model.fields.selection,name:report_hotel_reservation.selection__report_hotel_reservation_status__state__draft
 #: model_terms:ir.ui.view,arch_db:report_hotel_reservation.report_hotel_reservation_status_search
-#: selection:report.hotel.reservation.status,state:0
 msgid "Draft"
 msgstr ""
 
@@ -60,7 +60,7 @@ msgid "Reports"
 msgstr ""
 
 #. module: report_hotel_reservation
-#: model:ir.model.fields,field_description:report_hotel_reservation.field_report_hotel_reservation_status__nbr
+#: model:ir.model.fields,field_description:report_hotel_reservation.field_report_hotel_reservation_status__no_of_reservation
 msgid "Reservation"
 msgstr ""
 
