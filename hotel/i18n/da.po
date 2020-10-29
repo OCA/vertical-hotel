@@ -2528,9 +2528,7 @@ msgstr ""
 #. module: hotel
 #: code:addons/hotel/models/hotel_folio.py:0
 #, python-format
-msgid ""
-"Room Duplicate Exceeded!,\n"
-"                        You Cannot Take Same %s Room Twice!"
+msgid "Room Duplicate Exceeded!, You Cannot Take Same %s Room Twice!"
 msgstr ""
 
 #. module: hotel
@@ -2599,17 +2597,13 @@ msgstr "Facilitets linie"
 #. module: hotel
 #: code:addons/hotel/models/hotel_folio.py:0
 #, python-format
-msgid ""
-"Room line Check In Date Should be\n"
-"                less than the Check Out Date!"
+msgid "Room line Check In Date Should be less than the Check Out Date!"
 msgstr ""
 
 #. module: hotel
 #: code:addons/hotel/models/hotel_folio.py:0
 #, python-format
-msgid ""
-"Room line check in date should be\n"
-"                greater than the current date."
+msgid "Room line check in date should be greater than the current date."
 msgstr ""
 
 #. module: hotel
