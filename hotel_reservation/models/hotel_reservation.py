@@ -187,15 +187,15 @@ class HotelReservation(models.Model):
             if self.checkin < self.date_order:
                 raise ValidationError(
                     _(
-                        "Check-in date should be greater than \
-                                         the current date."
+                        """Check-in date should be greater than """
+                        """the current date."""
                     )
                 )
             if self.checkout < self.checkin:
                 raise ValidationError(
                     _(
-                        "Check-out date should be greater \
-                                         than Check-in date."
+                        """Check-out date should be greater """
+                        """than Check-in date."""
                     )
                 )
 
@@ -547,9 +547,9 @@ class HotelReservationLine(models.Model):
         if not self.line_id.checkin:
             raise ValidationError(
                 _(
-                    "Before choosing a room,\n You have to \
-                                     select a Check in date or a Check out \
-                                     date in the reservation form."
+                    """Before choosing a room,\n You have to """
+                    """select a Check in date or a Check out """
+                    """ date in the reservation form."""
                 )
             )
         hotel_room_ids = self.env["hotel.room"].search(
