@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: openobject-addons\n"
-"Report-Msgid-Bugs-To: support@openerp.com\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-26 11:13:31+0000\n"
 "PO-Revision-Date: 2011-02-15 18:06+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
@@ -19,59 +19,42 @@ msgstr ""
 "X-Generator: Launchpad (build 15213)\n"
 
 #. module: report_hotel_restaurant
-#: constraint:ir.ui.view:0
-msgid "Invalid XML for View Architecture!"
-msgstr "¡XML inválido para la arquitectura de la vista!"
-
-#. module: report_hotel_restaurant
-#: model:ir.module.module,description:report_hotel_restaurant.module_meta_information
-msgid ""
-"\n"
-"    Module shows the status of resturant reservation\n"
-"     * Current status of reserved tables\n"
-"     * List status of tables as draft or done state\n"
-"    "
-msgstr ""
-"\n"
-"    Módulo que muestra la condición de reserva del restaurante\n"
-"     * La situación actual de mesas reservadas\n"
-"     * Lista de la situación de las mesas como pendiente o realizado\n"
-"    "
-
-#. module: report_hotel_restaurant
-#: constraint:ir.model:0
-msgid ""
-"The Object name must start with x_ and not contain any special character !"
-msgstr ""
-"¡El nombre del objeto debe comenzar por x_ y no contener ningún caracter "
-"especial!"
-
-#. module: report_hotel_restaurant
-#: field:report.hotel.restaurant.status,reservation_id:0
-msgid "Reservation No"
-msgstr "Número de reserva"
-
-#. module: report_hotel_restaurant
-#: selection:report.hotel.restaurant.status,state:0
+#: model:ir.model.fields.selection,name:report_hotel_restaurant.selection__report_hotel_restaurant_status__state__confirm
+#: model_terms:ir.ui.view,arch_db:report_hotel_restaurant.report_hotel_restaurant_status_search
 msgid "Confirm"
 msgstr "Confirmar"
 
 #. module: report_hotel_restaurant
-#: model:ir.module.module,shortdesc:report_hotel_restaurant.module_meta_information
-msgid "Restaurant Management - Reporting"
-msgstr "Gestión del restaurante - Presentación de informes"
+#: model:ir.model.fields,field_description:report_hotel_restaurant.field_report_hotel_restaurant_status__display_name
+msgid "Display Name"
+msgstr ""
 
 #. module: report_hotel_restaurant
-#: field:report.hotel.restaurant.status,state:0
-msgid "State"
-msgstr "Estado"
+#: model:ir.model.fields.selection,name:report_hotel_restaurant.selection__report_hotel_restaurant_status__state__done
+#: model_terms:ir.ui.view,arch_db:report_hotel_restaurant.report_hotel_restaurant_status_search
+msgid "Done"
+msgstr "Realizado"
 
 #. module: report_hotel_restaurant
-#: model:ir.actions.act_window,name:report_hotel_restaurant.action_report_hotel_restaurant_status_tree_graph
-#: model:ir.actions.act_window,name:report_hotel_restaurant.action_report_hotel_restaurant_status_tree_graph_bar
-#: model:ir.ui.menu,name:report_hotel_restaurant.menu_hotel_restaurant_status_tree_graph_bar
-msgid "States By Restaurant"
-msgstr "Estados por restaurante"
+#: model:ir.model.fields.selection,name:report_hotel_restaurant.selection__report_hotel_restaurant_status__state__draft
+#: model_terms:ir.ui.view,arch_db:report_hotel_restaurant.report_hotel_restaurant_status_search
+msgid "Draft"
+msgstr "Reserva borrador"
+
+#. module: report_hotel_restaurant
+#: model_terms:ir.ui.view,arch_db:report_hotel_restaurant.report_hotel_restaurant_status_search
+msgid "Hotel Restaurant Status"
+msgstr ""
+
+#. module: report_hotel_restaurant
+#: model:ir.model.fields,field_description:report_hotel_restaurant.field_report_hotel_restaurant_status__id
+msgid "ID"
+msgstr ""
+
+#. module: report_hotel_restaurant
+#: model:ir.model.fields,field_description:report_hotel_restaurant.field_report_hotel_restaurant_status____last_update
+msgid "Last Modified on"
+msgstr ""
 
 #. module: report_hotel_restaurant
 #: model:ir.model,name:report_hotel_restaurant.model_report_hotel_restaurant_status
@@ -79,31 +62,83 @@ msgid "Reservation By State"
 msgstr "Reserva por estado"
 
 #. module: report_hotel_restaurant
-#: selection:report.hotel.restaurant.status,state:0
-msgid "Draft"
-msgstr "Reserva borrador"
+#: model:ir.model.fields,field_description:report_hotel_restaurant.field_report_hotel_restaurant_status__reservation_id
+msgid "Reservation No"
+msgstr "Número de reserva"
 
 #. module: report_hotel_restaurant
-#: view:report.hotel.restaurant.status:0
-msgid "States By restaurant"
+#: model:ir.model.fields,field_description:report_hotel_restaurant.field_report_hotel_restaurant_status__no_of_reservation_order
+msgid "Reservation Order No"
+msgstr ""
+
+#. module: report_hotel_restaurant
+#: model_terms:ir.ui.view,arch_db:report_hotel_restaurant.report_hotel_restaurant_status_search
+msgid "Rooms in confirm state"
+msgstr ""
+
+#. module: report_hotel_restaurant
+#: model_terms:ir.ui.view,arch_db:report_hotel_restaurant.report_hotel_restaurant_status_search
+msgid "Rooms in done state"
+msgstr ""
+
+#. module: report_hotel_restaurant
+#: model_terms:ir.ui.view,arch_db:report_hotel_restaurant.report_hotel_restaurant_status_search
+msgid "Rooms in draft state"
+msgstr ""
+
+#. module: report_hotel_restaurant
+#: model:ir.model.fields,field_description:report_hotel_restaurant.field_report_hotel_restaurant_status__state
+msgid "State"
+msgstr "Estado"
+
+#. module: report_hotel_restaurant
+#: model:ir.actions.act_window,name:report_hotel_restaurant.action_report_hotel_restaurant_status_tree_graph
+#: model:ir.ui.menu,name:report_hotel_restaurant.menu_action_report_hotel_restaurant_board
+#: model_terms:ir.ui.view,arch_db:report_hotel_restaurant.view_hotel_restaurant_status_form
+#: model_terms:ir.ui.view,arch_db:report_hotel_restaurant.view_hotel_restaurant_status_graph
+#: model_terms:ir.ui.view,arch_db:report_hotel_restaurant.view_hotel_restaurant_status_graph_bar
+#: model_terms:ir.ui.view,arch_db:report_hotel_restaurant.view_hotel_restaurant_status_tree
+msgid "States By Restaurant"
 msgstr "Estados por restaurante"
 
 #. module: report_hotel_restaurant
-#: constraint:ir.actions.act_window:0
-msgid "Invalid model name in the action definition."
-msgstr "Nombre de modelo inválido en la definición de acción"
+#: model:ir.actions.act_window,name:report_hotel_restaurant.action_report_hotel_restaurant_board
+msgid "States By Restaurants"
+msgstr ""
 
-#. module: report_hotel_restaurant
-#: field:report.hotel.restaurant.status,nbr:0
-msgid "Reservation"
-msgstr "Reserva"
+#~ msgid "Invalid XML for View Architecture!"
+#~ msgstr "¡XML inválido para la arquitectura de la vista!"
 
-#. module: report_hotel_restaurant
-#: selection:report.hotel.restaurant.status,state:0
-msgid "Done"
-msgstr "Realizado"
+#~ msgid ""
+#~ "\n"
+#~ "    Module shows the status of resturant reservation\n"
+#~ "     * Current status of reserved tables\n"
+#~ "     * List status of tables as draft or done state\n"
+#~ "    "
+#~ msgstr ""
+#~ "\n"
+#~ "    Módulo que muestra la condición de reserva del restaurante\n"
+#~ "     * La situación actual de mesas reservadas\n"
+#~ "     * Lista de la situación de las mesas como pendiente o realizado\n"
+#~ "    "
 
-#. module: report_hotel_restaurant
-#: model:ir.ui.menu,name:report_hotel_restaurant.menu_hotel_restaurant_this_month
-msgid "This Month"
-msgstr "Este mes"
+#~ msgid ""
+#~ "The Object name must start with x_ and not contain any special character !"
+#~ msgstr ""
+#~ "¡El nombre del objeto debe comenzar por x_ y no contener ningún caracter "
+#~ "especial!"
+
+#~ msgid "Restaurant Management - Reporting"
+#~ msgstr "Gestión del restaurante - Presentación de informes"
+
+#~ msgid "States By restaurant"
+#~ msgstr "Estados por restaurante"
+
+#~ msgid "Invalid model name in the action definition."
+#~ msgstr "Nombre de modelo inválido en la definición de acción"
+
+#~ msgid "Reservation"
+#~ msgstr "Reserva"
+
+#~ msgid "This Month"
+#~ msgstr "Este mes"
