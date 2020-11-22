@@ -338,14 +338,12 @@ msgstr ""
 #. module: hotel_reservation
 #: model_terms:ir.ui.view,arch_db:hotel_reservation.report_checkin_qweb
 #, fuzzy
-#| msgid "Check Out Date"
 msgid "<u>Check-In Guest List</u>"
 msgstr "Check Out Date"
 
 #. module: hotel_reservation
 #: model_terms:ir.ui.view,arch_db:hotel_reservation.report_checkout_qweb
 #, fuzzy
-#| msgid "Check Out Date"
 msgid "<u>Check-Out Guest List</u>"
 msgstr "Check Out Date"
 
@@ -357,7 +355,6 @@ msgstr ""
 #. module: hotel_reservation
 #: model_terms:ir.ui.view,arch_db:hotel_reservation.report_roomres_qweb
 #, fuzzy
-#| msgid "Reservations"
 msgid "<u>Reservation List</u>"
 msgstr "Reservations"
 
@@ -436,7 +433,6 @@ msgstr ""
 #. module: hotel_reservation
 #: model_terms:ir.ui.view,arch_db:hotel_reservation.view_hotel_reservation_form
 #, fuzzy
-#| msgid "Quick Reservation"
 msgid "Cancel Reservation"
 msgstr "Quick Reservation"
 
@@ -479,7 +475,6 @@ msgstr ""
 #. module: hotel_reservation
 #: model:ir.actions.report,name:hotel_reservation.hotel_checkin_details
 #, fuzzy
-#| msgid "Check In Date"
 msgid "CheckIn Detail"
 msgstr "Check In Date"
 
@@ -562,7 +557,6 @@ msgstr ""
 #. module: hotel_reservation
 #: model_terms:ir.ui.view,arch_db:hotel_reservation.view_hotel_reservation_search
 #, fuzzy
-#| msgid "Reservations"
 msgid "Current Reservations"
 msgstr "Reservations"
 
@@ -595,7 +589,6 @@ msgstr "Delivery Address"
 #. module: hotel_reservation
 #: model:ir.model.fields,help:hotel_reservation.field_hotel_reservation__partner_shipping_id
 #, fuzzy
-#| msgid "Delivery address for current reservation. "
 msgid "Delivery addressfor current reservation. "
 msgstr "Delivery address for current reservation. "
 
@@ -669,7 +662,6 @@ msgstr ""
 #. module: hotel_reservation
 #: model_terms:ir.ui.view,arch_db:hotel_reservation.view_hotel_reservation_search
 #, fuzzy
-#| msgid "Group By..."
 msgid "Group By"
 msgstr "Group By..."
 
@@ -698,14 +690,12 @@ msgstr "Hotel"
 #. module: hotel_reservation
 #: model:mail.template,subject:hotel_reservation.email_template_hotel_reservation
 #, fuzzy
-#| msgid "Hotel room reservation details. "
 msgid "Hotel Reservation Detail"
 msgstr "Hotel room reservation details. "
 
 #. module: hotel_reservation
 #: model:mail.template,subject:hotel_reservation.mail_template_reservation_reminder_24hrs
 #, fuzzy
-#| msgid "Room Reservation Line"
 msgid "Hotel Reservation Reminder"
 msgstr "Room Reservation Line"
 
@@ -718,7 +708,6 @@ msgstr ""
 #. module: hotel_reservation
 #: model:ir.model,name:hotel_reservation.model_hotel_room
 #, fuzzy
-#| msgid "Hotel"
 msgid "Hotel Room"
 msgstr "Hotel"
 
@@ -730,7 +719,6 @@ msgstr "Hotel Room Reservation"
 #. module: hotel_reservation
 #: model:ir.model.fields,help:hotel_reservation.field_hotel_reservation__reservation_line
 #, fuzzy
-#| msgid "Hotel room reservation details. "
 msgid "Hotel room reservation details."
 msgstr "Hotel room reservation details. "
 
@@ -782,7 +770,6 @@ msgstr ""
 #. module: hotel_reservation
 #: model:ir.model.fields,help:hotel_reservation.field_hotel_reservation__partner_invoice_id
 #, fuzzy
-#| msgid "Invoice address for current reservation. "
 msgid "Invoice address for current reservation."
 msgstr "Invoice address for current reservation. "
 
@@ -851,7 +838,6 @@ msgstr ""
 #. module: hotel_reservation
 #: model:ir.actions.report,name:hotel_reservation.hotel_maxroom_details
 #, fuzzy
-#| msgid "Room Detail"
 msgid "MaxRoom Detail"
 msgstr "Room Detail"
 
@@ -883,7 +869,6 @@ msgstr ""
 #. module: hotel_reservation
 #: model:ir.model.fields,help:hotel_reservation.field_hotel_reservation__children
 #, fuzzy
-#| msgid "Number of children there in guest list. "
 msgid "Number of children there in guest list."
 msgstr "Number of children there in guest list. "
 
@@ -921,7 +906,6 @@ msgstr ""
 #. module: hotel_reservation
 #: code:addons/hotel_reservation/models/hotel_reservation.py:874
 #, fuzzy, python-format
-#| msgid "Hotel Room Reservation"
 msgid "Please Check Rooms Status for %s."
 msgstr "Hotel Room Reservation"
 
@@ -936,14 +920,12 @@ msgstr ""
 #. module: hotel_reservation
 #: code:addons/hotel_reservation/models/hotel_reservation.py:287
 #, fuzzy, python-format
-#| msgid "Hotel Room Reservation"
 msgid "Please Select Rooms For Reservation."
 msgstr "Hotel Room Reservation"
 
 #. module: hotel_reservation
 #: model:ir.model.fields,help:hotel_reservation.field_hotel_reservation__pricelist_id
 #, fuzzy
-#| msgid "Pricelist for current reservation. "
 msgid "Pricelist for current reservation."
 msgstr "Pricelist for current reservation. "
 
@@ -955,7 +937,6 @@ msgstr "Quick Reservation"
 #. module: hotel_reservation
 #: model:ir.model,name:hotel_reservation.model_quick_room_reservation
 #, fuzzy
-#| msgid "Quick Reservation"
 msgid "Quick Room Reservation"
 msgstr "Quick Reservation"
 
@@ -1015,7 +996,6 @@ msgstr "Reservations"
 #. module: hotel_reservation
 #: model:ir.model.fields,field_description:hotel_reservation.field_hotel_reservation_line__reserve
 #, fuzzy
-#| msgid "Reservations"
 msgid "Reserve"
 msgstr "Reservations"
 
@@ -1029,7 +1009,6 @@ msgstr "Room"
 #: model:ir.cron,cron_name:hotel_reservation.room_analytic_cron
 #: model:ir.cron,name:hotel_reservation.room_analytic_cron
 #, fuzzy
-#| msgid " Room line"
 msgid "Room Analysis"
 msgstr " Room line"
 
@@ -1054,7 +1033,6 @@ msgstr "Room Reservation"
 #. module: hotel_reservation
 #: model:ir.actions.report,name:hotel_reservation.hotel_roomres_details
 #, fuzzy
-#| msgid "Room Reservation"
 msgid "Room Reservation Detail"
 msgstr "Room Reservation"
 
@@ -1071,7 +1049,6 @@ msgstr "Room Reservation Summary"
 #. module: hotel_reservation
 #: model:ir.model.fields,field_description:hotel_reservation.field_hotel_room__room_reservation_line_ids
 #, fuzzy
-#| msgid "Room Reservation Line"
 msgid "Room Reserve Line"
 msgstr "Room Reservation Line"
 
@@ -1105,14 +1082,12 @@ msgstr "Room id"
 #. module: hotel_reservation
 #: model_terms:ir.ui.view,arch_db:hotel_reservation.view_hotel_room_form_inherited
 #, fuzzy
-#| msgid " Room line"
 msgid "Room line"
 msgstr " Room line"
 
 #. module: hotel_reservation
 #: model:ir.model,name:hotel_reservation.model_room_reservation_summary
 #, fuzzy
-#| msgid "Room Reservation Summary"
 msgid "Room reservation summary"
 msgstr "Room Reservation Summary"
 
@@ -1139,7 +1114,6 @@ msgstr "Select Room"
 #. module: hotel_reservation
 #: model_terms:ir.ui.view,arch_db:hotel_reservation.view_hotel_reservation_form
 #, fuzzy
-#| msgid "Reservation id"
 msgid "Send Reservation Email"
 msgstr "Reservation id"
 
@@ -1230,7 +1204,6 @@ msgstr "hotel folio new"
 #. module: hotel_reservation
 #: model:ir.model,name:hotel_reservation.model_hotel_folio_line
 #, fuzzy
-#| msgid "hotel folio new"
 msgid "hotel folio1 room line"
 msgstr "hotel folio new"
 
