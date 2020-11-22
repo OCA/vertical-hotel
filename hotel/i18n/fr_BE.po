@@ -166,7 +166,6 @@ msgstr ""
 #. module: hotel
 #: model:ir.actions.act_window,name:hotel.action_hotel_room_amenities_type_view_form
 #, fuzzy
-#| msgid "Amenity"
 msgid "Amenities Type"
 msgstr "Amenity"
 
@@ -178,7 +177,6 @@ msgstr "Amenity"
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_amenities_list
 #, fuzzy
-#| msgid "Amenity"
 msgid "Amenity Rate"
 msgstr "Amenity"
 
@@ -186,7 +184,6 @@ msgstr "Amenity"
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_amenities_form
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_amenities_type_form
 #, fuzzy
-#| msgid "Amenity"
 msgid "Amenity Type"
 msgstr "Amenity"
 
@@ -198,7 +195,6 @@ msgstr ""
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_amenities_form
 #, fuzzy
-#| msgid "Amenity"
 msgid "Amenity manager"
 msgstr "Amenity"
 
@@ -276,7 +272,6 @@ msgstr "Available"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__available_in_pos
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__available_in_pos
 #, fuzzy
-#| msgid "Available"
 msgid "Available in POS"
 msgstr "Available"
 
@@ -303,7 +298,6 @@ msgstr "Branch"
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_line__product_updatable
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_line__product_updatable
 #, fuzzy
-#| msgid "Product"
 msgid "Can Edit Product"
 msgstr "Product"
 
@@ -352,7 +346,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_type__amenity_id
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_type__categ_id
 #, fuzzy
-#| msgid "Catagory"
 msgid "Category"
 msgstr "Catagory"
 
@@ -361,7 +354,6 @@ msgstr "Catagory"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__route_from_categ_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__route_from_categ_ids
 #, fuzzy
-#| msgid "Catagory"
 msgid "Category Routes"
 msgstr "Catagory"
 
@@ -381,7 +373,6 @@ msgstr ""
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_folio_room_line__check_in
 #, fuzzy
-#| msgid "On Check In"
 msgid "Check In Date"
 msgstr "On Check In"
 
@@ -449,7 +440,6 @@ msgstr "Companies"
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_line__company_id
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__company_id
 #, fuzzy
-#| msgid "Companies"
 msgid "Company"
 msgstr "Companies"
 
@@ -466,14 +456,12 @@ msgstr ""
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_folio_form
 #, fuzzy
-#| msgid "Confirm Folio"
 msgid "Confirm Sale"
 msgstr "Confirm Folio"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__confirmation_date
 #, fuzzy
-#| msgid "Confirm Folio"
 msgid "Confirmation Date"
 msgstr "Confirm Folio"
 
@@ -573,7 +561,6 @@ msgstr ""
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_folio_search
 #, fuzzy
-#| msgid "On Booking"
 msgid "Current Booking"
 msgstr "On Booking"
 
@@ -599,7 +586,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_line__order_partner_id
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_folio_search
 #, fuzzy
-#| msgid "Customer Taxes"
 msgid "Customer"
 msgstr "Customer Taxes"
 
@@ -608,14 +594,12 @@ msgstr "Customer Taxes"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__sale_delay
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__sale_delay
 #, fuzzy
-#| msgid "Customer Taxes"
 msgid "Customer Lead Time"
 msgstr "Customer Taxes"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio__access_url
 #, fuzzy
-#| msgid "Customer Taxes"
 msgid "Customer Portal URL"
 msgstr "Customer Taxes"
 
@@ -624,14 +608,12 @@ msgstr "Customer Taxes"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__partner_ref
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__partner_ref
 #, fuzzy
-#| msgid "Customer Taxes"
 msgid "Customer Ref"
 msgstr "Customer Taxes"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__client_order_ref
 #, fuzzy
-#| msgid "Customer Taxes"
 msgid "Customer Reference"
 msgstr "Customer Taxes"
 
@@ -648,14 +630,12 @@ msgstr "Customer Taxes"
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_services_form
 #, fuzzy
-#| msgid "Customer taxes applied on the service. "
 msgid "Customer taxes applied on the service."
 msgstr "Customer taxes applied on the service. "
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_form
 #, fuzzy
-#| msgid "Customer taxes apply on the perticular room. "
 msgid "Customer taxes apply on the perticular room."
 msgstr "Customer taxes apply on the perticular room. "
 
@@ -697,7 +677,6 @@ msgstr ""
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_amenities_form
 #, fuzzy
-#| msgid "Define supplier taxes if there any on the Amenity. "
 msgid "Define supplier taxes if there any on the ty."
 msgstr "Define supplier taxes if there any on the Amenity. "
 
@@ -880,7 +859,6 @@ msgstr ""
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__duration_dummy
 #, fuzzy
-#| msgid "Duration in Days"
 msgid "Duration Dummy"
 msgstr "Duration in Days"
 
@@ -984,14 +962,12 @@ msgstr "Folio Report"
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_form
 #, fuzzy
-#| msgid "Room Reservation Line"
 msgid "Folio Room Reservation Line"
 msgstr "Room Reservation Line"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_form
 #, fuzzy
-#| msgid "Room Reservation Line"
 msgid "Folio Room Reservations"
 msgstr "Room Reservation Line"
 
@@ -1048,7 +1024,6 @@ msgstr ""
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_line__ser_checkin_date
 #, fuzzy
-#| msgid "From \""
 msgid "From Date"
 msgstr "From \""
 
@@ -1075,7 +1050,6 @@ msgstr ""
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_folio_search
 #, fuzzy
-#| msgid "Group By..."
 msgid "Group By"
 msgstr "Group By..."
 
@@ -1099,14 +1073,12 @@ msgstr ""
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_floor_form
 #, fuzzy
-#| msgid "Hotel Folio Wizard"
 msgid "Hotel Floor"
 msgstr "Hotel Folio Wizard"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_floor_tree
 #, fuzzy
-#| msgid "Hotel Folio Wizard"
 msgid "Hotel Floors"
 msgstr "Hotel Folio Wizard"
 
@@ -1167,7 +1139,6 @@ msgstr ""
 #. module: hotel
 #: model:ir.model,name:hotel.model_folio_room_line
 #, fuzzy
-#| msgid "Hotel room reservation detail."
 msgid "Hotel Room Reservation"
 msgstr "Hotel room reservation detail."
 
@@ -1206,9 +1177,6 @@ msgstr "Hotel room reservation detail."
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio__service_lines
 #, fuzzy
-#| msgid ""
-#| "Hotel services detail provide to customer and it will include in main "
-#| "Invoice."
 msgid ""
 "Hotel services details provided toCustomer and it will included in the main "
 "Invoice."
@@ -1405,7 +1373,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_line__invoice_status
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_line__invoice_status
 #, fuzzy
-#| msgid "Status"
 msgid "Invoice Status"
 msgstr "Status"
 
@@ -1417,7 +1384,6 @@ msgstr ""
 #. module: hotel
 #: selection:sale.advance.payment.inv,advance_payment_method:0
 #, fuzzy
-#| msgid "Service Lines"
 msgid "Invoiceable lines"
 msgstr "Service Lines"
 
@@ -1498,7 +1464,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__isservice
 #: model:ir.model.fields,field_description:hotel.field_product_product__isservice
 #, fuzzy
-#| msgid "Service"
 msgid "Is Service"
 msgstr "Service"
 
@@ -1601,7 +1566,6 @@ msgstr ""
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_amenities_form
 #, fuzzy
-#| msgid "List of customer taxes applied on the Amenity. "
 msgid "List of customer taxes applied on the ty."
 msgstr "List of customer taxes applied on the Amenity. "
 
@@ -1613,14 +1577,12 @@ msgstr "List of room amenities. "
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_form
 #, fuzzy
-#| msgid "List of supplier taxes if there any on the defined room. "
 msgid "List of supplier taxes if there any on the defined room."
 msgstr "List of supplier taxes if there any on the defined room. "
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_services_form
 #, fuzzy
-#| msgid "List of supplier taxes related to the service provided by hotel. "
 msgid "List of supplier taxes related to the service provided by hotel."
 msgstr "List of supplier taxes related to the service provided by hotel. "
 
@@ -1860,7 +1822,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__optional_product_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__optional_product_ids
 #, fuzzy
-#| msgid "Additional Hours"
 msgid "Optional Products"
 msgstr "Additional Hours"
 
@@ -1891,14 +1852,12 @@ msgstr ""
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_line__order_line_id
 #, fuzzy
-#| msgid "Service Lines"
 msgid "Order Line"
 msgstr "Service Lines"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__order_line
 #, fuzzy
-#| msgid "Service Lines"
 msgid "Order Lines"
 msgstr "Service Lines"
 
@@ -1912,7 +1871,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_line__state
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_line__state
 #, fuzzy
-#| msgid "Status"
 msgid "Order Status"
 msgstr "Status"
 
@@ -1968,7 +1926,6 @@ msgstr ""
 #. module: hotel
 #: model:ir.ui.menu,name:hotel.hotel_report_menu
 #, fuzzy
-#| msgid "Folio Report"
 msgid "Pdf Reports"
 msgstr "Folio Report"
 
@@ -2051,7 +2008,6 @@ msgstr ""
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_folio_wizard
 #, fuzzy
-#| msgid "Print"
 msgid "Print Folio"
 msgstr "Print"
 
@@ -2093,7 +2049,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_line__product_image
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_line__product_image
 #, fuzzy
-#| msgid "Product"
 msgid "Product Image"
 msgstr "Product"
 
@@ -2102,7 +2057,6 @@ msgstr "Product"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__product_manager
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__product_manager
 #, fuzzy
-#| msgid "Product"
 msgid "Product Manager"
 msgstr "Product"
 
@@ -2111,7 +2065,6 @@ msgstr "Product"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__packaging_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__packaging_ids
 #, fuzzy
-#| msgid "Product"
 msgid "Product Packages"
 msgstr "Product"
 
@@ -2120,7 +2073,6 @@ msgstr "Product"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__product_tmpl_id
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__product_tmpl_id
 #, fuzzy
-#| msgid "Product"
 msgid "Product Template"
 msgstr "Product"
 
@@ -2129,7 +2081,6 @@ msgstr "Product"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__type
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__type
 #, fuzzy
-#| msgid "Product"
 msgid "Product Type"
 msgstr "Product"
 
@@ -2156,16 +2107,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__product_variant_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__product_variant_ids
 #, fuzzy
-#| msgid "Product"
 msgid "Products"
 msgstr "Product"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_res_company__additional_hours
 #, fuzzy
-#| msgid ""
-#| "Provide the min hours value for check in checkout days, whatever the "
-#| "hours will be provided here based on that extra days will be calculated."
 msgid ""
 "Provide the min hours value for                                       check "
 "in, checkout days, whatever the                                       hours "
@@ -2243,7 +2190,6 @@ msgstr "Rate:"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__expense_policy
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__expense_policy
 #, fuzzy
-#| msgid "Hotel Policy"
 msgid "Re-Invoice Policy"
 msgstr "Hotel Policy"
 
@@ -2349,7 +2295,6 @@ msgstr ""
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__categ_id
 #, fuzzy
-#| msgid "Catagory"
 msgid "Room Category"
 msgstr "Catagory"
 
@@ -2367,7 +2312,6 @@ msgstr "Room Lines"
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_form
 #, fuzzy
-#| msgid "Room Lines"
 msgid "Room Manager"
 msgstr "Room Lines"
 
@@ -2406,21 +2350,18 @@ msgstr ""
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_folio_room_line__room_id
 #, fuzzy
-#| msgid "Room"
 msgid "Room id"
 msgstr "Room"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_form
 #, fuzzy
-#| msgid "Room Lines"
 msgid "Room line"
 msgstr "Room Lines"
 
 #. module: hotel
 #: code:addons/hotel/models/hotel.py:846
 #, fuzzy, python-format
-#| msgid "Check in Date Should be less than the Check Out Date!"
 msgid ""
 "Room line Check In Date Should be                 less than the Check Out "
 "Date!"
@@ -2484,7 +2425,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__sale_line_warn
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__sale_line_warn
 #, fuzzy
-#| msgid "Service Lines"
 msgid "Sales Order Line"
 msgstr "Service Lines"
 
@@ -2539,7 +2479,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_services_search
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_services_tree
 #, fuzzy
-#| msgid "Service Lines"
 msgid "Service Category"
 msgstr "Service Lines"
 
@@ -2558,7 +2497,6 @@ msgstr "Service Lines"
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_services_form
 #, fuzzy
-#| msgid "Service Lines"
 msgid "Service Manager"
 msgstr "Service Lines"
 
@@ -2566,7 +2504,6 @@ msgstr "Service Lines"
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_type__name
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_service_type_form
 #, fuzzy
-#| msgid "Service"
 msgid "Service Name"
 msgstr "Service"
 
@@ -3019,7 +2956,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__service_type
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__service_type
 #, fuzzy
-#| msgid "Service"
 msgid "Track Service"
 msgstr "Service"
 
@@ -3057,7 +2993,6 @@ msgstr ""
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__type_name
 #, fuzzy
-#| msgid "Name"
 msgid "Type Name"
 msgstr "Name"
 
@@ -3267,7 +3202,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__supplier_taxes_id
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__supplier_taxes_id
 #, fuzzy
-#| msgid "Customer Taxes"
 msgid "Vendor Taxes"
 msgstr "Customer Taxes"
 
@@ -3369,7 +3303,6 @@ msgstr ""
 #. module: hotel
 #: code:addons/hotel/models/hotel.py:498
 #, fuzzy, python-format
-#| msgid "You can not allocate the same room twice!"
 msgid "You Cannot Take Same Room Twice"
 msgstr "You can not allocate the same room twice!"
 

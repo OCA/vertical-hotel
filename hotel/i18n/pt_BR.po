@@ -1776,7 +1776,6 @@ msgstr "Tipo de atividade seguinte"
 #. module: hotel
 #: code:addons/hotel/models/hotel.py:667
 #, fuzzy, python-format
-#| msgid "Not Any Order For  %s "
 msgid "No Order found for %s !"
 msgstr "Não há nenhum pedido para %s "
 
