@@ -368,6 +368,7 @@ class HotelServiceType(models.Model):
         "product.category", "Product Category", delegate=True
     )
 
+    @api.model
     def create(self, vals):
         if "service_id" in vals:
             service_categ = self.env["hotel.service.type"].browse(
