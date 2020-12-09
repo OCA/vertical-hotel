@@ -128,6 +128,7 @@ class HotelRoomType(models.Model):
         "product.category", "Product Category", delegate=True
     )
 
+    @api.model
     def create(self, vals):
         if "categ_id" in vals:
             room_categ = self.env["hotel.room.type"].browse(
@@ -218,6 +219,7 @@ class HotelRoomAmenitiesType(models.Model):
         "product.category", "Product Category", delegate=True
     )
 
+    @api.model
     def create(self, vals):
         if "amenity_id" in vals:
             amenity_categ = self.env["hotel.room.amenities.type"].browse(
