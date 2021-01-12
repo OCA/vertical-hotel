@@ -2,7 +2,7 @@
 
 {
     "name": "Hotel Management",
-    "version": "13.0.1.0.0",
+    "version": "14.0.1.0.0",
     "author": "Odoo Community Association (OCA), Serpent Consulting \
                Services Pvt. Ltd., OpenERP SA",
     "category": "Hotel Management",
