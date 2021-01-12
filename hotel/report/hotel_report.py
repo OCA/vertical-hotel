@@ -46,9 +46,7 @@ class FolioReport(models.AbstractModel):
         date_start = data["form"].get("date_start", fields.Date.today())
         date_end = data["form"].get(
             "date_end",
-            str(datetime.now() + relativedelta(months=+1, day=1, days=-1))[
-                :10
-            ],
+            str(datetime.now() + relativedelta(months=+1, day=1, days=-1))[:10],
         )
         return {
             "doc_ids": docids,
