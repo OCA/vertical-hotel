@@ -80,6 +80,7 @@
                                 <field name="cost_method" string="Cost Method" />
                                 <field name="sale_ok" select="2" />
                                 <field name="standard_price" />
+                                <!--commented as rental field is removed from odoo14-->
                                 <!-- <field name="rental" select="2" /> -->
                             </group>
                             <newline />
