@@ -92,7 +92,7 @@
                             <group colspan="4" col="4">
                                 <field name="active" select="2" />
                                 <field name="list_price" />
-                                <field name="rental" select="2" />
+                                <!-- <field name="rental" select="2" /> -->
                                 <field name="standard_price" />
                                 <field name="cost_method" string="Cost Method" />
                                 <newline />
