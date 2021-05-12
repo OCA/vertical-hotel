@@ -114,13 +114,10 @@ class FolioRestReport(models.AbstractModel):
                 ("checkout_date", "<=", date_end),
             ]
         )
-        print("::::::::tids::::::::",tids)
         for record in tids:
-            print(":::::::record::::::",record)
             if record.hotel_reservation_orders_ids:
                 order_data = []
                 for order in record.hotel_reservation_orders_ids:
-                    print(":::::::order::::;",order)
                     order_data.append(
                         {
                             "order_no": order.order_number,
