@@ -199,7 +199,9 @@ class HotelFolio(models.Model):
         """
         for rec in self:
             for product in rec.room_line_ids.mapped("product_id"):
-                for line in rec.room_line_ids.filtered(lambda l: l.product_id == product):
+                for line in rec.room_line_ids.filtered(
+                    lambda l: l.product_id == product
+                ):
                     record = line.search(
                         [
                             ("product_id", "=", product.id),
