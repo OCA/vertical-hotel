@@ -198,26 +198,26 @@ class HotelFolio(models.Model):
         @return: raise warning depending on the validation
         """
         for rec in self:
-            for room_no in rec.room_line_ids.mapped("product_id"):
-                for line in rec.room_line_ids:
+            for product in rec.room_line_ids.mapped("product_id"):
+                for line in rec.room_line_ids.filtered(
+                    lambda l: l.product_id == product
+                ):
                     record = line.search(
                         [
-                            ("product_id", "=", room_no.id),
+                            ("product_id", "=", product.id),
                             ("folio_id", "=", rec.id),
                             ("id", "!=", line.id),
                             ("checkin_date", ">=", line.checkin_date),
                             ("checkout_date", "<=", line.checkout_date),
-                            ("product_id", "=", room_no.id),
                         ]
                     )
-
                 if record:
                     raise ValidationError(
                         _(
                             """Room Duplicate Exceeded!, """
                             """You Cannot Take Same %s Room Twice!"""
                         )
-                        % (room_no.name)
+                        % (product.name)
                     )
 
     @api.onchange("checkout_date", "checkin_date")
