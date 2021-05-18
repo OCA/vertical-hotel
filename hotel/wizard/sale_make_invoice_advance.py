@@ -34,8 +34,6 @@ class SaleAdvancePaymentInv(models.TransientModel):
                     "folio_id": folio.id,
                 }
             )
-        res = super(
-            SaleAdvancePaymentInv, self.with_context(ctx)
-        ).create_invoices()
+        res = super(SaleAdvancePaymentInv, self.with_context(ctx)).create_invoices()
 
         return res
