@@ -48,6 +48,10 @@ class TestReservation(common.TransactionCase):
                 "state": "draft",
                 "children": 1,
                 "reservation_line": [(6, 0, [self.room.id])],
+                "partner_invoice_id": self.partner.id,
+                "partner_order_id": self.partner.id,
+                "partner_shipping_id": self.partner.id,
+                "reservation_line_ids": [(6, 0, [self.room.id])],
             }
         )
 

@@ -63,9 +63,8 @@ class MakeFolioWizard(models.TransientModel):
             order.id
             for order in reservation_obj.browse(
                 self.env.context.get("active_ids", [])
-            ).mapped("folios_ids")
+            ).mapped("folio_id")
         ]
-
         return {
             "domain": "[('id','in', [" + ",".join(map(str, newinv)) + "])]",
             "name": "Folios",

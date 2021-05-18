@@ -71,7 +71,7 @@
                 <newline />
                 <footer>
                     <button
-                        name="makeFolios"
+                        name="make_folios"
                         string="Create Folio"
                         type="object"
                         icon="fa-files-o"

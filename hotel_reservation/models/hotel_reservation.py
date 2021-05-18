@@ -1,6 +1,6 @@
 # See LICENSE file for full copyright and licensing details.
 
-from datetime import datetime, time, timedelta
+from datetime import datetime, timedelta
 
 import pytz
 from dateutil.relativedelta import relativedelta
@@ -122,7 +122,7 @@ class HotelReservation(models.Model):
         readonly=True,
         required=True,
         index=True,
-        default=(lambda *a: time.strftime(dt)),
+        default=lambda self: fields.Datetime.now(),
     )
     warehouse_id = fields.Many2one(
         "stock.warehouse",
@@ -279,16 +279,13 @@ class HotelReservation(models.Model):
             if self.checkin < self.date_order:
                 raise ValidationError(
                     _(
-                        "Check-in date should be greater than \
-                                         the current date."
+                        """Check-in date should be greater than """
+                        """the current date."""
                     )
                 )
             if self.checkout < self.checkin:
                 raise ValidationError(
-                    _(
-                        "Check-out date should be greater \
-                                         than Check-in date."
-                    )
+                    _("""Check-out date should be greater """ """than Check-in date.""")
                 )
 
     @api.onchange("partner_id")
@@ -451,17 +448,6 @@ class HotelReservation(models.Model):
         template message loaded by default.
         @param self: object pointer
         """
-        assert len(self._ids) == 1, "This is for a single id at a time."
-        try:
-            template_id = self.env.ref(
-                "hotel_reservation.email_template_hotel_reservation"
-            ).id
-        except ValueError:
-            template_id = False
-        try:
-            compose_form_id = self.env.ref("mail.email_compose_message_wizard_form").id
-        except ValueError:
-            compose_form_id = False
         self.ensure_one(), "This is for a single id at a time."
         template_id = self.env.ref(
             "hotel_reservation.email_template_hotel_reservation"
@@ -524,13 +510,6 @@ class HotelReservation(models.Model):
             folio_lines = []
             checkin_date = reservation["checkin"]
             checkout_date = reservation["checkout"]
-            if not self.checkin < self.checkout:
-                raise ValidationError(
-                    _(
-                        "Checkout date should be greater \
-                                         than the Check-in date."
-                    )
-                )
             duration_vals = self._onchange_check_dates(
                 checkin_date=checkin_date,
                 checkout_date=checkout_date,
@@ -571,7 +550,7 @@ class HotelReservation(models.Model):
             folio = hotel_folio_obj.create(folio_vals)
             for rm_line in folio.room_line_ids:
                 rm_line.product_id_change()
-            self.write({"folios_ids": [(6, 0, folio.ids)], "state": "done"})
+            self.write({"folio_id": [(6, 0, folio.ids)], "state": "done"})
         return True
 
     def _onchange_check_dates(
@@ -641,9 +620,9 @@ class HotelReservationLine(models.Model):
         if not self.line_id.checkin:
             raise ValidationError(
                 _(
-                    "Before choosing a room,\n You have to \
-                                     select a Check in date or a Check out \
-                                     date in the reservation form."
+                    """Before choosing a room,\n You have to """
+                    """select a Check in date or a Check out """
+                    """ date in the reservation form."""
                 )
             )
         hotel_room_ids = self.env["hotel.room"].search(

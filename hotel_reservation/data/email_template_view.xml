@@ -9,7 +9,7 @@
         <field name="model_id" ref="hotel_reservation.model_hotel_reservation" />
         <field name="auto_delete" eval="True" />
         <field name="lang">${object.partner_id.lang}</field>
-        <field name="user_signature" eval="False" />
+        <!-- <field name="user_signature" eval="False" /> -->
         <field name="body_html" type="html">
             <div style="margin: 0px; padding: 0px;">
                 <p style="margin: 0px; padding: 0px; font-size: 13px;">
@@ -114,6 +114,7 @@
             </div>
         </field>
     </record>
+
     <!-- Email Template For Hotel Reservation Reminder Before 24 Hours -->
     <record id="mail_template_reservation_reminder_24hrs" model="mail.template">
         <field name="name">Reservation Reminder Before 24hrs</field>
@@ -124,7 +125,7 @@
         <field name="model_id" ref="hotel_reservation.model_hotel_reservation" />
         <field name="auto_delete" eval="True" />
         <field name="lang">${object.partner_id.lang}</field>
-        <field name="user_signature" eval="False" />
+      <!--   <field name="user_signature" eval="False" /> -->
         <field name="body_html" type="html">
             <div style="margin: 0px; padding: 0px;">
                 <p style="margin: 0px; padding: 0px; font-size: 13px;">
