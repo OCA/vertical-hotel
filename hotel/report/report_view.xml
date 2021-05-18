@@ -1,12 +1,11 @@
 <odoo>
     <!--Report for hotel folio -->
-    <report
-        id="report_hotel_management"
-        string="Hotel Folio"
-        model="hotel.folio"
-        report_type="qweb-pdf"
-        file="hotel.report_hotel_folio"
-        name="hotel.report_hotel_folio"
-        menu="False"
-    />
+    <record id="report_hotel_management" model="ir.actions.report">
+         <field name="name">Hotel Folio</field>
+         <field name="model">hotel.folio</field>
+         <field name="report_type">qweb-pdf</field>
+         <field name="report_file">hotel.report_hotel_folio</field>
+         <field name="report_name">hotel.report_hotel_folio</field>
+
+    </record>
 </odoo>

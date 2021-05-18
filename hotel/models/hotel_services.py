@@ -124,37 +124,29 @@ class HotelServiceLine(models.Model):
             )
             # If company_id is set, always filter taxes by the company
             taxes = line.product_id.taxes_id.filtered(
-                lambda r: not line.company_id
-                or r.company_id == line.company_id
+                lambda r: not line.company_id or r.company_id == line.company_id
             )
             line.tax_id = (
-                fpos.map_tax(
-                    taxes, line.product_id, line.folio_id.partner_shipping_id
-                )
+                fpos.map_tax(taxes, line.product_id, line.folio_id.partner_shipping_id)
                 if fpos
                 else taxes
             )
 
-    def _get_real_price_currency(
-        self, product, rule_id, qty, uom, pricelist_id
-    ):
+    def _get_real_price_currency(self, product, rule_id, qty, uom, pricelist_id):
         """Retrieve the price before applying the pricelist
-            :param obj product: object of current product record
-            :parem float qty: total quentity of product
-            :param tuple price_and_rule: tuple(price, suitable_rule)
-            coming from pricelist computation
-            :param obj uom: unit of measure of current order line
-            :param integer pricelist_id: pricelist id of sale order"""
+        :param obj product: object of current product record
+        :parem float qty: total quentity of product
+        :param tuple price_and_rule: tuple(price, suitable_rule)
+        coming from pricelist computation
+        :param obj uom: unit of measure of current order line
+        :param integer pricelist_id: pricelist id of sale order"""
         PricelistItem = self.env["product.pricelist.item"]
         field_name = "lst_price"
         currency_id = None
         product_currency = None
         if rule_id:
             pricelist_item = PricelistItem.browse(rule_id)
-            if (
-                pricelist_item.pricelist_id.discount_policy
-                == "without_discount"
-            ):
+            if pricelist_item.pricelist_id.discount_policy == "without_discount":
                 while (
                     pricelist_item.base == "pricelist"
                     and pricelist_item.base_pricelist_id
@@ -163,17 +155,12 @@ class HotelServiceLine(models.Model):
                 ):
                     price, rule_id = pricelist_item.base_pricelist_id.with_context(
                         uom=uom.id
-                    ).get_product_price_rule(
-                        product, qty, self.folio_id.partner_id
-                    )
+                    ).get_product_price_rule(product, qty, self.folio_id.partner_id)
                     pricelist_item = PricelistItem.browse(rule_id)
 
             if pricelist_item.base == "standard_price":
                 field_name = "standard_price"
-            if (
-                pricelist_item.base == "pricelist"
-                and pricelist_item.base_pricelist_id
-            ):
+            if pricelist_item.base == "pricelist" and pricelist_item.base_pricelist_id:
                 field_name = "price"
                 product = product.with_context(
                     pricelist=pricelist_item.base_pricelist_id.id
@@ -208,9 +195,7 @@ class HotelServiceLine(models.Model):
     def _get_display_price(self, product):
         # TO DO: move me in master/saas-16 on sale.order
         if self.folio_id.pricelist_id.discount_policy == "with_discount":
-            return product.with_context(
-                pricelist=self.folio_id.pricelist_id.id
-            ).price
+            return product.with_context(pricelist=self.folio_id.pricelist_id.id).price
         product_context = dict(
             self.env.context,
             partner_id=self.folio_id.partner_id.id,
@@ -250,13 +235,9 @@ class HotelServiceLine(models.Model):
 
         vals = {}
         domain = {
-            "product_uom": [
-                ("category_id", "=", self.product_id.uom_id.category_id.id)
-            ]
+            "product_uom": [("category_id", "=", self.product_id.uom_id.category_id.id)]
         }
-        if not self.product_uom or (
-            self.product_id.uom_id.id != self.product_uom.id
-        ):
+        if not self.product_uom or (self.product_id.uom_id.id != self.product_uom.id):
             vals["product_uom"] = self.product_id.uom_id
 
         product = self.product_id.with_context(
@@ -316,9 +297,7 @@ class HotelServiceLine(models.Model):
         if not self.ser_checkout_date:
             self.ser_checkout_date = time_a
         if self.ser_checkout_date < self.ser_checkin_date:
-            raise ValidationError(
-                _("Checkout must be greater or equal checkin date")
-            )
+            raise ValidationError(_("Checkout must be greater or equal checkin date"))
         if self.ser_checkin_date and self.ser_checkout_date:
             diffDate = self.ser_checkout_date - self.ser_checkin_date
             qty = diffDate.days + 1
@@ -349,9 +328,7 @@ class HotelServiceLine(models.Model):
         @param self: object pointer
         @param default: dict of default values to be set
         """
-        sale_line_obj = self.env["sale.order.line"].browse(
-            self.service_line_id.id
-        )
+        sale_line_obj = self.env["sale.order.line"].browse(self.service_line_id.id)
         return sale_line_obj.copy_data(default=default)
 
 
@@ -438,9 +415,7 @@ class HotelServiceType(models.Model):
                         domain = expression.AND(domain)
                     else:
                         domain = expression.OR(domain)
-            categories = self.search(
-                expression.AND([domain, args]), limit=limit
-            )
+            categories = self.search(expression.AND([domain, args]), limit=limit)
         else:
             categories = self.search(args, limit=limit)
         return categories.name_get()

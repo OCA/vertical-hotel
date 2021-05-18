@@ -55,9 +55,7 @@ class HotelRoom(models.Model):
     @api.model
     def create(self, vals):
         if "room_categ_id" in vals:
-            room_categ = self.env["hotel.room.type"].browse(
-                vals.get("room_categ_id")
-            )
+            room_categ = self.env["hotel.room.type"].browse(vals.get("room_categ_id"))
             vals.update({"categ_id": room_categ.product_categ_id.id})
         return super(HotelRoom, self).create(vals)
 
@@ -86,9 +84,7 @@ class HotelRoom(models.Model):
         @param vals: dictionary of fields value.
         """
         if "room_categ_id" in vals:
-            room_categ = self.env["hotel.room.type"].browse(
-                vals.get("room_categ_id")
-            )
+            room_categ = self.env["hotel.room.type"].browse(vals.get("room_categ_id"))
             vals.update({"categ_id": room_categ.product_categ_id.id})
         if "isroom" in vals and vals["isroom"] is False:
             vals.update({"color": 2, "status": "occupied"})
@@ -121,9 +117,7 @@ class HotelRoomType(models.Model):
     _description = "Room Type"
 
     categ_id = fields.Many2one("hotel.room.type", "Category")
-    child_ids = fields.One2many(
-        "hotel.room.type", "categ_id", "Room Child Categories"
-    )
+    child_ids = fields.One2many("hotel.room.type", "categ_id", "Room Child Categories")
     product_categ_id = fields.Many2one(
         "product.category", "Product Category", delegate=True
     )
@@ -131,17 +125,13 @@ class HotelRoomType(models.Model):
     @api.model
     def create(self, vals):
         if "categ_id" in vals:
-            room_categ = self.env["hotel.room.type"].browse(
-                vals.get("categ_id")
-            )
+            room_categ = self.env["hotel.room.type"].browse(vals.get("categ_id"))
             vals.update({"parent_id": room_categ.product_categ_id.id})
         return super(HotelRoomType, self).create(vals)
 
     def write(self, vals):
         if "categ_id" in vals:
-            room_categ = self.env["hotel.room.type"].browse(
-                vals.get("categ_id")
-            )
+            room_categ = self.env["hotel.room.type"].browse(vals.get("categ_id"))
             vals.update({"parent_id": room_categ.product_categ_id.id})
         return super(HotelRoomType, self).write(vals)
 
@@ -198,9 +188,7 @@ class HotelRoomType(models.Model):
                         domain = expression.AND(domain)
                     else:
                         domain = expression.OR(domain)
-            categories = self.search(
-                expression.AND([domain, args]), limit=limit
-            )
+            categories = self.search(expression.AND([domain, args]), limit=limit)
         else:
             categories = self.search(args, limit=limit)
         return categories.name_get()
@@ -289,9 +277,7 @@ class HotelRoomAmenitiesType(models.Model):
                         domain = expression.AND(domain)
                     else:
                         domain = expression.OR(domain)
-            categories = self.search(
-                expression.AND([domain, args]), limit=limit
-            )
+            categories = self.search(expression.AND([domain, args]), limit=limit)
         else:
             categories = self.search(args, limit=limit)
         return categories.name_get()
