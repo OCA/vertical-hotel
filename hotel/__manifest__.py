@@ -2,11 +2,11 @@
 
 {
     "name": "Hotel Management",
-    "version": "13.0.1.0.0",
+    "version": "14.0.1.0.0",
     "author": "Odoo Community Association (OCA), Serpent Consulting \
                Services Pvt. Ltd., OpenERP SA",
     "category": "Hotel Management",
-    "website": "https://github.com/OCA/vertical-hotel/",
+    "website": "https://github.com/OCA/vertical-hotel",
     "depends": ["sale_stock", "point_of_sale"],
     "license": "AGPL-3",
     "summary": "Hotel Management to Manage Folio and Hotel Configuration",
