@@ -93,9 +93,7 @@ class RoomReservationSummary(models.Model):
     _description = "Room reservation summary"
 
     name = fields.Char("Reservation Summary", default="Reservations Summary")
-    date_from = fields.Datetime(
-        "Date From", default=lambda self: fields.Date.today()
-    )
+    date_from = fields.Datetime("Date From", default=lambda self: fields.Date.today())
     date_to = fields.Datetime(
         "Date To",
         default=lambda self: fields.Date.today() + relativedelta(days=30),
@@ -107,9 +105,7 @@ class RoomReservationSummary(models.Model):
         """
         @param self: object pointer
         """
-        resource_id = self.env.ref(
-            "hotel_reservation.view_hotel_reservation_form"
-        ).id
+        resource_id = self.env.ref("hotel_reservation.view_hotel_reservation_form").id
         return {
             "name": _("Reconcile Write-Off"),
             "context": self._context,
@@ -121,13 +117,11 @@ class RoomReservationSummary(models.Model):
             "target": "new",
         }
 
-    @api.onchange(
-        "date_from", "date_to"
-    )  # noqa C901 (function is too complex)
+    @api.onchange("date_from", "date_to")  # noqa C901 (function is too complex)
     def get_room_summary(self):  # noqa C901 (function is too complex)
         """
         @param self: object pointer
-         """
+        """
         res = {}
         all_detail = []
         room_obj = self.env["hotel.room"]
@@ -139,9 +133,7 @@ class RoomReservationSummary(models.Model):
         summary_header_list = ["Rooms"]
         if self.date_from and self.date_to:
             if self.date_from > self.date_to:
-                raise UserError(
-                    _("Checkout date should be greater than Checkin date.")
-                )
+                raise UserError(_("Checkout date should be greater than Checkin date."))
             if self._context.get("tz", False):
                 timezone = pytz.timezone(self._context.get("tz", False))
             else:
@@ -152,9 +144,7 @@ class RoomReservationSummary(models.Model):
                 .astimezone(timezone)
             )
             d_to_obj = (
-                (self.date_to)
-                .replace(tzinfo=pytz.timezone("UTC"))
-                .astimezone(timezone)
+                (self.date_to).replace(tzinfo=pytz.timezone("UTC")).astimezone(timezone)
             )
             temp_date = d_frm_obj
             while temp_date <= d_to_obj:
@@ -176,10 +166,7 @@ class RoomReservationSummary(models.Model):
                 room_detail = {}
                 room_list_stats = []
                 room_detail.update({"name": room.name or ""})
-                if (
-                    not room.room_reservation_line_ids
-                    and not room.room_line_ids
-                ):
+                if not room.room_reservation_line_ids and not room.room_line_ids:
                     for chk_date in date_range_list:
                         room_list_stats.append(
                             {

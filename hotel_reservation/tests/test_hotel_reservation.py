@@ -16,9 +16,7 @@ class TestReservation(common.TransactionCase):
         self.hotel_room_reserv_obj = self.env["hotel.room.reservation.line"]
         self.reserv_summary_obj = self.env["room.reservation.summary"]
         self.quick_room_reserv_obj = self.env["quick.room.reservation"]
-        self.reserv_line = self.env.ref(
-            "hotel_reservation.hotel_reservation_0"
-        )
+        self.reserv_line = self.env.ref("hotel_reservation.hotel_reservation_0")
         self.room_type = self.env.ref("hotel.hotel_room_type_1")
         self.room = self.env.ref("hotel.hotel_room_0")
         self.warehouse = self.env.ref("stock.warehouse0")
@@ -94,9 +92,7 @@ class TestReservation(common.TransactionCase):
                 "room_categ_id": self.room_type.categ_id.id,
                 "status": "available",
                 "product_manager": self.manager.id,
-                "room_reservation_line_ids": [
-                    (6, 0, [self.hotel_room_reserv.id])
-                ],
+                "room_reservation_line_ids": [(6, 0, [self.hotel_room_reserv.id])],
             }
         )
 
@@ -128,9 +124,7 @@ class TestReservation(common.TransactionCase):
 
     def test_check_reservation_rooms(self):
         for rec in self.hotel_reserv.reservation_line:
-            self.assertEqual(
-                len(rec.reserve), 1, "Please Select Rooms For Reservation"
-            )
+            self.assertEqual(len(rec.reserve), 1, "Please Select Rooms For Reservation")
         self.hotel_reserv.check_reservation_rooms()
 
     def test_unlink_reserv(self):
