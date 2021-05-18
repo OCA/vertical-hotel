@@ -57,7 +57,6 @@ def _offset_format_timestamp1(
             # Normal ways to end up here are if strptime or strftime failed
             if not ignore_unparsable_time:
                 return False
-            pass
     return res
 
 
@@ -132,9 +131,7 @@ class HotelFolio(models.Model):
             + tm_delta
         )
 
-    name = fields.Char(
-        "Folio Number", readonly=True, index=True, default="New"
-    )
+    name = fields.Char("Folio Number", readonly=True, index=True, default="New")
     order_id = fields.Many2one(
         "sale.order", "Order", delegate=True, required=True, ondelete="cascade"
     )
@@ -232,9 +229,7 @@ class HotelFolio(models.Model):
         @param self: object pointer
         @return: Duration and checkout_date
         """
-        configured_addition_hours = (
-            self.warehouse_id.company_id.additional_hours
-        )
+        configured_addition_hours = self.warehouse_id.company_id.additional_hours
         myduration = 0
         if self.checkout_date and self.checkin_date:
             dur = self.checkin_date - self.checkin_date
@@ -324,9 +319,7 @@ class HotelFolio(models.Model):
                 vals["duration"] = vals.get("duration_dummy", 0.0)
             else:
                 vals["duration"] = rec.duration
-            room_lst = [
-                folio_rec.product_id.id for folio_rec in rec.room_line_ids
-            ]
+            room_lst = [folio_rec.product_id.id for folio_rec in rec.room_line_ids]
             new_rooms = set(room_lst).difference(set(rooms_list))
             if len(list(new_rooms)) != 0:
                 room_list = product_obj.browse(list(new_rooms))
@@ -343,9 +336,7 @@ class HotelFolio(models.Model):
             if not len(list(new_rooms)):
                 room_list_obj = product_obj.browse(rooms_list)
                 for room in room_list_obj:
-                    room_obj = h_room_obj.search(
-                        [("product_id", "=", room.id)]
-                    )
+                    room_obj = h_room_obj.search([("product_id", "=", room.id)])
                     room_obj.write({"isroom": False})
                     room_vals = {
                         "room_id": room_obj.id,
@@ -453,9 +444,7 @@ class HotelFolioLine(models.Model):
         ondelete="cascade",
     )
     folio_id = fields.Many2one("hotel.folio", "Folio", ondelete="cascade")
-    checkin_date = fields.Datetime(
-        "Check In", required=True, default=_get_checkin_date
-    )
+    checkin_date = fields.Datetime("Check In", required=True, default=_get_checkin_date)
     checkout_date = fields.Datetime(
         "Check Out", required=True, default=_get_checkout_date
     )
@@ -522,26 +511,21 @@ class HotelFolioLine(models.Model):
                 line.order_line_id.unlink()
         return super(HotelFolioLine, self).unlink()
 
-    def _get_real_price_currency(
-        self, product, rule_id, qty, uom, pricelist_id
-    ):
+    def _get_real_price_currency(self, product, rule_id, qty, uom, pricelist_id):
         """Retrieve the price before applying the pricelist
-            :param obj product: object of current product record
-            :parem float qty: total quentity of product
-            :param tuple price_and_rule: tuple(price, suitable_rule) coming
-            from pricelist computation
-            :param obj uom: unit of measure of current order line
-            :param integer pricelist_id: pricelist id of sale order"""
+        :param obj product: object of current product record
+        :parem float qty: total quentity of product
+        :param tuple price_and_rule: tuple(price, suitable_rule) coming
+        from pricelist computation
+        :param obj uom: unit of measure of current order line
+        :param integer pricelist_id: pricelist id of sale order"""
         PricelistItem = self.env["product.pricelist.item"]
         field_name = "lst_price"
         currency_id = None
         product_currency = None
         if rule_id:
             pricelist_item = PricelistItem.browse(rule_id)
-            if (
-                pricelist_item.pricelist_id.discount_policy
-                == "without_discount"
-            ):
+            if pricelist_item.pricelist_id.discount_policy == "without_discount":
                 while (
                     pricelist_item.base == "pricelist"
                     and pricelist_item.base_pricelist_id
@@ -550,17 +534,12 @@ class HotelFolioLine(models.Model):
                 ):
                     price, rule_id = pricelist_item.base_pricelist_id.with_context(
                         uom=uom.id
-                    ).get_product_price_rule(
-                        product, qty, self.folio_id.partner_id
-                    )
+                    ).get_product_price_rule(product, qty, self.folio_id.partner_id)
                     pricelist_item = PricelistItem.browse(rule_id)
 
             if pricelist_item.base == "standard_price":
                 field_name = "standard_price"
-            if (
-                pricelist_item.base == "pricelist"
-                and pricelist_item.base_pricelist_id
-            ):
+            if pricelist_item.base == "pricelist" and pricelist_item.base_pricelist_id:
                 field_name = "price"
                 product = product.with_context(
                     pricelist=pricelist_item.base_pricelist_id.id
@@ -595,9 +574,7 @@ class HotelFolioLine(models.Model):
     def _get_display_price(self, product):
         # TO DO: move me in master/saas-16 on sale.order
         if self.folio_id.pricelist_id.discount_policy == "with_discount":
-            return product.with_context(
-                pricelist=self.folio_id.pricelist_id.id
-            ).price
+            return product.with_context(pricelist=self.folio_id.pricelist_id.id).price
         product_context = dict(
             self.env.context,
             partner_id=self.folio_id.partner_id.id,
@@ -638,13 +615,10 @@ class HotelFolioLine(models.Model):
             )
             # If company_id is set, always filter taxes by the company
             taxes = line.product_id.taxes_id.filtered(
-                lambda r: not line.company_id
-                or r.company_id == line.company_id
+                lambda r: not line.company_id or r.company_id == line.company_id
             )
             line.tax_id = (
-                fpos.map_tax(
-                    taxes, line.product_id, line.folio_id.partner_shipping_id
-                )
+                fpos.map_tax(taxes, line.product_id, line.folio_id.partner_shipping_id)
                 if fpos
                 else taxes
             )
@@ -652,19 +626,15 @@ class HotelFolioLine(models.Model):
     @api.onchange("product_id")
     def product_id_change(self):
         """
- -        @param self: object pointer
- -        """
+        -        @param self: object pointer
+        -"""
         if not self.product_id:
             return {"domain": {"product_uom": []}}
         vals = {}
         domain = {
-            "product_uom": [
-                ("category_id", "=", self.product_id.uom_id.category_id.id)
-            ]
+            "product_uom": [("category_id", "=", self.product_id.uom_id.category_id.id)]
         }
-        if not self.product_uom or (
-            self.product_id.uom_id.id != self.product_uom.id
-        ):
+        if not self.product_uom or (self.product_id.uom_id.id != self.product_uom.id):
             vals["product_uom"] = self.product_id.uom_id
         product = self.product_id.with_context(
             lang=self.folio_id.partner_id.lang,
@@ -742,24 +712,12 @@ class HotelFolioLine(models.Model):
             for rm_line in room.room_line_ids:
                 if rm_line.status != "cancel":
                     if (
-                        self.checkin_date
-                        <= rm_line.check_in
-                        <= self.checkout_date
-                    ) or (
-                        self.checkin_date
-                        <= rm_line.check_out
-                        <= self.checkout_date
-                    ):
+                        self.checkin_date <= rm_line.check_in <= self.checkout_date
+                    ) or (self.checkin_date <= rm_line.check_out <= self.checkout_date):
                         assigned = True
                     elif (
-                        rm_line.check_in
-                        <= self.checkin_date
-                        <= rm_line.check_out
-                    ) or (
-                        rm_line.check_in
-                        <= self.checkout_date
-                        <= rm_line.check_out
-                    ):
+                        rm_line.check_in <= self.checkin_date <= rm_line.check_out
+                    ) or (rm_line.check_in <= self.checkout_date <= rm_line.check_out):
                         assigned = True
             if not assigned:
                 avail_prod_ids.append(room.product_id.id)
