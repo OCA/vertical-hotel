@@ -2,11 +2,11 @@
 
 {
     "name": "Hotel Restaurant Management",
-    "version": "13.0.1.0.0",
+    "version": "14.0.1.0.0",
     "author": "Odoo Community Association (OCA), Serpent Consulting\
                 Services Pvt. Ltd., Odoo S.A.",
     "category": "Generic Modules/Hotel Restaurant",
-    "website": "https://github.com/OCA/vertical-hotel/",
+    "website": "https://github.com/OCA/vertical-hotel",
     "depends": ["hotel"],
     "license": "AGPL-3",
     "summary": "Table booking facilities and Managing customers orders",

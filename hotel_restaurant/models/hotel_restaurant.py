@@ -112,9 +112,7 @@ class HotelRestaurantReservation(models.Model):
             res = self._cr.fetchone()
             roomcount = res and res[0] or 0.0
             if not reservation.table_nos_ids:
-                raise ValidationError(
-                    _("Please Select Tables For Reservation")
-                )
+                raise ValidationError(_("Please Select Tables For Reservation"))
             if roomcount:
                 raise ValidationError(
                     _(
@@ -151,9 +149,7 @@ class HotelRestaurantReservation(models.Model):
         "Start Time", required=True, default=lambda self: fields.Datetime.now()
     )
     end_date = fields.Datetime("End Time", required=True)
-    customer_id = fields.Many2one(
-        "res.partner", "Customer Name", required=True
-    )
+    customer_id = fields.Many2one("res.partner", "Customer Name", required=True)
     partner_address_id = fields.Many2one("res.partner", "Address")
     table_nos_ids = fields.Many2many(
         "hotel.restaurant.tables",
@@ -199,9 +195,7 @@ class HotelRestaurantReservation(models.Model):
         @return: raise a warning depending on the validation
         """
         if self.start_date >= self.end_date:
-            raise ValidationError(
-                _("Start Date Should be less than the End Date!")
-            )
+            raise ValidationError(_("Start Date Should be less than the End Date!"))
         if self.is_folio:
             for line in self.folio_id.room_line_ids:
                 if self.start_date < line.checkin_date:
@@ -213,9 +207,7 @@ class HotelRestaurantReservation(models.Model):
                     )
                 if self.end_date > line.checkout_date:
                     raise ValidationError(
-                        _(
-                            "End Date Should be less than the Folio Check-out Date!"
-                        )
+                        _("End Date Should be less than the Folio Check-out Date!")
                     )
 
 
@@ -266,8 +258,7 @@ class HotelRestaurantOrder(models.Model):
             sale.amount_total = 0.0
             if sale.amount_subtotal:
                 sale.amount_total = (
-                    sale.amount_subtotal
-                    + (sale.amount_subtotal * sale.tax) / 100
+                    sale.amount_subtotal + (sale.amount_subtotal * sale.tax) / 100
                 )
 
     def done_cancel(self):
@@ -352,9 +343,7 @@ class HotelRestaurantOrder(models.Model):
     amount_subtotal = fields.Float(
         compute="_compute_amount_all_total", string="Subtotal"
     )
-    amount_total = fields.Float(
-        compute="_compute_amount_all_total", string="Total"
-    )
+    amount_total = fields.Float(compute="_compute_amount_all_total", string="Total")
     state = fields.Selection(
         [
             ("draft", "Draft"),
@@ -370,9 +359,7 @@ class HotelRestaurantOrder(models.Model):
     is_folio = fields.Boolean(
         "Is a Hotel Guest??", help="is customer reside in hotel or not"
     )
-    customer_id = fields.Many2one(
-        "res.partner", "Customer Name", required=True
-    )
+    customer_id = fields.Many2one("res.partner", "Customer Name", required=True)
     kitchen = fields.Integer("Kitchen Id")
     rest_item_id = fields.Many2many(
         "hotel.restaurant.order.list",
@@ -612,9 +599,7 @@ class HotelReservationOrder(models.Model):
         return True
 
     order_number = fields.Char("Order No", readonly=True)
-    reservation_id = fields.Many2one(
-        "hotel.restaurant.reservation", "Reservation No"
-    )
+    reservation_id = fields.Many2one("hotel.restaurant.reservation", "Reservation No")
     order_date = fields.Datetime(
         "Date", required=True, default=lambda self: fields.Datetime.now()
     )
@@ -633,9 +618,7 @@ class HotelReservationOrder(models.Model):
     amount_subtotal = fields.Float(
         compute="_compute_amount_all_total", string="Subtotal"
     )
-    amount_total = fields.Float(
-        compute="_compute_amount_all_total", string="Total"
-    )
+    amount_total = fields.Float(compute="_compute_amount_all_total", string="Total")
     kitchen = fields.Integer("Kitchen Id")
     rests_ids = fields.Many2many(
         "hotel.restaurant.order.list",
@@ -693,9 +676,7 @@ class HotelRestaurantOrderList(models.Model):
         """
         self.item_rate = self.menucard_id.list_price
 
-    restaurant_order_id = fields.Many2one(
-        "hotel.restaurant.order", "Restaurant Order"
-    )
+    restaurant_order_id = fields.Many2one("hotel.restaurant.order", "Restaurant Order")
     reservation_order_id = fields.Many2one(
         "hotel.reservation.order", "Reservation Order"
     )
@@ -705,6 +686,4 @@ class HotelRestaurantOrderList(models.Model):
     menucard_id = fields.Many2one("hotel.menucard", "Item Name", required=True)
     item_qty = fields.Integer("Qty", required=True, default=1)
     item_rate = fields.Float("Rate")
-    price_subtotal = fields.Float(
-        compute="_compute_price_subtotal", string="Subtotal"
-    )
+    price_subtotal = fields.Float(compute="_compute_price_subtotal", string="Subtotal")
