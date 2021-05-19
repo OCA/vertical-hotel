@@ -10,9 +10,7 @@ class HotelHousekeepingActivityType(models.Model):
     _description = "Activity Type"
 
     name = fields.Char("Name", required=True)
-    activity_id = fields.Many2one(
-        "hotel.housekeeping.activity.type", "Activity Type"
-    )
+    activity_id = fields.Many2one("hotel.housekeeping.activity.type", "Activity Type")
 
     def name_get(self):
         def get_names(cat):
@@ -67,9 +65,7 @@ class HotelHousekeepingActivityType(models.Model):
                         domain = expression.AND(domain)
                     else:
                         domain = expression.OR(domain)
-            categories = self.search(
-                expression.AND([domain, args]), limit=limit
-            )
+            categories = self.search(expression.AND([domain, args]), limit=limit)
         else:
             categories = self.search(args, limit=limit)
         return categories.name_get()

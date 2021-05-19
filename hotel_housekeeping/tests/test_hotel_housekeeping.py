@@ -9,9 +9,7 @@ from odoo.tests import common
 class TestHousekeeping(common.TransactionCase):
     def setUp(self):
         super(TestHousekeeping, self).setUp()
-        self.env = self.env(
-            context=dict(self.env.context, tracking_disable=True)
-        )
+        self.env = self.env(context=dict(self.env.context, tracking_disable=True))
         self.housekeeping_obj = self.env["hotel.housekeeping"]
         self.hotel_act_obj = self.env["hotel.housekeeping.activities"]
         self.hotel_act_type_obj = self.env["hotel.housekeeping.activity.type"]
@@ -21,9 +19,7 @@ class TestHousekeeping(common.TransactionCase):
             "hotel_housekeeping.hotel_housekeeping_activity_type_1"
         )
         self.room = self.env.ref("hotel.hotel_room_0")
-        self.activity = self.env.ref(
-            "hotel_housekeeping.hotel_room_activities_1"
-        )
+        self.activity = self.env.ref("hotel_housekeeping.hotel_room_activities_1")
 
         cur_date = datetime.now().strftime("%Y-%m-21 %H:%M:%S")
         cur_date1 = datetime.now().strftime("%Y-%m-23 %H:%M:%S")
@@ -56,9 +52,7 @@ class TestHousekeeping(common.TransactionCase):
         )
 
         self.hotel_act_type.name_get()
-        hotel_activity_type = self.hotel_act_type_obj.name_search(
-            "Test Room Activity"
-        )
+        hotel_activity_type = self.hotel_act_type_obj.name_search("Test Room Activity")
         self.assertEqual(
             len(hotel_activity_type),
             1,
