@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE xml>
 <odoo>
 
@@ -8,8 +8,8 @@
             <t t-foreach="docs" t-as="o">
                 <t t-call="web.external_layout">
                     <div class="page">
-                        <br/>
-                        <br/>
+                        <br />
+                        <br />
                         <div class="row">
                             <h2>
                                 <span>
@@ -19,20 +19,20 @@
                                 </span>
                             </h2>
                         </div>
-                        <br/>
+                        <br />
                         <table width="100%" class="table table-condensed">
                             <tr>
                                 <td width="50%" style="text-align:left;">
                                     <strong>Customer Name :</strong>
-                                    <span t-field="o.customer_id"/>
+                                    <span t-field="o.customer_id" />
                                 </td>
                                 <td width="50%" style="text-align:right;">
                                     <strong>Date :</strong>
-                                    <span t-field="o.o_date"/>
+                                    <span t-field="o.o_date" />
                                 </td>
                             </tr>
                         </table>
-                        <br/>
+                        <br />
                         <table class="table table-condensed">
                             <thead>
                                 <tr>
@@ -52,21 +52,19 @@
                             </thead>
                             <tbody>
                                 <td style="white-space: nowrap;">
-                                    <span t-esc="o.order_no"/>
+                                    <span t-esc="o.order_no" />
                                 </td>
                                 <td style="white-space: nowrap;">
-                                    <span t-att-style="style"
-                                          t-esc="o.waiter_id.name"/>
+                                    <span
+                                        t-att-style="style"
+                                        t-esc="o.waiter_id.name"
+                                    />
                                 </td>
-                                <td t-if="o.folio_id.id"
-                                    style="white-space: nowrap;">
-                                    <span t-att-style="style"
-                                          t-esc="o.folio_id.name"/>
+                                <td t-if="o.folio_id.id" style="white-space: nowrap;">
+                                    <span t-att-style="style" t-esc="o.folio_id.name" />
                                 </td>
-                                <td t-if="o.room_id.id"
-                                    style="white-space: nowrap;">
-                                    <span t-att-style="style"
-                                          t-esc="o.room_id.name"/>
+                                <td t-if="o.room_id.id" style="white-space: nowrap;">
+                                    <span t-att-style="style" t-esc="o.room_id.name" />
                                 </td>
                             </tbody>
                         </table>
@@ -81,7 +79,7 @@
                             <tbody>
                                 <tr t-foreach="o.table_nos_ids" t-as="rec2">
                                     <td>
-                                        <span t-esc="rec2.name"/>
+                                        <span t-esc="rec2.name" />
                                     </td>
                                 </tr>
                             </tbody>
@@ -111,41 +109,41 @@
                             <tbody>
                                 <tr t-foreach="o.order_list_ids" t-as="rec">
                                     <td>
-                                        <span t-esc="rec.menucard_id.name"/>
+                                        <span t-esc="rec.menucard_id.name" />
                                     </td>
                                     <td>
-                                        <span t-esc="rec.item_qty"/>
+                                        <span t-esc="rec.item_qty" />
                                     </td>
                                     <td>
-                                        <span t-esc="rec.item_rate"/>
+                                        <span t-esc="rec.item_rate" />
                                     </td>
                                     <td>
-                                        <span t-esc="rec.price_subtotal"/>
+                                        <span t-esc="rec.price_subtotal" />
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td/>
-                                    <td/>
+                                    <td />
+                                    <td />
                                     <td>
                                         <strong>Sub Total:</strong>
                                     </td>
-                                    <td t-esc="o.amount_subtotal"/>
+                                    <td t-esc="o.amount_subtotal" />
                                 </tr>
                                 <tr>
-                                    <td/>
-                                    <td/>
+                                    <td />
+                                    <td />
                                     <td>
                                         <strong>Tax:</strong>
                                     </td>
-                                    <td t-esc="o.tax"/>
+                                    <td t-esc="o.tax" />
                                 </tr>
                                 <tr>
-                                    <td/>
-                                    <td/>
+                                    <td />
+                                    <td />
                                     <td>
                                         <strong>Total:</strong>
                                     </td>
-                                    <td t-esc="o.amount_total"/>
+                                    <td t-esc="o.amount_total" />
                                 </tr>
                             </tbody>
                         </table>
@@ -161,8 +159,8 @@
             <t t-foreach="docs" t-as="o">
                 <t t-call="web.external_layout">
                     <div class="page">
-                        <br/>
-                        <br/>
+                        <br />
+                        <br />
                         <div class="row">
                             <h2>
                                 <span>
@@ -191,20 +189,19 @@
                             </thead>
                             <tbody>
                                 <td style="white-space: nowrap;">
-                                    <span t-esc="o.order_date"/>
+                                    <span t-esc="o.order_date" />
                                 </td>
                                 <td style="white-space: nowrap;">
-                                    <span t-att-style="style"
-                                          t-esc="o.order_number"/>
+                                    <span t-att-style="style" t-esc="o.order_number" />
                                 </td>
-                                <td t-if="o.folio_id.id"
-                                    style="white-space: nowrap;">
-                                    <span t-att-style="style"
-                                          t-esc="o.folio_id.name"/>
+                                <td t-if="o.folio_id.id" style="white-space: nowrap;">
+                                    <span t-att-style="style" t-esc="o.folio_id.name" />
                                 </td>
                                 <td style="white-space: nowrap;">
-                                    <span t-att-style="style"
-                                          t-esc="o.waitername.name"/>
+                                    <span
+                                        t-att-style="style"
+                                        t-esc="o.waitername.name"
+                                    />
                                 </td>
                             </tbody>
                         </table>
@@ -219,7 +216,7 @@
                             <tbody>
                                 <tr t-foreach="o.table_nos_ids" t-as="rec2">
                                     <td>
-                                        <span t-esc="rec2.name"/>
+                                        <span t-esc="rec2.name" />
                                     </td>
                                 </tr>
                             </tbody>
@@ -249,41 +246,41 @@
                             <tbody>
                                 <tr t-foreach="o.order_list_ids" t-as="rec">
                                     <td>
-                                        <span t-esc="rec.menucard_id.name"/>
+                                        <span t-esc="rec.menucard_id.name" />
                                     </td>
                                     <td>
-                                        <span t-esc="rec.item_qty"/>
+                                        <span t-esc="rec.item_qty" />
                                     </td>
                                     <td>
-                                        <span t-esc="rec.item_rate"/>
+                                        <span t-esc="rec.item_rate" />
                                     </td>
                                     <td>
-                                        <span t-esc="rec.price_subtotal"/>
+                                        <span t-esc="rec.price_subtotal" />
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td/>
-                                    <td/>
+                                    <td />
+                                    <td />
                                     <td>
                                         <strong>Sub Total:</strong>
                                     </td>
-                                    <td t-esc="o.amount_subtotal"/>
+                                    <td t-esc="o.amount_subtotal" />
                                 </tr>
                                 <tr>
-                                    <td/>
-                                    <td/>
+                                    <td />
+                                    <td />
                                     <td>
                                         <strong>Tax:</strong>
                                     </td>
-                                    <td t-esc="o.tax"/>
+                                    <td t-esc="o.tax" />
                                 </tr>
                                 <tr>
-                                    <td/>
-                                    <td/>
+                                    <td />
+                                    <td />
                                     <td>
                                         <strong>Total:</strong>
                                     </td>
-                                    <td t-esc="o.amount_total"/>
+                                    <td t-esc="o.amount_total" />
                                 </tr>
                             </tbody>
                         </table>
