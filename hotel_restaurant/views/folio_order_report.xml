@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE xml>
 <odoo>
 
@@ -7,8 +7,8 @@
         <t t-call="web.html_container">
             <t t-call="web.external_layout">
                 <div class="page">
-                    <br/>
-                    <br/>
+                    <br />
+                    <br />
                     <div class="row">
                         <h2>
                             <span>
@@ -20,9 +20,9 @@
                     <div class="row mt32 mb32">
                         <div class="text-center">
                             <strong>From:</strong>
-                            <span t-esc="data['date_start']"/>
+                            <span t-esc="data['date_start']" />
                             <strong>To:</strong>
-                            <span t-esc="data['date_end']"/>
+                            <span t-esc="data['date_end']" />
                         </div>
                     </div>
                     <t t-if="data['check'] == True">
@@ -32,8 +32,7 @@
                                     <tr>
                                         <td width="40%">
                                             <strong>Folio Number :</strong>
-                                            <span
-                                                t-esc="info.get('folio_name', '')"/>
+                                            <span t-esc="info.get('folio_name', '')" />
                                         </td>
                                         <td width="30%">&#160;</td>
                                     </tr>
@@ -41,12 +40,13 @@
                                         <td width="40%">
                                             <strong>Customer Name :</strong>
                                             <span
-                                                t-esc="info.get('customer_name', '')"/>
+                                                t-esc="info.get('customer_name', '')"
+                                            />
                                         </td>
                                         <td width="30%">&#160;</td>
                                     </tr>
                                 </table>
-                                <br/>
+                                <br />
                                 <table class="table table-bordered">
                                     <tr>
                                         <td>
@@ -65,28 +65,35 @@
                                             <strong>Total</strong>
                                         </td>
                                     </tr>
-                                    <t t-foreach="info.get('order_data', '')"
-                                       t-as="infodata">
+                                    <t
+                                        t-foreach="info.get('order_data', '')"
+                                        t-as="infodata"
+                                    >
                                         <tr>
                                             <td>
                                                 <span
-                                                    t-esc="infodata.get('order_no', '')"/>
+                                                    t-esc="infodata.get('order_no', '')"
+                                                />
                                             </td>
                                             <td>
                                                 <span
-                                                    t-esc="infodata.get('order_date', '')"/>
+                                                    t-esc="infodata.get('order_date', '')"
+                                                />
                                             </td>
                                             <td>
                                                 <span
-                                                    t-esc="infodata.get('order_len', '')"/>
+                                                    t-esc="infodata.get('order_len', '')"
+                                                />
                                             </td>
                                             <td>
                                                 <span
-                                                    t-esc="infodata.get('state', '')"/>
+                                                    t-esc="infodata.get('state', '')"
+                                                />
                                             </td>
                                             <td>
                                                 <span
-                                                    t-esc="infodata.get('amount_total', '')"/>
+                                                    t-esc="infodata.get('amount_total', '')"
+                                                />
                                             </td>
                                         </tr>
                                     </t>
@@ -118,39 +125,36 @@
                             </tr>
                             <tr t-foreach="GetData" t-as="info">
                                 <td>
-                                    <span t-esc="info.get('folio_name', '')"/>
+                                    <span t-esc="info.get('folio_name', '')" />
                                 </td>
                                 <td>
-                                    <span
-                                        t-esc="info.get('customer_name', '')"/>
+                                    <span t-esc="info.get('customer_name', '')" />
                                 </td>
                                 <td>
-                                    <span t-esc="info.get('checkin_date', '')"/>
+                                    <span t-esc="info.get('checkin_date', '')" />
                                 </td>
                                 <td>
-                                    <span
-                                        t-esc="info.get('checkout_date', '')"/>
+                                    <span t-esc="info.get('checkout_date', '')" />
                                 </td>
                                 <td>
-                                    <span t-esc="info.get('total_order', '')"/>
+                                    <span t-esc="info.get('total_order', '')" />
                                 </td>
                                 <td>
-                                    <span t-esc="info.get('total_amount', '')"/>
+                                    <span t-esc="info.get('total_amount', '')" />
                                 </td>
                             </tr>
                             <t t-foreach="GetData" t-as="info">
                                 <t t-if="info.get('total', '')">
                                     <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td />
+                                        <td />
+                                        <td />
+                                        <td />
                                         <td>
                                             <strong>Net Total:</strong>
                                         </td>
                                         <td>
-                                            <span
-                                                t-esc="info.get('total', '')"/>
+                                            <span t-esc="info.get('total', '')" />
                                         </td>
                                     </tr>
                                 </t>
@@ -167,8 +171,8 @@
         <t t-call="web.html_container">
             <t t-call="web.external_layout">
                 <div class="page">
-                    <br/>
-                    <br/>
+                    <br />
+                    <br />
                     <div class="row">
                         <h2>
                             <span>
@@ -179,21 +183,19 @@
                     <div class="row mt32 mb32">
                         <div class="text-center">
                             <strong>From:</strong>
-                            <span t-esc="data['date_start']"/>
+                            <span t-esc="data['date_start']" />
                             <strong>To:</strong>
-                            <span t-esc="data['date_end']"/>
+                            <span t-esc="data['date_end']" />
                         </div>
                     </div>
                     <t t-if="data['check'] == True">
                         <div>
-                            <table t-foreach="GetReserv" t-as="info"
-                                   width="100%">
+                            <table t-foreach="GetReserv" t-as="info" width="100%">
                                 <table>
                                     <tr>
                                         <td width="40%">
                                             <strong>Folio Number :</strong>
-                                            <span
-                                                t-esc="info.get('folio_name', '')"/>
+                                            <span t-esc="info.get('folio_name', '')" />
                                         </td>
                                         <td width="30%">&#160;</td>
                                     </tr>
@@ -201,12 +203,13 @@
                                         <td width="40%">
                                             <strong>Customer Name :</strong>
                                             <span
-                                                t-esc="info.get('customer_name', '')"/>
+                                                t-esc="info.get('customer_name', '')"
+                                            />
                                         </td>
                                         <td width="30%">&#160;</td>
                                     </tr>
                                 </table>
-                                <br/>
+                                <br />
                                 <table class="table table-bordered">
                                     <tr>
                                         <td>
@@ -231,36 +234,45 @@
                                             <strong>Total</strong>
                                         </td>
                                     </tr>
-                                    <t t-foreach="info.get('order_data', '')"
-                                       t-as="infodata">
+                                    <t
+                                        t-foreach="info.get('order_data', '')"
+                                        t-as="infodata"
+                                    >
                                         <tr>
                                             <td>
                                                 <span
-                                                    t-esc="infodata.get('order_no', '')"/>
+                                                    t-esc="infodata.get('order_no', '')"
+                                                />
                                             </td>
                                             <td>
                                                 <span
-                                                    t-esc="infodata.get('order_date', '')"/>
+                                                    t-esc="infodata.get('order_date', '')"
+                                                />
                                             </td>
                                             <td>
                                                 <span
-                                                    t-esc="infodata.get('order_no', '')"/>
+                                                    t-esc="infodata.get('order_no', '')"
+                                                />
                                             </td>
                                             <td>
                                                 <span
-                                                    t-esc="infodata.get('table_nos_ids', '')"/>
+                                                    t-esc="infodata.get('table_nos_ids', '')"
+                                                />
                                             </td>
                                             <td>
                                                 <span
-                                                    t-esc="infodata.get('room_id', '')"/>
+                                                    t-esc="infodata.get('room_id', '')"
+                                                />
                                             </td>
                                             <td>
                                                 <span
-                                                    t-esc="infodata.get('state', '')"/>
+                                                    t-esc="infodata.get('state', '')"
+                                                />
                                             </td>
                                             <td>
                                                 <span
-                                                    t-esc="infodata.get('amount_total', '')"/>
+                                                    t-esc="infodata.get('amount_total', '')"
+                                                />
                                             </td>
                                         </tr>
                                     </t>
@@ -292,39 +304,36 @@
                             </tr>
                             <tr t-foreach="GetData" t-as="info">
                                 <td>
-                                    <span t-esc="info.get('folio_name', '')"/>
+                                    <span t-esc="info.get('folio_name', '')" />
                                 </td>
                                 <td>
-                                    <span
-                                        t-esc="info.get('customer_name', '')"/>
+                                    <span t-esc="info.get('customer_name', '')" />
                                 </td>
                                 <td>
-                                    <span t-esc="info.get('checkin_date', '')"/>
+                                    <span t-esc="info.get('checkin_date', '')" />
                                 </td>
                                 <td>
-                                    <span
-                                        t-esc="info.get('checkout_date', '')"/>
+                                    <span t-esc="info.get('checkout_date', '')" />
                                 </td>
                                 <td>
-                                    <span t-esc="info.get('total_order', '')"/>
+                                    <span t-esc="info.get('total_order', '')" />
                                 </td>
                                 <td>
-                                    <span t-esc="info.get('total_amount', '')"/>
+                                    <span t-esc="info.get('total_amount', '')" />
                                 </td>
                             </tr>
                             <t t-foreach="GetData" t-as="info">
                                 <t t-if="info.get('total', '')">
                                     <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td />
+                                        <td />
+                                        <td />
+                                        <td />
                                         <td>
                                             <strong>Net Total:</strong>
                                         </td>
                                         <td>
-                                            <span
-                                                t-esc="info.get('total', '')"/>
+                                            <span t-esc="info.get('total', '')" />
                                         </td>
                                     </tr>
                                 </t>
