@@ -35,9 +35,7 @@ class HotelHousekeepingActivities(models.Model):
         """
         for activity in self:
             if activity.clean_start_time >= activity.clean_end_time:
-                raise ValidationError(
-                    _("Start Date Should be less than the End Date!")
-                )
+                raise ValidationError(_("Start Date Should be less than the End Date!"))
 
     @api.model
     def default_get(self, fields):
