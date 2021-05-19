@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE xml>
 <odoo>
 
@@ -8,8 +8,8 @@
             <t t-foreach="docs" t-as="o">
                 <t t-call="web.external_layout">
                     <div class="page">
-                        <br/>
-                        <br/>
+                        <br />
+                        <br />
                         <div class="row">
                             <h2>
                                 <span>
@@ -19,8 +19,8 @@
                                 </span>
                             </h2>
                         </div>
-                        <br/>
-                        <br/>
+                        <br />
+                        <br />
                         <table class="table table-condensed">
                             <thead>
                                 <tr>
@@ -40,23 +40,23 @@
                             </thead>
                             <tbody>
                                 <td style="white-space: nowrap;">
-                                    <span t-esc="o.o_date"/>
+                                    <span t-esc="o.o_date" />
                                 </td>
                                 <td style="white-space: nowrap;">
-                                    <span t-att-style="style"
-                                          t-esc="o.order_no"/>
+                                    <span t-att-style="style" t-esc="o.order_no" />
                                 </td>
                                 <td style="white-space: nowrap;">
-                                    <span t-att-style="style"
-                                          t-esc="o.waiter_id.name"/>
+                                    <span
+                                        t-att-style="style"
+                                        t-esc="o.waiter_id.name"
+                                    />
                                 </td>
                                 <td style="white-space: nowrap;">
-                                    <span t-att-style="style"
-                                          t-esc="o.room_id.name"/>
+                                    <span t-att-style="style" t-esc="o.room_id.name" />
                                 </td>
                             </tbody>
                         </table>
-                        <br/>
+                        <br />
                         <table class="table table-condensed">
                             <thead>
                                 <tr>
@@ -68,7 +68,7 @@
                             <tbody>
                                 <tr t-foreach="o.table_nos_ids" t-as="rec2">
                                     <td>
-                                        <span t-esc="rec2.name"/>
+                                        <span t-esc="rec2.name" />
                                     </td>
                                 </tr>
                             </tbody>
@@ -92,10 +92,10 @@
                             <tbody>
                                 <tr t-foreach="o.order_list_ids" t-as="rec">
                                     <td>
-                                        <span t-esc="rec.menucard_id.name"/>
+                                        <span t-esc="rec.menucard_id.name" />
                                     </td>
                                     <td>
-                                        <span t-esc="rec.item_qty"/>
+                                        <span t-esc="rec.item_qty" />
                                     </td>
                                 </tr>
                             </tbody>

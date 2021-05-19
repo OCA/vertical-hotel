@@ -88,17 +88,14 @@ class FolioRestReport(models.AbstractModel):
         for record in tids:
             if record.hotel_reservation_orders_ids:
                 total_amount = sum(
-                    order.amount_total
-                    for order in record.hotel_reservation_orders_ids
+                    order.amount_total for order in record.hotel_reservation_orders_ids
                 )
                 total_order = len(record.hotel_reservation_orders_ids.ids)
                 data.append(
                     {
                         "folio_name": record.name,
                         "customer_name": record.partner_id.name,
-                        "checkin_date": fields.Datetime.to_string(
-                            record.checkin_date
-                        ),
+                        "checkin_date": fields.Datetime.to_string(record.checkin_date),
                         "checkout_date": fields.Datetime.to_string(
                             record.checkout_date
                         ),
@@ -124,9 +121,7 @@ class FolioRestReport(models.AbstractModel):
                     order_data.append(
                         {
                             "order_no": order.order_number,
-                            "order_date": fields.Datetime.to_string(
-                                record.order_date
-                            ),
+                            "order_date": fields.Datetime.to_string(record.order_date),
                             "state": order.state,
                             "table_nos_ids": len(order.table_nos_ids),
                             "order_len": len(order.order_list_ids),
@@ -185,17 +180,14 @@ class FolioReservReport(models.AbstractModel):
         for record in tids:
             if record.hotel_restaurant_orders_ids:
                 total_amount = sum(
-                    order.amount_total
-                    for order in record.hotel_restaurant_orders_ids
+                    order.amount_total for order in record.hotel_restaurant_orders_ids
                 )
                 total_order = len(record.hotel_restaurant_orders_ids.ids)
                 data.append(
                     {
                         "folio_name": record.name,
                         "customer_name": record.partner_id.name,
-                        "checkin_date": fields.Datetime.to_string(
-                            record.checkin_date
-                        ),
+                        "checkin_date": fields.Datetime.to_string(record.checkin_date),
                         "checkout_date": fields.Datetime.to_string(
                             record.checkout_date
                         ),
@@ -219,9 +211,7 @@ class FolioReservReport(models.AbstractModel):
                 order_data = []
                 for order in record.hotel_restaurant_orders_ids:
                     order_date = order.o_date
-                    order_date = (
-                        fields.Datetime.to_string(record.order_date),
-                    )
+                    order_date = (fields.Datetime.to_string(record.order_date),)
                     order_data.append(
                         {
                             "order_no": order.order_no,

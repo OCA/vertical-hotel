@@ -9,9 +9,7 @@ class HotelMenucardType(models.Model):
 
     name = fields.Char("Name", required=True)
     menu_id = fields.Many2one("hotel.menucard.type", "Food Item Type")
-    child_ids = fields.One2many(
-        "hotel.menucard.type", "menu_id", "Child Categories"
-    )
+    child_ids = fields.One2many("hotel.menucard.type", "menu_id", "Child Categories")
 
     def name_get(self):
         def get_names(cat):
@@ -48,9 +46,7 @@ class HotelMenucardType(models.Model):
                         [[("menu_id", "in", categories.ids)], domain]
                     )
                 else:
-                    domain = expression.AND(
-                        [[("menu_id", "in", category_ids)], domain]
-                    )
+                    domain = expression.AND([[("menu_id", "in", category_ids)], domain])
                 for i in range(1, len(category_names)):
                     domain = [
                         [
@@ -66,9 +62,7 @@ class HotelMenucardType(models.Model):
                         domain = expression.AND(domain)
                     else:
                         domain = expression.OR(domain)
-            categories = self.search(
-                expression.AND([domain, args]), limit=limit
-            )
+            categories = self.search(expression.AND([domain, args]), limit=limit)
         else:
             categories = self.search(args, limit=limit)
         return categories.name_get()
