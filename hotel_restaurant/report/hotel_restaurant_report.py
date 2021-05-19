@@ -121,7 +121,7 @@ class FolioRestReport(models.AbstractModel):
                     order_data.append(
                         {
                             "order_no": order.order_number,
-                            "order_date": fields.Datetime.to_string(record.order_date),
+                            "order_date": fields.Datetime.to_string(order.order_date),
                             "state": order.state,
                             "table_nos_ids": len(order.table_nos_ids),
                             "order_len": len(order.order_list_ids),

@@ -12,3 +12,7 @@ access_hotel_restaurant_kitchen_order_tickets,hotel.restaurant.kitchen.order.tic
 access_hotel_restaurant_order,hotel.restaurant.order,model_hotel_restaurant_order,hotel.group_hotel_user,1,1,1,1
 access_hotel_reservation_order,hotel.reservation.order,model_hotel_reservation_order,hotel.group_hotel_user,1,1,1,1
 access_hotel_restaurant_order_list,hotel.restaurant.order.list,model_hotel_restaurant_order_list,hotel.group_hotel_user,1,1,1,1
+
+
+access_wizard_hotel_restaurant,access_wizard_hotel_restaurant,model_wizard_hotel_restaurant,base.group_user,1,1,1,1
+access_folio_rest_reservation,access_folio_rest_reservation,model_folio_rest_reservation,base.group_user,1,1,1,1

@@ -189,7 +189,7 @@
                 </header>
                 <sheet>
                     <h1>
-                        <label for="table_booking" string="Table Booking" colspan="4" />
+                      <!--   <label for="table_booking" string="Table Booking" colspan="4"/> -->
                         <field name="reservation_id" colspan="4" />
                     </h1>
                     <group>
@@ -370,7 +370,7 @@
                 </header>
                 <sheet>
                     <h1>
-                        <label for="order" string="Order" colspan="4" />
+                        <label for="order_number" string="Order" colspan="4" />
                         <field name="order_number" colspan="4" />
                     </h1>
                     <group>
@@ -555,7 +555,7 @@
                 </header>
                 <sheet>
                     <h1>
-                        <label for="table_order" string="Table Order" colspan="4" />
+                        <!-- <label for="table_order" string="Table Order" colspan="4" /> -->
                         <field name="order_no" colspan="4" />
                     </h1>
                     <group>
@@ -900,7 +900,7 @@
                                 <field name="list_price" />
                                 <field name="sale_ok" select="2" />
                                 <field name="standard_price" />
-                                <field name="rental" select="2" />
+                               <!--  <field name="rental" select="2" /> -->
                                 <field name="price_extra" />
                                 <separator string="Suppliers" colspan='4' />
                                 <field
