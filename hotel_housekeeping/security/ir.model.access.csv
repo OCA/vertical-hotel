@@ -9,3 +9,4 @@ access_product_product_manager,product.product.manager,product.model_product_pro
 access_h_activity_manager,h.activity.manager,model_hotel_activity,hotel.group_hotel_manager,1,1,1,1
 access_hotel_housekeeping_manager,hotel.housekeeping.manager,model_hotel_housekeeping,hotel.group_hotel_manager,1,1,1,1
 access_hotel_housekeeping_activities_manager,hotel.housekeeping.activities.manager,model_hotel_housekeeping_activities,hotel.group_hotel_manager,1,1,1,1
+access_hotel_housekeeping_wizard,access_hotel_housekeeping_wizard,model_hotel_housekeeping_wizard,base.group_user,1,1,1,0
