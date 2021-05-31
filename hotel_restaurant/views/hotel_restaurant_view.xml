@@ -190,7 +190,7 @@
                 <sheet>
                     <h1>
                       <!--   <label for="table_booking" string="Table Booking" colspan="4"/> -->
-                        <field name="reservation_id" colspan="4" />
+                        <field name="reservation_id" colspan="4"/>
                     </h1>
                     <group>
                         <group colspan="2" col="4">
@@ -370,7 +370,7 @@
                 </header>
                 <sheet>
                     <h1>
-                        <label for="order_number" string="Order" colspan="4" />
+                        <label for="order_number" string="Order" colspan="4"/>
                         <field name="order_number" colspan="4" />
                     </h1>
                     <group>
