@@ -2,14 +2,13 @@
 <odoo>
 
     <!--Report for hotel housekeeping -->
-    <report
-        id="report_hotel_housekeeping"
-        string="Activity Detail"
-        model="hotel.housekeeping"
-        report_type="qweb-pdf"
-        file="hotel_housekeeping.housekeeping_report"
-        name="hotel_housekeeping.housekeeping_report"
-        menu="False"
-    />
+    <record id="report_hotel_housekeeping" model="ir.actions.report">
+      <field name="name">Activity Detail</field>
+      <field name="model">hotel.housekeeping</field>
+      <field name="report_type">qweb-pdf</field>
+      <field name="report_name">hotel_housekeeping.housekeeping_report</field>
+      <field name="report_file">hotel_housekeeping.housekeeping_report</field>
+      <field name="binding_type">report</field>
+    </record>
 
 </odoo>
