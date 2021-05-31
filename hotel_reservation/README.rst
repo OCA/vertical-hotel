@@ -83,7 +83,7 @@ Credits
 Authors
 ~~~~~~~
 
-* Serpent Consulting                 Services Pvt. Ltd.
+* Serpent Consulting Services Pvt. Ltd.
 * Odoo S.A.
 
 Contributors
