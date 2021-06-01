@@ -14,10 +14,10 @@ Hotel Housekeeping Management
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fvertical--hotel-lightgray.png?logo=github
-    :target: https://github.com/OCA/vertical-hotel/tree/13.0/hotel_housekeeping
+    :target: https://github.com/OCA/vertical-hotel/tree/14.0/hotel_housekeeping
     :alt: OCA/vertical-hotel
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/vertical-hotel-13-0/vertical-hotel-13-0-hotel_housekeeping
+    :target: https://translation.odoo-community.org/projects/vertical-hotel-14-0/vertical-hotel-14-0-hotel_housekeeping
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runbot-Try%20me-875A7B.png
     :target: https://runbot.odoo-community.org/runbot/157/13.0
@@ -73,7 +73,7 @@ Credits
 Authors
 ~~~~~~~
 
-* Serpent Consulting                Services Pvt. Ltd.
+* Serpent Consulting Services Pvt. Ltd.
 * Odoo S.A.
 
 Contributors
