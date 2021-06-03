@@ -66,12 +66,8 @@ class HotelRestaurantReservation(models.Model):
         """
         for rec in self:
             if rec.folio_id:
-                rec.write(
-                    {
-                        "customer_id": rec.folio_id.partner_id.id,
-                        "room_id": rec.folio_id.room_line_ids[0].product_id.id,
-                    }
-                )
+                rec.customer_id = rec.folio_id.partner_id.id
+                rec.room_id = rec.folio_id.room_line_ids[0].product_id.id
 
     def action_set_to_draft(self):
         """
@@ -89,7 +85,10 @@ class HotelRestaurantReservation(models.Model):
         @param self: The object pointer
         @return: change a state depending on the condition
         """
+
         for reservation in self:
+            if not reservation.table_nos_ids:
+                raise ValidationError(_("Please Select Tables For Reservation"))
             reservation._cr.execute(
                 "select count(*) from "
                 "hotel_restaurant_reservation as hrr "
@@ -112,8 +111,6 @@ class HotelRestaurantReservation(models.Model):
             )
             res = self._cr.fetchone()
             roomcount = res and res[0] or 0.0
-            if not reservation.table_nos_ids:
-                raise ValidationError(_("Please Select Tables For Reservation"))
             if roomcount:
                 raise ValidationError(
                     _(
@@ -171,6 +168,7 @@ class HotelRestaurantReservation(models.Model):
         "state",
         required=True,
         readonly=True,
+        copy=False,
         default="draft",
     )
     is_folio = fields.Boolean("Is a Hotel Guest??")
@@ -216,13 +214,13 @@ class HotelRestaurantKitchenOrderTickets(models.Model):
 
     _name = "hotel.restaurant.kitchen.order.tickets"
     _description = "Includes Hotel Restaurant Order"
-    _rec_name = "orderno"
+    _rec_name = "order_number"
 
-    orderno = fields.Char("Order Number", readonly=True)
-    resno = fields.Char("Reservation Number")
+    order_number = fields.Char("Order Number", readonly=True)
+    reservation_number = fields.Char("Reservation Number")
     kot_date = fields.Datetime("Date")
     room_no = fields.Char("Room No", readonly=True)
-    w_name = fields.Char("Waiter Name", readonly=True)
+    waiter_name = fields.Char("Waiter Name", readonly=True)
     table_nos_ids = fields.Many2many(
         "hotel.restaurant.tables",
         "restaurant_kitchen_order_rel",
@@ -297,10 +295,10 @@ class HotelRestaurantOrder(models.Model):
             table_ids = order.table_nos_ids.ids
             kot_data = order_tickets_obj.create(
                 {
-                    "orderno": order.order_no,
+                    "order_number": order.order_no,
                     "kot_date": order.o_date,
                     "room_no": order.room_id.name,
-                    "w_name": order.waiter_id.name,
+                    "waiter_name": order.waiter_id.name,
                     "table_nos_ids": [(6, 0, table_ids)],
                 }
             )
@@ -329,7 +327,7 @@ class HotelRestaurantOrder(models.Model):
     )
     room_id = fields.Many2one("product.product", "Room No")
     folio_id = fields.Many2one("hotel.folio", "Folio No")
-    waiter_id = fields.Many2one("res.partner", "Waiter Name")
+    waiter_id = fields.Many2one("res.partner", "Waiter")
     table_nos_ids = fields.Many2many(
         "hotel.restaurant.tables",
         "restaurant_table_order_rel",
@@ -355,16 +353,17 @@ class HotelRestaurantOrder(models.Model):
         "State",
         required=True,
         readonly=True,
+        copy=False,
         default="draft",
     )
     is_folio = fields.Boolean(
         "Is a Hotel Guest??", help="is customer reside in hotel or not"
     )
     customer_id = fields.Many2one("res.partner", "Customer Name", required=True)
-    kitchen = fields.Integer("Kitchen Id")
+    kitchen = fields.Integer("Kitchen")
     rest_item_id = fields.Many2many(
         "hotel.restaurant.order.list",
-        "restau_kitc_rel",
+        "restaurant_kitchen_rel",
         "restau_id",
         "kit_id",
         "Rest",
@@ -409,10 +408,10 @@ class HotelRestaurantOrder(models.Model):
         rest_order_list_obj = self.env["hotel.restaurant.order.list"]
         for order in self:
             line_data = {
-                "orderno": order.order_no,
+                "order_number": order.order_no,
                 "kot_date": fields.Datetime.to_string(fields.datetime.now()),
                 "room_no": order.room_id.name,
-                "w_name": order.waiter_id.name,
+                "waiter_name": order.waiter_id.name,
                 "table_nos_ids": [(6, 0, order.table_nos_ids.ids)],
             }
             kot_id = order_tickets_obj.browse(self.kitchen)
@@ -502,10 +501,10 @@ class HotelReservationOrder(models.Model):
                 raise ValidationError(_("Please Give an Order"))
             table_ids = order.table_nos_ids.ids
             line_data = {
-                "orderno": order.order_number,
-                "resno": order.reservation_id.reservation_id,
+                "order_number": order.order_number,
+                "reservation_number": order.reservation_id.reservation_id,
                 "kot_date": order.order_date,
-                "w_name": order.waitername.name,
+                "waiter_name": order.waitername.name,
                 "table_nos_ids": [(6, 0, table_ids)],
             }
             kot_data = order_tickets_obj.create(line_data)
@@ -539,10 +538,10 @@ class HotelReservationOrder(models.Model):
         for order in self:
             table_ids = order.table_nos_ids.ids
             line_data = {
-                "orderno": order.order_number,
-                "resno": order.reservation_id.reservation_id,
+                "order_number": order.order_number,
+                "reservation_number": order.reservation_id.reservation_id,
                 "kot_date": fields.Datetime.to_string(fields.datetime.now()),
-                "w_name": order.waitername.name,
+                "waiter_name": order.waitername.name,
                 "table_nos_ids": [(6, 0, table_ids)],
             }
             kot_id = order_tickets_obj.browse(self.kitchen)
