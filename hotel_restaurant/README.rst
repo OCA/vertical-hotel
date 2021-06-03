@@ -17,10 +17,10 @@ Hotel Restaurant Management
     :target: https://github.com/OCA/vertical-hotel/tree/13.0/hotel_restaurant
     :alt: OCA/vertical-hotel
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/vertical-hotel-13-0/vertical-hotel-13-0-hotel_restaurant
+    :target: https://translation.odoo-community.org/projects/vertical-hotel-14-0/vertical-hotel-14-0-hotel_restaurant
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runbot-Try%20me-875A7B.png
-    :target: https://runbot.odoo-community.org/runbot/157/13.0
+    :target: https://runbot.odoo-community.org/runbot/157/14.0
     :alt: Try me on Runbot
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
@@ -81,7 +81,7 @@ Credits
 Authors
 ~~~~~~~
 
-* Serpent Consulting                Services Pvt. Ltd.
+* Serpent Consulting Services Pvt. Ltd.
 * Odoo S.A.
 
 Contributors
