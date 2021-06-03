@@ -190,7 +190,7 @@
                 <sheet>
                     <h1>
                       <!--   <label for="table_booking" string="Table Booking" colspan="4"/> -->
-                        <field name="reservation_id" colspan="4"/>
+                        <field name="reservation_id" colspan="4" />
                     </h1>
                     <group>
                         <group colspan="2" col="4">
@@ -370,7 +370,7 @@
                 </header>
                 <sheet>
                     <h1>
-                        <label for="order_number" string="Order" colspan="4"/>
+                        <label for="order_number" string="Order" colspan="4" />
                         <field name="order_number" colspan="4" />
                     </h1>
                     <group>
@@ -694,15 +694,15 @@
                 <sheet>
                     <group>
                         <group colspan="4">
-                            <field name="orderno" />
-                            <field name="resno" />
+                            <field name="order_number" />
+                            <field name="reservation_number" />
                         </group>
                         <group>
                             <field name="kot_date" />
                         </group>
                         <group colspan="4" col="4">
                             <field name="room_no" />
-                            <field name="w_name" />
+                            <field name="waiter_name" />
                         </group>
                         <newline />
                         <separator colspan='4' string='Table List' />
@@ -734,11 +734,11 @@
         <field name="model">hotel.restaurant.kitchen.order.tickets</field>
         <field name="arch" type="xml">
             <tree string="KOT List" create="0">
-                <field name="orderno" />
-                <field name="resno" />
+                <field name="order_number" />
+                <field name="reservation_number" />
                 <field name="kot_date" />
                 <field name="room_no" />
-                <field name="w_name" />
+                <field name="waiter_name" />
                 <field name="table_nos_ids" />
                 <field name="kot_list_ids" />
             </tree>
@@ -757,14 +757,14 @@
                     domain="[('kot_date','&gt;=',datetime.datetime.now().replace(hour=0, minute=0, second=0)),('kot_date','&lt;=',datetime.datetime.now().replace(hour=23, minute=59, second=59))]"
                     string="Today's Orders"
                 />
-                <field name="orderno" />
+                <field name="order_number" />
                 <group expand="0" string="Group By">
                     <filter
-                        name="w_name"
+                        name="waiter_name"
                         string="Waiter Name"
                         icon="terp-personal"
                         domain="[]"
-                        context="{'group_by':'w_name'}"
+                        context="{'group_by':'waiter_name'}"
                     />
                     <filter
                         name="kot_date"
