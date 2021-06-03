@@ -4,7 +4,7 @@ from odoo.osv import expression
 
 class HotelMenucardType(models.Model):
 
-    _name = "hotel.menucard.type" #need to recheck for v15
+    _name = "hotel.menucard.type"  # need to recheck for v15
     _description = "Food Item Type"
 
     name = fields.Char("Name", required=True)
