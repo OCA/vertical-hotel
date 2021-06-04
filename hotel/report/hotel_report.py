@@ -37,7 +37,7 @@ class FolioReport(models.AbstractModel):
 
     @api.model
     def _get_report_values(self, docids, data):
-        self.model = self.env.context.get("active_model")
+        model = self.env.context.get("active_model")
         if data is None:
             data = {}
         if not docids:
@@ -50,7 +50,7 @@ class FolioReport(models.AbstractModel):
         )
         return {
             "doc_ids": docids,
-            "doc_model": self.model,
+            "doc_model": model,
             "data": data["form"],
             "docs": folio_profile,
             "time": time,
