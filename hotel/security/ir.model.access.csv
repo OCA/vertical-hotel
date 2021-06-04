@@ -29,3 +29,4 @@ access_hotel_services_manager,hotel.sevices.manager,model_hotel_services,hotel.g
 access_hotel_order_manager_manager,hotel.order.manager,sale.model_sale_order,hotel.group_hotel_manager,1,1,1,1
 access_hotel_order_line_manager,hotel.order.line.manager,sale.model_sale_order_line,hotel.group_hotel_manager,1,1,1,0
 access_folio_room_line_manager,hotel.folio_room_line.manager,model_folio_room_line,hotel.group_hotel_manager,1,1,1,1
+access_folio_report_wizard,access_folio_report_wizard,model_folio_report_wizard,base.group_user,1,1,1,1
