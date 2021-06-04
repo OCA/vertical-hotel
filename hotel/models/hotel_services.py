@@ -342,7 +342,7 @@ class HotelServiceType(models.Model):
         "hotel.service.type", "service_id", "Service Child Categories"
     )
     product_categ_id = fields.Many2one(
-        "product.category", "Product Category", delegate=True
+        "product.category", "Product Category", delegate=True, required=True, copy=False
     )
 
     @api.model
