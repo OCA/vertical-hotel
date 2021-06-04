@@ -119,7 +119,7 @@ class HotelRoomType(models.Model):
     categ_id = fields.Many2one("hotel.room.type", "Category")
     child_ids = fields.One2many("hotel.room.type", "categ_id", "Room Child Categories")
     product_categ_id = fields.Many2one(
-        "product.category", "Product Category", delegate=True
+        "product.category", "Product Category", delegate=True, required=True, copy=False
     )
 
     @api.model
@@ -204,7 +204,7 @@ class HotelRoomAmenitiesType(models.Model):
         "hotel.room.amenities.type", "amenity_id", "Amenities Child Categories"
     )
     product_categ_id = fields.Many2one(
-        "product.category", "Product Category", delegate=True
+        "product.category", "Product Category", delegate=True, required=True, copy=False
     )
 
     @api.model
@@ -290,7 +290,7 @@ class HotelRoomAmenities(models.Model):
 
     product_id = fields.Many2one(
         "product.product",
-        "Product",
+        "Room Amenities Product",
         required=True,
         delegate=True,
         ondelete="cascade",
