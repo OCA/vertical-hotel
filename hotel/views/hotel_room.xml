@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <!--======== Floor ======== -->
     <!-- Form view of hotel floor -->
@@ -9,7 +8,7 @@
             <form string=" Hotel Floor">
                 <sheet>
                     <group>
-                        <field name="name" colspan="1" />
+                        <field name="name"/>
                         <field name="sequence" invisible="1" />
                     </group>
                 </sheet>
