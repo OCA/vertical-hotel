@@ -27,7 +27,11 @@ class HotelRoom(models.Model):
         ondelete="cascade",
     )
     floor_id = fields.Many2one(
-        "hotel.floor", "Floor No", help="At which floor the room is located.",ondelete='restrict')
+        "hotel.floor",
+        "Floor No",
+        help="At which floor the room is located.",
+        ondelete="restrict",
+    )
     max_adult = fields.Integer()
     max_child = fields.Integer()
     room_categ_id = fields.Many2one(

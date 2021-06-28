@@ -8,7 +8,7 @@
             <form string=" Hotel Floor">
                 <sheet>
                     <group>
-                        <field name="name"/>
+                        <field name="name" />
                         <field name="sequence" invisible="1" />
                     </group>
                 </sheet>
