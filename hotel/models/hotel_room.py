@@ -11,7 +11,7 @@ class HotelFloor(models.Model):
     _description = "Floor"
 
     name = fields.Char("Floor Name", required=True, index=True)
-    sequence = fields.Integer(index=True)
+    sequence = fields.Integer("sequence")
 
 
 class HotelRoom(models.Model):
@@ -27,8 +27,7 @@ class HotelRoom(models.Model):
         ondelete="cascade",
     )
     floor_id = fields.Many2one(
-        "hotel.floor", "Floor No", help="At which floor the room is located."
-    )
+        "hotel.floor", "Floor No", help="At which floor the room is located.",ondelete='restrict')
     max_adult = fields.Integer()
     max_child = fields.Integer()
     room_categ_id = fields.Many2one(
@@ -60,7 +59,7 @@ class HotelRoom(models.Model):
         return super(HotelRoom, self).create(vals)
 
     @api.constrains("capacity")
-    def check_capacity(self):
+    def _check_capacity(self):
         for room in self:
             if room.capacity <= 0:
                 raise ValidationError(_("Room capacity must be more than 0"))
