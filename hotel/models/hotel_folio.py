@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
-
+from odoo.tools import format_datetime
 
 def _offset_format_timestamp1(
     src_tstamp_str,
@@ -66,7 +66,7 @@ class FolioRoomLine(models.Model):
     _description = "Hotel Room Reservation"
     _rec_name = "room_id"
 
-    room_id = fields.Many2one("hotel.room", "Room id")
+    room_id = fields.Many2one("hotel.room", "Room id",ondelete='restrict')
     check_in = fields.Datetime("Check In Date", required=True)
     check_out = fields.Datetime("Check Out Date", required=True)
     folio_id = fields.Many2one("hotel.folio", "Folio Number")
@@ -98,38 +98,15 @@ class HotelFolio(models.Model):
 
     @api.model
     def _get_checkin_date(self):
-        if self._context.get("tz"):
-            to_zone = self._context.get("tz")
-        else:
-            to_zone = "UTC"
-        return _offset_format_timestamp1(
-            time.strftime("%Y-%m-%d 12:00:00"),
-            DEFAULT_SERVER_DATETIME_FORMAT,
-            DEFAULT_SERVER_DATETIME_FORMAT,
-            ignore_unparsable_time=True,
-            context={"tz": to_zone},
-        )
+        timezone = self._context.get('tz') or self.env.user.partner_id.tz or 'UTC'
+        checkin_date = fields.Datetime.context_timestamp(self, fields.Datetime.now())
+        return fields.Datetime.to_string(checkin_date)
 
     @api.model
     def _get_checkout_date(self):
-        if self._context.get("tz"):
-            to_zone = self._context.get("tz")
-        else:
-            to_zone = "UTC"
-        tm_delta = timedelta(days=1)
-        return (
-            datetime.strptime(
-                _offset_format_timestamp1(
-                    time.strftime("%Y-%m-%d 12:00:00"),
-                    DEFAULT_SERVER_DATETIME_FORMAT,
-                    DEFAULT_SERVER_DATETIME_FORMAT,
-                    ignore_unparsable_time=True,
-                    context={"tz": to_zone},
-                ),
-                "%Y-%m-%d %H:%M:%S",
-            )
-            + tm_delta
-        )
+        timezone = self._context.get('tz') or self.env.user.partner_id.tz or 'UTC'
+        checkout_date = fields.Datetime.context_timestamp(self, fields.Datetime.now() + timedelta(days=1))
+        return fields.Datetime.to_string(checkout_date)
 
     name = fields.Char("Folio Number", readonly=True, index=True, default="New")
     order_id = fields.Many2one(
@@ -187,7 +164,7 @@ class HotelFolio(models.Model):
     duration_dummy = fields.Float("Duration Dummy")
 
     @api.constrains("room_line_ids")
-    def folio_room_lines(self):
+    def _check_duplicate_folio_room_line(self):
         """
         This method is used to validate the room_lines.
         ------------------------------------------------
@@ -244,7 +221,25 @@ class HotelFolio(models.Model):
                 if additional_hours >= configured_addition_hours:
                     myduration += 1
         self.duration = myduration
-        self.duration_dummy = self.duration
+        # self.duration_dummy = self.duration
+
+    def _update_folio_line(self, folio_id):
+        folio_room_line_obj = self.env["folio.room.line"]
+        hotel_room_obj = self.env["hotel.room"]
+        for rec in folio_id:
+            if not rec:
+                for room_rec in rec.room_line_ids:
+                    room = hotel_room_obj.search(
+                        [("product_id", "=", room_rec.product_id.id)]
+                    )
+                    room.write({"isroom": False})
+                    vals = {
+                        "room_id": room.id,
+                        "check_in": rec.checkin_date,
+                        "check_out": rec.checkout_date,
+                        "folio_id": rec.id,
+                    }
+                    folio_room_line_obj.create(vals)
 
     @api.model
     def create(self, vals):
@@ -268,40 +263,13 @@ class HotelFolio(models.Model):
                 vals = {}
             vals["name"] = self.env["ir.sequence"].next_by_code("hotel.folio")
             vals["duration"] = vals.get("duration", 0.0) or vals.get(
-                "duration_dummy", 0.0
+                "duration", 0.0
             )
             folio_id = super(HotelFolio, self).create(vals)
-            folio_room_line_obj = self.env["folio.room.line"]
-            h_room_obj = self.env["hotel.room"]
             try:
-                for rec in folio_id:
-                    if not rec.reservation_id:
-                        for room_rec in rec.room_line_ids:
-                            room = h_room_obj.search(
-                                [("product_id", "=", room_rec.product_id.id)]
-                            )
-                            room.write({"isroom": False})
-                            vals = {
-                                "room_id": room.id,
-                                "check_in": rec.checkin_date,
-                                "check_out": rec.checkout_date,
-                                "folio_id": rec.id,
-                            }
-                            folio_room_line_obj.create(vals)
+                self._update_folio_line(folio_id)
             except Exception:
-                for rec in folio_id:
-                    for room_rec in rec.room_line_ids:
-                        room = h_room_obj.search(
-                            [("product_id", "=", room_rec.product_id.id)]
-                        )
-                        room.write({"isroom": False})
-                        vals = {
-                            "room_id": room.id,
-                            "check_in": rec.checkin_date,
-                            "check_out": rec.checkout_date,
-                            "folio_id": rec.id,
-                        }
-                        folio_room_line_obj.create(vals)
+                self._update_folio_line(folio_id)
         return folio_id
 
     def write(self, vals):
@@ -311,12 +279,12 @@ class HotelFolio(models.Model):
         @param vals: dictionary of fields value.
         """
         product_obj = self.env["product.product"]
-        h_room_obj = self.env["hotel.room"]
+        hotel_room_obj = self.env["hotel.room"]
         folio_room_line_obj = self.env["folio.room.line"]
         for rec in self:
             rooms_list = [res.product_id.id for res in rec.room_line_ids]
-            if vals and vals.get("duration_dummy", False):
-                vals["duration"] = vals.get("duration_dummy", 0.0)
+            if vals and vals.get("duration", False):
+                vals["duration"] = vals.get("duration", 0.0)
             else:
                 vals["duration"] = rec.duration
             room_lst = [folio_rec.product_id.id for folio_rec in rec.room_line_ids]
@@ -324,7 +292,7 @@ class HotelFolio(models.Model):
             if len(list(new_rooms)) != 0:
                 room_list = product_obj.browse(list(new_rooms))
                 for rm in room_list:
-                    room_obj = h_room_obj.search([("name", "=", rm.name)])
+                    hotel_room = hotel_room_obj.search([("product_id", "=", rm.id)])
                     room_obj.write({"isroom": False})
                     vals = {
                         "room_id": room_obj.id,
@@ -336,7 +304,7 @@ class HotelFolio(models.Model):
             if not len(list(new_rooms)):
                 room_list_obj = product_obj.browse(rooms_list)
                 for room in room_list_obj:
-                    room_obj = h_room_obj.search([("product_id", "=", room.id)])
+                    room_obj = hotel_room_obj.search([("product_id", "=", room.id)])
                     room_obj.write({"isroom": False})
                     room_vals = {
                         "room_id": room_obj.id,
@@ -351,7 +319,7 @@ class HotelFolio(models.Model):
         return super(HotelFolio, self).write(vals)
 
     @api.onchange("partner_id")
-    def onchange_partner_id(self):
+    def _onchange_partner_id(self):
         """
         When you change partner_id it will update the partner_invoice_id,
         partner_shipping_id and pricelist_id of the hotel folio as well
@@ -359,7 +327,7 @@ class HotelFolio(models.Model):
         @param self: object pointer
         """
         if self.partner_id:
-            order_ids = [folio.order_id.id for folio in self]
+            order_ids = self.mapped('order_id').ids
             self.update(
                 {
                     "partner_invoice_id": self.partner_id.id,
@@ -387,11 +355,10 @@ class HotelFolio(models.Model):
     def action_confirm(self):
         for order in self.order_id:
             order.state = "sale"
-            if not order.analytic_account_id:
-                for line in order.order_line:
-                    if line.product_id.invoice_policy == "cost":
-                        order._create_analytic_account()
-                        break
+        if not order.analytic_account_id:
+            for line in order.order_line.filtered(lambda line: line.product_id.invoice_policy == "cost"):
+                    order._create_analytic_account()
+                    break
         config_parameter_obj = self.env["ir.config_parameter"]
         if config_parameter_obj.sudo().get_param("sale.auto_done_setting"):
             self.order_id.action_done()
@@ -400,16 +367,10 @@ class HotelFolio(models.Model):
         """
         @param self: object pointer
         """
-        if not len(self._ids):
-            return False
-        query = "select id from sale_order_line \
-        where order_id IN %s and state=%s"
-        self._cr.execute(query, (tuple(self._ids), "cancel"))
-        cr1 = self._cr
-        line_ids = map(lambda x: x[0], cr1.fetchall())
+        order_line_recs = self.env['sale.order.line'].search([('order_id','in',self.ids),
+        ('state', '=', 'cancel')])
         self.write({"state": "draft", "invoice_ids": []})
-        sale_line_obj = self.env["sale.order.line"].browse(line_ids)
-        sale_line_obj.write(
+        order_line_recs.write(
             {
                 "invoiced": False,
                 "state": "draft",
@@ -424,18 +385,6 @@ class HotelFolioLine(models.Model):
     _name = "hotel.folio.line"
     _description = "Hotel Folio Room Line"
 
-    @api.model
-    def _get_checkin_date(self):
-        if "checkin" in self._context:
-            return self._context["checkin"]
-        return time.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
-
-    @api.model
-    def _get_checkout_date(self):
-        if "checkout" in self._context:
-            return self._context["checkout"]
-        return time.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
-
     order_line_id = fields.Many2one(
         "sale.order.line",
         "Order Line",
@@ -444,10 +393,9 @@ class HotelFolioLine(models.Model):
         ondelete="cascade",
     )
     folio_id = fields.Many2one("hotel.folio", "Folio", ondelete="cascade")
-    checkin_date = fields.Datetime("Check In", required=True, default=_get_checkin_date)
+    checkin_date = fields.Datetime("Check In", required=True)
     checkout_date = fields.Datetime(
-        "Check Out", required=True, default=_get_checkout_date
-    )
+        "Check Out", required=True)
     is_reserved = fields.Boolean(
         "Is Reserved", help="True when folio line created from Reservation"
     )
@@ -466,7 +414,7 @@ class HotelFolioLine(models.Model):
         return super(HotelFolioLine, self).create(vals)
 
     @api.constrains("checkin_date", "checkout_date")
-    def check_dates(self):
+    def _check_dates(self):
         """
         This method is used to validate the checkin_date and checkout_date.
         -------------------------------------------------------------------
@@ -679,58 +627,13 @@ class HotelFolioLine(models.Model):
         self.update(vals)
         return result
 
-    @api.onchange("checkin_date", "checkout_date")
-    def on_change_checkout(self):
-        """
-        When you change checkin_date or checkout_date it will checked it
-        and update the qty of hotel folio line
-        -----------------------------------------------------------------
-        @param self: object pointer
-        """
-
-        configured_addition_hours = (
-            self.folio_id.warehouse_id.company_id.additional_hours
-        )
-        myduration = 0
-        if self.checkin_date and self.checkout_date:
-            dur = self.checkout_date - self.checkin_date
-            sec_dur = dur.seconds
-            if (not dur.days and not sec_dur) or (dur.days and not sec_dur):
-                myduration = dur.days
-            else:
-                myduration = dur.days + 1
-            #            To calculate additional hours in hotel room as per minutes
-            if configured_addition_hours > 0:
-                additional_hours = abs((dur.seconds / 60) / 60)
-                if additional_hours >= configured_addition_hours:
-                    myduration += 1
-        self.product_uom_qty = myduration
-        hotel_room_obj = self.env["hotel.room"]
-        avail_prod_ids = []
-        for room in hotel_room_obj.search([]):
-            assigned = False
-            for rm_line in room.room_line_ids:
-                if rm_line.status != "cancel":
-                    if (
-                        self.checkin_date <= rm_line.check_in <= self.checkout_date
-                    ) or (self.checkin_date <= rm_line.check_out <= self.checkout_date):
-                        assigned = True
-                    elif (
-                        rm_line.check_in <= self.checkin_date <= rm_line.check_out
-                    ) or (rm_line.check_in <= self.checkout_date <= rm_line.check_out):
-                        assigned = True
-            if not assigned:
-                avail_prod_ids.append(room.product_id.id)
-        domain = {"product_id": [("id", "in", avail_prod_ids)]}
-        return {"domain": domain}
-
     def button_confirm(self):
         """
         @param self: object pointer
         """
-        for folio in self:
-            line = folio.order_line_id
-            line.button_confirm()
+        self.mapped('order_line_id').button_confirm()
+        line = folio.order_line_id
+        line.button_confirm()
         return True
 
     def button_done(self):
@@ -738,7 +641,7 @@ class HotelFolioLine(models.Model):
         @param self: object pointer
         """
         for rec in self:
-            lines = [folio_line.order_line_id for folio_line in rec]
+            lines = rec.mapped('order_line_id')
             lines.button_done()
             rec.write({"state": "done"})
         return True

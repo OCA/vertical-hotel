@@ -63,18 +63,6 @@ class HotelServiceLine(models.Model):
         """
         return super(HotelServiceLine, self).copy(default=default)
 
-    @api.model
-    def _service_checkin_date(self):
-        if "checkin" in self._context:
-            return self._context["checkin"]
-        return time.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
-
-    @api.model
-    def _service_checkout_date(self):
-        if "checkout" in self._context:
-            return self._context["checkout"]
-        return time.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
-
     service_line_id = fields.Many2one(
         "sale.order.line",
         "Service Line",
@@ -84,10 +72,10 @@ class HotelServiceLine(models.Model):
     )
     folio_id = fields.Many2one("hotel.folio", "Folio", ondelete="cascade")
     ser_checkin_date = fields.Datetime(
-        "From Date", required=True, default=_service_checkin_date
+        "From Date", required=True
     )
     ser_checkout_date = fields.Datetime(
-        "To Date", required=True, default=_service_checkout_date
+        "To Date", required=True
     )
 
     @api.model
@@ -112,7 +100,6 @@ class HotelServiceLine(models.Model):
         s_line_obj = self.env["sale.order.line"]
         for line in self:
             if line.service_line_id:
-                sale_unlink_obj = s_line_obj.browse([line.service_line_id.id])
                 sale_unlink_obj.unlink()
         return super(HotelServiceLine, self).unlink()
 
