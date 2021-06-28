@@ -1,12 +1,10 @@
 # See LICENSE file for full copyright and licensing details.
 
-import time
 from datetime import datetime, timedelta
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
-from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
-from odoo.tools import format_datetime
+
 
 def _offset_format_timestamp1(
     src_tstamp_str,
@@ -66,7 +64,7 @@ class FolioRoomLine(models.Model):
     _description = "Hotel Room Reservation"
     _rec_name = "room_id"
 
-    room_id = fields.Many2one("hotel.room", "Room id",ondelete='restrict')
+    room_id = fields.Many2one("hotel.room", "Room id", ondelete="restrict")
     check_in = fields.Datetime("Check In Date", required=True)
     check_out = fields.Datetime("Check Out Date", required=True)
     folio_id = fields.Many2one("hotel.folio", "Folio Number")
@@ -98,14 +96,16 @@ class HotelFolio(models.Model):
 
     @api.model
     def _get_checkin_date(self):
-        timezone = self._context.get('tz') or self.env.user.partner_id.tz or 'UTC'
+        self._context.get("tz") or self.env.user.partner_id.tz or "UTC"
         checkin_date = fields.Datetime.context_timestamp(self, fields.Datetime.now())
         return fields.Datetime.to_string(checkin_date)
 
     @api.model
     def _get_checkout_date(self):
-        timezone = self._context.get('tz') or self.env.user.partner_id.tz or 'UTC'
-        checkout_date = fields.Datetime.context_timestamp(self, fields.Datetime.now() + timedelta(days=1))
+        self._context.get("tz") or self.env.user.partner_id.tz or "UTC"
+        checkout_date = fields.Datetime.context_timestamp(
+            self, fields.Datetime.now() + timedelta(days=1)
+        )
         return fields.Datetime.to_string(checkout_date)
 
     name = fields.Char("Folio Number", readonly=True, index=True, default="New")
@@ -262,9 +262,7 @@ class HotelFolio(models.Model):
             if not vals:
                 vals = {}
             vals["name"] = self.env["ir.sequence"].next_by_code("hotel.folio")
-            vals["duration"] = vals.get("duration", 0.0) or vals.get(
-                "duration", 0.0
-            )
+            vals["duration"] = vals.get("duration", 0.0) or vals.get("duration", 0.0)
             folio_id = super(HotelFolio, self).create(vals)
             try:
                 self._update_folio_line(folio_id)
@@ -292,7 +290,7 @@ class HotelFolio(models.Model):
             if len(list(new_rooms)) != 0:
                 room_list = product_obj.browse(list(new_rooms))
                 for rm in room_list:
-                    hotel_room = hotel_room_obj.search([("product_id", "=", rm.id)])
+                    room_obj = hotel_room_obj.search([("product_id", "=", rm.id)])
                     room_obj.write({"isroom": False})
                     vals = {
                         "room_id": room_obj.id,
@@ -327,7 +325,7 @@ class HotelFolio(models.Model):
         @param self: object pointer
         """
         if self.partner_id:
-            order_ids = self.mapped('order_id').ids
+            self.mapped("order_id").ids
             self.update(
                 {
                     "partner_invoice_id": self.partner_id.id,
@@ -335,10 +333,10 @@ class HotelFolio(models.Model):
                     "pricelist_id": self.partner_id.property_product_pricelist.id,
                 }
             )
-            if not order_ids:
-                raise ValidationError(
-                    _("No Order found for  %s !") % (self.partner_id.name)
-                )
+            # if not order_ids:
+            #     raise ValidationError(
+            #         _("No Order found for  %s !") % (self.partner_id.name)
+            #     )
 
     def action_done(self):
         self.write({"state": "done"})
@@ -355,20 +353,22 @@ class HotelFolio(models.Model):
     def action_confirm(self):
         for order in self.order_id:
             order.state = "sale"
-        if not order.analytic_account_id:
-            for line in order.order_line.filtered(lambda line: line.product_id.invoice_policy == "cost"):
+            if not order.analytic_account_id:
+                if order.order_line.filtered(
+                    lambda line: line.product_id.invoice_policy == "cost"
+                ):
                     order._create_analytic_account()
-                    break
-        config_parameter_obj = self.env["ir.config_parameter"]
-        if config_parameter_obj.sudo().get_param("sale.auto_done_setting"):
-            self.order_id.action_done()
+            config_parameter_obj = self.env["ir.config_parameter"]
+            if config_parameter_obj.sudo().get_param("sale.auto_done_setting"):
+                self.order_id.action_done()
 
     def action_cancel_draft(self):
         """
         @param self: object pointer
         """
-        order_line_recs = self.env['sale.order.line'].search([('order_id','in',self.ids),
-        ('state', '=', 'cancel')])
+        order_line_recs = self.env["sale.order.line"].search(
+            [("order_id", "in", self.ids), ("state", "=", "cancel")]
+        )
         self.write({"state": "draft", "invoice_ids": []})
         order_line_recs.write(
             {
@@ -394,8 +394,7 @@ class HotelFolioLine(models.Model):
     )
     folio_id = fields.Many2one("hotel.folio", "Folio", ondelete="cascade")
     checkin_date = fields.Datetime("Check In", required=True)
-    checkout_date = fields.Datetime(
-        "Check Out", required=True)
+    checkout_date = fields.Datetime("Check Out", required=True)
     is_reserved = fields.Boolean(
         "Is Reserved", help="True when folio line created from Reservation"
     )
@@ -631,17 +630,15 @@ class HotelFolioLine(models.Model):
         """
         @param self: object pointer
         """
-        self.mapped('order_line_id').button_confirm()
-        line = folio.order_line_id
-        line.button_confirm()
-        return True
+        # FIXME: there is no use of this method.
+        self.mapped("order_line_id").button_confirm()
 
     def button_done(self):
         """
         @param self: object pointer
         """
         for rec in self:
-            lines = rec.mapped('order_line_id')
+            lines = rec.mapped("order_line_id")
             lines.button_done()
             rec.write({"state": "done"})
         return True
