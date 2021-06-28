@@ -71,12 +71,8 @@ class HotelServiceLine(models.Model):
         ondelete="cascade",
     )
     folio_id = fields.Many2one("hotel.folio", "Folio", ondelete="cascade")
-    ser_checkin_date = fields.Datetime(
-        "From Date", required=True
-    )
-    ser_checkout_date = fields.Datetime(
-        "To Date", required=True
-    )
+    ser_checkin_date = fields.Datetime("From Date", required=True)
+    ser_checkout_date = fields.Datetime("To Date", required=True)
 
     @api.model
     def create(self, vals):
@@ -100,6 +96,7 @@ class HotelServiceLine(models.Model):
         s_line_obj = self.env["sale.order.line"]
         for line in self:
             if line.service_line_id:
+                sale_unlink_obj = s_line_obj.browse([line.service_line_id.id])
                 sale_unlink_obj.unlink()
         return super(HotelServiceLine, self).unlink()
 
