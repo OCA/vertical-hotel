@@ -107,7 +107,7 @@
                                 colspan="4"
                                 string="Room Line"
                                 nolabel="1"
-                                context="{'checkin':checkin_date,'checkout':checkout_date,'folio':context.get('folio')}"
+                                context="{'default_checkin_date':'checkin_date','default_checkout_date':'checkout_date'}"
                             >
                                 <tree editable="bottom" string="Room Line">
                                     <field
@@ -116,8 +116,8 @@
                                         groups="base.group_multi_company"
                                         invisible="1"
                                     />
-                                    <field name="checkin_date" widget="date" />
-                                    <field name="checkout_date" widget="date" />
+                                    <field name="checkin_date"  />
+                                    <field name="checkout_date" />
                                     <field
                                         name="product_id"
                                         string="Room No"
@@ -171,8 +171,10 @@
                                 colspan="4"
                                 string="Service Line"
                                 nolabel="1"
-                                context="{'checkin':checkin_date,'checkout':checkout_date}"
+                                context="{'deafult_ser_checkin_date':'checkin_date',
+                                'deafult_ser_checkout_date':'checkout_date','checkin':checkin_date,'checkout':checkout_date}"
                             >
+
                                 <tree editable="bottom" string="Service Line">
                                     <field
                                         name="product_id"
@@ -181,6 +183,8 @@
                                         context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'hotel':parent.warehouse_id,'uom':product_uom}"
                                         options="{'no_open': True}"
                                     />
+                                    <field name="ser_checkout_date" invisible="1"/>
+                                    <field name="ser_checkin_date" invisible="1"/>
                                     <field name="name" />
                                     <field
                                         name="company_id"
