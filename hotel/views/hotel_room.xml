@@ -65,27 +65,21 @@
                                 />
                                 <field name="capacity" />
                                 <field name="uom_id" invisible="1" />
+                                <field
+                                    name="supplier_taxes_id"
+                                    widget="many2many_tags"
+                                    string="Supplier Taxes"
+                                />
+                                <field
+                                    name="taxes_id"
+                                    widget="many2many_tags"
+                                    string="Customer Taxes"
+                                />
                             </group>
-                            <newline />
-                            <separator colspan='4' string="Supplier Taxes" />
-                            <field
-                                name="supplier_taxes_id"
-                                colspan="4"
-                                nolabel='1'
-                                help='List of supplier taxes if there any on the defined room. '
-                            />
-                            <newline />
-                            <separator colspan='4' string="Customer Taxes" />
-                            <field
-                                name="taxes_id"
-                                colspan="4"
-                                nolabel='1'
-                                help='Customer taxes apply on the perticular room. '
-                            />
                         </page>
                         <page string="Room Amenities">
                             <separator string=" Room Amenities" />
-                            <field name="room_amenities" colspan="4" nolabel="1" />
+                            <field name="room_amenities_ids" colspan="4" nolabel="1" />
                         </page>
                         <page string="Procurement">
                             <group colspan="4" col="4">
