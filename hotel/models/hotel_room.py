@@ -9,9 +9,10 @@ class HotelFloor(models.Model):
 
     _name = "hotel.floor"
     _description = "Floor"
+    _order = "sequence"
 
     name = fields.Char("Floor Name", required=True, index=True)
-    sequence = fields.Integer("sequence")
+    sequence = fields.Integer("sequence", default=10)
 
 
 class HotelRoom(models.Model):
@@ -37,12 +38,8 @@ class HotelRoom(models.Model):
     room_categ_id = fields.Many2one(
         "hotel.room.type", "Room Category", required=True, ondelete="restrict"
     )
-    room_amenities = fields.Many2many(
-        "hotel.room.amenities",
-        "temp_tab",
-        "room_amenities",
-        "rcateg_id",
-        help="List of room amenities. ",
+    room_amenities_ids = fields.Many2many(
+        "hotel.room.amenities", string="Room Amenities", help="List of room amenities."
     )
     status = fields.Selection(
         [("available", "Available"), ("occupied", "Occupied")],
@@ -69,7 +66,7 @@ class HotelRoom(models.Model):
                 raise ValidationError(_("Room capacity must be more than 0"))
 
     @api.onchange("isroom")
-    def isroom_change(self):
+    def _isroom_change(self):
         """
         Based on isroom, status will be updated.
         ----------------------------------------
