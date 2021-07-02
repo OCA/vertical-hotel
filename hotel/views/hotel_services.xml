@@ -33,24 +33,18 @@
                                     <field name="uom_id" />
                                     <field name="default_code" />
                                     <field name="uom_po_id" />
+                                    <field
+                                        name="supplier_taxes_id"
+                                        widget="many2many_tags"
+                                        string="Supplier Taxes"
+                                    />
+                                    <field
+                                        name="taxes_id"
+                                        widget="many2many_tags"
+                                        string="Customer Taxes"
+                                    />
                                 </group>
                             </group>
-                            <newline />
-                            <separator colspan='4' string="Supplier Taxes" />
-                            <field
-                                name="supplier_taxes_id"
-                                colspan="4"
-                                nolabel='1'
-                                help='List of supplier taxes related to the service provided by hotel.'
-                            />
-                            <newline />
-                            <separator colspan='4' string="Customer Taxes" />
-                            <field
-                                name="taxes_id"
-                                colspan="4"
-                                nolabel='1'
-                                help='Customer taxes applied on the service.'
-                            />
                         </page>
                         <page string="Procurement">
                             <group colspan="4" col="4">
@@ -59,8 +53,6 @@
                                 <field name="cost_method" string="Cost Method" />
                                 <field name="sale_ok" select="2" />
                                 <field name="standard_price" />
-                                <!--commented as rental field is removed from odoo14-->
-                                <!-- <field name="rental" select="2" /> -->
                             </group>
                             <newline />
                             <group>
