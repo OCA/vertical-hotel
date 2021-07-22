@@ -1,7 +1,10 @@
 <odoo noupdate="1">
     <!-- Demo data for hotel reservation -->
     <record id="hotel_reservation_0" model="hotel.reservation">
-        <field eval="(DateTime.today()).strftime('%Y-%m-%d 10:00:00')" name="date_order"/>
+        <field
+            eval="(DateTime.today()).strftime('%Y-%m-%d 10:00:00')"
+            name="date_order"
+        />
         <field eval="&quot;2021-05-05 12:09:00&quot;" name="checkout" />
         <field eval="&quot;2021-05-02 12:09:00&quot;" name="checkin" />
         <field name="company_id" ref="base.main_company" />
