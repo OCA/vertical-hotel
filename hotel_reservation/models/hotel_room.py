@@ -20,6 +20,7 @@ class HotelRoom(models.Model):
     _inherit = "hotel.room"
     _description = "Hotel Room"
 
+
     room_reservation_line_ids = fields.One2many(
         "hotel.room.reservation.line", "room_id", string="Room Reserve Line"
     )

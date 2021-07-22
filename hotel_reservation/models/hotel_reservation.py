@@ -116,7 +116,7 @@ class HotelReservation(models.Model):
         for res in self:
             res.update({"no_of_folio": len(res.folio_id.ids)})
 
-    reservation_no = fields.Char("Reservation No", readonly=True, copy=False)
+    reservation_no = fields.Char("Reservation No", readonly=True ,copy=False)
     date_order = fields.Datetime(
         "Date Ordered",
         readonly=True,
