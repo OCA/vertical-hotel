@@ -47,8 +47,8 @@ class HotelFolioLineExt(models.Model):
     _inherit = "hotel.folio.line"
 
     @api.onchange("checkin_date", "checkout_date")
-    def on_change_checkout(self):
-        res = super(HotelFolioLineExt, self).on_change_checkout()
+    def _on_change_checkout(self):
+        res = super(HotelFolioLineExt, self)._on_change_checkout()
         avail_prod_ids = []
         hotel_room_ids = self.env["hotel.room"].search([])
         for room in hotel_room_ids:
@@ -112,11 +112,11 @@ class HotelReservation(models.Model):
     _order = "reservation_no desc"
     _inherit = ["mail.thread"]
 
-    def _compute_folio_id(self):
+    def _compute_folio_count(self):
         for res in self:
             res.update({"no_of_folio": len(res.folio_id.ids)})
 
-    reservation_no = fields.Char("Reservation No", readonly=True)
+    reservation_no = fields.Char("Reservation No", readonly=True ,copy=False)
     date_order = fields.Datetime(
         "Date Ordered",
         readonly=True,
@@ -124,8 +124,8 @@ class HotelReservation(models.Model):
         index=True,
         default=lambda self: fields.Datetime.now(),
     )
-    warehouse_id = fields.Many2one(
-        "stock.warehouse",
+    company_id = fields.Many2one(
+        "res.company",
         "Hotel",
         readonly=True,
         index=True,
@@ -197,9 +197,9 @@ class HotelReservation(models.Model):
         help="Number of children there in guest list.",
     )
     reservation_line = fields.One2many(
-        "hotel_reservation.line",
+        "hotel.reservation.line",
         "line_id",
-        "Reservation Line",
+        string="Reservation Line",
         help="Hotel room reservation details.",
         readonly=True,
         states={"draft": [("readonly", False)]},
@@ -213,7 +213,7 @@ class HotelReservation(models.Model):
         ],
         "State",
         readonly=True,
-        default=lambda *a: "draft",
+        default="draft",
     )
     folio_id = fields.Many2many(
         "hotel.folio",
@@ -222,7 +222,7 @@ class HotelReservation(models.Model):
         "invoice_id",
         string="Folio",
     )
-    no_of_folio = fields.Integer("No. Folio", compute="_compute_folio_id")
+    no_of_folio = fields.Integer("No. Folio", compute="_compute_folio_count")
 
     def unlink(self):
         """
@@ -243,7 +243,7 @@ class HotelReservation(models.Model):
         return super(HotelReservation, self.with_context(ctx)).copy()
 
     @api.constrains("reservation_line", "adults", "children")
-    def check_reservation_rooms(self):
+    def _check_reservation_rooms(self):
         """
         This method is used to validate the reservation_line.
         -----------------------------------------------------
@@ -289,7 +289,7 @@ class HotelReservation(models.Model):
                 )
 
     @api.onchange("partner_id")
-    def onchange_partner_id(self):
+    def _onchange_partner_id(self):
         """
         When you change partner_id it will update the partner_invoice_id,
         partner_shipping_id and pricelist_id of the hotel reservation as well
@@ -518,7 +518,7 @@ class HotelReservation(models.Model):
             duration = duration_vals.get("duration") or 0.0
             folio_vals = {
                 "date_order": reservation.date_order,
-                "warehouse_id": reservation.warehouse_id.id,
+                "company_id": reservation.company_id.id,
                 "partner_id": reservation.partner_id.id,
                 "pricelist_id": reservation.pricelist_id.id,
                 "partner_invoice_id": reservation.partner_invoice_id.id,
@@ -567,7 +567,7 @@ class HotelReservation(models.Model):
         @return: Duration and checkout_date
         """
         value = {}
-        configured_addition_hours = self.warehouse_id.company_id.additional_hours
+        configured_addition_hours = self.company_id.additional_hours
         duration = 0
         if checkin_date and checkout_date:
             dur = checkout_date - checkin_date
@@ -594,7 +594,7 @@ class HotelReservation(models.Model):
 
 class HotelReservationLine(models.Model):
 
-    _name = "hotel_reservation.line"
+    _name = "hotel.reservation.line"
     _description = "Reservation Line"
 
     name = fields.Char("Name")

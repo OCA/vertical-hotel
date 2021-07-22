@@ -107,7 +107,7 @@ class TestReservation(common.TransactionCase):
         self.hotel_room.cron_room_line()
 
     def test_quick_room_reserv_on_change_check_out(self):
-        self.quick_room_reserv.on_change_check_out()
+        self.quick_room_reserv._on_change_check_out()
 
     def test_quick_room_reserv_onchange_partner_id_res(self):
         self.quick_room_reserv.onchange_partner_id_res()
@@ -129,7 +129,7 @@ class TestReservation(common.TransactionCase):
     def test_check_reservation_rooms(self):
         for rec in self.hotel_reserv.reservation_line:
             self.assertEqual(len(rec.reserve), 1, "Please Select Rooms For Reservation")
-        self.hotel_reserv.check_reservation_rooms()
+        self.hotel_reserv._check_reservation_rooms()
 
     def test_unlink_reserv(self):
         self.assertEqual(self.hotel_reserv.state != "draft", False)

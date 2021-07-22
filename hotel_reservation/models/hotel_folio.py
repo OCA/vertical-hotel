@@ -66,8 +66,8 @@ class HotelFolioLine(models.Model):
         reservation_line_obj = self.env["hotel.room.reservation.line"]
         room_obj = self.env["hotel.room"]
         prod_id = vals.get("product_id") or self.product_id.id
-        chkin = vals.get("checkin_date") or self.checkin_date
-        chkout = vals.get("checkout_date") or self.checkout_date
+        checkin = vals.get("checkin_date") or self.checkin_date
+        checkout = vals.get("checkout_date") or self.checkout_date
         is_reserved = self.is_reserved
         if prod_id and is_reserved:
             prod_room = room_obj.search([("product_id", "=", prod_id)], limit=1)
@@ -87,8 +87,8 @@ class HotelFolioLine(models.Model):
                     if rm_lines:
                         rm_line_vals = {
                             "room_id": prod_room.id,
-                            "check_in": chkin,
-                            "check_out": chkout,
+                            "check_in": checkin,
+                            "check_out": checkout,
                         }
                         rm_lines.write(rm_line_vals)
         return super(HotelFolioLine, self).write(vals)

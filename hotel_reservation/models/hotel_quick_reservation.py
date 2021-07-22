@@ -12,7 +12,7 @@ class QuickRoomReservation(models.TransientModel):
     check_in = fields.Datetime("Check In", required=True)
     check_out = fields.Datetime("Check Out", required=True)
     room_id = fields.Many2one("hotel.room", "Room", required=True)
-    warehouse_id = fields.Many2one("stock.warehouse", "Hotel", required=True)
+    company_id = fields.Many2one("res.company", "Hotel", required=True)
     pricelist_id = fields.Many2one("product.pricelist", "pricelist")
     partner_invoice_id = fields.Many2one(
         "res.partner", "Invoice Address", required=True
@@ -24,7 +24,7 @@ class QuickRoomReservation(models.TransientModel):
     adults = fields.Integer("Adults")
 
     @api.onchange("check_out", "check_in")
-    def on_change_check_out(self):
+    def _on_change_check_out(self):
         """
         When you change checkout or checkin it will check whether
         Checkout date should be greater than Checkin date
@@ -33,8 +33,7 @@ class QuickRoomReservation(models.TransientModel):
         @param self: object pointer
         @return: raise warning depending on the validation
         """
-        if self.check_out and self.check_in:
-            if self.check_out < self.check_in:
+            if (self.check_out and self.check_in) and (self.check_out < self.check_in):
                 raise ValidationError(
                     _("Checkout date should be greater than Checkin date.")
                 )
@@ -108,8 +107,8 @@ class QuickRoomReservation(models.TransientModel):
                             0,
                             0,
                             {
-                                "reserve": [(6, 0, [res.room_id.id])],
-                                "name": (res.room_id and res.room_id.name or ""),
+                                "reserve": [(6, 0, res.room_id.ids)],
+                                "name": res.room_id.name or " ",
                             },
                         )
                     ],
