@@ -1,0 +1,129 @@
+<odoo>
+    <!--==== Amenities Type ==== -->
+    <!-- Form view of hotel room amenities type -->
+    <record id="view_hotel_room_amenities_type_form" model="ir.ui.view">
+        <field name="name">hotel.room_amenities_type_form</field>
+        <field name="model">hotel.room.amenities.type</field>
+        <field name="arch" type="xml">
+            <form string="Hotel Room Amenities Type">
+                <sheet>
+                    <group>
+                        <field name="name" string="Amenity Type" />
+                        <field name="amenity_id" />
+                        <field name="child_ids" invisible="1" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Tree view of hotel room amenities type -->
+    <record id="view_hotel_room_amenities_type_list" model="ir.ui.view">
+        <field name="name">hotel.room_amenities_type_list</field>
+        <field name="model">hotel.room.amenities.type</field>
+        <field name="arch" type="xml">
+            <tree string="Hotel Room Amenities Type">
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+    <!--===== Room Amenities ===== -->
+    <!-- Form view of hotel room amenities -->
+    <record id="view_hotel_room_amenities_form" model="ir.ui.view">
+        <field name="name">hotel.room.amenities.form</field>
+        <field name="model">hotel.room.amenities</field>
+        <field name="arch" type="xml">
+            <form string="Hotel Room Amenities">
+                <sheet>
+                    <label for="name" string="Name" />
+                    <h1>
+                        <field name="name" />
+                    </h1>
+                    <notebook>
+                        <page string="Information">
+                            <group colspan="4" col="4">
+                                <field name="type" select="2" string="Amenity Type" />
+                                <field
+                                    name="amenities_categ_id"
+                                    string="Amenities Category"
+                                />
+                                <field
+                                    name="product_manager"
+                                    select="2"
+                                    string="Amenity manager"
+                                />
+                                <field name="uom_id" />
+                                <field name="default_code" />
+                                <field name="uom_po_id" />
+                                <field
+                                    name="supplier_taxes_id"
+                                    widget="many2many_tags"
+                                    string="Supplier Taxes"
+                                />
+                                <field
+                                    name="taxes_id"
+                                    widget="many2many_tags"
+                                    string="Customer Taxes"
+                                />
+                            </group>
+                        </page>
+                        <page string="Procurement">
+                            <group colspan="4" col="4">
+                                <field name="active" select="2" />
+                                <field name="list_price" />
+                                <field name="cost_method" string="Cost Method" />
+                                <field name="sale_ok" select="2" />
+                                <field name="standard_price" />
+                            </group>
+                            <newline />
+                            <group>
+                                <separator string="Suppliers" />
+                                <field
+                                    name="seller_ids"
+                                    colspan="4"
+                                    nolabel="1"
+                                    widget="one2many_list"
+                                />
+                            </group>
+                        </page>
+                        <page string="Descriptions">
+                            <separator string="Description" />
+                            <field name="description" colspan="4" nolabel="1" />
+                            <separator string="Sale Description" />
+                            <field name="description_sale" colspan="4" nolabel="1" />
+                            <separator string="Purchase Description" />
+                            <field
+                                name="description_purchase"
+                                colspan="4"
+                                nolabel="1"
+                            />
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Search view of hotel room amenities -->
+    <record id="view_hotel_room_aenities_search" model="ir.ui.view">
+        <field name="name">hotel.room_amenities_search</field>
+        <field name="model">hotel.room.amenities</field>
+        <field name="arch" type="xml">
+            <search string="Hotel Room Amenities">
+                <field name="name" />
+                <field name="amenities_categ_id" string="Amenities Category" />
+                <field name="list_price" string="Amenity rate" />
+            </search>
+        </field>
+    </record>
+    <!-- Tree view of hotel room amenities -->
+    <record id="view_hotel_room_amenities_list" model="ir.ui.view">
+        <field name="name">hotel.room_amenities_list</field>
+        <field name="model">hotel.room.amenities</field>
+        <field name="arch" type="xml">
+            <tree string="Hotel Room Amenities">
+                <field name="name" />
+                <field name="amenities_categ_id" string="Amenities Category" />
+                <field name="list_price" string="Amenity Rate" invisible="1" />
+            </tree>
+        </field>
+    </record>
+</odoo>

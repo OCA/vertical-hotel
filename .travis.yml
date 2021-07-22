@@ -14,10 +14,14 @@ addons:
       - expect-dev # provides unbuffer utility
 
 stages:
+  - linting
   - test
 
 jobs:
   include:
+    - stage: linting
+      env:
+        - LINT_CHECK="1"
     - stage: test
       env:
         - TESTS=1 ODOO_REPO="odoo/odoo" MAKEPOT="1"
@@ -30,8 +34,8 @@ env:
     - MQT_DEP=PIP
 
 install:
-  - git clone --depth=1 https://github.com/OCA/maintainer-quality-tools.git
-    ${HOME}/maintainer-quality-tools
+  - git clone --depth=1
+    https://github.com/OCA/maintainer-quality-tools.git  ${HOME}/maintainer-quality-tools
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
   - travis_install_nightly
 
