@@ -27,6 +27,7 @@
         "views/res_company.xml",
         "views/actions.xml",
         "views/menus.xml",
+        "views/account_move.xml",
         "wizard/hotel_wizard.xml",
     ],
     "css": ["static/src/css/room_kanban.css"],
