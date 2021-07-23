@@ -68,6 +68,7 @@ class HotelFolioLine(models.Model):
         prod_id = vals.get("product_id") or self.product_id.id
         checkin = vals.get("checkin_date") or self.checkin_date
         checkout = vals.get("checkout_date") or self.checkout_date
+
         is_reserved = self.is_reserved
         if prod_id and is_reserved:
             prod_room = room_obj.search([("product_id", "=", prod_id)], limit=1)

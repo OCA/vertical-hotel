@@ -112,6 +112,7 @@ class HotelReservation(models.Model):
     _order = "reservation_no desc"
     _inherit = ["mail.thread"]
 
+
     def _compute_folio_count(self):
         for res in self:
             res.update({"no_of_folio": len(res.folio_id.ids)})
@@ -124,6 +125,7 @@ class HotelReservation(models.Model):
         index=True,
         default=lambda self: fields.Datetime.now(),
     )
+
     company_id = fields.Many2one(
         "res.company",
         "Hotel",

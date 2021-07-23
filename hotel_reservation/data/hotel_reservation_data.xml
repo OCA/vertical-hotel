@@ -1,3 +1,4 @@
+
 <odoo noupdate="1">
     <!-- Demo data for hotel reservation -->
     <record id="hotel_reservation_0" model="hotel.reservation">
