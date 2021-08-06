@@ -20,7 +20,7 @@ class HotelFolio(models.Model):
                 [("reservation_id", "=", folio.reservation_id.id)]
             )
             if len(reservations) == 1:
-                for line in folio.reservation_id.reservation_line_ids:
+                for line in folio.reservation_id.reservation_line:
                     for room in line.reserve:
                         vals = {
                             "room_id": room.id,
@@ -38,13 +38,15 @@ class HotelFolioLine(models.Model):
     _inherit = "hotel.folio.line"
 
     @api.onchange("checkin_date", "checkout_date")
-    def _onchange_checkout_dates(self):
-        res = super(HotelFolioLine, self)._onchange_checkout_dates()
+    def _onchange_checkin_checkout_dates(self):
+        res = super(HotelFolioLine, self)._onchange_checkin_checkout_dates()
         avail_prod_ids = []
         for room in self.env["hotel.room"].search([]):
             assigned = False
-            for line in room.room_reservation_line_ids:
-                if line.status != "cancel":
+            for line in room.room_reservation_line_ids.filtered(
+                lambda l: l.status != "cancel"
+            ):
+                if self.checkin_date and line.check_in and self.checkout_date:
                     if (self.checkin_date <= line.check_in <= self.checkout_date) or (
                         self.checkin_date <= line.check_out <= self.checkout_date
                     ):

@@ -10,7 +10,7 @@ class TestReservation(common.TransactionCase):
     def setUp(self):
         super(TestReservation, self).setUp()
 
-        self.hotel_reserv_line_obj = self.env["hotel_reservation.line"]
+        self.hotel_reserv_line_obj = self.env["hotel.reservation.line"]
         self.hotel_reserv_obj = self.env["hotel.reservation"]
         self.hotel_room_obj = self.env["hotel.room"]
         self.hotel_room_reserv_obj = self.env["hotel.room.reservation.line"]
@@ -19,7 +19,7 @@ class TestReservation(common.TransactionCase):
         self.reserv_line = self.env.ref("hotel_reservation.hotel_reservation_0")
         self.room_type = self.env.ref("hotel.hotel_room_type_1")
         self.room = self.env.ref("hotel.hotel_room_0")
-        self.warehouse = self.env.ref("stock.warehouse0")
+        self.company = self.env.ref("base.main_company")
         self.partner = self.env.ref("base.res_partner_2")
         self.pricelist = self.env.ref("product.list0")
         self.floor = self.env.ref("hotel.hotel_floor_ground0")
@@ -39,7 +39,7 @@ class TestReservation(common.TransactionCase):
             {
                 "reservation_no": "R/00002",
                 "date_order": cur_date,
-                "warehouse_id": self.warehouse.id,
+                "company_id": self.company.id,
                 "partner_id": self.partner.id,
                 "pricelist_id": self.pricelist.id,
                 "checkin": cur_date,
@@ -47,11 +47,10 @@ class TestReservation(common.TransactionCase):
                 "adults": 1,
                 "state": "draft",
                 "children": 1,
-                "reservation_line": [(6, 0, [self.room.id])],
                 "partner_invoice_id": self.partner.id,
                 "partner_order_id": self.partner.id,
                 "partner_shipping_id": self.partner.id,
-                "reservation_line_ids": [(6, 0, [self.room.id])],
+                "reservation_line": [(6, 0, [self.room.id])],
             }
         )
 
@@ -69,7 +68,7 @@ class TestReservation(common.TransactionCase):
                 "check_in": cur_date,
                 "check_out": cur_date,
                 "room_id": self.room.id,
-                "warehouse_id": self.warehouse.id,
+                "company_id": self.company.id,
                 "pricelist_id": self.pricelist.id,
                 "partner_invoice_id": self.partner.id,
                 "partner_order_id": self.partner.id,
@@ -110,7 +109,7 @@ class TestReservation(common.TransactionCase):
         self.quick_room_reserv._on_change_check_out()
 
     def test_quick_room_reserv_onchange_partner_id_res(self):
-        self.quick_room_reserv.onchange_partner_id_res()
+        self.quick_room_reserv._onchange_partner_id_res()
 
     def test_quick_room_reserv_default_get(self):
         fields = ["date_from", "room_id"]
@@ -147,7 +146,7 @@ class TestReservation(common.TransactionCase):
         self.hotel_reserv.check_overlap(date1, date2)
 
     def test_onchange_partner_id(self):
-        self.hotel_reserv.onchange_partner_id()
+        self.hotel_reserv._onchange_partner_id()
 
     def test_set_to_draft_reservation(self):
         self.hotel_reserv.set_to_draft_reservation()

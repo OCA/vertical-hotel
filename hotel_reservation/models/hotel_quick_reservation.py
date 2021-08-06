@@ -33,10 +33,10 @@ class QuickRoomReservation(models.TransientModel):
         @param self: object pointer
         @return: raise warning depending on the validation
         """
-            if (self.check_out and self.check_in) and (self.check_out < self.check_in):
-                raise ValidationError(
-                    _("Checkout date should be greater than Checkin date.")
-                )
+        if (self.check_out and self.check_in) and (self.check_out < self.check_in):
+            raise ValidationError(
+                _("Checkout date should be greater than Checkin date.")
+            )
 
     @api.onchange("partner_id")
     def _onchange_partner_id_res(self):
@@ -99,10 +99,10 @@ class QuickRoomReservation(models.TransientModel):
                     "partner_shipping_id": res.partner_shipping_id.id,
                     "checkin": res.check_in,
                     "checkout": res.check_out,
-                    "warehouse_id": res.warehouse_id.id,
+                    "company_id": res.company_id.id,
                     "pricelist_id": res.pricelist_id.id,
                     "adults": res.adults,
-                    "reservation_line_ids": [
+                    "reservation_line": [
                         (
                             0,
                             0,
