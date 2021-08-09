@@ -75,6 +75,7 @@ class ReportKot(models.AbstractModel):
 
 class FolioRestReport(models.AbstractModel):
     _name = "report.hotel_restaurant.report_rest_order"
+    _description = "Folio Rest Report"
 
     def get_data(self, date_start, date_end):
         data = []
@@ -211,7 +212,7 @@ class FolioReservReport(models.AbstractModel):
                 order_data = []
                 for order in record.hotel_restaurant_orders_ids:
                     order_date = order.o_date
-                    order_date = (fields.Datetime.to_string(record.order_date),)
+                    # order_date = (fields.Datetime.to_string(record.order_date),)
                     order_data.append(
                         {
                             "order_no": order.order_no,

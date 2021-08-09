@@ -978,7 +978,7 @@
                         <div class="oe_kanban_global_click">
                             <div class="o_kanban_image">
                                 <img
-                                    alt=""
+                                    alt="hotel menucard"
                                     t-att-src="kanban_image('hotel.menucard', 'image_1920', record.id.raw_value)"
                                 />
                             </div>
