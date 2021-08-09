@@ -1,0 +1,293 @@
+<odoo>
+    <!--======== Floor ======== -->
+    <!-- Form view of hotel floor -->
+    <record id="view_hotel_floor_form" model="ir.ui.view">
+        <field name="name">hotel.floor.form</field>
+        <field name="model">hotel.floor</field>
+        <field name="arch" type="xml">
+            <form string=" Hotel Floor">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="sequence" invisible="1" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Tree view of hotel floor -->
+    <record id="view_hotel_floor_tree" model="ir.ui.view">
+        <field name="name">hotel.floor.tree</field>
+        <field name="model">hotel.floor</field>
+        <field name="arch" type="xml">
+            <tree string=" Hotel Floors">
+                <field name="sequence" widget="handle" />
+                <field name="name" colspan="1" />
+            </tree>
+        </field>
+    </record>
+    <!-- ====== Rooms ====== -->
+    <!-- Form view of hotel room -->
+    <record id="view_hotel_room_form" model="ir.ui.view">
+        <field name="name">hotel.room.form</field>
+        <field name="model">hotel.room</field>
+        <field name="arch" type="xml">
+            <form string="Hotel Room">
+                <sheet>
+                    <field
+                        name="image_1920"
+                        widget="image"
+                        class="oe_avatar"
+                        options="{'preview_image': 'image_128'}"
+                    />
+                    <div class="oe_title">
+                        <label for="name" string="Name" />
+                        <h1>
+                            <field name="name" />
+                        </h1>
+                        <label for="status" string="Status" />
+                        <h2>
+                            <field name="status" readonly="1" />
+                        </h2>
+                        <h2>
+                            <field name="isroom" />
+                        </h2>
+                    </div>
+                    <notebook>
+                        <page name="information_hotel_room" string="Information">
+                            <group colspan="4" col="4">
+                                <field name="floor_id" string="Floor" />
+                                <field name="room_categ_id" select="1" />
+                                <field
+                                    name="product_manager"
+                                    select="2"
+                                    string="Room Manager"
+                                />
+                                <field name="capacity" />
+                                <field name="uom_id" invisible="1" />
+                                <field
+                                    name="supplier_taxes_id"
+                                    widget="many2many_tags"
+                                    string="Supplier Taxes"
+                                />
+                                <field
+                                    name="taxes_id"
+                                    widget="many2many_tags"
+                                    string="Customer Taxes"
+                                />
+                            </group>
+                        </page>
+                        <page string="Room Amenities">
+                            <separator string=" Room Amenities" />
+                            <field name="room_amenities_ids" colspan="4" nolabel="1" />
+                        </page>
+                        <page string="Procurement">
+                            <group colspan="4" col="4">
+                                <field name="active" select="2" />
+                                <field name="list_price" />
+                                <!--commented as rental field is removed from odoo14-->
+                                <!-- <field name="rental" select="2" /> -->
+                                <field name="standard_price" />
+                                <field name="cost_method" string="Cost Method" />
+                                <newline />
+                            </group>
+                            <newline />
+                            <group>
+                                <separator string="Suppliers" />
+                                <field
+                                    name="seller_ids"
+                                    colspan="4"
+                                    nolabel="1"
+                                    widget="one2many_list"
+                                />
+                            </group>
+                        </page>
+                        <page string="Descriptions">
+                            <separator string="Description" />
+                            <field name="description" colspan="4" nolabel="1" />
+                        </page>
+                        <page string="Folio Room Reservations">
+                            <separator
+                                colspan='4'
+                                string="Folio Room Reservation Line"
+                            />
+                            <field name="room_line_ids" colspan="4" nolabel='1'>
+                                <form string=" Room line">
+                                    <group colspan='4' col='4'>
+                                        <field name="room_id" />
+                                        <field name="check_in" />
+                                        <field name="check_out" />
+                                        <field name="folio_id" />
+                                        <field name="status" />
+                                    </group>
+                                </form>
+                                <tree>
+                                    <field name="room_id" />
+                                    <field name="check_in" />
+                                    <field name="check_out" />
+                                    <field name="folio_id" />
+                                    <field name="status" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Search view of hotel room -->
+    <record id="view_hotel_room_search" model="ir.ui.view">
+        <field name="name">hotel.room.search</field>
+        <field name="model">hotel.room</field>
+        <field name="arch" type="xml">
+            <search string="Hotel Room">
+                <field name="name" filter_domain="[('name', 'ilike', self)]" />
+                <field name="room_categ_id" />
+                <field name="list_price" string="Room rate" />
+                <field name="status" string="Status" />
+                <newline />
+                <filter
+                    name="available"
+                    string="Available"
+                    domain="[('status','=', 'available')]"
+                />
+                <filter
+                    name="reserved"
+                    string="Reserved"
+                    domain="[('status','=', 'occupied')]"
+                />
+            </search>
+        </field>
+    </record>
+    <!-- Tree view of hotel room -->
+    <record id="view_hotel_room_tree" model="ir.ui.view">
+        <field name="name">hotel.room.tree</field>
+        <field name="model">hotel.room</field>
+        <field name="arch" type="xml">
+            <tree string="Hotel Room">
+                <field name="name" />
+                <field name="room_categ_id" />
+                <field name="list_price" string="Room rate" />
+                <field name="status" />
+                <field name="capacity" />
+            </tree>
+        </field>
+    </record>
+    <!-- Kanban view of hotel room -->
+    <record id="view_hotel_room_kanban" model="ir.ui.view">
+        <field name="name">hotel.room.kanban</field>
+        <field name="model">hotel.room</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="status">
+                <field name="name" />
+                <field name="status" />
+                <field name="color" />
+                <field name="lst_price" />
+                <field name="id" />
+                <field name="code" />
+                <templates>
+                    <t t-name="kanban-box">
+                        <div
+                            t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click"
+                        >
+                            <div
+                                class="o_dropdown_kanban dropdown"
+                                groups="base.group_user"
+                            >
+                                <a
+                                    role="button"
+                                    class="dropdown-toggle btn"
+                                    data-toggle="dropdown"
+                                    href="#"
+                                >
+                                    <span title="fa_icon" class="fa fa-bars fa-lg" />
+                                </a>
+                                <ul
+                                    class="dropdown-menu"
+                                    role="menu"
+                                    aria-labelledby="dLabel"
+                                >
+                                    <t t-if="widget.editable">
+                                        <li>
+                                            <a type="edit">Edit</a>
+                                        </li>
+                                    </t>
+                                    <t t-if="widget.deletable">
+                                        <li>
+                                            <a type="delete">Delete</a>
+                                        </li>
+                                    </t>
+                                    <li>
+                                        <ul
+                                            class="oe_kanban_colorpicker"
+                                            data-field="color"
+                                        />
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="oe_kanban_details" style='margin-top: -5px;'>
+                                <div class="oe_kanban_content">
+                                    <div class="oe_kanban_project_list">
+                                        <H3>
+                                            <a type="open">
+                                                <img
+                                                    alt="room_image"
+                                                    t-att-src="kanban_image('hotel.room', 'image_medium', record.id.value)"
+                                                    style="height:70px;width:70px"
+                                                    class="oe_avatar oe_kanban_avatar_smallbox"
+                                                />
+                                                <t
+                                                    t-if="record.code.raw_value"
+                                                    style="margin-right: 10px"
+                                                >
+                                                    [
+                                                    <field name="code" />
+                                                    ]
+                                                </t>
+                                                <field name="name" />
+                                            </a>
+                                        </H3>
+                                    </div>
+                                    <div name="tags" />
+                                    <ul>
+                                        <li>
+                                            Status:
+                                            <field name="status" />
+                                        </li>
+                                        <li>
+                                            Rate:
+                                            <field name="lst_price" />
+                                        </li>
+                                        <li>
+                                            Capacity:
+                                            <field name="capacity" />
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="oe_kanban_bottom_right">
+                                    <a
+                                        t-if="record.status.raw_value === 'available'"
+                                        type="object"
+                                        string="Available"
+                                        name="set_room_status_occupied"
+                                        class="oe_kanban_status oe_kanban_status_green "
+                                    >
+                                    </a>
+                                    <a
+                                        t-if="record.status.raw_value === 'occupied'"
+                                        type="object"
+                                        string="occupied"
+                                        name="set_room_status_available"
+                                        class="oe_kanban_status oe_kanban_status_red "
+                                    >
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="oe_clear" />
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+</odoo>
