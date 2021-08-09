@@ -7,7 +7,7 @@
                 Services Pvt. Ltd., Odoo S.A.",
     "category": "Generic Modules/Hotel Restaurant",
     "website": "https://github.com/OCA/vertical-hotel",
-    "depends": ["hotel"],
+    "depends": ["hotel", "point_of_sale"],
     "license": "AGPL-3",
     "summary": "Table booking facilities and Managing customers orders",
     "demo": ["views/hotel_restaurant_data.xml"],
@@ -20,7 +20,7 @@
         "views/folio_order_report.xml",
         "views/hotel_restaurant_sequence.xml",
         "views/hotel_restaurant_view.xml",
-        "wizards/hotel_restaurant_wizard.xml",
+        "wizard/hotel_restaurant_wizard.xml",
     ],
     "installable": True,
 }
