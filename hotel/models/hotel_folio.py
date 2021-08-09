@@ -611,8 +611,8 @@ class HotelServiceLine(models.Model):
         ondelete="cascade",
     )
     folio_id = fields.Many2one("hotel.folio", "Folio", ondelete="cascade")
-    ser_checkin_date = fields.Datetime("From Date", required=True)
-    ser_checkout_date = fields.Datetime("To Date", required=True)
+    ser_checkin_date = fields.Datetime("From Date")
+    ser_checkout_date = fields.Datetime("To Date")
 
     @api.model
     def create(self, vals):
