@@ -9,7 +9,10 @@ setuptools.setup(
     version=version,
     install_requires=[
         'odoo14-addon-hotel',
+        'odoo14-addon-hotel_housekeeping',
         'odoo14-addon-hotel_reservation',
+        'odoo14-addon-hotel_restaurant',
+        'odoo14-addon-report_hotel_reservation',
     ],
     classifiers=[
         'Programming Language :: Python',
