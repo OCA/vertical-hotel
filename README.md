@@ -21,6 +21,7 @@ addon | version | summary
 --- | --- | ---
 [hotel](hotel/) | 14.0.1.0.0 | Hotel Management to Manage Folio and Hotel Configuration
 [hotel_reservation](hotel_reservation/) | 14.0.1.0.0 | Manages Guest Reservation & displays Reservation Summary
+[hotel_restaurant](hotel_restaurant/) | 14.0.1.0.0 | Table booking facilities and Managing customers orders
 [report_hotel_reservation](report_hotel_reservation/) | 14.0.1.0.0 | Hotel Reservation Management - Reporting
 
 [//]: # (end addons)
