@@ -24,6 +24,7 @@ addon | version | summary
 [hotel_reservation](hotel_reservation/) | 14.0.1.0.0 | Manages Guest Reservation & displays Reservation Summary
 [hotel_restaurant](hotel_restaurant/) | 14.0.1.0.0 | Table booking facilities and Managing customers orders
 [report_hotel_reservation](report_hotel_reservation/) | 14.0.1.0.0 | Hotel Reservation Management - Reporting
+[report_hotel_restaurant](report_hotel_restaurant/) | 14.0.1.0.0 | Restaurant Management - Reporting
 
 [//]: # (end addons)
 
