@@ -9,21 +9,21 @@ write me
 
 Available addons
 ----------------
-addon | version | summary
---- | --- | ---
-[board_frontdesk](board_frontdesk/) | 8.0.1.0.0 | Board for Hotel FrontDesk
+addon | version | maintainers | summary
+--- | --- | --- | ---
+[board_frontdesk](board_frontdesk/) | 8.0.1.0.0 |  | Board for Hotel FrontDesk
 
 
 Unported addons
 ---------------
-addon | version | summary
---- | --- | ---
-[hotel](hotel/) | 1.0 (unported) | Hotel Management Base
-[hotel_housekeeping](hotel_housekeeping/) | 1.0 (unported) | Hotel Housekeeping Management
-[hotel_reservation](hotel_reservation/) | 1.0 (unported) | Hotel Reservation Management
-[hotel_restaurant](hotel_restaurant/) | 1.0 (unported) | Hotel Restaurant Management
-[report_hotel_reservation](report_hotel_reservation/) | 1.0 (unported) | Hotel Reservation Management - Reporting
-[report_hotel_restaurant](report_hotel_restaurant/) | 1.0 (unported) | Restaurant Management - Reporting
+addon | version | maintainers | summary
+--- | --- | --- | ---
+[hotel](hotel/) | 1.0 (unported) |  | Hotel Management Base
+[hotel_housekeeping](hotel_housekeeping/) | 1.0 (unported) |  | Hotel Housekeeping Management
+[hotel_reservation](hotel_reservation/) | 1.0 (unported) |  | Hotel Reservation Management
+[hotel_restaurant](hotel_restaurant/) | 1.0 (unported) |  | Hotel Restaurant Management
+[report_hotel_reservation](report_hotel_reservation/) | 1.0 (unported) |  | Hotel Reservation Management - Reporting
+[report_hotel_restaurant](report_hotel_restaurant/) | 1.0 (unported) |  | Restaurant Management - Reporting
 
 [//]: # (end addons)
 
