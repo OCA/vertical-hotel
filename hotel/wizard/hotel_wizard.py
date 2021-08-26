@@ -15,16 +15,15 @@ class FolioReportWizard(models.TransientModel):
     def print_report(self):
         date_data = self.read(["date_start", "date_end"])[0]
         date_start = fields.Datetime.to_string(
-                    fields.Datetime.context_timestamp(self, date_data.get('date_start')))
+            fields.Datetime.context_timestamp(
+                self, date_data.get("date_start")
+            )
+        )
         date_end = fields.Datetime.to_string(
-                    fields.Datetime.context_timestamp(self, date_data.get('date_end')))
-        date_data.update({"date_start":date_start,
-                          "date_end":date_end})
-        data = {
-            "ids": self.ids,
-            "model": "hotel.folio",
-            "form": date_data,
-        }
+            fields.Datetime.context_timestamp(self, date_data.get("date_end"))
+        )
+        date_data.update({"date_start": date_start, "date_end": date_end})
+        data = {"ids": self.ids, "model": "hotel.folio", "form": date_data}
         return self.env.ref("hotel.report_hotel_management").report_action(
             self, data=data
         )

@@ -3,11 +3,9 @@
 import time
 from datetime import datetime
 
-from dateutil import parser
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models
-from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 
 class FolioReport(models.AbstractModel):
@@ -25,9 +23,11 @@ class FolioReport(models.AbstractModel):
         tids = folio_obj.search(act_domain)
         for data in tids:
             checkin = fields.Datetime.to_string(
-                    fields.Datetime.context_timestamp(self, data.checkin_date))
+                fields.Datetime.context_timestamp(self, data.checkin_date)
+            )
             checkout = fields.Datetime.to_string(
-                    fields.Datetime.context_timestamp(self, data.checkout_date))
+                fields.Datetime.context_timestamp(self, data.checkout_date)
+            )
             data_folio.append(
                 {
                     "name": data.name,
