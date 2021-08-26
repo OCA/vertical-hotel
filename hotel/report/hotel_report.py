@@ -24,18 +24,16 @@ class FolioReport(models.AbstractModel):
         ]
         tids = folio_obj.search(act_domain)
         for data in tids:
-            checkin = data.checkin_date.strftime(
-                DEFAULT_SERVER_DATETIME_FORMAT
-            )
-            checkout = data.checkout_date.strftime(
-                DEFAULT_SERVER_DATETIME_FORMAT
-            )
+            checkin = fields.Datetime.to_string(
+                    fields.Datetime.context_timestamp(self, data.checkin_date))
+            checkout = fields.Datetime.to_string(
+                    fields.Datetime.context_timestamp(self, data.checkout_date))
             data_folio.append(
                 {
                     "name": data.name,
                     "partner": data.partner_id.name,
-                    "checkin": parser.parse(checkin),
-                    "checkout": parser.parse(checkout),
+                    "checkin": checkin,
+                    "checkout": checkout,
                     "amount": data.amount_total,
                 }
             )
