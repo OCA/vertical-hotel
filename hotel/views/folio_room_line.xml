@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+
+    <!-- Calender View -->
+    <record id="folio_room_line_calendar" model="ir.ui.view">
+        <field name="name">Room summary</field>
+        <field name="model">folio.room.line</field>
+        <field name="arch" type="xml">
+            <calendar
+                string="Room summary"
+                date_start="check_in"
+                color="state"
+                date_stop="check_out"
+                event_open_popup="True"
+                quick_add="False"
+                mode="month"
+                all_day="check_in"
+                hide_time="true"
+            >
+                <field name="room_id" write_model="folio.room.room.filter" write_field="room_id" />
+                <field name="partner_id" write_model="folio.room.partner.filter" write_field="partner_id" avatar_field="image_128"/>
+                <field name="state" />
+            </calendar>
+        </field>
+    </record>
+
+    <!-- Form view pop-up -->
+    <record id="folio_room_form_pup_up" model="ir.ui.view">
+        <field name="name">Reservation pop-up</field>
+        <field name="model">folio.room.line</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="check_in" readonly="1"/>
+                        <field name="check_out" readonly="1"/>
+                    </group>
+                    <group>
+                        <field name="room_id"/>
+                        <field name="partner_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action Calendar folio.room.line -->
+    <record id="action_folio_room_line" model="ir.actions.act_window">
+        <field name="name">Room reservation</field>
+        <field name="res_model">folio.room.line</field>
+        <field name="view_mode">calendar,tree,form</field>
+    </record>
+
+    <!-- Menu folio.room.line (reservation) -->
+    <menuitem
+        id="menu_folio_room_line"
+        name="Room reservation"
+        action="hotel.action_folio_room_line"
+        sequence="1"
+        parent="hotel.hotel_management_menu"
+    />
+
+    <!-- Add action to original menu -->
+    <record id="hotel.hotel_management_menu" model="ir.ui.menu">
+        <field name="action" ref="hotel.action_folio_room_line" />
+    </record>
+</odoo>
+

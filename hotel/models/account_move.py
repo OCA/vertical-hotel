@@ -18,6 +18,8 @@ class AccountMove(models.Model):
                 {"hotel_invoice_id": res.id, "invoice_status": "invoiced"}
             )
             return res
+        else:
+            return super(AccountMove, self).create(vals)
 
     def open_folio_from_invoice(self):
         rec = self.ensure_one()

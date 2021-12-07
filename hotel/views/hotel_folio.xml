@@ -127,7 +127,11 @@
                                         options="{'no_open': True}"
                                     />
                                     <field name="name" />
-                                    <field name="product_uom_qty" string="Duration" />
+                                    <field
+                                        name="product_uom_qty"
+                                        string="Duration"
+                                        readonly="1"
+                                    />
                                     <field
                                         name="product_uom_category_id"
                                         invisible="1"

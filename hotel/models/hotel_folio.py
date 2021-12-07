@@ -1,5 +1,3 @@
-# See LICENSE file for full copyright and licensing details.
-
 import time
 from datetime import datetime, timedelta
 
@@ -62,20 +60,89 @@ def _offset_format_timestamp1(
 
 
 class FolioRoomLine(models.Model):
-
     _name = "folio.room.line"
     _description = "Hotel Room Reservation"
     _rec_name = "room_id"
 
-    room_id = fields.Many2one("hotel.room", "Room id")
-    check_in = fields.Datetime("Check In Date", required=True)
-    check_out = fields.Datetime("Check Out Date", required=True)
+    room_id = fields.Many2one("hotel.room", store=True)
+    check_in = fields.Date("Check In Date", required=True, store=True)
+    check_out = fields.Date("Check Out Date", required=True, store=True)
     folio_id = fields.Many2one("hotel.folio", "Folio Number")
-    status = fields.Selection(string="state", related="folio_id.state")
+    partner_id = fields.Many2one("res.partner", store=True)
+    state = fields.Selection([
+        ("reserved", "Reserved"),
+        ("order", "Ordered"),
+        ("done", "Terminated"),
+    ],
+        string="state",
+        default="reserved"
+    )
+
+    @api.model
+    def create(self, vals_list):
+        partner = vals_list["partner_id"]
+        res = super(FolioRoomLine, self).create(vals_list)
+        folios = self.env["hotel.folio"].search([("partner_id", "=", partner), ("state", "=", "draft")])
+
+        # If folio exist
+        if len(folios) > 0:
+            # Add to last 'draft' folio
+            folio_id = self.env["hotel.folio"].browse(folios[len(folios) - 1].id)
+            folio_id.update({
+                "room_line_ids": [(0, 0, {
+                    "checkin_date": res.check_in,
+                    "checkout_date": res.check_out,
+                    "product_id": res.room_id.product_id.id,
+                    "name": res.room_id.name,
+                })]
+            })
+        else:
+            # else create new folio
+            folio_id = self.env["hotel.folio"].create({
+                "partner_id": partner
+            })
+
+            room_line_id = self.env["hotel.folio.line"].create({
+                "checkin_date": res.check_in,
+                "checkout_date": res.check_out,
+                "product_id": res.room_id.product_id.id,
+                "name": res.room_id.name,
+                "folio_id": folio_id.id
+            })
+        res.folio_id = folio_id.id
+        return res
+
+    @api.model
+    def name_get(self):
+        res = []
+        for rec in self:
+            if rec.room_id:
+                res.append(
+                    (rec.id,
+                     "{} ({})".format(
+                         rec.room_id.name,
+                         rec.partner_id.name
+                     ))
+                )
+        return res
+
+    @api.model
+    def fields_get(self, allfields=None, attributes=None):
+        res = super(FolioRoomLine, self).fields_get(allfields=allfields, attributes=attributes)
+        if "default_check_in" in self._context.keys() and "default_check_out" in self._context.keys():
+            if self._context.get("default_name") is None:
+                # Compute available rooms
+                _ids = []
+                checked_in = self._context["default_check_in"]
+
+                for rec in self.env["folio.room.line"].search([("check_out", ">", checked_in)]):
+                    _ids.append(rec.room_id.id)
+
+                res["room_id"]["domain"] = [("id", "not in", _ids)]
+        return res
 
 
 class HotelFolio(models.Model):
-
     _name = "hotel.folio"
     _description = "hotel folio new"
     _rec_name = "order_id"
@@ -165,8 +232,8 @@ class HotelFolio(models.Model):
         readonly=True,
         states={"draft": [("readonly", False)], "sent": [("readonly", False)]},
         help="Hotel services details provided to"
-        "Customer and it will included in "
-        "the main Invoice.",
+             "Customer and it will included in "
+             "the main Invoice.",
     )
     hotel_policy = fields.Selection(
         [
@@ -177,19 +244,20 @@ class HotelFolio(models.Model):
         "Hotel Policy",
         default="manual",
         help="Hotel policy for payment that "
-        "either the guest has to payment at "
-        "booking time or check-in "
-        "check-out time.",
+             "either the guest has to payment at "
+             "booking time or check-in "
+             "check-out time.",
     )
     duration = fields.Float(
         "Duration in Days",
         help="Number of days which will automatically "
-        "count from the check-in and check-out date. ",
+             "count from the check-in and check-out date. ",
     )
     hotel_invoice_id = fields.Many2one("account.move", "Invoice", copy=False)
     duration_dummy = fields.Float("Duration Dummy")
 
-    amount_untaxed = fields.Monetary(string='Untaxed Amount', store=True, readonly=True, compute='_amount_all', tracking=5)
+    amount_untaxed = fields.Monetary(string='Untaxed Amount', store=True, readonly=True, compute='_amount_all',
+                                     tracking=5)
     amount_tax = fields.Monetary(string='Taxes', store=True, readonly=True, compute='_amount_all')
     amount_total = fields.Monetary(string='Total', store=True, readonly=True, compute='_amount_all', tracking=4)
 
@@ -452,8 +520,8 @@ class HotelFolio(models.Model):
                 'amount_total': amount_untaxed + amount_tax,
             })
 
-class HotelFolioLine(models.Model):
 
+class HotelFolioLine(models.Model):
     _name = "hotel.folio.line"
     _description = "Hotel Folio Room Line"
 
@@ -511,8 +579,10 @@ class HotelFolioLine(models.Model):
         if self.checkin_date >= self.checkout_date:
             raise ValidationError(
                 _(
-                    """Room line Check In Date Should be """
-                    """less than the Check Out Date!"""
+                    """
+                    Room line Check In Date Should be
+                    less than the Check Out Date!
+                    """
                 )
             )
         if self.folio_id.date_order and self.checkin_date:
@@ -647,9 +717,9 @@ class HotelFolioLine(models.Model):
         if currency_id != self.folio_id.pricelist_id.currency_id.id:
             base_price = (
                 self.env["res.currency"]
-                .browse(currency_id)
-                .with_context(product_context)
-                .compute(base_price, self.folio_id.pricelist_id.currency_id)
+                    .browse(currency_id)
+                    .with_context(product_context)
+                    .compute(base_price, self.folio_id.pricelist_id.currency_id)
             )
         # negative discounts (= surcharge) are included in the display price
         return max(base_price, final_price)
@@ -663,7 +733,7 @@ class HotelFolioLine(models.Model):
             # If company_id is set, always filter taxes by the company
             taxes = line.product_id.taxes_id.filtered(
                 lambda r: not line.company_id
-                or r.company_id == line.company_id
+                          or r.company_id == line.company_id
             )
             line.tax_id = (
                 fpos.map_tax(
@@ -753,7 +823,7 @@ class HotelFolioLine(models.Model):
                 myduration = dur.days
             else:
                 myduration = dur.days + 1
-            #            To calculate additional hours in hotel room as per minutes
+            # To calculate additional hours in hotel room as per minutes
             if configured_addition_hours > 0:
                 additional_hours = abs((dur.seconds / 60) / 60)
                 if additional_hours >= configured_addition_hours:
@@ -825,14 +895,19 @@ class HotelFolioLine(models.Model):
         """
         for line in self:
             price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
-            taxes = line.tax_id.compute_all(price, line.folio_id.currency_id, line.product_uom_qty, product=line.product_id, partner=line.folio_id.partner_shipping_id)
+            taxes = line.tax_id.compute_all(price,
+                                            line.folio_id.currency_id,
+                                            line.product_uom_qty,
+                                            product=line.product_id,
+                                            partner=line.folio_id.partner_shipping_id
+                                            )
             line.update({
                 'price_tax': sum(t.get('amount', 0.0) for t in taxes.get('taxes', [])),
                 'price_total': taxes['total_included'],
                 'price_subtotal': taxes['total_excluded'],
             })
             if self.env.context.get('import_file', False) and not self.env.user.user_has_groups(
-                    'account.group_account_manager'):
+                'account.group_account_manager'):
                 line.tax_id.invalidate_cache(['invoice_repartition_line_ids'], [line.tax_id.id])
 
     price_subtotal = fields.Monetary(compute='_compute_amount', string='Subtotal', readonly=True, store=True)

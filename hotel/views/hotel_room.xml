@@ -124,7 +124,7 @@
                                         <field name="check_in" />
                                         <field name="check_out" />
                                         <field name="folio_id" />
-                                        <field name="status" />
+                                        <field name="state" />
                                     </group>
                                 </form>
                                 <tree>
@@ -132,7 +132,7 @@
                                     <field name="check_in" />
                                     <field name="check_out" />
                                     <field name="folio_id" />
-                                    <field name="status" />
+                                    <field name="state" />
                                 </tree>
                             </field>
                         </page>

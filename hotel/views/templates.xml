@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+  <template id="hotel_assets" name="Hotel Assets" inherit_id="web.assets_common">
+     <xpath expr="." position="inside">
+       <script type="text/javascript" src="/hotel/static/src/js/calendar_controller.js"></script>
+    </xpath>
+  </template>
+</odoo>
