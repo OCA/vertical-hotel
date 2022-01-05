@@ -22,7 +22,7 @@
         <field name="name">hotel.service_type.tree</field>
         <field name="model">hotel.service.type</field>
         <field name="arch" type="xml">
-            <tree string="Service Type">
+            <tree>
                 <field name="name" />
             </tree>
         </field>

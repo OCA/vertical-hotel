@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!DOCTYPE xml>
-<odoo noupdate="1">
+<odoo>
     <!--Group for hotel user -->
     <record id="group_hotel_user" model="res.groups">
         <field name="name">Hotel Management / User</field>
@@ -15,4 +14,5 @@
             eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
         />
     </record>
+
 </odoo>

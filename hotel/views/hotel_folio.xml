@@ -4,7 +4,7 @@
         <field name="name">hotel.folio.form</field>
         <field name="model">hotel.folio</field>
         <field name="arch" type="xml">
-            <form string="Hotel Folio">
+            <form>
                 <header>
                     <button
                         name="action_confirm"
@@ -106,7 +106,7 @@
                                 context="{'default_checkin_date':checkin_date,
                                         'default_checkout_date':checkout_date}"
                             >
-                                <tree editable="bottom" string="Room Line">
+                                <tree editable="bottom">
                                     <field
                                         name="company_id"
                                         options="{'no_create': True}"
@@ -173,7 +173,7 @@
                                 }"
                             >
 
-                                <tree editable="bottom" string="Service Line">
+                                <tree editable="bottom">
                                     <field
                                         name="product_id"
                                         required="1"
@@ -271,7 +271,7 @@
         <field name="name">hotel.folio.tree</field>
         <field name="model">hotel.folio</field>
         <field name="arch" type="xml">
-            <tree string="Hotel Folio">
+            <tree>
                 <field name="checkin_date" />
                 <field name="checkout_date" />
                 <field name="name" />

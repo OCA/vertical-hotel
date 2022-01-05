@@ -29,11 +29,11 @@ class SaleAdvancePaymentInv(models.TransientModel):
             folio.room_line_ids.mapped("product_id").write({"isroom": True})
             ctx.update(
                 {
-                    "active_ids": [folio.order_id.id],
+                    "active_ids": folio.order_id.ids,
                     "active_id": folio.order_id.id,
                     "folio_id": folio.id,
                 }
             )
-        res = super(SaleAdvancePaymentInv, self.with_context(ctx)).create_invoices()
+        res = super(SaleAdvancePaymentInv, self.with_context(**ctx)).create_invoices()
 
         return res

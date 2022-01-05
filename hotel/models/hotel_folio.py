@@ -14,7 +14,7 @@ class FolioRoomLine(models.Model):
     _description = "Hotel Room Reservation"
     _rec_name = "room_id"
 
-    room_id = fields.Many2one("hotel.room", "Room id", ondelete="restrict", index=True)
+    room_id = fields.Many2one("hotel.room", ondelete="restrict", index=True)
     check_in = fields.Datetime("Check In Date", required=True)
     check_out = fields.Datetime("Check Out Date", required=True)
     folio_id = fields.Many2one("hotel.folio", "Folio Number", ondelete="cascade")
@@ -98,7 +98,6 @@ class HotelFolio(models.Model):
             ("manual", "On Check In"),
             ("picking", "On Checkout"),
         ],
-        "Hotel Policy",
         default="manual",
         help="Hotel policy for payment that "
         "either the guest has to payment at "
@@ -111,7 +110,7 @@ class HotelFolio(models.Model):
         "count from the check-in and check-out date. ",
     )
     hotel_invoice_id = fields.Many2one("account.move", "Invoice", copy=False)
-    duration_dummy = fields.Float("Duration Dummy")
+    duration_dummy = fields.Float()
 
     @api.constrains("room_line_ids")
     def _check_duplicate_folio_room_line(self):
@@ -260,12 +259,11 @@ class HotelFolio(models.Model):
         for rec in self:
             if not rec.order_id:
                 raise UserError(_("Order id is not available"))
-            for line in rec.room_line_ids:
-                if line.order_line_id:
-                    rooms = self.env["hotel.room"].search(
-                        [("product_id", "=", line.order_line_id.product_id.id)]
-                    )
-                    rooms.write({"isroom": True, "status": "available"})
+            for product in rec.room_line_ids.filtered(
+                lambda l: l.order_line_id.product_id == product
+            ):
+                rooms = self.env["hotel.room"].search([("product_id", "=", product.id)])
+                rooms.write({"isroom": True, "status": "available"})
             rec.invoice_ids.button_cancel()
             return rec.order_id.action_cancel()
 
@@ -313,9 +311,7 @@ class HotelFolioLine(models.Model):
     folio_id = fields.Many2one("hotel.folio", "Folio", ondelete="cascade")
     checkin_date = fields.Datetime("Check In", required=True)
     checkout_date = fields.Datetime("Check Out", required=True)
-    is_reserved = fields.Boolean(
-        "Is Reserved", help="True when folio line created from Reservation"
-    )
+    is_reserved = fields.Boolean(help="True when folio line created from Reservation")
 
     @api.model
     def create(self, vals):
@@ -447,14 +443,14 @@ class HotelFolioLine(models.Model):
             uom=self.product_uom.id,
         )
         final_price, rule_id = self.folio_id.pricelist_id.with_context(
-            product_context
+            **product_context
         ).get_product_price_rule(
             self.product_id,
             self.product_uom_qty or 1.0,
             self.folio_id.partner_id,
         )
         base_price, currency_id = self.with_context(
-            product_context
+            **product_context
         )._get_real_price_currency(
             product,
             rule_id,
@@ -466,7 +462,7 @@ class HotelFolioLine(models.Model):
             base_price = (
                 self.env["res.currency"]
                 .browse(currency_id)
-                .with_context(product_context)
+                .with_context(**product_context)
                 .compute(base_price, self.folio_id.pricelist_id.currency_id)
             )
         # negative discounts (= surcharge) are included in the display price
@@ -485,9 +481,7 @@ class HotelFolioLine(models.Model):
             taxes = line.product_id.taxes_id.filtered(
                 lambda t: t.company_id == line.env.company
             )
-            line.tax_id = fpos.map_tax(
-                taxes, line.product_id, line.order_id.partner_shipping_id
-            )
+            line.tax_id = fpos.map_tax(taxes)
 
     @api.onchange("product_id")
     def _onchange_product_id(self):
@@ -723,14 +717,14 @@ class HotelServiceLine(models.Model):
             uom=self.product_uom.id,
         )
         final_price, rule_id = self.folio_id.pricelist_id.with_context(
-            product_context
+            **product_context
         ).get_product_price_rule(
             self.product_id,
             self.product_uom_qty or 1.0,
             self.folio_id.partner_id,
         )
         base_price, currency_id = self.with_context(
-            product_context
+            **product_context
         )._get_real_price_currency(
             product,
             rule_id,
@@ -742,7 +736,7 @@ class HotelServiceLine(models.Model):
             base_price = (
                 self.env["res.currency"]
                 .browse(currency_id)
-                .with_context(product_context)
+                .with_context(**product_context)
                 .compute(base_price, self.folio_id.pricelist_id.currency_id)
             )
         # negative discounts (= surcharge) are included in the display price
