@@ -23,7 +23,7 @@ class HotelServices(models.Model):
         required=True,
         ondelete="restrict",
     )
-    product_manager = fields.Many2one("res.users", "Product Manager")
+    product_manager = fields.Many2one("res.users")
 
     @api.model
     def create(self, vals):
@@ -58,7 +58,12 @@ class HotelServiceType(models.Model):
         "hotel.service.type", "service_id", "Service Child Categories"
     )
     product_categ_id = fields.Many2one(
-        "product.category", "Product Category", delegate=True, required=True, copy=False
+        "product.category",
+        "Product Category",
+        delegate=True,
+        required=True,
+        copy=False,
+        ondelete="restrict",
     )
 
     @api.model
@@ -80,7 +85,7 @@ class HotelServiceType(models.Model):
 
     def name_get(self):
         def get_names(cat):
-            """ Return the list [cat.name, cat.service_id.name, ...] """
+            """Return the list [cat.name, cat.service_id.name, ...]"""
             res = []
             while cat:
                 res.append(cat.name)

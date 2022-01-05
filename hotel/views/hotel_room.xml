@@ -20,7 +20,7 @@
         <field name="name">hotel.floor.tree</field>
         <field name="model">hotel.floor</field>
         <field name="arch" type="xml">
-            <tree string=" Hotel Floors">
+            <tree>
                 <field name="sequence" widget="handle" />
                 <field name="name" colspan="1" />
             </tree>
@@ -164,7 +164,7 @@
         <field name="name">hotel.room.tree</field>
         <field name="model">hotel.room</field>
         <field name="arch" type="xml">
-            <tree string="Hotel Room">
+            <tree>
                 <field name="name" />
                 <field name="room_categ_id" />
                 <field name="list_price" string="Room rate" />

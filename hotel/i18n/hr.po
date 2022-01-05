@@ -1900,7 +1900,7 @@ msgstr ""
 #. module: hotel
 #: code:addons/hotel/models/hotel_folio.py:0
 #, python-format
-msgid "No Order found for  %s !"
+msgid "No Order found for !"
 msgstr ""
 
 #. module: hotel
@@ -2501,7 +2501,7 @@ msgstr ""
 #. module: hotel
 #: code:addons/hotel/models/hotel_folio.py:0
 #, python-format
-msgid "Room Duplicate Exceeded!, You Cannot Take Same %s Room Twice!"
+msgid "Room Duplicate Exceeded!, You Cannot Take Same Room Twice!"
 msgstr ""
 
 #. module: hotel
@@ -3470,7 +3470,7 @@ msgstr ""
 #: code:addons/hotel/models/hotel_folio.py:0
 #: code:addons/hotel/models/hotel_services.py:0
 #, python-format
-msgid "Warning for %s"
+msgid "Warning for"
 msgstr ""
 
 #. module: hotel

@@ -100,7 +100,7 @@
         <field name="name">hotel.services.tree</field>
         <field name="model">hotel.services</field>
         <field name="arch" type="xml">
-            <tree string="Hotel Services">
+            <tree>
                 <field name="name" />
                 <field name="service_categ_id" string="Service Category" />
                 <field name="list_price" string="Service rate" />
