@@ -21,7 +21,7 @@
         <field name="name">hotel.room_amenities_type_list</field>
         <field name="model">hotel.room.amenities.type</field>
         <field name="arch" type="xml">
-            <tree string="Hotel Room Amenities Type">
+            <tree>
                 <field name="name" />
             </tree>
         </field>
@@ -119,7 +119,7 @@
         <field name="name">hotel.room_amenities_list</field>
         <field name="model">hotel.room.amenities</field>
         <field name="arch" type="xml">
-            <tree string="Hotel Room Amenities">
+            <tree>
                 <field name="name" />
                 <field name="amenities_categ_id" string="Amenities Category" />
                 <field name="list_price" string="Amenity Rate" invisible="1" />
