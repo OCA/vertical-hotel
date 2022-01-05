@@ -43,14 +43,13 @@ class HotelRoom(models.Model):
     )
     status = fields.Selection(
         [("available", "Available"), ("occupied", "Occupied")],
-        "Status",
         default="available",
     )
-    capacity = fields.Integer("Capacity", required=True)
+    capacity = fields.Integer(required=True)
     room_line_ids = fields.One2many(
         "folio.room.line", "room_id", string="Room Reservation Line"
     )
-    product_manager = fields.Many2one("res.users", "Product Manager")
+    product_manager = fields.Many2one("res.users")
 
     @api.model
     def create(self, vals):
@@ -72,10 +71,7 @@ class HotelRoom(models.Model):
         ----------------------------------------
         @param self: object pointer
         """
-        if self.isroom is False:
-            self.status = "occupied"
-        if self.isroom is True:
-            self.status = "available"
+        self.status = "available" if self.status else "occupied"
 
     def write(self, vals):
         """
@@ -119,7 +115,12 @@ class HotelRoomType(models.Model):
     categ_id = fields.Many2one("hotel.room.type", "Category")
     child_ids = fields.One2many("hotel.room.type", "categ_id", "Room Child Categories")
     product_categ_id = fields.Many2one(
-        "product.category", "Product Category", delegate=True, required=True, copy=False
+        "product.category",
+        "Product Category",
+        delegate=True,
+        required=True,
+        copy=False,
+        ondelete="restrict",
     )
 
     @api.model
@@ -137,7 +138,7 @@ class HotelRoomType(models.Model):
 
     def name_get(self):
         def get_names(cat):
-            """ Return the list [cat.name, cat.categ_id.name, ...] """
+            """Return the list [cat.name, cat.categ_id.name, ...]"""
             res = []
             while cat:
                 res.append(cat.name)
@@ -204,7 +205,12 @@ class HotelRoomAmenitiesType(models.Model):
         "hotel.room.amenities.type", "amenity_id", "Amenities Child Categories"
     )
     product_categ_id = fields.Many2one(
-        "product.category", "Product Category", delegate=True, required=True, copy=False
+        "product.category",
+        "Product Category",
+        delegate=True,
+        required=True,
+        copy=False,
+        ondelete="restrict",
     )
 
     @api.model
@@ -226,7 +232,7 @@ class HotelRoomAmenitiesType(models.Model):
 
     def name_get(self):
         def get_names(cat):
-            """ Return the list [cat.name, cat.amenity_id.name, ...] """
+            """Return the list [cat.name, cat.amenity_id.name, ...]"""
             res = []
             while cat:
                 res.append(cat.name)
@@ -301,7 +307,7 @@ class HotelRoomAmenities(models.Model):
         required=True,
         ondelete="restrict",
     )
-    product_manager = fields.Many2one("res.users", "Product Manager")
+    product_manager = fields.Many2one("res.users")
 
     @api.model
     def create(self, vals):
