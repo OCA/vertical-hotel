@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <!-- Form view of hotel folio -->
     <record id="view_hotel_folio_form" model="ir.ui.view">
         <field name="name">hotel.folio.form</field>
         <field name="model">hotel.folio</field>
         <field name="arch" type="xml">
-            <form string="Hotel Folio">
+            <form>
                 <header>
                     <button
                         name="action_confirm"
@@ -26,22 +25,19 @@
                         states="cancel"
                         string="Set to Draft"
                         type="object"
-                        icon="fa-check-square-o"
                         class="oe_highlight"
                     />
                     <button
                         name="action_cancel"
-                        string="Cancel Folio"
+                        string="Cancel"
                         states="sale"
                         type="object"
-                        icon="fa-close"
                         class="oe_highlight"
                     />
                     <button
                         name="action_cancel"
-                        string="Cancel Folio"
+                        string="Cancel"
                         states="draft"
-                        icon="fa-close"
                         type="object"
                         class="oe_highlight"
                     />
@@ -107,22 +103,23 @@
                                 colspan="4"
                                 string="Room Line"
                                 nolabel="1"
-                                context="{'default_checkin_date':'checkin_date','default_checkout_date':'checkout_date'}"
+                                context="{'default_checkin_date':checkin_date,
+                                        'default_checkout_date':checkout_date}"
                             >
-                                <tree editable="bottom" string="Room Line">
+                                <tree editable="bottom">
                                     <field
                                         name="company_id"
                                         options="{'no_create': True}"
                                         groups="base.group_multi_company"
                                         invisible="1"
                                     />
-                                    <field name="checkin_date"  />
+                                    <field name="checkin_date" />
                                     <field name="checkout_date" />
                                     <field
                                         name="product_id"
                                         string="Room No"
                                         required="1"
-                                        context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'uom':product_uom}"
+                                        context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'uom':product_uom, 'checkin_date':checkin_date, 'checkout_date':checkout_date}"
                                         domain="[('isroom','=',True)]"
                                         options="{'no_open': True}"
                                     />
@@ -171,11 +168,12 @@
                                 colspan="4"
                                 string="Service Line"
                                 nolabel="1"
-                                context="{'deafult_ser_checkin_date':'checkin_date',
-                                'deafult_ser_checkout_date':'checkout_date','checkin':checkin_date,'checkout':checkout_date}"
+                                context="{'deafult_ser_checkin_date':checkin_date,
+                                'deafult_ser_checkout_date':checkout_date
+                                }"
                             >
 
-                                <tree editable="bottom" string="Service Line">
+                                <tree editable="bottom">
                                     <field
                                         name="product_id"
                                         required="1"
@@ -183,8 +181,8 @@
                                         context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'hotel':parent.warehouse_id,'uom':product_uom}"
                                         options="{'no_open': True}"
                                     />
-                                    <field name="ser_checkout_date" invisible="1"/>
-                                    <field name="ser_checkin_date" invisible="1"/>
+                                    <field name="ser_checkout_date" invisible="1" />
+                                    <field name="ser_checkin_date" invisible="1" />
                                     <field name="name" />
                                     <field
                                         name="company_id"
@@ -273,7 +271,7 @@
         <field name="name">hotel.folio.tree</field>
         <field name="model">hotel.folio</field>
         <field name="arch" type="xml">
-            <tree string="Hotel Folio">
+            <tree>
                 <field name="checkin_date" />
                 <field name="checkout_date" />
                 <field name="name" />

@@ -1,63 +1,11 @@
 # See LICENSE file for full copyright and licensing details.
-
 import time
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
-from odoo.tools import format_datetime
-
-def _offset_format_timestamp1(
-    src_tstamp_str,
-    src_format,
-    dst_format,
-    ignore_unparsable_time=True,
-    context=None,
-):
-    """
-    Convert a source timeStamp string into a destination timeStamp string,
-    attempting to apply the correct offset if both the server and local
-    timeZone are recognized,or no offset at all if they aren't or if
-    tz_offset is false (i.e. assuming they are both in the same TZ).
-    @param src_tstamp_str: the STR value containing the timeStamp.
-    @param src_format: the format to use when parsing the local timeStamp.
-    @param dst_format: the format to use when formatting the resulting
-     timeStamp.
-    @param server_to_client: specify timeZone offset direction (server=src
-                             and client=dest if True, or client=src and
-                             server=dest if False)
-    @param ignore_unparsable_time: if True, return False if src_tstamp_str
-                                   cannot be parsed using src_format or
-                                   formatted using dst_format.
-    @return: destination formatted timestamp, expressed in the destination
-             timezone if possible and if tz_offset is true, or src_tstamp_str
-             if timezone offset could not be determined.
-    """
-    if not src_tstamp_str:
-        return False
-    res = src_tstamp_str
-    if src_format and dst_format:
-        try:
-            # dt_value needs to be a datetime object\
-            # (so notime.struct_time or mx.DateTime.DateTime here!)
-            dt_value = datetime.strptime(src_tstamp_str, src_format)
-            if context.get("tz", False):
-                try:
-                    import pytz
-
-                    src_tz = pytz.timezone(context["tz"])
-                    dst_tz = pytz.timezone("UTC")
-                    src_dt = src_tz.localize(dt_value, is_dst=True)
-                    dt_value = src_dt.astimezone(dst_tz)
-                except Exception:
-                    pass
-            res = dt_value.strftime(dst_format)
-        except Exception:
-            # Normal ways to end up here are if strptime or strftime failed
-            if not ignore_unparsable_time:
-                return False
-    return res
+from odoo.tools.misc import get_lang
 
 
 class FolioRoomLine(models.Model):
@@ -66,17 +14,17 @@ class FolioRoomLine(models.Model):
     _description = "Hotel Room Reservation"
     _rec_name = "room_id"
 
-    room_id = fields.Many2one("hotel.room", "Room id",ondelete='restrict')
+    room_id = fields.Many2one("hotel.room", ondelete="restrict", index=True)
     check_in = fields.Datetime("Check In Date", required=True)
     check_out = fields.Datetime("Check Out Date", required=True)
-    folio_id = fields.Many2one("hotel.folio", "Folio Number")
-    status = fields.Selection(string="state", related="folio_id.state")
+    folio_id = fields.Many2one("hotel.folio", "Folio Number", ondelete="cascade")
+    status = fields.Selection(related="folio_id.state", string="state")
 
 
 class HotelFolio(models.Model):
 
     _name = "hotel.folio"
-    _description = "hotel folio new"
+    _description = "hotel folio"
     _rec_name = "order_id"
 
     def name_get(self):
@@ -98,14 +46,16 @@ class HotelFolio(models.Model):
 
     @api.model
     def _get_checkin_date(self):
-        timezone = self._context.get('tz') or self.env.user.partner_id.tz or 'UTC'
+        self._context.get("tz") or self.env.user.partner_id.tz or "UTC"
         checkin_date = fields.Datetime.context_timestamp(self, fields.Datetime.now())
         return fields.Datetime.to_string(checkin_date)
 
     @api.model
     def _get_checkout_date(self):
-        timezone = self._context.get('tz') or self.env.user.partner_id.tz or 'UTC'
-        checkout_date = fields.Datetime.context_timestamp(self, fields.Datetime.now() + timedelta(days=1))
+        self._context.get("tz") or self.env.user.partner_id.tz or "UTC"
+        checkout_date = fields.Datetime.context_timestamp(
+            self, fields.Datetime.now() + timedelta(days=1)
+        )
         return fields.Datetime.to_string(checkout_date)
 
     name = fields.Char("Folio Number", readonly=True, index=True, default="New")
@@ -148,7 +98,6 @@ class HotelFolio(models.Model):
             ("manual", "On Check In"),
             ("picking", "On Checkout"),
         ],
-        "Hotel Policy",
         default="manual",
         help="Hotel policy for payment that "
         "either the guest has to payment at "
@@ -161,7 +110,7 @@ class HotelFolio(models.Model):
         "count from the check-in and check-out date. ",
     )
     hotel_invoice_id = fields.Many2one("account.move", "Invoice", copy=False)
-    duration_dummy = fields.Float("Duration Dummy")
+    duration_dummy = fields.Float()
 
     @api.constrains("room_line_ids")
     def _check_duplicate_folio_room_line(self):
@@ -172,74 +121,44 @@ class HotelFolio(models.Model):
         @return: raise warning depending on the validation
         """
         for rec in self:
-            for room_no in rec.room_line_ids.mapped("product_id"):
-                for line in rec.room_line_ids:
-                    record = line.search(
+            for product in rec.room_line_ids.mapped("product_id"):
+                for line in rec.room_line_ids.filtered(
+                    lambda l: l.product_id == product
+                ):
+                    record = rec.room_line_ids.search(
                         [
-                            ("product_id", "=", room_no.id),
+                            ("product_id", "=", product.id),
                             ("folio_id", "=", rec.id),
                             ("id", "!=", line.id),
                             ("checkin_date", ">=", line.checkin_date),
                             ("checkout_date", "<=", line.checkout_date),
-                            ("product_id", "=", room_no.id),
                         ]
                     )
-
-                if record:
-                    raise ValidationError(
-                        _(
-                            """Room Duplicate Exceeded!, """
-                            """You Cannot Take Same %s Room Twice!"""
+                    if record:
+                        raise ValidationError(
+                            _(
+                                """Room Duplicate Exceeded!, """
+                                """You Cannot Take Same %s Room Twice!"""
+                            )
+                            % (product.name)
                         )
-                        % (room_no.name)
-                    )
-
-    @api.onchange("checkout_date", "checkin_date")
-    def onchange_dates(self):
-        """
-        This method gives the duration between check in and checkout
-        if customer will leave only for some hour it would be considers
-        as a whole day.If customer will check in checkout for more or equal
-        hours, which configured in company as additional hours than it would
-        be consider as full days
-        --------------------------------------------------------------------
-        @param self: object pointer
-        @return: Duration and checkout_date
-        """
-        configured_addition_hours = self.warehouse_id.company_id.additional_hours
-        myduration = 0
-        if self.checkout_date and self.checkin_date:
-            dur = self.checkin_date - self.checkin_date
-            sec_dur = dur.seconds
-            if (not dur.days and not sec_dur) or (dur.days and not sec_dur):
-                myduration = dur.days
-            else:
-                myduration = dur.days + 1
-            # To calculate additional hours in hotel room as per minutes
-            if configured_addition_hours > 0:
-                additional_hours = abs((dur.seconds / 60) / 60)
-                if additional_hours >= configured_addition_hours:
-                    myduration += 1
-        self.duration = myduration
-        # self.duration_dummy = self.duration
 
     def _update_folio_line(self, folio_id):
         folio_room_line_obj = self.env["folio.room.line"]
         hotel_room_obj = self.env["hotel.room"]
         for rec in folio_id:
-            if not rec:
-                for room_rec in rec.room_line_ids:
-                    room = hotel_room_obj.search(
-                        [("product_id", "=", room_rec.product_id.id)]
-                    )
-                    room.write({"isroom": False})
-                    vals = {
-                        "room_id": room.id,
-                        "check_in": rec.checkin_date,
-                        "check_out": rec.checkout_date,
-                        "folio_id": rec.id,
-                    }
-                    folio_room_line_obj.create(vals)
+            for room_rec in rec.room_line_ids:
+                room = hotel_room_obj.search(
+                    [("product_id", "=", room_rec.product_id.id)]
+                )
+                room.write({"isroom": False})
+                vals = {
+                    "room_id": room.id,
+                    "check_in": rec.checkin_date,
+                    "check_out": rec.checkout_date,
+                    "folio_id": rec.id,
+                }
+                folio_room_line_obj.create(vals)
 
     @api.model
     def create(self, vals):
@@ -262,14 +181,9 @@ class HotelFolio(models.Model):
             if not vals:
                 vals = {}
             vals["name"] = self.env["ir.sequence"].next_by_code("hotel.folio")
-            vals["duration"] = vals.get("duration", 0.0) or vals.get(
-                "duration", 0.0
-            )
+            vals["duration"] = vals.get("duration", 0.0) or vals.get("duration", 0.0)
             folio_id = super(HotelFolio, self).create(vals)
-            try:
-                self._update_folio_line(folio_id)
-            except Exception:
-                self._update_folio_line(folio_id)
+            self._update_folio_line(folio_id)
         return folio_id
 
     def write(self, vals):
@@ -292,7 +206,7 @@ class HotelFolio(models.Model):
             if len(list(new_rooms)) != 0:
                 room_list = product_obj.browse(list(new_rooms))
                 for rm in room_list:
-                    hotel_room = hotel_room_obj.search([("product_id", "=", rm.id)])
+                    room_obj = hotel_room_obj.search([("product_id", "=", rm.id)])
                     room_obj.write({"isroom": False})
                     vals = {
                         "room_id": room_obj.id,
@@ -327,7 +241,6 @@ class HotelFolio(models.Model):
         @param self: object pointer
         """
         if self.partner_id:
-            order_ids = self.mapped('order_id').ids
             self.update(
                 {
                     "partner_invoice_id": self.partner_id.id,
@@ -335,10 +248,6 @@ class HotelFolio(models.Model):
                     "pricelist_id": self.partner_id.property_product_pricelist.id,
                 }
             )
-            if not order_ids:
-                raise ValidationError(
-                    _("No Order found for  %s !") % (self.partner_id.name)
-                )
 
     def action_done(self):
         self.write({"state": "done"})
@@ -347,28 +256,36 @@ class HotelFolio(models.Model):
         """
         @param self: object pointer
         """
-        if not self.order_id:
-            raise UserError(_("Order id is not available"))
-        self.invoice_ids.write({"state": "cancel"})
-        return self.order_id.action_cancel()
+        for rec in self:
+            if not rec.order_id:
+                raise UserError(_("Order id is not available"))
+            for product in rec.room_line_ids.filtered(
+                lambda l: l.order_line_id.product_id == product
+            ):
+                rooms = self.env["hotel.room"].search([("product_id", "=", product.id)])
+                rooms.write({"isroom": True, "status": "available"})
+            rec.invoice_ids.button_cancel()
+            return rec.order_id.action_cancel()
 
     def action_confirm(self):
         for order in self.order_id:
             order.state = "sale"
-        if not order.analytic_account_id:
-            for line in order.order_line.filtered(lambda line: line.product_id.invoice_policy == "cost"):
+            if not order.analytic_account_id:
+                if order.order_line.filtered(
+                    lambda line: line.product_id.invoice_policy == "cost"
+                ):
                     order._create_analytic_account()
-                    break
-        config_parameter_obj = self.env["ir.config_parameter"]
-        if config_parameter_obj.sudo().get_param("sale.auto_done_setting"):
-            self.order_id.action_done()
+            config_parameter_obj = self.env["ir.config_parameter"]
+            if config_parameter_obj.sudo().get_param("sale.auto_done_setting"):
+                self.order_id.action_done()
 
     def action_cancel_draft(self):
         """
         @param self: object pointer
         """
-        order_line_recs = self.env['sale.order.line'].search([('order_id','in',self.ids),
-        ('state', '=', 'cancel')])
+        order_line_recs = self.env["sale.order.line"].search(
+            [("order_id", "in", self.ids), ("state", "=", "cancel")]
+        )
         self.write({"state": "draft", "invoice_ids": []})
         order_line_recs.write(
             {
@@ -377,13 +294,12 @@ class HotelFolio(models.Model):
                 "invoice_lines": [(6, 0, [])],
             }
         )
-        return True
 
 
 class HotelFolioLine(models.Model):
 
     _name = "hotel.folio.line"
-    _description = "Hotel Folio Room Line"
+    _description = "Hotel Folio Line"
 
     order_line_id = fields.Many2one(
         "sale.order.line",
@@ -394,11 +310,8 @@ class HotelFolioLine(models.Model):
     )
     folio_id = fields.Many2one("hotel.folio", "Folio", ondelete="cascade")
     checkin_date = fields.Datetime("Check In", required=True)
-    checkout_date = fields.Datetime(
-        "Check Out", required=True)
-    is_reserved = fields.Boolean(
-        "Is Reserved", help="True when folio line created from Reservation"
-    )
+    checkout_date = fields.Datetime("Check Out", required=True)
+    is_reserved = fields.Boolean(help="True when folio line created from Reservation")
 
     @api.model
     def create(self, vals):
@@ -530,14 +443,14 @@ class HotelFolioLine(models.Model):
             uom=self.product_uom.id,
         )
         final_price, rule_id = self.folio_id.pricelist_id.with_context(
-            product_context
+            **product_context
         ).get_product_price_rule(
             self.product_id,
             self.product_uom_qty or 1.0,
             self.folio_id.partner_id,
         )
         base_price, currency_id = self.with_context(
-            product_context
+            **product_context
         )._get_real_price_currency(
             product,
             rule_id,
@@ -549,11 +462,173 @@ class HotelFolioLine(models.Model):
             base_price = (
                 self.env["res.currency"]
                 .browse(currency_id)
-                .with_context(product_context)
+                .with_context(**product_context)
                 .compute(base_price, self.folio_id.pricelist_id.currency_id)
             )
         # negative discounts (= surcharge) are included in the display price
         return max(base_price, final_price)
+
+    def _compute_tax_id(self):
+        for line in self:
+            line = line.with_company(line.company_id)
+            fpos = (
+                line.order_id.fiscal_position_id
+                or line.order_id.fiscal_position_id.get_fiscal_position(
+                    line.order_partner_id.id
+                )
+            )
+            # If company_id is set, always filter taxes by the company
+            taxes = line.product_id.taxes_id.filtered(
+                lambda t: t.company_id == line.env.company
+            )
+            line.tax_id = fpos.map_tax(taxes)
+
+    @api.onchange("product_id")
+    def _onchange_product_id(self):
+        if not self.product_id:
+            return
+        product_tmpl = self.product_id.product_tmpl_id
+        attribute_lines = product_tmpl.valid_product_template_attribute_line_ids
+        valid_values = attribute_lines.product_template_value_ids
+        # remove the is_custom values that don't belong to this template
+        for pacv in self.product_custom_attribute_value_ids:
+            if pacv.custom_product_template_attribute_value_id not in valid_values:
+                self.product_custom_attribute_value_ids -= pacv
+
+        # remove the no_variant attributes that don't belong to this template
+        for ptav in self.product_no_variant_attribute_value_ids:
+            if ptav._origin not in valid_values:
+                self.product_no_variant_attribute_value_ids -= ptav
+
+        vals = {}
+        if not self.product_uom or (self.product_id.uom_id.id != self.product_uom.id):
+            vals["product_uom"] = self.product_id.uom_id
+            vals["product_uom_qty"] = self.product_uom_qty or 1.0
+
+        product = self.product_id.with_context(
+            lang=get_lang(self.env, self.order_id.partner_id.lang).code,
+            partner=self.order_id.partner_id,
+            quantity=vals.get("product_uom_qty") or self.product_uom_qty,
+            date=self.order_id.date_order,
+            pricelist=self.order_id.pricelist_id.id,
+            uom=self.product_uom.id,
+        )
+
+        vals.update(
+            name=self.order_line_id.get_sale_order_line_multiline_description_sale(
+                product
+            )
+        )
+
+        self._compute_tax_id()
+
+        if self.folio_id.pricelist_id and self.folio_id.partner_id:
+            vals["price_unit"] = self.env[
+                "account.tax"
+            ]._fix_tax_included_price_company(
+                self._get_display_price(product),
+                product.taxes_id,
+                self.tax_id,
+                self.company_id,
+            )
+        self.update(vals)
+
+        title = False
+        message = False
+        result = {}
+        warning = {}
+        if product.sale_line_warn != "no-message":
+            title = _("Warning for %s", product.name)
+            message = product.sale_line_warn_msg
+            warning["title"] = title
+            warning["message"] = message
+            result = {"warning": warning}
+            if product.sale_line_warn == "block":
+                self.product_id = False
+        return result
+
+    @api.onchange("checkin_date", "checkout_date")
+    def _onchange_checkin_checkout_dates(self):
+        """
+        When you change checkin_date or checkout_date it will checked it
+        and update the qty of hotel folio line
+        -----------------------------------------------------------------
+        @param self: object pointer
+        """
+
+        configured_addition_hours = (
+            self.folio_id.warehouse_id.company_id.additional_hours
+        )
+        myduration = 0
+        if self.checkin_date and self.checkout_date:
+            dur = self.checkout_date - self.checkin_date
+            sec_dur = dur.seconds
+            if (not dur.days and not sec_dur) or (dur.days and not sec_dur):
+                myduration = dur.days
+            else:
+                myduration = dur.days + 1
+            #            To calculate additional hours in hotel room as per minutes
+            if configured_addition_hours > 0:
+                additional_hours = abs((dur.seconds / 60) / 60)
+                if additional_hours >= configured_addition_hours:
+                    myduration += 1
+        self.product_uom_qty = myduration
+
+    def copy_data(self, default=None):
+        """
+        @param self: object pointer
+        @param default: dict of default values to be set
+        """
+
+        sale_line_obj = self.order_line_id
+        return sale_line_obj.copy_data(default=default)
+
+
+class HotelServiceLine(models.Model):
+
+    _name = "hotel.service.line"
+    _description = "hotel Service line"
+
+    @api.returns("self", lambda value: value.id)
+    def copy(self, default=None):
+        """
+        @param self: object pointer
+        @param default: dict of default values to be set
+        """
+        return super(HotelServiceLine, self).copy(default=default)
+
+    service_line_id = fields.Many2one(
+        "sale.order.line",
+        "Service Line",
+        required=True,
+        delegate=True,
+        ondelete="cascade",
+    )
+    folio_id = fields.Many2one("hotel.folio", "Folio", ondelete="cascade")
+    ser_checkin_date = fields.Datetime("From Date")
+    ser_checkout_date = fields.Datetime("To Date")
+
+    @api.model
+    def create(self, vals):
+        """
+        Overrides orm create method.
+        @param self: The object pointer
+        @param vals: dictionary of fields value.
+        @return: new record set for hotel service line.
+        """
+        if "folio_id" in vals:
+            folio = self.env["hotel.folio"].browse(vals["folio_id"])
+            vals.update({"order_id": folio.order_id.id})
+        return super(HotelServiceLine, self).create(vals)
+
+    def unlink(self):
+        """
+        Overrides orm unlink method.
+        @param self: The object pointer
+        @return: True/False.
+        """
+        self.mapped("service_line_id").unlink()
+        return super().unlink()
 
     def _compute_tax_id(self):
         for line in self:
@@ -571,47 +646,138 @@ class HotelFolioLine(models.Model):
                 else taxes
             )
 
+    def _get_real_price_currency(self, product, rule_id, qty, uom, pricelist_id):
+        """Retrieve the price before applying the pricelist
+        :param obj product: object of current product record
+        :parem float qty: total quentity of product
+        :param tuple price_and_rule: tuple(price, suitable_rule)
+        coming from pricelist computation
+        :param obj uom: unit of measure of current order line
+        :param integer pricelist_id: pricelist id of sale order"""
+        PricelistItem = self.env["product.pricelist.item"]
+        field_name = "lst_price"
+        currency_id = None
+        product_currency = None
+        if rule_id:
+            pricelist_item = PricelistItem.browse(rule_id)
+            if pricelist_item.pricelist_id.discount_policy == "without_discount":
+                while (
+                    pricelist_item.base == "pricelist"
+                    and pricelist_item.base_pricelist_id
+                    and pricelist_item.base_pricelist_id.discount_policy
+                    == "without_discount"
+                ):
+                    price, rule_id = pricelist_item.base_pricelist_id.with_context(
+                        uom=uom.id
+                    ).get_product_price_rule(product, qty, self.folio_id.partner_id)
+                    pricelist_item = PricelistItem.browse(rule_id)
+
+            if pricelist_item.base == "standard_price":
+                field_name = "standard_price"
+            if pricelist_item.base == "pricelist" and pricelist_item.base_pricelist_id:
+                field_name = "price"
+                product = product.with_context(
+                    pricelist=pricelist_item.base_pricelist_id.id
+                )
+                product_currency = pricelist_item.base_pricelist_id.currency_id
+            currency_id = pricelist_item.pricelist_id.currency_id
+
+        product_currency = (
+            product_currency
+            or (product.company_id and product.company_id.currency_id)
+            or self.env.user.company_id.currency_id
+        )
+        if not currency_id:
+            currency_id = product_currency
+            cur_factor = 1.0
+        else:
+            if currency_id.id == product_currency.id:
+                cur_factor = 1.0
+            else:
+                cur_factor = currency_id._get_conversion_rate(
+                    product_currency, currency_id
+                )
+
+        product_uom = self.env.context.get("uom") or product.uom_id.id
+        if uom and uom.id != product_uom:
+            # the unit price is in a different uom
+            uom_factor = uom._compute_price(1.0, product.uom_id)
+        else:
+            uom_factor = 1.0
+        return product[field_name] * uom_factor * cur_factor, currency_id.id
+
+    def _get_display_price(self, product):
+        # TO DO: move me in master/saas-16 on sale.order
+        if self.folio_id.pricelist_id.discount_policy == "with_discount":
+            return product.with_context(pricelist=self.folio_id.pricelist_id.id).price
+        product_context = dict(
+            self.env.context,
+            partner_id=self.folio_id.partner_id.id,
+            date=self.folio_id.date_order,
+            uom=self.product_uom.id,
+        )
+        final_price, rule_id = self.folio_id.pricelist_id.with_context(
+            **product_context
+        ).get_product_price_rule(
+            self.product_id,
+            self.product_uom_qty or 1.0,
+            self.folio_id.partner_id,
+        )
+        base_price, currency_id = self.with_context(
+            **product_context
+        )._get_real_price_currency(
+            product,
+            rule_id,
+            self.product_uom_qty,
+            self.product_uom,
+            self.folio_id.pricelist_id.id,
+        )
+        if currency_id != self.folio_id.pricelist_id.currency_id.id:
+            base_price = (
+                self.env["res.currency"]
+                .browse(currency_id)
+                .with_context(**product_context)
+                .compute(base_price, self.folio_id.pricelist_id.currency_id)
+            )
+        # negative discounts (= surcharge) are included in the display price
+        return max(base_price, final_price)
+
     @api.onchange("product_id")
-    def product_id_change(self):
-        """
-        -        @param self: object pointer
-        -"""
+    def _onchange_product_id(self):
         if not self.product_id:
-            return {"domain": {"product_uom": []}}
+            return
+        product_tmpl = self.product_id.product_tmpl_id
+        attribute_lines = product_tmpl.valid_product_template_attribute_line_ids
+        valid_values = attribute_lines.product_template_value_ids
+        # remove the is_custom values that don't belong to this template
+        for pacv in self.product_custom_attribute_value_ids:
+            if pacv.custom_product_template_attribute_value_id not in valid_values:
+                self.product_custom_attribute_value_ids -= pacv
+
+        # remove the no_variant attributes that don't belong to this template
+        for ptav in self.product_no_variant_attribute_value_ids:
+            if ptav._origin not in valid_values:
+                self.product_no_variant_attribute_value_ids -= ptav
+
         vals = {}
-        domain = {
-            "product_uom": [("category_id", "=", self.product_id.uom_id.category_id.id)]
-        }
         if not self.product_uom or (self.product_id.uom_id.id != self.product_uom.id):
             vals["product_uom"] = self.product_id.uom_id
+            vals["product_uom_qty"] = self.product_uom_qty or 1.0
+
         product = self.product_id.with_context(
-            lang=self.folio_id.partner_id.lang,
-            partner=self.folio_id.partner_id.id,
+            lang=get_lang(self.env, self.order_id.partner_id.lang).code,
+            partner=self.order_id.partner_id,
             quantity=vals.get("product_uom_qty") or self.product_uom_qty,
-            date=self.folio_id.date_order,
-            pricelist=self.folio_id.pricelist_id.id,
+            date=self.order_id.date_order,
+            pricelist=self.order_id.pricelist_id.id,
             uom=self.product_uom.id,
         )
 
-        result = {"domain": domain}
-
-        title = False
-        message = False
-        warning = {}
-        if product.sale_line_warn != "no-message":
-            title = _("Warning for %s") % product.name
-            message = product.sale_line_warn_msg
-            warning["title"] = title
-            warning["message"] = message
-            result = {"warning": warning}
-            if product.sale_line_warn == "block":
-                self.product_id = False
-                return result
-
-        name = product.name_get()[0][1]
-        if product.description_sale:
-            name += "\n" + product.description_sale
-        vals["name"] = name
+        vals.update(
+            name=self.service_line_id.get_sale_order_line_multiline_description_sale(
+                product
+            )
+        )
 
         self._compute_tax_id()
 
@@ -625,32 +791,44 @@ class HotelFolioLine(models.Model):
                 self.company_id,
             )
         self.update(vals)
+
+        title = False
+        message = False
+        result = {}
+        warning = {}
+        if product.sale_line_warn != "no-message":
+            title = _("Warning for %s", product.name)
+            message = product.sale_line_warn_msg
+            warning["title"] = title
+            warning["message"] = message
+            result = {"warning": warning}
+            if product.sale_line_warn == "block":
+                self.product_id = False
         return result
 
-    def button_confirm(self):
+    @api.onchange("ser_checkin_date", "ser_checkout_date")
+    def _on_change_checkin_checkout_dates(self):
         """
+        When you change checkin_date or checkout_date it will checked it
+        and update the qty of hotel service line
+        -----------------------------------------------------------------
         @param self: object pointer
         """
-        self.mapped('order_line_id').button_confirm()
-        line = folio.order_line_id
-        line.button_confirm()
-        return True
-
-    def button_done(self):
-        """
-        @param self: object pointer
-        """
-        for rec in self:
-            lines = rec.mapped('order_line_id')
-            lines.button_done()
-            rec.write({"state": "done"})
-        return True
+        if not self.ser_checkin_date:
+            time_a = time.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
+            self.ser_checkin_date = time_a
+        if not self.ser_checkout_date:
+            self.ser_checkout_date = time_a
+        if self.ser_checkout_date < self.ser_checkin_date:
+            raise ValidationError(_("Checkout must be greater or equal checkin date"))
+        if self.ser_checkin_date and self.ser_checkout_date:
+            diffDate = self.ser_checkout_date - self.ser_checkin_date
+            qty = diffDate.days + 1
+            self.product_uom_qty = qty
 
     def copy_data(self, default=None):
         """
         @param self: object pointer
         @param default: dict of default values to be set
         """
-
-        sale_line_obj = self.order_line_id
-        return sale_line_obj.copy_data(default=default)
+        return self.service_line_id.copy_data(default=default)

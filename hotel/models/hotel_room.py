@@ -9,9 +9,10 @@ class HotelFloor(models.Model):
 
     _name = "hotel.floor"
     _description = "Floor"
+    _order = "sequence"
 
     name = fields.Char("Floor Name", required=True, index=True)
-    sequence = fields.Integer("sequence")
+    sequence = fields.Integer("sequence", default=10)
 
 
 class HotelRoom(models.Model):
@@ -27,29 +28,28 @@ class HotelRoom(models.Model):
         ondelete="cascade",
     )
     floor_id = fields.Many2one(
-        "hotel.floor", "Floor No", help="At which floor the room is located.",ondelete='restrict')
+        "hotel.floor",
+        "Floor No",
+        help="At which floor the room is located.",
+        ondelete="restrict",
+    )
     max_adult = fields.Integer()
     max_child = fields.Integer()
     room_categ_id = fields.Many2one(
         "hotel.room.type", "Room Category", required=True, ondelete="restrict"
     )
-    room_amenities = fields.Many2many(
-        "hotel.room.amenities",
-        "temp_tab",
-        "room_amenities",
-        "rcateg_id",
-        help="List of room amenities. ",
+    room_amenities_ids = fields.Many2many(
+        "hotel.room.amenities", string="Room Amenities", help="List of room amenities."
     )
     status = fields.Selection(
         [("available", "Available"), ("occupied", "Occupied")],
-        "Status",
         default="available",
     )
-    capacity = fields.Integer("Capacity", required=True)
+    capacity = fields.Integer(required=True)
     room_line_ids = fields.One2many(
         "folio.room.line", "room_id", string="Room Reservation Line"
     )
-    product_manager = fields.Many2one("res.users", "Product Manager")
+    product_manager = fields.Many2one("res.users")
 
     @api.model
     def create(self, vals):
@@ -65,16 +65,13 @@ class HotelRoom(models.Model):
                 raise ValidationError(_("Room capacity must be more than 0"))
 
     @api.onchange("isroom")
-    def isroom_change(self):
+    def _isroom_change(self):
         """
         Based on isroom, status will be updated.
         ----------------------------------------
         @param self: object pointer
         """
-        if self.isroom is False:
-            self.status = "occupied"
-        if self.isroom is True:
-            self.status = "available"
+        self.status = "available" if self.status else "occupied"
 
     def write(self, vals):
         """
@@ -118,7 +115,12 @@ class HotelRoomType(models.Model):
     categ_id = fields.Many2one("hotel.room.type", "Category")
     child_ids = fields.One2many("hotel.room.type", "categ_id", "Room Child Categories")
     product_categ_id = fields.Many2one(
-        "product.category", "Product Category", delegate=True, required=True, copy=False
+        "product.category",
+        "Product Category",
+        delegate=True,
+        required=True,
+        copy=False,
+        ondelete="restrict",
     )
 
     @api.model
@@ -136,7 +138,7 @@ class HotelRoomType(models.Model):
 
     def name_get(self):
         def get_names(cat):
-            """ Return the list [cat.name, cat.categ_id.name, ...] """
+            """Return the list [cat.name, cat.categ_id.name, ...]"""
             res = []
             while cat:
                 res.append(cat.name)
@@ -203,7 +205,12 @@ class HotelRoomAmenitiesType(models.Model):
         "hotel.room.amenities.type", "amenity_id", "Amenities Child Categories"
     )
     product_categ_id = fields.Many2one(
-        "product.category", "Product Category", delegate=True, required=True, copy=False
+        "product.category",
+        "Product Category",
+        delegate=True,
+        required=True,
+        copy=False,
+        ondelete="restrict",
     )
 
     @api.model
@@ -225,7 +232,7 @@ class HotelRoomAmenitiesType(models.Model):
 
     def name_get(self):
         def get_names(cat):
-            """ Return the list [cat.name, cat.amenity_id.name, ...] """
+            """Return the list [cat.name, cat.amenity_id.name, ...]"""
             res = []
             while cat:
                 res.append(cat.name)
@@ -300,7 +307,7 @@ class HotelRoomAmenities(models.Model):
         required=True,
         ondelete="restrict",
     )
-    product_manager = fields.Many2one("res.users", "Product Manager")
+    product_manager = fields.Many2one("res.users")
 
     @api.model
     def create(self, vals):

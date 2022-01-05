@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <!--==== Amenities Type ==== -->
     <!-- Form view of hotel room amenities type -->
@@ -22,7 +21,7 @@
         <field name="name">hotel.room_amenities_type_list</field>
         <field name="model">hotel.room.amenities.type</field>
         <field name="arch" type="xml">
-            <tree string="Hotel Room Amenities Type">
+            <tree>
                 <field name="name" />
             </tree>
         </field>
@@ -55,23 +54,17 @@
                                 <field name="uom_id" />
                                 <field name="default_code" />
                                 <field name="uom_po_id" />
+                                <field
+                                    name="supplier_taxes_id"
+                                    widget="many2many_tags"
+                                    string="Supplier Taxes"
+                                />
+                                <field
+                                    name="taxes_id"
+                                    widget="many2many_tags"
+                                    string="Customer Taxes"
+                                />
                             </group>
-                            <newline />
-                            <separator colspan='4' string="Supplier Taxes" />
-                            <field
-                                name="supplier_taxes_id"
-                                colspan="4"
-                                nolabel='1'
-                                help='Define supplier taxes if there any on the ty. '
-                            />
-                            <newline />
-                            <separator colspan='4' string="Customer Taxes" />
-                            <field
-                                name="taxes_id"
-                                colspan="4"
-                                nolabel='1'
-                                help='List of customer taxes applied on the ty. '
-                            />
                         </page>
                         <page string="Procurement">
                             <group colspan="4" col="4">
@@ -80,8 +73,6 @@
                                 <field name="cost_method" string="Cost Method" />
                                 <field name="sale_ok" select="2" />
                                 <field name="standard_price" />
-                                <!--commented as rental field is removed from odoo14-->
-                                <!-- <field name="rental" select="2" /> -->
                             </group>
                             <newline />
                             <group>
@@ -128,7 +119,7 @@
         <field name="name">hotel.room_amenities_list</field>
         <field name="model">hotel.room.amenities</field>
         <field name="arch" type="xml">
-            <tree string="Hotel Room Amenities">
+            <tree>
                 <field name="name" />
                 <field name="amenities_categ_id" string="Amenities Category" />
                 <field name="list_price" string="Amenity Rate" invisible="1" />
