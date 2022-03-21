@@ -6,72 +6,74 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2022-03-22 01:17+0000\n"
+"Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.3.2\n"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__product_variant_count
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__product_variant_count
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__product_variant_count
 msgid "# Product Variants"
-msgstr ""
+msgstr "# Varianti prodotto"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_type__product_count
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_type__product_count
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_type__product_count
 msgid "# Products"
-msgstr ""
+msgstr "# Prodotti"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_kanban
 msgid "<span title=\"fa_icon\" class=\"fa fa-bars fa-lg\"/>"
-msgstr ""
+msgstr "<span title=\"fa_icon\" class=\"fa fa-bars fa-lg\"/>"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.report_hotel_folio
 msgid "<strong>CheckIN</strong>"
-msgstr ""
+msgstr "<strong>CheckIN</strong>"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.report_hotel_folio
 msgid "<strong>CheckOut</strong>"
-msgstr ""
+msgstr "<strong>CheckOut</strong>"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.report_hotel_folio
 msgid "<strong>Customer Name</strong>"
-msgstr ""
+msgstr "<strong>Nome cliente</strong>"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.report_hotel_folio
 msgid "<strong>Folio No.</strong>"
-msgstr ""
+msgstr "<strong>Foglio Nr.</strong>"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.report_hotel_folio
 msgid "<strong>From:</strong>"
-msgstr ""
+msgstr "<strong>Da:</strong>"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.report_hotel_folio
 msgid "<strong>Net Total:</strong>"
-msgstr ""
+msgstr "<strong>Totale netto:</strong>"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.report_hotel_folio
 msgid "<strong>To:</strong>"
-msgstr ""
+msgstr "<strong>A:</strong>"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.report_hotel_folio
 msgid "<strong>Total</strong>"
-msgstr ""
+msgstr "<strong>Totale</strong>"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__description_sale
@@ -82,6 +84,9 @@ msgid ""
 " This description will be copied to every Sales Order, Delivery Order and "
 "Customer Invoice/Credit Note"
 msgstr ""
+"Una descrizione dl prodotto che si vuole comunicare al cliente. Questa "
+"descrizione verrà copiata in ogni ordine di vendita, ordine di spedizione e "
+"fattura/nota di credito del cliente"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_sale_advance_payment_inv__advance_payment_method
@@ -90,6 +95,9 @@ msgid ""
 "        invoicing, according to their invoicing policy\n"
 "        (based on ordered or delivered quantity)."
 msgstr ""
+"Viene emessa una fattura standard con tutte le righe d'ordine pronte per\n"
+"        la fatturazione, in accordo con le regole di fatturazione\n"
+"        (in base alle quantità ordinate o consegnate)."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio_line__product_type
@@ -102,11 +110,15 @@ msgid ""
 "A consumable product is a product for which stock is not managed.\n"
 "A service is a non-material product you provide."
 msgstr ""
+"Un prodotto stoccabile è un prodotto di cui si gestiscono le giacenze. L'app "
+"Magazzino deve essere installata.\n"
+"Un prodotto consumabile è un prodotto per cui le giacenze non sono gestite.\n"
+"Un servizio è un prodotto immateriale fornito."
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__access_warning
 msgid "Access warning"
-msgstr ""
+msgstr "Avviso accesso"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio_line__qty_delivered_method
@@ -125,14 +137,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__message_needaction
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__message_needaction
 msgid "Action Needed"
-msgstr ""
+msgstr "Richiesta azione"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__active
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__active
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__active
 msgid "Active"
-msgstr ""
+msgstr "Attivo"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__activity_ids
@@ -140,7 +152,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__activity_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__activity_ids
 msgid "Activities"
-msgstr ""
+msgstr "Attività"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__activity_exception_decoration
@@ -156,23 +168,23 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__activity_state
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__activity_state
 msgid "Activity State"
-msgstr ""
+msgstr "Stato attività"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_res_company__additional_hours
 msgid "Additional Hours"
-msgstr ""
+msgstr "Ore addizionali"
 
 #. module: hotel
 #: model:ir.model,name:hotel.model_folio_report_wizard
 msgid "Allow print folio report by date"
-msgstr ""
+msgstr "Consenti di stampare il resoconto del foglio per data"
 
 #. module: hotel
 #: model:ir.actions.act_window,name:hotel.action_hotel_room_amenities_view_form
 #: model:ir.ui.menu,name:hotel.menu_action_hotel_room_amenities_view_form
 msgid "Amenities"
-msgstr ""
+msgstr "Servizi"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__amenities_categ_id
@@ -180,75 +192,75 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_amenities_form
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_amenities_list
 msgid "Amenities Category"
-msgstr ""
+msgstr "Categoria servizi"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_type__child_ids
 msgid "Amenities Child Categories"
-msgstr ""
+msgstr "Catagorie servizi successive"
 
 #. module: hotel
 #: model:ir.actions.act_window,name:hotel.action_hotel_room_amenities_type_view_form
 msgid "Amenities Type"
-msgstr ""
+msgstr "Tipo servizi"
 
 #. module: hotel
 #: model:ir.ui.menu,name:hotel.menu_amenity
 msgid "Amenity"
-msgstr ""
+msgstr "Servizio"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_amenities_list
 msgid "Amenity Rate"
-msgstr ""
+msgstr "Tariffa servizio"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_amenities_form
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_amenities_type_form
 msgid "Amenity Type"
-msgstr ""
+msgstr "Tipo servizio"
 
 #. module: hotel
 #: model:ir.ui.menu,name:hotel.menu_action_hotel_room_amenities_type_view_form
 msgid "Amenity Types"
-msgstr ""
+msgstr "Tipi servizio"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_amenities_form
 msgid "Amenity manager"
-msgstr ""
+msgstr "Responsabile servizio"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_aenities_search
 msgid "Amenity rate"
-msgstr ""
+msgstr "Tariffa servizio"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__amount_undiscounted
 msgid "Amount Before Discount"
-msgstr ""
+msgstr "Valore prima dello sconto"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__analytic_account_id
 msgid "Analytic Account"
-msgstr ""
+msgstr "Conto analitico"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_line__analytic_tag_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_line__analytic_tag_ids
 msgid "Analytic Tags"
-msgstr ""
+msgstr "Etichette analitiche"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_line__analytic_line_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_line__analytic_line_ids
 msgid "Analytic lines"
-msgstr ""
+msgstr "Linee analitiche"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__floor_id
 msgid "At which floor the room is located."
-msgstr ""
+msgstr "A quale piano si trova la camera."
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__message_attachment_count
@@ -263,12 +275,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__product_template_attribute_value_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__product_template_attribute_value_ids
 msgid "Attribute Values"
-msgstr ""
+msgstr "Valore attributo"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__authorized_transaction_ids
 msgid "Authorized Transactions"
-msgstr ""
+msgstr "Transizione autorizzata"
 
 #. module: hotel
 #: model:ir.model,name:hotel.model_report_hotel_report_hotel_folio
@@ -280,31 +292,31 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_kanban
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_search
 msgid "Available"
-msgstr ""
+msgstr "Disponibile"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__available_in_pos
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__available_in_pos
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__available_in_pos
 msgid "Available in POS"
-msgstr ""
+msgstr "Disponibile sul POS"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__barcode
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__barcode
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__barcode
 msgid "Barcode"
-msgstr ""
+msgstr "Codice a barre"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_folio_form
 msgid "Branch"
-msgstr ""
+msgstr "Filiale"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__campaign_id
 msgid "Campaign"
-msgstr ""
+msgstr "Campagna"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_line__product_updatable
@@ -1010,12 +1022,12 @@ msgstr ""
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_form
 msgid "Folio Room Reservation Line"
-msgstr ""
+msgstr "Riga prenotazione camera del foglio"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_form
 msgid "Folio Room Reservations"
-msgstr ""
+msgstr "Foglio prenotazioni camere"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.hotel_folio_calendar_view
@@ -1161,7 +1173,7 @@ msgstr ""
 #. module: hotel
 #: model:ir.model,name:hotel.model_hotel_folio_line
 msgid "Hotel Folio Room Line"
-msgstr ""
+msgstr "Riga foglio camera hotel"
 
 #. module: hotel
 #: model:ir.ui.menu,name:hotel.hotel_management_menu
@@ -1189,31 +1201,31 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_search
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_tree
 msgid "Hotel Room"
-msgstr ""
+msgstr "Camera hotel"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_aenities_search
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_amenities_form
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_amenities_list
 msgid "Hotel Room Amenities"
-msgstr ""
+msgstr "Servizi camera hotel"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_amenities_type_form
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_amenities_type_list
 msgid "Hotel Room Amenities Type"
-msgstr ""
+msgstr "Tipo servizi camera hotel"
 
 #. module: hotel
 #: model:ir.model,name:hotel.model_folio_room_line
 msgid "Hotel Room Reservation"
-msgstr ""
+msgstr "Prenotazione camera hotel"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_type_form
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_type_tree
 msgid "Hotel Room Type"
-msgstr ""
+msgstr "Tipo camera hotel"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_services_form
@@ -1237,7 +1249,7 @@ msgstr ""
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio__room_line_ids
 msgid "Hotel room reservation detail."
-msgstr ""
+msgstr "Dettaglio prenotazione camera hotel."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio__service_line_ids
@@ -1549,7 +1561,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__isroom
 #: model:ir.model.fields,field_description:hotel.field_product_product__isroom
 msgid "Is Room"
-msgstr ""
+msgstr "È una camera"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__isservice
@@ -1682,7 +1694,7 @@ msgstr ""
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__room_amenities
 msgid "List of room amenities. "
-msgstr ""
+msgstr "Elenco servizi camera. "
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_form
@@ -2383,13 +2395,13 @@ msgstr ""
 #: model:ir.actions.act_window,name:hotel.action_hotel_room_form
 #: model:ir.ui.menu,name:hotel.menu_hotel_room
 msgid "Room"
-msgstr ""
+msgstr "Camera"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__room_amenities
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_form
 msgid "Room Amenities"
-msgstr ""
+msgstr "Servizi camera"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__room_categ_id
