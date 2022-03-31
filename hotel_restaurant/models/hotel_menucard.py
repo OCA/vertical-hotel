@@ -13,7 +13,7 @@ class HotelMenucardType(models.Model):
 
     def name_get(self):
         def get_names(cat):
-            """ Return the list [cat.name, cat.menu_id.name, ...] """
+            """Return the list [cat.name, cat.menu_id.name, ...]"""
             res = []
             while cat:
                 res.append(cat.name)
