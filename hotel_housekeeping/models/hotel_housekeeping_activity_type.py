@@ -14,7 +14,7 @@ class HotelHousekeepingActivityType(models.Model):
 
     def name_get(self):
         def get_names(cat):
-            """ Return the list [cat.name, cat.activity_id.name, ...] """
+            """Return the list [cat.name, cat.activity_id.name, ...]"""
             res = []
             while cat:
                 res.append(cat.name)
