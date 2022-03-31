@@ -137,7 +137,7 @@ class HotelRoomType(models.Model):
 
     def name_get(self):
         def get_names(cat):
-            """ Return the list [cat.name, cat.categ_id.name, ...] """
+            """Return the list [cat.name, cat.categ_id.name, ...]"""
             res = []
             while cat:
                 res.append(cat.name)
@@ -226,7 +226,7 @@ class HotelRoomAmenitiesType(models.Model):
 
     def name_get(self):
         def get_names(cat):
-            """ Return the list [cat.name, cat.amenity_id.name, ...] """
+            """Return the list [cat.name, cat.amenity_id.name, ...]"""
             res = []
             while cat:
                 res.append(cat.name)
