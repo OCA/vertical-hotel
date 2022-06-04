@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 13.0\n"
+"Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -157,6 +157,11 @@ msgid "Activity Type"
 msgstr ""
 
 #. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: hotel_housekeeping
 #: model:ir.actions.act_window,name:hotel_housekeeping.action_hotel_housekeeping_activity_type_view_form
 #: model:ir.ui.menu,name:hotel_housekeeping.menu_action_hotel_housekeeping_activity_type_view_form
 msgid "Activity Types"
@@ -205,11 +210,6 @@ msgstr ""
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__purchase_ok
 msgid "Can be Purchased"
-msgstr ""
-
-#. module: hotel_housekeeping
-#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__rental
-msgid "Can be Rent"
 msgstr ""
 
 #. module: hotel_housekeeping
@@ -530,6 +530,11 @@ msgid "Followers (Partners)"
 msgstr ""
 
 #. module: hotel_housekeeping
+#: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: hotel_housekeeping
 #: model:hotel.activity,name:hotel_housekeeping.hotel_room_activities_2
 #: model:product.product,name:hotel_housekeeping.hotel_room_activities_2_product_product
 msgid "Food Delivery"
@@ -711,7 +716,7 @@ msgstr ""
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__standard_price
 msgid ""
 "In Standard Price & AVCO: value of the product (automatically computed in AVCO).\n"
-"        In FIFO: value of the last unit that left the stock (automatically computed).\n"
+"        In FIFO: value of the next unit that will leave the stock (automatically computed).\n"
 "        Used to value the product when the purchase cost is not known (e.g. inventory adjustment).\n"
 "        Used to compute margins on sale orders."
 msgstr ""
@@ -912,6 +917,11 @@ msgstr ""
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__orderpoint_ids
 msgid "Minimum Stock Rules"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__my_activity_date_deadline
+msgid "My Activity Deadline"
 msgstr ""
 
 #. module: hotel_housekeeping
@@ -1161,6 +1171,11 @@ msgstr ""
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__route_ids
 msgid "Routes"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__has_available_route_ids
+msgid "Routes can be selected on this product"
 msgstr ""
 
 #. module: hotel_housekeeping
