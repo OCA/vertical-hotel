@@ -7,28 +7,29 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-09 13:00+0000\n"
-"PO-Revision-Date: 2013-10-09 18:33+0530\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2022-06-04 13:05+0000\n"
+"Last-Translator: Abdourahmane Wone <abdourahmanewone@gmail.com>\n"
 "Language-Team: none\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.3.2\n"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__product_variant_count
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__product_variant_count
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__product_variant_count
 msgid "# Product Variants"
-msgstr ""
+msgstr "# Variantes de produit"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_type__product_count
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_type__product_count
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_type__product_count
 msgid "# Products"
-msgstr ""
+msgstr "# Produits"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_kanban
@@ -48,7 +49,7 @@ msgstr ""
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.report_hotel_folio
 msgid "<strong>Customer Name</strong>"
-msgstr ""
+msgstr "<strong>Nom du client</strong>"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.report_hotel_folio
