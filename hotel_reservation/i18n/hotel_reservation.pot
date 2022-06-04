@@ -6,8 +6,6 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-22 10:55+0000\n"
-"PO-Revision-Date: 2021-07-22 10:55+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -439,14 +437,6 @@ msgid "CheckOut List"
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:0
-#, python-format
-msgid ""
-"Checkout date should be greater                                          "
-"than Checkin date."
-msgstr ""
-
-#. module: hotel_reservation
 #: code:addons/hotel_reservation/models/hotel_quick_reservation.py:0
 #: code:addons/hotel_reservation/models/hotel_room.py:0
 #, python-format
@@ -628,13 +618,13 @@ msgstr ""
 
 #. module: hotel_reservation
 #: model:ir.model.fields,field_description:hotel_reservation.field_hotel_reservation__company_id
-#: model:ir.model.fields,field_description:hotel_reservation.field_quick_room_reservation__warehouse_id
+#: model:ir.model.fields,field_description:hotel_reservation.field_quick_room_reservation__company_id
 msgid "Hotel"
 msgstr ""
 
 #. module: hotel_reservation
 #: model:ir.model,name:hotel_reservation.model_hotel_folio_line
-msgid "Hotel Folio Room Line"
+msgid "Hotel Folio Line"
 msgstr ""
 
 #. module: hotel_reservation
@@ -855,18 +845,9 @@ msgid "Ordering Contact"
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:0
 #: code:addons/hotel_reservation/models/hotel_room.py:0
 #, python-format
 msgid "Please Check Rooms Status for %s."
-msgstr ""
-
-#. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:0
-#, python-format
-msgid ""
-"Please Check Time period Date From can't                                    "
-"be greater than Date To !"
 msgstr ""
 
 #. module: hotel_reservation
@@ -891,7 +872,6 @@ msgid "Quick Room Reservation"
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:0
 #: code:addons/hotel_reservation/models/hotel_room.py:0
 #, python-format
 msgid "Reconcile Write-Off"
@@ -1115,15 +1095,6 @@ msgid "Unread Messages Counter"
 msgstr ""
 
 #. module: hotel_reservation
-#: code:addons/hotel_reservation/models/hotel_reservation.py:0
-#, python-format
-msgid ""
-"User is not able to delete the                                             "
-"room after the room in %s state                                             "
-"in reservation"
-msgstr ""
-
-#. module: hotel_reservation
 #: code:addons/hotel_reservation/models/hotel_room.py:0
 #, python-format
 msgid ""
@@ -1151,7 +1122,7 @@ msgstr ""
 
 #. module: hotel_reservation
 #: model:ir.model,name:hotel_reservation.model_hotel_folio
-msgid "hotel folio new"
+msgid "hotel folio"
 msgstr ""
 
 #. module: hotel_reservation
