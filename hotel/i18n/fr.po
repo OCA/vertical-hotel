@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-09 13:00+0000\n"
-"PO-Revision-Date: 2022-06-04 21:05+0000\n"
+"PO-Revision-Date: 2022-06-05 21:05+0000\n"
 "Last-Translator: Abdourahmane Wone <abdourahmanewone@gmail.com>\n"
 "Language-Team: none\n"
 "Language: fr\n"
@@ -54,7 +54,7 @@ msgstr "<strong>Nom du client</strong>"
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.report_hotel_folio
 msgid "<strong>Folio No.</strong>"
-msgstr ""
+msgstr "<strong>Fiche d’hôtel No.</strong>"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.report_hotel_folio
@@ -250,7 +250,7 @@ msgstr "Types d'équipements"
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_amenities_form
 msgid "Amenity manager"
-msgstr ""
+msgstr "Responsable de l'équipement"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_aenities_search
@@ -297,7 +297,7 @@ msgstr "Nombre de pièces jointes"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__product_template_attribute_value_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__product_template_attribute_value_ids
 msgid "Attribute Values"
-msgstr ""
+msgstr "Valeurs d'attribut"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__authorized_transaction_ids
@@ -333,7 +333,7 @@ msgstr "Code à barre"
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_folio_form
 msgid "Branch"
-msgstr ""
+msgstr "Entrepôt"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__campaign_id
@@ -403,7 +403,7 @@ msgstr "Catégorie"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__route_from_categ_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__route_from_categ_ids
 msgid "Category Routes"
-msgstr ""
+msgstr "Catégorie Itinéraires"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__pos_categ_id
@@ -416,7 +416,7 @@ msgstr "Catégorie utilisée dans le Point de Vente."
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__checkin_date
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_line__checkin_date
 msgid "Check In"
-msgstr ""
+msgstr "Arrivée"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_folio_room_line__check_in
@@ -427,7 +427,7 @@ msgstr "Date d'arrivée"
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__checkout_date
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_line__checkout_date
 msgid "Check Out"
-msgstr ""
+msgstr "Départ"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_folio_room_line__check_out
@@ -841,7 +841,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_form
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_services_form
 msgid "Description"
-msgstr ""
+msgstr "Description"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__description_pickingout
@@ -855,14 +855,14 @@ msgstr "Description sur les bons de livraison"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__description_picking
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__description_picking
 msgid "Description on Picking"
-msgstr ""
+msgstr "Description sur livraisons"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__description_pickingin
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__description_pickingin
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__description_pickingin
 msgid "Description on Receptions"
-msgstr ""
+msgstr "Description sur les réceptions"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_amenities_form
@@ -1064,7 +1064,7 @@ msgstr "No étage"
 #: model:ir.ui.menu,name:hotel.menu_all_folio
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_folio_form
 msgid "Folio"
-msgstr ""
+msgstr "Fiche d'hôtel"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_folio_room_line__folio_id
@@ -1091,7 +1091,7 @@ msgstr "Réservations de chambres Folio"
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.hotel_folio_calendar_view
 msgid "Folios"
-msgstr ""
+msgstr "Fiches d'hôtel"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__message_follower_ids
@@ -1252,7 +1252,7 @@ msgstr "A un enlèvement tardif"
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_folio_form
 msgid "History"
-msgstr ""
+msgstr "Historique"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_floor_form
@@ -1654,7 +1654,7 @@ msgstr "Politique de facturation"
 #: model:hotel.room.amenities,name:hotel.hotel_room_amenities_2
 #: model:product.product,name:hotel.hotel_room_amenities_2_product_product
 msgid "Iron"
-msgstr ""
+msgstr "Fer à repasser"
 
 #. module: hotel
 #: model:hotel.room.amenities,name:hotel.hotel_room_amenities_3
@@ -2087,7 +2087,7 @@ msgstr "Lors de l'enregistrement"
 #. module: hotel
 #: model:ir.model.fields.selection,name:hotel.selection__hotel_folio__hotel_policy__picking
 msgid "On Checkout"
-msgstr ""
+msgstr "Au départ"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__require_payment
@@ -2255,7 +2255,7 @@ msgstr "Liste de prix"
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_folio_wizard
 msgid "Print Folio"
-msgstr ""
+msgstr "Imprime la fiche"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_amenities_form
@@ -2361,6 +2361,11 @@ msgid ""
 "will be provided here based on                                       that "
 "extra days will be calculated."
 msgstr ""
+"Fournissez la valeur des heures minimales "
+"pour                                       l'arrivée, les jours de départ , "
+"quelles que soient                                     es heures qui seront "
+"fournies ici en fonction des jours                                       "
+"supplémentaires qui seront calculés."
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__lst_price
