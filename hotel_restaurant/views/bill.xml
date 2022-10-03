@@ -189,10 +189,10 @@
                             </thead>
                             <tbody>
                                 <td style="white-space: nowrap;">
-                                    <span t-esc="o.order_date" />
+                                    <span t-esc="o.o_date" />
                                 </td>
                                 <td style="white-space: nowrap;">
-                                    <span t-att-style="style" t-esc="o.order_number" />
+                                    <span t-att-style="style" t-esc="o.order_no" />
                                 </td>
                                 <td t-if="o.folio_id.id" style="white-space: nowrap;">
                                     <span t-att-style="style" t-esc="o.folio_id.name" />
@@ -200,7 +200,7 @@
                                 <td style="white-space: nowrap;">
                                     <span
                                         t-att-style="style"
-                                        t-esc="o.waitername.name"
+                                        t-esc="o.waiter_id.name"
                                     />
                                 </td>
                             </tbody>

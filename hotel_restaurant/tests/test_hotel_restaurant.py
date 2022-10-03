@@ -1,4 +1,5 @@
-# See LICENSE file for full copyright and licensing details.
+# Copyright (C) 2022-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from datetime import datetime
 
@@ -23,6 +24,7 @@ class TestRestaurant(common.TransactionCase):
         self.room1 = self.env.ref("point_of_sale.desk_organizer")
         self.partner = self.env.ref("base.res_partner_4")
         self.waiter = self.env.ref("base.res_partner_3")
+        self.menucard_type_1 = self.env["hotel.menucard.type"]
         cur_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         self.menucard_type = self.menucard_type_obj.create(
@@ -74,6 +76,16 @@ class TestRestaurant(common.TransactionCase):
                 "state": "draft",
                 "order_list_ids": [(6, 0, [self.tablelist.id])],
             }
+        )
+
+    def test_name_search(self):
+        self.menucard_type_1 = self.env["hotel.menucard.type"].create(
+            {
+                "name": "Test",
+            }
+        )
+        self.env["hotel.menucard.type"].name_search(
+            "All FoodItems / Punjabi", [], "not like", None
         )
 
     def test_compute_price_subtotal(self):
