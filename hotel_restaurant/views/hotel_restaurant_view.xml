@@ -27,7 +27,6 @@
                         readonly="1"
                     >
                         <tree
-                            string="Order"
                             decoration-success="state=='order'"
                             decoration-info="state=='draft'"
                         >
@@ -47,7 +46,6 @@
                         readonly="1"
                     >
                         <tree
-                            string="Order"
                             decoration-success="state=='order'"
                             decoration-info="state=='draft'"
                         >
@@ -87,7 +85,7 @@
         <field name="name">hotel_restaurant_tables.tree</field>
         <field name="model">hotel.restaurant.tables</field>
         <field name="arch" type="xml">
-            <tree string="Tables Detail">
+            <tree>
                 <field name="name" />
                 <field name="capacity" />
             </tree>
@@ -228,7 +226,6 @@
         <field name="model">hotel.restaurant.reservation</field>
         <field name="arch" type="xml">
             <tree
-                string="Table Reservation"
                 decoration-success="state=='confirm'"
                 decoration-info="state=='draft'"
                 decoration-danger="state=='cancel'"
@@ -399,7 +396,7 @@
                         <newline />
                         <separator colspan='4' string='Order List' />
                         <field name="order_list_ids" colspan="4" nolabel='1'>
-                            <tree string="Order List" editable="top">
+                            <tree editable="top">
                                 <field name="menucard_id" />
                                 <field name="item_qty" />
                                 <field name="item_rate" />
@@ -427,7 +424,6 @@
         <field name="model">hotel.reservation.order</field>
         <field name="arch" type="xml">
             <tree
-                string="Order"
                 decoration-success="state=='order'"
                 decoration-info="state=='draft'"
                 decoration-muted="state=='done'"
@@ -589,7 +585,7 @@
                         <newline />
                         <separator colspan='4' string='Order List' />
                         <field name="order_list_ids" colspan="4" nolabel='1'>
-                            <tree string="Order List" editable="top">
+                            <tree editable="top">
                                 <field name="menucard_id" />
                                 <field name="item_qty" />
                                 <field name="item_rate" />
@@ -617,7 +613,6 @@
         <field name="model">hotel.restaurant.order</field>
         <field name="arch" type="xml">
             <tree
-                string="Order"
                 decoration-success="state=='order'"
                 decoration-info="state=='draft'"
                 decoration-muted="state=='done'"
@@ -717,7 +712,7 @@
                                     <field name="item_rate" />
                                 </group>
                             </form>
-                            <tree string="Order List">
+                            <tree>
                                 <field name="menucard_id" />
                                 <field name="item_qty" />
                             </tree>
@@ -733,7 +728,7 @@
         <field name="name">hotel_restaurant_kitchen_order_tickets.tree</field>
         <field name="model">hotel.restaurant.kitchen.order.tickets</field>
         <field name="arch" type="xml">
-            <tree string="KOT List" create="0">
+            <tree create="0">
                 <field name="order_number" />
                 <field name="reservation_number" />
                 <field name="kot_date" />
@@ -819,7 +814,7 @@
         <field name="name">hotel_menucard_type_list</field>
         <field name="model">hotel.menucard.type</field>
         <field name="arch" type="xml">
-            <tree string="Hotel Food Items Type">
+            <tree>
                 <field name="name" />
             </tree>
         </field>
@@ -934,7 +929,7 @@
         <field name="name">hotel.menucard.tree</field>
         <field name="model">hotel.menucard</field>
         <field name="arch" type="xml">
-            <tree string="Hotel Menucard">
+            <tree>
                 <field name="name" />
                 <field name="categ_id" string="Food Item Type" />
                 <field name="list_price" string="Food Item Rate" />
