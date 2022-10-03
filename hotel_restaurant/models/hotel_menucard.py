@@ -1,3 +1,6 @@
+# Copyright (C) 2022-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
 from odoo import api, fields, models
 from odoo.osv import expression
 
@@ -7,7 +10,7 @@ class HotelMenucardType(models.Model):
     _name = "hotel.menucard.type"  # need to recheck for v15
     _description = "Food Item Type"
 
-    name = fields.Char("Name", required=True)
+    name = fields.Char(required=True)
     menu_id = fields.Many2one("hotel.menucard.type", "Food Item Type")
     child_ids = fields.One2many("hotel.menucard.type", "menu_id", "Child Categories")
 

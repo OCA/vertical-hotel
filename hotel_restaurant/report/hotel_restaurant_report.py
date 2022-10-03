@@ -1,4 +1,5 @@
-# See LICENSE file for full copyright and licensing details.
+# Copyright (C) 2022-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import time
 from datetime import datetime
@@ -41,7 +42,7 @@ class HotelRestaurantReport(models.AbstractModel):
             "date_end",
             str(datetime.now() + relativedelta(months=1, day=1, days=1))[:10],
         )
-        rm_act = self.with_context(data["form"].get("used_context", {}))
+        rm_act = self.with_context(**data["form"].get("used_context", {}))
         reservation_res = rm_act.get_res_data(date_start, date_end)
         return {
             "doc_ids": docids,
@@ -151,7 +152,7 @@ class FolioRestReport(models.AbstractModel):
             "date_end",
             str(datetime.now() + relativedelta(months=1, day=1, days=1))[:10],
         )
-        rm_act = self.with_context(data["form"].get("used_context", {}))
+        rm_act = self.with_context(**data["form"].get("used_context", {}))
         get_data_res = rm_act.get_data(date_start, date_end)
         get_rest_res = rm_act.get_rest(date_start, date_end)
         return {
@@ -245,7 +246,7 @@ class FolioReservReport(models.AbstractModel):
             "date_end",
             str(datetime.now() + relativedelta(months=1, day=1, days=1))[:10],
         )
-        rm_act = self.with_context(data["form"].get("used_context", {}))
+        rm_act = self.with_context(**data["form"].get("used_context", {}))
         get_data_res = rm_act.get_data(date_start, date_end)
         get_reserv_res = rm_act.get_reserv(date_start, date_end)
         return {

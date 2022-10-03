@@ -1,8 +1,9 @@
-# See LICENSE file for full copyright and licensing details.
+# Copyright (C) 2022-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
     "name": "Hotel Restaurant Management",
-    "version": "14.0.1.0.0",
+    "version": "15.0.1.0.0",
     "author": "Odoo Community Association (OCA), Serpent Consulting\
                 Services Pvt. Ltd., Odoo S.A.",
     "category": "Generic Modules/Hotel Restaurant",
@@ -10,7 +11,7 @@
     "depends": ["hotel", "point_of_sale"],
     "license": "AGPL-3",
     "summary": "Table booking facilities and Managing customers orders",
-    "demo": ["views/hotel_restaurant_data.xml"],
+    "demo": ["demo/hotel_restaurant_data.xml"],
     "data": [
         "security/ir.model.access.csv",
         "report/hotel_restaurant_report.xml",
