@@ -1,4 +1,5 @@
-# See LICENSE file for full copyright and licensing details.
+# Copyright (C) 2022-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
@@ -10,7 +11,7 @@ class HotelRestaurantTables(models.Model):
     _description = "Includes Hotel Restaurant Table"
 
     name = fields.Char("Table Number", required=True)
-    capacity = fields.Integer("Capacity")
+    capacity = fields.Integer()
 
 
 class HotelRestaurantReservation(models.Model):
@@ -216,11 +217,11 @@ class HotelRestaurantKitchenOrderTickets(models.Model):
     _description = "Includes Hotel Restaurant Order"
     _rec_name = "order_number"
 
-    order_number = fields.Char("Order Number", readonly=True)
-    reservation_number = fields.Char("Reservation Number")
+    order_number = fields.Char(readonly=True)
+    reservation_number = fields.Char()
     kot_date = fields.Datetime("Date")
-    room_no = fields.Char("Room No", readonly=True)
-    waiter_name = fields.Char("Waiter Name", readonly=True)
+    room_no = fields.Char(readonly=True)
+    waiter_name = fields.Char(readonly=True)
     table_nos_ids = fields.Many2many(
         "hotel.restaurant.tables",
         "restaurant_kitchen_order_rel",
@@ -350,7 +351,6 @@ class HotelRestaurantOrder(models.Model):
             ("done", "Done"),
             ("cancel", "Cancelled"),
         ],
-        "State",
         required=True,
         readonly=True,
         copy=False,
@@ -360,7 +360,7 @@ class HotelRestaurantOrder(models.Model):
         "Is a Hotel Guest??", help="is customer reside in hotel or not"
     )
     customer_id = fields.Many2one("res.partner", "Customer Name", required=True)
-    kitchen = fields.Integer("Kitchen")
+    kitchen = fields.Integer()
     rest_item_id = fields.Many2many(
         "hotel.restaurant.order.list",
         "restaurant_kitchen_rel",
@@ -629,7 +629,6 @@ class HotelReservationOrder(models.Model):
     )
     state = fields.Selection(
         [("draft", "Draft"), ("order", "Order Created"), ("done", "Done")],
-        "State",
         required=True,
         readonly=True,
         default="draft",
