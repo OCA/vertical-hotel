@@ -1,4 +1,5 @@
-# See LICENSE file for full copyright and licensing details.
+# Copyright (C) 2022-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
@@ -10,11 +11,11 @@ class HotelHousekeepingActivities(models.Model):
     _description = "Housekeeping Activities"
 
     housekeeping_id = fields.Many2one("hotel.housekeeping", "Reservation")
-    today_date = fields.Date("Today Date")
+    today_date = fields.Date()
     activity_id = fields.Many2one("hotel.activity", "Housekeeping Activity")
     housekeeper_id = fields.Many2one("res.users", "Housekeeper", required=True)
-    clean_start_time = fields.Datetime("Clean Start Time", required=True)
-    clean_end_time = fields.Datetime("Clean End Time", required=True)
+    clean_start_time = fields.Datetime(required=True)
+    clean_end_time = fields.Datetime(required=True)
     is_dirty = fields.Boolean(
         "Dirty",
         help="Checked if the housekeeping activity" "results as Dirty.",

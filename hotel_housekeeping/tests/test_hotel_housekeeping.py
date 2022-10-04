@@ -1,4 +1,5 @@
-# See LICENSE file for full copyright and licensing details.
+# Copyright (C) 2022-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import time
 from datetime import datetime
@@ -20,6 +21,7 @@ class TestHousekeeping(common.TransactionCase):
         )
         self.room = self.env.ref("hotel.hotel_room_0")
         self.activity = self.env.ref("hotel_housekeeping.hotel_room_activities_1")
+        self.activity_type = self.env["hotel.housekeeping.activity.type"]
 
         cur_date = datetime.now().strftime("%Y-%m-21 %H:%M:%S")
         cur_date1 = datetime.now().strftime("%Y-%m-23 %H:%M:%S")
@@ -57,6 +59,16 @@ class TestHousekeeping(common.TransactionCase):
             len(hotel_activity_type),
             1,
             "Incorrect search number result for name_search",
+        )
+
+    def test_name_search(self):
+        self.activity_type = self.env["hotel.housekeeping.activity.type"].create(
+            {
+                "name": "Test",
+            }
+        )
+        self.env["hotel.housekeeping.activity.type"].name_search(
+            "All Activities / Test Room Activity", [], "not like", None
         )
 
     def test_activity_check_clean_start_time(self):

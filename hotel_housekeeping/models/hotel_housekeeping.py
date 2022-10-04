@@ -1,4 +1,5 @@
-# See LICENSE file for full copyright and licensing details.
+# Copyright (C) 2022-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import _, fields, models
 from odoo.exceptions import ValidationError
@@ -23,7 +24,6 @@ class HotelHousekeeping(models.Model):
             ("checkin", "Check-In"),
             ("checkout", "Check-Out"),
         ],
-        "Clean Type",
         required=True,
         states={"done": [("readonly", True)]},
     )
@@ -39,8 +39,7 @@ class HotelHousekeeping(models.Model):
         "housekeeping_id",
         "Activities",
         states={"done": [("readonly", True)]},
-        help="Detail of housekeeping \
-                                        activities",
+        help="Detail of housekeeping activities",
     )
     inspector_id = fields.Many2one(
         "res.users",
@@ -49,7 +48,6 @@ class HotelHousekeeping(models.Model):
         states={"done": [("readonly", True)]},
     )
     inspect_date_time = fields.Datetime(
-        "Inspect Date Time",
         required=True,
         states={"done": [("readonly", True)]},
     )
@@ -61,10 +59,9 @@ class HotelHousekeeping(models.Model):
             ("bad", "Bad"),
             ("ok", "Ok"),
         ],
-        "Quality",
         states={"done": [("readonly", True)]},
-        help="Inspector inspect the room and mark \
-                                as Excellent, Average, Bad, Good or Ok. ",
+        help="Inspector inspect the room and mark"
+        "as Excellent, Average, Bad, Good or Ok. ",
     )
     state = fields.Selection(
         [
@@ -74,7 +71,6 @@ class HotelHousekeeping(models.Model):
             ("done", "Done"),
             ("cancel", "Cancelled"),
         ],
-        "State",
         states={"done": [("readonly", True)]},
         required=True,
         readonly=True,
