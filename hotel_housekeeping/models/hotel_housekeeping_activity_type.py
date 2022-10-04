@@ -1,4 +1,5 @@
-# See LICENSE file for full copyright and licensing details.
+# Copyright (C) 2022-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models
 from odoo.osv import expression
@@ -9,7 +10,7 @@ class HotelHousekeepingActivityType(models.Model):
     _name = "hotel.housekeeping.activity.type"
     _description = "Activity Type"
 
-    name = fields.Char("Name", required=True)
+    name = fields.Char(required=True)
     activity_id = fields.Many2one("hotel.housekeeping.activity.type", "Activity Type")
 
     def name_get(self):

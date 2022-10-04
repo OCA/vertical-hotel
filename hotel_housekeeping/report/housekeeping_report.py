@@ -1,4 +1,5 @@
-# See LICENSE file for full copyright and licensing details.
+# Copyright (C) 2022-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import time
 from datetime import datetime
@@ -26,9 +27,6 @@ class ActivityReport(models.AbstractModel):
         )
 
         for activity in activity_line_ids:
-            ss_date = activity.clean_start_time
-            ee_date = activity.clean_end_time
-            diff = ee_date - ss_date
             activity_detail.append(
                 {
                     "current_date": activity.today_date,
@@ -36,7 +34,7 @@ class ActivityReport(models.AbstractModel):
                     "login": (activity.housekeeper_id.name or ""),
                     "clean_start_time": activity.clean_start_time,
                     "clean_end_time": activity.clean_end_time,
-                    "duration": diff,
+                    "duration": activity.clean_end_time - activity.clean_start_time,
                 }
             )
         return activity_detail
