@@ -2,7 +2,7 @@
 
 {
     "name": "Restaurant Management - Reporting",
-    "version": "14.0.1.0.0",
+    "version": "15.0.1.0.0",
     "author": "Odoo Community Association (OCA), Serpent Consulting\
                 Services Pvt. Ltd., Odoo S.A.",
     "maintainer": "Serpent Consulting Services Pvt. Ltd.,\
