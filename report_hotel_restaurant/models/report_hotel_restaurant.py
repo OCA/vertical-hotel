@@ -12,7 +12,6 @@ class ReportHotelRestaurantStatus(models.Model):
     no_of_reservation_order = fields.Integer("Reservation Order No", readonly=True)
     state = fields.Selection(
         [("draft", "Draft"), ("confirm", "Confirm"), ("done", "Done")],
-        "State",
         readonly=True,
     )
 
