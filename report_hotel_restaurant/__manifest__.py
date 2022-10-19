@@ -1,8 +1,9 @@
-# See LICENSE file for full copyright and licensing details.
+# Copyright (C) 2022-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
     "name": "Restaurant Management - Reporting",
-    "version": "14.0.1.0.0",
+    "version": "15.0.1.0.0",
     "author": "Odoo Community Association (OCA), Serpent Consulting\
                 Services Pvt. Ltd., Odoo S.A.",
     "maintainer": "Serpent Consulting Services Pvt. Ltd.,\
