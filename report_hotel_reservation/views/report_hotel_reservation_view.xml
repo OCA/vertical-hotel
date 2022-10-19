@@ -6,7 +6,7 @@
         <field name="name">report.hotel.reservation.status.tree</field>
         <field name="model">report.hotel.reservation.status</field>
         <field name="arch" type="xml">
-            <tree string="States By Reservation">
+            <tree>
                 <field name="reservation_no" />
                 <field name="state" />
             </tree>
@@ -54,26 +54,14 @@
         </field>
     </record>
 
-    <!-- Graph view (Pie) of report hotel reservation status -->
+    <!-- Graph view of report hotel reservation status -->
     <record id="view_hotel_reservation_status_graph" model="ir.ui.view">
         <field name="name">report.hotel.reservation.status.graph</field>
         <field name="model">report.hotel.reservation.status</field>
         <field name="arch" type="xml">
-            <graph string="States By Reservation" type="pie">
+            <graph string="States By Reservation">
                 <field name="state" />
-                <field name="no_of_reservation" operator="+" />
-            </graph>
-        </field>
-    </record>
-
-    <!-- Graph view (Bar) of report hotel reservation status -->
-    <record id="view_hotel_reservation_status_graph_bar" model="ir.ui.view">
-        <field name="name">report.hotel.reservation.status.graph</field>
-        <field name="model">report.hotel.reservation.status</field>
-        <field name="arch" type="xml">
-            <graph string="States By Reservation" type="bar" orientation="verticle">
-                <field name="state" />
-                <field name="no_of_reservation" operator="+" />
+                <field name="no_of_reservation" />
             </graph>
         </field>
     </record>
