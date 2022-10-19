@@ -7,7 +7,7 @@
         <field name="name">report.hotel.restaurant.status.tree</field>
         <field name="model">report.hotel.restaurant.status</field>
         <field name="arch" type="xml">
-        <tree string="States By Restaurant">
+        <tree>
             <field name="reservation_id" />
             <field name="state" />
         </tree>
@@ -55,26 +55,14 @@
         </field>
     </record>
 
-    <!-- Graph view (Pie) of report hotel restaurant status -->
+    <!-- Graph view of report hotel restaurant status -->
     <record id="view_hotel_restaurant_status_graph" model="ir.ui.view">
         <field name="name">report.hotel.restaurant.status.graph</field>
         <field name="model">report.hotel.restaurant.status</field>
         <field name="arch" type="xml">
-            <graph string="States By Restaurant" type="pie">
+            <graph string="States By Restaurant">
                 <field name="state" />
-                <field name="no_of_reservation_order" operator="+" />
-            </graph>
-        </field>
-    </record>
-
-    <!-- Graph view (Bar) of report hotel restaurant status -->
-    <record id="view_hotel_restaurant_status_graph_bar" model="ir.ui.view">
-        <field name="name">report.hotel.restaurant.status.graph</field>
-        <field name="model">report.hotel.restaurant.status</field>
-        <field name="arch" type="xml">
-            <graph string="States By Restaurant" type="bar" orientation="verticle">
-                <field name="state" />
-                <field name="no_of_reservation_order" operator="+" />
+                <field name="no_of_reservation_order" />
             </graph>
         </field>
     </record>

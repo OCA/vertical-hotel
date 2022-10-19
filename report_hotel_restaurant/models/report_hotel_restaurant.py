@@ -1,4 +1,5 @@
-# See LICENSE file for full copyright and licensing details.
+# Copyright (C) 2022-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import fields, models
 
@@ -12,7 +13,6 @@ class ReportHotelRestaurantStatus(models.Model):
     no_of_reservation_order = fields.Integer("Reservation Order No", readonly=True)
     state = fields.Selection(
         [("draft", "Draft"), ("confirm", "Confirm"), ("done", "Done")],
-        "State",
         readonly=True,
     )
 
