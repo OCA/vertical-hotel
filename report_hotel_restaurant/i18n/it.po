@@ -6,86 +6,88 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2022-10-31 19:43+0000\n"
+"Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.14.1\n"
 
 #. module: report_hotel_restaurant
 #: model:ir.model.fields.selection,name:report_hotel_restaurant.selection__report_hotel_restaurant_status__state__confirm
 #: model_terms:ir.ui.view,arch_db:report_hotel_restaurant.report_hotel_restaurant_status_search
 msgid "Confirm"
-msgstr ""
+msgstr "Conferma"
 
 #. module: report_hotel_restaurant
 #: model:ir.model.fields,field_description:report_hotel_restaurant.field_report_hotel_restaurant_status__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nome visualizzato"
 
 #. module: report_hotel_restaurant
 #: model:ir.model.fields.selection,name:report_hotel_restaurant.selection__report_hotel_restaurant_status__state__done
 #: model_terms:ir.ui.view,arch_db:report_hotel_restaurant.report_hotel_restaurant_status_search
 msgid "Done"
-msgstr ""
+msgstr "Eseguito"
 
 #. module: report_hotel_restaurant
 #: model:ir.model.fields.selection,name:report_hotel_restaurant.selection__report_hotel_restaurant_status__state__draft
 #: model_terms:ir.ui.view,arch_db:report_hotel_restaurant.report_hotel_restaurant_status_search
 msgid "Draft"
-msgstr ""
+msgstr "Bozza"
 
 #. module: report_hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:report_hotel_restaurant.report_hotel_restaurant_status_search
 msgid "Hotel Restaurant Status"
-msgstr ""
+msgstr "Stati ristorante hotel"
 
 #. module: report_hotel_restaurant
 #: model:ir.model.fields,field_description:report_hotel_restaurant.field_report_hotel_restaurant_status__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: report_hotel_restaurant
 #: model:ir.model.fields,field_description:report_hotel_restaurant.field_report_hotel_restaurant_status____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Ultima modifica il"
 
 #. module: report_hotel_restaurant
 #: model:ir.model,name:report_hotel_restaurant.model_report_hotel_restaurant_status
 msgid "Reservation By State"
-msgstr ""
+msgstr "Prenotazioni per stato"
 
 #. module: report_hotel_restaurant
 #: model:ir.model.fields,field_description:report_hotel_restaurant.field_report_hotel_restaurant_status__reservation_id
 msgid "Reservation No"
-msgstr ""
+msgstr "N° prenotazione"
 
 #. module: report_hotel_restaurant
 #: model:ir.model.fields,field_description:report_hotel_restaurant.field_report_hotel_restaurant_status__no_of_reservation_order
 msgid "Reservation Order No"
-msgstr ""
+msgstr "N° ordine prenotazione"
 
 #. module: report_hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:report_hotel_restaurant.report_hotel_restaurant_status_search
 msgid "Rooms in confirm state"
-msgstr ""
+msgstr "Camere in stato confermato"
 
 #. module: report_hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:report_hotel_restaurant.report_hotel_restaurant_status_search
 msgid "Rooms in done state"
-msgstr ""
+msgstr "Camere in stato eseguito"
 
 #. module: report_hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:report_hotel_restaurant.report_hotel_restaurant_status_search
 msgid "Rooms in draft state"
-msgstr ""
+msgstr "Camere in stato bozza"
 
 #. module: report_hotel_restaurant
 #: model:ir.model.fields,field_description:report_hotel_restaurant.field_report_hotel_restaurant_status__state
 msgid "State"
-msgstr ""
+msgstr "Stato"
 
 #. module: report_hotel_restaurant
 #: model:ir.actions.act_window,name:report_hotel_restaurant.action_report_hotel_restaurant_status_tree_graph
@@ -95,9 +97,9 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:report_hotel_restaurant.view_hotel_restaurant_status_graph_bar
 #: model_terms:ir.ui.view,arch_db:report_hotel_restaurant.view_hotel_restaurant_status_tree
 msgid "States By Restaurant"
-msgstr ""
+msgstr "Stati per ristorante"
 
 #. module: report_hotel_restaurant
 #: model:ir.actions.act_window,name:report_hotel_restaurant.action_report_hotel_restaurant_board
 msgid "States By Restaurants"
-msgstr ""
+msgstr "Stati per ristoranti"
