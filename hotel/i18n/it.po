@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-10-31 17:59+0000\n"
+"PO-Revision-Date: 2022-10-31 20:43+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -59,22 +59,22 @@ msgstr "<strong>Foglio Nr.</strong>"
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.report_hotel_folio
 msgid "<strong>From:</strong>"
-msgstr ""
+msgstr "<strong>Dal:</strong>"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.report_hotel_folio
 msgid "<strong>Net Total:</strong>"
-msgstr ""
+msgstr "<strong>Totale netto:</strong>"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.report_hotel_folio
 msgid "<strong>To:</strong>"
-msgstr ""
+msgstr "<strong>Al:</strong>"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.report_hotel_folio
 msgid "<strong>Total</strong>"
-msgstr ""
+msgstr "<strong>Totale</strong>"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__description_sale
@@ -85,6 +85,9 @@ msgid ""
 "This description will be copied to every Sales Order, Delivery Order and "
 "Customer Invoice/Credit Note"
 msgstr ""
+"Una descrizione del prodotto che si vuole comunicare al cliente. Questa "
+"descrizione verrà copiata in ogni ordine di vendita, ordine di consegna e "
+"fattura/nota di credito del cliente"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_sale_advance_payment_inv__advance_payment_method
@@ -93,6 +96,9 @@ msgid ""
 "        invoicing, according to their invoicing policy\n"
 "        (based on ordered or delivered quantity)."
 msgstr ""
+"Una fattura standard è creata con tutte le righe d'ordine pronte per\n"
+"        fatturazione, in accordo con la sua politica di fatturazione\n"
+"        (in base alle quantità ordinate o consegnate)."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio_line__product_type
@@ -106,6 +112,11 @@ msgid ""
 "A consumable product is a product for which stock is not managed.\n"
 "A service is a non-material product you provide."
 msgstr ""
+"Un prodotto stoccabile è un prodotto per il quale si gestisce il magazzino. "
+"L'applicazione Magazzino deve essere installata.\n"
+"Un prodotto consumabile è un prodotto per il quale non è gestito il "
+"magazzino.\n"
+"Un servizio è un prodotto non materiale."
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__access_warning
