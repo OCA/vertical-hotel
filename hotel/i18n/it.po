@@ -81,8 +81,8 @@ msgstr ""
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities__description_sale
 #: model:ir.model.fields,help:hotel.field_hotel_services__description_sale
 msgid ""
-"A description of the Product that you want to communicate to your customers."
-" This description will be copied to every Sales Order, Delivery Order and "
+"A description of the Product that you want to communicate to your customers. "
+"This description will be copied to every Sales Order, Delivery Order and "
 "Customer Invoice/Credit Note"
 msgstr ""
 
@@ -101,7 +101,8 @@ msgstr ""
 #: model:ir.model.fields,help:hotel.field_hotel_service_line__product_type
 #: model:ir.model.fields,help:hotel.field_hotel_services__detailed_type
 msgid ""
-"A storable product is a product for which you manage stock. The Inventory app has to be installed.\n"
+"A storable product is a product for which you manage stock. The Inventory "
+"app has to be installed.\n"
 "A consumable product is a product for which stock is not managed.\n"
 "A service is a non-material product you provide."
 msgstr ""
@@ -115,10 +116,13 @@ msgstr ""
 #: model:ir.model.fields,help:hotel.field_hotel_folio_line__qty_delivered_method
 #: model:ir.model.fields,help:hotel.field_hotel_service_line__qty_delivered_method
 msgid ""
-"According to product configuration, the delivered quantity can be automatically computed by mechanism :\n"
+"According to product configuration, the delivered quantity can be "
+"automatically computed by mechanism :\n"
 "  - Manual: the quantity is set manually on the line\n"
-"  - Analytic From expenses: the quantity is the quantity sum from posted expenses\n"
-"  - Timesheet: the quantity is the sum of hours recorded on tasks linked to this sale line\n"
+"  - Analytic From expenses: the quantity is the quantity sum from posted "
+"expenses\n"
+"  - Timesheet: the quantity is the sum of hours recorded on tasks linked to "
+"this sale line\n"
 "  - Stock Moves: the quantity comes from confirmed pickings\n"
 msgstr ""
 
@@ -512,8 +516,10 @@ msgstr ""
 #: model:ir.model.fields,help:hotel.field_hotel_room_type__property_stock_account_input_categ_id
 #: model:ir.model.fields,help:hotel.field_hotel_service_type__property_stock_account_input_categ_id
 msgid ""
-"Counterpart journal items for all incoming stock moves will be posted in this account, unless there is a specific valuation account\n"
-"                set on the source location. This is the default value for all products in this category. It can also directly be set on each product."
+"Counterpart journal items for all incoming stock moves will be posted in "
+"this account, unless there is a specific valuation account\n"
+"                set on the source location. This is the default value for "
+"all products in this category. It can also directly be set on each product."
 msgstr ""
 
 #. module: hotel
@@ -587,10 +593,14 @@ msgstr ""
 #: model:ir.model.fields,help:hotel.field_hotel_services__qty_available
 msgid ""
 "Current quantity of products.\n"
-"In a context with a single Stock Location, this includes goods stored at this Location, or any of its children.\n"
-"In a context with a single Warehouse, this includes goods stored in the Stock Location of this Warehouse, or any of its children.\n"
-"stored in the Stock Location of the Warehouse of this Shop, or any of its children.\n"
-"Otherwise, this includes goods stored in any Stock Location with 'internal' type."
+"In a context with a single Stock Location, this includes goods stored at "
+"this Location, or any of its children.\n"
+"In a context with a single Warehouse, this includes goods stored in the "
+"Stock Location of this Warehouse, or any of its children.\n"
+"stored in the Stock Location of the Warehouse of this Shop, or any of its "
+"children.\n"
+"Otherwise, this includes goods stored in any Stock Location with 'internal' "
+"type."
 msgstr ""
 
 #. module: hotel
@@ -910,8 +920,8 @@ msgstr ""
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities__expense_policy
 #: model:ir.model.fields,help:hotel.field_hotel_services__expense_policy
 msgid ""
-"Expenses and vendor bills can be re-invoiced to a customer.With this option,"
-" a validated expense can be re-invoice to a customer at its cost or sales "
+"Expenses and vendor bills can be re-invoiced to a customer.With this option, "
+"a validated expense can be re-invoice to a customer at its cost or sales "
 "price."
 msgstr ""
 
@@ -942,8 +952,7 @@ msgstr ""
 #: model:ir.model.fields,help:hotel.field_hotel_folio__fiscal_position_id
 msgid ""
 "Fiscal positions are used to adapt taxes and accounts for particular "
-"customers or sales orders/invoices.The default value comes from the "
-"customer."
+"customers or sales orders/invoices.The default value comes from the customer."
 msgstr ""
 
 #. module: hotel
@@ -1042,9 +1051,12 @@ msgstr ""
 #: model:ir.model.fields,help:hotel.field_hotel_services__virtual_available
 msgid ""
 "Forecast quantity (computed as Quantity On Hand - Outgoing + Incoming)\n"
-"In a context with a single Stock Location, this includes goods stored in this location, or any of its children.\n"
-"In a context with a single Warehouse, this includes goods stored in the Stock Location of this Warehouse, or any of its children.\n"
-"Otherwise, this includes goods stored in any Stock Location with 'internal' type."
+"In a context with a single Stock Location, this includes goods stored in "
+"this location, or any of its children.\n"
+"In a context with a single Warehouse, this includes goods stored in the "
+"Stock Location of this Warehouse, or any of its children.\n"
+"Otherwise, this includes goods stored in any Stock Location with 'internal' "
+"type."
 msgstr ""
 
 #. module: hotel
@@ -1053,9 +1065,12 @@ msgstr ""
 #: model:ir.model.fields,help:hotel.field_hotel_services__free_qty
 msgid ""
 "Forecast quantity (computed as Quantity On Hand - reserved quantity)\n"
-"In a context with a single Stock Location, this includes goods stored in this location, or any of its children.\n"
-"In a context with a single Warehouse, this includes goods stored in the Stock Location of this Warehouse, or any of its children.\n"
-"Otherwise, this includes goods stored in any Stock Location with 'internal' type."
+"In a context with a single Stock Location, this includes goods stored in "
+"this location, or any of its children.\n"
+"In a context with a single Warehouse, this includes goods stored in the "
+"Stock Location of this Warehouse, or any of its children.\n"
+"Otherwise, this includes goods stored in any Stock Location with 'internal' "
+"type."
 msgstr ""
 
 #. module: hotel
@@ -1360,9 +1375,12 @@ msgstr ""
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities__standard_price
 #: model:ir.model.fields,help:hotel.field_hotel_services__standard_price
 msgid ""
-"In Standard Price & AVCO: value of the product (automatically computed in AVCO).\n"
-"        In FIFO: value of the last unit that left the stock (automatically computed).\n"
-"        Used to value the product when the purchase cost is not known (e.g. inventory adjustment).\n"
+"In Standard Price & AVCO: value of the product (automatically computed in "
+"AVCO).\n"
+"        In FIFO: value of the next unit that will leave the stock "
+"(automatically computed).\n"
+"        Used to value the product when the purchase cost is not known (e.g. "
+"inventory adjustment).\n"
 "        Used to compute margins on sale orders."
 msgstr ""
 
@@ -1574,8 +1592,7 @@ msgstr ""
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio_line__is_expense
 #: model:ir.model.fields,help:hotel.field_hotel_service_line__is_expense
-msgid ""
-"Is true if the sales order line comes from an expense or a vendor bills"
+msgid "Is true if the sales order line comes from an expense or a vendor bills"
 msgstr ""
 
 #. module: hotel
@@ -1601,8 +1618,8 @@ msgstr ""
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities__property_account_expense_id
 #: model:ir.model.fields,help:hotel.field_hotel_services__property_account_expense_id
 msgid ""
-"Keep this field empty to use the default value from the product category. If"
-" anglo-saxon accounting with automated valuation method is configured, the "
+"Keep this field empty to use the default value from the product category. If "
+"anglo-saxon accounting with automated valuation method is configured, the "
 "expense account on the product category will be used."
 msgstr ""
 
@@ -1694,8 +1711,10 @@ msgstr ""
 #: model:ir.model.fields,help:hotel.field_hotel_service_type__property_valuation
 #: model:ir.model.fields,help:hotel.field_hotel_services__valuation
 msgid ""
-"Manual: The accounting entries to value the inventory are not posted automatically.\n"
-"        Automated: An accounting entry is automatically created to value the inventory when a product enters or leaves the company.\n"
+"Manual: The accounting entries to value the inventory are not posted "
+"automatically.\n"
+"        Automated: An accounting entry is automatically created to value the "
+"inventory when a product enters or leaves the company.\n"
 "        "
 msgstr ""
 
@@ -1704,9 +1723,12 @@ msgstr ""
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities__service_type
 #: model:ir.model.fields,help:hotel.field_hotel_services__service_type
 msgid ""
-"Manually set quantities on order: Invoice based on the manually entered quantity, without creating an analytic account.\n"
-"Timesheets on contract: Invoice based on the tracked hours on the related timesheet.\n"
-"Create a task and track hours: Create a task on the sales order validation and track the work hours."
+"Manually set quantities on order: Invoice based on the manually entered "
+"quantity, without creating an analytic account.\n"
+"Timesheets on contract: Invoice based on the tracked hours on the related "
+"timesheet.\n"
+"Create a task and track hours: Create a task on the sales order validation "
+"and track the work hours."
 msgstr ""
 
 #. module: hotel
@@ -2261,9 +2283,12 @@ msgstr ""
 #: model:ir.model.fields,help:hotel.field_hotel_services__incoming_qty
 msgid ""
 "Quantity of planned incoming products.\n"
-"In a context with a single Stock Location, this includes goods arriving to this Location, or any of its children.\n"
-"In a context with a single Warehouse, this includes goods arriving to the Stock Location of this Warehouse, or any of its children.\n"
-"Otherwise, this includes goods arriving to any Stock Location with 'internal' type."
+"In a context with a single Stock Location, this includes goods arriving to "
+"this Location, or any of its children.\n"
+"In a context with a single Warehouse, this includes goods arriving to the "
+"Stock Location of this Warehouse, or any of its children.\n"
+"Otherwise, this includes goods arriving to any Stock Location with "
+"'internal' type."
 msgstr ""
 
 #. module: hotel
@@ -2272,9 +2297,12 @@ msgstr ""
 #: model:ir.model.fields,help:hotel.field_hotel_services__outgoing_qty
 msgid ""
 "Quantity of planned outgoing products.\n"
-"In a context with a single Stock Location, this includes goods leaving this Location, or any of its children.\n"
-"In a context with a single Warehouse, this includes goods leaving the Stock Location of this Warehouse, or any of its children.\n"
-"Otherwise, this includes goods leaving any Stock Location with 'internal' type."
+"In a context with a single Stock Location, this includes goods leaving this "
+"Location, or any of its children.\n"
+"In a context with a single Warehouse, this includes goods leaving the Stock "
+"Location of this Warehouse, or any of its children.\n"
+"Otherwise, this includes goods leaving any Stock Location with 'internal' "
+"type."
 msgstr ""
 
 #. module: hotel
@@ -2370,8 +2398,12 @@ msgstr ""
 #: model:ir.model.fields,help:hotel.field_hotel_room_type__packaging_reserve_method
 #: model:ir.model.fields,help:hotel.field_hotel_service_type__packaging_reserve_method
 msgid ""
-"Reserve Only Full Packagings: will not reserve partial packagings. If customer orders 2 pallets of 1000 units each and you only have 1600 in stock, then only 1000 will be reserved\n"
-"Reserve Partial Packagings: allow reserving partial packagings. If customer orders 2 pallets of 1000 units each and you only have 1600 in stock, then 1600 will be reserved"
+"Reserve Only Full Packagings: will not reserve partial packagings. If "
+"customer orders 2 pallets of 1000 units each and you only have 1600 in "
+"stock, then only 1000 will be reserved\n"
+"Reserve Partial Packagings: allow reserving partial packagings. If customer "
+"orders 2 pallets of 1000 units each and you only have 1600 in stock, then "
+"1600 will be reserved"
 msgstr ""
 
 #. module: hotel
@@ -2703,7 +2735,15 @@ msgstr ""
 #: model:ir.model.fields,help:hotel.field_hotel_service_type__removal_strategy_id
 msgid ""
 "Set a specific removal strategy that will be used regardless of the source "
-"location for this product category"
+"location for this product category.\n"
+"\n"
+"FIFO: products/lots that were stocked first will be moved out first.\n"
+"LIFO: products/lots that were stocked last will be moved out first.\n"
+"Closet location: products/lots closest to the target location will be moved "
+"out first.\n"
+"FEFO: products/lots with the closest removal date will be moved out first "
+"(the availability of this method depends on the \"Expiration Dates\" "
+"setting)."
 msgstr ""
 
 #. module: hotel
@@ -2798,9 +2838,12 @@ msgstr ""
 #: model:ir.model.fields,help:hotel.field_hotel_service_type__property_cost_method
 #: model:ir.model.fields,help:hotel.field_hotel_services__cost_method
 msgid ""
-"Standard Price: The products are valued at their standard cost defined on the product.\n"
-"        Average Cost (AVCO): The products are valued at weighted average cost.\n"
-"        First In First Out (FIFO): The products are valued supposing those that enter the company first will also leave it first.\n"
+"Standard Price: The products are valued at their standard cost defined on "
+"the product.\n"
+"        Average Cost (AVCO): The products are valued at weighted average "
+"cost.\n"
+"        First In First Out (FIFO): The products are valued supposing those "
+"that enter the company first will also leave it first.\n"
 "        "
 msgstr ""
 
@@ -3056,8 +3099,8 @@ msgstr ""
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio__currency_rate
 msgid ""
-"The rate of the currency to the currency of rate 1 applicable at the date of"
-" the order"
+"The rate of the currency to the currency of rate 1 applicable at the date of "
+"the order"
 msgstr ""
 
 #. module: hotel
@@ -3065,8 +3108,8 @@ msgstr ""
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities__lst_price
 #: model:ir.model.fields,help:hotel.field_hotel_services__lst_price
 msgid ""
-"The sale price is managed from the product template. Click on the 'Configure"
-" Variants' button to set the extra attribute prices."
+"The sale price is managed from the product template. Click on the 'Configure "
+"Variants' button to set the extra attribute prices."
 msgstr ""
 
 #. module: hotel
@@ -3079,8 +3122,8 @@ msgstr ""
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio__campaign_id
 msgid ""
-"This is a name that helps you keep track of your different campaign efforts,"
-" e.g. Fall_Drive, Christmas_Special"
+"This is a name that helps you keep track of your different campaign efforts, "
+"e.g. Fall_Drive, Christmas_Special"
 msgstr ""
 
 #. module: hotel
@@ -3453,7 +3496,6 @@ msgstr ""
 
 #. module: hotel
 #: code:addons/hotel/models/hotel_folio.py:0
-#: code:addons/hotel/models/hotel_folio.py:0
 #, python-format
 msgid "Warning for %s"
 msgstr ""
@@ -3502,8 +3544,11 @@ msgstr ""
 #: model:ir.model.fields,help:hotel.field_hotel_room_type__property_stock_account_output_categ_id
 #: model:ir.model.fields,help:hotel.field_hotel_service_type__property_stock_account_output_categ_id
 msgid ""
-"When doing automated inventory valuation, counterpart journal items for all outgoing stock moves will be posted in this account,\n"
-"                unless there is a specific valuation account set on the destination location. This is the default value for all products in this category.\n"
+"When doing automated inventory valuation, counterpart journal items for all "
+"outgoing stock moves will be posted in this account,\n"
+"                unless there is a specific valuation account set on the "
+"destination location. This is the default value for all products in this "
+"category.\n"
 "                It can also directly be set on each product."
 msgstr ""
 
