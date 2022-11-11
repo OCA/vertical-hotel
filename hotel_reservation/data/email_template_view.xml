@@ -1,58 +1,72 @@
-<odoo noupdate="0">
+<odoo>
     <!-- Email Template For Hotel Reservation -->
     <record id="email_template_hotel_reservation" model="mail.template">
         <field name="name">Reservation-Send by Email</field>
-        <field name="email_from">${object.warehouse_id.partner_id.email or ''|safe}
+        <field name="email_from">{{ object.company_id.partner_id.email or ''|safe }}
         </field>
         <field name="subject">Hotel Reservation Detail</field>
-        <field name="partner_to">${object.partner_id.id or ''}</field>
+        <field name="partner_to">{{ object.partner_id.id }}</field>
         <field name="model_id" ref="hotel_reservation.model_hotel_reservation" />
         <field name="auto_delete" eval="True" />
-        <field name="lang">${object.partner_id.lang}</field>
+        <field name="lang">{{ object.partner_id.lang }}</field>
         <!-- <field name="user_signature" eval="False" /> -->
         <field name="body_html" type="html">
             <div style="margin: 0px; padding: 0px;">
                 <p style="margin: 0px; padding: 0px; font-size: 13px;">
-                    <p>Hello <strong>${object.partner_id.name}</strong>,
+                    <p>Hello <strong><t
+                                t-out="object.partner_id.name or ''"
+                            /></strong>,
                     </p>
                     <p>This is to confirm your booking for a room at
-                        the <strong>${object.warehouse_id.name} Hotel</strong>,
-                        % if object.warehouse_id.partner_id.city:
-                        <strong>${object.warehouse_id.partner_id.city}</strong>,
-                        % endif
-                        % if object.warehouse_id.partner_id.country_id.name:
+                        the <strong><t t-out="object.company_id.name" /> Hotel</strong>,
+                        <t t-if="object.company_id.partner_id.city">
+                        <strong><t
+                                    t-out="object.company_id.partner_id.city"
+                                /></strong>,
+                        </t>
+                        <t t-if="object.company_id.partner_id.country_id">
                         <strong>
-                            ${object.warehouse_id.partner_id.country_id.name}</strong>
+                            <t
+                                    t-out="object.company_id.partner_id.country_id.name"
+                                /></strong>
                         .
-                        % endif
+                        </t>
                         On behalf of the hotel, we would like to express our
                         gratitude to you for choosing our services.
                         Please find all the details regarding the confirmation
                         of the reservation on Date <strong>
-                            ${format_datetime(object.date_order,tz=user.tz,dt_format='%Y-%m-%d %H:%M:%S')}
+                            <t
+                                t-out="format_datetime(object.date_order,tz=user.tz,dt_format='%Y-%m-%d %H:%M:%S')"
+                            />
                         </strong> are listed below:
                     </p>
                     <strong>Details :</strong>
                     <br />
                     <p style="border-left: 1px solid #8e0000; margin-left: 30px;">
                         Name Of Guest :
-                        <strong>${object.partner_id.name}</strong>
+                        <strong><t t-out="object.partner_id.name" /></strong>
                         <br />
                         Date Of Arrival :
                         <strong>
-                            ${format_datetime(object.checkin,tz=user.tz, dt_format='%Y-%m-%d %H:%M:%S')}
+                            <t
+                                t-out="format_datetime(object.checkin,tz=user.tz, dt_format='%Y-%m-%d %H:%M:%S')"
+                            />
                         </strong>
                         <br />
                         Date Of Departure :
                         <strong>
-                            ${format_datetime(object.checkout,tz=user.tz, dt_format='%Y-%m-%d %H:%M:%S')}
+                            <t
+                                t-out="format_datetime(object.checkout,tz=user.tz, dt_format='%Y-%m-%d %H:%M:%S')"
+                            />
                         </strong>
                         <br />
                         Reservation Number :
-                        <strong>${object.reservation_no}</strong>
+                        <strong><t t-out="object.reservation_no" /></strong>
                         <br />
-                        Number Of Persons : <strong>${object.adults}</strong> Adults
-                        and <strong>${object.children}</strong> Childrens
+                        Number Of Persons : <strong><t
+                                t-out="object.adults"
+                            /></strong> Adults
+                        and <strong><t t-out="object.children" /></strong> Childrens
                         <br />
                     </p>
                     <strong>Room Rate Per Night:</strong>
@@ -63,14 +77,14 @@
                             <th>Room No</th>
                             <th>Amount</th>
                         </tr>
-                        %for line in object.reservation_line:
-                        %for line2 in line.reserve:
+                        <t t-foreach="object.reservation_line" t-as="line">
+                        <t t-foreach="line.reserve" t-as="line2">
                         <tr>
-                            <td>${line2.product_id.name}</td>
-                            <td>${line2.product_id.list_price}</td>
+                            <td><t t-out="line2.product_id.name" /></td>
+                            <td><t t-out="line2.product_id.list_price" /></td>
                         </tr>
-                        %endfor
-                        %endfor
+                        </t>
+                        </t>
                     </table>
                     <br />
                     <p>We would appreciate it if you could let us know in case
@@ -89,27 +103,29 @@
                     <br />
                     <strong>Reservations Team</strong>
                     <br />
-                    [<strong>${object.warehouse_id.name} Hotel</strong>]
+                    [<strong><t t-out="object.company_id.name" /> Hotel</strong>]
                     <br />
-                    % if object.warehouse_id.partner_id.street:
-                    <strong>${object.warehouse_id.partner_id.street}</strong>
+                    <t t-if="object.company_id.partner_id.street">
+                    <strong><t t-out="object.company_id.partner_id.street" /></strong>
                     <br />
-                    % endif
-                    % if object.warehouse_id.partner_id.city:
-                    <strong>${object.warehouse_id.partner_id.city}</strong>,
+                    </t>
+                    <t t-if="object.company_id.partner_id.city">
+                    <strong><t t-out="object.company_id.partner_id.city" /></strong>,
                     <br />
-                    % endif
-                    % if object.warehouse_id.partner_id.country_id.name:
+                    </t>
+                    <t t-if="object.company_id.partner_id.country_id">
                     <strong>
-                        ${object.warehouse_id.partner_id.country_id.name}</strong>
+                        <t
+                                t-out="object.company_id.partner_id.country_id.name"
+                            /></strong>
                     ,
                     <br />
-                    % endif
+                    </t>
                     <br />
-                    % if object.warehouse_id.partner_id.website:
-                    <strong>${object.warehouse_id.partner_id.website}</strong>
+                    <t t-if="object.company_id.partner_id.website">
+                    <strong><t t-out="object.company_id.partner_id.website" /></strong>
                     <br />
-                    % endif
+                    </t>
                 </p>
             </div>
         </field>
@@ -118,38 +134,46 @@
     <!-- Email Template For Hotel Reservation Reminder Before 24 Hours -->
     <record id="mail_template_reservation_reminder_24hrs" model="mail.template">
         <field name="name">Reservation Reminder Before 24hrs</field>
-        <field name="email_from">${object.warehouse_id.partner_id.email or ''}
+        <field name="email_from">{{ object.company_id.partner_id.email or '' }}
         </field>
         <field name="subject">Hotel Reservation Reminder</field>
-        <field name="partner_to">${object.partner_id.id or ''}</field>
+        <field name="partner_to">{{ object.partner_id.id or '' }}</field>
         <field name="model_id" ref="hotel_reservation.model_hotel_reservation" />
         <field name="auto_delete" eval="True" />
-        <field name="lang">${object.partner_id.lang}</field>
+        <field name="lang">{{ object.partner_id.lang }}</field>
       <!--   <field name="user_signature" eval="False" /> -->
         <field name="body_html" type="html">
             <div style="margin: 0px; padding: 0px;">
                 <p style="margin: 0px; padding: 0px; font-size: 13px;">
                     <p>
-                        <left>Hello <strong>${object.partner_id.name}</strong>.
+                        <left>Hello <strong><t
+                                    t-out="object.partner_id.name"
+                                /></strong>.
                         </left>
                     </p>
                     <p>
-                        <left>Greetings from <strong>${object.warehouse_id.name}
+                        <left>Greetings from <strong><t
+                                    t-out="object.company_id.name"
+                                />
                             Hotel</strong>.
                         </left>
                     </p>
                     <p>This email is for reminding you that the Reservation at
-                        the <strong>${object.warehouse_id.name} Hotel</strong>.
-                        % if object.warehouse_id.partner_id.city:
-                        <strong>${object.warehouse_id.partner_id.city}</strong>,
-                        % endif
-                        % if object.warehouse_id.partner_id.country_id.name:
+                        the <strong><t t-out="object.company_id.name" /> Hotel</strong>.
+                        <t t-if="object.company_id.partner_id.city">
+                        <strong><t
+                                    t-out="object.company_id.partner_id.city"
+                                /></strong>,
+                        </t>
+                        <t t-if="object.company_id.partner_id.country_id">
                         <strong>
-                            ${object.warehouse_id.partner_id.country_id.name}</strong>
+                            <t
+                                    t-out="object.company_id.partner_id.country_id.name"
+                                /></strong>
                         .
-                        % endif
+                        </t>
                         Your checkin has been confirmed on Date <strong>
-                            ${object.date_order}</strong>.
+                            <t t-out="object.date_order" /></strong>.
                         Please find all the details regarding to the reservation
                         as listed below:
                     </p>
@@ -158,20 +182,22 @@
                     <br />
                     <p style="border-left: 1px solid #8e0000; margin-left: 30px;">
                         &amp;nbsp;&amp;nbsp;Name Of Guest :
-                        <strong>${object.partner_id.name}</strong>
+                        <strong><t t-out="object.partner_id.name" /></strong>
                         <br />
                         &amp;nbsp;&amp;nbsp;Date Of Arrival :
-                        <strong>${object.checkin}</strong>
+                        <strong><t t-out="object.checkin" /></strong>
                         <br />
                         &amp;nbsp;&amp;nbsp;Date Of Departure :
-                        <strong>${object.checkout}</strong>
+                        <strong><t t-out="object.checkout" /></strong>
                         <br />
                         &amp;nbsp;&amp;nbsp;Reservation Number :
-                        <strong>${object.reservation_no}</strong>
+                        <strong>$<t t-out="object.reservation_no" /></strong>
                         <br />
                         &amp;nbsp;&amp;nbsp;Number Of Persons : <strong>
-                        ${object.adults}
-                    </strong> Adults and <strong>${object.children}</strong> Childrens
+                        <t t-out="object.adults" />
+                    </strong> Adults and <strong><t
+                                t-out="object.children"
+                            /></strong> Childrens
                         <br />
                     </p>
                     &amp;nbsp;&amp;nbsp;
@@ -183,14 +209,14 @@
                             <th>Room No</th>
                             <th>Amount</th>
                         </tr>
-                        %for line in object.reservation_line:
-                        %for line2 in line.reserve:
+                        <t t-foreach="object.reservation_line" t-as="line">
+                        <t t-foreach="line.reserve" t-as="line2">
                         <tr>
-                            <td>${line2.product_id.name}</td>
-                            <td>${line2.product_id.list_price}</td>
+                            <td><t t-out="line2.product_id.name" /></td>
+                            <td><t t-out="line2.product_id.list_price" /></td>
                         </tr>
-                        %endfor
-                        %endfor
+                        </t>
+                        </t>
                     </table>
                     <br />
                     <p>We would appreciate it if you could let us know in case
@@ -207,27 +233,29 @@
                     <br />
                     <strong>Reservations Team</strong>
                     <br />
-                    [<strong>${object.warehouse_id.name} Hotel</strong>]
+                    [<strong><t t-out="object.company_id.name" /> Hotel</strong>]
                     <br />
-                    % if object.warehouse_id.partner_id.street:
-                    <strong>${object.warehouse_id.partner_id.street}</strong>
+                    <t t-if="object.company_id.partner_id.street">
+                    <strong><t t-out="object.company_id.partner_id.street" /></strong>
                     <br />
-                    % endif
-                    % if object.warehouse_id.partner_id.city:
-                    <strong>${object.warehouse_id.partner_id.city}</strong>,
+                    </t>
+                    <t t-if="object.company_id.partner_id.city">
+                    <strong><t t-out="object.company_id.partner_id.city" /></strong>,
                     <br />
-                    % endif
-                    % if object.warehouse_id.partner_id.country_id.name:
+                    </t>
+                    <t t-if="object.company_id.partner_id.country_id">
                     <strong>
-                        ${object.warehouse_id.partner_id.country_id.name}</strong>
+                        <t
+                                t-out="object.company_id.partner_id.country_id.name"
+                            /></strong>
                     ,
                     <br />
-                    % endif
+                    </t>
                     <br />
-                    % if object.warehouse_id.partner_id.website:
-                    <strong>${object.warehouse_id.partner_id.website}</strong>
+                    <t t-if="object.company_id.partner_id.website">
+                    <strong><t t-out="object.company_id.partner_id.website" /></strong>
                     <br />
-                    % endif
+                    </t>
                 </p>
             </div>
         </field>

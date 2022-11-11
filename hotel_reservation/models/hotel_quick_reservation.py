@@ -1,4 +1,5 @@
-# See LICENSE file for full copyright and licensing details.
+# Copyright (C) 2022-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
@@ -9,10 +10,10 @@ class QuickRoomReservation(models.TransientModel):
     _description = "Quick Room Reservation"
 
     partner_id = fields.Many2one("res.partner", "Customer", required=True)
-    check_in = fields.Datetime("Check In", required=True)
-    check_out = fields.Datetime("Check Out", required=True)
-    room_id = fields.Many2one("hotel.room", "Room", required=True)
-    warehouse_id = fields.Many2one("stock.warehouse", "Hotel", required=True)
+    check_in = fields.Datetime(required=True)
+    check_out = fields.Datetime(required=True)
+    room_id = fields.Many2one("hotel.room", required=True)
+    company_id = fields.Many2one("res.company", "Hotel", required=True)
     pricelist_id = fields.Many2one("product.pricelist", "pricelist")
     partner_invoice_id = fields.Many2one(
         "res.partner", "Invoice Address", required=True
@@ -21,10 +22,10 @@ class QuickRoomReservation(models.TransientModel):
     partner_shipping_id = fields.Many2one(
         "res.partner", "Delivery Address", required=True
     )
-    adults = fields.Integer("Adults")
+    adults = fields.Integer()
 
     @api.onchange("check_out", "check_in")
-    def on_change_check_out(self):
+    def _on_change_check_out(self):
         """
         When you change checkout or checkin it will check whether
         Checkout date should be greater than Checkin date
@@ -34,9 +35,9 @@ class QuickRoomReservation(models.TransientModel):
         @return: raise warning depending on the validation
         """
         if (self.check_out and self.check_in) and (self.check_out < self.check_in):
-                raise ValidationError(
-                    _("Checkout date should be greater than Checkin date.")
-                )
+            raise ValidationError(
+                _("Checkout date should be greater than Checkin date.")
+            )
 
     @api.onchange("partner_id")
     def _onchange_partner_id_res(self):
@@ -99,16 +100,16 @@ class QuickRoomReservation(models.TransientModel):
                     "partner_shipping_id": res.partner_shipping_id.id,
                     "checkin": res.check_in,
                     "checkout": res.check_out,
-                    "warehouse_id": res.warehouse_id.id,
+                    "company_id": res.company_id.id,
                     "pricelist_id": res.pricelist_id.id,
                     "adults": res.adults,
-                    "reservation_line_ids": [
+                    "reservation_line": [
                         (
                             0,
                             0,
                             {
-                                "reserve": [(6, 0, [res.room_id.id])],
-                                "name": (res.room_id and res.room_id.name or ""),
+                                "reserve": [(6, 0, res.room_id.ids)],
+                                "name": res.room_id.name or " ",
                             },
                         )
                     ],
