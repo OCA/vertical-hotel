@@ -1,4 +1,5 @@
-# See LICENSE file for full copyright and licensing details.
+# Copyright (C) 2022-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models
 
@@ -20,7 +21,7 @@ class HotelFolio(models.Model):
                 [("reservation_id", "=", folio.reservation_id.id)]
             )
             if len(reservations) == 1:
-                for line in folio.reservation_id.reservation_line_ids:
+                for line in folio.reservation_id.reservation_line:
                     for room in line.reserve:
                         vals = {
                             "room_id": room.id,
@@ -38,13 +39,15 @@ class HotelFolioLine(models.Model):
     _inherit = "hotel.folio.line"
 
     @api.onchange("checkin_date", "checkout_date")
-    def _onchange_checkout_dates(self):
-        res = super(HotelFolioLine, self)._onchange_checkout_dates()
+    def _onchange_checkin_checkout_dates(self):
+        res = super(HotelFolioLine, self)._onchange_checkin_checkout_dates()
         avail_prod_ids = []
         for room in self.env["hotel.room"].search([]):
             assigned = False
-            for line in room.room_reservation_line_ids:
-                if line.status != "cancel":
+            for line in room.room_reservation_line_ids.filtered(
+                lambda l: l.status != "cancel"
+            ):
+                if self.checkin_date and line.check_in and self.checkout_date:
                     if (self.checkin_date <= line.check_in <= self.checkout_date) or (
                         self.checkin_date <= line.check_out <= self.checkout_date
                     ):
@@ -66,8 +69,9 @@ class HotelFolioLine(models.Model):
         reservation_line_obj = self.env["hotel.room.reservation.line"]
         room_obj = self.env["hotel.room"]
         prod_id = vals.get("product_id") or self.product_id.id
-        chkin = vals.get("checkin_date") or self.checkin_date
-        chkout = vals.get("checkout_date") or self.checkout_date
+        checkin = vals.get("checkin_date") or self.checkin_date
+        checkout = vals.get("checkout_date") or self.checkout_date
+
         is_reserved = self.is_reserved
         if prod_id and is_reserved:
             prod_room = room_obj.search([("product_id", "=", prod_id)], limit=1)
@@ -87,8 +91,8 @@ class HotelFolioLine(models.Model):
                     if rm_lines:
                         rm_line_vals = {
                             "room_id": prod_room.id,
-                            "check_in": chkin,
-                            "check_out": chkout,
+                            "check_in": checkin,
+                            "check_out": checkout,
                         }
                         rm_lines.write(rm_line_vals)
         return super(HotelFolioLine, self).write(vals)
