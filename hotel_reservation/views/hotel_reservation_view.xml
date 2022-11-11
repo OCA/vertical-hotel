@@ -68,13 +68,12 @@
                     <group>
                         <group colspan="4" col="4">
                             <field name="date_order" />
-                            <field name="warehouse_id" />
+                            <field name="company_id" />
                         </group>
                         <separator />
                         <group colspan="4" col="4">
                             <field
                                 name="partner_id"
-                                domain="[('customer_rank','>', 0)]"
                                 context="{'default_customer_rank': 1}"
                             />
                             <field name="pricelist_id" col="2" />
@@ -362,7 +361,7 @@
                         <field name="room_id" readonly="1" />
                         <field name="check_in" />
                         <field name="check_out" />
-                        <field name="warehouse_id" />
+                        <field name="company_id" />
                         <field name="pricelist_id" />
                         <field name="partner_invoice_id" />
                         <field name="partner_order_id" />
