@@ -1,4 +1,6 @@
-# See LICENSE file for full copyright and licensing details.
+# Copyright (C) 2022-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
 import logging
 from datetime import datetime, timedelta
 
@@ -82,7 +84,10 @@ class HotelRoom(models.Model):
             room.write(status)
             if reservation_line_ids and room_line_ids:
                 raise ValidationError(
-                    _("Please Check Rooms Status for %s.") % room.name
+                    _(
+                        "Please Check Rooms Status for %(room_name)s.",
+                        room_name=room.name,
+                    )
                 )
         return True
 
@@ -93,13 +98,12 @@ class RoomReservationSummary(models.Model):
     _description = "Room reservation summary"
 
     name = fields.Char("Reservation Summary", default="Reservations Summary")
-    date_from = fields.Datetime("Date From", default=lambda self: fields.Date.today())
+    date_from = fields.Datetime(default=lambda self: fields.Date.today())
     date_to = fields.Datetime(
-        "Date To",
         default=lambda self: fields.Date.today() + relativedelta(days=30),
     )
-    summary_header = fields.Text("Summary Header")
-    room_summary = fields.Text("Room Summary")
+    summary_header = fields.Text()
+    room_summary = fields.Text()
 
     def room_reservation(self):
         """

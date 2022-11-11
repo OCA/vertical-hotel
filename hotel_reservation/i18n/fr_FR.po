@@ -917,7 +917,7 @@ msgstr "Contact"
 #. module: hotel_reservation
 #: code:addons/hotel_reservation/models/hotel_room.py:0
 #, fuzzy, python-format
-msgid "Please Check Rooms Status for %s."
+msgid 'Please Check Rooms Status for', %s
 msgstr "Réservation"
 
 #. module: hotel_reservation

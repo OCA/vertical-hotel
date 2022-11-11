@@ -87,15 +87,16 @@
             </form>
         </field>
     </record>
-    <act_window
-        id="act_make_folio"
-        name="Make Folios"
-        res_model="wizard.make.folio"
-        view_mode="form"
-        target="new"
-        binding_model="hotel.reservation"
-        binding_views="list"
-    />
+
+    <!--Action for hotel reservation wizard -->
+    <record id="act_make_folio" model="ir.actions.act_window">
+        <field name="name">Make Folios</field>
+        <field name="res_model">wizard.make.folio</field>
+        <field name="binding_view_types">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
     <menuitem
         id="wizard_res_menu"
         name="Hotel Reservation Report"
