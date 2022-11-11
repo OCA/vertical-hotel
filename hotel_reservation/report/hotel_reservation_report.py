@@ -1,4 +1,5 @@
-# See LICENSE file for full copyright and licensing details.
+# Copyright (C) 2022-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import time
 from datetime import datetime
@@ -44,7 +45,7 @@ class ReportTestCheckin(models.AbstractModel):
             "date_end",
             str(datetime.now() + relativedelta(months=+1, day=1, days=-1))[:10],
         )
-        rm_act = self.with_context(data["form"].get("used_context", {}))
+        rm_act = self.with_context(**data["form"].get("used_context", {}))
         _get_room_type = rm_act._get_room_type(date_start, date_end)
         _get_room_nos = rm_act._get_room_nos(date_start, date_end)
         get_checkin = rm_act.get_checkin(date_start, date_end)
@@ -95,7 +96,7 @@ class ReportTestCheckout(models.AbstractModel):
             "date_end",
             str(datetime.now() + relativedelta(months=+1, day=1, days=-1))[:10],
         )
-        rm_act = self.with_context(data["form"].get("used_context", {}))
+        rm_act = self.with_context(**data["form"].get("used_context", {}))
         _get_room_type = rm_act._get_room_type(date_start, date_end)
         _get_room_nos = rm_act._get_room_nos(date_start, date_end)
         _get_checkout = rm_act._get_checkout(date_start, date_end)
@@ -167,7 +168,7 @@ class ReportTestMaxroom(models.AbstractModel):
             "date_end",
             str(datetime.now() + relativedelta(months=+1, day=1, days=-1))[:10],
         )
-        rm_act = self.with_context(data["form"].get("used_context", {}))
+        rm_act = self.with_context(**data["form"].get("used_context", {}))
         _get_room_type = rm_act._get_room_type(date_start, date_end)
         _get_room_nos = rm_act._get_room_nos(date_start, date_end)
         _get_data = rm_act._get_data(date_start, date_end)
@@ -225,7 +226,7 @@ class ReportRoomReservation(models.AbstractModel):
             "date_end",
             str(datetime.now() + relativedelta(months=+1, day=1, days=-1))[:10],
         )
-        rm_act = self.with_context(data["form"].get("used_context", {}))
+        rm_act = self.with_context(**data["form"].get("used_context", {}))
         _get_room_type = rm_act._get_room_type(date_start, date_end)
         _get_room_nos = rm_act._get_room_nos(date_start, date_end)
         _get_data = rm_act._get_data(date_start, date_end)
