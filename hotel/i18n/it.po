@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-11-07 18:45+0000\n"
+"PO-Revision-Date: 2022-11-16 19:44+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -2843,12 +2843,12 @@ msgstr "Righe servizio"
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_services_form
 msgid "Service Manager"
-msgstr ""
+msgstr "Responsabile servizio"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_service_type_form
 msgid "Service Name"
-msgstr ""
+msgstr "nome servizio"
 
 #. module: hotel
 #: model:ir.actions.act_window,name:hotel.open_hotel_service_type_form_tree
@@ -2856,30 +2856,30 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_service_type_form
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_services_form
 msgid "Service Type"
-msgstr ""
+msgstr "Tipo servizio"
 
 #. module: hotel
 #: model:ir.ui.menu,name:hotel.menu_open_hotel_service_type_form_tree
 msgid "Service Types"
-msgstr ""
+msgstr "Tipi servizio"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_services_search
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_services_tree
 msgid "Service rate"
-msgstr ""
+msgstr "Tariffa servizio"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__product_id
 msgid "Service_id"
-msgstr ""
+msgstr "Service_id"
 
 #. module: hotel
 #: model:ir.actions.act_window,name:hotel.action_hotel_services_form
 #: model:ir.ui.menu,name:hotel.menu_hotel_service
 #: model:ir.ui.menu,name:hotel.menu_open_hotel_services_form
 msgid "Services"
-msgstr ""
+msgstr "Servizi"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities_type__removal_strategy_id
@@ -2897,90 +2897,101 @@ msgid ""
 "(the availability of this method depends on the \"Expiration Dates\" "
 "setting)."
 msgstr ""
+"Imposta una specifica regola di prelievo che verrà utilizzata "
+"indipendentemente dalla ubicazione di partenza per questa categoria di "
+"prodotto.\n"
+"\n"
+"FIFO: prodotti/lotti stoccati per primi verranno prelevati per primi.\n"
+"LIFO: prodotti/lotti stoccati per ultimi verranno prelevati per primi.\n"
+"Ubicazione più vicina: prodotti/lotti vicini all'ubicazione di destinazione "
+"verranno movimentati per primi.\n"
+"FEFO: prodotti/lotti con la data di prelievo più vicina verranno movimentati "
+"per primi (la disponibilità di questo metodo dipende dall'impostazione \"Date"
+" scadenza\")."
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_folio_form
 msgid "Set to Done"
-msgstr ""
+msgstr "Imposta a fatto"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_folio_form
 msgid "Set to Draft"
-msgstr ""
+msgstr "Imposta a bozza"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__picking_policy
 msgid "Shipping Policy"
-msgstr ""
+msgstr "Politica di spedizione"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__show_forecasted_qty_status_button
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__show_forecasted_qty_status_button
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__show_forecasted_qty_status_button
 msgid "Show Forecasted Qty Status Button"
-msgstr ""
+msgstr "Visualizza pulsante di stato quantità prevista"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__show_on_hand_qty_status_button
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__show_on_hand_qty_status_button
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__show_on_hand_qty_status_button
 msgid "Show On Hand Qty Status Button"
-msgstr ""
+msgstr "Visualizza pulsante di stato quantità disponibile"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__signature
 msgid "Signature"
-msgstr ""
+msgstr "Firma"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio__signature
 msgid "Signature received through the portal."
-msgstr ""
+msgstr "Firma ricevuta tramite il portale."
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__signed_by
 msgid "Signed By"
-msgstr ""
+msgstr "Firmato da"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__signed_on
 msgid "Signed On"
-msgstr ""
+msgstr "Firmato il"
 
 #. module: hotel
 #: model:hotel.room,name:hotel.hotel_room_0
 #: model:product.product,name:hotel.hotel_room_0_product_product
 msgid "Single-101"
-msgstr ""
+msgstr "Singola-101"
 
 #. module: hotel
 #: model:hotel.room,name:hotel.hotel_room_1
 #: model:product.product,name:hotel.hotel_room_1_product_product
 msgid "Single-102"
-msgstr ""
+msgstr "Singola-102"
 
 #. module: hotel
 #: model:hotel.room,name:hotel.hotel_room_2
 #: model:product.product,name:hotel.hotel_room_2_product_product
 msgid "Single-103"
-msgstr ""
+msgstr "Singola-103"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__sales_count
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__sales_count
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__sales_count
 msgid "Sold"
-msgstr ""
+msgstr "Venduta"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__source_id
 msgid "Source"
-msgstr ""
+msgstr "Origine"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__origin
 msgid "Source Document"
-msgstr ""
+msgstr "Documento origine"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__cost_method
@@ -2998,11 +3009,18 @@ msgid ""
 "that enter the company first will also leave it first.\n"
 "        "
 msgstr ""
+"Prezzo standard: i prodotti sono valorizzati al loro costostandard definito "
+"nel prodotto.\n"
+"        Costo medio (AVCO): i prodotti sono valorizzati al costo medio "
+"pesato.\n"
+"        First In First Out (FIFO): i prodotti sono valorizzati supponendo "
+"che quelli entrati per primi siano usciti per primi.\n"
+"        "
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_folio_report_wizard__date_start
 msgid "Start Date"
-msgstr ""
+msgstr "Data inizio"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__state
@@ -3010,7 +3028,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_form
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_search
 msgid "Status"
-msgstr ""
+msgstr "Stato"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio__activity_state
@@ -3023,107 +3041,111 @@ msgid ""
 "Today: Activity date is today\n"
 "Planned: Future activities."
 msgstr ""
+"Stato in base alle attività\n"
+"Scaduta: la data attività è trascorsa\n"
+"Oggi: la data attività è oggi\n"
+"Pianificata: attività future."
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_kanban
 msgid "Status:"
-msgstr ""
+msgstr "Stato:"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_type__property_stock_account_input_categ_id
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_type__property_stock_account_input_categ_id
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_type__property_stock_account_input_categ_id
 msgid "Stock Input Account"
-msgstr ""
+msgstr "Conto entrata magazzino"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_type__property_stock_journal
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_type__property_stock_journal
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_type__property_stock_journal
 msgid "Stock Journal"
-msgstr ""
+msgstr "Registro di magazzino"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__stock_move_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__stock_move_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__stock_move_ids
 msgid "Stock Move"
-msgstr ""
+msgstr "Movimento di magazzino"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_line__move_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_line__move_ids
 msgid "Stock Moves"
-msgstr ""
+msgstr "Movimenti di magazzino"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_type__property_stock_account_output_categ_id
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_type__property_stock_account_output_categ_id
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_type__property_stock_account_output_categ_id
 msgid "Stock Output Account"
-msgstr ""
+msgstr "Conto uscita magazzino"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__stock_quant_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__stock_quant_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__stock_quant_ids
 msgid "Stock Quant"
-msgstr ""
+msgstr "Quantitativo di magazzino"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_type__property_stock_valuation_account_id
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_type__property_stock_valuation_account_id
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_type__property_stock_valuation_account_id
 msgid "Stock Valuation Account"
-msgstr ""
+msgstr "Conto valutazione magazzino"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__stock_valuation_layer_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__stock_valuation_layer_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__stock_valuation_layer_ids
 msgid "Stock Valuation Layer"
-msgstr ""
+msgstr "Livello valutazione magazzino"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__storage_category_capacity_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__storage_category_capacity_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__storage_category_capacity_ids
 msgid "Storage Category Capacity"
-msgstr ""
+msgstr "Categoria capacità stoccaggio"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_line__price_subtotal
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_line__price_subtotal
 msgid "Subtotal"
-msgstr ""
+msgstr "Subtotale"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_services_form
 msgid "Suplliers"
-msgstr ""
+msgstr "Fornitore"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_amenities_form
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_form
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_services_form
 msgid "Supplier Taxes"
-msgstr ""
+msgstr "Tasse fornitore"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_amenities_form
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_form
 msgid "Suppliers"
-msgstr ""
+msgstr "Fornitori"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_folio_search
 msgid "Tables Detail"
-msgstr ""
+msgstr "Dettaglio tabelle"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__tag_ids
 msgid "Tags"
-msgstr ""
+msgstr "Etichette"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__account_tag_ids
@@ -3132,36 +3154,38 @@ msgstr ""
 msgid ""
 "Tags to be set on the base and tax journal items created for this product."
 msgstr ""
+"Etichette da impostare in base ai movimenti contabili imposte creati per "
+"questo prodotto."
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__tax_country_id
 msgid "Tax Country"
-msgstr ""
+msgstr "Nazione tasse"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__tax_string
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__tax_string
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__tax_string
 msgid "Tax String"
-msgstr ""
+msgstr "Testo tasse"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__tax_totals_json
 msgid "Tax Totals Json"
-msgstr ""
+msgstr "Json totali tasse"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__amount_tax
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_line__tax_id
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_line__tax_id
 msgid "Taxes"
-msgstr ""
+msgstr "Tasse"
 
 #. module: hotel
 #: model:hotel.services,name:hotel.hotel_service_0
 #: model:product.product,name:hotel.hotel_service_0_product_product
 msgid "Taxi"
-msgstr ""
+msgstr "Taxi"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio__show_update_pricelist
@@ -3169,19 +3193,21 @@ msgid ""
 "Technical Field, True if the pricelist was changed;\n"
 " this will then display a recomputation button"
 msgstr ""
+"Campo tecnico, vero se il listino è cambiato;\n"
+"questo vsualizzerà un pulsante di ricalcolo"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__valid_product_template_attribute_line_ids
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities__valid_product_template_attribute_line_ids
 #: model:ir.model.fields,help:hotel.field_hotel_services__valid_product_template_attribute_line_ids
 msgid "Technical compute"
-msgstr ""
+msgstr "Calcolo tecnico"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio_line__display_type
 #: model:ir.model.fields,help:hotel.field_hotel_service_line__display_type
 msgid "Technical field for UX purpose."
-msgstr ""
+msgstr "Campo tecnico per motivi di UX."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio__tax_country_id
@@ -3189,6 +3215,8 @@ msgid ""
 "Technical field to filter the available taxes depending on the fiscal "
 "country and fiscal position."
 msgstr ""
+"Campo tecnico per filtrare tutte le tasse disponibili in funzione della "
+"nazione e della posizione fiscali."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__pricelist_id
@@ -3197,6 +3225,7 @@ msgstr ""
 msgid ""
 "Technical field. Used for searching on pricelists, not stored in database."
 msgstr ""
+"Campo tecnico. Utilizzato per cercare nei listini, non salvato nel database."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__stock_move_ids
@@ -3206,22 +3235,22 @@ msgstr ""
 #: model:ir.model.fields,help:hotel.field_hotel_services__stock_move_ids
 #: model:ir.model.fields,help:hotel.field_hotel_services__stock_quant_ids
 msgid "Technical: used to compute quantities."
-msgstr ""
+msgstr "Tecnico: utilizzato per calcolare quantità."
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__terms_type
 msgid "Terms & Conditions format"
-msgstr ""
+msgstr "Formato termini e condizioni"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__note
 msgid "Terms and conditions"
-msgstr ""
+msgstr "Termini e condizioni"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio__analytic_account_id
 msgid "The analytic account related to a sales order."
-msgstr ""
+msgstr "Conto analitico collegato all'ordine di vendita."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities_type__property_account_expense_categ_id
@@ -3233,6 +3262,10 @@ msgid ""
 "expense (Cost of Goods Sold account) is recognized at the customer invoice "
 "validation."
 msgstr ""
+"Le spese sono registrate per la validazione della fattura del venditore, "
+"eccetto nella contabilità anglosassone con valutazione perpetua del "
+"magazzino nel cui caso le spese (conto dei costi dei beni venduti) è "
+"riconosciuto alla validazione della fattura del cliente."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities_type__product_count
@@ -3241,12 +3274,12 @@ msgstr ""
 msgid ""
 "The number of products under this category (Does not consider the children "
 "categories)"
-msgstr ""
+msgstr "Numero dei prodotti nella categoria (non considera le categorie figlie)"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio__reference
 msgid "The payment communication of this sale order."
-msgstr ""
+msgstr "La comunicazione di pagamento per questo ordine di vendita."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio__currency_rate
@@ -3254,6 +3287,8 @@ msgid ""
 "The rate of the currency to the currency of rate 1 applicable at the date of "
 "the order"
 msgstr ""
+"La tariffa della valuta alla tariffa 1 della valuta applicabile alla data "
+"dell'ordine"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__lst_price
@@ -3263,13 +3298,15 @@ msgid ""
 "The sale price is managed from the product template. Click on the 'Configure "
 "Variants' button to set the extra attribute prices."
 msgstr ""
+"Il prezzo di vendita è gestito dal modello prodotto. Fare clic sul pulsante "
+"'Configura varianti' per impostare il prezzo attributi extra."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities_type__property_account_income_categ_id
 #: model:ir.model.fields,help:hotel.field_hotel_room_type__property_account_income_categ_id
 #: model:ir.model.fields,help:hotel.field_hotel_service_type__property_account_income_categ_id
 msgid "This account will be used when validating a customer invoice."
-msgstr ""
+msgstr "Questo conto verrà utilizzato alla validazione di una fattura cliente."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio__campaign_id
@@ -3277,6 +3314,8 @@ msgid ""
 "This is a name that helps you keep track of your different campaign efforts, "
 "e.g. Fall_Drive, Christmas_Special"
 msgstr ""
+"Questo è un nome che aiuta a tenere traccia degli sforzi delle differenti "
+"campagne, es. Fall_Drive, Christmas_Special"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio__commitment_date
@@ -3284,11 +3323,16 @@ msgid ""
 "This is the delivery date promised to the customer. If set, the delivery "
 "order will be scheduled based on this date rather than product lead times."
 msgstr ""
+"Questa è la data di consegna promessa al cliente. Se impostata, l'ordine di "
+"consegna verrà pianificato in base a questa data invece che al tempo di "
+"prouzione del prodotto."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio__medium_id
 msgid "This is the method of delivery, e.g. Postcard, Email, or Banner Ad"
 msgstr ""
+"Questo è il metodo di consegna, es. cartoline, email o striscione "
+"pubblicitario"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio__source_id
@@ -3296,13 +3340,15 @@ msgid ""
 "This is the source of the link, e.g. Search Engine, another domain, or name "
 "of email list"
 msgstr ""
+"Questo è l'origine del link, es. motore di ricerca, altro dominio o il nome "
+"di una mailing list"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__price_extra
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities__price_extra
 #: model:ir.model.fields,help:hotel.field_hotel_services__price_extra
 msgid "This is the sum of the extra price of all attributes"
-msgstr ""
+msgstr "Questa è la somma di tutti i prezzi extra di tutte le caratteristiche"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__property_stock_production
@@ -3312,6 +3358,9 @@ msgid ""
 "This stock location will be used, instead of the default one, as the source "
 "location for stock moves generated by manufacturing orders."
 msgstr ""
+"Questa ubicazione di magazzino verrà utilizzata, al posto della predefiita, "
+"come ubicazione di orgine per i movimenti di magazzino generati dagli ordini "
+"di produzione."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__property_stock_inventory
@@ -3321,6 +3370,9 @@ msgid ""
 "This stock location will be used, instead of the default one, as the source "
 "location for stock moves generated when you do an inventory."
 msgstr ""
+"Questa ubicazione di magazzino verrà utilizzata, al posto delle predefinita, "
+"come ubicazione origine per i movimenti di magazzino generati durante un "
+"inventario."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__responsible_id
@@ -3330,107 +3382,109 @@ msgid ""
 "This user will be responsible of the next activities related to logistic "
 "operations for this product."
 msgstr ""
+"Questo utente sarà responsabile delle attività extra relative alla logistica "
+"di questo prodotto."
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_line__ser_checkout_date
 msgid "To Date"
-msgstr ""
+msgstr "Alla data"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_line__qty_to_invoice
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_line__qty_to_invoice
 msgid "To Invoice Quantity"
-msgstr ""
+msgstr "Quantità da fatturare"
 
 #. module: hotel
 #: model:hotel.room.amenities,name:hotel.hotel_room_amenities_1
 #: model:product.product,name:hotel.hotel_room_amenities_1_product_product
 msgid "Toiletries"
-msgstr ""
+msgstr "Articoli da toeletta"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__amount_total
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_line__price_total
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_line__price_total
 msgid "Total"
-msgstr ""
+msgstr "Totale"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.report_hotel_folio
 msgid "Total Collection"
-msgstr ""
+msgstr "Totale collezione"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_line__price_tax
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_line__price_tax
 msgid "Total Tax"
-msgstr ""
+msgstr "Totale tasse"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_folio_form
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_folio_tree
 msgid "Total amount"
-msgstr ""
+msgstr "Valore totale"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_type__total_route_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_type__total_route_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_type__total_route_ids
 msgid "Total routes"
-msgstr ""
+msgstr "Totale percorsi"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__service_type
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__service_type
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__service_type
 msgid "Track Service"
-msgstr ""
+msgstr "Traccia servizio"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__tracking
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__tracking
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__tracking
 msgid "Tracking"
-msgstr ""
+msgstr "Tracciamento"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__transaction_ids
 msgid "Transactions"
-msgstr ""
+msgstr "Transizione"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__picking_ids
 msgid "Transfers"
-msgstr ""
+msgstr "Trasferimento"
 
 #. module: hotel
 #: model:hotel.room,name:hotel.hotel_room_6
 #: model:product.product,name:hotel.hotel_room_6_product_product
 msgid "Triple-101"
-msgstr ""
+msgstr "Tripla-101"
 
 #. module: hotel
 #: model:hotel.room,name:hotel.hotel_room_61
 #: model:product.product,name:hotel.hotel_room_61_product_product
 msgid "Triple-102"
-msgstr ""
+msgstr "Tripla-102"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio_line__is_reserved
 msgid "True when folio line created from Reservation"
-msgstr ""
+msgstr "Vero guando la riga del foglio è creata dalla prenotazione"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__type
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__type
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__type
 msgid "Type"
-msgstr ""
+msgstr "Tipo"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__type_name
 msgid "Type Name"
-msgstr ""
+msgstr "Nome tipo"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio__activity_exception_decoration
@@ -3438,13 +3492,13 @@ msgstr ""
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities__activity_exception_decoration
 #: model:ir.model.fields,help:hotel.field_hotel_services__activity_exception_decoration
 msgid "Type of the exception activity on record."
-msgstr ""
+msgstr "Tipo dell'attività eccezione sul record."
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_line__price_unit
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_line__price_unit
 msgid "Unit Price"
-msgstr ""
+msgstr "Przzo unitario"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_line__product_uom
@@ -3453,14 +3507,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_line__product_uom
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__uom_id
 msgid "Unit of Measure"
-msgstr ""
+msgstr "Unità di misura"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__uom_name
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__uom_name
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__uom_name
 msgid "Unit of Measure Name"
-msgstr ""
+msgstr "Nome unità di misura"
 
 #. module: hotel
 #: model:hotel.room,uom_name:hotel.hotel_room_0
@@ -3492,7 +3546,7 @@ msgstr ""
 #: model:product.product,uom_name:hotel.hotel_service_1_product_product
 #: model:product.product,uom_name:hotel.hotel_service_6_product_product
 msgid "Units"
-msgstr ""
+msgstr "Unità"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__message_unread
@@ -3500,7 +3554,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__message_unread
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__message_unread
 msgid "Unread Messages"
-msgstr ""
+msgstr "Messaggi non letti"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__message_unread_counter
@@ -3508,113 +3562,113 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__message_unread_counter
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__message_unread_counter
 msgid "Unread Messages Counter"
-msgstr ""
+msgstr "Contatore messaggi non letti"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__amount_untaxed
 msgid "Untaxed Amount"
-msgstr ""
+msgstr "Valore non tassato"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_line__untaxed_amount_to_invoice
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_line__untaxed_amount_to_invoice
 msgid "Untaxed Amount To Invoice"
-msgstr ""
+msgstr "Valore non tassato da fatturare"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_line__untaxed_amount_invoiced
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_line__untaxed_amount_invoiced
 msgid "Untaxed Invoiced Amount"
-msgstr ""
+msgstr "Valore non tassato fatturato"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_folio_form
 msgid "Untaxed amount"
-msgstr ""
+msgstr "Valore non tassato"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__valid_product_template_attribute_line_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__valid_product_template_attribute_line_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__valid_product_template_attribute_line_ids
 msgid "Valid Product Attribute Lines"
-msgstr ""
+msgstr "Riga attributo prodotto valido"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__value_svl
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__value_svl
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__value_svl
 msgid "Value Svl"
-msgstr ""
+msgstr "Valore Svl"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__image_variant_1920
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__image_variant_1920
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__image_variant_1920
 msgid "Variant Image"
-msgstr ""
+msgstr "Immagine variante"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__image_variant_1024
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__image_variant_1024
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__image_variant_1024
 msgid "Variant Image 1024"
-msgstr ""
+msgstr "Immagine variante 1024"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__image_variant_128
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__image_variant_128
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__image_variant_128
 msgid "Variant Image 128"
-msgstr ""
+msgstr "Immagine variante 128"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__image_variant_256
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__image_variant_256
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__image_variant_256
 msgid "Variant Image 256"
-msgstr ""
+msgstr "Immagine variante 256"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__image_variant_512
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__image_variant_512
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__image_variant_512
 msgid "Variant Image 512"
-msgstr ""
+msgstr "Immagine variante 512"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__price_extra
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__price_extra
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__price_extra
 msgid "Variant Price Extra"
-msgstr ""
+msgstr "Extra prezzo variante"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__variant_seller_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__variant_seller_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__variant_seller_ids
 msgid "Variant Seller"
-msgstr ""
+msgstr "Venditore variante"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__product_template_variant_value_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__product_template_variant_value_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__product_template_variant_value_ids
 msgid "Variant Values"
-msgstr ""
+msgstr "Valori variante"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__supplier_taxes_id
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__supplier_taxes_id
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__supplier_taxes_id
 msgid "Vendor Taxes"
-msgstr ""
+msgstr "Tasse venditore"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__seller_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__seller_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__seller_ids
 msgid "Vendors"
-msgstr ""
+msgstr "Vendotori"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_line__virtual_available_at_date
