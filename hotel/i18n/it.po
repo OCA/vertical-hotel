@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-11-21 13:45+0000\n"
+"PO-Revision-Date: 2022-11-28 18:45+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -2324,7 +2324,6 @@ msgstr "Prodotti"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_res_company__additional_hours
-#, fuzzy
 msgid ""
 "Provide the min hours value for                                       check "
 "in, checkout days, whatever the                                       hours "
@@ -2391,7 +2390,6 @@ msgstr "Quantità disponibile"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__quantity_svl
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__quantity_svl
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__quantity_svl
-#, fuzzy
 msgid "Quantity Svl"
 msgstr "Quantità SvL"
 
