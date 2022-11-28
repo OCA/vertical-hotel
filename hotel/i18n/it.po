@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-11-25 19:45+0000\n"
+"PO-Revision-Date: 2022-11-28 18:45+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -2433,6 +2433,12 @@ msgid ""
 "Otherwise, this includes goods arriving to any Stock Location with "
 "'internal' type."
 msgstr ""
+"Quantità dei prodotti in ingresso pianificati.\n"
+"Nel caso di una singola ubicazione di magazzino, include beni in arrivo in "
+"questa ubicazione, o una delle sue figlie.\n"
+"Nel caso di un singolo magazzino, include i beni in arrivo nella ubicazione "
+"di questo magazzino, o una delle sue figlie.\n"
+"Altrimenti, include beni in arrivo in qualsiasi ubicazione di tipo 'interno'."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__outgoing_qty
@@ -2447,6 +2453,12 @@ msgid ""
 "Otherwise, this includes goods leaving any Stock Location with 'internal' "
 "type."
 msgstr ""
+"Quantità dei prodotti in uscita pianificati.\n"
+"Nel caso di una singola ubicazione di magazzino, include beni in uscita da "
+"questa ubicazione, o una delle sue figlie.\n"
+"Nel caso di un singolo magazzino, include i beni in partenza dalla "
+"ubicazione di questo magazzino, o una delle sue figlie.\n"
+"Altrimenti, include beni in uscita in qualsiasi ubicazione di tipo 'interno'."
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__visible_qty_configurator
@@ -2783,6 +2795,10 @@ msgid ""
 "Selecting \"Blocking Message\" will throw an exception with the message and "
 "block the flow. The Message has to be written in the next field."
 msgstr ""
+"Selezionando l'opzione \"Allerta\" l'utente verrà avvisato con il messaggio, "
+"selezionando \"Blocco messaggio\" verrà generata una eccezione con il "
+"messaggio e il blocco del flusso. Il messaggio deve essere scritto nel campo "
+"successivo."
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_line__sequence
@@ -2869,6 +2885,8 @@ msgid ""
 "Set a specific removal strategy that will be used regardless of the source "
 "location for this product category"
 msgstr ""
+"Imposta una strategia di prelievo specifica che verrà utilizzata "
+"indipendentemente dalla ubicazione di orgine per questa categoria prodotto"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_folio_form
@@ -2956,6 +2974,13 @@ msgid ""
 "that enter the company first will also leave it first.\n"
 "        "
 msgstr ""
+"Prezzo standard: i prodotti vengono valorizzati al loro costo standard "
+"definito nel prodotto.\n"
+"        Costo medio (CoMe): i prodotti vengono valorizzati al costo mediao "
+"pesato.\n"
+"        First In First Out (FIFO): i prodotti sono valorizzati supponendo "
+"che i primi che entrano siano i primi che escono.\n"
+"        "
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_folio_report_wizard__date_start
@@ -2981,6 +3006,10 @@ msgid ""
 "Today: Activity date is today\n"
 "Planned: Future activities."
 msgstr ""
+"Stato in base alle attività\n"
+"Scaduta: la data richiesta è trascorsa\n"
+"Oggi: la data richiesta è oggi\n"
+"Pianificata: attività future."
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_kanban
@@ -2999,14 +3028,14 @@ msgstr "Conto ingressi magazzino"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_type__property_stock_journal
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_type__property_stock_journal
 msgid "Stock Journal"
-msgstr ""
+msgstr "Giornale di magazzino"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__stock_move_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__stock_move_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__stock_move_ids
 msgid "Stock Move"
-msgstr ""
+msgstr "Movimento di magazzino"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_line__move_ids
@@ -3026,7 +3055,7 @@ msgstr "Conto uscite magazzino"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__stock_quant_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__stock_quant_ids
 msgid "Stock Quant"
-msgstr ""
+msgstr "Quanto di magazzino"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_type__property_stock_valuation_account_id
@@ -3100,6 +3129,8 @@ msgid ""
 "Technical Field, True if the pricelist was changed;\n"
 " this will then display a recomputation button"
 msgstr ""
+"Campo tecnico, vero se il listino è cambiato;\n"
+" questo visualizzerà un pulsante di ricalcolo"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__valid_product_template_attribute_line_ids
@@ -3153,6 +3184,10 @@ msgid ""
 "expense (Cost of Goods Sold account) is recognized at the customer invoice "
 "validation."
 msgstr ""
+"Le spese sono contabilizzate quando la fattura del venditore è validata, "
+"eccetto nella contabilità anglo-americana con valorizzazione continua "
+"dell'inventario nel cui caso le spese (costo del conto merce venduta) è "
+"riconosciuta alla validazione della fattura del cliente."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities_type__product_count
@@ -3202,6 +3237,8 @@ msgid ""
 "This is a name that helps you keep track of your different campaign efforts, "
 "e.g. Fall_Drive, Christmas_Special"
 msgstr ""
+"Questo è un nome che aiuta a tenere traccia degli sforzi delle diverse "
+"cmpagne, es. Fall_drive, Christmas_special"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio__commitment_date
@@ -3209,11 +3246,16 @@ msgid ""
 "This is the delivery date promised to the customer. If set, the delivery "
 "order will be scheduled based on this date rather than product lead times."
 msgstr ""
+"Questa è la data di consegna promessa al cliente. Se impostata, l'ordine di "
+"consegna verrà programmato in base a questa data invece che al tempo di "
+"produzione del prodotto."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio__medium_id
 msgid "This is the method of delivery, e.g. Postcard, Email, or Banner Ad"
 msgstr ""
+"Questo è il metodo di consegna, es. Cartolina, emial o striscione "
+"pubblicitario"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio__source_id
@@ -3221,13 +3263,15 @@ msgid ""
 "This is the source of the link, e.g. Search Engine, another domain, or name "
 "of email list"
 msgstr ""
+"Questa è l'origine del collegamento, es. motore di ricerca, altro dominio o "
+"il nome di una mailing list"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__price_extra
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities__price_extra
 #: model:ir.model.fields,help:hotel.field_hotel_services__price_extra
 msgid "This is the sum of the extra price of all attributes"
-msgstr ""
+msgstr "Questa è la somma dei prezzi extra di tutti gli attributi"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__property_stock_production
