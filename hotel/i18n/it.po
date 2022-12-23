@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-11-28 18:45+0000\n"
+"PO-Revision-Date: 2022-12-23 16:46+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -797,8 +797,8 @@ msgid ""
 "of the product: whether it will be bought, manufactured, replenished on "
 "order, etc."
 msgstr ""
-"In funzione dei moduli installati, questo consente di definire i percorsi "
-"del prodotto: dove sarà comprato, lavorato, reintegrato su ordine, ecc."
+"In funzione dei moduli installati, consentirà di definire il percorso del "
+"prodotto: se verrà comprato, lavorato, rifornito su ordine, ecc."
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_line__name
@@ -973,9 +973,9 @@ msgid ""
 "a validated expense can be re-invoice to a customer at its cost or sales "
 "price."
 msgstr ""
-"Spese e fatture possono essere rifatturate al cliente. Con questa opzione, "
-"una spesa validata può essere rifatturata ad un cliente al suo costo o al "
-"prezzo di vendita."
+"Spese e fatture fornitori possono essere rifatturate ad un cliente. Con "
+"questa opzione, una spesa validata può essere rifatturata ad un cliente al "
+"suo costo o a prezzo di vendita."
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__validity_date
@@ -1115,11 +1115,12 @@ msgid ""
 msgstr ""
 "Quantità previsionale (calcolata come quantità disponibile - uscite + "
 "entrate)\n"
-"In un contesto con una sola ubicazione di magazzino, include beni stoccati "
-"in questa ubicazione o qualsiasi delle sue secondarie.\n"
-"In un contesto con un solo magazzino, include beni stoccati nell'ubicazione "
-"di magazzino di questo magazzino o qualsiasi delle secondarie.\n"
-"Altrimenti, include beni stoccati in qualsiasi ubicazione di tipo 'interno'."
+"In un contesto con una sola ubicazione di magazzino, include i beni stoccati "
+"in questa ubicazione o qualsiasi delle sue figlie.\n"
+"In un contesto con un solo magazzino, include i beni stoccati "
+"nell'ubicazione di magazzino di questo magazzino o qualsiasi delle figlie.\n"
+"Altrimenti, include i beni stoccati in qualsiasi ubicazione di tipo "
+"'interno'."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__free_qty
@@ -1136,11 +1137,12 @@ msgid ""
 msgstr ""
 "Quantità previsionale (calcolata come quantità disponibile - quantità "
 "riservata) \n"
-"In un contesto con una sola ubicazione di magazzino, include beni stoccati "
-"in questa ubicazione o qualsiasi delle sue secondarie.\n"
-"In un contesto con un solo magazzino, include beni stoccati nell'ubicazione "
-"di magazzino di questo magazzino o qualsiasi delle secondarie.\n"
-"Altrimenti, include beni stoccati in qualsiasi ubicazione di tipo 'interno'."
+"In un contesto con una sola ubicazione di magazzino, include i beni stoccati "
+"in questa ubicazione o qualsiasi delle sue figlie.\n"
+"In un contesto con un solo magazzino, include i beni stoccati "
+"nell'ubicazione di questo magazzino o qualsiasi delle figlie.\n"
+"Altrimenti, include i beni stoccati in qualsiasi ubicazione di tipo "
+"'interno'."
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__virtual_available
@@ -1465,7 +1467,7 @@ msgstr ""
 "        In FIFO: valore dell'unità successiva che lascerà il magazzino ("
 "calcolato automaticamente).\n"
 "        Utilizzato per valutare il prodotto quando il costo di acquisto non "
-"è noto (es. correzioni di inventario).\n"
+"è noto (es. rettifiche di inventario).\n"
 "        Utilizzato per calcolare i margini negli ordini di vendita."
 
 #. module: hotel
@@ -1886,7 +1888,7 @@ msgstr "Metodo per aggiornare la quantità consegnata"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__orderpoint_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__orderpoint_ids
 msgid "Minimum Stock Rules"
-msgstr "Regola giacenza minima"
+msgstr "Regole giacenze minime"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__my_activity_date_deadline
@@ -2113,8 +2115,8 @@ msgid ""
 "Ordered Quantity: Invoice quantities ordered by the customer.\n"
 "Delivered Quantity: Invoice quantities delivered to the customer."
 msgstr ""
-"Quantità ordinata: quantità fattura ordinata dal cliente.\n"
-"Quantità consegnata: quantità fattura consegnata al cliente."
+"Quantità ordinata: fattura quantità ordinate dal cliente.\n"
+"Quantità consegnata: fattura quantità consegnate al cliente."
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_folio_form
