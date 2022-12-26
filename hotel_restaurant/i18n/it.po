@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-12-23 16:45+0000\n"
+"PO-Revision-Date: 2022-12-27 01:28+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -2092,50 +2092,50 @@ msgstr ""
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__to_weight
 msgid "To Weigh With Scale"
-msgstr ""
+msgstr "Da pesare con bilancia"
 
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_reservation_search
 msgid "Today's Booking"
-msgstr ""
+msgstr "Prenotazioni odierne"
 
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_reservation_order_search
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_kitchen_order_search
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_order_search
 msgid "Today's Orders"
-msgstr ""
+msgstr "Ordini odierni"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_reservation_order__amount_total
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_order__amount_total
 msgid "Total"
-msgstr ""
+msgstr "Totale"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__service_type
 msgid "Track Service"
-msgstr ""
+msgstr "Servizio tracciatura"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__tracking
 msgid "Tracking"
-msgstr ""
+msgstr "Tracciare"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__activity_exception_decoration
 msgid "Type of the exception activity on record."
-msgstr ""
+msgstr "Tipo attività eccezione sul record."
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__uom_id
 msgid "Unit of Measure"
-msgstr ""
+msgstr "Unità di misura"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__uom_name
 msgid "Unit of Measure Name"
-msgstr ""
+msgstr "Nome unità di misura"
 
 #. module: hotel_restaurant
 #: model:hotel.menucard,uom_name:hotel_restaurant.hotel_fooditem_0
@@ -2179,105 +2179,105 @@ msgstr ""
 #: model:product.product,uom_name:hotel_restaurant.hotel_fooditem_7_product_product
 #: model:product.product,uom_name:hotel_restaurant.hotel_fooditem_8_product_product
 msgid "Units"
-msgstr ""
+msgstr "Unità"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__message_unread
 msgid "Unread Messages"
-msgstr ""
+msgstr "Messaggi non letti"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__message_unread_counter
 msgid "Unread Messages Counter"
-msgstr ""
+msgstr "Contatore messaggi non letti"
 
 #. module: hotel_restaurant
 #: model:hotel.menucard,name:hotel_restaurant.hotel_fooditem_16
 #: model:product.product,name:hotel_restaurant.hotel_fooditem_16_product_product
 msgid "Upma"
-msgstr ""
+msgstr "Upma"
 
 #. module: hotel_restaurant
 #: model:hotel.menucard,name:hotel_restaurant.hotel_fooditem_18
 #: model:product.product,name:hotel_restaurant.hotel_fooditem_18_product_product
 msgid "Uttapam"
-msgstr ""
+msgstr "Uttapam"
 
 #. module: hotel_restaurant
 #: model:hotel.menucard,name:hotel_restaurant.hotel_fooditem_17
 #: model:product.product,name:hotel_restaurant.hotel_fooditem_17_product_product
 msgid "Vada-Sambar"
-msgstr ""
+msgstr "Vada-Sambar"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__valid_product_template_attribute_line_ids
 msgid "Valid Product Attribute Lines"
-msgstr ""
+msgstr "Righe attributo prodotto valido"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__value_svl
 msgid "Value Svl"
-msgstr ""
+msgstr "Valore Svl"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__image_variant_1920
 msgid "Variant Image"
-msgstr ""
+msgstr "Immagine variante"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__image_variant_1024
 msgid "Variant Image 1024"
-msgstr ""
+msgstr "Immagine variante 1024"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__image_variant_128
 msgid "Variant Image 128"
-msgstr ""
+msgstr "Immagine variante 128"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__image_variant_256
 msgid "Variant Image 256"
-msgstr ""
+msgstr "Immagine variante 256"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__image_variant_512
 msgid "Variant Image 512"
-msgstr ""
+msgstr "Immagine variante 512"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__price_extra
 msgid "Variant Price Extra"
-msgstr ""
+msgstr "Extra prezzo variante"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__variant_seller_ids
 msgid "Variant Seller"
-msgstr ""
+msgstr "Venditore variante"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__supplier_taxes_id
 msgid "Vendor Taxes"
-msgstr ""
+msgstr "Tasse venditore"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__seller_ids
 msgid "Vendors"
-msgstr ""
+msgstr "Venditori"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__volume
 msgid "Volume"
-msgstr ""
+msgstr "Volume"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__volume_uom_name
 msgid "Volume unit of measure label"
-msgstr ""
+msgstr "Etichetta unità di misura volume"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_order__waiter_id
 msgid "Waiter"
-msgstr ""
+msgstr "Cameriere"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_reservation_order__waitername
@@ -2285,37 +2285,37 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_reservation_order_search
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_kitchen_order_search
 msgid "Waiter Name"
-msgstr ""
+msgstr "Nome cameriere"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__warehouse_id
 msgid "Warehouse"
-msgstr ""
+msgstr "Magazzino"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__website_message_ids
 msgid "Website Messages"
-msgstr ""
+msgstr "Messaggi sito web"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__website_message_ids
 msgid "Website communication history"
-msgstr ""
+msgstr "Storico comunicazioni sito web"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__weight
 msgid "Weight"
-msgstr ""
+msgstr "Peso"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__weight_uom_name
 msgid "Weight unit of measure label"
-msgstr ""
+msgstr "Etichetta unità di misura peso"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_folio_rest_reservation__check
 msgid "With Details"
-msgstr ""
+msgstr "Con dettagli"
 
 #. module: hotel_restaurant
 #: code:addons/hotel_restaurant/models/hotel_restaurant.py:0
@@ -2324,59 +2324,61 @@ msgid ""
 "You tried to confirm reservation with table those already reserved in this "
 "reservation period"
 msgstr ""
+"Si è tentato di confermare una prenotazione con un tavolo già prenotato in "
+"questo periodo"
 
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_order_search
 msgid "date"
-msgstr ""
+msgstr "data"
 
 #. module: hotel_restaurant
 #: model:ir.model,name:hotel_restaurant.model_folio_rest_reservation
 msgid "folio.rest.reservation"
-msgstr ""
+msgstr "folio.rest.reservation"
 
 #. module: hotel_restaurant
 #: model:ir.model,name:hotel_restaurant.model_hotel_folio
 msgid "hotel folio"
-msgstr ""
+msgstr "foglio hotel"
 
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.hotel_manucard_kanban_view
 msgid "hotel menucard"
-msgstr ""
+msgstr "menu hotel"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_reservation_order__is_folio
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_restaurant_order__is_folio
 msgid "is customer reside in hotel or not"
-msgstr ""
+msgstr "se il cliente risiede o meno in hotel"
 
 #. module: hotel_restaurant
 #: model:ir.model,name:hotel_restaurant.model_report_hotel_restaurant_report_hotel_order_kot
 msgid "report.hotel_restaurant.report_hotel_order_kot"
-msgstr ""
+msgstr "report.hotel_restaurant.report_hotel_order_kot"
 
 #. module: hotel_restaurant
 #: model:ir.model,name:hotel_restaurant.model_report_hotel_restaurant_report_res_table
 msgid "report.hotel_restaurant.report_res_table"
-msgstr ""
+msgstr "report.hotel_restaurant.report_res_table"
 
 #. module: hotel_restaurant
 #: model:ir.model,name:hotel_restaurant.model_report_hotel_restaurant_report_reserv_order
 msgid "report.hotel_restaurant.report_reserv_order"
-msgstr ""
+msgstr "report.hotel_restaurant.report_reserv_order"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_reservation__state
 msgid "state"
-msgstr ""
+msgstr "stato"
 
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_order_search
 msgid "waiter name"
-msgstr ""
+msgstr "nome cameriere"
 
 #. module: hotel_restaurant
 #: model:ir.model,name:hotel_restaurant.model_wizard_hotel_restaurant
 msgid "wizard.hotel.restaurant"
-msgstr ""
+msgstr "wizard.hotel.restaurant"
