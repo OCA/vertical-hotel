@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-12-27 01:28+0000\n"
+"PO-Revision-Date: 2022-12-27 16:44+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -1927,7 +1927,7 @@ msgstr "Quanto di magazzino"
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__stock_valuation_layer_ids
 msgid "Stock Valuation Layer"
-msgstr "Livello valorizzazione magazzino"
+msgstr "Livello valutazione magazzino"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_reservation_order__amount_subtotal
