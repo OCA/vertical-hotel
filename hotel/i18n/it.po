@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-01-02 12:49+0000\n"
+"PO-Revision-Date: 2023-01-02 16:45+0000\n"
 "Last-Translator: Francesco Foresti <francesco.foresti@ooops404.com>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -1554,7 +1554,7 @@ msgstr "Fattura"
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__partner_invoice_id
 msgid "Invoice Address"
-msgstr "Indirizzo fattura"
+msgstr "Indirizzo di fatturazione"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__invoice_count
