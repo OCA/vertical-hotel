@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-01-02 16:45+0000\n"
+"PO-Revision-Date: 2023-01-03 13:48+0000\n"
 "Last-Translator: Francesco Foresti <francesco.foresti@ooops404.com>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -1085,7 +1085,7 @@ msgstr "Iscritti (partner)"
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities__activity_type_icon
 #: model:ir.model.fields,help:hotel.field_hotel_services__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
-msgstr "Icona font awesome es. fa-tasks"
+msgstr "Icona Font Awesome es. fa-tasks"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_type__removal_strategy_id
@@ -1353,7 +1353,7 @@ msgstr "Icona"
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities__activity_exception_icon
 #: model:ir.model.fields,help:hotel.field_hotel_services__activity_exception_icon
 msgid "Icon to indicate an exception activity."
-msgstr "Icona per indicare una attività eccezione."
+msgstr "Icona per indicare un'attività eccezione."
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_folio_form
