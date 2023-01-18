@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-01-03 13:45+0000\n"
+"PO-Revision-Date: 2023-01-18 12:06+0000\n"
 "Last-Translator: Francesco Foresti <francesco.foresti@ooops404.com>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -3384,7 +3384,7 @@ msgstr "Trasizione"
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__picking_ids
 msgid "Transfers"
-msgstr "Trasferimento"
+msgstr "Trasferimenti"
 
 #. module: hotel
 #: model:hotel.room,name:hotel.hotel_room_6
