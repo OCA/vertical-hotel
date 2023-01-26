@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-01-18 12:06+0000\n"
+"PO-Revision-Date: 2023-01-26 11:49+0000\n"
 "Last-Translator: Francesco Foresti <francesco.foresti@ooops404.com>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -2164,7 +2164,7 @@ msgstr "Rif. pagamento"
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__payment_term_id
 msgid "Payment Terms"
-msgstr "Termini pagamento"
+msgstr "Termini di pagamento"
 
 #. module: hotel
 #: model:ir.ui.menu,name:hotel.hotel_report_menu
