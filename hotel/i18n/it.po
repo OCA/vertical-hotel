@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-01-18 12:06+0000\n"
+"PO-Revision-Date: 2023-02-01 16:49+0000\n"
 "Last-Translator: Francesco Foresti <francesco.foresti@ooops404.com>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -2747,7 +2747,7 @@ msgstr "Descrizione vendite"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__sale_line_warn
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__sale_line_warn
 msgid "Sales Order Line"
-msgstr "Riga ordine vendite"
+msgstr "Riga ordine di vendita"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__list_price
