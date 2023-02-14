@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-01-02 16:45+0000\n"
-"Last-Translator: Francesco Foresti <francesco.foresti@ooops404.com>\n"
+"PO-Revision-Date: 2023-02-14 15:22+0000\n"
+"Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -831,17 +831,17 @@ msgstr "Foglio"
 #. module: hotel_reservation
 #: model:ir.model.fields,field_description:hotel_reservation.field_hotel_reservation__message_follower_ids
 msgid "Followers"
-msgstr "Iscritti"
+msgstr "Seguito da"
 
 #. module: hotel_reservation
 #: model:ir.model.fields,field_description:hotel_reservation.field_hotel_reservation__message_channel_ids
 msgid "Followers (Channels)"
-msgstr "Iscritti (canali)"
+msgstr "Seguito da (canali)"
 
 #. module: hotel_reservation
 #: model:ir.model.fields,field_description:hotel_reservation.field_hotel_reservation__message_partner_ids
 msgid "Followers (Partners)"
-msgstr "Iscritti (partner)"
+msgstr "Seguito da (partner)"
 
 #. module: hotel_reservation
 #: model_terms:ir.ui.view,arch_db:hotel_reservation.view_hotel_reservation_search
@@ -961,7 +961,7 @@ msgstr "Indirizzo fattura per la prenotazione attuale."
 #. module: hotel_reservation
 #: model:ir.model.fields,field_description:hotel_reservation.field_hotel_reservation__message_is_follower
 msgid "Is Follower"
-msgstr "È iscritto"
+msgstr "Segue"
 
 #. module: hotel_reservation
 #: model:ir.model.fields,field_description:hotel_reservation.field_hotel_folio____last_update
