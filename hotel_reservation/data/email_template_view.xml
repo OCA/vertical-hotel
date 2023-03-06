@@ -2,7 +2,7 @@
     <!-- Email Template For Hotel Reservation -->
     <record id="email_template_hotel_reservation" model="mail.template">
         <field name="name">Reservation-Send by Email</field>
-        <field name="email_from">${object.warehouse_id.partner_id.email or ''|safe}
+        <field name="email_from">${object.company_id.partner_id.email or ''|safe}
         </field>
         <field name="subject">Hotel Reservation Detail</field>
         <field name="partner_to">${object.partner_id.id or ''}</field>
@@ -16,13 +16,13 @@
                     <p>Hello <strong>${object.partner_id.name}</strong>,
                     </p>
                     <p>This is to confirm your booking for a room at
-                        the <strong>${object.warehouse_id.name} Hotel</strong>,
-                        % if object.warehouse_id.partner_id.city:
-                        <strong>${object.warehouse_id.partner_id.city}</strong>,
+                        the <strong>${object.company_id.name} Hotel</strong>,
+                        % if object.company_id.partner_id.city:
+                        <strong>${object.company_id.partner_id.city}</strong>,
                         % endif
-                        % if object.warehouse_id.partner_id.country_id.name:
+                        % if object.company_id.partner_id.country_id.name:
                         <strong>
-                            ${object.warehouse_id.partner_id.country_id.name}</strong>
+                            ${object.company_id.partner_id.country_id.name}</strong>
                         .
                         % endif
                         On behalf of the hotel, we would like to express our
@@ -89,25 +89,25 @@
                     <br />
                     <strong>Reservations Team</strong>
                     <br />
-                    [<strong>${object.warehouse_id.name} Hotel</strong>]
+                    [<strong>${object.company_id.name} Hotel</strong>]
                     <br />
-                    % if object.warehouse_id.partner_id.street:
-                    <strong>${object.warehouse_id.partner_id.street}</strong>
-                    <br />
-                    % endif
-                    % if object.warehouse_id.partner_id.city:
-                    <strong>${object.warehouse_id.partner_id.city}</strong>,
+                    % if object.company_id.partner_id.street:
+                    <strong>${object.company_id.partner_id.street}</strong>
                     <br />
                     % endif
-                    % if object.warehouse_id.partner_id.country_id.name:
+                    % if object.company_id.partner_id.city:
+                    <strong>${object.company_id.partner_id.city}</strong>,
+                    <br />
+                    % endif
+                    % if object.company_id.partner_id.country_id.name:
                     <strong>
-                        ${object.warehouse_id.partner_id.country_id.name}</strong>
+                        ${object.company_id.partner_id.country_id.name}</strong>
                     ,
                     <br />
                     % endif
                     <br />
-                    % if object.warehouse_id.partner_id.website:
-                    <strong>${object.warehouse_id.partner_id.website}</strong>
+                    % if object.company_id.partner_id.website:
+                    <strong>${object.company_id.partner_id.website}</strong>
                     <br />
                     % endif
                 </p>
@@ -118,7 +118,7 @@
     <!-- Email Template For Hotel Reservation Reminder Before 24 Hours -->
     <record id="mail_template_reservation_reminder_24hrs" model="mail.template">
         <field name="name">Reservation Reminder Before 24hrs</field>
-        <field name="email_from">${object.warehouse_id.partner_id.email or ''}
+        <field name="email_from">${object.company_id.partner_id.email or ''}
         </field>
         <field name="subject">Hotel Reservation Reminder</field>
         <field name="partner_to">${object.partner_id.id or ''}</field>
@@ -134,18 +134,18 @@
                         </left>
                     </p>
                     <p>
-                        <left>Greetings from <strong>${object.warehouse_id.name}
+                        <left>Greetings from <strong>${object.company_id.name}
                             Hotel</strong>.
                         </left>
                     </p>
                     <p>This email is for reminding you that the Reservation at
-                        the <strong>${object.warehouse_id.name} Hotel</strong>.
-                        % if object.warehouse_id.partner_id.city:
-                        <strong>${object.warehouse_id.partner_id.city}</strong>,
+                        the <strong>${object.company_id.name} Hotel</strong>.
+                        % if object.company_id.partner_id.city:
+                        <strong>${object.company_id.partner_id.city}</strong>,
                         % endif
-                        % if object.warehouse_id.partner_id.country_id.name:
+                        % if object.company_id.partner_id.country_id.name:
                         <strong>
-                            ${object.warehouse_id.partner_id.country_id.name}</strong>
+                            ${object.company_id.partner_id.country_id.name}</strong>
                         .
                         % endif
                         Your checkin has been confirmed on Date <strong>
@@ -207,25 +207,25 @@
                     <br />
                     <strong>Reservations Team</strong>
                     <br />
-                    [<strong>${object.warehouse_id.name} Hotel</strong>]
+                    [<strong>${object.company_id.name} Hotel</strong>]
                     <br />
-                    % if object.warehouse_id.partner_id.street:
-                    <strong>${object.warehouse_id.partner_id.street}</strong>
-                    <br />
-                    % endif
-                    % if object.warehouse_id.partner_id.city:
-                    <strong>${object.warehouse_id.partner_id.city}</strong>,
+                    % if object.company_id.partner_id.street:
+                    <strong>${object.company_id.partner_id.street}</strong>
                     <br />
                     % endif
-                    % if object.warehouse_id.partner_id.country_id.name:
+                    % if object.company_id.partner_id.city:
+                    <strong>${object.company_id.partner_id.city}</strong>,
+                    <br />
+                    % endif
+                    % if object.company_id.partner_id.country_id.name:
                     <strong>
-                        ${object.warehouse_id.partner_id.country_id.name}</strong>
+                        ${object.company_id.partner_id.country_id.name}</strong>
                     ,
                     <br />
                     % endif
                     <br />
-                    % if object.warehouse_id.partner_id.website:
-                    <strong>${object.warehouse_id.partner_id.website}</strong>
+                    % if object.company_id.partner_id.website:
+                    <strong>${object.company_id.partner_id.website}</strong>
                     <br />
                     % endif
                 </p>
