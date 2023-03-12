@@ -1,5 +1,5 @@
 # Do NOT update manually; changes here will be overwritten by Copier
-_commit: v1.14.1
+_commit: v1.14.2
 _src_path: gh:oca/oca-addons-repo-template
 ci: GitHub
 dependency_installation_mode: PIP
@@ -21,3 +21,4 @@ repo_slug: vertical-hotel
 repo_website: https://github.com/OCA/vertical-hotel
 travis_apt_packages: []
 travis_apt_sources: []
+
