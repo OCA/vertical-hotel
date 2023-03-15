@@ -175,6 +175,36 @@ class RoomReservationSummary(models.Model):
                                 "room_id": room.id,
                             }
                         )
+                        ch_dt = chk_date[:10] + " 23:59:59"
+                        ttime = datetime.strptime(ch_dt, dt)
+                        c = ttime.replace(tzinfo=timezone).astimezone(
+                            pytz.timezone("UTC")
+                        )
+                        chk_date = c.strftime(dt)
+
+
+                        reservline_ids = self.env['hotel.reservation'].search(
+                            [
+                                ("checkin", "<=", chk_date),
+                                ("checkout", ">=", chk_date),
+                                ("state", "=", "draft")
+                            ]
+                        )
+                        for reservation in reservline_ids:
+                            for line in reservation.reservation_line.filtered(
+                                lambda l: l.reserve in room
+                            ):
+                                # room_list_stats.append({"is_draft": "Yes"})
+                                room_list_stats.append(
+                                {
+                                    "state": "Reserved",
+                                    "date": chk_date,
+                                    "room_id": room.id,
+                                    "is_draft": "Yes",
+                                    "data_model": "",
+                                    "data_id": 0,
+                                }
+                            )
                 else:
                     for chk_date in date_range_list:
                         ch_dt = chk_date[:10] + " 23:59:59"
@@ -216,10 +246,10 @@ class RoomReservationSummary(models.Model):
                                         cidst = datetime.strftime(cid, dt)
                                         codst = datetime.strftime(cod, dt)
                                         rm_id = res_room.room_id.id
-                                        ci = rlist.get("date") >= cidst
-                                        co = rlist.get("date") <= codst
-                                        rm = rlist.get("room_id") == rm_id
-                                        st = rlist.get("state") == "Reserved"
+                                        ci = rlist.get("date") and rlist.get("date") >= cidst
+                                        co = rlist.get("date") and rlist.get("date") <= codst
+                                        rm = rlist.get("room_id") and rlist.get("room_id") == rm_id
+                                        st = rlist.get("state") and rlist.get("state") == "Reserved"
                                         if ci and co and rm and st:
                                             count += 1
                                     if count - dur.days == 0:
@@ -274,6 +304,28 @@ class RoomReservationSummary(models.Model):
                                 }
                             )
                         else:
+                            reservline_ids = self.env['hotel.reservation'].search(
+                                [
+                                    ("checkin", "<=", chk_date),
+                                    ("checkout", ">=", chk_date),
+                                    ("state", "=", "draft")
+                                ]
+                            )
+                            for reservation in reservline_ids:
+                                for line in reservation.reservation_line.filtered(
+                                    lambda l: l.reserve in room
+                                ):
+                                    # room_list_stats.append({"is_draft": "Yes"})
+                                    room_list_stats.append(
+                                        {
+                                            "state": "Reserved",
+                                            "date": chk_date,
+                                            "room_id": room.id,
+                                            "is_draft": "Yes",
+                                            "data_model": "",
+                                            "data_id": 0,
+                                        }
+                                    )
                             room_list_stats.append(
                                 {
                                     "state": "Free",
