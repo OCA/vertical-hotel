@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-02-14 15:22+0000\n"
-"Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
+"PO-Revision-Date: 2023-03-20 11:24+0000\n"
+"Last-Translator: Francesco Foresti <francesco.foresti@ooops404.com>\n"
 "Language-Team: none\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -617,8 +617,8 @@ msgid ""
 "Creation date of draft/sent orders,\n"
 "Confirmation date of confirmed orders."
 msgstr ""
-"Data di creazione degli ordini in bozza/spediti,\n"
-"data di conferma degli ordini confermati."
+"Data di creazione ordini in bozza/inviati,\n"
+"Data di conferma ordini confermati."
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__currency_id
@@ -2239,7 +2239,7 @@ msgstr "Prezzo al quale il prodotto è venduto al cliente."
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__pricelist_id
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__pricelist_id
 msgid "Pricelist"
-msgstr "Listino"
+msgstr "Listino prezzi"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_folio_wizard
