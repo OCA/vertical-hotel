@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-02-14 15:22+0000\n"
-"Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
+"PO-Revision-Date: 2023-03-20 11:24+0000\n"
+"Last-Translator: Francesco Foresti <francesco.foresti@ooops404.com>\n"
 "Language-Team: none\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -1514,7 +1514,7 @@ msgstr "Prezzo:"
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__pricelist_id
 msgid "Pricelist"
-msgstr "Listino"
+msgstr "Listino prezzi"
 
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_menucard_form
