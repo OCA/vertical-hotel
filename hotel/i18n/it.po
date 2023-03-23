@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-03-20 09:58+0000\n"
-"Last-Translator: Francesco Foresti <francesco.foresti@ooops404.com>\n"
+"PO-Revision-Date: 2023-03-23 16:34+0000\n"
+"Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -1426,7 +1426,7 @@ msgstr "Immagine"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__image_1024
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__image_1024
 msgid "Image 1024"
-msgstr "immagine 1024"
+msgstr "Immagine 1024"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__image_128
