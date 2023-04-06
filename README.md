@@ -22,6 +22,7 @@ Available addons
 addon | version | maintainers | summary
 --- | --- | --- | ---
 [hotel](hotel/) | 15.0.1.0.0 |  | Hotel Management to Manage Folio and Hotel Configuration
+[hotel_restaurant](hotel_restaurant/) | 15.0.1.0.0 |  | Table booking facilities and Managing customers orders
 
 [//]: # (end addons)
 
