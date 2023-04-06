@@ -232,7 +232,9 @@ class HotelReservation(models.Model):
         vals["reservation_no"] = (
             self.env["ir.sequence"].next_by_code("hotel.reservation") or "New"
         )
-        return super(HotelReservation, self).create(vals)
+        res = super(HotelReservation, self).create(vals)
+        res.create_folio()
+        return res
 
     def check_overlap(self, date1, date2):
         delta = date2 - date1
@@ -347,8 +349,10 @@ class HotelReservation(models.Model):
         return True
 
     def set_to_draft_reservation(self):
+        self.folio_id = []
         self.update({"state": "draft"})
-
+        self.create_folio()
+        
     def action_send_reservation_mail(self):
         """
         This function opens a window to compose an email,
@@ -457,8 +461,12 @@ class HotelReservation(models.Model):
             folio = hotel_folio_obj.create(folio_vals)
             for rm_line in folio.room_line_ids:
                 rm_line._onchange_product_id()
-            self.write({"folio_id": [(6, 0, folio.ids)], "state": "done"})
+            reservation.write({"folio_id": [(6, 0, folio.ids)]})
         return True
+
+    def launch_folio(self):
+        for reservation in self:
+            reservation.write({"state": "done"})
 
     def _onchange_check_dates(
         self, checkin_date=False, checkout_date=False, duration=False
