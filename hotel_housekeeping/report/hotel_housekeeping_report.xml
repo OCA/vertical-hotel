@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!--Report for hotel housekeeping -->
+    <record id="report_hotel_housekeeping" model="ir.actions.report">
+      <field name="name">Activity Detail</field>
+      <field name="model">hotel.housekeeping</field>
+      <field name="report_type">qweb-pdf</field>
+      <field name="report_name">hotel_housekeeping.housekeeping_report</field>
+      <field name="report_file">hotel_housekeeping.housekeeping_report</field>
+      <field name="binding_type">report</field>
+    </record>
+
+</odoo>

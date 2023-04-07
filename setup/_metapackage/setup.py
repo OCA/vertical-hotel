@@ -9,6 +9,10 @@ setuptools.setup(
     version=version,
     install_requires=[
         'odoo-addon-hotel>=15.0dev,<15.1dev',
+        'odoo-addon-hotel_housekeeping>=15.0dev,<15.1dev',
+        'odoo-addon-hotel_reservation>=15.0dev,<15.1dev',
+        'odoo-addon-hotel_restaurant>=15.0dev,<15.1dev',
+        'odoo-addon-report_hotel_restaurant>=15.0dev,<15.1dev',
     ],
     classifiers=[
         'Programming Language :: Python',
