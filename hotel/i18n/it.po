@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-04-12 15:35+0000\n"
+"PO-Revision-Date: 2023-04-21 14:34+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -349,7 +349,7 @@ msgstr "Può modificare il prodotto"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__can_image_1024_be_zoomed
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__can_image_1024_be_zoomed
 msgid "Can Image 1024 be zoomed"
-msgstr "L'immagine 1024 può essere ingrandita"
+msgstr "L'immagine 1024 può essere zoomata"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__can_image_variant_1024_be_zoomed
