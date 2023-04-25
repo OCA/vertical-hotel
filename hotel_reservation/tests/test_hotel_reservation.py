@@ -88,7 +88,7 @@ class TestReservation(common.TransactionCase):
 
         self.hotel_room = self.hotel_room_obj.create(
             {
-                "product_id": self.room.product_id.id,
+                "product_id": self.room.product_id.copy().id,
                 "floor_id": self.floor.id,
                 "max_adult": 2,
                 "max_child": 1,
