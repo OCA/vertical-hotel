@@ -24,7 +24,8 @@ class TestReservation(common.TransactionCase):
         self.pricelist = self.env.ref("product.list0")
         self.floor = self.env.ref("hotel.hotel_floor_ground0")
         self.manager = self.env.ref("base.user_root")
-        cur_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        cur_date = datetime.now()
+        end_date = cur_date + timedelta(days=1)
 
         self.hotel_reserv_line = self.hotel_reserv_line_obj.create(
             {
@@ -43,7 +44,7 @@ class TestReservation(common.TransactionCase):
                 "partner_id": self.partner.id,
                 "pricelist_id": self.pricelist.id,
                 "checkin": cur_date,
-                "checkout": cur_date,
+                "checkout": end_date,
                 "adults": 1,
                 "state": "draft",
                 "children": 1,
@@ -58,7 +59,7 @@ class TestReservation(common.TransactionCase):
             {
                 "name": "Room Reservation Summary",
                 "date_from": cur_date,
-                "date_to": cur_date,
+                "date_to": end_date,
             }
         )
 
@@ -66,7 +67,7 @@ class TestReservation(common.TransactionCase):
             {
                 "partner_id": self.partner.id,
                 "check_in": cur_date,
-                "check_out": cur_date,
+                "check_out": end_date,
                 "room_id": self.room.id,
                 "company_id": self.company.id,
                 "pricelist_id": self.pricelist.id,
@@ -81,7 +82,7 @@ class TestReservation(common.TransactionCase):
             {
                 "room_id": self.room.id,
                 "check_in": cur_date,
-                "check_out": cur_date,
+                "check_out": end_date,
             }
         )
 
