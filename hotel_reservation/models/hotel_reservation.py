@@ -101,6 +101,7 @@ class HotelReservation(models.Model):
         states={"draft": [("readonly", False)]},
         help="Number of children there in guest list.",
     )
+    # TODO: Name should be reservation_line_ids. Note the plural.
     reservation_line = fields.One2many(
         "hotel.reservation.line",
         "line_id",
@@ -120,6 +121,9 @@ class HotelReservation(models.Model):
         readonly=True,
         default="draft",
     )
+    # TODO: This is an M2M relationship, while in hotel.folio, the relationship
+    # is M2O. This cannot be correct.
+    # TODO: Field name should be plural.
     folio_id = fields.Many2many(
         "hotel.folio",
         "hotel_folio_reservation_rel",
@@ -513,7 +517,9 @@ class HotelReservationLine(models.Model):
     _description = "Reservation Line"
 
     name = fields.Char("Name")
+    # TODO: Rename to reservation_id
     line_id = fields.Many2one("hotel.reservation")
+    # TODO: Rename to room_id
     reserve = fields.Many2many(
         "hotel.room",
         "hotel_reservation_line_room_rel",
@@ -522,6 +528,7 @@ class HotelReservationLine(models.Model):
         domain="[('isroom','=',True),\
                                ('categ_id','=',categ_id)]",
     )
+    # TODO: Rename to room_type_id
     categ_id = fields.Many2one("hotel.room.type", "Room Type")
 
     @api.onchange("categ_id")
