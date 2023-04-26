@@ -142,7 +142,7 @@ class HotelReservation(models.Model):
             raise ValidationError(
                 _("Sorry, you can only delete the reservation when it's draft!")
             )
-        return super(HotelReservation, self).unlink()
+        return super().unlink()
 
     def copy(self):
         ctx = dict(self._context) or {}
@@ -590,18 +590,18 @@ class HotelReservationLine(models.Model):
         @return: True/False.
         """
         hotel_room_reserv_line_obj = self.env["hotel.room.reservation.line"]
-        for reserv_rec in self:
-            for rec in reserv_rec.reserve:
+        for line in self:
+            for room in line.reserve:
                 myobj = hotel_room_reserv_line_obj.search(
                     [
-                        ("room_id", "=", rec.id),
-                        ("reservation_id", "=", reserv_rec.line_id.id),
+                        ("room_id", "=", room.id),
+                        ("reservation_id", "=", line.line_id.id),
                     ]
                 )
                 if myobj:
-                    rec.write({"isroom": True, "status": "available"})
+                    room.write({"isroom": True, "status": "available"})
                     myobj.unlink()
-        return super(HotelReservationLine, self).unlink()
+        return super().unlink()
 
 
 class HotelRoomReservationLine(models.Model):
