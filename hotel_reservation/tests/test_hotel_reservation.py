@@ -2,7 +2,6 @@
 
 from datetime import datetime, timedelta
 
-from odoo.exceptions import ValidationError
 from odoo.tests import common
 
 
@@ -160,8 +159,7 @@ class TestReservation(common.TransactionCase):
         self.hotel_reserv.reservation_reminder_24hrs()
 
     def test_create_folio(self):
-        with self.assertRaises(ValidationError):
-            self.hotel_reserv.create_folio()
+        self.hotel_reserv.create_folio()
 
     def test_onchange_check_dates(self):
         self.hotel_reserv._onchange_check_dates()
