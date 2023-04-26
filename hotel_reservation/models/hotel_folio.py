@@ -9,7 +9,7 @@ class HotelFolio(models.Model):
     _order = "reservation_id desc"
 
     reservation_id = fields.Many2one(
-        "hotel.reservation", "Reservation", ondelete="restrict"
+        "hotel.reservation", "Reservation", ondelete="set null"
     )
 
     def write(self, vals):
