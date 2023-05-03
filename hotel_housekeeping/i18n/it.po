@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-04-26 18:34+0000\n"
-"Last-Translator: Francesco Foresti <francesco.foresti@ooops404.com>\n"
+"PO-Revision-Date: 2023-05-03 16:33+0000\n"
+"Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -252,12 +252,12 @@ msgstr "Categoria"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__route_from_categ_ids
 msgid "Category Routes"
-msgstr "Regole categoria"
+msgstr "Percorsi categoria"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__pos_categ_id
 msgid "Category used in the Point of Sale."
-msgstr "Categorie utilizzata nel punto vendita."
+msgstr "Categoria utilizzata nel punto vendita."
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__to_weight
@@ -611,7 +611,7 @@ msgstr ""
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__free_qty
 msgid "Free To Use Quantity "
-msgstr "Quantità da usare liberamente "
+msgstr "Quantità gratuita "
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__packaging_ids
@@ -621,7 +621,9 @@ msgstr "Consente di imballare diversamente lo stesso prodotto."
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__sequence
 msgid "Gives the sequence order when displaying a product list"
-msgstr "Dà l'ordine di sequenza nella visualizzazione di un elenco prodotti"
+msgstr ""
+"Fornisce la sequenza di ordinamento nella visualizzazione di un elenco "
+"prodotti"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields.selection,name:hotel_housekeeping.selection__hotel_housekeeping__quality__good
@@ -823,7 +825,7 @@ msgstr "Riferimento interno"
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__barcode
 msgid "International Article Number used for product identification."
 msgstr ""
-"Numero articolo internazionale utilizzato per l'identificazione prodotto."
+"Codice internazionale articolo utilizzato per l'identificazione del prodotto."
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__property_stock_inventory
@@ -833,7 +835,7 @@ msgstr "Ubicazione magazzino"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__valuation
 msgid "Inventory Valuation"
-msgstr "Valorizzazione magazzino"
+msgstr "Valutazione magazzino"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__invoice_policy
@@ -895,10 +897,9 @@ msgid ""
 " anglo-saxon accounting with automated valuation method is configured, the "
 "expense account on the product category will be used."
 msgstr ""
-"Lasciare questo campo libero per utilizzare il valore predefinito della "
-"categoria prodotto. Se è configurato un conto anglo-sassone con il metodo di "
-"valorizzazione automatica, verrà utilizzato il conto spese della categoria "
-"prodotto."
+"Lasciare il campo vuoto per utilizzare il valore predefinito dalla categoria "
+"prodotto. Se è configurato il metodo di valorizzazione della contabilità "
+"anglo-sassone, verrà utilizzato il conto spese nella categoria prodotto."
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity____last_update
@@ -964,11 +965,11 @@ msgid ""
 "Timesheets on contract: Invoice based on the tracked hours on the related timesheet.\n"
 "Create a task and track hours: Create a task on the sales order validation and track the work hours."
 msgstr ""
-"Imposta manualmente le quantità dell'ordine: fattura basata sulle quantità "
-"inserite manualmente, senza creare un conto analitico.\n"
-"Foglio ore a contratto: fattura basata sulle ore tracciate nel relativo "
+"Imposta manualmente la quantità nell'ordine: la fattura si basa sulle "
+"quantità inserite manualmente, senza la creazione di un conto analitico.\n"
+"Fogli ore a contratto: la fattura si basa sulle ore registrate del relativo "
 "foglio ore.\n"
-"Crea una attività e traccia le ore: crea una attività sulla validazione "
+"Crea una attività e traccia le ore: crea una attività alla validazione "
 "dell'ordine di vendita e traccia le ore lavorate."
 
 #. module: hotel_housekeeping
@@ -1160,7 +1161,7 @@ msgstr "Quantità disponibile"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__quantity_svl
 msgid "Quantity Svl"
-msgstr "Qualità Svl"
+msgstr "Quantità Svl"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__incoming_qty
@@ -1220,7 +1221,7 @@ msgstr "Max qta. riordine"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__reordering_min_qty
 msgid "Reordering Min Qty"
-msgstr "Min qta. riordine"
+msgstr "Quantità minima riordine"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__nbr_reordering_rules
@@ -1291,10 +1292,9 @@ msgid ""
 "Selecting \"Blocking Message\" will throw an exception with the message and "
 "block the flow. The Message has to be written in the next field."
 msgstr ""
-"Selezionando l'opzione \"Allerta\" l'utente verrà avvisato con il messaggio, "
-"selezionando \"Blocco messaggio\" verrà generata una eccezione con il "
-"messaggio e il blocco del flusso. Il messaggio deve essere scritto nel campo "
-"successivo."
+"Selezionando l'opzione \"Attenzione\" avviserà l'utente con il messaggio. "
+"Selezionando \"Ferma messaggi\" genererà un'eccezione con il messaggio e "
+"fermerà il flusso. Il messaggio deve essere scritto nel campo successivo."
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__sequence
