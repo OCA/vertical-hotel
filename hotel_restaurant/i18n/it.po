@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-04-26 18:34+0000\n"
-"Last-Translator: Francesco Foresti <francesco.foresti@ooops404.com>\n"
+"PO-Revision-Date: 2023-05-03 16:33+0000\n"
+"Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -90,7 +90,7 @@ msgstr "<strong>Foglio numero :</strong>"
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.report_order_bill
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.report_res_order_bill
 msgid "<strong>Folio Number</strong>"
-msgstr "<strong>Foglio Numero</strong>"
+msgstr "<strong>Numero foglio</strong>"
 
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.report_hotel_order_kot
@@ -198,17 +198,17 @@ msgstr "<strong>Subtotale</strong>"
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.report_order_bill
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.report_res_order_bill
 msgid "<strong>Table Information</strong>"
-msgstr "<strong>Informazione tabella</strong>"
+msgstr "<strong>Informazione tavolo</strong>"
 
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.report_hotel_order_kot
 msgid "<strong>Table Number</strong>"
-msgstr "<strong>Numero tabella</strong>"
+msgstr "<strong>Numero tavolo</strong>"
 
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.report_reserv_order
 msgid "<strong>Tables</strong>"
-msgstr "<strong>Tabelle</strong>"
+msgstr "<strong>Tavoli</strong>"
 
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.report_order_bill
@@ -325,7 +325,7 @@ msgstr "Valori attributo"
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__available_in_pos
 msgid "Available in POS"
-msgstr "Disponibile sul POS"
+msgstr "Disponibile nel POS"
 
 #. module: hotel_restaurant
 #: model:hotel.menucard,name:hotel_restaurant.hotel_fooditem_12
@@ -382,7 +382,7 @@ msgstr "Capacità"
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__route_from_categ_ids
 msgid "Category Routes"
-msgstr "Percorsi categorie"
+msgstr "Percorsi categoria"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__pos_categ_id
@@ -474,7 +474,7 @@ msgstr "Valuta costo"
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__cost_method
 msgid "Costing Method"
-msgstr "Metodo costificazione"
+msgstr "Metodo valorizzazione"
 
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_reservation_form
@@ -804,7 +804,7 @@ msgstr "Tipo articolo alimentare"
 #. module: hotel_restaurant
 #: model:ir.ui.menu,name:hotel_restaurant.menu_action_hotel_menucard_type_view_form
 msgid "Food Item Types"
-msgstr "Tipi articoli alimentari"
+msgstr "Tipi articolo alimentare"
 
 #. module: hotel_restaurant
 #: model:ir.ui.menu,name:hotel_restaurant.menu_open_hotel_menucard_form
@@ -819,12 +819,12 @@ msgstr "Responsabile alimentari"
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_menucard_form
 msgid "Food Type"
-msgstr "Tipo alimentare"
+msgstr "Tipo alimento"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__virtual_available
 msgid "Forecast Quantity"
-msgstr "Quantità previsionale"
+msgstr "Quantità prevista"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__virtual_available
@@ -875,17 +875,19 @@ msgstr "Genera conto"
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_reservation_order_form
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_order_form
 msgid "Generate KOT"
-msgstr "Genera KOT"
+msgstr "Genera comanda"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__packaging_ids
 msgid "Gives the different ways to package the same product."
-msgstr "Fornisce modi differenti per imballare lo stesso prodotto."
+msgstr "Consente di imballare diversamente lo stesso prodotto."
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__sequence
 msgid "Gives the sequence order when displaying a product list"
-msgstr "Fornisce l'ordine di sequenza nella visualizzazione un elenco prodotto"
+msgstr ""
+"Fornisce la sequenza di ordinamento nella visualizzazione di un elenco "
+"prodotti"
 
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_menucard_search_new
@@ -974,7 +976,7 @@ msgstr "Se selezionata, alcuni messaggi hanno un errore di consegna."
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__active
 msgid ""
 "If unchecked, it will allow you to hide the product without removing it."
-msgstr "Se inattivo, consente di nascondere i prodotti senza rimuoverli."
+msgstr "Se deselezionato, consente di nascondere un prodotto senza eliminarlo."
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__image_1920
@@ -1063,7 +1065,7 @@ msgstr ""
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__property_stock_inventory
 msgid "Inventory Location"
-msgstr "Ubicazione di magazzino"
+msgstr "Ubicazione magazzino"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__valuation
@@ -1121,7 +1123,7 @@ msgstr "Nome elemento"
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_kitchen_order_tickets_form
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_kitchen_order_tickets_tree
 msgid "KOT List"
-msgstr "Lista KOT"
+msgstr "Lista comande"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__property_account_income_id
@@ -1162,19 +1164,19 @@ msgstr "ID cucina"
 #: model:ir.ui.menu,name:hotel_restaurant.menu_open_view_hotel_restaurant_kitchen_order_tickets_form_tree
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.report_hotel_order_kot
 msgid "Kitchen Order Ticket"
-msgstr "Biglietto ordine cucina"
+msgstr "Comanda cucina"
 
 #. module: hotel_restaurant
 #: model:ir.actions.act_window,name:hotel_restaurant.open_view_hotel_restaurant_kitchen_order_tickets_form_tree
 #: model:ir.actions.report,name:hotel_restaurant.report_hotel_res_order_kot
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_order_list__kot_order_id
 msgid "Kitchen Order Tickets"
-msgstr "Biglietti ordine cucina"
+msgstr "Comande cucina"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_restaurant_kitchen_order_tickets__kot_list_ids
 msgid "Kitchen order list"
-msgstr "Elenco ordine cucina"
+msgstr "Elenco comanda cucina"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_folio_rest_reservation____last_update
@@ -1231,7 +1233,7 @@ msgstr "Elenco delle tasse cliente applicate al cibo particolare."
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_menucard_form
 msgid "List of supplier taxes applied on the perticular Food Item."
-msgstr "Elenco tasse fornitore applicate al cibo particolare."
+msgstr "Elenco tasse fornitore applicate all'alimento specifico."
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__location_id
@@ -1269,11 +1271,11 @@ msgid ""
 "Timesheets on contract: Invoice based on the tracked hours on the related timesheet.\n"
 "Create a task and track hours: Create a task on the sales order validation and track the work hours."
 msgstr ""
-"Imposta manualmente le quantità dell'ordine: fattura basata sulle quantità "
-"inserite manualmente, senza creare un conto analitico.\n"
-"Foglio ore a contratto: fattura basata sulle ore tracciate nel relativo "
+"Imposta manualmente la quantità nell'ordine: la fattura si basa sulle "
+"quantità inserite manualmente, senza la creazione di un conto analitico.\n"
+"Fogli ore a contratto: la fattura si basa sulle ore registrate del relativo "
 "foglio ore.\n"
-"Crea una attività e traccia le ore: crea una attività sulla validazione "
+"Crea una attività e traccia le ore: crea una attività alla validazione "
 "dell'ordine di vendita e traccia le ore lavorate."
 
 #. module: hotel_restaurant
@@ -1337,7 +1339,7 @@ msgstr "Tipologia prossima attività"
 #. module: hotel_restaurant
 #: model_terms:ir.actions.act_window,help:hotel_restaurant.action_hotel_menucard_form
 msgid "No Food Items"
-msgstr "Nessun cibo"
+msgstr "Nessun articolo alimentare"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__message_needaction_counter
@@ -1362,7 +1364,7 @@ msgstr "Numero di messaggi con errore di consegna"
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__pricelist_item_count
 msgid "Number of price rules"
-msgstr "Numero regole prezzo"
+msgstr "Numero di regole prezzi"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__message_unread_counter
@@ -1757,23 +1759,23 @@ msgstr "Ordine ristorante prenotato"
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_kitchen_order_search
 msgid "Restaurant kitchen Order"
-msgstr "Ordine cucina ristorante"
+msgstr "Comanda ristorante"
 
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.report_reserv_order
 msgid "Restaurants Orders Details"
-msgstr "Dettaglio ordini ristorante"
+msgstr "Dettagli ordini ristorante"
 
 #. module: hotel_restaurant
 #: model:ir.actions.report,name:hotel_restaurant.report_hotel_res_folio
 #: model:ir.actions.report,name:hotel_restaurant.report_hotel_res_folio1
 msgid "Restaurants Reports"
-msgstr "Resoconti ristorante"
+msgstr "Resoconti ristoranti"
 
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.report_rest_order
 msgid "Restaurants Reservation Order Details"
-msgstr "Dettagli ordine prenotazione ristorante"
+msgstr "Dettagli ordine prenotazione ristoranti"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_kitchen_order_tickets__room_no
@@ -1795,7 +1797,7 @@ msgstr "Percorsi"
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__has_available_route_ids
 msgid "Routes can be selected on this product"
-msgstr "I percorsi possono essere selezionati per questo prodotto"
+msgstr "I percorsi possono essere selezionati in questo prodotto"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__message_has_sms_error
@@ -1829,10 +1831,9 @@ msgid ""
 "Selecting \"Blocking Message\" will throw an exception with the message and "
 "block the flow. The Message has to be written in the next field."
 msgstr ""
-"Selezionando l'opzione \"Allerta\" l'utente verrà avvisato con il messaggio, "
-"selezionando \"Blocco messaggio\" verrà generata una eccezione con il "
-"messaggio e il blocco del flusso. Il messaggio deve essere scritto nel campo "
-"successivo."
+"Selezionando l'opzione \"Attenzione\" avviserà l'utente con il messaggio. "
+"Selezionando \"Ferma messaggi\" genererà un'eccezione con il messaggio e "
+"fermerà il flusso. Il messaggio deve essere scritto nel campo successivo."
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__sequence
