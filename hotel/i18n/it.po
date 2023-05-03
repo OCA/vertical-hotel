@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-04-26 18:35+0000\n"
-"Last-Translator: Francesco Foresti <francesco.foresti@ooops404.com>\n"
+"PO-Revision-Date: 2023-05-03 12:31+0000\n"
+"Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -356,7 +356,7 @@ msgstr "L'immagine 1024 può essere zoomata"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__can_image_variant_1024_be_zoomed
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__can_image_variant_1024_be_zoomed
 msgid "Can Variant Image 1024 be zoomed"
-msgstr "L'immagine variante 1024 può essere ingrandita"
+msgstr "L'immagine variante 1024 può essere zoomata"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__purchase_ok
@@ -436,7 +436,7 @@ msgstr "La data di check-out deve essere maggiore o uguale al check-in"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_type__child_id
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_type__child_id
 msgid "Child Categories"
-msgstr "Categorie derivate"
+msgstr "Categorie figlie"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__color
