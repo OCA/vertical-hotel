@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-10-31 19:43+0000\n"
+"PO-Revision-Date: 2023-05-03 16:33+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -57,12 +57,12 @@ msgstr "Ultima modifica il"
 #. module: report_hotel_restaurant
 #: model:ir.model,name:report_hotel_restaurant.model_report_hotel_restaurant_status
 msgid "Reservation By State"
-msgstr "Prenotazioni per stato"
+msgstr "Prenotazione per stato"
 
 #. module: report_hotel_restaurant
 #: model:ir.model.fields,field_description:report_hotel_restaurant.field_report_hotel_restaurant_status__reservation_id
 msgid "Reservation No"
-msgstr "N° prenotazione"
+msgstr "Nr. prenotazione"
 
 #. module: report_hotel_restaurant
 #: model:ir.model.fields,field_description:report_hotel_restaurant.field_report_hotel_restaurant_status__no_of_reservation_order
