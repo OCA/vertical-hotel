@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-05-03 16:33+0000\n"
+"PO-Revision-Date: 2023-05-09 13:44+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -1377,7 +1377,8 @@ msgstr "Calcolo tecnico"
 msgid ""
 "Technical field. Used for searching on pricelists, not stored in database."
 msgstr ""
-"Campo tecnico. Utilizzato per cercare nel listino, non salvato nel data base."
+"Campo tecnico. Utilizzato per la ricerca nei listini, non salvato nel "
+"database."
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__stock_move_ids
@@ -1391,9 +1392,8 @@ msgid ""
 "The sale price is managed from the product template. Click on the 'Configure"
 " Variants' button to set the extra attribute prices."
 msgstr ""
-"Il prezzo di vendita è gestito dal modello di prodotto. Fare clic sul "
-"pulsante 'Configura su varianti' per impostare gli extra prezzi sugli "
-"attributi."
+"Il prezzo di vendita è gestito dal modello prodotto. Fare clic sul pulsante "
+"'Configura varianti' per impostare i prezzi degli attributi extra."
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__price_extra
@@ -1426,8 +1426,8 @@ msgid ""
 "This user will be responsible of the next activities related to logistic "
 "operations for this product."
 msgstr ""
-"Questo utente sarà responsabile dell'azione successiva relative a operazioni "
-"logistiche per questo prodotto."
+"Questo utente sarà responsabile delle azioni successive relative alle "
+"operazioni logistiche per questo prodotto."
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__to_weight
@@ -1447,12 +1447,12 @@ msgstr "Della data odierna"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__service_type
 msgid "Track Service"
-msgstr "Servizio tracciatura"
+msgstr "Traccia servizio"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__tracking
 msgid "Tracking"
-msgstr "Tracciatura"
+msgstr "Tracciamento"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__activity_exception_decoration
@@ -1504,7 +1504,7 @@ msgstr "Aspirare"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__valid_product_template_attribute_line_ids
 msgid "Valid Product Attribute Lines"
-msgstr "Righe valide attributo prodotto"
+msgstr "Righe attributo prodotto valido"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__value_svl
@@ -1554,7 +1554,7 @@ msgstr "Tasse venditore"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__seller_ids
 msgid "Vendors"
-msgstr "Venditori"
+msgstr "Fornitori"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__volume
