@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-05-09 13:46+0000\n"
+"PO-Revision-Date: 2023-05-10 14:34+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -363,14 +363,14 @@ msgstr "L'immagine variante 1024 può essere zoomata"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__purchase_ok
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__purchase_ok
 msgid "Can be Purchased"
-msgstr "Può essere acquistata"
+msgstr "Può essere acquistato"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__sale_ok
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__sale_ok
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__sale_ok
 msgid "Can be Sold"
-msgstr "Può essere venduta"
+msgstr "Può essere venduto"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_folio_form
@@ -632,11 +632,10 @@ msgid ""
 msgstr ""
 "Quantità attuale di prodotti.\n"
 "In un contesto con una sola ubicazione di magazzino, include beni stoccati "
-"in questa ubicazione o qualsiasi delle sue secondarie.\n"
+"in questa ubicazione o qualsiasi delle sue figlie.\n"
 "In un contesto con un solo magazzino, include beni stoccati nell'ubicazione "
-"di magazzino di questo magazzino o qualsiasi delle secondarie.\n"
-"stoccate nell'ubicazione di magazzino di questo negozio, o qualsiasi delle "
-"sue secondarie.\n"
+"di questo magazzino o una qualsiasi delle figlie.\n"
+"Stoccate nell'ubicazione di questo negozio, o qualsiasi delle sue figlie.\n"
 "Altrimenti, include beni stoccati in qualsiasi ubicazione di tipo 'interno'."
 
 #. module: hotel
@@ -658,7 +657,7 @@ msgstr "Cliente"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__sale_delay
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__sale_delay
 msgid "Customer Lead Time"
-msgstr "Tempo attraversamento cliente"
+msgstr "Tempo attesa cliente"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio__access_url
@@ -697,21 +696,21 @@ msgstr "Data della firma."
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities__supplier_taxes_id
 #: model:ir.model.fields,help:hotel.field_hotel_services__supplier_taxes_id
 msgid "Default taxes used when buying the product."
-msgstr "Tasse predefinite utilizzate nell'acquisto del prodotto."
+msgstr "Tasse predefinite nell'acquisto del prodotto."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__taxes_id
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities__taxes_id
 #: model:ir.model.fields,help:hotel.field_hotel_services__taxes_id
 msgid "Default taxes used when selling the product."
-msgstr "Tasse predefinite nella vendita del prodotto."
+msgstr "Tasse predefinite quando si vende il prodotto."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__uom_id
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities__uom_id
 #: model:ir.model.fields,help:hotel.field_hotel_services__uom_id
 msgid "Default unit of measure used for all stock operations."
-msgstr "Unità di misura predefinita usata per tutte le operazioni di magazzino."
+msgstr "Unità di misura predefinita per tutte le operazioni di magazzino."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__uom_po_id
@@ -729,7 +728,7 @@ msgstr ""
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities__seller_ids
 #: model:ir.model.fields,help:hotel.field_hotel_services__seller_ids
 msgid "Define vendor pricelists."
-msgstr "Definire listino venditore."
+msgstr "Definire il listino fornitore."
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_kanban
