@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-05-09 13:44+0000\n"
+"PO-Revision-Date: 2023-05-10 14:34+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -21,7 +21,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__product_variant_count
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__product_variant_count
 msgid "# Product Variants"
-msgstr "# Varianti prodotto"
+msgstr "Nr. varianti prodotto"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_type__product_count
@@ -414,7 +414,7 @@ msgstr "Categoria utilizzata nel punto vendita."
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__checkin_date
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_line__checkin_date
 msgid "Check In"
-msgstr "Check in"
+msgstr "Check-in"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_folio_room_line__check_in
@@ -425,7 +425,7 @@ msgstr "Data check in"
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__checkout_date
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_line__checkout_date
 msgid "Check Out"
-msgstr "Check out"
+msgstr "Check-out"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_folio_room_line__check_out
@@ -439,8 +439,8 @@ msgstr "Data check out"
 msgid ""
 "Check if the product should be weighted using the hardware scale integration."
 msgstr ""
-"Controlla se il prodotto deve essere pesato usando l'integrazione della "
-"bilancia fisica."
+"Selezionare se il prodotto deve essere pesato utilizzando l'integrazione con "
+"la bilancia."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__available_in_pos
@@ -475,7 +475,7 @@ msgstr "Indice colore"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__combination_indices
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__combination_indices
 msgid "Combination Indices"
-msgstr "Indici di combinazione"
+msgstr "Indici assortimento"
 
 #. module: hotel
 #: model:ir.model,name:hotel.model_res_company
@@ -655,14 +655,13 @@ msgid ""
 "Otherwise, this includes goods stored in any Stock Location with 'internal' "
 "type."
 msgstr ""
-"Quantità attuale dei prodotti.\n"
-"Nel caso di una singola ubicazione di magazzino, include beni stoccati "
-"nell'ubicazione o una qualsiasi figlia.\n"
-"Nel caso di un singolo magazzino, include beni stoccati nell'ubicazione del "
-"magazzino o una qualsiasi delle figlie.\n"
-"Stoccata nell'ìubicazione del magazzino di questo negozio o una qualsiasi "
-"delle figlie.\n"
-"Altrimenti include beni stoccati in qualsiasi ubicazione di tipo 'interno'."
+"Quantità attuale di prodotti.\n"
+"In un contesto con una sola ubicazione di magazzino, include beni stoccati "
+"in questa ubicazione o qualsiasi delle sue figlie.\n"
+"In un contesto con un solo magazzino, include beni stoccati nell'ubicazione "
+"di questo magazzino o una qualsiasi delle figlie.\n"
+"Stoccate nell'ubicazione di questo negozio, o qualsiasi delle sue figlie.\n"
+"Altrimenti, include beni stoccati in qualsiasi ubicazione di tipo 'interno'."
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_line__product_custom_attribute_value_ids
@@ -683,7 +682,7 @@ msgstr "Cliente"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__sale_delay
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__sale_delay
 msgid "Customer Lead Time"
-msgstr "Tempo consegna cliente"
+msgstr "Tempo attesa cliente"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio__access_url
@@ -695,7 +694,7 @@ msgstr "URL portale cliente"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__partner_ref
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__partner_ref
 msgid "Customer Ref"
-msgstr "Riferimento cliente"
+msgstr "Rif. cliente"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__client_order_ref
@@ -722,7 +721,7 @@ msgstr "Data della firma."
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities__supplier_taxes_id
 #: model:ir.model.fields,help:hotel.field_hotel_services__supplier_taxes_id
 msgid "Default taxes used when buying the product."
-msgstr "Tasse predefinite utilizzate all'acquisto del prodotto."
+msgstr "Tasse predefinite nell'acquisto del prodotto."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__taxes_id
@@ -736,7 +735,7 @@ msgstr "Tasse predefinite quando si vende il prodotto."
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities__uom_id
 #: model:ir.model.fields,help:hotel.field_hotel_services__uom_id
 msgid "Default unit of measure used for all stock operations."
-msgstr "Unità di misura utilizzata per tutte le operazioni di magazzino."
+msgstr "Unità di misura predefinita per tutte le operazioni di magazzino."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__uom_po_id
@@ -746,15 +745,15 @@ msgid ""
 "Default unit of measure used for purchase orders. It must be in the same "
 "category as the default unit of measure."
 msgstr ""
-"Unità di misura predefinita per gli ordini di acquisto. Deve essere della "
-"stessa categoria dell'unità di misura predefinita."
+"Unità di misura predefinita utilizzata per ordini di acquisto. Deve essere "
+"della stessa categoria dell'unità di misura predefinita."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__seller_ids
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities__seller_ids
 #: model:ir.model.fields,help:hotel.field_hotel_services__seller_ids
 msgid "Define vendor pricelists."
-msgstr "Definizione listino fornitore."
+msgstr "Definire il listino fornitore."
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_kanban
