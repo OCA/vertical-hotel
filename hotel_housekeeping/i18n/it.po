@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-05-09 13:44+0000\n"
+"PO-Revision-Date: 2023-05-10 14:34+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -200,7 +200,7 @@ msgstr "Medio"
 #. module: hotel_housekeeping
 #: model:ir.model.fields.selection,name:hotel_housekeeping.selection__hotel_housekeeping__quality__bad
 msgid "Bad"
-msgstr "Errato"
+msgstr "Scadente"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__barcode
@@ -276,12 +276,12 @@ msgstr "Selezionare per visualizzare il prodotto nel punto vendita."
 #. module: hotel_housekeeping
 #: model:ir.model.fields.selection,name:hotel_housekeeping.selection__hotel_housekeeping__clean_type__checkin
 msgid "Check-In"
-msgstr "Check-In"
+msgstr "Check-in"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields.selection,name:hotel_housekeeping.selection__hotel_housekeeping__clean_type__checkout
 msgid "Check-Out"
-msgstr "Check-Out"
+msgstr "Check-out"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_housekeeping_activities__is_dirty
@@ -324,7 +324,7 @@ msgstr "Indice colore"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__combination_indices
 msgid "Combination Indices"
-msgstr "Indici combinazione"
+msgstr "Indici assortimento"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__company_id
@@ -382,9 +382,8 @@ msgstr ""
 "In un contesto con una sola ubicazione di magazzino, include beni stoccati "
 "in questa ubicazione o qualsiasi delle sue figlie.\n"
 "In un contesto con un solo magazzino, include beni stoccati nell'ubicazione "
-"di questo magazzino o qualsiasi delle sue figlie.\n"
-"Stoccate nell'ubicazione di magazzino di questo negozio, o qualsiasi delle "
-"sue figlie.\n"
+"di questo magazzino o una qualsiasi delle figlie.\n"
+"Stoccate nell'ubicazione di questo negozio, o qualsiasi delle sue figlie.\n"
 "Altrimenti, include beni stoccati in qualsiasi ubicazione di tipo 'interno'."
 
 #. module: hotel_housekeeping
@@ -405,12 +404,12 @@ msgstr "Tasse cliente"
 #. module: hotel_housekeeping
 #: model:ir.model.fields.selection,name:hotel_housekeeping.selection__hotel_housekeeping__clean_type__daily
 msgid "Daily"
-msgstr "Giornaliero"
+msgstr "Giornaliera"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__supplier_taxes_id
 msgid "Default taxes used when buying the product."
-msgstr "Tasse predefinite quando si acquista il prodotto."
+msgstr "Tasse predefinite nell'acquisto del prodotto."
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__taxes_id
@@ -428,13 +427,13 @@ msgid ""
 "Default unit of measure used for purchase orders. It must be in the same "
 "category as the default unit of measure."
 msgstr ""
-"Unità di misura predefinita per gli ordini di acquisto. Deve essere della "
-"stessa categoria dell'unità di misura predefinita."
+"Unità di misura predefinita utilizzata per ordini di acquisto. Deve essere "
+"della stessa categoria dell'unità di misura predefinita."
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__seller_ids
 msgid "Define vendor pricelists."
-msgstr "Definire il listino venditore."
+msgstr "Definire il listino fornitore."
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__sale_delay
