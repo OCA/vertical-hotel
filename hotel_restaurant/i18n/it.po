@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-05-10 14:34+0000\n"
+"PO-Revision-Date: 2023-05-11 17:34+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -640,12 +640,12 @@ msgstr "Descrizione negli ordini di consegna"
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__description_picking
 msgid "Description on Picking"
-msgstr "Descrizione nel prelievo"
+msgstr "Descrizione sul prelievo"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__description_pickingin
 msgid "Description on Receptions"
-msgstr "Descrizione al ricevimento"
+msgstr "Descrizione sulla ricezione"
 
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_menucard_form
@@ -716,7 +716,7 @@ msgstr "Ora termine"
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__tracking
 msgid "Ensure the traceability of a storable product in your warehouse."
-msgstr "Consente la tracciabilità di un prodotto stoccabile nel magazzino."
+msgstr "Assicura la tracciabilità di un prodotto stoccabile nel magazzino."
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__property_account_expense_id
@@ -730,9 +730,9 @@ msgid ""
 " a validated expense can be re-invoice to a customer at its cost or sales "
 "price."
 msgstr ""
-"Spese e fattura venditore possono essere rifatturate a un cliente. Con "
+"Spese e fatture fornitore possono essere rifatturate ad un cliente. Con "
 "questa opzione, una spesa validata può essere rifatturata ad un cliente al "
-"suo costo o prezzo di listino."
+"suo costo o a prezzo di vendita."
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_reservation_order__folio_id
@@ -974,7 +974,7 @@ msgstr "Se selezionata, alcuni messaggi hanno un errore di consegna."
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__active
 msgid ""
 "If unchecked, it will allow you to hide the product without removing it."
-msgstr "Se deselezionato, consente di nascondere un prodotto senza eliminarlo."
+msgstr "Se deselezionata, consente di nascondere un prodotto senza eliminarlo."
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__image_1920
@@ -1037,12 +1037,12 @@ msgstr "Include il tavolo ristorante dell'hotel"
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__property_account_income_id
 msgid "Income Account"
-msgstr "Conto entrate"
+msgstr "Conto ricavi"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__incoming_qty
 msgid "Incoming"
-msgstr "Ingresso"
+msgstr "In ingresso"
 
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_menucard_form
@@ -1128,8 +1128,8 @@ msgstr "Lista comande"
 msgid ""
 "Keep this field empty to use the default value from the product category."
 msgstr ""
-"Lasciare questo campo libero per utilizzare il valore predefinito della "
-"categoria prodotto."
+"Lasciare il campo vuoto per utilizzare il valore predefinito della categoria "
+"prodotto."
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__property_account_expense_id
