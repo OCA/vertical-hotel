@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-05-10 14:34+0000\n"
+"PO-Revision-Date: 2023-05-11 17:34+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -784,8 +784,8 @@ msgid ""
 "Delivery lead time, in days. It's the number of days, promised to the "
 "customer, between the confirmation of the sales order and the delivery."
 msgstr ""
-"Tempo attraversamento consegna, in giorni. È il numero di giorni, comunicati "
-"al cliente, tra la conferma dell'ordine di vendita e la consegna."
+"Tempo di consegna, in giorni. È il numero di giorni promesso al cliente, tra "
+"la conferma dell'ordine di vendita e la consegna."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__route_ids
@@ -816,7 +816,7 @@ msgstr "Descrizione"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__description_pickingout
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__description_pickingout
 msgid "Description on Delivery Orders"
-msgstr "Descrizione su ordini di consegna"
+msgstr "Descrizione negli ordini di consegna"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__description_picking
@@ -830,7 +830,7 @@ msgstr "Descrizione sul prelievo"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__description_pickingin
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__description_pickingin
 msgid "Description on Receptions"
-msgstr "Descrizione su ricezioni"
+msgstr "Descrizione sulla ricezione"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_amenities_form
@@ -972,7 +972,7 @@ msgid ""
 "a validated expense can be re-invoice to a customer at its cost or sales "
 "price."
 msgstr ""
-"Spese e fatture fornitori possono essere rifatturate ad un cliente. Con "
+"Spese e fatture fornitore possono essere rifatturate ad un cliente. Con "
 "questa opzione, una spesa validata può essere rifatturata ad un cliente al "
 "suo costo o a prezzo di vendita."
 
@@ -1397,7 +1397,7 @@ msgstr "Se selezionata, alcuni messaggi hanno un errore di consegna."
 #: model:ir.model.fields,help:hotel.field_hotel_services__active
 msgid ""
 "If unchecked, it will allow you to hide the product without removing it."
-msgstr "Se deselezionato, consente di nascondere un prodotto senza eliminarlo."
+msgstr "Se deselezionata, consente di nascondere un prodotto senza eliminarlo."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio__pricelist_id
@@ -1479,14 +1479,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_type__property_account_income_categ_id
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__property_account_income_id
 msgid "Income Account"
-msgstr "Conto entrate"
+msgstr "Conto ricavi"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__incoming_qty
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__incoming_qty
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__incoming_qty
 msgid "Incoming"
-msgstr "Entrate"
+msgstr "In ingresso"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__incoterm
@@ -1505,7 +1505,7 @@ msgstr "Informazione"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__default_code
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__default_code
 msgid "Internal Reference"
-msgstr "referenza interna"
+msgstr "Riferimento Interno"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__barcode
@@ -1814,10 +1814,10 @@ msgid ""
 "inventory when a product enters or leaves the company.\n"
 "        "
 msgstr ""
-"Manuale: le scritture contabili per valorizzare il magazzino non sono "
-"inserite automaticamente.\n"
-"        Automatiche: una registrazione contabile è creata automaticamente "
-"per valorizzare il magazzino quando un prodotto entra o esce dall'azienda.\n"
+"Manuale: le registrazioni contabili per la valorizzazione del magazzino non "
+"sono inserite automaticamente.\n"
+"        Automatico: una registrazione contabile è creata automaticamente per "
+"valorizzare il magazzino quando un prodotto entra o esce dall'azienda.\n"
 "        "
 
 #. module: hotel
