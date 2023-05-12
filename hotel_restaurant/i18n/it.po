@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2023-05-12 13:00+0000\n"
-"Last-Translator: Francesco Foresti <francesco.foresti@ooops404.com>\n"
+"Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -1441,7 +1441,7 @@ msgstr "Ordini"
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__outgoing_qty
 msgid "Outgoing"
-msgstr "Uscita"
+msgstr "In partenza"
 
 #. module: hotel_restaurant
 #: model:hotel.menucard,name:hotel_restaurant.hotel_fooditem_6
@@ -1505,7 +1505,7 @@ msgstr "Prezzo"
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__list_price
 msgid "Price at which the product is sold to customers."
-msgstr "Prezzo a cui il prodotto è venduto al cliente."
+msgstr "Prezzo di vendita del prodotto al cliente."
 
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.hotel_manucard_kanban_view
@@ -1781,7 +1781,7 @@ msgstr "Dettagli ordine prenotazione ristoranti"
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_order__room_id
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_restaurant_reservation__room_id
 msgid "Room No"
-msgstr "Camera nr."
+msgstr "Camera n°"
 
 #. module: hotel_restaurant
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_restaurant_reservation_search
@@ -1830,9 +1830,10 @@ msgid ""
 "Selecting \"Blocking Message\" will throw an exception with the message and "
 "block the flow. The Message has to be written in the next field."
 msgstr ""
-"Selezionando l'opzione \"Attenzione\" avviserà l'utente con il messaggio. "
-"Selezionando \"Ferma messaggi\" genererà un'eccezione con il messaggio e "
-"fermerà il flusso. Il messaggio deve essere scritto nel campo successivo."
+"Selezionando l'opzione \"Attenzione\" l'utente verrà avvisato con il "
+"messaggio. Selezionando \"Ferma messaggi\" genererà un'eccezione con il "
+"messaggio e fermerà il flusso. Il messaggio deve essere scritto nel campo "
+"successivo."
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__sequence
@@ -1848,7 +1849,7 @@ msgstr "Imposta a bozza"
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__sales_count
 msgid "Sold"
-msgstr "Venduto"
+msgstr "Venduta"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__cost_method
