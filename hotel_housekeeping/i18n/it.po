@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2023-05-12 13:00+0000\n"
-"Last-Translator: Francesco Foresti <francesco.foresti@ooops404.com>\n"
+"Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -1064,7 +1064,7 @@ msgstr ""
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__outgoing_qty
 msgid "Outgoing"
-msgstr "Uscita"
+msgstr "In partenza"
 
 #. module: hotel_housekeeping
 #: code:addons/hotel_housekeeping/models/hotel_housekeeping.py:0
@@ -1085,7 +1085,7 @@ msgstr "Prezzo"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__list_price
 msgid "Price at which the product is sold to customers."
-msgstr "Prezzo a cui il prodotto è venduto al cliente."
+msgstr "Prezzo di vendita del prodotto al cliente."
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__pricelist_id
@@ -1120,7 +1120,7 @@ msgstr "Tipo prodotto"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__property_stock_production
 msgid "Production Location"
-msgstr "Ubicazione prodotto"
+msgstr "Ubicazione produzione"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__product_variant_ids
@@ -1215,7 +1215,7 @@ msgstr "Riferimento"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__reordering_max_qty
 msgid "Reordering Max Qty"
-msgstr "Max qta. riordine"
+msgstr "Quantità massima riordine"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__reordering_min_qty
@@ -1252,7 +1252,7 @@ msgstr "Pulizia camera"
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping__room_id
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_wizard__room_id
 msgid "Room No"
-msgstr "Nr. camera"
+msgstr "Camera n°"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__route_ids
@@ -1272,7 +1272,7 @@ msgstr "Errore consegna SMS"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__description_sale
 msgid "Sales Description"
-msgstr "Descrizione vendita"
+msgstr "Descrizione vendite"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__sale_line_warn
@@ -1291,9 +1291,10 @@ msgid ""
 "Selecting \"Blocking Message\" will throw an exception with the message and "
 "block the flow. The Message has to be written in the next field."
 msgstr ""
-"Selezionando l'opzione \"Attenzione\" avviserà l'utente con il messaggio. "
-"Selezionando \"Ferma messaggi\" genererà un'eccezione con il messaggio e "
-"fermerà il flusso. Il messaggio deve essere scritto nel campo successivo."
+"Selezionando l'opzione \"Attenzione\" l'utente verrà avvisato con il "
+"messaggio. Selezionando \"Ferma messaggi\" genererà un'eccezione con il "
+"messaggio e fermerà il flusso. Il messaggio deve essere scritto nel campo "
+"successivo."
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__sequence
@@ -1303,7 +1304,7 @@ msgstr "Sequenza"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__sales_count
 msgid "Sold"
-msgstr "Venduto"
+msgstr "Venduta"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__cost_method
