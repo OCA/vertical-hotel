@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-05-11 17:34+0000\n"
+"PO-Revision-Date: 2023-05-12 10:47+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -2315,7 +2315,7 @@ msgstr "Product_id"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__property_stock_production
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__property_stock_production
 msgid "Production Location"
-msgstr "Ubicazione prodotto"
+msgstr "Ubicazione produzione"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__product_variant_ids
@@ -2495,14 +2495,14 @@ msgstr "Noleggio (UdM)"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__reordering_max_qty
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__reordering_max_qty
 msgid "Reordering Max Qty"
-msgstr "Max qta riordine"
+msgstr "Quantità massima riordine"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__reordering_min_qty
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__reordering_min_qty
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__reordering_min_qty
 msgid "Reordering Min Qty"
-msgstr "Min qta riordine"
+msgstr "Quantità minima riordine"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__nbr_reordering_rules
@@ -2629,7 +2629,7 @@ msgstr "Manager camera"
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_folio_form
 msgid "Room No"
-msgstr "Nr camera"
+msgstr "Camera n°"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__room_line_ids
@@ -2737,7 +2737,7 @@ msgstr "Fattura di vendita con pagamento anticipato"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__description_sale
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__description_sale
 msgid "Sales Description"
-msgstr "Descrizione vendita"
+msgstr "Descrizione vendite"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__sale_line_warn
@@ -2799,9 +2799,10 @@ msgid ""
 "Selecting \"Blocking Message\" will throw an exception with the message and "
 "block the flow. The Message has to be written in the next field."
 msgstr ""
-"Selezionando l'opzione \"Attenzione\" avviserà l'utente con il messaggio. "
-"Selezionando \"Ferma messaggi\" genererà un'eccezione con il messaggio e "
-"fermerà il flusso. Il messaggio deve essere scritto nel campo successivo."
+"Selezionando l'opzione \"Attenzione\" l'utente verrà avvisato con il "
+"messaggio. Selezionando \"Ferma messaggi\" genererà un'eccezione con il "
+"messaggio e fermerà il flusso. Il messaggio deve essere scritto nel campo "
+"successivo."
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_line__sequence
@@ -3007,12 +3008,12 @@ msgid ""
 "that enter the company first will also leave it first.\n"
 "        "
 msgstr ""
-"Prezzo standard: i prodotti sono valorizzati al loro costostandard definito "
-"nel prodotto.\n"
-"        Costo medio (AVCO): i prodotti sono valorizzati al costo medio "
+"Prezzo standard: i prodotti vengono valorizzati al loro costo standard "
+"definito nel prodotto.\n"
+"        Costo medio (CoMe): i prodotti vengono valorizzati al costo medio "
 "pesato.\n"
 "        First In First Out (FIFO): i prodotti sono valorizzati supponendo "
-"che quelli entrati per primi siano usciti per primi.\n"
+"che i primi che entrano siano i primi che escono.\n"
 "        "
 
 #. module: hotel
