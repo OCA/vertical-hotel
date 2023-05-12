@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-05-11 17:34+0000\n"
+"PO-Revision-Date: 2023-05-12 10:47+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -1011,47 +1011,47 @@ msgstr "Scadenza prossima attività"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__activity_summary
 msgid "Next Activity Summary"
-msgstr ""
+msgstr "Riepilogo prossima attività"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__activity_type_id
 msgid "Next Activity Type"
-msgstr ""
+msgstr "Tipo prossima attività"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__message_needaction_counter
 msgid "Number of Actions"
-msgstr ""
+msgstr "Numero di azioni"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__message_has_error_counter
 msgid "Number of errors"
-msgstr ""
+msgstr "Numero di errori"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__message_needaction_counter
 msgid "Number of messages which requires an action"
-msgstr ""
+msgstr "Numero di messaggi che richiedono una azione"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr ""
+msgstr "Numero di messaggi con un errore di consegna"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__pricelist_item_count
 msgid "Number of price rules"
-msgstr ""
+msgstr "Numero di regole prezzi"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__message_unread_counter
 msgid "Number of unread messages"
-msgstr ""
+msgstr "Numero di messaggi non letti"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields.selection,name:hotel_housekeeping.selection__hotel_housekeeping__quality__ok
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__invoice_policy
@@ -1059,107 +1059,109 @@ msgid ""
 "Ordered Quantity: Invoice quantities ordered by the customer.\n"
 "Delivered Quantity: Invoice quantities delivered to the customer."
 msgstr ""
+"Quantità ordinata: fattura quantità ordinate dal cliente.\n"
+"Quantità consegnata: fattura quantità consegnate al cliente."
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__outgoing_qty
 msgid "Outgoing"
-msgstr ""
+msgstr "In partenza"
 
 #. module: hotel_housekeeping
 #: code:addons/hotel_housekeeping/models/hotel_housekeeping.py:0
 #, python-format
 msgid "Please update quality of work!"
-msgstr ""
+msgstr "Si prega di aggiornare la qualità del lavoro!"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__pos_categ_id
 msgid "Point of Sale Category"
-msgstr ""
+msgstr "Categoria punto vendita"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__price
 msgid "Price"
-msgstr ""
+msgstr "Prezzo"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__list_price
 msgid "Price at which the product is sold to customers."
-msgstr ""
+msgstr "Prezzo di vendita del prodotto al cliente."
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__pricelist_id
 msgid "Pricelist"
-msgstr ""
+msgstr "Listino prezzi"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__product_variant_id
 msgid "Product"
-msgstr ""
+msgstr "Prodotto"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__attribute_line_ids
 msgid "Product Attributes"
-msgstr ""
+msgstr "Attributi prodotto"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__packaging_ids
 msgid "Product Packages"
-msgstr ""
+msgstr "Imballi prodotto"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__product_tmpl_id
 msgid "Product Template"
-msgstr ""
+msgstr "Modello prodotto"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__type
 msgid "Product Type"
-msgstr ""
+msgstr "Tipo prodotto"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__property_stock_production
 msgid "Production Location"
-msgstr ""
+msgstr "Ubicazione produzione"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__product_variant_ids
 msgid "Products"
-msgstr ""
+msgstr "Prodotti"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__lst_price
 msgid "Public Price"
-msgstr ""
+msgstr "Prezzo pubblico"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__description_purchase
 msgid "Purchase Description"
-msgstr ""
+msgstr "Descrizione acquisto"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__uom_po_id
 msgid "Purchase Unit of Measure"
-msgstr ""
+msgstr "Unità di misura acquisto"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__putaway_rule_ids
 msgid "Putaway Rules"
-msgstr ""
+msgstr "Regole di stoccaggio"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping__quality
 msgid "Quality"
-msgstr ""
+msgstr "Qualità"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__qty_available
 msgid "Quantity On Hand"
-msgstr ""
+msgstr "Quantità disponibile"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__quantity_svl
 msgid "Quantity Svl"
-msgstr ""
+msgstr "Quantità Svl"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__incoming_qty
@@ -1169,6 +1171,12 @@ msgid ""
 "In a context with a single Warehouse, this includes goods arriving to the Stock Location of this Warehouse, or any of its children.\n"
 "Otherwise, this includes goods arriving to any Stock Location with 'internal' type."
 msgstr ""
+"Quantità dei prodotti in ingresso pianificati.\n"
+"Nel caso di una singola ubicazione di magazzino, include i beni in arrivo in "
+"questa ubicazione, o una delle sue figlie.\n"
+"Nel caso di un singolo magazzino, include i beni in arrivo nella ubicazione "
+"di questo magazzino, o una delle sue figlie.\n"
+"Altrimenti, include beni in arrivo in qualsiasi ubicazione di tipo 'interno'."
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__outgoing_qty
@@ -1178,98 +1186,104 @@ msgid ""
 "In a context with a single Warehouse, this includes goods leaving the Stock Location of this Warehouse, or any of its children.\n"
 "Otherwise, this includes goods leaving any Stock Location with 'internal' type."
 msgstr ""
+"Quantità dei prodotti in uscita pianificati.\n"
+"Nel caso di una singola ubicazione di magazzino, include i beni in uscita da "
+"questa ubicazione, o una delle sue figlie.\n"
+"Nel caso di un singolo magazzino, include i beni in partenza dalla "
+"ubicazione di questo magazzino, o una delle sue figlie.\n"
+"Altrimenti, include beni in uscita in qualsiasi ubicazione di tipo 'interno'."
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__visible_qty_configurator
 msgid "Quantity visible in configurator"
-msgstr ""
+msgstr "Quantità visibile nel configuratore"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__expense_policy
 msgid "Re-Invoice Expenses"
-msgstr ""
+msgstr "Spese di rifatturazione"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__visible_expense_policy
 msgid "Re-Invoice Policy visible"
-msgstr ""
+msgstr "Politica rifatturazione visibile"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__code
 msgid "Reference"
-msgstr ""
+msgstr "Riferimento"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__reordering_max_qty
 msgid "Reordering Max Qty"
-msgstr ""
+msgstr "Quantità massima riordine"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__reordering_min_qty
 msgid "Reordering Min Qty"
-msgstr ""
+msgstr "Quantità minima riordine"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__nbr_reordering_rules
 msgid "Reordering Rules"
-msgstr ""
+msgstr "Regole riordine"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_activities__housekeeping_id
 msgid "Reservation"
-msgstr ""
+msgstr "Prenotazione"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__responsible_id
 msgid "Responsible"
-msgstr ""
+msgstr "Responsabile"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__activity_user_id
 msgid "Responsible User"
-msgstr ""
+msgstr "Utente responsabile"
 
 #. module: hotel_housekeeping
 #: model:hotel.activity,name:hotel_housekeeping.hotel_room_activities_1
 #: model:product.product,name:hotel_housekeeping.hotel_room_activities_1_product_product
 msgid "Room Cleaning"
-msgstr ""
+msgstr "Pulizia camera"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping__room_id
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_wizard__room_id
 msgid "Room No"
-msgstr ""
+msgstr "Camera n°"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__route_ids
 msgid "Routes"
-msgstr ""
+msgstr "Percorsi"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__has_available_route_ids
 msgid "Routes can be selected on this product"
-msgstr ""
+msgstr "I percorsi possono essere selezionati in questo prodotto"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__message_has_sms_error
 msgid "SMS Delivery error"
-msgstr ""
+msgstr "Errore consegna SMS"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__description_sale
 msgid "Sales Description"
-msgstr ""
+msgstr "Descrizione vendite"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__sale_line_warn
 msgid "Sales Order Line"
-msgstr ""
+msgstr "Riga ordine di vendita"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__list_price
 msgid "Sales Price"
-msgstr ""
+msgstr "Prezzo di vendita"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__sale_line_warn
@@ -1278,16 +1292,20 @@ msgid ""
 "Selecting \"Blocking Message\" will throw an exception with the message and "
 "block the flow. The Message has to be written in the next field."
 msgstr ""
+"Selezionando l'opzione \"Attenzione\" l'utente verrà avvisato con il "
+"messaggio. Selezionando \"Ferma messaggi\" genererà un'eccezione con il "
+"messaggio e fermerà il flusso. Il messaggio deve essere scritto nel campo "
+"successivo."
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__sequence
 msgid "Sequence"
-msgstr ""
+msgstr "Sequenza"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__sales_count
 msgid "Sold"
-msgstr ""
+msgstr "Venduta"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__cost_method
@@ -1297,17 +1315,24 @@ msgid ""
 "        First In First Out (FIFO): The products are valued supposing those that enter the company first will also leave it first.\n"
 "        "
 msgstr ""
+"Prezzo standard: i prodotti vengono valorizzati al loro costo standard "
+"definito nel prodotto.\n"
+"        Costo medio (CoMe): i prodotti vengono valorizzati al costo medio "
+"pesato.\n"
+"        First In First Out (FIFO): i prodotti sono valorizzati supponendo "
+"che i primi che entrano siano i primi che escono.\n"
+"        "
 
 #. module: hotel_housekeeping
 #: code:addons/hotel_housekeeping/models/hotel_housekeeping_activities.py:0
 #, python-format
 msgid "Start Date Should be less than the End Date!"
-msgstr ""
+msgstr "La data di inizio deve essere inferiore alla data di fine!"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping__state
 msgid "State"
-msgstr ""
+msgstr "Stato"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__activity_state
@@ -1317,21 +1342,25 @@ msgid ""
 "Today: Activity date is today\n"
 "Planned: Future activities."
 msgstr ""
+"Stato in base alle attività\n"
+"Scaduto: la data richiesta è trascorsa\n"
+"Oggi: la data attività è oggi\n"
+"Pianificato: attività future."
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__stock_move_ids
 msgid "Stock Move"
-msgstr ""
+msgstr "Movimento di magazzino"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__stock_quant_ids
 msgid "Stock Quant"
-msgstr ""
+msgstr "Quanto di magazzino"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__stock_valuation_layer_ids
 msgid "Stock Valuation Layer"
-msgstr ""
+msgstr "Livello valutazione magazzino"
 
 #. module: hotel_housekeeping
 #: model:hotel.activity,name:hotel_housekeeping.hotel_room_activities_5
