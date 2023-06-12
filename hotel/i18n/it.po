@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-06-07 17:12+0000\n"
+"PO-Revision-Date: 2023-06-12 17:09+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -3235,8 +3235,8 @@ msgid ""
 "This is a name that helps you keep track of your different campaign efforts, "
 "e.g. Fall_Drive, Christmas_Special"
 msgstr ""
-"Questo è un nome che aiuta a tenere traccia degli sforzi delle diverse "
-"cmpagne, es. Fall_drive, Christmas_special"
+"Questo è un nome che aiuta a tenere traccia dell'impegno nelle diverse "
+"campagne, es. Fall_drive, Christmas_special"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio__commitment_date
@@ -3251,9 +3251,7 @@ msgstr ""
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio__medium_id
 msgid "This is the method of delivery, e.g. Postcard, Email, or Banner Ad"
-msgstr ""
-"Questo è il metodo di consegna, es. Cartolina, emial o striscione "
-"pubblicitario"
+msgstr "Metodo di consegna: es. lettera, e-mail o banner pubblicitario"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio__source_id
