@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-05-12 10:47+0000\n"
-"Last-Translator: Francesco Foresti <francesco.foresti@ooops404.com>\n"
+"PO-Revision-Date: 2023-07-10 10:10+0000\n"
+"Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.14.1\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: report_hotel_reservation
 #: model:ir.model.fields.selection,name:report_hotel_reservation.selection__report_hotel_reservation_status__state__confirm
@@ -57,7 +57,7 @@ msgstr "Ultima modifica il"
 #. module: report_hotel_reservation
 #: model:ir.ui.menu,name:report_hotel_reservation.menu_hotel_reporting
 msgid "Reports"
-msgstr "Rendiconto"
+msgstr "Resoconti"
 
 #. module: report_hotel_reservation
 #: model:ir.model.fields,field_description:report_hotel_reservation.field_report_hotel_reservation_status__no_of_reservation
