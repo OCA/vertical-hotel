@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-07-12 12:15+0000\n"
+"PO-Revision-Date: 2023-07-17 17:16+0000\n"
 "Last-Translator: Francesco Foresti <francesco.foresti@ooops404.com>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -1116,7 +1116,7 @@ msgstr "Modello prodotto"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__type
 msgid "Product Type"
-msgstr "Tipo prodotto"
+msgstr "Tipologia prodotto"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__property_stock_production
