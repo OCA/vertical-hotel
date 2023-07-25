@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-07-17 17:16+0000\n"
+"PO-Revision-Date: 2023-07-25 12:10+0000\n"
 "Last-Translator: Francesco Foresti <francesco.foresti@ooops404.com>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -1505,7 +1505,7 @@ msgstr "Informazione"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__default_code
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__default_code
 msgid "Internal Reference"
-msgstr "Riferimento Interno"
+msgstr "Riferimento interno"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__barcode
