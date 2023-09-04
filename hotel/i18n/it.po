@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-09-03 13:38+0000\n"
+"PO-Revision-Date: 2023-09-04 18:40+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -2781,7 +2781,7 @@ msgstr "Data programmata"
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__access_token
 msgid "Security Token"
-msgstr "Chiave di sicurezza"
+msgstr "Token di sicurezza"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__categ_id
