@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-09-17 22:53+0000\n"
+"PO-Revision-Date: 2023-09-21 15:38+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -3110,7 +3110,7 @@ msgstr "Livello valutazione magazzino"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__storage_category_capacity_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__storage_category_capacity_ids
 msgid "Storage Category Capacity"
-msgstr "Categoria capacità stoccaggio"
+msgstr "Capacità categoria stoccaggio"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_line__price_subtotal
