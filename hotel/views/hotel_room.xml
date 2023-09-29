@@ -55,40 +55,57 @@
                     </div>
                     <notebook>
                         <page name="information_hotel_room" string="Information">
-                            <group colspan="4" col="4">
-                                <field name="floor_id" string="Floor" />
-                                <field name="room_categ_id" select="1" />
-                                <field
-                                    name="product_manager"
-                                    select="2"
-                                    string="Room Manager"
-                                />
-                                <field name="capacity" />
-                                <field name="uom_id" invisible="1" />
-                                <field
-                                    name="supplier_taxes_id"
-                                    widget="many2many_tags"
-                                    string="Supplier Taxes"
-                                />
-                                <field
-                                    name="taxes_id"
-                                    widget="many2many_tags"
-                                    string="Customer Taxes"
-                                />
+                            <group>
+                                <group>
+                                    <field name="floor_id" string="Floor" />
+                                    <field
+                                        name="product_manager"
+                                        select="2"
+                                        string="Room Manager"
+                                    />
+                                </group>
+                                <group>
+
+                                    <field name="room_categ_id" select="1" />
+                                    <field name="capacity" />
+                                    <field name="uom_id" invisible="1" />
+                                    <field
+                                        name="supplier_taxes_id"
+                                        widget="many2many_tags"
+                                        string="Supplier Taxes"
+                                    />
+                                </group>
                             </group>
+                            <group>
+                                <group>
+                                    <field
+                                        name="taxes_id"
+                                        widget="many2many_tags"
+                                        string="Customer Taxes"
+                                    />
+                                </group>
+                                <group>
+                                </group>
+                            </group>
+
                         </page>
                         <page string="Room Amenities">
                             <separator string=" Room Amenities" />
                             <field name="room_amenities_ids" colspan="4" nolabel="1" />
                         </page>
                         <page string="Procurement">
-                            <group colspan="4" col="4">
-                                <field name="active" select="2" />
-                                <field name="list_price" />
+                            <group>
+                                <group>
+                                    <field name="active" select="2" />
+                                    <field name="standard_price" />
+
+                                </group>
+                                <group>
+                                    <field name="list_price" />
+                                    <field name="cost_method" string="Cost Method" />
+                                </group>
                                 <!--commented as rental field is removed from odoo14-->
                                 <!-- <field name="rental" select="2" /> -->
-                                <field name="standard_price" />
-                                <field name="cost_method" string="Cost Method" />
                                 <newline />
                             </group>
                             <newline />
