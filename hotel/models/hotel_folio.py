@@ -1,4 +1,4 @@
-# Copyright (C) 2022-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# Copyright (C) 2023-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import time
@@ -437,7 +437,9 @@ class HotelFolioLine(models.Model):
     def _get_display_price(self, product):
         # TO DO: move me in master/saas-16 on sale.order
         if self.folio_id.pricelist_id.discount_policy == "with_discount":
-            return product.with_context(pricelist=self.folio_id.pricelist_id.id).price
+            return product.with_context(
+                pricelist=self.folio_id.pricelist_id.id
+            ).lst_price
         product_context = dict(
             self.env.context,
             partner_id=self.folio_id.partner_id.id,
@@ -456,7 +458,7 @@ class HotelFolioLine(models.Model):
         )._get_real_price_currency(
             product,
             rule_id,
-            self.product_uom_qty,
+            self.product_uom_qty or 1.0,
             self.product_uom,
             self.folio_id.pricelist_id.id,
         )
@@ -475,8 +477,8 @@ class HotelFolioLine(models.Model):
             line = line.with_company(line.company_id)
             fpos = (
                 line.order_id.fiscal_position_id
-                or line.order_id.fiscal_position_id.get_fiscal_position(
-                    line.order_partner_id.id
+                or line.order_id.fiscal_position_id._get_fiscal_position(
+                    line.order_partner_id
                 )
             )
             # If company_id is set, always filter taxes by the company
@@ -485,7 +487,7 @@ class HotelFolioLine(models.Model):
             )
             line.tax_id = fpos.map_tax(taxes)
 
-    @api.onchange("product_id")
+    @api.onchange("product_id", "price_unit")
     def _onchange_product_id(self):
         if not self.product_id:
             return
@@ -510,16 +512,13 @@ class HotelFolioLine(models.Model):
         product = self.product_id.with_context(
             lang=get_lang(self.env, self.order_id.partner_id.lang).code,
             partner=self.order_id.partner_id,
-            quantity=vals.get("product_uom_qty") or self.product_uom_qty,
+            quantity=vals.get("product_uom_qty") or self.product_uom_qty or 1.0,
             date=self.order_id.date_order,
             pricelist=self.order_id.pricelist_id.id,
             uom=self.product_uom.id,
         )
-
         vals.update(
-            name=self.order_line_id.get_sale_order_line_multiline_description_sale(
-                product
-            )
+            name=self.order_line_id._get_sale_order_line_multiline_description_sale()
         )
 
         self._compute_tax_id()
@@ -533,6 +532,7 @@ class HotelFolioLine(models.Model):
                 self.tax_id,
                 self.company_id,
             )
+
         self.update(vals)
 
         title = False
@@ -574,7 +574,7 @@ class HotelFolioLine(models.Model):
                 additional_hours = abs((dur.seconds / 60) / 60)
                 if additional_hours >= configured_addition_hours:
                     myduration += 1
-        self.product_uom_qty = myduration
+        self.product_uom_qty = myduration or 1.0
 
     def copy_data(self, default=None):
         """
@@ -711,7 +711,9 @@ class HotelServiceLine(models.Model):
     def _get_display_price(self, product):
         # TO DO: move me in master/saas-16 on sale.order
         if self.folio_id.pricelist_id.discount_policy == "with_discount":
-            return product.with_context(pricelist=self.folio_id.pricelist_id.id).price
+            return product.with_context(
+                pricelist=self.folio_id.pricelist_id.id
+            ).lst_price
         product_context = dict(
             self.env.context,
             partner_id=self.folio_id.partner_id.id,
@@ -744,7 +746,7 @@ class HotelServiceLine(models.Model):
         # negative discounts (= surcharge) are included in the display price
         return max(base_price, final_price)
 
-    @api.onchange("product_id")
+    @api.onchange("product_id", "price_unit", "price_subtotal")
     def _onchange_product_id(self):
         if not self.product_id:
             return
@@ -769,18 +771,15 @@ class HotelServiceLine(models.Model):
         product = self.product_id.with_context(
             lang=get_lang(self.env, self.order_id.partner_id.lang).code,
             partner=self.order_id.partner_id,
-            quantity=vals.get("product_uom_qty") or self.product_uom_qty,
+            quantity=vals.get("product_uom_qty") or self.product_uom_qty or 1.0,
             date=self.order_id.date_order,
             pricelist=self.order_id.pricelist_id.id,
             uom=self.product_uom.id,
         )
 
         vals.update(
-            name=self.service_line_id.get_sale_order_line_multiline_description_sale(
-                product
-            )
+            name=self.service_line_id._get_sale_order_line_multiline_description_sale()
         )
-
         self._compute_tax_id()
 
         if self.folio_id.pricelist_id and self.folio_id.partner_id:
