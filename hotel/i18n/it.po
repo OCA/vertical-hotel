@@ -1322,7 +1322,8 @@ msgstr "Dettaglio prenotazione camera hotel."
 msgid ""
 "Hotel services details provided toCustomer and it will included in the main "
 "Invoice."
-msgstr "Dettaglio servizi forniti al cliente e includerà la fattura principale."
+msgstr ""
+"Dettaglio servizi forniti al cliente e includerà la fattura principale."
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_folio_report_wizard__id
@@ -1465,8 +1466,8 @@ msgid ""
 msgstr ""
 "Nei prezzi standard & costi medi: valore del prodotto (calcolato "
 "automaticamente nei costi medi).\n"
-"        In FIFO: valore dell'unità successiva che lascerà il magazzino ("
-"calcolato automaticamente).\n"
+"        In FIFO: valore dell'unità successiva che lascerà il magazzino "
+"(calcolato automaticamente).\n"
 "        Utilizzato per valutare il prodotto quando il costo di acquisto non "
 "è noto (es. rettifiche di inventario).\n"
 "        Utilizzato per calcolare i margini negli ordini di vendita."
@@ -2905,8 +2906,8 @@ msgstr ""
 "Ubicazione più vicina: prodotti/lotti vicini all'ubicazione di destinazione "
 "verranno movimentati per primi.\n"
 "FEFO: prodotti/lotti con la data di prelievo più vicina verranno movimentati "
-"per primi (la disponibilità di questo metodo dipende dall'impostazione \"Date"
-" scadenza\")."
+"per primi (la disponibilità di questo metodo dipende dall'impostazione "
+"\"Date scadenza\")."
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_folio_form
@@ -3274,7 +3275,8 @@ msgstr ""
 msgid ""
 "The number of products under this category (Does not consider the children "
 "categories)"
-msgstr "Numero dei prodotti nella categoria (non considera le categorie figlie)"
+msgstr ""
+"Numero dei prodotti nella categoria (non considera le categorie figlie)"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio__reference
