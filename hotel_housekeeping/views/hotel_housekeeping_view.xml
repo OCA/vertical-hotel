@@ -17,8 +17,8 @@
                         states="inspect,dirty"
                         type="object"
                         class="btn btn-primary"
+                        icon="fa-paint-brush"
                     >
-                        <i class="fa fa-paint-brush" />
                     </button>
                     <button
                         string="Dirty"
@@ -28,8 +28,8 @@
                         states="inspect,clean"
                         type="object"
                         class="btn btn-primary"
+                        icon="fa-pencil-square-o"
                     >
-                        <i class="fa-pencil-square-o" />
                     </button>
                     <button
                         string="Done"
@@ -39,8 +39,8 @@
                         states="clean"
                         type="object"
                         class="btn btn-primary"
+                        icon="fa-check"
                     >
-                        <i class="fa-check" />
                     </button>
                     <button
                         string="Cancel"
@@ -50,9 +50,10 @@
                         states="clean,dirty,inspect"
                         type="object"
                         class="btn btn-primary"
+                        icon="fa-times-circle"
                     >
-                        <i class="fa-times-circle" />
                     </button>
+                    <field name="state" widget="statusbar" />
                     <button
                         string="Inspect"
                         name="room_inspect"
@@ -61,10 +62,9 @@
                         states="cancel"
                         type="object"
                         class="btn btn-primary"
+                        icon="fa-search"
                     >
-                        <i class="fa-search" />
                     </button>
-                    <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
                     <group>
@@ -92,7 +92,7 @@
                         nolabel="1"
                     >
                         <form string="Activity Lines">
-                            <group colspan="4" col="4">
+                            <group col="4">
                                 <field name="today_date" />
                                 <field name="activity_id" />
                                 <field name="housekeeper_id" />
@@ -108,7 +108,7 @@
                                 </div>
                             </div>
                         </form>
-                        <tree editable="buttom">
+                        <tree editable="bottom">
                             <field name="activity_id" />
                             <field name="housekeeper_id" />
                             <field name="today_date" />
