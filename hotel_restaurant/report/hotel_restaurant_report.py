@@ -1,9 +1,10 @@
-# Copyright (C) 2022-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# Copyright (C) 2023-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 
+import pytz
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models
@@ -12,6 +13,15 @@ from odoo import api, fields, models
 class HotelRestaurantReport(models.AbstractModel):
     _name = "report.hotel_restaurant.report_res_table"
     _description = "report.hotel_restaurant.report_res_table"
+
+    def _convert_to_ist(self, utc_dt):
+        user_tz = self._context.get("tz", "UTC")
+        local_tz = pytz.timezone(user_tz)
+        utc_tz = pytz.timezone("UTC")
+
+        utc_dt = utc_tz.localize(utc_dt)
+        local_dt = utc_dt.astimezone(local_tz)
+        return local_dt
 
     def get_res_data(self, date_start, date_end):
         data = []
@@ -23,10 +33,34 @@ class HotelRestaurantReport(models.AbstractModel):
                 {
                     "reservation": record.reservation_id,
                     "name": record.customer_id.name,
-                    "start_date": fields.Datetime.to_string(record.start_date),
-                    "end_date": fields.Datetime.to_string(record.end_date),
+                    "start_date": record.start_date,
+                    "end_date": record.end_date,
                 }
             )
+
+        # Convert start_date and end_date for each reservation
+        for reservation in data:
+            if isinstance(reservation["start_date"], datetime):
+                start_time = reservation["start_date"]
+            else:
+                start_time = datetime.strptime(
+                    reservation["start_date"], "%Y-%m-%d %H:%M:%S"
+                )
+
+            if isinstance(reservation["end_date"], datetime):
+                end_time = reservation["end_date"]
+            else:
+                end_time = datetime.strptime(
+                    reservation["end_date"], "%Y-%m-%d %H:%M:%S"
+                )
+
+            reservation["start_date"] = self._convert_to_ist(start_time).strftime(
+                "%m/%d/%Y %H:%M:%S"
+            )
+            reservation["end_date"] = self._convert_to_ist(end_time).strftime(
+                "%m/%d/%Y %H:%M:%S"
+            )
+
         return data
 
     @api.model
@@ -37,13 +71,32 @@ class HotelRestaurantReport(models.AbstractModel):
         if not docids:
             docids = data["form"].get("docids")
         folio_profile = self.env["hotel.restaurant.tables"].browse(docids)
-        date_start = data.get("date_start", fields.Date.today())
-        date_end = data["form"].get(
-            "date_end",
-            str(datetime.now() + relativedelta(months=1, day=1, days=1))[:10],
-        )
+        date_start_str = data["form"].get("date_start")
+        date_end_str = data["form"].get("date_end")
+
+        if not date_start_str:
+            date_start_str = fields.Date.today().strftime("%Y-%m-%d 00:00:00")
+        if not date_end_str:
+            date_end_str = (
+                datetime.now() + relativedelta(months=+1, day=1, days=-1)
+            ).strftime("%Y-%m-%d 23:59:59")
+
+        date_start_utc = datetime.strptime(date_start_str, "%Y-%m-%d %H:%M:%S")
+        date_end_utc = datetime.strptime(date_end_str, "%Y-%m-%d %H:%M:%S")
+        date_start_ist = self._convert_to_ist(date_start_utc)
+        date_end_ist = self._convert_to_ist(date_end_utc)
+        date_start = fields.Datetime.to_string(date_start_ist)
+        date_end = fields.Datetime.to_string(date_end_ist)
+
+        date_start_minus_5_30 = date_start_ist - timedelta(hours=5, minutes=30)
+        date_end_minus_5_30 = date_end_ist - timedelta(hours=5, minutes=30)
+
+        date_start_server = fields.Datetime.to_string(date_start_minus_5_30)
+        date_end_server = fields.Datetime.to_string(date_end_minus_5_30)
+
         rm_act = self.with_context(**data["form"].get("used_context", {}))
-        reservation_res = rm_act.get_res_data(date_start, date_end)
+        reservation_res = rm_act.get_res_data(date_start_server, date_end_server)
+
         return {
             "doc_ids": docids,
             "doc_model": active_model,
@@ -51,6 +104,8 @@ class HotelRestaurantReport(models.AbstractModel):
             "docs": folio_profile,
             "time": time,
             "Reservations": reservation_res,
+            "start_time": date_start,
+            "end_time": date_end,
         }
 
 
@@ -78,6 +133,15 @@ class FolioRestReport(models.AbstractModel):
     _name = "report.hotel_restaurant.report_rest_order"
     _description = "Folio Rest Report"
 
+    def _convert_to_ist(self, utc_dt):
+        user_tz = self._context.get("tz", "UTC")
+        local_tz = pytz.timezone(user_tz)
+        utc_tz = pytz.timezone("UTC")
+
+        utc_dt = utc_tz.localize(utc_dt)
+        local_dt = utc_dt.astimezone(local_tz)
+        return local_dt
+
     def get_data(self, date_start, date_end):
         data = []
         tids = self.env["hotel.folio"].search(
@@ -86,9 +150,11 @@ class FolioRestReport(models.AbstractModel):
                 ("checkout_date", "<=", date_end),
             ]
         )
+
         total = 0.0
         for record in tids:
             if record.hotel_reservation_orders_ids:
+
                 total_amount = sum(
                     order.amount_total for order in record.hotel_reservation_orders_ids
                 )
@@ -105,7 +171,24 @@ class FolioRestReport(models.AbstractModel):
                         "total_order": total_order,
                     }
                 )
+
         data.append({"total": total})
+        for reservation in data:
+            if "checkin_date" in reservation:
+                checkin_date_str = reservation["checkin_date"]
+                checkin_date = datetime.strptime(checkin_date_str, "%Y-%m-%d %H:%M:%S")
+                reservation["checkin_date"] = self._convert_to_ist(
+                    checkin_date
+                ).strftime("%m/%d/%Y %H:%M:%S")
+
+            if "checkout_date" in reservation:
+                checkout_date_str = reservation["checkout_date"]
+                checkout_date = datetime.strptime(
+                    checkout_date_str, "%Y-%m-%d %H:%M:%S"
+                )
+                reservation["checkout_date"] = self._convert_to_ist(
+                    checkout_date
+                ).strftime("%m/%d/%Y %H:%M:%S")
         return data
 
     def get_rest(self, date_start, date_end):
@@ -137,6 +220,13 @@ class FolioRestReport(models.AbstractModel):
                         "order_data": order_data,
                     }
                 )
+        for reservation in data:
+            for order in reservation["order_data"]:
+                start_time_str = order["order_date"]
+                start_time = datetime.strptime(start_time_str, "%Y-%m-%d %H:%M:%S")
+                order["order_date"] = self._convert_to_ist(start_time).strftime(
+                    "%m/%d/%Y %H:%M:%S"
+                )
         return data
 
     @api.model
@@ -147,14 +237,34 @@ class FolioRestReport(models.AbstractModel):
         if not docids:
             docids = data["form"].get("docids")
         folio_profile = self.env["hotel.reservation.order"].browse(docids)
-        date_start = data["form"].get("date_start", fields.Date.today())
-        date_end = data["form"].get(
-            "date_end",
-            str(datetime.now() + relativedelta(months=1, day=1, days=1))[:10],
-        )
+        date_start_str = data["form"].get("date_start")
+        date_end_str = data["form"].get("date_end")
+
+        if not date_start_str:
+            date_start_str = fields.Date.today().strftime("%Y-%m-%d 00:00:00")
+        if not date_end_str:
+            date_end_str = (
+                datetime.now() + relativedelta(months=+1, day=1, days=-1)
+            ).strftime("%Y-%m-%d 23:59:59")
+
+        date_start_utc = datetime.strptime(date_start_str, "%Y-%m-%d %H:%M:%S")
+        date_end_utc = datetime.strptime(date_end_str, "%Y-%m-%d %H:%M:%S")
+        date_start_ist = self._convert_to_ist(date_start_utc)
+        date_end_ist = self._convert_to_ist(date_end_utc)
+        date_start = fields.Datetime.to_string(date_start_ist)
+        date_end = fields.Datetime.to_string(date_end_ist)
+
+        date_start_minus_5_30 = date_start_ist - timedelta(hours=5, minutes=30)
+        date_end_minus_5_30 = date_end_ist - timedelta(hours=5, minutes=30)
+
+        date_start_server = fields.Datetime.to_string(date_start_minus_5_30)
+        date_end_server = fields.Datetime.to_string(date_end_minus_5_30)
+
         rm_act = self.with_context(**data["form"].get("used_context", {}))
-        get_data_res = rm_act.get_data(date_start, date_end)
-        get_rest_res = rm_act.get_rest(date_start, date_end)
+
+        get_data_res = rm_act.get_data(date_start_server, date_end_server)
+        get_rest_res = rm_act.get_rest(date_start_server, date_end_server)
+
         return {
             "doc_ids": docids,
             "doc_model": active_model,
@@ -163,12 +273,23 @@ class FolioRestReport(models.AbstractModel):
             "time": time,
             "GetData": get_data_res,
             "GetRest": get_rest_res,
+            "start_time": date_start,
+            "end_time": date_end,
         }
 
 
 class FolioReservReport(models.AbstractModel):
     _name = "report.hotel_restaurant.report_reserv_order"
     _description = "report.hotel_restaurant.report_reserv_order"
+
+    def _convert_to_ist(self, utc_dt):
+        user_tz = self._context.get("tz", "UTC")
+        local_tz = pytz.timezone(user_tz)
+        utc_tz = pytz.timezone("UTC")
+
+        utc_dt = utc_tz.localize(utc_dt)
+        local_dt = utc_dt.astimezone(local_tz)
+        return local_dt
 
     def get_data(self, date_start, date_end):
         data = []
@@ -197,6 +318,22 @@ class FolioReservReport(models.AbstractModel):
                         "total_order": total_order,
                     }
                 )
+        for reservation in data:
+            if "checkin_date" in reservation:
+                checkin_date_str = reservation["checkin_date"]
+                checkin_date = datetime.strptime(checkin_date_str, "%Y-%m-%d %H:%M:%S")
+                reservation["checkin_date"] = self._convert_to_ist(
+                    checkin_date
+                ).strftime("%m/%d/%Y %H:%M:%S")
+
+            if "checkout_date" in reservation:
+                checkout_date_str = reservation["checkout_date"]
+                checkout_date = datetime.strptime(
+                    checkout_date_str, "%Y-%m-%d %H:%M:%S"
+                )
+                reservation["checkout_date"] = self._convert_to_ist(
+                    checkout_date
+                ).strftime("%m/%d/%Y %H:%M:%S")
         data.append({"total": total})
         return data
 
@@ -231,6 +368,16 @@ class FolioReservReport(models.AbstractModel):
                         "order_data": order_data,
                     }
                 )
+        for reservation in data:
+            for order in reservation["order_data"]:
+                start_time_str = order["order_date"]
+                if isinstance(start_time_str, datetime):
+                    start_time_str = fields.Datetime.to_string(start_time_str)
+                start_time = datetime.strptime(start_time_str, "%Y-%m-%d %H:%M:%S")
+                order["order_date"] = self._convert_to_ist(start_time).strftime(
+                    "%m/%d/%Y %H:%M:%S"
+                )
+
         return data
 
     @api.model
@@ -241,14 +388,34 @@ class FolioReservReport(models.AbstractModel):
         if not docids:
             docids = data["form"].get("docids")
         folio_profile = self.env["hotel.restaurant.order"].browse(docids)
-        date_start = data.get("date_start", fields.Date.today())
-        date_end = data["form"].get(
-            "date_end",
-            str(datetime.now() + relativedelta(months=1, day=1, days=1))[:10],
-        )
+        date_start_str = data["form"].get("date_start")
+        date_end_str = data["form"].get("date_end")
+
+        if not date_start_str:
+            date_start_str = fields.Date.today().strftime("%Y-%m-%d 00:00:00")
+        if not date_end_str:
+            date_end_str = (
+                datetime.now() + relativedelta(months=+1, day=1, days=-1)
+            ).strftime("%Y-%m-%d 23:59:59")
+
+        date_start_utc = datetime.strptime(date_start_str, "%Y-%m-%d %H:%M:%S")
+        date_end_utc = datetime.strptime(date_end_str, "%Y-%m-%d %H:%M:%S")
+        date_start_ist = self._convert_to_ist(date_start_utc)
+        date_end_ist = self._convert_to_ist(date_end_utc)
+        date_start = fields.Datetime.to_string(date_start_ist)
+        date_end = fields.Datetime.to_string(date_end_ist)
+
+        date_start_minus_5_30 = date_start_ist - timedelta(hours=5, minutes=30)
+        date_end_minus_5_30 = date_end_ist - timedelta(hours=5, minutes=30)
+
+        date_start_server = fields.Datetime.to_string(date_start_minus_5_30)
+        date_end_server = fields.Datetime.to_string(date_end_minus_5_30)
+
         rm_act = self.with_context(**data["form"].get("used_context", {}))
-        get_data_res = rm_act.get_data(date_start, date_end)
-        get_reserv_res = rm_act.get_reserv(date_start, date_end)
+
+        get_data_res = rm_act.get_data(date_start_server, date_end_server)
+        get_reserv_res = rm_act.get_reserv(date_start_server, date_end_server)
+
         return {
             "doc_ids": docids,
             "doc_model": active_model,
@@ -257,4 +424,6 @@ class FolioReservReport(models.AbstractModel):
             "time": time,
             "GetData": get_data_res,
             "GetReserv": get_reserv_res,
+            "start_time": date_start,
+            "end_time": date_end,
         }

@@ -1,4 +1,4 @@
-# Copyright (C) 2022-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# Copyright (C) 2023-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import _, api, fields, models
@@ -12,6 +12,23 @@ class HotelRestaurantTables(models.Model):
 
     name = fields.Char("Table Number", required=True)
     capacity = fields.Integer()
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if "name" in vals:
+                existing_table = self.env["hotel.restaurant.tables"].search(
+                    [("name", "ilike", vals["name"])]
+                )
+                if existing_table:
+                    raise ValidationError(
+                        _(
+                            "A table with the name '%s' already exists."
+                            " Please choose a different table."
+                        )
+                        % vals["name"]
+                    )
+            return super(HotelRestaurantTables, self).create(vals)
 
 
 class HotelRestaurantReservation(models.Model):
@@ -142,8 +159,11 @@ class HotelRestaurantReservation(models.Model):
         self.write({"state": "done"})
 
     reservation_id = fields.Char("Reservation No", readonly=True, index=True)
-    room_id = fields.Many2one("product.product", "Room No")
+    # room_id = fields.Many2one("product.product", "Room No")
     folio_id = fields.Many2one("hotel.folio", "Folio No")
+    room_id = fields.Many2one(
+        related="folio_id.room_line_ids.product_id", string="Room No"
+    )
     start_date = fields.Datetime(
         "Start Time", required=True, default=lambda self: fields.Datetime.now()
     )
@@ -326,8 +346,13 @@ class HotelRestaurantOrder(models.Model):
     o_date = fields.Datetime(
         "Order Date", required=True, default=lambda self: fields.Datetime.now()
     )
-    room_id = fields.Many2one("product.product", "Room No")
+    # room_id = fields.Many2one("product.product", "Room No")
+
     folio_id = fields.Many2one("hotel.folio", "Folio No")
+    room_id = fields.Many2one(
+        related="folio_id.room_line_ids.product_id", string="Room No"
+    )
+
     waiter_id = fields.Many2one("res.partner", "Waiter")
     table_nos_ids = fields.Many2many(
         "hotel.restaurant.tables",
@@ -633,7 +658,7 @@ class HotelReservationOrder(models.Model):
         readonly=True,
         default="draft",
     )
-    folio_id = fields.Many2one("hotel.folio", "Folio No")
+    folio_id = fields.Many2one(related="reservation_id.folio_id", string="Folio No")
     is_folio = fields.Boolean(
         "Is a Hotel Guest??", help="is customer reside in hotel or not"
     )

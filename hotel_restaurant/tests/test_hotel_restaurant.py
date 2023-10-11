@@ -28,7 +28,7 @@ class TestRestaurant(common.TransactionCase):
         cur_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         self.menucard_type = self.menucard_type_obj.create(
-            {"name": "Punjabi", "menu_id": self.fooditem_type.id}
+            {"name": "Punjabi Food Items Menu", "menu_id": self.fooditem_type.id}
         )
 
         self.menucard_type.name_get()

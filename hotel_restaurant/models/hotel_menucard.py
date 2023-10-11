@@ -1,7 +1,8 @@
-# Copyright (C) 2022-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# Copyright (C) 2023-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 from odoo.osv import expression
 
 
@@ -70,6 +71,24 @@ class HotelMenucardType(models.Model):
             categories = self.search(args, limit=limit)
         return categories.name_get()
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if "name" in vals:
+                existing_food_item_type = self.env["hotel.menucard.type"].search(
+                    [("name", "ilike", vals["name"])]
+                )
+                if existing_food_item_type:
+                    raise ValidationError(
+                        _(
+                            "A food item type with the name '%s' already exists."
+                            "Please choose a different food item type."
+                        )
+                        % vals["name"]
+                    )
+
+            return super(HotelMenucardType, self).create(vals)
+
 
 class HotelMenucard(models.Model):
 
@@ -88,3 +107,20 @@ class HotelMenucard(models.Model):
         "hotel.menucard.type", "Food Item Category", required=True
     )
     product_manager_id = fields.Many2one("res.users", "Product Manager")
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if "name" in vals:
+                existing_food_item = self.env["hotel.menucard"].search(
+                    [("name", "ilike", vals["name"])]
+                )
+                if existing_food_item:
+                    raise ValidationError(
+                        _(
+                            "A food item with the name '%s' already exists."
+                            " Please choose a different food item."
+                        )
+                        % vals["name"]
+                    )
+            return super(HotelMenucard, self).create(vals)

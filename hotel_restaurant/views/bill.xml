@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!DOCTYPE xml>
 <odoo>
 
     <!-- Template for Hotel Restaurant -->
-    <template id="report_order_bill">
+
+        <template id="report_order_bill">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
                 <t t-call="web.external_layout">
@@ -42,7 +42,7 @@
                                     <th>
                                         <strong>Waiter Name</strong>
                                     </th>
-                                    <th t-if="o.folio_id.id">
+                                    <th t-if="o.folio_id" style="text-align:center;">
                                         <strong>Folio Number</strong>
                                     </th>
                                     <th>
@@ -50,7 +50,7 @@
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody style="text-align:center;">
                                 <td style="white-space: nowrap;">
                                     <span t-esc="o.order_no" />
                                 </td>
@@ -60,7 +60,7 @@
                                         t-esc="o.waiter_id.name"
                                     />
                                 </td>
-                                <td t-if="o.folio_id.id" style="white-space: nowrap;">
+                                <td t-if="o.folio_id" style="white-space: nowrap;">
                                     <span t-att-style="style" t-esc="o.folio_id.name" />
                                 </td>
                                 <td t-if="o.room_id.id" style="white-space: nowrap;">
@@ -107,7 +107,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr t-foreach="o.order_list_ids" t-as="rec">
+                                <tr
+                                    t-foreach="o.order_list_ids"
+                                    t-as="rec"
+                                    style="text-align:center;"
+                                >
                                     <td>
                                         <span t-esc="rec.menucard_id.name" />
                                     </td>
@@ -121,7 +125,7 @@
                                         <span t-esc="rec.price_subtotal" />
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr style="text-align:center;">
                                     <td />
                                     <td />
                                     <td>
@@ -129,7 +133,7 @@
                                     </td>
                                     <td t-esc="o.amount_subtotal" />
                                 </tr>
-                                <tr>
+                                <tr style="text-align:center;">
                                     <td />
                                     <td />
                                     <td>
@@ -137,7 +141,7 @@
                                     </td>
                                     <td t-esc="o.tax" />
                                 </tr>
-                                <tr>
+                                <tr style="text-align:center;">
                                     <td />
                                     <td />
                                     <td>
@@ -166,6 +170,7 @@
                                 <span>
                                     <strong>
                                         <center>Customer Order Bill</center>
+                                        <!-- <span t-esc="o"/> check -->
                                     </strong>
                                 </span>
                             </h2>
@@ -179,7 +184,7 @@
                                     <th>
                                         <strong>Order Number</strong>
                                     </th>
-                                    <th t-if="o.folio_id.id">
+                                    <th t-if="o.folio_id">
                                         <strong>Folio Number</strong>
                                     </th>
                                     <th>
@@ -187,20 +192,20 @@
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody style="text-align:center;">
                                 <td style="white-space: nowrap;">
-                                    <span t-esc="o.o_date" />
+                                    <span t-field="o.order_date" />
                                 </td>
-                                <td style="white-space: nowrap;">
-                                    <span t-att-style="style" t-esc="o.order_no" />
+                                    <td style="white-space: nowrap;">
+                                    <span t-att-style="style" t-esc="o.order_number" />
                                 </td>
-                                <td t-if="o.folio_id.id" style="white-space: nowrap;">
+                                <td t-if="o.folio_id" style="white-space: nowrap;">
                                     <span t-att-style="style" t-esc="o.folio_id.name" />
                                 </td>
                                 <td style="white-space: nowrap;">
                                     <span
                                         t-att-style="style"
-                                        t-esc="o.waiter_id.name"
+                                        t-esc="o.waitername.name"
                                     />
                                 </td>
                             </tbody>
@@ -244,7 +249,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr t-foreach="o.order_list_ids" t-as="rec">
+                                <tr
+                                    t-foreach="o.order_list_ids"
+                                    t-as="rec"
+                                    style="text-align:center;"
+                                >
                                     <td>
                                         <span t-esc="rec.menucard_id.name" />
                                     </td>
@@ -258,7 +267,7 @@
                                         <span t-esc="rec.price_subtotal" />
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr style="text-align:center;">
                                     <td />
                                     <td />
                                     <td>
@@ -266,7 +275,7 @@
                                     </td>
                                     <td t-esc="o.amount_subtotal" />
                                 </tr>
-                                <tr>
+                                <tr style="text-align:center;">
                                     <td />
                                     <td />
                                     <td>
@@ -274,7 +283,7 @@
                                     </td>
                                     <td t-esc="o.tax" />
                                 </tr>
-                                <tr>
+                                <tr style="text-align:center;">
                                     <td />
                                     <td />
                                     <td>
