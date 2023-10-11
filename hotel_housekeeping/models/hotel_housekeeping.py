@@ -1,7 +1,7 @@
-# Copyright (C) 2022-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# Copyright (C) 2023-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -125,3 +125,17 @@ class HotelHousekeeping(models.Model):
         """
         self.write({"state": "clean", "quality": False})
         self.activity_line_ids.write({"is_clean": True, "is_dirty": False})
+
+    @api.constrains(
+        "activity_line_ids", "activity_line_ids.clean_end_time", "inspect_date_time"
+    )
+    def check_end_date_time(self):
+        for record in self:
+            for rec in record.activity_line_ids:
+                if (
+                    record.inspect_date_time
+                    and record.inspect_date_time <= rec.clean_end_time
+                ):
+                    raise ValidationError(
+                        _("Inspect Date Time must be Greter then Clean end time")
+                    )

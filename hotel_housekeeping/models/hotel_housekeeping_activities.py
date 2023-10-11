@@ -1,4 +1,4 @@
-# Copyright (C) 2022-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# Copyright (C) 2023-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import _, api, fields, models
@@ -36,7 +36,7 @@ class HotelHousekeepingActivities(models.Model):
         """
         for activity in self:
             if activity.clean_start_time >= activity.clean_end_time:
-                raise ValidationError(_("Start Date Should be less than the End Date!"))
+                raise ValidationError(_("Start Time Should be less than the End Time!"))
 
     @api.model
     def default_get(self, fields):

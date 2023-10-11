@@ -1,4 +1,4 @@
-# Copyright (C) 2022-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# Copyright (C) 2023-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import time
@@ -21,7 +21,6 @@ class TestHousekeeping(common.TransactionCase):
         )
         self.room = self.env.ref("hotel.hotel_room_0")
         self.activity = self.env.ref("hotel_housekeeping.hotel_room_activities_1")
-        self.activity_type = self.env["hotel.housekeeping.activity.type"]
 
         cur_date = datetime.now().strftime("%Y-%m-21 %H:%M:%S")
         cur_date1 = datetime.now().strftime("%Y-%m-23 %H:%M:%S")
@@ -62,12 +61,12 @@ class TestHousekeeping(common.TransactionCase):
         )
 
     def test_name_search(self):
-        self.activity_type = self.env["hotel.housekeeping.activity.type"].create(
+        self.activity_type = self.hotel_act_type_obj.create(
             {
-                "name": "Test",
+                "name": "Test Activities",
             }
         )
-        self.env["hotel.housekeeping.activity.type"].name_search(
+        self.hotel_act_type_obj.name_search(
             "All Activities / Test Room Activity", [], "not like", None
         )
 

@@ -1,7 +1,8 @@
-# Copyright (C) 2022-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# Copyright (C) 2023-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 from odoo.osv import expression
 
 
@@ -70,3 +71,20 @@ class HotelHousekeepingActivityType(models.Model):
         else:
             categories = self.search(args, limit=limit)
         return categories.name_get()
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if "name" in vals:
+                existing_activity_type = self.env[
+                    "hotel.housekeeping.activity.type"
+                ].search([("name", "ilike", vals["name"])], limit=1)
+                if existing_activity_type:
+                    raise ValidationError(
+                        _(
+                            "A activity type with the name '%s' already exists."
+                            " Please choose a different activity type."
+                        )
+                        % vals["name"]
+                    )
+            return super(HotelHousekeepingActivityType, self).create(vals)
