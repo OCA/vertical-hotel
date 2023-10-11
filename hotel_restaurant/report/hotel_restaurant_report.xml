@@ -23,7 +23,7 @@
 
     <record id="report_hotel_reservation_order_bill" model="ir.actions.report">
       <field name="name">Customer Bill</field>
-      <field name="model">hotel.restaurant.order</field>
+      <field name="model">hotel.reservation.order</field>
       <field name="report_type">qweb-pdf</field>
       <field name="report_name">hotel_restaurant.report_res_order_bill</field>
       <field name="report_file">hotel_restaurant.report_res_order_bill</field>
