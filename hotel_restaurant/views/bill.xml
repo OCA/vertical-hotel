@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!DOCTYPE xml>
 <odoo>
 
     <!-- Template for Hotel Restaurant -->
@@ -189,10 +188,10 @@
                             </thead>
                             <tbody>
                                 <td style="white-space: nowrap;">
-                                    <span t-esc="o.o_date" />
+                                    <span t-esc="o.order_date" />
                                 </td>
                                 <td style="white-space: nowrap;">
-                                    <span t-att-style="style" t-esc="o.order_no" />
+                                    <span t-att-style="style" t-esc="o.order_number" />
                                 </td>
                                 <td t-if="o.folio_id.id" style="white-space: nowrap;">
                                     <span t-att-style="style" t-esc="o.folio_id.name" />
@@ -200,7 +199,7 @@
                                 <td style="white-space: nowrap;">
                                     <span
                                         t-att-style="style"
-                                        t-esc="o.waiter_id.name"
+                                        t-esc="o.waitername.name"
                                     />
                                 </td>
                             </tbody>
