@@ -5,10 +5,32 @@
         <field name="name">hotel.reservation.wizard.form</field>
         <field name="model">hotel.reservation.wizard</field>
         <field name="arch" type="xml">
-            <form string="Reservation List">
-                <group col="4">
-                    <field name="date_start" />
-                    <field name="date_end" />
+            <form string="Summary Period">
+                <group>
+                    <label for="date_start" />
+                    <div name="dates" class="o_row">
+                    <field
+                            name="date_start"
+                            widget="daterange"
+                            options='{"related_end_date": "date_end"}'
+                        />
+                    <i
+                            class="fa fa-long-arrow-right mx-2 oe_edit_only"
+                            aria-label="Arrow icon"
+                            title="Arrow"
+                        />
+                    <i
+                            class="fa fa-long-arrow-right mx-2 oe_read_only"
+                            aria-label="Arrow icon"
+                            title="Arrow"
+                        />
+                    <label for="date_end" string="End Date" />
+                    <field
+                            name="date_end"
+                            widget="daterange"
+                            options='{"related_start_date": "date_start"}'
+                        />
+                    </div>
                 </group>
                 <footer>
                     <button
@@ -67,7 +89,6 @@
                     colspan="4"
                     string="Do you really want to create the Folio ?"
                 />
-                <!-- <field name="grouped" /> -->
                 <newline />
                 <footer>
                     <button
