@@ -26,11 +26,10 @@
         "wizards/hotel_reservation_wizard.xml",
     ],
     "assets": {
-        "web.assets_qweb": [
-            "hotel_reservation/static/src/xml/hotel_room_summary.xml",
-        ],
+        "web.assets_qweb": [],
         "web.assets_backend": [
             "hotel_reservation/static/src/css/room_summary.css",
+            "hotel_reservation/static/src/xml/hotel_room_summary.xml",
             "hotel_reservation/static/src/js/hotel_room_summary.js",
         ],
     },
