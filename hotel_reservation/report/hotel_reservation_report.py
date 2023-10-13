@@ -1,138 +1,133 @@
-# Copyright (C) 2022-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# Copyright (C) 2023-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 
+import pytz
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 
-class ReportTestCheckin(models.AbstractModel):
+class ReportUtils(models.AbstractModel):
+    _name = "report.hotel_reservation.report_utils"
+    _description = "Utility methods for report generation"
+
+    def _convert_to_ist(self, utc_dt):
+        user_tz = self._context.get("tz", "UTC")
+        local_tz = pytz.timezone(user_tz)
+        utc_tz = pytz.timezone("UTC")
+        return utc_tz.localize(utc_dt).astimezone(local_tz)
+
+    def _get_reservations(self, field_name, date_start, date_end):
+        return self.env["hotel.reservation"].search(
+            [(field_name, ">=", date_start), (field_name, "<=", date_end)]
+        )
+
+    def _prepare_date_range(self, date_start_str, date_end_str):
+        if not date_start_str:
+            date_start_str = fields.Date.today().strftime("%Y-%m-%d 00:00:00")
+        if not date_end_str:
+            date_end_str = (
+                datetime.now() + relativedelta(months=+1, day=1, days=-1)
+            ).strftime("%Y-%m-%d 23:59:59")
+
+        date_start_utc = datetime.strptime(date_start_str, "%Y-%m-%d %H:%M:%S")
+        date_end_utc = datetime.strptime(date_end_str, "%Y-%m-%d %H:%M:%S")
+        date_start_ist = self._convert_to_ist(date_start_utc)
+        date_end_ist = self._convert_to_ist(date_end_utc)
+
+        date_start_server = fields.Datetime.to_string(
+            date_start_ist - timedelta(hours=5, minutes=30)
+        )
+        date_end_server = fields.Datetime.to_string(
+            date_end_ist - timedelta(hours=5, minutes=30)
+        )
+
+        return date_start_ist, date_end_ist, date_start_server, date_end_server
+
+
+class ReportTestCheckin(ReportUtils):
     _name = "report.hotel_reservation.report_checkin_qweb"
-    _description = "Auxiliar to get the check in report"
-
-    def _get_room_type(self, date_start, date_end):
-        reservations = self.env["hotel.reservation"].search(
-            [("checkin", ">=", date_start), ("checkout", "<=", date_end)]
-        )
-        return reservations
-
-    def _get_room_nos(self, date_start, date_end):
-        reservations = self.env["hotel.reservation"].search(
-            [("checkin", ">=", date_start), ("checkout", "<=", date_end)]
-        )
-        return reservations
+    _description = "Auxiliary to get the check-in report"
 
     def get_checkin(self, date_start, date_end):
-        reservations = self.env["hotel.reservation"].search(
-            [("checkin", ">=", date_start), ("checkin", "<=", date_end)]
-        )
-        return reservations
+        return self._get_reservations("checkin", date_start, date_end)
 
     @api.model
     def _get_report_values(self, docids, data):
-        active_model = self.env.context.get("active_model")
         if data is None:
             data = {}
         if not docids:
             docids = data["form"].get("docids")
+
         folio_profile = self.env["hotel.reservation"].browse(docids)
-        date_start = data.get("date_start", fields.Date.today())
-        date_end = data["form"].get(
-            "date_end",
-            str(datetime.now() + relativedelta(months=+1, day=1, days=-1))[:10],
+        (
+            date_start_ist,
+            date_end_ist,
+            date_start_server,
+            date_end_server,
+        ) = self._prepare_date_range(
+            data["form"].get("date_start"), data["form"].get("date_end")
         )
-        rm_act = self.with_context(**data["form"].get("used_context", {}))
-        _get_room_type = rm_act._get_room_type(date_start, date_end)
-        _get_room_nos = rm_act._get_room_nos(date_start, date_end)
-        get_checkin = rm_act.get_checkin(date_start, date_end)
+
+        reservations = self.get_checkin(date_start_server, date_end_server)
+
         return {
             "doc_ids": docids,
-            "doc_model": active_model,
+            "doc_model": self.env.context.get("active_model"),
             "data": data["form"],
             "docs": folio_profile,
             "time": time,
-            "get_room_type": _get_room_type,
-            "get_room_nos": _get_room_nos,
-            "get_checkin": get_checkin,
+            "get_checkin": reservations,
+            "start_time": fields.Datetime.to_string(date_start_ist),
+            "end_time": fields.Datetime.to_string(date_end_ist),
         }
 
 
-class ReportTestCheckout(models.AbstractModel):
+class ReportTestCheckout(ReportUtils):
     _name = "report.hotel_reservation.report_checkout_qweb"
-    _description = "Auxiliar to get the check out report"
+    _description = "Auxiliary to get the checkout report"
 
-    def _get_room_type(self, date_start, date_end):
-        reservations = self.env["hotel.reservation"].search(
-            [("checkout", ">=", date_start), ("checkout", "<=", date_end)]
-        )
-        return reservations
-
-    def _get_room_nos(self, date_start, date_end):
-        reservations = self.env["hotel.reservation"].search(
-            [("checkout", ">=", date_start), ("checkout", "<=", date_end)]
-        )
-        return reservations
-
-    def _get_checkout(self, date_start, date_end):
-        reservations = self.env["hotel.reservation"].search(
-            [("checkout", ">=", date_start), ("checkout", "<=", date_end)]
-        )
-        return reservations
+    def get_checkout(self, date_start, date_end):
+        return self._get_reservations("checkout", date_start, date_end)
 
     @api.model
     def _get_report_values(self, docids, data):
-        active_model = self.env.context.get("active_model")
         if data is None:
             data = {}
         if not docids:
             docids = data["form"].get("docids")
+
         folio_profile = self.env["hotel.reservation"].browse(docids)
-        date_start = data.get("date_start", fields.Date.today())
-        date_end = data["form"].get(
-            "date_end",
-            str(datetime.now() + relativedelta(months=+1, day=1, days=-1))[:10],
+        (
+            date_start_ist,
+            date_end_ist,
+            date_start_server,
+            date_end_server,
+        ) = self._prepare_date_range(
+            data["form"].get("date_start"), data["form"].get("date_end")
         )
-        rm_act = self.with_context(**data["form"].get("used_context", {}))
-        _get_room_type = rm_act._get_room_type(date_start, date_end)
-        _get_room_nos = rm_act._get_room_nos(date_start, date_end)
-        _get_checkout = rm_act._get_checkout(date_start, date_end)
+
+        reservations = self.get_checkout(date_start_server, date_end_server)
+
         return {
             "doc_ids": docids,
-            "doc_model": active_model,
+            "doc_model": self.env.context.get("active_model"),
             "data": data["form"],
             "docs": folio_profile,
             "time": time,
-            "get_room_type": _get_room_type,
-            "get_room_nos": _get_room_nos,
-            "get_checkout": _get_checkout,
+            "get_checkout": reservations,
+            "start_time": fields.Datetime.to_string(date_start_ist),
+            "end_time": fields.Datetime.to_string(date_end_ist),
         }
 
 
-class ReportTestMaxroom(models.AbstractModel):
+class ReportTestMaxroom(ReportUtils):
     _name = "report.hotel_reservation.report_maxroom_qweb"
-    _description = "Auxiliar to get the room report"
-
-    def _get_room_type(self, date_start, date_end):
-        res = self.env["hotel.reservation"].search(
-            [("checkin", ">=", date_start), ("checkout", "<=", date_end)]
-        )
-        return res
-
-    def _get_room_nos(self, date_start, date_end):
-        res = self.env["hotel.reservation"].search(
-            [("checkin", ">=", date_start), ("checkout", "<=", date_end)]
-        )
-        return res
-
-    def _get_data(self, date_start, date_end):
-        res = self.env["hotel.reservation"].search(
-            [("checkin", ">=", date_start), ("checkout", "<=", date_end)]
-        )
-        return res
+    _description = "Auxiliary to get the room report"
 
     def _get_room_used_detail(self, date_start, date_end):
         room_used_details = []
@@ -157,86 +152,69 @@ class ReportTestMaxroom(models.AbstractModel):
 
     @api.model
     def _get_report_values(self, docids, data):
-        active_model = self.env.context.get("active_model")
         if data is None:
             data = {}
         if not docids:
             docids = data["form"].get("docids")
+
         folio_profile = self.env["hotel.reservation"].browse(docids)
-        date_start = data["form"].get("date_start", fields.Date.today())
-        date_end = data["form"].get(
-            "date_end",
-            str(datetime.now() + relativedelta(months=+1, day=1, days=-1))[:10],
+        (
+            date_start_ist,
+            date_end_ist,
+            date_start_server,
+            date_end_server,
+        ) = self._prepare_date_range(
+            data["form"].get("date_start"), data["form"].get("date_end")
         )
-        rm_act = self.with_context(**data["form"].get("used_context", {}))
-        _get_room_type = rm_act._get_room_type(date_start, date_end)
-        _get_room_nos = rm_act._get_room_nos(date_start, date_end)
-        _get_data = rm_act._get_data(date_start, date_end)
-        _get_room_used_detail = rm_act._get_room_used_detail(date_start, date_end)
+
+        room_used_details = self._get_room_used_detail(
+            date_start_server, date_end_server
+        )
+
         return {
             "doc_ids": docids,
-            "doc_model": active_model,
+            "doc_model": self.env.context.get("active_model"),
             "data": data["form"],
             "docs": folio_profile,
             "time": time,
-            "get_room_type": _get_room_type,
-            "get_room_nos": _get_room_nos,
-            "get_data": _get_data,
-            "get_room_used_detail": _get_room_used_detail,
+            "get_room_used_detail": room_used_details,
+            "start_time": fields.Datetime.to_string(date_start_ist),
+            "end_time": fields.Datetime.to_string(date_end_ist),
         }
 
 
-class ReportRoomReservation(models.AbstractModel):
+class ReportRoomReservation(ReportUtils):
     _name = "report.hotel_reservation.report_room_reservation_qweb"
-    _description = "Auxiliar to get the room report"
-
-    def _get_room_type(self, date_start, date_end):
-        reservation_obj = self.env["hotel.reservation"]
-        tids = reservation_obj.search(
-            [("checkin", ">=", date_start), ("checkout", "<=", date_end)]
-        )
-        res = reservation_obj.browse(tids)
-        return res
-
-    def _get_room_nos(self, date_start, date_end):
-        reservation_obj = self.env["hotel.reservation"]
-        tids = reservation_obj.search(
-            [("checkin", ">=", date_start), ("checkout", "<=", date_end)]
-        )
-        res = reservation_obj.browse(tids)
-        return res
-
-    def _get_data(self, date_start, date_end):
-        reservation_obj = self.env["hotel.reservation"]
-        res = reservation_obj.search(
-            [("checkin", ">=", date_start), ("checkout", "<=", date_end)]
-        )
-        return res
+    _description = "Auxiliary to get the room reservation report"
 
     @api.model
     def _get_report_values(self, docids, data):
-        active_model = self.env.context.get("active_model")
         if data is None:
             data = {}
         if not docids:
             docids = data["form"].get("docids")
+
         folio_profile = self.env["hotel.reservation"].browse(docids)
-        date_start = data.get("date_start", fields.Date.today())
-        date_end = data["form"].get(
-            "date_end",
-            str(datetime.now() + relativedelta(months=+1, day=1, days=-1))[:10],
+        (
+            date_start_ist,
+            date_end_ist,
+            date_start_server,
+            date_end_server,
+        ) = self._prepare_date_range(
+            data["form"].get("date_start"), data["form"].get("date_end")
         )
-        rm_act = self.with_context(**data["form"].get("used_context", {}))
-        _get_room_type = rm_act._get_room_type(date_start, date_end)
-        _get_room_nos = rm_act._get_room_nos(date_start, date_end)
-        _get_data = rm_act._get_data(date_start, date_end)
+
+        reservations = self._get_reservations(
+            "checkin", date_start_server, date_end_server
+        )
+
         return {
             "doc_ids": docids,
-            "doc_model": active_model,
+            "doc_model": self.env.context.get("active_model"),
             "data": data["form"],
             "docs": folio_profile,
             "time": time,
-            "get_room_type": _get_room_type,
-            "get_room_nos": _get_room_nos,
-            "get_data": _get_data,
+            "get_data": reservations,
+            "start_time": fields.Datetime.to_string(date_start_ist),
+            "end_time": fields.Datetime.to_string(date_end_ist),
         }

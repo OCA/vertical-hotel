@@ -1,4 +1,4 @@
-# Copyright (C) 2022-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# Copyright (C) 2023-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from datetime import timedelta
@@ -19,7 +19,7 @@ class HotelReservation(models.Model):
 
     def _compute_folio_count(self):
         for res in self:
-            res.update({"no_of_folio": len(res.folio_id.ids)})
+            res.no_of_folio = len(res.folio_id.ids)
 
     reservation_no = fields.Char(readonly=True, copy=False)
     date_order = fields.Datetime(
@@ -93,6 +93,7 @@ class HotelReservation(models.Model):
     adults = fields.Integer(
         readonly=True,
         states={"draft": [("readonly", False)]},
+        required=True,
         help="List of adults there in guest list. ",
     )
     children = fields.Integer(
@@ -105,6 +106,7 @@ class HotelReservation(models.Model):
         "line_id",
         help="Hotel room reservation details.",
         readonly=True,
+        required=True,
         states={"draft": [("readonly", False)]},
     )
     state = fields.Selection(
@@ -187,7 +189,7 @@ class HotelReservation(models.Model):
                         """the current date."""
                     )
                 )
-            if self.checkout < self.checkin:
+            if self.checkout <= self.checkin:
                 raise ValidationError(
                     _("""Check-out date should be greater """ """than Check-in date.""")
                 )
@@ -513,6 +515,21 @@ class HotelReservationLine(models.Model):
     )
     categ_id = fields.Many2one("hotel.room.type", "Room Type")
 
+    @api.constrains("reserve", "line_id")
+    def _check_reserve_rooms(self):
+        for rec in self:
+            if rec.reserve and rec.line_id:
+                check_room = self.env["hotel.reservation.line"].search(
+                    [
+                        ("reserve", "in", rec.reserve.ids),
+                        ("line_id", "=", rec.line_id.id),
+                        ("id", "!=", rec.id),
+                    ],
+                    limit=1,
+                )
+                if check_room:
+                    raise ValidationError(_("You can not same room reservation"))
+
     @api.onchange("categ_id")
     def on_change_categ(self):
         """
@@ -532,6 +549,7 @@ class HotelReservationLine(models.Model):
         hotel_room_ids = self.env["hotel.room"].search(
             [("room_categ_id", "=", self.categ_id.id)]
         )
+
         room_ids = []
         for room in hotel_room_ids:
             assigned = False
@@ -569,6 +587,7 @@ class HotelReservationLine(models.Model):
                         assigned = True
             if not assigned:
                 room_ids.append(room.id)
+
         domain = {"reserve": [("id", "in", room_ids)]}
         return {"domain": domain}
 

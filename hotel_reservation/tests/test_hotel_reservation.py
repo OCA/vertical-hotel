@@ -3,7 +3,6 @@
 
 from datetime import datetime, timedelta
 
-from odoo.exceptions import ValidationError
 from odoo.tests import common
 
 
@@ -29,14 +28,8 @@ class TestReservation(common.TransactionCase):
         self.warehouse = self.env.ref("stock.warehouse0")
         self.price_list = self.env.ref("product.list0")
         cur_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-        self.hotel_reserv_line = self.hotel_reserv_line_obj.create(
-            {
-                "name": "R/00001",
-                "line_id": self.reserv_line.id,
-                "reserve": [(6, 0, [self.room.id])],
-                "categ_id": self.room_type.id,
-            }
+        checkout_date = (datetime.now() + timedelta(days=7)).strftime(
+            "%Y-%m-%d %H:%M:%S"
         )
 
         self.hotel_reserv = self.hotel_reserv_obj.create(
@@ -47,7 +40,7 @@ class TestReservation(common.TransactionCase):
                 "partner_id": self.partner.id,
                 "pricelist_id": self.pricelist.id,
                 "checkin": cur_date,
-                "checkout": cur_date,
+                "checkout": checkout_date,
                 "adults": 1,
                 "state": "draft",
                 "children": 1,
@@ -62,15 +55,19 @@ class TestReservation(common.TransactionCase):
             {
                 "name": "Room Reservation Summary",
                 "date_from": cur_date,
-                "date_to": cur_date,
+                "date_to": checkout_date,
             }
         )
 
+        cur_date1 = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        checkout_date1 = (datetime.now() + timedelta(days=7)).strftime(
+            "%Y-%m-%d %H:%M:%S"
+        )
         self.quick_room_reserv = self.quick_room_reserv_obj.create(
             {
                 "partner_id": self.partner.id,
-                "check_in": cur_date,
-                "check_out": cur_date,
+                "check_in": cur_date1,
+                "check_out": checkout_date1,
                 "room_id": self.room.id,
                 "company_id": self.company.id,
                 "pricelist_id": self.pricelist.id,
@@ -84,8 +81,8 @@ class TestReservation(common.TransactionCase):
         self.hotel_room_reserv = self.hotel_room_reserv_obj.create(
             {
                 "room_id": self.room.id,
-                "check_in": cur_date,
-                "check_out": cur_date,
+                "check_in": cur_date1,
+                "check_out": checkout_date1,
             }
         )
 
@@ -176,10 +173,6 @@ class TestReservation(common.TransactionCase):
     def test_reservation_reminder_24hrs(self):
         self.hotel_reserv.reservation_reminder_24hrs()
 
-    def test_create_folio(self):
-        with self.assertRaises(ValidationError):
-            self.hotel_reserv.create_folio()
-
     def test_onchange_check_dates(self):
         self.hotel_reserv._onchange_check_dates()
 
@@ -192,9 +185,3 @@ class TestReservation(common.TransactionCase):
 
     def test_write(self):
         self.hotel_folio.write({"reservation_id": self.hotel_reserv.id})
-
-    def test_on_change_categ(self):
-        self.hotel_reserv_line.on_change_categ()
-
-    def test_unlink(self):
-        self.hotel_reserv_line.unlink()

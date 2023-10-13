@@ -1,4 +1,4 @@
-<odoo>
+<odoo noupdate="1">
     <!-- Email Template For Hotel Reservation -->
     <record id="email_template_hotel_reservation" model="mail.template">
         <field name="name">Reservation-Send by Email</field>

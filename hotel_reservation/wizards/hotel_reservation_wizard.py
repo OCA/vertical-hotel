@@ -1,4 +1,4 @@
-# Copyright (C) 2022-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# Copyright (C) 2023-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import fields, models
@@ -8,8 +8,8 @@ class HotelReservationWizard(models.TransientModel):
     _name = "hotel.reservation.wizard"
     _description = "Allow to generate a reservation"
 
-    date_start = fields.Datetime("Start Date", required=True)
-    date_end = fields.Datetime("End Date", required=True)
+    date_start = fields.Datetime("Start Date")
+    date_end = fields.Datetime("End Date")
 
     def report_reservation_detail(self):
         data = {

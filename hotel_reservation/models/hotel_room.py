@@ -1,4 +1,4 @@
-# Copyright (C) 2022-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# Copyright (C) 2023-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
@@ -82,6 +82,7 @@ class HotelRoom(models.Model):
             if room_line_ids:
                 status = {"isroom": False, "color": 2}
             room.write(status)
+
             if reservation_line_ids and room_line_ids:
                 raise ValidationError(
                     _(
@@ -97,7 +98,9 @@ class RoomReservationSummary(models.Model):
     _name = "room.reservation.summary"
     _description = "Room reservation summary"
 
-    name = fields.Char("Reservation Summary", default="Reservations Summary")
+    name = fields.Char(
+        "Reservation Summary", default="Reservations Summary", required=True
+    )
     date_from = fields.Datetime(default=lambda self: fields.Date.today())
     date_to = fields.Datetime(
         default=lambda self: fields.Date.today() + relativedelta(days=30),
