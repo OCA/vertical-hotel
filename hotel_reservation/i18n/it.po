@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-06-08 09:12+0000\n"
+"PO-Revision-Date: 2023-10-29 08:32+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -549,7 +549,7 @@ msgstr "<strong>Nome ospite</strong>"
 #. module: hotel_reservation
 #: model_terms:ir.ui.view,arch_db:hotel_reservation.report_maxroom_qweb
 msgid "<strong>No of Times used</strong>"
-msgstr "<strong>Nr. di volte usato</strong>"
+msgstr "<strong>Nr. di utilizzi</strong>"
 
 #. module: hotel_reservation
 #: model_terms:ir.ui.view,arch_db:hotel_reservation.report_room_reservation_qweb
@@ -561,7 +561,7 @@ msgstr "<strong>Dettagli camera</strong>"
 #: model_terms:ir.ui.view,arch_db:hotel_reservation.report_checkout_qweb
 #: model_terms:ir.ui.view,arch_db:hotel_reservation.report_maxroom_qweb
 msgid "<strong>Room No</strong>"
-msgstr "<strong>Camera Nr.</strong>"
+msgstr "<strong>Nr. camera</strong>"
 
 #. module: hotel_reservation
 #: model_terms:ir.ui.view,arch_db:hotel_reservation.report_checkin_qweb
@@ -798,7 +798,7 @@ msgstr "Ordinato per data"
 #. module: hotel_reservation
 #: model:ir.model.fields,field_description:hotel_reservation.field_room_reservation_summary__date_to
 msgid "Date To"
-msgstr "Data al"
+msgstr "Alla data"
 
 #. module: hotel_reservation
 #: model:ir.model.fields,field_description:hotel_reservation.field_hotel_reservation__partner_shipping_id
@@ -1070,7 +1070,7 @@ msgstr "Elenco numero massimo camere utilizzate"
 #. module: hotel_reservation
 #: model:ir.actions.report,name:hotel_reservation.hotel_maxroom_details
 msgid "MaxRoom Detail"
-msgstr "Dettaglio massimo camera"
+msgstr "Dettaglio camera Max"
 
 #. module: hotel_reservation
 #: model:ir.model.fields,field_description:hotel_reservation.field_hotel_reservation__message_has_error
@@ -1125,7 +1125,7 @@ msgstr "Numero di messaggi non letti"
 #. module: hotel_reservation
 #: model_terms:ir.ui.view,arch_db:hotel_reservation.view_hotel_reservation_search
 msgid "Order By Month"
-msgstr "Ordinato per mese"
+msgstr "Ordina per mese"
 
 #. module: hotel_reservation
 #: model:ir.model.fields,field_description:hotel_reservation.field_hotel_reservation__partner_order_id
@@ -1212,7 +1212,7 @@ msgstr "Prenotazioni"
 #. module: hotel_reservation
 #: model:ir.model.fields,field_description:hotel_reservation.field_hotel_reservation_line__reserve
 msgid "Reserve"
-msgstr "Riserva"
+msgstr "Prenota"
 
 #. module: hotel_reservation
 #: model:ir.model.fields,field_description:hotel_reservation.field_quick_room_reservation__room_id
@@ -1264,7 +1264,7 @@ msgstr "Riepilogo prenotazione camera"
 #. module: hotel_reservation
 #: model:ir.model.fields,field_description:hotel_reservation.field_hotel_room__room_reservation_line_ids
 msgid "Room Reserve Line"
-msgstr "Riga riserva camera"
+msgstr "Riga prenotazione camera"
 
 #. module: hotel_reservation
 #: model:ir.model.fields,field_description:hotel_reservation.field_hotel_room_reservation_line__state
@@ -1390,7 +1390,9 @@ msgstr "Numero messaggi non letti"
 #, python-format
 msgid ""
 "User is not able to delete the room after the room in %s state in reservation"
-msgstr "L'utente non può cancellare la camera dopo che la camera è in stato %s"
+msgstr ""
+"L'utente non può annullare la prenotazione dopo che la camera è prenotata in "
+"stato %s"
 
 #. module: hotel_reservation
 #: model:ir.model.fields,field_description:hotel_reservation.field_hotel_reservation__website_message_ids
