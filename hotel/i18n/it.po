@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-10-16 14:36+0000\n"
+"PO-Revision-Date: 2023-10-29 08:32+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -750,7 +750,7 @@ msgstr "Quantità consegnata"
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__partner_shipping_id
 msgid "Delivery Address"
-msgstr "Indirizzo consegna"
+msgstr "Indirizzo di consegna"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__commitment_date
@@ -760,7 +760,7 @@ msgstr "Data consegna"
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__delivery_count
 msgid "Delivery Orders"
-msgstr "Ordini consegna"
+msgstr "Ordini di consegna"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio__expected_date
@@ -1179,7 +1179,7 @@ msgstr "Genera foglio"
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities__packaging_ids
 #: model:ir.model.fields,help:hotel.field_hotel_services__packaging_ids
 msgid "Gives the different ways to package the same product."
-msgstr "Consente di imballare diversamente lo stesso prodotto."
+msgstr "Consente di creare colli in modi diversi lo stesso prodotto."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__sequence
