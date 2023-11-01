@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-10-29 17:43+0000\n"
+"PO-Revision-Date: 2023-11-01 15:39+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -2789,7 +2789,7 @@ msgstr "Token di sicurezza"
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities__categ_id
 #: model:ir.model.fields,help:hotel.field_hotel_services__categ_id
 msgid "Select category for the current product"
-msgstr "Selezionare la categoria per il prodotto auttuale"
+msgstr "Selezionare una categoria per il prodotto corrente"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__sale_line_warn
