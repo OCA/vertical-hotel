@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-11-01 15:39+0000\n"
+"PO-Revision-Date: 2023-11-06 16:38+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -28,7 +28,7 @@ msgstr "Nr. varianti prodotto"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_type__product_count
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_type__product_count
 msgid "# Products"
-msgstr "Nr. prodotti"
+msgstr "N* prodotti"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_kanban
