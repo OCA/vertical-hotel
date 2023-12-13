@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-11-22 15:36+0000\n"
+"PO-Revision-Date: 2023-12-13 14:35+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -617,8 +617,8 @@ msgid ""
 "Creation date of draft/sent orders,\n"
 "Confirmation date of confirmed orders."
 msgstr ""
-"Data di creazione ordini in bozza/inviati,\n"
-"Data di conferma ordini confermati."
+"Data di creazione degli ordini in bozza/spediti,\n"
+"data di conferma degli ordini confermati."
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__currency_id
@@ -633,7 +633,7 @@ msgstr "Valuta"
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__currency_rate
 msgid "Currency Rate"
-msgstr "Coefficiente valuta"
+msgstr "Tasso di cambio"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_folio_search
@@ -1455,9 +1455,9 @@ msgid ""
 "based on the greatest product lead time. Otherwise, it will be based on the "
 "shortest."
 msgstr ""
-"Se si consegnano tutti i prodotti in una volta, l'ordine di consegna verrà "
-"pianificato in mase al tempo di consegna maggiore. Altrimenti, in base al "
-"più breve."
+"Se tutti i prodotti vengono consegnati insieme, l'ordine di consegna verrà "
+"pianificato in base al tempo di attraversamento maggiore. Altrimenti, verrà "
+"utilizzato il più corto."
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__image_1920
@@ -1565,8 +1565,8 @@ msgid ""
 "International Commercial Terms are a series of predefined commercial terms "
 "used in international transactions."
 msgstr ""
-"Termini commerciali internazionali sono una serie di termini commerciali "
-"predefiniti utilizzati nelle transizioni internazionali."
+"I termini commerciali internazionali (Incoterms) sono una serie di termini "
+"commerciali predefiniti utilizzati nelle transizioni internazionali."
 
 #. module: hotel
 #: model:hotel.services,name:hotel.hotel_service_6
