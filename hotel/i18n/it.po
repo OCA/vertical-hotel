@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-12-18 10:38+0000\n"
+"PO-Revision-Date: 2023-12-19 13:35+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -2148,7 +2148,7 @@ msgstr "Quantità confezione"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_type__parent_id
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_type__parent_id
 msgid "Parent Category"
-msgstr "Categoria padre"
+msgstr "Categoria madre"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_type__parent_path
