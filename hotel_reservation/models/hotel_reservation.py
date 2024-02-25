@@ -352,7 +352,7 @@ class HotelReservation(models.Model):
         self.folio_id = []
         self.update({"state": "draft"})
         self.create_folio()
-        
+
     def action_send_reservation_mail(self):
         """
         This function opens a window to compose an email,
