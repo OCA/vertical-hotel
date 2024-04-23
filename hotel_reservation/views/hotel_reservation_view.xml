@@ -12,47 +12,47 @@
                         name="action_send_reservation_mail"
                         type="object"
                         string="Send Reservation Email"
-                        states="confirm"
+                        invisible="state != 'confirm'"
                         class="oe_highlight"
                     />
                     <button
                         name="confirmed_reservation"
                         string="Confirm"
-                        states="draft"
+                        invisible="state != 'draft'"
                         class="oe_highlight"
                         type="object"
                     />
                     <button
                         name="create_folio"
                         string="Create Folio"
-                        states="confirm"
+                        invisible="state != 'confirm'"
                         class="oe_highlight"
                         type="object"
                     />
                     <button
                         name="cancel_reservation"
                         string="Cancel Reservation"
-                        states="draft,confirm"
+                        invisible="state in ['draft','confirm']"
                         class="oe_highlight"
                         type="object"
                     />
                     <button
                         name="set_to_draft_reservation"
                         string="Set to Draft"
-                        states="cancel"
+                        invisible="state != 'cancel'"
                         class="oe_highlight"
                         type="object"
                     />
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
-                    <div class="oe_button_box" name="button_box">
+                    <div class="oe_button_box">
                         <button
                             name="open_folio_view"
                             type="object"
                             icon="fa-file-text-o"
                             class="oe_stat_button"
-                            attrs="{'invisible': [('no_of_folio', '=', 0)]}"
+                            invisible="no_of_folio == '0'"
                         >
                             <field
                                 name="no_of_folio"
@@ -61,48 +61,58 @@
                             />
                         </button>
                     </div>
-                    <div class="oe_title">
-                        <label for='reservation_no' string="Reservation No" />
-                        <h1>
-                            <field name="reservation_no" class="oe_inline" />
-                        </h1>
-                    </div>
+                    <label for='reservation_no' string="Reservation No" />
+                    <h1>
+                        <field name="reservation_no" class="oe_inline" />
+                    </h1>
                     <group>
-                        <group>
+                        <group colspan="4" col="4">
                             <field name="date_order" />
-                            <separator />
+                            <field name="company_id" />
+                        </group>
+                        <separator />
+                        <group colspan="4" col="4">
                             <field
                                 name="partner_id"
+                                readonly="state != 'draft'"
                                 context="{'default_customer_rank': 1}"
                             />
                             <field
+                                readonly="state != 'draft'"
+                                name="pricelist_id"
+                                col="2"
+                            />
+                            <field
                                 name="partner_order_id"
+                                readonly="state != 'draft'"
                                 domain="[('parent_id','=',partner_id)]"
                             />
+                            <newline />
                             <field
                                 name="partner_invoice_id"
                                 domain="[('parent_id','=',partner_id)]"
                             />
-                            <field name="checkin" />
-                            <field name="adults" required="1" />
-                        </group>
-                        <group>
-                            <field name="company_id" />
-                            <separator />
-                            <field name="pricelist_id" col="2" />
                             <field
                                 name="partner_shipping_id"
+                                readonly="state != 'draft'"
                                 domain="[('parent_id','=',partner_id)]"
-                                invisible="True"
                             />
-                            <separator />
-                            <field name="checkout" />
-                            <field name="children" />
+                        </group>
+                        <group colspan="4" col="4">
+                            <field name="checkin" readonly="state != 'draft'" />
+                            <field name="checkout" readonly="state != 'draft'" />
+                            <field name="adults" readonly="state != 'draft'" />
+                            <field name="children" readonly="state != 'draft'" />
                         </group>
                     </group>
                     <notebook>
                         <page name="reservation_line" string='Reservation Line'>
-                            <field name="reservation_line" nolabel="1">
+                            <field
+                                name="reservation_line"
+                                colspan="4"
+                                nolabel="1"
+                                readonly="0"
+                            >
                                 <form string="Reservation Line">
                                     <separator string="Room Type" />
                                     <field name="name" invisible="1" />
@@ -323,30 +333,12 @@
                     <separator string="Room Reservation Summary" colspan="4" />
                 </header>
                 <sheet>
-                    <group>
-                        <label for="date_from" string="Summary Period" />
-                        <div name="dates" class="o_row">
-                            <field
-                                name="date_from"
-                                widget="daterange"
-                                options='{"related_end_date": "date_to"}'
-                            />
-                            <i
-                                class="fa fa-long-arrow-right mx-2 oe_edit_only"
-                                aria-label="Arrow icon"
-                                title="Arrow"
-                            />
-                            <i
-                                class="fa fa-long-arrow-right mx-2 oe_read_only"
-                                aria-label="Arrow icon"
-                                title="Arrow"
-                            />
-                            <label for="date_to" string="End Date" />
-                            <field
-                                name="date_to"
-                                widget="daterange"
-                                options='{"related_start_date": "date_from"}'
-                            />
+                    <group colspan="4" col="4">
+                        <div>
+                            <label for="date_from" string="Summary Period" />
+                            <field name="date_from" class="oe_inline" />
+                            to
+                            <field name="date_to" class="oe_inline" />
                         </div>
                     </group>
                     <notebook>

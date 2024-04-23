@@ -36,6 +36,7 @@
                             t-as="line"
                             class="table table-condensed"
                         >
+                        <span t-esc="line" />
                             <td>
                                 <span t-esc="line.get('name','')" />
                             </td>

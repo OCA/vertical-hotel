@@ -1,4 +1,4 @@
-# Copyright (C) 2022-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# Copyright (C) 2024-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from datetime import datetime, timedelta
@@ -9,7 +9,7 @@ from odoo.tests import common
 
 class TestReservation(common.TransactionCase):
     def setUp(self):
-        super(TestReservation, self).setUp()
+        super().setUp()
 
         self.hotel_reserv_line_obj = self.env["hotel.reservation.line"]
         self.hotel_reserv_obj = self.env["hotel.reservation"]

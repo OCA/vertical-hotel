@@ -1,11 +1,10 @@
-# Copyright (C) 2023-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# Copyright (C) 2024-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models
 
 
 class HotelFolio(models.Model):
-
     _inherit = "hotel.folio"
     _order = "reservation_id desc"
 
@@ -14,7 +13,7 @@ class HotelFolio(models.Model):
     )
 
     def write(self, vals):
-        res = super(HotelFolio, self).write(vals)
+        res = super().write(vals)
         reservation_line_obj = self.env["hotel.room.reservation.line"]
         for folio in self:
             reservations = reservation_line_obj.search(
@@ -35,17 +34,16 @@ class HotelFolio(models.Model):
 
 
 class HotelFolioLine(models.Model):
-
     _inherit = "hotel.folio.line"
 
     @api.onchange("checkin_date", "checkout_date")
     def _onchange_checkin_checkout_dates(self):
-        res = super(HotelFolioLine, self)._onchange_checkin_checkout_dates()
+        res = super()._onchange_checkin_checkout_dates()
         avail_prod_ids = []
         for room in self.env["hotel.room"].search([]):
             assigned = False
             for line in room.room_reservation_line_ids.filtered(
-                lambda l: l.status != "cancel"
+                lambda x: x.status != "cancel"
             ):
                 if self.checkin_date and line.check_in and self.checkout_date:
                     if (self.checkin_date <= line.check_in <= self.checkout_date) or (
@@ -95,4 +93,4 @@ class HotelFolioLine(models.Model):
                             "check_out": checkout,
                         }
                         rm_lines.write(rm_line_vals)
-        return super(HotelFolioLine, self).write(vals)
+        return super().write(vals)
