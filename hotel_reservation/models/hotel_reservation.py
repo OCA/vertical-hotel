@@ -1,4 +1,4 @@
-# Copyright (C) 2023-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# Copyright (C) 2024-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from datetime import timedelta
@@ -10,7 +10,6 @@ from odoo.exceptions import ValidationError
 
 
 class HotelReservation(models.Model):
-
     _name = "hotel.reservation"
     _rec_name = "reservation_no"
     _description = "Reservation"
@@ -37,7 +36,6 @@ class HotelReservation(models.Model):
         index=True,
         required=True,
         default=1,
-        states={"draft": [("readonly", False)]},
     )
     partner_id = fields.Many2one(
         "res.partner",
@@ -45,28 +43,23 @@ class HotelReservation(models.Model):
         readonly=True,
         index=True,
         required=True,
-        states={"draft": [("readonly", False)]},
     )
     pricelist_id = fields.Many2one(
         "product.pricelist",
         "Scheme",
         required=True,
         readonly=True,
-        states={"draft": [("readonly", False)]},
         help="Pricelist for current reservation.",
     )
     partner_invoice_id = fields.Many2one(
         "res.partner",
         "Invoice Address",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
         help="Invoice address for " "current reservation.",
     )
     partner_order_id = fields.Many2one(
         "res.partner",
         "Ordering Contact",
         readonly=True,
-        states={"draft": [("readonly", False)]},
         help="The name and address of the "
         "contact that requested the order "
         "or quotation.",
@@ -75,29 +68,25 @@ class HotelReservation(models.Model):
         "res.partner",
         "Delivery Address",
         readonly=True,
-        states={"draft": [("readonly", False)]},
         help="Delivery address" "for current reservation. ",
     )
     checkin = fields.Datetime(
         "Expected-Date-Arrival",
         required=True,
         readonly=True,
-        states={"draft": [("readonly", False)]},
     )
     checkout = fields.Datetime(
         "Expected-Date-Departure",
         required=True,
         readonly=True,
-        states={"draft": [("readonly", False)]},
     )
     adults = fields.Integer(
         readonly=True,
-        states={"draft": [("readonly", False)]},
+        required=True,
         help="List of adults there in guest list. ",
     )
     children = fields.Integer(
         readonly=True,
-        states={"draft": [("readonly", False)]},
         help="Number of children there in guest list.",
     )
     reservation_line = fields.One2many(
@@ -105,7 +94,6 @@ class HotelReservation(models.Model):
         "line_id",
         help="Hotel room reservation details.",
         readonly=True,
-        states={"draft": [("readonly", False)]},
     )
     state = fields.Selection(
         [
@@ -139,7 +127,7 @@ class HotelReservation(models.Model):
             raise ValidationError(
                 _("Sorry, you can only delete the reservation when it's draft!")
             )
-        return super(HotelReservation, self).unlink()
+        return super().unlink()
 
     def copy(self):
         ctx = dict(self._context) or {}
@@ -229,7 +217,7 @@ class HotelReservation(models.Model):
         vals["reservation_no"] = (
             self.env["ir.sequence"].next_by_code("hotel.reservation") or "New"
         )
-        return super(HotelReservation, self).create(vals)
+        return super().create(vals)
 
     def check_overlap(self, date1, date2):
         delta = date2 - date1
@@ -359,7 +347,7 @@ class HotelReservation(models.Model):
         compose_form_id = self.env.ref("mail.email_compose_message_wizard_form").id
         ctx = {
             "default_model": "hotel.reservation",
-            "default_res_id": self.id,
+            "default_res_ids": self.ids,
             "default_use_template": bool(template_id),
             "default_template_id": template_id,
             "default_composition_mode": "comment",
@@ -425,8 +413,10 @@ class HotelReservation(models.Model):
                 "company_id": reservation.company_id.id,
                 "partner_id": reservation.partner_id.id,
                 "pricelist_id": reservation.pricelist_id.id,
-                "partner_invoice_id": reservation.partner_invoice_id.id,
-                "partner_shipping_id": reservation.partner_shipping_id.id,
+                "partner_invoice_id": reservation.partner_invoice_id.id
+                or reservation.partner_id.id,
+                "partner_shipping_id": reservation.partner_shipping_id.id
+                or reservation.partner_id.id,
                 "checkin_date": reservation.checkin,
                 "checkout_date": reservation.checkout,
                 "duration": duration,
@@ -497,7 +487,6 @@ class HotelReservation(models.Model):
 
 
 class HotelReservationLine(models.Model):
-
     _name = "hotel.reservation.line"
     _description = "Reservation Line"
 
@@ -509,7 +498,7 @@ class HotelReservationLine(models.Model):
         "hotel_reservation_line_id",
         "room_id",
         domain="[('isroom','=',True),\
-                               ('categ_id','=',categ_id)]",
+                               ('room_categ_id','=',categ_id)]",
     )
     categ_id = fields.Many2one("hotel.room.type", "Room Type")
 
@@ -536,7 +525,7 @@ class HotelReservationLine(models.Model):
         for room in hotel_room_ids:
             assigned = False
             for line in room.room_reservation_line_ids.filtered(
-                lambda l: l.status != "cancel"
+                lambda x: x.status != "cancel"
             ):
                 if self.line_id.checkin and line.check_in and self.line_id.checkout:
                     if (
@@ -549,7 +538,7 @@ class HotelReservationLine(models.Model):
                         line.check_in <= self.line_id.checkout <= line.check_out
                     ):
                         assigned = True
-            for rm_line in room.room_line_ids.filtered(lambda l: l.status != "cancel"):
+            for rm_line in room.room_line_ids.filtered(lambda x: x.status != "cancel"):
                 if self.line_id.checkin and rm_line.check_in and self.line_id.checkout:
                     if (
                         self.line_id.checkin
@@ -590,11 +579,10 @@ class HotelReservationLine(models.Model):
                 if myobj:
                     rec.write({"isroom": True, "status": "available"})
                     myobj.unlink()
-        return super(HotelReservationLine, self).unlink()
+        return super().unlink()
 
 
 class HotelRoomReservationLine(models.Model):
-
     _name = "hotel.room.reservation.line"
     _description = "Hotel Room Reservation"
     _rec_name = "room_id"
