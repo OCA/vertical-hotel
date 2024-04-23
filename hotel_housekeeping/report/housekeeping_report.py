@@ -1,4 +1,4 @@
-# Copyright (C) 2023-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# Copyright (C) 2024-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import time
@@ -10,7 +10,6 @@ from odoo import api, fields, models
 
 
 class ActivityReport(models.AbstractModel):
-
     _name = "report.hotel_housekeeping.housekeeping_report"
     _description = "Hotel Housekeeping Report"
 
