@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE xml>
 <odoo>
 
     <!-- Template for Hotel Restaurant -->
@@ -41,7 +42,7 @@
                                     <th>
                                         <strong>Waiter Name</strong>
                                     </th>
-                                    <th t-if="o.folio_id.id">
+                                    <th t-if="o.folio_id">
                                         <strong>Folio Number</strong>
                                     </th>
                                     <th>
@@ -59,7 +60,7 @@
                                         t-esc="o.waiter_id.name"
                                     />
                                 </td>
-                                <td t-if="o.folio_id.id" style="white-space: nowrap;">
+                                <td t-if="o.folio_id" style="white-space: nowrap;">
                                     <span t-att-style="style" t-esc="o.folio_id.name" />
                                 </td>
                                 <td t-if="o.room_id.id" style="white-space: nowrap;">
@@ -178,7 +179,7 @@
                                     <th>
                                         <strong>Order Number</strong>
                                     </th>
-                                    <th t-if="o.folio_id.id">
+                                    <th t-if="o.folio_id">
                                         <strong>Folio Number</strong>
                                     </th>
                                     <th>
@@ -190,10 +191,10 @@
                                 <td style="white-space: nowrap;">
                                     <span t-esc="o.order_date" />
                                 </td>
-                                <td style="white-space: nowrap;">
+                                    <td style="white-space: nowrap;">
                                     <span t-att-style="style" t-esc="o.order_number" />
                                 </td>
-                                <td t-if="o.folio_id.id" style="white-space: nowrap;">
+                                <td t-if="o.folio_id" style="white-space: nowrap;">
                                     <span t-att-style="style" t-esc="o.folio_id.name" />
                                 </td>
                                 <td style="white-space: nowrap;">

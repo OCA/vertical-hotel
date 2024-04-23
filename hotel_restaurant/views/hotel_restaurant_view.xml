@@ -137,12 +137,12 @@
         <field name="name">hotel_restaurant_reservation.form</field>
         <field name="model">hotel.restaurant.reservation</field>
         <field name="arch" type="xml">
-            <form>
+            <form string="Table Reservation">
                 <header>
                     <button
                         string="Confirm"
                         name="table_reserved"
-                        states="draft"
+                        invisible="state != 'draft'"
                         type="object"
                         icon="fa-check"
                         class="oe_highlight"
@@ -150,7 +150,7 @@
                     <button
                         string="Done"
                         name="table_done"
-                        states="confirm"
+                        invisible="state != 'confirm'"
                         type="object"
                         icon="fa-check-square-o"
                         class="oe_highlight"
@@ -158,7 +158,7 @@
                     <button
                         string="Cancel"
                         name="table_cancel"
-                        states="confirm"
+                        invisible="state != 'confirm'"
                         type="object"
                         icon="fa-close"
                         class="oe_highlight"
@@ -166,7 +166,7 @@
                     <button
                         string="Set to Draft"
                         name="action_set_to_draft"
-                        states="cancel"
+                        invisible="state != 'cancel'"
                         type="object"
                         icon="fa-files-o"
                         class="oe_highlight"
@@ -175,7 +175,7 @@
                         string="Create Order"
                         name="create_order"
                         type="object"
-                        states="done"
+                        invisible="state != 'done'"
                         icon="fa-file-text-o"
                         class="oe_highlight"
                     />
@@ -187,32 +187,35 @@
                 </header>
                 <sheet>
                     <h1>
-                        <field name="reservation_id" />
+                        <field name="reservation_id" colspan="4" />
                     </h1>
-                    <group string="Table Reservation">
-                        <group>
+                    <group>
+                        <group colspan="2" col="4">
                             <field name="is_folio" />
+                            <newline />
                             <field
                                 name="folio_id"
-                                attrs="{'invisible':[('is_folio','=',False)], 'required':[('is_folio','=',True)]}"
+                                invisible="not is_folio"
+                                required="is_folio"
                             />
-                            <field name="customer_id" />
-                            <field name="start_date" />
-                        </group>
-                        <group>
                             <field
                                 name="room_id"
-                                attrs="{'invisible':[('is_folio','=',False)] ,'required':[('is_folio','=',True)]}"
+                                invisible="not is_folio"
+                                required="is_folio"
                             />
+                        </group>
+                        <newline />
+                        <group colspan="4" col="4">
+                            <field name="customer_id" />
                             <field name="partner_address_id" />
+                            <field name="start_date" />
                             <field name="end_date" />
                         </group>
+                        <group colspan="4">
+                            <separator colspan='4' string="Table List" />
+                            <field name="table_nos_ids" colspan="2" nolabel='1' />
+                        </group>
                     </group>
-                    <notebook>
-                        <page string="Table List">
-                            <field name="table_nos_ids" nolabel='1' />
-                        </page>
-                    </notebook>
                 </sheet>
             </form>
         </field>
@@ -334,7 +337,7 @@
                         string="Generate KOT"
                         name="reservation_generate_kot"
                         type="object"
-                        states="draft"
+                        invisible="state != 'draft'"
                         icon="fa-arrow-right"
                         class="oe_highlight"
                     />
@@ -342,7 +345,7 @@
                         string="Generate KOT"
                         name="reservation_update_kot"
                         type="object"
-                        states="order"
+                        invisible="state != 'order'"
                         icon="fa-arrow-right"
                         class="oe_highlight"
                     />
@@ -350,13 +353,13 @@
                         string="Done"
                         name="done_kot"
                         type="object"
-                        states="order"
+                        invisible="state != 'order'"
                         icon="fa-check"
                         class="oe_highlight"
                     />
                     <button
-                        name="%(hotel_restaurant.report_hotel_reservation_order_bill)d"
-                        attrs="{'invisible' : ['|', ('folio_id','!=',False), ('state','in',('draft','order'))]}"
+                        name="%(report_hotel_reservation_order_bill)d"
+                        invisible="folio_id or state in ['draft','order']"
                         type="action"
                         string="Generate Bill"
                         class="oe_highlight"
@@ -365,30 +368,27 @@
                 </header>
                 <sheet>
                     <h1>
-                        <label for="order_number" string="Order" />
-                        <field name="order_number" />
+                        <label for="order_number" string="Order" colspan="4" />
+                        <field name="order_number" colspan="4" />
                     </h1>
                     <group>
-                        <group>
+                        <group colspan="4" col="4">
                             <field name="is_folio" />
                             <newline />
                             <field name="reservation_id" />
-                            <field
-                                name="folio_id"
-                                attrs="{'invisible': [('is_folio','=',False)]}"
-                            />
-                            <field name="order_date" />
+                            <field name="folio_id" invisible="not is_folio" />
                         </group>
-                        <group>
+                        <group colspan="4" col="4">
+                            <field name="order_date" />
+                            <field name="waitername" />
                             <field name="kitchen" invisible="1" />
                             <field
                                 name="rests_ids"
                                 widget="many2many_tags"
                                 invisible="1"
                             />
-                            <newline />
-                            <field name="waitername" />
                         </group>
+                        <newline />
                         <separator colspan='4' string='Table List' />
                         <field name="table_nos_ids" colspan="4" nolabel='1' />
                         <newline />
@@ -498,7 +498,7 @@
                         string="Generate KOT"
                         name="generate_kot"
                         type="object"
-                        states="draft"
+                        invisible="state != 'draft'"
                         icon="fa-arrow-right"
                         class="oe_highlight"
                     />
@@ -506,7 +506,7 @@
                         string="Generate KOT"
                         name="generate_kot_update"
                         type="object"
-                        states="order"
+                        invisible="state != 'order'"
                         icon="fa-arrow-right"
                         class="oe_highlight"
                     />
@@ -514,14 +514,14 @@
                         string="Done"
                         name="done_order_kot"
                         type="object"
-                        states="order"
+                        invisible="state != 'order'"
                         icon="fa-check"
                         class="oe_highlight"
                     />
                     <button
                         string="Cancel"
                         name="done_cancel"
-                        states="draft,order"
+                        invisible="state not in ['draft','order']"
                         type="object"
                         icon="fa-close"
                         class="oe_highlight"
@@ -529,14 +529,14 @@
                     <button
                         string="Set to Draft"
                         name="set_to_draft"
-                        states="cancel"
+                        invisible="state != 'cancel'"
                         type="object"
                         icon="fa-file-o"
                         class="oe_highlight"
                     />
                     <button
-                        name="%(hotel_restaurant.report_hotel_res_order_bill)d"
-                        attrs="{'invisible' : ['|', ('folio_id','!=',False), ('state','in',('draft','order','cancel'))]}"
+                        name="%(report_hotel_res_order_bill)d"
+                        invisible="folio_id or state in ['draft','order','cancel']"
                         type="action"
                         string="Generate Bill"
                         class="oe_highlight"
@@ -549,25 +549,27 @@
                 </header>
                 <sheet>
                     <h1>
-                        <field name="order_no" />
+                        <field name="order_no" colspan="4" />
                     </h1>
                     <group>
-                        <group>
+                        <group colspan="2" col="2">
                             <field name="o_date" />
                             <field name="is_folio" />
+                        </group>
+                        <group colspan="2" col="4">
                             <field
                                 name="folio_id"
-                                attrs="{'invisible':[('is_folio','=',False)], 'required':[('is_folio','=',True)]}"
+                                invisible="not is_folio"
+                                required="is_folio"
                             />
-
-                            <field name="customer_id" />
-                        </group>
-                        <group>
-
                             <field
                                 name="room_id"
-                                attrs="{'invisible':[('is_folio','=',False)], 'required':[('is_folio','=',True)]}"
+                                invisible="not is_folio"
+                                required="is_folio"
                             />
+                        </group>
+                        <group colspan="2" col="4">
+                            <field name="customer_id" />
                             <field name="waiter_id" />
                             <field name="kitchen" invisible="1" />
                             <field
@@ -685,15 +687,18 @@
             <form string="KOT List" create="0" edit="0">
                 <sheet>
                     <group>
-                        <group>
+                        <group colspan="4">
                             <field name="order_number" />
                             <field name="reservation_number" />
-                            <field name="kot_date" />
-                            <field name="room_no" />
                         </group>
                         <group>
+                            <field name="kot_date" />
+                        </group>
+                        <group colspan="4" col="4">
+                            <field name="room_no" />
                             <field name="waiter_name" />
                         </group>
+                        <newline />
                         <separator colspan='4' string='Table List' />
                         <field name="table_nos_ids" colspan="4" nolabel='1' />
                         <newline />
@@ -845,31 +850,30 @@
                 <sheet>
                     <field name="image_1920" widget="image" class="oe_avatar oe_left" />
                     <div class="oe_title">
-                        <div class="oe_avatar oe_left">
-                            <h1>
-                                <field name="name" />
-                            </h1>
+                        <div class="oe_edit_only">
+                            <label for="name" string="Food Item Name" />
                         </div>
+                        <h1>
+                            <field name="name" />
+                        </h1>
                     </div>
                     <notebook>
                         <page name="information" string="Information">
-                            <group>
-                                <group>
+                            <group colspan="4" col="2">
+                                <group colspan="4" col="4">
                                     <field name="type" select="2" string="Food Type" />
-
+                                    <field
+                                        name="menu_card_categ_id"
+                                        string="Food Item Type"
+                                    />
                                     <field
                                         name="product_manager_id"
                                         select="2"
                                         string="Food Manager"
                                     />
+                                    <field name="uom_id" />
                                     <field name="uom_po_id" />
                                 </group>
-                                <group>
-                                    <field name="categ_id" string="Food Item Type" />
-                                    <field name="uom_id" />
-
-                                </group>
-
                             </group>
                             <newline />
                             <separator string="Supplier Taxes" colspan='4' />
@@ -887,17 +891,13 @@
                             />
                         </page>
                         <page name="procurement" string="Procurement">
-                            <group>
-                                <group>
-                                    <field name="cost_method" />
-                                    <field name="list_price" />
-                                    <field name="standard_price" />
-                                </group>
-                                <group>
-                                    <field name="active" select="2" />
-                                    <field name="sale_ok" select="2" />
-                                    <field name="price_extra" />
-                                </group>
+                            <group colspan="4" col="4">
+                                <field name="cost_method" />
+                                <field name="active" select="2" />
+                                <field name="list_price" />
+                                <field name="sale_ok" select="2" />
+                                <field name="standard_price" />
+                                <field name="price_extra" />
                                 <separator string="Suppliers" colspan='4' />
                                 <field
                                     name="seller_ids"
@@ -932,7 +932,7 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="name" />
-                <field name="categ_id" string="Food Item Type" />
+                <field name="menu_card_categ_id" string="Food Item Type" />
                 <field name="list_price" string="Food Item Rate" />
             </tree>
         </field>
@@ -945,7 +945,7 @@
         <field name="arch" type="xml">
             <search string="Hotel Menucard">
                 <field name="name" />
-                <field name="categ_id" string="Food Item Type" />
+                <field name="menu_card_categ_id" string="Food Item Type" />
                 <field name="list_price" />
                 <separator />
                 <group expand="0" string="Group By">
@@ -953,7 +953,7 @@
                         name="category"
                         string="Categoty"
                         domain="[]"
-                        context="{'group_by':'categ_id'}"
+                        context="{'group_by':'menu_card_categ_id'}"
                     />
                 </group>
             </search>
@@ -997,7 +997,7 @@
                                     </li>
                                     <li>
                                         Category:
-                                        <field name="categ_id" />
+                                        <field name="menu_card_categ_id" />
                                     </li>
                                 </ul>
                             </div>
