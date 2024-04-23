@@ -1,5 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_product_category,product.category,product.model_product_category,hotel.group_hotel_user,1,1,0,0
+access_product_category,product.category,product.model_product_category,hotel.group_hotel_user,1,1,1,1
 access_product_product,product.product,product.model_product_product,hotel.group_hotel_user,1,1,1,1
 access_hotel_menucard_type,hotel.menucard.type,model_hotel_menucard_type,hotel.group_hotel_user,1,1,0,0
 access_hotel_menucard_type_manager,hotel.menucard.type.manager,model_hotel_menucard_type,hotel.group_hotel_manager,1,1,1,1

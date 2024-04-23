@@ -17,51 +17,51 @@ Hotel Restaurant Management
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fvertical--hotel-lightgray.png?logo=github
-    :target: https://github.com/OCA/vertical-hotel/tree/15.0/hotel_restaurant
+    :target: https://github.com/OCA/vertical-hotel/tree/17.0/hotel_restaurant
     :alt: OCA/vertical-hotel
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/vertical-hotel-15-0/vertical-hotel-15-0-hotel_restaurant
+    :target: https://translation.odoo-community.org/projects/vertical-hotel-17-0/vertical-hotel-17-0-hotel_restaurant
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/vertical-hotel&target_branch=15.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/vertical-hotel&target_branch=17.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This Module is providing table booking facilities and Managing customers orders
+This Module is providing table booking facilities and Managing customers
+orders
 
 You can manage:
 
-* Restaurant Configuration (Food Item, Table)
+-  Restaurant Configuration (Food Item, Table)
+-  **Table Reservation**
 
-* **Table Reservation**
+|image|
 
-.. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/11.0/hotel_restaurant/static/description/res2.png
-   :width: 750px
+-  **Manage Food Orders**
 
-* **Manage Food Orders**
+|image1|
 
-.. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/11.0/hotel_restaurant/static/description/res3.png
-   :width: 750px
+-  **Manage Kitchen Order ticket**
 
-* **Manage Kitchen Order ticket**
+|image2|
 
-.. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/11.0/hotel_restaurant/static/description/res4.png
-   :width: 750px
+-  **Quick Table Reservation Facility With Its Food Order**
 
-* **Quick Table Reservation Facility With Its Food Order**
+|image3|
 
-.. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/11.0/hotel_restaurant/static/description/res5.png
-   :width: 750px
+-  **Order's History In Hotel Folio**
 
-* **Order's History In Hotel Folio**
+|image4|
 
-.. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/11.0/hotel_restaurant/static/description/res6.png
-   :width: 750px
+-  Payment
+-  Different Reports are also provided, mainly for Restaurant.
 
-* Payment
-
-* Different Reports are also provided, mainly for Restaurant.
+.. |image| image:: https://raw.githubusercontent.com/OCA/vertical-hotel/11.0/hotel_restaurant/static/description/res2.png
+.. |image1| image:: https://raw.githubusercontent.com/OCA/vertical-hotel/11.0/hotel_restaurant/static/description/res3.png
+.. |image2| image:: https://raw.githubusercontent.com/OCA/vertical-hotel/11.0/hotel_restaurant/static/description/res4.png
+.. |image3| image:: https://raw.githubusercontent.com/OCA/vertical-hotel/11.0/hotel_restaurant/static/description/res5.png
+.. |image4| image:: https://raw.githubusercontent.com/OCA/vertical-hotel/11.0/hotel_restaurant/static/description/res6.png
 
 **Table of contents**
 
@@ -74,7 +74,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/vertical-hotel/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/vertical-hotel/issues/new?body=module:%20hotel_restaurant%0Aversion:%2015.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/vertical-hotel/issues/new?body=module:%20hotel_restaurant%0Aversion:%2017.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -82,21 +82,21 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Serpent Consulting                Services Pvt. Ltd.
 * Odoo S.A.
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* Odoo Community Association (OCA)
-* Serpent Consulting Services Pvt. Ltd.
-* Odoo S.A.
-* Rajan Patel <rajan.p.serpentcs@gmail.com>
+-  Odoo Community Association (OCA)
+-  Serpent Consulting Services Pvt. Ltd.
+-  Odoo S.A.
+-  Rajan Patel <rajan.p.serpentcs@gmail.com>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
@@ -108,6 +108,6 @@ OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
 
-This module is part of the `OCA/vertical-hotel <https://github.com/OCA/vertical-hotel/tree/15.0/hotel_restaurant>`_ project on GitHub.
+This module is part of the `OCA/vertical-hotel <https://github.com/OCA/vertical-hotel/tree/17.0/hotel_restaurant>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.

@@ -1,4 +1,4 @@
-# Copyright (C) 2022-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# Copyright (C) 2024-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from datetime import datetime
@@ -8,7 +8,7 @@ from odoo.tests import common
 
 class TestRestaurant(common.TransactionCase):
     def setUp(self):
-        super(TestRestaurant, self).setUp()
+        super().setUp()
         self.menucard_type_obj = self.env["hotel.menucard.type"]
         self.hotel_rest_reserv_obj = self.env["hotel.restaurant.reservation"]
         self.hotel_kot_obj = self.env["hotel.restaurant.kitchen.order.tickets"]
