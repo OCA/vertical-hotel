@@ -1,4 +1,4 @@
-# Copyright (C) 2023-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# Copyright (C) 2024-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models
@@ -6,29 +6,30 @@ from odoo.osv import expression
 
 
 class HotelMenucardType(models.Model):
-
     _name = "hotel.menucard.type"  # need to recheck for v15
     _description = "Food Item Type"
 
     name = fields.Char(required=True)
-    menu_id = fields.Many2one("hotel.menucard.type", "Food Item Type")
     child_ids = fields.One2many("hotel.menucard.type", "menu_id", "Child Categories")
+    menu_id = fields.Many2one("hotel.menucard.type", "Food Item Type")
 
-    def name_get(self):
+    def _compute_display_name(self):
         def get_names(cat):
             """Return the list [cat.name, cat.menu_id.name, ...]"""
             res = []
             while cat:
-                res.append(cat.name)
+                if cat.name:
+                    res.append(cat.name)
                 cat = cat.menu_id
             return res
 
-        return [(cat.id, " / ".join(reversed(get_names(cat)))) for cat in self]
+        for cat in self:
+            cat.display_name = " / ".join(reversed(get_names(cat))) or ""
 
     @api.model
-    def name_search(self, name, args=None, operator="ilike", limit=100):
-        if not args:
-            args = []
+    def _name_search(self, name, domain=None, operator="ilike", limit=None, order=None):
+        if not domain:
+            domain = []
         if name:
             # Be sure name_search is symetric to name_get
             category_names = name.split(" / ")
@@ -38,7 +39,7 @@ class HotelMenucardType(models.Model):
             if parents:
                 names_ids = self.name_search(
                     " / ".join(parents),
-                    args=args,
+                    domain=domain,
                     operator="ilike",
                     limit=limit,
                 )
@@ -65,14 +66,20 @@ class HotelMenucardType(models.Model):
                         domain = expression.AND(domain)
                     else:
                         domain = expression.OR(domain)
-            categories = self.search(expression.AND([domain, args]), limit=limit)
+            categories = self._search(
+                expression.AND([domain, domain]), limit=limit, order=order
+            )
         else:
-            categories = self.search(args, limit=limit)
-        return categories.name_get()
+            categories = self._search(
+                expression.AND([[("name", operator, name)], domain]),
+                limit=limit,
+                order=order,
+            )
+
+        return categories
 
 
 class HotelMenucard(models.Model):
-
     _name = "hotel.menucard"
     _description = "Hotel Menucard"
 
@@ -84,7 +91,5 @@ class HotelMenucard(models.Model):
         ondelete="cascade",
         index=True,
     )
-    categ_id = fields.Many2one(
-        "hotel.menucard.type", "Food Item Category", required=True
-    )
+    menu_card_categ_id = fields.Many2one("hotel.menucard.type", "Food Item Category")
     product_manager_id = fields.Many2one("res.users", "Product Manager")

@@ -1,4 +1,4 @@
-# Copyright (C) 2023-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# Copyright (C) 2024-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import _, api, fields, models
@@ -6,7 +6,6 @@ from odoo.exceptions import ValidationError
 
 
 class HotelRestaurantTables(models.Model):
-
     _name = "hotel.restaurant.tables"
     _description = "Includes Hotel Restaurant Table"
 
@@ -15,7 +14,6 @@ class HotelRestaurantTables(models.Model):
 
 
 class HotelRestaurantReservation(models.Model):
-
     _name = "hotel.restaurant.reservation"
     _description = "Includes Hotel Restaurant Reservation"
     _rec_name = "reservation_id"
@@ -59,16 +57,14 @@ class HotelRestaurantReservation(models.Model):
 
     @api.onchange("folio_id")
     def _onchange_folio_id(self):
-        """
-        When you change folio_id, based on that it will update
-        the customer_id and room_number as well
-        ---------------------------------------------------------
-        @param self: object pointer
-        """
         for rec in self:
             if rec.folio_id:
                 rec.customer_id = rec.folio_id.partner_id.id
-                rec.room_id = rec.folio_id.room_line_ids[0].product_id.id
+                if rec.folio_id.room_line_ids:  # Check if room_line_ids is not empty
+                    rec.room_id = rec.folio_id.room_line_ids[0].product_id.id
+                else:
+                    # Handle the case when room_line_ids is empty
+                    rec.room_id = False
 
     def action_set_to_draft(self):
         """
@@ -184,7 +180,7 @@ class HotelRestaurantReservation(models.Model):
         seq_obj = self.env["ir.sequence"]
         reserve = seq_obj.next_by_code("hotel.restaurant.reservation") or "New"
         vals["reservation_id"] = reserve
-        return super(HotelRestaurantReservation, self).create(vals)
+        return super().create(vals)
 
     @api.constrains("start_date", "end_date")
     def _check_start_dates(self):
@@ -212,7 +208,6 @@ class HotelRestaurantReservation(models.Model):
 
 
 class HotelRestaurantKitchenOrderTickets(models.Model):
-
     _name = "hotel.restaurant.kitchen.order.tickets"
     _description = "Includes Hotel Restaurant Order"
     _rec_name = "order_number"
@@ -239,7 +234,6 @@ class HotelRestaurantKitchenOrderTickets(models.Model):
 
 
 class HotelRestaurantOrder(models.Model):
-
     _name = "hotel.restaurant.order"
     _description = "Includes Hotel Restaurant Order"
     _rec_name = "order_no"
@@ -379,23 +373,19 @@ class HotelRestaurantOrder(models.Model):
         seq_obj = self.env["ir.sequence"]
         rest_order = seq_obj.next_by_code("hotel.restaurant.order") or "New"
         vals["order_no"] = rest_order
-        return super(HotelRestaurantOrder, self).create(vals)
+        return super().create(vals)
 
     @api.onchange("folio_id")
     def _onchange_folio_id(self):
-        """
-        When you change folio_id, based on that it will update
-        the customer_id and room_number as well
-        ---------------------------------------------------------
-        @param self: object pointer
-        """
         if self.folio_id:
-            self.update(
-                {
-                    "customer_id": self.folio_id.partner_id.id,
-                    "room_id": self.folio_id.room_line_ids[0].product_id.id,
-                }
-            )
+            room_line = self.folio_id.room_line_ids and self.folio_id.room_line_ids[0]
+            if room_line:
+                self.update(
+                    {
+                        "customer_id": self.folio_id.partner_id.id,
+                        "room_id": room_line.product_id.id,
+                    }
+                )
 
     def generate_kot_update(self):
         """
@@ -466,7 +456,6 @@ class HotelRestaurantOrder(models.Model):
 
 
 class HotelReservationOrder(models.Model):
-
     _name = "hotel.reservation.order"
     _description = "Reservation Order"
     _rec_name = "order_number"
@@ -648,11 +637,10 @@ class HotelReservationOrder(models.Model):
         seq_obj = self.env["ir.sequence"]
         res_oder = seq_obj.next_by_code("hotel.reservation.order") or "New"
         vals["order_number"] = res_oder
-        return super(HotelReservationOrder, self).create(vals)
+        return super().create(vals)
 
 
 class HotelRestaurantOrderList(models.Model):
-
     _name = "hotel.restaurant.order.list"
     _description = "Includes Hotel Restaurant Order"
 

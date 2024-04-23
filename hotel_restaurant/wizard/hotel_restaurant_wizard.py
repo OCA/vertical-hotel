@@ -1,11 +1,11 @@
-# Copyright (C) 2023-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# Copyright (C) 2024-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class WizardHotelRestaurant(models.TransientModel):
-
     _name = "wizard.hotel.restaurant"
     _description = "wizard.hotel.restaurant"
 
@@ -21,6 +21,12 @@ class WizardHotelRestaurant(models.TransientModel):
         return self.env.ref("hotel_restaurant.report_hotel_table_res").report_action(
             self, data=data
         )
+
+    @api.constrains("date_start", "date_end")
+    def check_date(self):
+        for record in self:
+            if record.date_start > record.date_end:
+                raise ValidationError(_("End date must be Greater than the Start date"))
 
 
 class FolioRestReservation(models.TransientModel):
@@ -51,3 +57,9 @@ class FolioRestReservation(models.TransientModel):
         return self.env.ref("hotel_restaurant.report_hotel_res_folio1").report_action(
             self, data=data
         )
+
+    @api.constrains("date_start", "date_end")
+    def check_date(self):
+        for record in self:
+            if record.date_start > record.date_end:
+                raise ValidationError(_("End date must be Greater than the Start date"))
