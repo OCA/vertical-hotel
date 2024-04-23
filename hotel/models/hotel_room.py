@@ -1,4 +1,4 @@
-# Copyright (C) 2023-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# Copyright (C) 2024-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import _, api, fields, models
@@ -7,7 +7,6 @@ from odoo.osv import expression
 
 
 class HotelFloor(models.Model):
-
     _name = "hotel.floor"
     _description = "Floor"
     _order = "sequence"
@@ -17,7 +16,6 @@ class HotelFloor(models.Model):
 
 
 class HotelRoom(models.Model):
-
     _name = "hotel.room"
     _description = "Hotel Room"
 
@@ -57,7 +55,7 @@ class HotelRoom(models.Model):
         if "room_categ_id" in vals:
             room_categ = self.env["hotel.room.type"].browse(vals.get("room_categ_id"))
             vals.update({"categ_id": room_categ.product_categ_id.id})
-        return super(HotelRoom, self).create(vals)
+        return super().create(vals)
 
     @api.constrains("capacity")
     def _check_capacity(self):
@@ -87,7 +85,7 @@ class HotelRoom(models.Model):
             vals.update({"color": 2, "status": "occupied"})
         if "isroom" in vals and vals["isroom"] is True:
             vals.update({"color": 5, "status": "available"})
-        return super(HotelRoom, self).write(vals)
+        return super().write(vals)
 
     def set_room_status_occupied(self):
         """
@@ -109,9 +107,9 @@ class HotelRoom(models.Model):
 
 
 class HotelRoomType(models.Model):
-
     _name = "hotel.room.type"
     _description = "Room Type"
+    _rec_name = "name"
 
     categ_id = fields.Many2one("hotel.room.type", "Category")
     child_ids = fields.One2many("hotel.room.type", "categ_id", "Room Child Categories")
@@ -129,31 +127,33 @@ class HotelRoomType(models.Model):
         if "categ_id" in vals:
             room_categ = self.env["hotel.room.type"].browse(vals.get("categ_id"))
             vals.update({"parent_id": room_categ.product_categ_id.id})
-        return super(HotelRoomType, self).create(vals)
+        return super().create(vals)
 
     def write(self, vals):
         if "categ_id" in vals:
             room_categ = self.env["hotel.room.type"].browse(vals.get("categ_id"))
             vals.update({"parent_id": room_categ.product_categ_id.id})
-        return super(HotelRoomType, self).write(vals)
+        return super().write(vals)
 
-    def name_get(self):
+    def _compute_display_name(self):
         def get_names(cat):
             """Return the list [cat.name, cat.categ_id.name, ...]"""
             res = []
             while cat:
-                res.append(cat.name)
+                if cat.name:
+                    res.append(cat.name)
                 cat = cat.categ_id
             return res
 
-        return [(cat.id, " / ".join(reversed(get_names(cat)))) for cat in self]
+        for cat in self:
+            cat.display_name = " / ".join(reversed(get_names(cat))) or ""
 
     @api.model
-    def name_search(self, name, args=None, operator="ilike", limit=100):
-        if not args:
-            args = []
+    def _name_search(self, name, domain=None, operator="ilike", limit=None, order=None):
+        if not domain:
+            domain = []
         if name:
-            # Be sure name_search is symmetric to name_get
+            # Be sure name_search is symetric to name_get
             category_names = name.split(" / ")
             parents = list(category_names)
             child = parents.pop()
@@ -161,7 +161,7 @@ class HotelRoomType(models.Model):
             if parents:
                 names_ids = self.name_search(
                     " / ".join(parents),
-                    args=args,
+                    domain=domain,
                     operator="ilike",
                     limit=limit,
                 )
@@ -190,16 +190,23 @@ class HotelRoomType(models.Model):
                         domain = expression.AND(domain)
                     else:
                         domain = expression.OR(domain)
-            categories = self.search(expression.AND([domain, args]), limit=limit)
+            categories = self._search(
+                expression.AND([domain, domain]), limit=limit, order=order
+            )
         else:
-            categories = self.search(args, limit=limit)
-        return categories.name_get()
+            categories = self._search(
+                expression.AND([[("name", operator, name)], domain]),
+                limit=limit,
+                order=order,
+            )
+
+        return categories
 
 
 class HotelRoomAmenitiesType(models.Model):
-
     _name = "hotel.room.amenities.type"
     _description = "amenities Type"
+    _order = "name"
 
     amenity_id = fields.Many2one("hotel.room.amenities.type", "Category")
     child_ids = fields.One2many(
@@ -221,7 +228,7 @@ class HotelRoomAmenitiesType(models.Model):
                 vals.get("amenity_id")
             )
             vals.update({"parent_id": amenity_categ.product_categ_id.id})
-        return super(HotelRoomAmenitiesType, self).create(vals)
+        return super().create(vals)
 
     def write(self, vals):
         if "amenity_id" in vals:
@@ -229,23 +236,25 @@ class HotelRoomAmenitiesType(models.Model):
                 vals.get("amenity_id")
             )
             vals.update({"parent_id": amenity_categ.product_categ_id.id})
-        return super(HotelRoomAmenitiesType, self).write(vals)
+        return super().write(vals)
 
-    def name_get(self):
+    def _compute_display_name(self):
         def get_names(cat):
             """Return the list [cat.name, cat.amenity_id.name, ...]"""
             res = []
             while cat:
-                res.append(cat.name)
+                if cat.name:
+                    res.append(cat.name)
                 cat = cat.amenity_id
             return res
 
-        return [(cat.id, " / ".join(reversed(get_names(cat)))) for cat in self]
+        for cat in self:
+            cat.display_name = " / ".join(reversed(get_names(cat))) or ""
 
     @api.model
-    def name_search(self, name, args=None, operator="ilike", limit=100):
-        if not args:
-            args = []
+    def _name_search(self, name, domain=None, operator="ilike", limit=None, order=None):
+        if not domain:
+            domain = []
         if name:
             # Be sure name_search is symetric to name_get
             category_names = name.split(" / ")
@@ -255,7 +264,7 @@ class HotelRoomAmenitiesType(models.Model):
             if parents:
                 names_ids = self.name_search(
                     " / ".join(parents),
-                    args=args,
+                    domain=domain,
                     operator="ilike",
                     limit=limit,
                 )
@@ -284,14 +293,20 @@ class HotelRoomAmenitiesType(models.Model):
                         domain = expression.AND(domain)
                     else:
                         domain = expression.OR(domain)
-            categories = self.search(expression.AND([domain, args]), limit=limit)
+            categories = self._search(
+                expression.AND([domain, domain]), limit=limit, order=order
+            )
         else:
-            categories = self.search(args, limit=limit)
-        return categories.name_get()
+            categories = self._search(
+                expression.AND([[("name", operator, name)], domain]),
+                limit=limit,
+                order=order,
+            )
+
+        return categories
 
 
 class HotelRoomAmenities(models.Model):
-
     _name = "hotel.room.amenities"
     _description = "Room amenities"
 
@@ -317,7 +332,7 @@ class HotelRoomAmenities(models.Model):
                 vals.get("amenities_categ_id")
             )
             vals.update({"categ_id": amenities_categ.product_categ_id.id})
-        return super(HotelRoomAmenities, self).create(vals)
+        return super().create(vals)
 
     def write(self, vals):
         """
@@ -330,4 +345,4 @@ class HotelRoomAmenities(models.Model):
                 vals.get("amenities_categ_id")
             )
             vals.update({"categ_id": amenities_categ.product_categ_id.id})
-        return super(HotelRoomAmenities, self).write(vals)
+        return super().write(vals)

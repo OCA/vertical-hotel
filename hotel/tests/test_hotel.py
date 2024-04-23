@@ -1,4 +1,4 @@
-# Copyright (C) 2023-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# Copyright (C) 2024-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from datetime import datetime
@@ -8,7 +8,7 @@ from odoo.tests import common
 
 class TestHotel(common.TransactionCase):
     def setUp(self):
-        super(TestHotel, self).setUp()
+        super().setUp()
 
         self.hotel_folio_obj = self.env["hotel.folio"]
         self.hotel_folio_line = self.env["hotel.folio.line"]
