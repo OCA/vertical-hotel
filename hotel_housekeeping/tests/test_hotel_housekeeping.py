@@ -1,4 +1,4 @@
-# Copyright (C) 2023-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# Copyright (C) 2024-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import time
@@ -9,7 +9,7 @@ from odoo.tests import common
 
 class TestHousekeeping(common.TransactionCase):
     def setUp(self):
-        super(TestHousekeeping, self).setUp()
+        super().setUp()
         self.env = self.env(context=dict(self.env.context, tracking_disable=True))
         self.housekeeping_obj = self.env["hotel.housekeeping"]
         self.hotel_act_obj = self.env["hotel.housekeeping.activities"]

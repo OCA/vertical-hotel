@@ -17,19 +17,21 @@ Hotel Housekeeping Management
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fvertical--hotel-lightgray.png?logo=github
-    :target: https://github.com/OCA/vertical-hotel/tree/15.0/hotel_housekeeping
+    :target: https://github.com/OCA/vertical-hotel/tree/17.0/hotel_housekeeping
     :alt: OCA/vertical-hotel
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/vertical-hotel-15-0/vertical-hotel-15-0-hotel_housekeeping
+    :target: https://translation.odoo-community.org/projects/vertical-hotel-17-0/vertical-hotel-17-0-hotel_housekeeping
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/vertical-hotel&target_branch=15.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/vertical-hotel&target_branch=17.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Module for Housekeeping is the department that deals essentially with cleanliness and all ancillary service attached to that.
-Housekeepers are maintaining and servicing the guest rooms and replenishing stock as and when needed.
+Module for Housekeeping is the department that deals essentially with
+cleanliness and all ancillary service attached to that. Housekeepers are
+maintaining and servicing the guest rooms and replenishing stock as and
+when needed.
 
 You can manage:
 
@@ -37,21 +39,21 @@ You can manage:
 
 **Complete Housekeeping Process**
 
-    In Dirty Stage Housekeeping Process
-    .. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/11.0/hotel_housekeeping/static/description/HHK1.png
-    :width: 750px
+https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/Ihttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/nhttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/Dhttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ihttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/rhttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/thttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/yhttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/Shttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/thttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ahttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ghttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ehttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/Hhttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ohttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/uhttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/shttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ehttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/khttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ehttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ehttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/phttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ihttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/nhttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ghttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/Phttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/rhttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ohttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/chttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ehttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/shttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/shttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/.https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/.https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ihttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/mhttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ahttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ghttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ehttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/:https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/:https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/
+https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/   https://raw.githubusercontent.com/OCA/vertical-hotel/11.0/hotel_housekeeping/static/description/HHK1.png
+   :width: 750px
 
-    In Clean Stage Housekeeping Process
-    .. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/11.0/hotel_housekeeping/static/description/HHK2.png
-    :width: 750px
+https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/Ihttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/nhttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/Chttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/lhttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ehttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ahttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/nhttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/Shttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/thttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ahttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ghttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ehttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/Hhttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ohttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/uhttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/shttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ehttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/khttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ehttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ehttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/phttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ihttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/nhttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ghttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/Phttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/rhttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ohttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/chttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ehttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/shttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/shttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/.https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/.https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ihttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/mhttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ahttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ghttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ehttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/:https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/:https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/
+https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/   https://raw.githubusercontent.com/OCA/vertical-hotel/11.0/hotel_housekeeping/static/description/HHK2.png
+   :width: 750px
 
-    In Inspect Stage Housekeeping Process
-    .. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/11.0/hotel_housekeeping/static/description/HHK3.png
-    :width: 750px
+https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/Ihttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/nhttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/Ihttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/nhttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/shttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/phttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ehttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/chttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/thttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/Shttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/thttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ahttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ghttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ehttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/Hhttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ohttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/uhttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/shttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ehttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/khttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ehttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ehttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/phttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ihttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/nhttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ghttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/Phttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/rhttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ohttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/chttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ehttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/shttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/shttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/.https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/.https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ihttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/mhttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ahttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ghttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ehttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/:https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/:https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/
+https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/   https://raw.githubusercontent.com/OCA/vertical-hotel/11.0/hotel_housekeeping/static/description/HHK3.png
+   :width: 750px
 
-    In Done Stage Housekeeping Process
-    .. image:: https://raw.githubusercontent.com/OCA/vertical-hotel/11.0/hotel_housekeeping/static/description/HHK4.png
-    :width: 750px
+https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/Ihttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/nhttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/Dhttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ohttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/nhttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ehttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/Shttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/thttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ahttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ghttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ehttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/Hhttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ohttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/uhttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/shttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ehttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/khttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ehttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ehttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/phttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ihttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/nhttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ghttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/Phttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/rhttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ohttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/chttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ehttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/shttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/shttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/.https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/.https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ihttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/mhttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ahttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ghttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/ehttps://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/:https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/:https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/
+https://raw.githubusercontent.com/OCA/vertical-hotel/17.0/hotel_housekeeping/   https://raw.githubusercontent.com/OCA/vertical-hotel/11.0/hotel_housekeeping/static/description/HHK4.png
+   :width: 750px
 
 **Historised Housekeeping with Inventory and Service Data**
 
@@ -66,7 +68,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/vertical-hotel/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/vertical-hotel/issues/new?body=module:%20hotel_housekeeping%0Aversion:%2015.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/vertical-hotel/issues/new?body=module:%20hotel_housekeeping%0Aversion:%2017.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -74,21 +76,21 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Serpent Consulting                Services Pvt. Ltd.
 * Odoo S.A.
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* Odoo Community Association (OCA)
-* Serpent Consulting Services Pvt. Ltd.
-* Odoo S.A.
-* Rajan Patel <rajan.p.serpentcs@gmail.com>
+-  Odoo Community Association (OCA)
+-  Serpent Consulting Services Pvt. Ltd.
+-  Odoo S.A.
+-  Rajan Patel <rajan.p.serpentcs@gmail.com>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
@@ -100,6 +102,6 @@ OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
 
-This module is part of the `OCA/vertical-hotel <https://github.com/OCA/vertical-hotel/tree/15.0/hotel_housekeeping>`_ project on GitHub.
+This module is part of the `OCA/vertical-hotel <https://github.com/OCA/vertical-hotel/tree/17.0/hotel_housekeeping>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
