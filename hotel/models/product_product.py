@@ -1,11 +1,10 @@
-# Copyright (C) 2023-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# Copyright (C) 2024-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models, tools
 
 
 class ProductProduct(models.Model):
-
     _inherit = "product.product"
 
     isroom = fields.Boolean("Is Room")
@@ -15,14 +14,12 @@ class ProductProduct(models.Model):
     @api.model
     def _search(
         self,
-        args,
+        domain,
         offset=0,
         limit=None,
         order=None,
-        count=False,
-        access_rights_uid=None,
     ):
-        args = args or []
+        domain = domain or []
         context = self._context or {}
         checkin_date = context.get("checkin_date")
         checkout_date = context.get("checkout_date")
@@ -51,7 +48,10 @@ class ProductProduct(models.Model):
                             assigned = True
                 if not assigned:
                     avail_prod_ids.append(room.product_id.id)
-            args.append(("id", "in", avail_prod_ids))
-        return super(ProductProduct, self)._search(
-            args, offset, limit, order, count=count, access_rights_uid=access_rights_uid
+            domain.append(("id", "in", avail_prod_ids))
+        return super()._search(
+            domain,
+            offset,
+            limit,
+            order,
         )
