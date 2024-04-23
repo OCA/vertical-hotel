@@ -1,4 +1,4 @@
-# Copyright (C) 2023-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# Copyright (C) 2024-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import time
@@ -23,12 +23,10 @@ class FolioReport(models.AbstractModel):
         ]
         tids = folio_obj.search(act_domain)
         for data in tids:
-            checkin = fields.Datetime.to_string(
-                fields.Datetime.context_timestamp(self, data.checkin_date)
-            )
-            checkout = fields.Datetime.to_string(
-                fields.Datetime.context_timestamp(self, data.checkout_date)
-            )
+            hotel_folio_lines = data.room_line_ids
+            for hotel_folio_line in hotel_folio_lines:
+                checkin = hotel_folio_line.checkin_date
+                checkout = hotel_folio_line.checkout_date
             data_folio.append(
                 {
                     "name": data.name,

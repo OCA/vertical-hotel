@@ -1,4 +1,4 @@
-# Copyright (C) 2023-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# Copyright (C) 2024-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models
@@ -6,7 +6,6 @@ from odoo.osv import expression
 
 
 class HotelServices(models.Model):
-
     _name = "hotel.services"
     _description = "Hotel Services and its charges"
 
@@ -32,7 +31,7 @@ class HotelServices(models.Model):
                 vals.get("service_categ_id")
             )
             vals.update({"categ_id": service_categ.product_categ_id.id})
-        return super(HotelServices, self).create(vals)
+        return super().create(vals)
 
     def write(self, vals):
         """
@@ -45,13 +44,13 @@ class HotelServices(models.Model):
                 vals.get("service_categ_id")
             )
             vals.update({"categ_id": service_categ_id.product_categ_id.id})
-        return super(HotelServices, self).write(vals)
+        return super().write(vals)
 
 
 class HotelServiceType(models.Model):
-
     _name = "hotel.service.type"
     _description = "Service Type"
+    _rec_name = "name"
 
     service_id = fields.Many2one("hotel.service.type", "Service Category")
     child_ids = fields.One2many(
@@ -73,7 +72,7 @@ class HotelServiceType(models.Model):
                 vals.get("service_id")
             )
             vals.update({"parent_id": service_categ.product_categ_id.id})
-        return super(HotelServiceType, self).create(vals)
+        return super().create(vals)
 
     def write(self, vals):
         if "service_id" in vals:
@@ -81,23 +80,25 @@ class HotelServiceType(models.Model):
                 vals.get("service_id")
             )
             vals.update({"parent_id": service_categ.product_categ_id.id})
-        return super(HotelServiceType, self).write(vals)
+        return super().write(vals)
 
-    def name_get(self):
+    def _compute_display_name(self):
         def get_names(cat):
             """Return the list [cat.name, cat.service_id.name, ...]"""
             res = []
             while cat:
-                res.append(cat.name)
+                if cat.name:
+                    res.append(cat.name)
                 cat = cat.service_id
             return res
 
-        return [(cat.id, " / ".join(reversed(get_names(cat)))) for cat in self]
+        for cat in self:
+            cat.display_name = " / ".join(reversed(get_names(cat))) or ""
 
     @api.model
-    def name_search(self, name, args=None, operator="ilike", limit=100):
-        if not args:
-            args = []
+    def _name_search(self, name, domain=None, operator="ilike", limit=None, order=None):
+        if not domain:
+            domain = []
         if name:
             # Be sure name_search is symetric to name_get
             category_names = name.split(" / ")
@@ -107,7 +108,7 @@ class HotelServiceType(models.Model):
             if parents:
                 names_ids = self.name_search(
                     " / ".join(parents),
-                    args=args,
+                    domain=domain,
                     operator="ilike",
                     limit=limit,
                 )
@@ -136,7 +137,14 @@ class HotelServiceType(models.Model):
                         domain = expression.AND(domain)
                     else:
                         domain = expression.OR(domain)
-            categories = self.search(expression.AND([domain, args]), limit=limit)
+            categories = self._search(
+                expression.AND([domain, domain]), limit=limit, order=order
+            )
         else:
-            categories = self.search(args, limit=limit)
-        return categories.name_get()
+            categories = self._search(
+                expression.AND([[("name", operator, name)], domain]),
+                limit=limit,
+                order=order,
+            )
+
+        return categories

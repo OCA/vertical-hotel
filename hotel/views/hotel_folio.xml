@@ -8,7 +8,7 @@
                 <header>
                     <button
                         name="action_confirm"
-                        states="draft"
+                        invisible="state != 'draft'"
                         string="Confirm Sale"
                         class="btn-primary"
                         type="object"
@@ -18,11 +18,11 @@
                         string="Create Invoice"
                         type="action"
                         class="btn-primary"
-                        attrs="{'invisible': ['|',('state', 'in', ('draft','cancel','done')), ('invoice_status', 'in', 'invoiced')]}"
+                        invisible="state in ['draft','cancel','done'] or ['invoice_status', 'in', 'invoiced']"
                     />
                     <button
                         name="action_cancel_draft"
-                        states="cancel"
+                        invisible="state != 'cancel'"
                         string="Set to Draft"
                         type="object"
                         class="oe_highlight"
@@ -30,25 +30,27 @@
                     <button
                         name="action_cancel"
                         string="Cancel"
-                        states="sale"
+                        invisible="state != 'sale'"
                         type="object"
                         class="oe_highlight"
                     />
                     <button
                         name="action_cancel"
                         string="Cancel"
-                        states="draft"
+                        invisible="state != 'draft'"
                         type="object"
                         class="oe_highlight"
                     />
-                    <button
+
+                    <!-- TODO: Need to check button-->
+                    <!-- <button
                         name="action_done"
                         type="object"
                         string="Set to Done"
-                        states="sale"
+                        invisible="state != 'sale'"
                         class="oe_highlight"
                         help="If a Hotel Folio is done, you cannot modify it manually anymore. However, you will still be able to invoice or deliver. This is used to freeze the Hotel Folio."
-                    />
+                    /> -->
                     <field
                         name="state"
                         select="2"
@@ -67,7 +69,7 @@
                         <field name="invoice_status" />
                         <field
                             name="hotel_invoice_id"
-                            states='sale,done,cancel'
+                            invisible="state not in ['sale','done','cancel']"
                             readonly="1"
                         />
                     </group>
@@ -92,8 +94,14 @@
                             </group>
                             <newline />
                             <group colspan="4" col="4" invisible="1">
-                                <field name="checkin_date" />
-                                <field name="checkout_date" />
+                                <field
+                                    name="checkin_date"
+                                    readonly="state != 'draft'"
+                                />
+                                <field
+                                    name="checkout_date"
+                                    readonly="state != 'draft'"
+                                />
                                 <field name="duration" readonly="1" />
                                 <field name="duration_dummy" invisible="1" />
                             </group>
@@ -101,6 +109,7 @@
                             <field
                                 name="room_line_ids"
                                 colspan="4"
+                                readonly="state not in ['draft','sent']"
                                 string="Room Line"
                                 nolabel="1"
                                 context="{'default_checkin_date':checkin_date,
@@ -111,7 +120,7 @@
                                         name="company_id"
                                         options="{'no_create': True}"
                                         groups="base.group_multi_company"
-                                        invisible="1"
+                                        column_invisible="1"
                                     />
                                     <field name="checkin_date" />
                                     <field name="checkout_date" />
@@ -122,20 +131,21 @@
                                         context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'uom':product_uom, 'checkin_date':checkin_date, 'checkout_date':checkout_date}"
                                         domain="[('isroom','=',True)]"
                                         options="{'no_open': True}"
+                                        groups="uom.group_uom"
                                     />
                                     <field name="name" />
-                                    <field name="product_uom_qty" string="Duration" />
-                                    <field
-                                        name="product_uom_category_id"
-                                        invisible="1"
-                                    />
                                     <field
                                         name="product_uom"
                                         string="Rent(UOM)"
-                                        attrs="{'readonly': [('state', 'in', ('sale','done', 'cancel'))]}"
+                                        readonly="state in ['sale','done', 'cancel']"
                                         context="{'company_id': parent.company_id}"
-                                        groups="uom.group_uom"
                                         options="{'no_open': True}"
+                                        groups="uom.group_uom"
+                                    />
+                                    <field name="product_uom_qty" string="Duration" />
+                                    <field
+                                        name="product_uom_category_id"
+                                        column_invisible="1"
                                     />
                                     <field name="price_unit" />
                                     <field
@@ -148,24 +158,19 @@
                                         groups="product.group_discount_per_so_line"
                                         name="discount"
                                     />
-                                    <field
-                                        groups="account.group_show_line_subtotals_tax_excluded"
-                                        name="price_subtotal"
-                                        widget="monetary"
-                                    />
-                                    <field
-                                        groups="account.group_show_line_subtotals_tax_included"
-                                        name="price_total"
-                                        widget="monetary"
-                                    />
-                                    <field invisible="1" name="currency_id" />
-                                    <field invisible="1" name="state" />
+                                        <!-- TODO: Need to check groups="account.group_show_line_subtotals_tax_excluded" -->
+                                    <field name="price_subtotal" widget="monetary" />
+                                        <!-- TODO: Need to check groups="account.group_show_line_subtotals_tax_included" -->
+                                    <field name="price_total" widget="monetary" />
+                                    <field name="currency_id" column_invisible="1" />
+                                    <field name="state" column_invisible="1" />
                                 </tree>
                             </field>
                             <separator string="Service Lines" colspan="4" />
                             <field
                                 name="service_line_ids"
                                 colspan="4"
+                                readonly="state not in ['draft','sent']"
                                 string="Service Line"
                                 nolabel="1"
                                 context="{'deafult_ser_checkin_date':checkin_date,
@@ -180,28 +185,35 @@
                                         domain="[('isservice','=',True)]"
                                         context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'hotel':parent.warehouse_id,'uom':product_uom}"
                                         options="{'no_open': True}"
+                                        groups="uom.group_uom"
                                     />
-                                    <field name="ser_checkout_date" invisible="1" />
-                                    <field name="ser_checkin_date" invisible="1" />
+                                    <field
+                                        name="ser_checkout_date"
+                                        column_invisible="1"
+                                    />
+                                    <field
+                                        name="ser_checkin_date"
+                                        column_invisible="1"
+                                    />
                                     <field name="name" />
                                     <field
                                         name="company_id"
                                         options="{'no_create': True}"
                                         groups="base.group_multi_company"
-                                        invisible="1"
+                                        column_invisible="1"
                                     />
                                     <field name="product_uom_qty" string="Duration" />
                                     <field
                                         name="product_uom_category_id"
-                                        invisible="1"
+                                        column_invisible="1"
                                     />
                                     <field
                                         name="product_uom"
                                         string="Rent(UOM)"
-                                        attrs="{'readonly': [('state', 'in', ('sale','done', 'cancel'))]}"
+                                        readonly="state in ['sale','done', 'cancel']"
                                         context="{'company_id': parent.company_id}"
-                                        groups="uom.group_uom"
                                         options="{'no_open': True}"
+                                        groups="uom.group_uom"
                                     />
                                     <field name="price_unit" />
                                     <field
@@ -214,18 +226,12 @@
                                         groups="product.group_discount_per_so_line"
                                         name="discount"
                                     />
-                                    <field
-                                        groups="account.group_show_line_subtotals_tax_excluded"
-                                        name="price_subtotal"
-                                        widget="monetary"
-                                    />
-                                    <field
-                                        groups="account.group_show_line_subtotals_tax_included"
-                                        name="price_total"
-                                        widget="monetary"
-                                    />
-                                    <field invisible="1" name="currency_id" />
-                                    <field name="state" invisible="1" />
+                                         <!-- TODO: Need to check groups="account.group_show_line_subtotals_tax_excluded" -->
+                                    <field name="price_subtotal" widget="monetary" />
+                                        <!-- TODO: Need to check groups="account.group_show_line_subtotals_tax_included" -->
+                                    <field name="price_total" widget="monetary" />
+                                    <field column_invisible="1" name="currency_id" />
+                                    <field name="state" column_invisible="1" />
                                 </tree>
                             </field>
                             <group colspan="2" class="oe_subtotal_footer oe_right">
@@ -252,7 +258,7 @@
                                 <field name="user_id" />
                                 <field
                                     name="hotel_policy"
-                                    attrs="{'readonly':[('state','not in',('draft'))]}"
+                                    readonly="state not in ['draft']"
                                 />
                                 <field name="client_order_ref" />
                             </group>
