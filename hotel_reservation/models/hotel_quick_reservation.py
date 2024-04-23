@@ -1,4 +1,4 @@
-# Copyright (C) 2023-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# Copyright (C) 2024-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import _, api, fields, models
@@ -74,7 +74,7 @@ class QuickRoomReservation(models.TransientModel):
         @param fields: List of fields for which we want default values
         @return: A dictionary which of fields with values.
         """
-        res = super(QuickRoomReservation, self).default_get(fields)
+        res = super().default_get(fields)
         keys = self._context.keys()
         if "date" in keys:
             res.update({"check_in": self._context["date"]})

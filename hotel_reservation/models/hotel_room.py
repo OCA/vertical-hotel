@@ -1,4 +1,4 @@
-# Copyright (C) 2023-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# Copyright (C) 2024-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
@@ -13,12 +13,11 @@ from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT as dt
 _logger = logging.getLogger(__name__)
 try:
     import pytz
-except (ImportError, IOError) as err:
+except (OSError, ImportError) as err:
     _logger.debug(err)
 
 
 class HotelRoom(models.Model):
-
     _inherit = "hotel.room"
     _description = "Hotel Room"
 
@@ -43,7 +42,7 @@ class HotelRoom(models.Model):
                         )
                         % (reserv_line.status)
                     )
-        return super(HotelRoom, self).unlink()
+        return super().unlink()
 
     @api.model
     def cron_room_line(self):
@@ -93,7 +92,6 @@ class HotelRoom(models.Model):
 
 
 class RoomReservationSummary(models.Model):
-
     _name = "room.reservation.summary"
     _description = "Room reservation summary"
 

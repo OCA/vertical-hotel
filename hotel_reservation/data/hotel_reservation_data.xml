@@ -14,7 +14,7 @@
             name="checkin"
         />
         <field name="company_id" ref="base.main_company" />
-        <field name="pricelist_id" ref="product.list0" />
+        <field name="pricelist_id" ref="website_sale.list_europe" />
         <field name="partner_id" ref="base.res_partner_2" />
         <field name="partner_invoice_id" ref="base.res_partner_2" />
         <field name="partner_shipping_id" ref="base.res_partner_2" />
