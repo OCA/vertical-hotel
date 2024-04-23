@@ -6,5 +6,6 @@
          <field name="report_type">qweb-pdf</field>
          <field name="report_file">hotel.report_hotel_folio</field>
          <field name="report_name">hotel.report_hotel_folio</field>
+
     </record>
 </odoo>

@@ -1,4 +1,4 @@
-# Copyright (C) 2023-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# Copyright (C) 2024-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import time
@@ -11,7 +11,6 @@ from odoo.tools.misc import get_lang
 
 
 class FolioRoomLine(models.Model):
-
     _name = "folio.room.line"
     _description = "Hotel Room Reservation"
     _rec_name = "room_id"
@@ -24,7 +23,6 @@ class FolioRoomLine(models.Model):
 
 
 class HotelFolio(models.Model):
-
     _name = "hotel.folio"
     _description = "hotel folio"
     _rec_name = "order_id"
@@ -67,29 +65,22 @@ class HotelFolio(models.Model):
     checkin_date = fields.Datetime(
         "Check In",
         required=True,
-        readonly=True,
-        states={"draft": [("readonly", False)]},
         default=_get_checkin_date,
     )
     checkout_date = fields.Datetime(
         "Check Out",
         required=True,
         readonly=True,
-        states={"draft": [("readonly", False)]},
         default=_get_checkout_date,
     )
     room_line_ids = fields.One2many(
         "hotel.folio.line",
         "folio_id",
-        readonly=True,
-        states={"draft": [("readonly", False)], "sent": [("readonly", False)]},
         help="Hotel room reservation detail.",
     )
     service_line_ids = fields.One2many(
         "hotel.service.line",
         "folio_id",
-        readonly=True,
-        states={"draft": [("readonly", False)], "sent": [("readonly", False)]},
         help="Hotel services details provided to"
         "Customer and it will included in "
         "the main Invoice.",
@@ -125,7 +116,7 @@ class HotelFolio(models.Model):
         for rec in self:
             for product in rec.room_line_ids.mapped("product_id"):
                 for line in rec.room_line_ids.filtered(
-                    lambda l: l.product_id == product
+                    lambda x, product=product: x.product_id == product
                 ):
                     record = rec.room_line_ids.search(
                         [
@@ -174,7 +165,7 @@ class HotelFolio(models.Model):
             tmp_room_lines = vals.get("room_line_ids", [])
             vals["order_policy"] = vals.get("hotel_policy", "manual")
             vals.update({"room_line_ids": []})
-            folio_id = super(HotelFolio, self).create(vals)
+            folio_id = super().create(vals)
             for line in tmp_room_lines:
                 line[2].update({"folio_id": folio_id.id})
             vals.update({"room_line_ids": tmp_room_lines})
@@ -184,7 +175,7 @@ class HotelFolio(models.Model):
                 vals = {}
             vals["name"] = self.env["ir.sequence"].next_by_code("hotel.folio")
             vals["duration"] = vals.get("duration", 0.0) or vals.get("duration", 0.0)
-            folio_id = super(HotelFolio, self).create(vals)
+            folio_id = super().create(vals)
             self._update_folio_line(folio_id)
         return folio_id
 
@@ -232,7 +223,7 @@ class HotelFolio(models.Model):
                         [("folio_id", "=", rec.id)]
                     )
                     folio_romline_rec.write(room_vals)
-        return super(HotelFolio, self).write(vals)
+        return super().write(vals)
 
     @api.onchange("partner_id")
     def _onchange_partner_id(self):
@@ -251,8 +242,9 @@ class HotelFolio(models.Model):
                 }
             )
 
-    def action_done(self):
-        self.write({"state": "done"})
+    # TODO: Need to check action_done
+    # def action_done(self):
+    #     self.write({"state": "done"})
 
     def action_cancel(self):
         """
@@ -261,9 +253,7 @@ class HotelFolio(models.Model):
         for rec in self:
             if not rec.order_id:
                 raise UserError(_("Order id is not available"))
-            for product in rec.room_line_ids.filtered(
-                lambda l: l.order_line_id.product_id == product
-            ):
+            for product in rec.room_line_ids.mapped("product_id"):
                 rooms = self.env["hotel.room"].search([("product_id", "=", product.id)])
                 rooms.write({"isroom": True, "status": "available"})
             rec.invoice_ids.button_cancel()
@@ -299,7 +289,6 @@ class HotelFolio(models.Model):
 
 
 class HotelFolioLine(models.Model):
-
     _name = "hotel.folio.line"
     _description = "Hotel Folio Line"
 
@@ -326,7 +315,7 @@ class HotelFolioLine(models.Model):
         if "folio_id" in vals:
             folio = self.env["hotel.folio"].browse(vals["folio_id"])
             vals.update({"order_id": folio.order_id.id})
-        return super(HotelFolioLine, self).create(vals)
+        return super().create(vals)
 
     @api.constrains("checkin_date", "checkout_date")
     def _check_dates(self):
@@ -372,7 +361,7 @@ class HotelFolioLine(models.Model):
                 folio_room_lines.unlink()
                 rooms.write({"isroom": True, "status": "available"})
                 line.order_line_id.unlink()
-        return super(HotelFolioLine, self).unlink()
+        return super().unlink()
 
     def _get_real_price_currency(self, product, rule_id, qty, uom, pricelist_id):
         """Retrieve the price before applying the pricelist
@@ -397,7 +386,7 @@ class HotelFolioLine(models.Model):
                 ):
                     price, rule_id = pricelist_item.base_pricelist_id.with_context(
                         uom=uom.id
-                    ).get_product_price_rule(product, qty, self.folio_id.partner_id)
+                    )._get_product_price_rule(product, qty, self.folio_id.partner_id)
                     pricelist_item = PricelistItem.browse(rule_id)
 
             if pricelist_item.base == "standard_price":
@@ -448,7 +437,7 @@ class HotelFolioLine(models.Model):
         )
         final_price, rule_id = self.folio_id.pricelist_id.with_context(
             **product_context
-        ).get_product_price_rule(
+        )._get_product_price_rule(
             self.product_id,
             self.product_uom_qty or 1.0,
             self.folio_id.partner_id,
@@ -458,7 +447,7 @@ class HotelFolioLine(models.Model):
         )._get_real_price_currency(
             product,
             rule_id,
-            self.product_uom_qty or 1.0,
+            self.product_uom_qty,
             self.product_uom,
             self.folio_id.pricelist_id.id,
         )
@@ -483,11 +472,11 @@ class HotelFolioLine(models.Model):
             )
             # If company_id is set, always filter taxes by the company
             taxes = line.product_id.taxes_id.filtered(
-                lambda t: t.company_id == line.env.company
+                lambda t, line=line: t.company_id == line.env.company
             )
             line.tax_id = fpos.map_tax(taxes)
 
-    @api.onchange("product_id", "price_unit")
+    @api.onchange("product_id")
     def _onchange_product_id(self):
         if not self.product_id:
             return
@@ -512,11 +501,12 @@ class HotelFolioLine(models.Model):
         product = self.product_id.with_context(
             lang=get_lang(self.env, self.order_id.partner_id.lang).code,
             partner=self.order_id.partner_id,
-            quantity=vals.get("product_uom_qty") or self.product_uom_qty or 1.0,
+            quantity=vals.get("product_uom_qty") or self.product_uom_qty,
             date=self.order_id.date_order,
             pricelist=self.order_id.pricelist_id.id,
             uom=self.product_uom.id,
         )
+
         vals.update(
             name=self.order_line_id._get_sale_order_line_multiline_description_sale()
         )
@@ -532,7 +522,6 @@ class HotelFolioLine(models.Model):
                 self.tax_id,
                 self.company_id,
             )
-
         self.update(vals)
 
         title = False
@@ -574,7 +563,7 @@ class HotelFolioLine(models.Model):
                 additional_hours = abs((dur.seconds / 60) / 60)
                 if additional_hours >= configured_addition_hours:
                     myduration += 1
-        self.product_uom_qty = myduration or 1.0
+        self.product_uom_qty = myduration
 
     def copy_data(self, default=None):
         """
@@ -587,7 +576,6 @@ class HotelFolioLine(models.Model):
 
 
 class HotelServiceLine(models.Model):
-
     _name = "hotel.service.line"
     _description = "hotel Service line"
 
@@ -597,7 +585,7 @@ class HotelServiceLine(models.Model):
         @param self: object pointer
         @param default: dict of default values to be set
         """
-        return super(HotelServiceLine, self).copy(default=default)
+        return super().copy(default=default)
 
     service_line_id = fields.Many2one(
         "sale.order.line",
@@ -621,7 +609,7 @@ class HotelServiceLine(models.Model):
         if "folio_id" in vals:
             folio = self.env["hotel.folio"].browse(vals["folio_id"])
             vals.update({"order_id": folio.order_id.id})
-        return super(HotelServiceLine, self).create(vals)
+        return super().create(vals)
 
     def unlink(self):
         """
@@ -640,7 +628,8 @@ class HotelServiceLine(models.Model):
             )
             # If company_id is set, always filter taxes by the company
             taxes = line.product_id.taxes_id.filtered(
-                lambda r: not line.company_id or r.company_id == line.company_id
+                lambda r, line=line: not line.company_id
+                or r.company_id == line.company_id
             )
             line.tax_id = (
                 fpos.map_tax(taxes, line.product_id, line.folio_id.partner_shipping_id)
@@ -671,7 +660,7 @@ class HotelServiceLine(models.Model):
                 ):
                     price, rule_id = pricelist_item.base_pricelist_id.with_context(
                         uom=uom.id
-                    ).get_product_price_rule(product, qty, self.folio_id.partner_id)
+                    )._get_product_price_rule(product, qty, self.folio_id.partner_id)
                     pricelist_item = PricelistItem.browse(rule_id)
 
             if pricelist_item.base == "standard_price":
@@ -722,7 +711,7 @@ class HotelServiceLine(models.Model):
         )
         final_price, rule_id = self.folio_id.pricelist_id.with_context(
             **product_context
-        ).get_product_price_rule(
+        )._get_product_price_rule(
             self.product_id,
             self.product_uom_qty or 1.0,
             self.folio_id.partner_id,
@@ -746,7 +735,7 @@ class HotelServiceLine(models.Model):
         # negative discounts (= surcharge) are included in the display price
         return max(base_price, final_price)
 
-    @api.onchange("product_id", "price_unit", "price_subtotal")
+    @api.onchange("product_id")
     def _onchange_product_id(self):
         if not self.product_id:
             return
@@ -771,7 +760,7 @@ class HotelServiceLine(models.Model):
         product = self.product_id.with_context(
             lang=get_lang(self.env, self.order_id.partner_id.lang).code,
             partner=self.order_id.partner_id,
-            quantity=vals.get("product_uom_qty") or self.product_uom_qty or 1.0,
+            quantity=vals.get("product_uom_qty") or self.product_uom_qty,
             date=self.order_id.date_order,
             pricelist=self.order_id.pricelist_id.id,
             uom=self.product_uom.id,
@@ -780,6 +769,7 @@ class HotelServiceLine(models.Model):
         vals.update(
             name=self.service_line_id._get_sale_order_line_multiline_description_sale()
         )
+
         self._compute_tax_id()
 
         if self.folio_id.pricelist_id and self.folio_id.partner_id:
