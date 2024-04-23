@@ -1,4 +1,4 @@
-# Copyright (C) 2023-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# Copyright (C) 2024-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import time
@@ -147,7 +147,9 @@ class ReportTestMaxroom(models.AbstractModel):
                 )
                 counter = len(
                     room.room_reservation_line_ids.filtered(
-                        lambda l: start_date <= l.check_in <= end_date
+                        lambda x, start_date=start_date, end_date=end_date: start_date
+                        <= x.check_in
+                        <= end_date
                     )
                 )
             if counter >= 1:
