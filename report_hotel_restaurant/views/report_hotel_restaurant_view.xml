@@ -20,8 +20,10 @@
         <field name="model">report.hotel.restaurant.status</field>
         <field name="arch" type="xml">
         <form string="States By Restaurant">
-            <field name="reservation_id" />
-            <field name="state" />
+            <sheet>
+                <field name="reservation_id" />
+                <field name="state" />
+            </sheet>
         </form>
         </field>
     </record>
