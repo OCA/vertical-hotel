@@ -1,11 +1,10 @@
-# Copyright (C) 2023-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
+# Copyright (C) 2024-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import fields, models
 
 
 class ReportHotelReservationStatus(models.Model):
-
     _name = "report.hotel.reservation.status"
     _description = "Reservation By State"
     _auto = False
@@ -13,7 +12,12 @@ class ReportHotelReservationStatus(models.Model):
     reservation_no = fields.Char(readonly=True)
     no_of_reservation = fields.Integer("Reservation", readonly=True)
     state = fields.Selection(
-        [("draft", "Draft"), ("confirm", "Confirm"), ("done", "Done")],
+        [
+            ("draft", "Draft"),
+            ("confirm", "Confirm"),
+            ("done", "Done"),
+            ("cancel", "Cancel"),
+        ],
         readonly=True,
     )
 
