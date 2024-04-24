@@ -19,8 +19,10 @@
         <field name="model">report.hotel.reservation.status</field>
         <field name="arch" type="xml">
             <form string="States By Reservation">
-                <field name="reservation_no" />
-                <field name="state" />
+                <sheet>
+                    <field name="reservation_no" />
+                    <field name="state" />
+                </sheet>
             </form>
         </field>
     </record>
