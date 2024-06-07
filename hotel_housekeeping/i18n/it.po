@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-11-10 09:39+0000\n"
+"PO-Revision-Date: 2024-06-07 13:37+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -1617,7 +1617,7 @@ msgstr "Peso"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__weight_uom_name
 msgid "Weight unit of measure label"
-msgstr "Etichetta unità di misura peso"
+msgstr "Etichetta unità di misura del peso"
 
 #. module: hotel_housekeeping
 #: model_terms:ir.ui.view,arch_db:hotel_housekeeping.hotel_housekeeping_wizard_form_view
