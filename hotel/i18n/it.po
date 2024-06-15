@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-06-07 11:48+0000\n"
+"PO-Revision-Date: 2024-06-15 19:36+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -3573,7 +3573,7 @@ msgstr "Venditore variante"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__supplier_taxes_id
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__supplier_taxes_id
 msgid "Vendor Taxes"
-msgstr "Tasse venditore"
+msgstr "Imposte venditore"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__seller_ids
