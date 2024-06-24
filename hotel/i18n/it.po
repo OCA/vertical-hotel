@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-06-15 19:36+0000\n"
+"PO-Revision-Date: 2024-06-24 12:41+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -502,7 +502,7 @@ msgstr "Nome completo"
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio__effective_date
 msgid "Completion date of the first delivery order."
-msgstr "Data completamento della prima consegna dell'ordine."
+msgstr "Data completamento del primo ordine di consegna."
 
 #. module: hotel
 #: model:ir.ui.menu,name:hotel.hotel_configuration_menu
