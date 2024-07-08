@@ -134,7 +134,6 @@
                                         string="Rent(UOM)"
                                         attrs="{'readonly': [('state', 'in', ('sale','done', 'cancel'))]}"
                                         context="{'company_id': parent.company_id}"
-                                        groups="uom.group_uom"
                                         options="{'no_open': True}"
                                     />
                                     <field name="price_unit" />
@@ -200,9 +199,9 @@
                                         string="Rent(UOM)"
                                         attrs="{'readonly': [('state', 'in', ('sale','done', 'cancel'))]}"
                                         context="{'company_id': parent.company_id}"
-                                        groups="uom.group_uom"
                                         options="{'no_open': True}"
                                     />
+
                                     <field name="price_unit" />
                                     <field
                                         domain="[('type_tax_use','=','sale'),('company_id','=',parent.company_id)]"

@@ -8,7 +8,7 @@
                Services Pvt. Ltd., OpenERP SA",
     "category": "Hotel Management",
     "website": "https://github.com/OCA/vertical-hotel",
-    "depends": ["sale_stock", "account"],
+    "depends": ["sale_stock", "account", "uom"],
     "license": "LGPL-3",
     "summary": "Hotel Management to Manage Folio and Hotel Configuration",
     "demo": ["demo/hotel_data.xml"],

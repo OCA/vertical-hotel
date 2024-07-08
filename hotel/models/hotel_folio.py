@@ -134,7 +134,8 @@ class HotelFolio(models.Model):
                             ("id", "!=", line.id),
                             ("checkin_date", ">=", line.checkin_date),
                             ("checkout_date", "<=", line.checkout_date),
-                        ]
+                        ],
+                        limit=1,
                     )
                     if record:
                         raise ValidationError(
@@ -162,31 +163,35 @@ class HotelFolio(models.Model):
                 }
                 folio_room_line_obj.create(vals)
 
-    @api.model
-    def create(self, vals):
+    @api.model_create_multi
+    def create(self, vals_list):
+
         """
         Overrides orm create method.
         @param self: The object pointer
         @param vals: dictionary of fields value.
         @return: new record set for hotel folio.
         """
-        if not "service_line_ids" and "folio_id" in vals:
-            tmp_room_lines = vals.get("room_line_ids", [])
-            vals["order_policy"] = vals.get("hotel_policy", "manual")
-            vals.update({"room_line_ids": []})
-            folio_id = super(HotelFolio, self).create(vals)
-            for line in tmp_room_lines:
-                line[2].update({"folio_id": folio_id.id})
-            vals.update({"room_line_ids": tmp_room_lines})
-            folio_id.write(vals)
-        else:
-            if not vals:
-                vals = {}
-            vals["name"] = self.env["ir.sequence"].next_by_code("hotel.folio")
-            vals["duration"] = vals.get("duration", 0.0) or vals.get("duration", 0.0)
-            folio_id = super(HotelFolio, self).create(vals)
-            self._update_folio_line(folio_id)
-        return folio_id
+        for vals in vals_list:
+            if not "service_line_ids" and "folio_id" in vals:
+                tmp_room_lines = vals.get("room_line_ids", [])
+                vals["order_policy"] = vals.get("hotel_policy", "manual")
+                vals.update({"room_line_ids": []})
+                folio_id = super(HotelFolio, self).create(vals)
+                for line in tmp_room_lines:
+                    line[2].update({"folio_id": folio_id.id})
+                vals.update({"room_line_ids": tmp_room_lines})
+                folio_id.write(vals)
+            else:
+                if not vals:
+                    vals = {}
+                vals["name"] = self.env["ir.sequence"].next_by_code("hotel.folio")
+                vals["duration"] = vals.get("duration", 0.0) or vals.get(
+                    "duration", 0.0
+                )
+                folio_id = super(HotelFolio, self).create(vals)
+                self._update_folio_line(folio_id)
+            return folio_id
 
     def write(self, vals):
         """
@@ -261,11 +266,15 @@ class HotelFolio(models.Model):
         for rec in self:
             if not rec.order_id:
                 raise UserError(_("Order id is not available"))
-            for product in rec.room_line_ids.filtered(
-                lambda l: l.order_line_id.product_id == product
-            ):
-                rooms = self.env["hotel.room"].search([("product_id", "=", product.id)])
-                rooms.write({"isroom": True, "status": "available"})
+            for product in rec.room_line_ids.mapped("product_id"):
+                if rec.room_line_ids.filtered(
+                    lambda line: line.order_line_id.product_id
+                    and line.order_line_id.product_id.id == product.id
+                ):
+                    rooms = self.env["hotel.room"].search(
+                        [("product_id", "=", product.id)]
+                    )
+                    rooms.write({"isroom": True, "status": "available"})
             rec.invoice_ids.button_cancel()
             return rec.order_id.action_cancel()
 
@@ -315,18 +324,19 @@ class HotelFolioLine(models.Model):
     checkout_date = fields.Datetime("Check Out", required=True)
     is_reserved = fields.Boolean(help="True when folio line created from Reservation")
 
-    @api.model
-    def create(self, vals):
+    @api.model_create_multi
+    def create(self, vals_list):
         """
         Overrides orm create method.
         @param self: The object pointer
         @param vals: dictionary of fields value.
         @return: new record set for hotel folio line.
         """
-        if "folio_id" in vals:
-            folio = self.env["hotel.folio"].browse(vals["folio_id"])
-            vals.update({"order_id": folio.order_id.id})
-        return super(HotelFolioLine, self).create(vals)
+        for vals in vals_list:
+            if "folio_id" in vals:
+                folio = self.env["hotel.folio"].browse(vals["folio_id"])
+                vals.update({"order_id": folio.order_id.id})
+            return super(HotelFolioLine, self).create(vals)
 
     @api.constrains("checkin_date", "checkout_date")
     def _check_dates(self):
@@ -494,18 +504,22 @@ class HotelFolioLine(models.Model):
         product_tmpl = self.product_id.product_tmpl_id
         attribute_lines = product_tmpl.valid_product_template_attribute_line_ids
         valid_values = attribute_lines.product_template_value_ids
+
         # remove the is_custom values that don't belong to this template
         for pacv in self.product_custom_attribute_value_ids:
+
             if pacv.custom_product_template_attribute_value_id not in valid_values:
                 self.product_custom_attribute_value_ids -= pacv
 
         # remove the no_variant attributes that don't belong to this template
         for ptav in self.product_no_variant_attribute_value_ids:
+
             if ptav._origin not in valid_values:
                 self.product_no_variant_attribute_value_ids -= ptav
 
         vals = {}
         if not self.product_uom or (self.product_id.uom_id.id != self.product_uom.id):
+
             vals["product_uom"] = self.product_id.uom_id
             vals["product_uom_qty"] = self.product_uom_qty or 1.0
 
@@ -522,8 +536,14 @@ class HotelFolioLine(models.Model):
         )
 
         self._compute_tax_id()
+        if not self.folio_id.partner_id:
+            raise ValidationError(_("Please select Guest Name"))
+
+        if not self.folio_id.pricelist_id:
+            raise ValidationError(_("Please select Pricelist"))
 
         if self.folio_id.pricelist_id and self.folio_id.partner_id:
+
             vals["price_unit"] = self.env[
                 "account.tax"
             ]._fix_tax_included_price_company(
@@ -534,12 +554,13 @@ class HotelFolioLine(models.Model):
             )
 
         self.update(vals)
-
         title = False
         message = False
         result = {}
         warning = {}
+
         if product.sale_line_warn != "no-message":
+
             title = _("Warning for %s", product.name)
             message = product.sale_line_warn_msg
             warning["title"] = title
@@ -610,18 +631,19 @@ class HotelServiceLine(models.Model):
     ser_checkin_date = fields.Datetime("From Date")
     ser_checkout_date = fields.Datetime("To Date")
 
-    @api.model
-    def create(self, vals):
+    @api.model_create_multi
+    def create(self, vals_list):
         """
         Overrides orm create method.
         @param self: The object pointer
         @param vals: dictionary of fields value.
         @return: new record set for hotel service line.
         """
-        if "folio_id" in vals:
-            folio = self.env["hotel.folio"].browse(vals["folio_id"])
-            vals.update({"order_id": folio.order_id.id})
-        return super(HotelServiceLine, self).create(vals)
+        for vals in vals_list:
+            if "folio_id" in vals:
+                folio = self.env["hotel.folio"].browse(vals["folio_id"])
+                vals.update({"order_id": folio.order_id.id})
+            return super(HotelServiceLine, self).create(vals)
 
     def unlink(self):
         """
@@ -782,6 +804,12 @@ class HotelServiceLine(models.Model):
         )
         self._compute_tax_id()
 
+        if not self.folio_id.partner_id:
+            raise ValidationError(_("Please select Guest Name"))
+
+        if not self.folio_id.pricelist_id:
+            raise ValidationError(_("Please select Pricelist"))
+
         if self.folio_id.pricelist_id and self.folio_id.partner_id:
             vals["price_unit"] = self.env[
                 "account.tax"
@@ -791,6 +819,7 @@ class HotelServiceLine(models.Model):
                 self.tax_id,
                 self.company_id,
             )
+
         self.update(vals)
 
         title = False

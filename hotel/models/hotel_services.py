@@ -1,7 +1,8 @@
 # Copyright (C) 2023-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 from odoo.osv import expression
 
 
@@ -25,8 +26,22 @@ class HotelServices(models.Model):
     )
     product_manager = fields.Many2one("res.users")
 
-    @api.model
-    def create(self, vals):
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if "name" in vals:
+                existing_services = self.env["hotel.services"].search(
+                    [("name", "ilike", vals["name"])], limit=1
+                )
+                if existing_services:
+                    raise ValidationError(
+                        _(
+                            "A service with the name '%s' already exists."
+                            "Please choose a different service."
+                        )
+                        % vals["name"]
+                    )
+
         if "service_categ_id" in vals:
             service_categ = self.env["hotel.service.type"].browse(
                 vals.get("service_categ_id")
@@ -66,14 +81,28 @@ class HotelServiceType(models.Model):
         ondelete="restrict",
     )
 
-    @api.model
-    def create(self, vals):
-        if "service_id" in vals:
-            service_categ = self.env["hotel.service.type"].browse(
-                vals.get("service_id")
-            )
-            vals.update({"parent_id": service_categ.product_categ_id.id})
-        return super(HotelServiceType, self).create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if "name" in vals:
+                existing_service_type = self.env["hotel.service.type"].search(
+                    [("name", "ilike", vals["name"])], limit=1
+                )
+                if existing_service_type:
+                    raise ValidationError(
+                        _(
+                            "A service type with the name '%s' already exists."
+                            "Please choose a different service type."
+                        )
+                        % vals["name"]
+                    )
+
+            if "service_id" in vals:
+                service_categ = self.env["hotel.service.type"].browse(
+                    vals.get("service_id")
+                )
+                vals.update({"parent_id": service_categ.product_categ_id.id})
+            return super(HotelServiceType, self).create(vals)
 
     def write(self, vals):
         if "service_id" in vals:

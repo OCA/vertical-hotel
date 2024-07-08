@@ -15,6 +15,23 @@ class HotelFloor(models.Model):
     name = fields.Char("Floor Name", required=True, index=True)
     sequence = fields.Integer("sequence", default=10)
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if "name" in vals:
+                existing_floor = self.env["hotel.floor"].search(
+                    [("name", "ilike", vals["name"])], limit=1
+                )
+                if existing_floor:
+                    raise ValidationError(
+                        _(
+                            "A floor with the name '%s' already exists."
+                            "Please choose a different floor."
+                        )
+                        % vals["name"]
+                    )
+            return super(HotelFloor, self).create(vals)
+
 
 class HotelRoom(models.Model):
 
@@ -52,12 +69,28 @@ class HotelRoom(models.Model):
     )
     product_manager = fields.Many2one("res.users")
 
-    @api.model
-    def create(self, vals):
-        if "room_categ_id" in vals:
-            room_categ = self.env["hotel.room.type"].browse(vals.get("room_categ_id"))
-            vals.update({"categ_id": room_categ.product_categ_id.id})
-        return super(HotelRoom, self).create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if "name" in vals:
+                existing_room = self.env["hotel.room"].search(
+                    [("name", "ilike", vals["name"])], limit=1
+                )
+                if existing_room:
+                    raise ValidationError(
+                        _(
+                            "A room with the name '%s' already exists."
+                            "Please choose a different name."
+                        )
+                        % vals["name"]
+                    )
+
+            if "room_categ_id" in vals:
+                room_categ = self.env["hotel.room.type"].browse(
+                    vals.get("room_categ_id")
+                )
+                vals.update({"categ_id": room_categ.product_categ_id.id})
+            return super(HotelRoom, self).create(vals)
 
     @api.constrains("capacity")
     def _check_capacity(self):
@@ -124,12 +157,26 @@ class HotelRoomType(models.Model):
         ondelete="restrict",
     )
 
-    @api.model
-    def create(self, vals):
-        if "categ_id" in vals:
-            room_categ = self.env["hotel.room.type"].browse(vals.get("categ_id"))
-            vals.update({"parent_id": room_categ.product_categ_id.id})
-        return super(HotelRoomType, self).create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if "name" in vals:
+                existing_room_type = self.env["hotel.room.type"].search(
+                    [("name", "ilike", vals["name"])], limit=1
+                )
+                if existing_room_type:
+                    raise ValidationError(
+                        _(
+                            "A room type with the name '%s' already exists."
+                            "Please choose a different room type."
+                        )
+                        % vals["name"]
+                    )
+
+            if "categ_id" in vals:
+                room_categ = self.env["hotel.room.type"].browse(vals.get("categ_id"))
+                vals.update({"parent_id": room_categ.product_categ_id.id})
+            return super(HotelRoomType, self).create(vals)
 
     def write(self, vals):
         if "categ_id" in vals:
@@ -214,14 +261,28 @@ class HotelRoomAmenitiesType(models.Model):
         ondelete="restrict",
     )
 
-    @api.model
-    def create(self, vals):
-        if "amenity_id" in vals:
-            amenity_categ = self.env["hotel.room.amenities.type"].browse(
-                vals.get("amenity_id")
-            )
-            vals.update({"parent_id": amenity_categ.product_categ_id.id})
-        return super(HotelRoomAmenitiesType, self).create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if "name" in vals:
+                existing_amenities_type = self.env["hotel.room.amenities.type"].search(
+                    [("name", "ilike", vals["name"])], limit=1
+                )
+                if existing_amenities_type:
+                    raise ValidationError(
+                        _(
+                            "A amenities type with the name '%s' already exists."
+                            "Please choose a different amenities type."
+                        )
+                        % vals["name"]
+                    )
+
+            if "amenity_id" in vals:
+                amenity_categ = self.env["hotel.room.amenities.type"].browse(
+                    vals.get("amenity_id")
+                )
+                vals.update({"parent_id": amenity_categ.product_categ_id.id})
+            return super(HotelRoomAmenitiesType, self).create(vals)
 
     def write(self, vals):
         if "amenity_id" in vals:
@@ -310,14 +371,28 @@ class HotelRoomAmenities(models.Model):
     )
     product_manager = fields.Many2one("res.users")
 
-    @api.model
-    def create(self, vals):
-        if "amenities_categ_id" in vals:
-            amenities_categ = self.env["hotel.room.amenities.type"].browse(
-                vals.get("amenities_categ_id")
-            )
-            vals.update({"categ_id": amenities_categ.product_categ_id.id})
-        return super(HotelRoomAmenities, self).create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if "name" in vals:
+                existing_room_amenities = self.env["hotel.room.amenities"].search(
+                    [("name", "ilike", vals["name"])], limit=1
+                )
+                if existing_room_amenities:
+                    raise ValidationError(
+                        _(
+                            "A amenities with the name '%s' already exists."
+                            "Please choose a different amenities type."
+                        )
+                        % vals["name"]
+                    )
+
+            if "amenities_categ_id" in vals:
+                amenities_categ = self.env["hotel.room.amenities.type"].browse(
+                    vals.get("amenities_categ_id")
+                )
+                vals.update({"categ_id": amenities_categ.product_categ_id.id})
+            return super(HotelRoomAmenities, self).create(vals)
 
     def write(self, vals):
         """
