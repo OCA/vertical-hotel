@@ -309,7 +309,7 @@
                 <filter
                     name="checkout_date"
                     string="Current Booking"
-                    domain="[('checkout_date','&gt;=',datetime.datetime.now().replace(hour=0, minute=0, second=0)),('checkin_date','&lt;=',datetime.datetime.now().replace(hour=23, minute=59, second=59))]"
+                    domain="[('checkout_date', '&gt;=', (datetime.datetime.now().strftime('%%Y-%%m-%%d 00:00:00'))), ('checkin_date', '&lt;=', (datetime.datetime.now().strftime('%%Y-%%m-%%d 23:59:59')))]"
                 />
                 <group expand="0" string="Group By">
                     <filter
