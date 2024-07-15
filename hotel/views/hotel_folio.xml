@@ -61,7 +61,7 @@
                 <sheet>
                     <label for="name" string="Folio Number" />
                     <h1>
-                        <field name="name" colspan="4" />
+                        <field name="name" colspan="4" readonly="1" />
                     </h1>
                     <group colspan="4" col="4">
                         <field name="date_order" readonly="1" />
@@ -100,7 +100,7 @@
                                 />
                                 <field
                                     name="checkout_date"
-                                    readonly="state != 'draft'"
+                                    readonly="state != 'draft' or 1"
                                 />
                                 <field name="duration" readonly="1" />
                                 <field name="duration_dummy" invisible="1" />
