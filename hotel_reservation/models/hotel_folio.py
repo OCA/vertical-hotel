@@ -12,25 +12,26 @@ class HotelFolio(models.Model):
         "hotel.reservation", "Reservation", ondelete="restrict"
     )
 
-    def write(self, vals):
-        res = super().write(vals)
+      def write(self, vals):
+        res = super(HotelFolio, self).write(vals)
         reservation_line_obj = self.env["hotel.room.reservation.line"]
         for folio in self:
             reservations = reservation_line_obj.search(
                 [("reservation_id", "=", folio.reservation_id.id)]
-            )
+            )  
             if len(reservations) == 1:
+                update_vals = []
                 for line in folio.reservation_id.reservation_line:
                     for room in line.reserve:
-                        vals = {
+                        update_vals.append({
                             "room_id": room.id,
                             "check_in": folio.checkin_date,
                             "check_out": folio.checkout_date,
                             "state": "assigned",
                             "reservation_id": folio.reservation_id.id,
-                        }
-                        reservations.write(vals)
-        return res
+                        })
+                if update_vals:
+                    reservations.write(update_vals[0])
 
 
 class HotelFolioLine(models.Model):
