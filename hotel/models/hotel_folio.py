@@ -27,14 +27,13 @@ class HotelFolio(models.Model):
     _description = "hotel folio"
     _rec_name = "order_id"
 
-    def name_get(self):
+    def _compute_display_name(self):
         res = []
         fname = ""
         for rec in self:
             if rec.order_id:
-                fname = str(rec.name)
+                rec.display_name = ( str(rec.order_id.name))
                 res.append((rec.id, fname))
-        return res
 
     @api.model
     def name_search(self, name="", args=None, operator="ilike", limit=100):
@@ -58,7 +57,7 @@ class HotelFolio(models.Model):
         )
         return fields.Datetime.to_string(checkout_date)
 
-    name = fields.Char("Folio Number", readonly=True, index=True, default="New")
+    name = fields.Char("Folio Number", index=True, default="New")
     order_id = fields.Many2one(
         "sale.order", "Order", delegate=True, required=True, ondelete="cascade"
     )
@@ -69,7 +68,6 @@ class HotelFolio(models.Model):
     )
     checkout_date = fields.Datetime(
         "Check Out",
-        required=True,
         readonly=True,
         default=_get_checkout_date,
     )
@@ -140,18 +138,16 @@ class HotelFolio(models.Model):
         folio_room_line_obj = self.env["folio.room.line"]
         hotel_room_obj = self.env["hotel.room"]
         for rec in folio_id:
-            for room_rec in rec.room_line_ids:
-                room = hotel_room_obj.search(
-                    [("product_id", "=", room_rec.product_id.id)]
-                )
-                room.write({"isroom": False})
-                vals = {
-                    "room_id": room.id,
-                    "check_in": rec.checkin_date,
-                    "check_out": rec.checkout_date,
-                    "folio_id": rec.id,
-                }
-                folio_room_line_obj.create(vals)
+            product_ids = rec.room_line_ids.mapped("product_id").ids
+            rooms = hotel_room_obj.search([("product_id", "in", product_ids)])
+            rooms.write({"isroom": False})
+            vals = {
+                "room_id": rooms.id,
+                "check_in": rec.checkin_date,
+                "check_out": rec.checkout_date,
+                "folio_id": rec.id,
+            }
+            folio_room_line_obj.create(vals)
 
     @api.model
     def create(self, vals):
@@ -161,7 +157,7 @@ class HotelFolio(models.Model):
         @param vals: dictionary of fields value.
         @return: new record set for hotel folio.
         """
-        if not "service_line_ids" and "folio_id" in vals:
+        if "service_line_ids" not in vals and "folio_id" in vals:
             tmp_room_lines = vals.get("room_line_ids", [])
             vals["order_policy"] = vals.get("hotel_policy", "manual")
             vals.update({"room_line_ids": []})
@@ -175,7 +171,7 @@ class HotelFolio(models.Model):
                 vals = {}
             vals["name"] = self.env["ir.sequence"].next_by_code("hotel.folio")
             vals["duration"] = vals.get("duration", 0.0) or vals.get("duration", 0.0)
-            folio_id = super().create(vals)
+            folio_id = super(HotelFolio, self).create(vals)
             self._update_folio_line(folio_id)
         return folio_id
 
@@ -198,8 +194,8 @@ class HotelFolio(models.Model):
             new_rooms = set(room_lst).difference(set(rooms_list))
             if len(list(new_rooms)) != 0:
                 room_list = product_obj.browse(list(new_rooms))
-                for rm in room_list:
-                    room_obj = hotel_room_obj.search([("product_id", "=", rm.id)])
+                for room in room_list:
+                    room_obj = hotel_room_obj.search([("product_id", "=", room.id)],limit=1)
                     room_obj.write({"isroom": False})
                     vals = {
                         "room_id": room_obj.id,
@@ -223,7 +219,7 @@ class HotelFolio(models.Model):
                         [("folio_id", "=", rec.id)]
                     )
                     folio_romline_rec.write(room_vals)
-        return super().write(vals)
+        return super(HotelFolio, self).write(vals)
 
     @api.onchange("partner_id")
     def _onchange_partner_id(self):
@@ -347,6 +343,8 @@ class HotelFolioLine(models.Model):
         @param self: The object pointer
         @return: True/False.
         """
+        hotel_room_obj = self.env["hotel.room"]
+        hotel_room_line_obj = self.env["folio.room.line"]
         for line in self:
             if line.order_line_id:
                 rooms = self.env["hotel.room"].search(
