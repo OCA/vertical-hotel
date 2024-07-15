@@ -122,11 +122,13 @@ class HotelHousekeeping(models.Model):
     )
     def check_end_date_time(self):
         for record in self:
-            for rec in record.activity_line_ids:
+            for activity_line_ids in record.activity_line_ids:
                 if (
                     record.inspect_date_time
-                    and record.inspect_date_time <= rec.clean_end_time
+                    and record.inspect_date_time <= activity_line_ids.clean_end_time
                 ):
                     raise ValidationError(
                         "Inspect Date Time must be Greter, then Clean end time"
                     )
+
+    
