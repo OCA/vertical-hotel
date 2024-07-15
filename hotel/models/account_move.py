@@ -7,6 +7,7 @@ from odoo import api, models
 class AccountMove(models.Model):
     _inherit = "account.move"
 
+    # "Override the create method to link the account move with a hotel folio"
     @api.model
     def create(self, vals):
         res = super().create(vals)
