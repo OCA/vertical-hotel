@@ -4,8 +4,9 @@
 {
     "name": "Hotel Management",
     "version": "17.0.1.0.0",
-    "author": "Odoo Community Association (OCA), Serpent Consulting \
-               Services Pvt. Ltd., OpenERP SA",
+    "author": """Odoo Community Association (OCA),
+                Serpent Consulting Services Pvt. Ltd.,
+    """,
     "category": "Hotel Management",
     "website": "https://github.com/OCA/vertical-hotel",
     "depends": ["sale_stock", "account"],
