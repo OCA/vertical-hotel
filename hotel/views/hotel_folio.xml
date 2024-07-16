@@ -100,7 +100,7 @@
                                 />
                                 <field
                                     name="checkout_date"
-                                    readonly="state != 'draft' or 1"
+                                    readonly="state != 'draft'"
                                 />
                                 <field name="duration" readonly="1" />
                                 <field name="duration_dummy" invisible="1" />
