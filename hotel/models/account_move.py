@@ -7,9 +7,11 @@ from odoo import api, models
 class AccountMove(models.Model):
     _inherit = "account.move"
 
-    # "Override the create method to link the account move with a hotel folio"
     @api.model
     def create(self, vals):
+        """ Overrides orm create method
+            to link the account move with a hotel folio.
+        """
         res = super().create(vals)
         if self._context.get("folio_id"):
             folio = self.env["hotel.folio"].browse(self._context["folio_id"])
