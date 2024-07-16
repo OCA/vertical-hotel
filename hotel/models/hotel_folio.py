@@ -69,6 +69,7 @@ class HotelFolio(models.Model):
     checkout_date = fields.Datetime(
         "Check Out",
         readonly=True,
+        required=True,
         default=_get_checkout_date,
     )
     room_line_ids = fields.One2many(
