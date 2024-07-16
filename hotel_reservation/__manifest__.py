@@ -4,9 +4,9 @@
 {
     "name": "Hotel Reservation Management",
     "version": "17.0.1.0.0",
-    """author": "Odoo Community Association (OCA),
+    "author": """Odoo Community Association (OCA),
                Serpent Consulting Services Pvt. Ltd.,
-               Odoo S.A"""
+               Odoo S.A""",
     "category": "Generic Modules/Hotel Reservation",
     "license": "AGPL-3",
     "summary": "Manages Guest Reservation & displays Reservation Summary",
