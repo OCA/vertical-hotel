@@ -241,10 +241,6 @@ class HotelFolio(models.Model):
                 }
             )
 
-    # TODO: Need to check action_done
-    # def action_done(self):
-    #     self.write({"state": "done"})
-
     def action_cancel(self):
         """
         @param self: object pointer
