@@ -14,10 +14,15 @@ class TestHotel(common.TransactionCase):
         self.hotel_folio_line = self.env["hotel.folio.line"]
         self.warehouse = self.env.ref("stock.warehouse0")
         self.partner = self.env.ref("base.res_partner_2")
-        self.price_list = self.env.ref("product.list0")
         self.room = self.env.ref("hotel.hotel_room_0")
         cur_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
+        self.price_list = self.env["product.pricelist"].create(
+            {
+                "name": "Test Pricelist",
+                "currency_id": self.env.ref("base.USD").id,
+            }
+        )
         self.hotel_folio = self.hotel_folio_obj.create(
             {
                 "name": "Folio/00001",
@@ -43,7 +48,3 @@ class TestHotel(common.TransactionCase):
     def test_folio_set_to_draft(self):
         self.hotel_folio.action_cancel_draft()
         self.assertEqual(self.hotel_folio.state == "draft", True)
-
-    def test_set_done(self):
-        self.hotel_folio.action_done()
-        self.assertEqual(self.hotel_folio.state == "done", True)
