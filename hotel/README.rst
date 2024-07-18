@@ -60,8 +60,7 @@ Credits
 Authors
 -------
 
-* Serpent Consulting                Services Pvt. Ltd.
-* OpenERP SA
+* Serpent Consulting Services Pvt. Ltd.
 
 Contributors
 ------------
@@ -69,7 +68,7 @@ Contributors
 -  Odoo Community Association (OCA)
 -  Serpent Consulting Services Pvt. Ltd.
 -  Odoo S.A.
--  Rajan Soni  <rajan.s.serpentcs@gmail.com>
+-  Rajan Patel <rajan.p.serpentcs@gmail.com>
 
 Maintainers
 -----------
