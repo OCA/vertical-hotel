@@ -32,7 +32,7 @@ class HotelFolio(models.Model):
         fname = ""
         for rec in self:
             if rec.order_id:
-                rec.display_name = ( str(rec.order_id.name))
+                rec.display_name = str(rec.order_id.name)
                 res.append((rec.id, fname))
 
     @api.model
@@ -172,7 +172,7 @@ class HotelFolio(models.Model):
                 vals = {}
             vals["name"] = self.env["ir.sequence"].next_by_code("hotel.folio")
             vals["duration"] = vals.get("duration", 0.0) or vals.get("duration", 0.0)
-            folio_id = super(HotelFolio, self).create(vals)
+            folio_id = super().create(vals)
             self._update_folio_line(folio_id)
         return folio_id
 
@@ -196,7 +196,9 @@ class HotelFolio(models.Model):
             if len(list(new_rooms)) != 0:
                 room_list = product_obj.browse(list(new_rooms))
                 for room in room_list:
-                    room_obj = hotel_room_obj.search([("product_id", "=", room.id)],limit=1)
+                    room_obj = hotel_room_obj.search(
+                        [("product_id", "=", room.id)], limit=1
+                    )
                     room_obj.write({"isroom": False})
                     vals = {
                         "room_id": room_obj.id,
@@ -220,7 +222,7 @@ class HotelFolio(models.Model):
                         [("folio_id", "=", rec.id)]
                     )
                     folio_romline_rec.write(room_vals)
-        return super(HotelFolio, self).write(vals)
+        return super().write(vals)
 
     @api.onchange("partner_id")
     def _onchange_partner_id(self):
@@ -348,10 +350,10 @@ class HotelFolioLine(models.Model):
         hotel_room_line_obj = self.env["folio.room.line"]
         for line in self:
             if line.order_line_id:
-                rooms = self.env["hotel.room"].search(
+                rooms = hotel_room_obj.search(
                     [("product_id", "=", line.order_line_id.product_id.id)]
                 )
-                folio_room_lines = self.env["folio.room.line"].search(
+                folio_room_lines = hotel_room_line_obj.search(
                     [
                         ("folio_id", "=", line.folio_id.id),
                         ("room_id", "in", rooms.ids),
