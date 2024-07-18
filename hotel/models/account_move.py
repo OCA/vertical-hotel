@@ -9,8 +9,8 @@ class AccountMove(models.Model):
 
     @api.model
     def create(self, vals):
-        """ Overrides orm create method
-            to link the account move with a hotel folio.
+        """Overrides orm create method
+        to link the account move with a hotel folio.
         """
         res = super().create(vals)
         if self._context.get("folio_id"):
