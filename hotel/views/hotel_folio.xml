@@ -41,16 +41,6 @@
                         type="object"
                         class="oe_highlight"
                     />
-
-                    <!-- TODO: Need to check button-->
-                    <!-- <button
-                        name="action_done"
-                        type="object"
-                        string="Set to Done"
-                        invisible="state != 'sale'"
-                        class="oe_highlight"
-                        help="If a Hotel Folio is done, you cannot modify it manually anymore. However, you will still be able to invoice or deliver. This is used to freeze the Hotel Folio."
-                    /> -->
                     <field
                         name="state"
                         select="2"
