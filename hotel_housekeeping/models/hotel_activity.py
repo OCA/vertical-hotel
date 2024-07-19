@@ -8,5 +8,5 @@ class HotelActivity(models.Model):
     _name = "hotel.activity"
     _description = "Housekeeping Activity"
 
-    name = fields.Char("Name")
+    name = fields.Char()
     categ_id = fields.Many2one("hotel.housekeeping.activity.type", "Category")
