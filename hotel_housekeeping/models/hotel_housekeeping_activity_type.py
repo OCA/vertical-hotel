@@ -31,7 +31,7 @@ class HotelHousekeepingActivityType(models.Model):
         if not domain:
             domain = []
         if name:
-            # Be sure name_search is symetric to name_get
+            # Be sure name_search is symmetric to name_get
             category_names = name.split(" / ")
             parents = list(category_names)
             child = parents.pop()
@@ -39,7 +39,6 @@ class HotelHousekeepingActivityType(models.Model):
             if parents:
                 names_ids = self.name_search(
                     " / ".join(parents),
-                    domain=domain,
                     operator="ilike",
                     limit=limit,
                 )

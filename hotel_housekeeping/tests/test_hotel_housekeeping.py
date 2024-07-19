@@ -53,7 +53,7 @@ class TestHousekeeping(common.TransactionCase):
             }
         )
 
-        self.hotel_act_type.name_get()
+        self.hotel_act_type._compute_display_name()
         hotel_activity_type = self.hotel_act_type_obj.name_search("Test Room Activity")
         self.assertEqual(
             len(hotel_activity_type),
@@ -67,7 +67,7 @@ class TestHousekeeping(common.TransactionCase):
                 "name": "Test",
             }
         )
-        self.env["hotel.housekeeping.activity.type"].name_search(
+        self.env["hotel.housekeeping.activity.type"]._name_search(
             "All Activities / Test Room Activity", [], "not like", None
         )
 

@@ -128,7 +128,5 @@ class HotelHousekeeping(models.Model):
                     and record.inspect_date_time <= activity_line_ids.clean_end_time
                 ):
                     raise ValidationError(
-                        "Inspect Date Time must be Greter, then Clean end time"
+                        _("Inspect Date Time must be Greter, then Clean end time")
                     )
-
-    
