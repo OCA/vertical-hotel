@@ -23,12 +23,17 @@ class TestReservation(common.TransactionCase):
         self.room = self.env.ref("hotel.hotel_room_0")
         self.company = self.env.ref("base.main_company")
         self.partner = self.env.ref("base.res_partner_2")
-        self.pricelist = self.env.ref("product.list0")
         self.floor = self.env.ref("hotel.hotel_floor_ground0")
         self.manager = self.env.ref("base.user_root")
         self.warehouse = self.env.ref("stock.warehouse0")
-        self.price_list = self.env.ref("product.list0")
         cur_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        self.price_list = self.env["product.pricelist"].create(
+            {
+                "name": "Test Pricelist",
+                "currency_id": self.env.ref("base.USD").id,
+            }
+        )
 
         self.hotel_reserv_line = self.hotel_reserv_line_obj.create(
             {
@@ -45,7 +50,7 @@ class TestReservation(common.TransactionCase):
                 "date_order": cur_date,
                 "company_id": self.company.id,
                 "partner_id": self.partner.id,
-                "pricelist_id": self.pricelist.id,
+                "pricelist_id": self.price_list.id,
                 "checkin": cur_date,
                 "checkout": cur_date,
                 "adults": 1,
@@ -73,7 +78,7 @@ class TestReservation(common.TransactionCase):
                 "check_out": cur_date,
                 "room_id": self.room.id,
                 "company_id": self.company.id,
-                "pricelist_id": self.pricelist.id,
+                "pricelist_id": self.price_list.id,
                 "partner_invoice_id": self.partner.id,
                 "partner_order_id": self.partner.id,
                 "partner_shipping_id": self.partner.id,
