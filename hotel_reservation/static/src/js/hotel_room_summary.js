@@ -4,7 +4,7 @@ import {TextField} from "@web/views/fields/text/text_field";
 import {registry} from "@web/core/registry";
 import {useService} from "@web/core/utils/hooks";
 import {useState} from "@odoo/owl";
-var FormView = require("web.FormView");
+var FormView = require("web.FormView"); // eslint-disable-line no-undef
 var py = window.py;
 const {onWillUpdateProps} = owl;
 
@@ -27,7 +27,7 @@ export class MyWidget extends TextField {
         });
     }
     resize() {
-        return this; //overide the resize
+        return this;
     }
     async load_form(room_id, date) {
         this.actionService.doAction({
