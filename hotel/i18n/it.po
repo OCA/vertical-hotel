@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-07-23 09:58+0000\n"
+"PO-Revision-Date: 2024-08-23 12:06+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -2849,7 +2849,7 @@ msgstr "Responsabile servizio"
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_service_type_form
 msgid "Service Name"
-msgstr "nome servizio"
+msgstr "Nome servizio"
 
 #. module: hotel
 #: model:ir.actions.act_window,name:hotel.open_hotel_service_type_form_tree
