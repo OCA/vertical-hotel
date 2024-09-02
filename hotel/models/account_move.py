@@ -8,10 +8,14 @@ class AccountMove(models.Model):
 
     _inherit = "account.move"
 
-    @api.model
-    def create(self, vals):
-        res = super(AccountMove, self).create(vals)
-        if self._context.get("folio_id"):
-            folio = self.env["hotel.folio"].browse(self._context["folio_id"])
-            folio.write({"hotel_invoice_id": res.id, "invoice_status": "invoiced"})
+    @api.model_create_multi
+    def create(self, vals_list):
+        res = super(AccountMove, self).create(vals_list)
+        folio_id = self._context.get("folio_id")
+        if folio_id:
+            folio = self.env["hotel.folio"].browse(folio_id)
+            folio.write(
+                {"hotel_invoice_id": [(6, 0, res.ids)], "invoice_status": "invoiced"}
+            )
+
         return res

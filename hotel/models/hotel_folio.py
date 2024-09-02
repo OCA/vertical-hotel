@@ -173,7 +173,7 @@ class HotelFolio(models.Model):
         @return: new record set for hotel folio.
         """
         for vals in vals_list:
-            if not "service_line_ids" and "folio_id" in vals:
+            if "service_line_ids" not in vals and "folio_id" in vals:
                 tmp_room_lines = vals.get("room_line_ids", [])
                 vals["order_policy"] = vals.get("hotel_policy", "manual")
                 vals.update({"room_line_ids": []})
