@@ -1,0 +1,67 @@
+<odoo>
+    <!--Form view for folio report wizard -->
+    <record id="view_hotel_folio_wizard" model="ir.ui.view">
+        <field name="name">folio.report.wizard</field>
+        <field name="model">folio.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Folio Report">
+                <group>
+                    <label for="date_start" />
+                    <div name="dates" class="o_row">
+                    <field
+                            name="date_start"
+                            required="1"
+                            widget="daterange"
+                            options='{"related_end_date": "date_end"}'
+                        />
+                    <i
+                            class="fa fa-long-arrow-right mx-2 oe_edit_only"
+                            aria-label="Arrow icon"
+                            title="Arrow"
+                        />
+                    <i
+                            class="fa fa-long-arrow-right mx-2 oe_read_only"
+                            aria-label="Arrow icon"
+                            title="Arrow"
+                        />
+                    <label for="date_end" string="End Date" required="1" />
+                    <field
+                            name="date_end"
+                            widget="daterange"
+                            options='{"related_start_date": "date_start"}'
+                        />
+                    </div>
+                </group>
+                <footer>
+                    <button
+                        name="print_report"
+                        string="Print Folio"
+                        icon="fa-print"
+                        type="object"
+                        class="oe_highlight"
+                    />
+                    <button
+                        string="Cancel"
+                        icon="fa-close"
+                        class="btn btn-primary"
+                        special="cancel"
+                    />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <!--Action for folio report wizard -->
+    <record id="hotel_folio_wizard" model="ir.actions.act_window">
+        <field name="name">Hotel Folio Report</field>
+        <field name="res_model">folio.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+    <menuitem
+        name="Hotel Folio Report"
+        action="hotel_folio_wizard"
+        id="wizard_hotel_menu"
+        parent="hotel_report_menu"
+        sequence="31"
+    />
+</odoo>
