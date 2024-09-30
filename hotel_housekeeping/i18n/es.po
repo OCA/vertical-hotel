@@ -24,6 +24,15 @@ msgid "# Product Variants"
 msgstr ""
 
 #. module: hotel_housekeeping
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.hotel_housekeeping_wizard_form_view
+msgid ""
+"<i class=\"fa fa-long-arrow-right mx-2 oe_edit_only\" aria-label=\"Arrow "
+"icon\" title=\"Arrow\"/>\n"
+"                    <i class=\"fa fa-long-arrow-right mx-2 oe_read_only\" "
+"aria-label=\"Arrow icon\" title=\"Arrow\"/>"
+msgstr ""
+
+#. module: hotel_housekeeping
 #: model_terms:ir.ui.view,arch_db:hotel_housekeeping.housekeeping_report
 msgid "<strong>Activities</strong>"
 msgstr ""
@@ -78,6 +87,24 @@ msgid "<u>Room Activities Report</u>"
 msgstr "Informe de la actividad de las habitaciones"
 
 #. module: hotel_housekeeping
+#. odoo-python
+#: code:addons/hotel_housekeeping/models/hotel_housekeeping_activity_type.py:0
+#, python-format
+msgid ""
+"A activity type with the name '%s' already exists. Please choose a different "
+"activity type."
+msgstr ""
+
+#. module: hotel_housekeeping
+#. odoo-python
+#: code:addons/hotel_housekeeping/models/hotel_activity.py:0
+#, python-format
+msgid ""
+"A activity with the name '%s' already exists.Please choose a different "
+"activity."
+msgstr ""
+
+#. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__description_sale
 msgid ""
 "A description of the Product that you want to communicate to your customers. "
@@ -86,12 +113,17 @@ msgid ""
 msgstr ""
 
 #. module: hotel_housekeeping
-#: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__type
+#: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__detailed_type
 msgid ""
 "A storable product is a product for which you manage stock. The Inventory "
 "app has to be installed.\n"
 "A consumable product is a product for which stock is not managed.\n"
 "A service is a non-material product you provide."
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__account_tag_ids
+msgid "Account Tags"
 msgstr ""
 
 #. module: hotel_housekeeping
@@ -184,6 +216,16 @@ msgid "Activity Types"
 msgstr "Tipo de actividades"
 
 #. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__additional_product_tag_ids
+msgid "Additional Product Tag"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__all_product_tag_ids
+msgid "All Product Tag"
+msgstr ""
+
+#. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__message_attachment_count
 msgid "Attachment Count"
 msgstr ""
@@ -194,13 +236,13 @@ msgid "Attribute Values"
 msgstr ""
 
 #. module: hotel_housekeeping
-#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__available_in_pos
-msgid "Available in POS"
+#: model:ir.model.fields.selection,name:hotel_housekeeping.selection__hotel_housekeeping__quality__average
+msgid "Average"
 msgstr ""
 
 #. module: hotel_housekeeping
-#: model:ir.model.fields.selection,name:hotel_housekeeping.selection__hotel_housekeeping__quality__average
-msgid "Average"
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__avg_cost
+msgid "Average Cost"
 msgstr ""
 
 #. module: hotel_housekeeping
@@ -211,6 +253,11 @@ msgstr ""
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__barcode
 msgid "Barcode"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__valid_ean
+msgid "Barcode is valid EAN"
 msgstr ""
 
 #. module: hotel_housekeeping
@@ -262,22 +309,6 @@ msgstr "categoría"
 #, fuzzy
 msgid "Category Routes"
 msgstr "categoría"
-
-#. module: hotel_housekeeping
-#: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__pos_categ_id
-msgid "Category used in the Point of Sale."
-msgstr ""
-
-#. module: hotel_housekeeping
-#: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__to_weight
-msgid ""
-"Check if the product should be weighted using the hardware scale integration."
-msgstr ""
-
-#. module: hotel_housekeeping
-#: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__available_in_pos
-msgid "Check if you want this product to appear in the Point of Sale."
-msgstr ""
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields.selection,name:hotel_housekeeping.selection__hotel_housekeeping__clean_type__checkin
@@ -434,11 +465,6 @@ msgid ""
 msgstr ""
 
 #. module: hotel_housekeeping
-#: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__seller_ids
-msgid "Define vendor pricelists."
-msgstr ""
-
-#. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__sale_delay
 msgid ""
 "Delivery lead time, in days. It's the number of days, promised to the "
@@ -476,8 +502,7 @@ msgstr ""
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_housekeeping__activity_line_ids
-msgid ""
-"Detail of housekeeping                                         activities"
+msgid "Detail of housekeeping activities"
 msgstr ""
 
 #. module: hotel_housekeeping
@@ -494,7 +519,6 @@ msgstr "Sin limpiar"
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_activities__display_name
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_activity_type__display_name
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_wizard__display_name
-#: model:ir.model.fields,field_description:hotel_housekeeping.field_report_hotel_housekeeping_housekeeping_report__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -504,6 +528,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_hotel_housekeeping_search
 msgid "Done"
 msgstr "Realizado"
+
+#. module: hotel_housekeeping
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.hotel_housekeeping_wizard_form_view
+msgid "End Date"
+msgstr "Fecha fin"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__tracking
@@ -529,24 +558,18 @@ msgid ""
 msgstr ""
 
 #. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__priority
+msgid "Favorite"
+msgstr ""
+
+#. module: hotel_housekeeping
 #: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_hotel_housekeeping_search
 msgid "Filters"
 msgstr ""
 
 #. module: hotel_housekeeping
-#: model:hotel.activity,name:hotel_housekeeping.hotel_room_activities_4
-#: model:product.product,name:hotel_housekeeping.hotel_room_activities_4_product_product
-msgid "Finishing Touches"
-msgstr ""
-
-#. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__message_follower_ids
 msgid "Followers"
-msgstr ""
-
-#. module: hotel_housekeeping
-#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__message_channel_ids
-msgid "Followers (Channels)"
 msgstr ""
 
 #. module: hotel_housekeeping
@@ -557,17 +580,6 @@ msgstr ""
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
-msgstr ""
-
-#. module: hotel_housekeeping
-#: model:hotel.activity,name:hotel_housekeeping.hotel_room_activities_2
-#: model:product.product,name:hotel_housekeeping.hotel_room_activities_2_product_product
-msgid "Food Delivery"
-msgstr ""
-
-#. module: hotel_housekeeping
-#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__virtual_available
-msgid "Forecast Quantity"
 msgstr ""
 
 #. module: hotel_housekeeping
@@ -592,6 +604,11 @@ msgid ""
 "Stock Location of this Warehouse, or any of its children.\n"
 "Otherwise, this includes goods stored in any Stock Location with 'internal' "
 "type."
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__virtual_available
+msgid "Forecasted Quantity"
 msgstr ""
 
 #. module: hotel_housekeeping
@@ -622,6 +639,11 @@ msgstr ""
 #. module: hotel_housekeeping
 #: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_h_activity_search
 msgid "Group By..."
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__has_message
+msgid "Has Message"
 msgstr ""
 
 #. module: hotel_housekeeping
@@ -688,7 +710,6 @@ msgstr "Actividades de limpieza "
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_activities__id
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_activity_type__id
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_wizard__id
-#: model:ir.model.fields,field_description:hotel_housekeeping.field_report_hotel_housekeeping_housekeeping_report__id
 msgid "ID"
 msgstr ""
 
@@ -704,13 +725,11 @@ msgstr ""
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__message_needaction
-#: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__message_unread
 msgid "If checked, new messages require your attention."
 msgstr ""
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__message_has_error
-#: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
 
@@ -780,6 +799,13 @@ msgid "Inspect Date Time"
 msgstr "Hora de la inspección"
 
 #. module: hotel_housekeeping
+#. odoo-python
+#: code:addons/hotel_housekeeping/models/hotel_housekeeping.py:0
+#, python-format
+msgid "Inspect Date Time must be Greter then Clean end time"
+msgstr ""
+
+#. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping__inspector_id
 msgid "Inspector"
 msgstr "Inspector"
@@ -793,8 +819,7 @@ msgstr "Inspector"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_housekeeping__quality
 msgid ""
-"Inspector inspect the room and mark                                 as "
-"Excellent, Average, Bad, Good or Ok. "
+"Inspector inspect the room and markas Excellent, Average, Bad, Good or Ok. "
 msgstr ""
 
 #. module: hotel_housekeeping
@@ -884,7 +909,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_activities____last_update
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_activity_type____last_update
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_wizard____last_update
-#: model:ir.model.fields,field_description:hotel_housekeeping.field_report_hotel_housekeeping_housekeeping_report____last_update
 msgid "Last Modified on"
 msgstr ""
 
@@ -915,12 +939,6 @@ msgstr "Duración"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__message_main_attachment_id
 msgid "Main Attachment"
-msgstr ""
-
-#. module: hotel_housekeeping
-#: model:hotel.activity,name:hotel_housekeeping.hotel_room_activities_6
-#: model:product.product,name:hotel_housekeeping.hotel_room_activities_6_product_product
-msgid "Making the Beds"
 msgstr ""
 
 #. module: hotel_housekeeping
@@ -976,6 +994,16 @@ msgid "Name"
 msgstr ""
 
 #. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__nbr_moves_in
+msgid "Nbr Moves In"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__nbr_moves_out
+msgid "Nbr Moves Out"
+msgstr ""
+
+#. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__activity_date_deadline
 #, fuzzy
 msgid "Next Activity Deadline"
@@ -1003,8 +1031,13 @@ msgid "Number of errors"
 msgstr ""
 
 #. module: hotel_housekeeping
+#: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__nbr_moves_in
+msgid "Number of incoming stock moves in the past 12 months"
+msgstr ""
+
+#. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__message_needaction_counter
-msgid "Number of messages which requires an action"
+msgid "Number of messages requiring action"
 msgstr ""
 
 #. module: hotel_housekeeping
@@ -1013,19 +1046,31 @@ msgid "Number of messages with delivery error"
 msgstr ""
 
 #. module: hotel_housekeeping
-#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__pricelist_item_count
-msgid "Number of price rules"
+#: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__nbr_moves_out
+msgid "Number of outgoing stock moves in the past 12 months"
 msgstr ""
 
 #. module: hotel_housekeeping
-#: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__message_unread_counter
-msgid "Number of unread messages"
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__pricelist_item_count
+msgid "Number of price rules"
 msgstr ""
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields.selection,name:hotel_housekeeping.selection__hotel_housekeeping__quality__ok
 msgid "Ok"
 msgstr "Ok"
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__optional_product_ids
+msgid "Optional Products"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__optional_product_ids
+msgid ""
+"Optional Products are suggested whenever the customer hits *Add to Cart* "
+"(cross-sell strategy, e.g. for computers: warranty, software, etc.)."
+msgstr ""
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__invoice_policy
@@ -1040,29 +1085,15 @@ msgid "Outgoing"
 msgstr ""
 
 #. module: hotel_housekeeping
+#. odoo-python
 #: code:addons/hotel_housekeeping/models/hotel_housekeeping.py:0
 #, python-format
 msgid "Please update quality of work!"
 msgstr ""
 
 #. module: hotel_housekeeping
-#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__pos_categ_id
-msgid "Point of Sale Category"
-msgstr ""
-
-#. module: hotel_housekeeping
-#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__price
-msgid "Price"
-msgstr ""
-
-#. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__list_price
 msgid "Price at which the product is sold to customers."
-msgstr ""
-
-#. module: hotel_housekeeping
-#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__pricelist_id
-msgid "Pricelist"
 msgstr ""
 
 #. module: hotel_housekeeping
@@ -1082,12 +1113,22 @@ msgid "Product Packages"
 msgstr ""
 
 #. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__product_tag_ids
+msgid "Product Tags"
+msgstr ""
+
+#. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__product_tmpl_id
 msgid "Product Template"
 msgstr ""
 
 #. module: hotel_housekeeping
-#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__type
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__product_tooltip
+msgid "Product Tooltip"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__detailed_type
 #, fuzzy
 msgid "Product Type"
 msgstr "Product_id"
@@ -1104,18 +1145,13 @@ msgid "Products"
 msgstr "Product_id"
 
 #. module: hotel_housekeeping
-#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__lst_price
-msgid "Public Price"
-msgstr ""
-
-#. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__description_purchase
 msgid "Purchase Description"
 msgstr ""
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__uom_po_id
-msgid "Purchase Unit of Measure"
+msgid "Purchase UoM"
 msgstr ""
 
 #. module: hotel_housekeeping
@@ -1213,12 +1249,6 @@ msgid "Responsible User"
 msgstr ""
 
 #. module: hotel_housekeeping
-#: model:hotel.activity,name:hotel_housekeeping.hotel_room_activities_1
-#: model:product.product,name:hotel_housekeeping.hotel_room_activities_1_product_product
-msgid "Room Cleaning"
-msgstr ""
-
-#. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping__room_id
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_wizard__room_id
 msgid "Room No"
@@ -1232,11 +1262,6 @@ msgstr ""
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__has_available_route_ids
 msgid "Routes can be selected on this product"
-msgstr ""
-
-#. module: hotel_housekeeping
-#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__message_has_sms_error
-msgid "SMS Delivery error"
 msgstr ""
 
 #. module: hotel_housekeeping
@@ -1255,6 +1280,11 @@ msgid "Sales Price"
 msgstr ""
 
 #. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__lst_price
+msgid "Sales Price"
+msgstr ""
+
+#. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__sale_line_warn
 msgid ""
 "Selecting the \"Warning\" option will notify user with the message, "
@@ -1265,6 +1295,16 @@ msgstr ""
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__sequence
 msgid "Sequence"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__show_forecasted_qty_status_button
+msgid "Show Forecasted Qty Status Button"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__show_on_hand_qty_status_button
+msgid "Show On Hand Qty Status Button"
 msgstr ""
 
 #. module: hotel_housekeeping
@@ -1285,9 +1325,10 @@ msgid ""
 msgstr ""
 
 #. module: hotel_housekeeping
+#. odoo-python
 #: code:addons/hotel_housekeeping/models/hotel_housekeeping_activities.py:0
 #, python-format
-msgid "Start Date Should be less than the End Date!"
+msgid "Start Time Should be less than the End Time!"
 msgstr ""
 
 #. module: hotel_housekeeping
@@ -1321,26 +1362,26 @@ msgid "Stock Valuation Layer"
 msgstr ""
 
 #. module: hotel_housekeeping
-#: model:hotel.activity,name:hotel_housekeeping.hotel_room_activities_5
-#: model:product.product,name:hotel_housekeeping.hotel_room_activities_5_product_product
-msgid "Stripping the Room"
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__storage_category_capacity_ids
+msgid "Storage Category Capacity"
 msgstr ""
 
 #. module: hotel_housekeeping
-#: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__valid_product_template_attribute_line_ids
-msgid "Technical compute"
-msgstr ""
-
-#. module: hotel_housekeeping
-#: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__pricelist_id
+#: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__account_tag_ids
 msgid ""
-"Technical field. Used for searching on pricelists, not stored in database."
+"Tags to be set on the base and tax journal items created for this product."
 msgstr ""
 
 #. module: hotel_housekeeping
-#: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__stock_move_ids
-#: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__stock_quant_ids
-msgid "Technical: used to compute quantities."
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__tax_string
+msgid "Tax String"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__company_currency_id
+msgid ""
+"Technical field to correctly show the currently selected company's currency "
+"that corresponds to the totaled value of the product's valuation layers"
 msgstr ""
 
 #. module: hotel_housekeeping
@@ -1377,11 +1418,6 @@ msgid ""
 msgstr ""
 
 #. module: hotel_housekeeping
-#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__to_weight
-msgid "To Weigh With Scale"
-msgstr ""
-
-#. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_activities__today_date
 #, fuzzy
 msgid "Today Date"
@@ -1393,6 +1429,11 @@ msgid "Today's Date"
 msgstr "Fecha de hoy"
 
 #. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__total_value
+msgid "Total Value"
+msgstr ""
+
+#. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__service_type
 msgid "Track Service"
 msgstr ""
@@ -1400,6 +1441,11 @@ msgstr ""
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__tracking
 msgid "Tracking"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__type
+msgid "Type"
 msgstr ""
 
 #. module: hotel_housekeeping
@@ -1418,40 +1464,13 @@ msgid "Unit of Measure Name"
 msgstr ""
 
 #. module: hotel_housekeeping
-#: model:hotel.activity,uom_name:hotel_housekeeping.hotel_room_activities_1
-#: model:hotel.activity,uom_name:hotel_housekeeping.hotel_room_activities_2
-#: model:hotel.activity,uom_name:hotel_housekeeping.hotel_room_activities_3
-#: model:hotel.activity,uom_name:hotel_housekeeping.hotel_room_activities_4
-#: model:hotel.activity,uom_name:hotel_housekeeping.hotel_room_activities_5
-#: model:hotel.activity,uom_name:hotel_housekeeping.hotel_room_activities_6
-#: model:product.product,uom_name:hotel_housekeeping.hotel_room_activities_1_product_product
-#: model:product.product,uom_name:hotel_housekeeping.hotel_room_activities_2_product_product
-#: model:product.product,uom_name:hotel_housekeeping.hotel_room_activities_3_product_product
-#: model:product.product,uom_name:hotel_housekeeping.hotel_room_activities_4_product_product
-#: model:product.product,uom_name:hotel_housekeeping.hotel_room_activities_5_product_product
-#: model:product.product,uom_name:hotel_housekeeping.hotel_room_activities_6_product_product
-msgid "Units"
-msgstr ""
-
-#. module: hotel_housekeeping
-#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__message_unread
-msgid "Unread Messages"
-msgstr ""
-
-#. module: hotel_housekeeping
-#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__message_unread_counter
-msgid "Unread Messages Counter"
-msgstr ""
-
-#. module: hotel_housekeeping
-#: model:hotel.activity,name:hotel_housekeeping.hotel_room_activities_3
-#: model:product.product,name:hotel_housekeeping.hotel_room_activities_3_product_product
-msgid "Vacuuming"
-msgstr ""
-
-#. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__valid_product_template_attribute_line_ids
 msgid "Valid Product Attribute Lines"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__company_currency_id
+msgid "Valuation Currency"
 msgstr ""
 
 #. module: hotel_housekeeping
@@ -1492,6 +1511,11 @@ msgstr ""
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__variant_seller_ids
 msgid "Variant Seller"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__product_template_variant_value_ids
+msgid "Variant Values"
 msgstr ""
 
 #. module: hotel_housekeeping
@@ -1599,9 +1623,6 @@ msgstr ""
 
 #~ msgid "Date"
 #~ msgstr "Fecha"
-
-#~ msgid "End Date"
-#~ msgstr "Fecha fin"
 
 #~ msgid "Housekeeping12"
 #~ msgstr "Housekeeping12"
