@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-07-17 17:16+0000\n"
-"Last-Translator: Francesco Foresti <francesco.foresti@ooops404.com>\n"
+"PO-Revision-Date: 2024-10-03 17:06+0000\n"
+"Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.17\n"
+"X-Generator: Weblate 5.6.2\n"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__product_variant_count
@@ -29,6 +29,10 @@ msgid ""
 "                    <i class=\"fa fa-long-arrow-right mx-2 oe_read_only\" "
 "aria-label=\"Arrow icon\" title=\"Arrow\"/>"
 msgstr ""
+"<i class=\"fa fa-long-arrow-right mx-2 oe_edit_only\" aria-label=\"Arrow "
+"icon\" title=\"Freccia\"/>\n"
+"                    <i class=\"fa fa-long-arrow-right mx-2 oe_read_only\" "
+"aria-label=\"Arrow icon\" title=\"Freccia\"/>"
 
 #. module: hotel_housekeeping
 #: model_terms:ir.ui.view,arch_db:hotel_housekeeping.housekeeping_report
@@ -88,6 +92,8 @@ msgid ""
 "A activity type with the name '%s' already exists. Please choose a different "
 "activity type."
 msgstr ""
+"Esiste già un tipo di attività con il nome '%s'. Scegliere un tipo di "
+"attività diverso."
 
 #. module: hotel_housekeeping
 #. odoo-python
@@ -96,7 +102,7 @@ msgstr ""
 msgid ""
 "A activity with the name '%s' already exists.Please choose a different "
 "activity."
-msgstr ""
+msgstr "Esiste già un'attività con il nome '%s'. Scegliere un'attività diversa."
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__description_sale
@@ -126,7 +132,7 @@ msgstr ""
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__account_tag_ids
 msgid "Account Tags"
-msgstr ""
+msgstr "Etichette conto"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__message_needaction
@@ -214,12 +220,12 @@ msgstr "Tipi attività"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__additional_product_tag_ids
 msgid "Additional Product Tag"
-msgstr ""
+msgstr "Etichetta prodotto aggiuntiva"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__all_product_tag_ids
 msgid "All Product Tag"
-msgstr ""
+msgstr "Tutte le etichette prodotto"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__message_attachment_count
@@ -239,7 +245,7 @@ msgstr "Media"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__avg_cost
 msgid "Average Cost"
-msgstr ""
+msgstr "Costo medio"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields.selection,name:hotel_housekeeping.selection__hotel_housekeeping__quality__bad
@@ -254,7 +260,7 @@ msgstr "Codice a barre"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__valid_ean
 msgid "Barcode is valid EAN"
-msgstr ""
+msgstr "Il codice a barre è un EAN valido"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__can_image_1024_be_zoomed
@@ -506,7 +512,7 @@ msgstr "Descrizione sulla ricezione"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_housekeeping__activity_line_ids
 msgid "Detail of housekeeping activities"
-msgstr ""
+msgstr "Dettaglio attività pulizie domestiche"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_activities__is_dirty
@@ -535,7 +541,7 @@ msgstr "Eseguita"
 #. module: hotel_housekeeping
 #: model_terms:ir.ui.view,arch_db:hotel_housekeeping.hotel_housekeeping_wizard_form_view
 msgid "End Date"
-msgstr ""
+msgstr "Data fine"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__tracking
@@ -566,7 +572,7 @@ msgstr ""
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__priority
 msgid "Favorite"
-msgstr ""
+msgstr "Favorito"
 
 #. module: hotel_housekeeping
 #: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_hotel_housekeeping_search
@@ -631,7 +637,7 @@ msgstr ""
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__virtual_available
 msgid "Forecasted Quantity"
-msgstr ""
+msgstr "Quantità prevista"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__free_qty
@@ -668,7 +674,7 @@ msgstr "Raggruppa per..."
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__has_message
 msgid "Has Message"
-msgstr ""
+msgstr "Ha un messaggio"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__product_id
@@ -833,6 +839,7 @@ msgstr "Data ora ispezione"
 #, python-format
 msgid "Inspect Date Time must be Greter then Clean end time"
 msgstr ""
+"L'ora della data di ispezione deve essere maggiore dell'ora fine pulizia"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping__inspector_id
@@ -849,6 +856,8 @@ msgstr "Nome ispettore"
 msgid ""
 "Inspector inspect the room and markas Excellent, Average, Bad, Good or Ok. "
 msgstr ""
+"L'ispettore ispeziona la camera e la marca come eccellente, media, scarsa, "
+"buona od Ok. "
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__default_code
@@ -1038,12 +1047,12 @@ msgstr "Nome"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__nbr_moves_in
 msgid "Nbr Moves In"
-msgstr ""
+msgstr "Entra NBR"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__nbr_moves_out
 msgid "Nbr Moves Out"
-msgstr ""
+msgstr "Esce NBR"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__activity_date_deadline
@@ -1073,12 +1082,12 @@ msgstr "Numero di errori"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__nbr_moves_in
 msgid "Number of incoming stock moves in the past 12 months"
-msgstr ""
+msgstr "Numero di ingressi di magazzino negli ultimi 12 mesi"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__message_needaction_counter
 msgid "Number of messages requiring action"
-msgstr ""
+msgstr "Numero di messaggi che richiedono un'azione"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__message_has_error_counter
@@ -1088,7 +1097,7 @@ msgstr "Numero di messaggi con errore di consegna"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__nbr_moves_out
 msgid "Number of outgoing stock moves in the past 12 months"
-msgstr ""
+msgstr "Numero di uscite di magazzino negli ultimi 12 mesi"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__pricelist_item_count
@@ -1103,7 +1112,7 @@ msgstr "Ok"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__optional_product_ids
 msgid "Optional Products"
-msgstr ""
+msgstr "Prodotti opzionali"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__optional_product_ids
@@ -1111,6 +1120,9 @@ msgid ""
 "Optional Products are suggested whenever the customer hits *Add to Cart* "
 "(cross-sell strategy, e.g. for computers: warranty, software, etc.)."
 msgstr ""
+"I prodotti opzionali sono suggeriti quando il cliente fa clic su \"Aggiungi "
+"al carrello\" (strategia cross-selling, es. per computer: garanzia, "
+"programmi, ecc.)."
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__invoice_policy
@@ -1156,7 +1168,7 @@ msgstr "Imballaggi prodotto"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__product_tag_ids
 msgid "Product Tags"
-msgstr ""
+msgstr "Etichette prodotto"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__product_tmpl_id
@@ -1166,7 +1178,7 @@ msgstr "Modello prodotto"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__product_tooltip
 msgid "Product Tooltip"
-msgstr ""
+msgstr "Nota prodotto"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__detailed_type
@@ -1191,7 +1203,7 @@ msgstr "Descrizione acquisto"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__uom_po_id
 msgid "Purchase UoM"
-msgstr ""
+msgstr "UdM acquisto"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__putaway_rule_ids
@@ -1333,7 +1345,7 @@ msgstr "Prezzo di vendita"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__lst_price
 msgid "Sales Price"
-msgstr ""
+msgstr "Prezzo di vendita"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__sale_line_warn
@@ -1355,12 +1367,12 @@ msgstr "Sequenza"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__show_forecasted_qty_status_button
 msgid "Show Forecasted Qty Status Button"
-msgstr ""
+msgstr "Visualizza pulsante di stato quantità prevista"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__show_on_hand_qty_status_button
 msgid "Show On Hand Qty Status Button"
-msgstr ""
+msgstr "Visualizza pulsante di stato quantità disponibile"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__sales_count
@@ -1391,7 +1403,7 @@ msgstr ""
 #: code:addons/hotel_housekeeping/models/hotel_housekeeping_activities.py:0
 #, python-format
 msgid "Start Time Should be less than the End Time!"
-msgstr ""
+msgstr "L'ora di inizio deve essere inferiore all'ora di fine!"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping__state
@@ -1429,18 +1441,20 @@ msgstr "Livello valutazione magazzino"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__storage_category_capacity_ids
 msgid "Storage Category Capacity"
-msgstr ""
+msgstr "Capacità categoria stoccaggio"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__account_tag_ids
 msgid ""
 "Tags to be set on the base and tax journal items created for this product."
 msgstr ""
+"Etichette da impostare in base ai movimenti contabili imposte creati per "
+"questo prodotto."
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__tax_string
 msgid "Tax String"
-msgstr ""
+msgstr "Testo tasse"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__company_currency_id
@@ -1448,6 +1462,9 @@ msgid ""
 "Technical field to correctly show the currently selected company's currency "
 "that corresponds to the totaled value of the product's valuation layers"
 msgstr ""
+"Campo tecnico per mostrare correttamente la valuta dell'azienda attualmente "
+"selezionata che corrisponde al valore totale dei livelli di valutazione del "
+"prodotto"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__lst_price
@@ -1505,7 +1522,7 @@ msgstr "Data odierna"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__total_value
 msgid "Total Value"
-msgstr ""
+msgstr "Valore totale"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__service_type
@@ -1520,7 +1537,7 @@ msgstr "Tracciamento"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__type
 msgid "Type"
-msgstr ""
+msgstr "Tipo"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__activity_exception_decoration
@@ -1545,7 +1562,7 @@ msgstr "Righe attributo prodotto valido"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__company_currency_id
 msgid "Valuation Currency"
-msgstr ""
+msgstr "Valuta di valutazione"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__value_svl
@@ -1590,7 +1607,7 @@ msgstr "Venditore variante"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__product_template_variant_value_ids
 msgid "Variant Values"
-msgstr ""
+msgstr "Valori variante"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__supplier_taxes_id
