@@ -1,0 +1,36 @@
+<odoo noupdate="1">
+    <!-- Demo data for hotel reservation -->
+    <record id="hotel_reservation_0" model="hotel.reservation">
+        <field
+            eval="(DateTime.today()).strftime('%Y-%m-%d 10:00:00')"
+            name="date_order"
+        />
+        <field
+            eval="(DateTime.today() + relativedelta(days=2)).strftime('%Y-%m-%d 10:00:00')"
+            name="checkout"
+        />
+        <field
+            eval="(DateTime.today() + relativedelta(days=1)).strftime('%Y-%m-%d 10:00:00')"
+            name="checkin"
+        />
+        <field name="company_id" ref="base.main_company" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="partner_id" ref="base.res_partner_2" />
+        <field name="partner_invoice_id" ref="base.res_partner_2" />
+        <field name="partner_shipping_id" ref="base.res_partner_2" />
+        <field eval="&quot;R/00002&quot;" name="reservation_no" />
+        <field eval="1" name="adults" />
+        <field eval="1" name="children" />
+       <field
+            name="reservation_line"
+            eval="[(5,0,0),
+            (0,0, {
+                'categ_id': ref('hotel.hotel_room_type_1'),
+                'reserve': [(6,0,[ref('hotel.hotel_room_0')])],
+            }),
+        ]"
+        />
+
+    </record>
+
+</odoo>
