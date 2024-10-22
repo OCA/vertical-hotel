@@ -101,6 +101,7 @@ class HotelReservation(models.Model):
         states={"draft": [("readonly", False)]},
         help="Number of children there in guest list.",
     )
+    # TODO: Name should be reservation_line_ids. Note the plural.
     reservation_line = fields.One2many(
         "hotel.reservation.line",
         "line_id",
@@ -120,6 +121,9 @@ class HotelReservation(models.Model):
         readonly=True,
         default="draft",
     )
+    # TODO: This is an M2M relationship, while in hotel.folio, the relationship
+    # is M2O. This cannot be correct.
+    # TODO: Field name should be plural.
     folio_id = fields.Many2many(
         "hotel.folio",
         "hotel_folio_reservation_rel",
@@ -142,7 +146,7 @@ class HotelReservation(models.Model):
             raise ValidationError(
                 _("Sorry, you can only delete the reservation when it's draft!")
             )
-        return super(HotelReservation, self).unlink()
+        return super().unlink()
 
     def copy(self):
         ctx = dict(self._context) or {}
@@ -352,7 +356,7 @@ class HotelReservation(models.Model):
         self.folio_id = []
         self.update({"state": "draft"})
         self.create_folio()
-        
+
     def action_send_reservation_mail(self):
         """
         This function opens a window to compose an email,
@@ -513,7 +517,9 @@ class HotelReservationLine(models.Model):
     _description = "Reservation Line"
 
     name = fields.Char("Name")
+    # TODO: Rename to reservation_id
     line_id = fields.Many2one("hotel.reservation")
+    # TODO: Rename to room_id
     reserve = fields.Many2many(
         "hotel.room",
         "hotel_reservation_line_room_rel",
@@ -522,6 +528,7 @@ class HotelReservationLine(models.Model):
         domain="[('isroom','=',True),\
                                ('categ_id','=',categ_id)]",
     )
+    # TODO: Rename to room_type_id
     categ_id = fields.Many2one("hotel.room.type", "Room Type")
 
     @api.onchange("categ_id")
@@ -590,18 +597,18 @@ class HotelReservationLine(models.Model):
         @return: True/False.
         """
         hotel_room_reserv_line_obj = self.env["hotel.room.reservation.line"]
-        for reserv_rec in self:
-            for rec in reserv_rec.reserve:
+        for line in self:
+            for room in line.reserve:
                 myobj = hotel_room_reserv_line_obj.search(
                     [
-                        ("room_id", "=", rec.id),
-                        ("reservation_id", "=", reserv_rec.line_id.id),
+                        ("room_id", "=", room.id),
+                        ("reservation_id", "=", line.line_id.id),
                     ]
                 )
                 if myobj:
-                    rec.write({"isroom": True, "status": "available"})
+                    room.write({"isroom": True, "status": "available"})
                     myobj.unlink()
-        return super(HotelReservationLine, self).unlink()
+        return super().unlink()
 
 
 class HotelRoomReservationLine(models.Model):

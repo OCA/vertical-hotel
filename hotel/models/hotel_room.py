@@ -52,6 +52,14 @@ class HotelRoom(models.Model):
     )
     product_manager = fields.Many2one("res.users", "Product Manager")
 
+    _sql_constraints = [
+        (
+            "product_unique",
+            "UNIQUE (product_id)",
+            "A room cannot share a product with another room",
+        )
+    ]
+
     @api.model
     def create(self, vals):
         if "room_categ_id" in vals:
