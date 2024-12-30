@@ -22,6 +22,7 @@ Available addons
 addon | version | maintainers | summary
 --- | --- | --- | ---
 [hotel](hotel/) | 17.0.1.0.0 |  | Hotel Management to Manage Folio and Hotel Configuration
+[report_hotel_reservation](report_hotel_reservation/) | 17.0.1.0.0 |  | Hotel Reservation Management - Reporting
 
 [//]: # (end addons)
 
