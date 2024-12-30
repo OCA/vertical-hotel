@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE xml>
+<odoo>
+
+    <record id="report_hotel_res_order_kot" model="ir.actions.report">
+      <field name="name">Kitchen Order Tickets</field>
+      <field name="model">hotel.restaurant.order</field>
+      <field name="report_type">qweb-pdf</field>
+      <field name="report_name">hotel_restaurant.report_hotel_order_kot</field>
+      <field name="report_file">hotel_restaurant.report_hotel_order_kot</field>
+      <field name="binding_type">report</field>
+    </record>
+
+
+    <record id="report_hotel_res_order_bill" model="ir.actions.report">
+      <field name="name">Customer Bill</field>
+      <field name="model">hotel.restaurant.order</field>
+      <field name="report_type">qweb-pdf</field>
+      <field name="report_name">hotel_restaurant.report_order_bill</field>
+      <field name="report_file">hotel_restaurant.report_order_bill</field>
+      <field name="binding_type">report</field>
+    </record>
+
+    <record id="report_hotel_reservation_order_bill" model="ir.actions.report">
+      <field name="name">Customer Bill</field>
+      <field name="model">hotel.reservation.order</field>
+      <field name="report_type">qweb-pdf</field>
+      <field name="report_name">hotel_restaurant.report_res_order_bill</field>
+      <field name="report_file">hotel_restaurant.report_res_order_bill</field>
+      <field name="binding_type">report</field>
+    </record>
+
+    <record id="report_hotel_table_res" model="ir.actions.report">
+      <field name="name">Table Reservation List</field>
+      <field name="model">hotel.restaurant.reservation</field>
+      <field name="report_type">qweb-pdf</field>
+      <field name="report_name">hotel_restaurant.report_res_table</field>
+      <field name="report_file">hotel_restaurant.report_res_table</field>
+      <field name="binding_type">report</field>
+    </record>
+
+    <record id="report_hotel_res_folio" model="ir.actions.report">
+      <field name="name">Restaurants Reports</field>
+      <field name="model">hotel.reservation.order</field>
+      <field name="report_type">qweb-pdf</field>
+      <field name="report_name">hotel_restaurant.report_rest_order</field>
+      <field name="report_file">hotel_restaurant.report_rest_order</field>
+      <field name="binding_type">report</field>
+    </record>
+
+    <record id="report_hotel_res_folio1" model="ir.actions.report">
+      <field name="name">Restaurants Reports</field>
+      <field name="model">hotel.reservation.order</field>
+      <field name="report_type">qweb-pdf</field>
+      <field name="report_name">hotel_restaurant.report_reserv_order</field>
+      <field name="report_file">hotel_restaurant.report_reserv_order</field>
+      <field name="binding_type">report</field>
+    </record>
+</odoo>
