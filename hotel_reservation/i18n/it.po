@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-08-30 10:06+0000\n"
+"PO-Revision-Date: 2025-02-11 18:06+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -1131,7 +1131,7 @@ msgstr "Ordina per mese"
 #: model:ir.model.fields,field_description:hotel_reservation.field_hotel_reservation__partner_order_id
 #: model:ir.model.fields,field_description:hotel_reservation.field_quick_room_reservation__partner_order_id
 msgid "Ordering Contact"
-msgstr "Ordina per contatto"
+msgstr "Contatto che ordina"
 
 #. module: hotel_reservation
 #: code:addons/hotel_reservation/models/hotel_room.py:0
