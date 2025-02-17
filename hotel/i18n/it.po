@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-02-11 18:06+0000\n"
+"PO-Revision-Date: 2025-02-17 17:06+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -3252,7 +3252,7 @@ msgstr "Termini e condizioni"
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio__analytic_account_id
 msgid "The analytic account related to a sales order."
-msgstr "Conto analitico collegato all'ordine di vendita."
+msgstr "Il conto analitico collegato a un ordine di vendita."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities_type__property_account_expense_categ_id
