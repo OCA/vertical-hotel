@@ -144,13 +144,17 @@ class HotelReservation(models.Model):
         """
         ctx = dict(self._context) or {}
         for reservation in self:
-            cap = 0
+            # Improved the code for the room capacity calculation.
+            # Because There is take only last record room capacity.
+            room_cap = []
             for rec in reservation.reservation_line:
+                cap = 0
                 if len(rec.reserve) == 0:
                     raise ValidationError(_("Please Select Rooms For Reservation."))
                 cap = sum(room.capacity for room in rec.reserve)
+                room_cap.append(cap)
             if not ctx.get("duplicate"):
-                if (reservation.adults + reservation.children) > cap:
+                if (reservation.adults + reservation.children) > sum(room_cap):
                     raise ValidationError(
                         _(
                             "Room Capacity Exceeded \n"
@@ -207,16 +211,17 @@ class HotelReservation(models.Model):
                 }
             )
 
-    @api.model
-    def create(self, vals):
+    @api.model_create_multi
+    def create(self, vals_list):
         """
         Overrides orm create method.
         @param self: The object pointer
         @param vals: dictionary of fields value.
         """
-        vals["reservation_no"] = (
-            self.env["ir.sequence"].next_by_code("hotel.reservation") or "New"
-        )
+        for vals in vals_list:
+            vals["reservation_no"] = (
+                self.env["ir.sequence"].next_by_code("hotel.reservation") or "New"
+            )
         return super().create(vals)
 
     def check_overlap(self, date1, date2):
@@ -440,11 +445,11 @@ class HotelReservation(models.Model):
                         )
                     )
                     r.write({"status": "occupied", "isroom": False})
-            folio_vals.update({"room_line_ids": folio_lines})
-            folio = hotel_folio_obj.create(folio_vals)
-            for rm_line in folio.room_line_ids:
-                rm_line._onchange_product_id()
-            self.write({"folio_id": [(6, 0, folio.ids)], "state": "done"})
+                folio_vals.update({"room_line_ids": folio_lines})
+                folio = hotel_folio_obj.create(folio_vals)
+                for rm_line in folio.room_line_ids:
+                    rm_line._onchange_product_id_warning()
+                self.write({"folio_id": [(6, 0, folio.ids)], "state": "done"})
         return True
 
     def _onchange_check_dates(
