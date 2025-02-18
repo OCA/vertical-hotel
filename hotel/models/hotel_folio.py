@@ -257,8 +257,10 @@ class HotelFolio(models.Model):
     def action_confirm(self):
         for order in self.order_id:
             order.state = "sale"
-            order.invoice_status = "invoiced"
-            if not order.analytic_account_id:
+            # TODO Change the invoice status "invoiced" --> "to invoice" and analytic_account_id --> project_account_id
+            # due to base functionality.
+            order.invoice_status = "to invoice"
+            if not order.project_account_id:
                 if order.order_line.filtered(
                     lambda line: line.product_id.invoice_policy == "cost"
                 ):
@@ -361,180 +363,203 @@ class HotelFolioLine(models.Model):
                 line.order_line_id.unlink()
         return super().unlink()
 
-    def _get_real_price_currency(self, product, rule_id, qty, uom, pricelist_id):
-        """Retrieve the price before applying the pricelist
-        :param obj product: object of current product record
-        :parem float qty: total quentity of product
-        :param tuple price_and_rule: tuple(price, suitable_rule) coming
-        from pricelist computation
-        :param obj uom: unit of measure of current order line
-        :param integer pricelist_id: pricelist id of sale order"""
-        PricelistItem = self.env["product.pricelist.item"]
-        field_name = "lst_price"
-        currency_id = None
-        product_currency = None
-        if rule_id:
-            pricelist_item = PricelistItem.browse(rule_id)
-            if pricelist_item.pricelist_id.discount_policy == "without_discount":
-                while (
-                    pricelist_item.base == "pricelist"
-                    and pricelist_item.base_pricelist_id
-                    and pricelist_item.base_pricelist_id.discount_policy
-                    == "without_discount"
-                ):
-                    price, rule_id = pricelist_item.base_pricelist_id.with_context(
-                        uom=uom.id
-                    )._get_product_price_rule(product, qty, self.folio_id.partner_id)
-                    pricelist_item = PricelistItem.browse(rule_id)
+    # Comment below method there is no use after v15.
+    # def _get_real_price_currency(self, product, rule_id, qty, uom, pricelist_id):
+    #     """Retrieve the price before applying the pricelist
+    #     :param obj product: object of current product record
+    #     :parem float qty: total quentity of product
+    #     :param tuple price_and_rule: tuple(price, suitable_rule) coming
+    #     from pricelist computation
+    #     :param obj uom: unit of measure of current order line
+    #     :param integer pricelist_id: pricelist id of sale order"""
+    #     PricelistItem = self.env["product.pricelist.item"]
+    #     field_name = "lst_price"
+    #     currency_id = None
+    #     product_currency = None
+    #     if rule_id:
+    #         pricelist_item = PricelistItem.browse(rule_id)
+    #         # TODO: Check this method due to discount_policy not in v18 version.
+    #         # if pricelist_item.pricelist_id.display_discount_policy == "without_discount":
+    #         #     while (
+    #         #         pricelist_item.base == "pricelist"
+    #         #         and pricelist_item.base_pricelist_id
+    #         #         and pricelist_item.base_pricelist_id.display_discount_policy
+    #         #         == "without_discount"
+    #         #     ):
+    #         #         price, rule_id = pricelist_item.base_pricelist_id.with_context(
+    #         #             uom=uom.id
+    #         #         )._get_product_price_rule(product, qty, self.folio_id.partner_id)
+    #         #         pricelist_item = PricelistItem.browse(rule_id)
 
-            if pricelist_item.base == "standard_price":
-                field_name = "standard_price"
-            if pricelist_item.base == "pricelist" and pricelist_item.base_pricelist_id:
-                field_name = "price"
-                product = product.with_context(
-                    pricelist=pricelist_item.base_pricelist_id.id
-                )
-                product_currency = pricelist_item.base_pricelist_id.currency_id
-            currency_id = pricelist_item.pricelist_id.currency_id
+    #         if pricelist_item.base == "standard_price":
+    #             field_name = "standard_price"
+    #         if pricelist_item.base == "pricelist" and pricelist_item.base_pricelist_id:
+    #             field_name = "price"
+    #             product = product.with_context(
+    #                 pricelist=pricelist_item.base_pricelist_id.id
+    #             )
+    #             product_currency = pricelist_item.base_pricelist_id.currency_id
+    #         currency_id = pricelist_item.pricelist_id.currency_id
 
-        product_currency = (
-            product_currency
-            or (product.company_id and product.company_id.currency_id)
-            or self.env.user.company_id.currency_id
-        )
-        if not currency_id:
-            currency_id = product_currency
-            cur_factor = 1.0
-        else:
-            if currency_id.id == product_currency.id:
-                cur_factor = 1.0
-            else:
-                cur_factor = currency_id._get_conversion_rate(
-                    product_currency, currency_id
-                )
+    #     product_currency = (
+    #         product_currency
+    #         or (product.company_id and product.company_id.currency_id)
+    #         or self.env.user.company_id.currency_id
+    #     )
+    #     if not currency_id:
+    #         currency_id = product_currency
+    #         cur_factor = 1.0
+    #     else:
+    #         if currency_id.id == product_currency.id:
+    #             cur_factor = 1.0
+    #         else:
+    #             cur_factor = currency_id._get_conversion_rate(
+    #                 product_currency, currency_id
+    #             )
 
-        product_uom = self.env.context.get("uom") or product.uom_id.id
-        if uom and uom.id != product_uom:
-            # the unit price is in a different uom
-            uom_factor = uom._compute_price(1.0, product.uom_id)
-        else:
-            uom_factor = 1.0
-        return product[field_name] * uom_factor * cur_factor, currency_id.id
+    #     product_uom = self.env.context.get("uom") or product.uom_id.id
+    #     if uom and uom.id != product_uom:
+    #         # the unit price is in a different uom
+    #         uom_factor = uom._compute_price(1.0, product.uom_id)
+    #     else:
+    #         uom_factor = 1.0
+    #     return product[field_name] * uom_factor * cur_factor, currency_id.id
 
-    def _get_display_price(self, product):
-        # TO DO: move me in master/saas-16 on sale.order
-        if self.folio_id.pricelist_id.discount_policy == "with_discount":
-            return product.with_context(
-                pricelist=self.folio_id.pricelist_id.id
-            ).lst_price
-        product_context = dict(
-            self.env.context,
-            partner_id=self.folio_id.partner_id.id,
-            date=self.folio_id.date_order,
-            uom=self.product_uom.id,
-        )
-        final_price, rule_id = self.folio_id.pricelist_id.with_context(
-            **product_context
-        )._get_product_price_rule(
-            self.product_id,
-            self.product_uom_qty or 1.0,
-            self.folio_id.partner_id,
-        )
-        base_price, currency_id = self.with_context(
-            **product_context
-        )._get_real_price_currency(
-            product,
-            rule_id,
-            self.product_uom_qty,
-            self.product_uom,
-            self.folio_id.pricelist_id.id,
-        )
-        if currency_id != self.folio_id.pricelist_id.currency_id.id:
-            base_price = (
-                self.env["res.currency"]
-                .browse(currency_id)
-                .with_context(**product_context)
-                .compute(base_price, self.folio_id.pricelist_id.currency_id)
-            )
-        # negative discounts (= surcharge) are included in the display price
-        return max(base_price, final_price)
+    # Comment below method because method change after v16.
+    # def _get_display_price(self, product):
+    #     # TO DO: move me in master/saas-16 on sale.order
 
-    def _compute_tax_id(self):
-        for line in self:
-            line = line.with_company(line.company_id)
-            fpos = (
-                line.order_id.fiscal_position_id
-                or line.order_id.fiscal_position_id._get_fiscal_position(
-                    line.order_partner_id
-                )
-            )
-            # If company_id is set, always filter taxes by the company
-            taxes = line.product_id.taxes_id.filtered(
-                lambda t, line=line: t.company_id == line.env.company
-            )
-            line.tax_id = fpos.map_tax(taxes)
+    #     # TODO: Check this method due to discount_policy not in v18 version.
+    #     # if self.folio_id.pricelist_id.display_discount_policy == "with_discount":
+    #         # return product.with_context(
+    #             # pricelist=self.folio_id.pricelist_id.id
+    #         # ).lst_price
+    #     product_context = dict(
+    #         self.env.context,
+    #         partner_id=self.folio_id.partner_id.id,
+    #         date=self.folio_id.date_order,
+    #         uom=self.product_uom.id,
+    #     )
+    #     final_price, rule_id = self.folio_id.pricelist_id.with_context(
+    #         **product_context
+    #     )._get_product_price_rule(
+    #         self.product_id,
+    #         self.product_uom_qty or 1.0,
+    #         self.folio_id.partner_id,
+    #     )
+    #     base_price, currency_id = self.with_context(
+    #         **product_context
+    #     )._get_real_price_currency(
+    #         product,
+    #         rule_id,
+    #         self.product_uom_qty,
+    #         self.product_uom,
+    #         self.folio_id.pricelist_id.id,
+    #     )
+    #     if currency_id != self.folio_id.pricelist_id.currency_id.id:
+    #         base_price = (
+    #             self.env["res.currency"]
+    #             .browse(currency_id)
+    #             .with_context(**product_context)
+    #             .compute(base_price, self.folio_id.pricelist_id.currency_id)
+    #         )
+    #     # negative discounts (= surcharge) are included in the display price
+    #     return max(base_price, final_price)
 
-    @api.onchange("product_id")
-    def _onchange_product_id(self):
+    # def _compute_tax_id(self):
+    #     for line in self:
+    #         line = line.with_company(line.company_id)
+    #         fpos = (
+    #             line.order_id.fiscal_position_id
+    #             or line.order_id.fiscal_position_id._get_fiscal_position(
+    #                 line.order_partner_id
+    #             )
+    #         )
+    #         # If company_id is set, always filter taxes by the company
+    #         taxes = line.product_id.taxes_id.filtered(
+    #             lambda t, line=line: t.company_id == line.env.company
+    #         )
+    #         line.tax_id = fpos.map_tax(taxes)
+
+    # @api.onchange("product_id")
+    # def _onchange_product_id(self):
+    #     if not self.product_id:
+    #         return
+
+    #     vals = {}
+    #     if not self.product_uom or (self.product_id.uom_id.id != self.product_uom.id):
+    #         vals["product_uom"] = self.product_id.uom_id
+    #         vals["product_uom_qty"] = self.product_uom_qty or 1.0
+
+    #     product = self.product_id.with_context(
+    #         lang=get_lang(self.env, self.order_id.partner_id.lang).code,
+    #         partner=self.order_id.partner_id,
+    #         quantity=vals.get("product_uom_qty") or self.product_uom_qty,
+    #         date=self.order_id.date_order,
+    #         pricelist=self.order_id.pricelist_id.id,
+    #         uom=self.product_uom.id,
+    #     )
+
+    #     vals.update(
+    #         name=self.order_line_id._get_sale_order_line_multiline_description_sale()
+    #     )
+
+    #     self._compute_tax_id()
+
+    #     if self.folio_id.pricelist_id and self.folio_id.partner_id:
+    #         vals["price_unit"] = self.env[
+    #             "account.tax"
+    #         ]._fix_tax_included_price_company(
+    #             self._get_display_price(product),
+    #             product.taxes_id,
+    #             self.tax_id,
+    #             self.company_id,
+    #         )
+    #     self.update(vals)
+
+    #     title = False
+    #     message = False
+    #     result = {}
+    #     warning = {}
+    #     if product.sale_line_warn != "no-message":
+    #         title = _("Warning for %s", product.name)
+    #         message = product.sale_line_warn_msg
+    #         warning["title"] = title
+    #         warning["message"] = message
+    #         result = {"warning": warning}
+    #         if product.sale_line_warn == "block":
+    #             self.product_id = False
+    #     return result
+
+    # Migrated _onchange_product_id method v15 to v18.
+    @api.onchange('product_id')
+    def _onchange_product_id_warning(self):
+        self.ensure_one()
         if not self.product_id:
             return
-        product_tmpl = self.product_id.product_tmpl_id
-        attribute_lines = product_tmpl.valid_product_template_attribute_line_ids
-        valid_values = attribute_lines.product_template_value_ids
-        # remove the is_custom values that don't belong to this template
-        for pacv in self.product_custom_attribute_value_ids:
-            if pacv.custom_product_template_attribute_value_id not in valid_values:
-                self.product_custom_attribute_value_ids -= pacv
-
-        # remove the no_variant attributes that don't belong to this template
-        for ptav in self.product_no_variant_attribute_value_ids:
-            if ptav._origin not in valid_values:
-                self.product_no_variant_attribute_value_ids -= ptav
-
+        product = self.product_id
         vals = {}
-        if not self.product_uom or (self.product_id.uom_id.id != self.product_uom.id):
-            vals["product_uom"] = self.product_id.uom_id
-            vals["product_uom_qty"] = self.product_uom_qty or 1.0
-
-        product = self.product_id.with_context(
-            lang=get_lang(self.env, self.order_id.partner_id.lang).code,
-            partner=self.order_id.partner_id,
-            quantity=vals.get("product_uom_qty") or self.product_uom_qty,
-            date=self.order_id.date_order,
-            pricelist=self.order_id.pricelist_id.id,
-            uom=self.product_uom.id,
-        )
-
         vals.update(
             name=self.order_line_id._get_sale_order_line_multiline_description_sale()
         )
-
-        self._compute_tax_id()
-
-        if self.folio_id.pricelist_id and self.folio_id.partner_id:
-            vals["price_unit"] = self.env[
-                "account.tax"
-            ]._fix_tax_included_price_company(
-                self._get_display_price(product),
-                product.taxes_id,
-                self.tax_id,
-                self.company_id,
-            )
+        # if not self.product_uom or (self.product_id.uom_id.id != self.product_uom.id):
+        vals.update({
+            "product_uom" : self.product_id.uom_id,
+            "product_uom_qty" : self.product_uom_qty,
+            "price_unit" : self.product_id.list_price,
+            "tax_id" : self.product_id.taxes_id,
+        })
         self.update(vals)
-
-        title = False
-        message = False
-        result = {}
-        warning = {}
-        if product.sale_line_warn != "no-message":
-            title = _("Warning for %s", product.name)
-            message = product.sale_line_warn_msg
-            warning["title"] = title
-            warning["message"] = message
-            result = {"warning": warning}
-            if product.sale_line_warn == "block":
+        if product.sale_line_warn != 'no-message':
+            if product.sale_line_warn == 'block':
                 self.product_id = False
-        return result
+
+            return {
+                'warning': {
+                    'title': _("Warning for %s", product.name),
+                    'message': product.sale_line_warn_msg,
+                }
+            }
 
     @api.onchange("checkin_date", "checkout_date")
     def _onchange_checkin_checkout_dates(self):
@@ -618,182 +643,214 @@ class HotelServiceLine(models.Model):
         self.mapped("service_line_id").unlink()
         return super().unlink()
 
-    def _compute_tax_id(self):
-        for line in self:
-            fpos = (
-                line.folio_id.fiscal_position_id
-                or line.folio_id.partner_id.property_account_position_id
-            )
-            # If company_id is set, always filter taxes by the company
-            taxes = line.product_id.taxes_id.filtered(
-                lambda r, line=line: not line.company_id
-                or r.company_id == line.company_id
-            )
-            line.tax_id = (
-                fpos.map_tax(taxes, line.product_id, line.folio_id.partner_shipping_id)
-                if fpos
-                else taxes
-            )
+    # def _compute_tax_id(self):
+    #     for line in self:
+    #         fpos = (
+    #             line.folio_id.fiscal_position_id
+    #             or line.folio_id.partner_id.property_account_position_id
+    #         )
+    #         # If company_id is set, always filter taxes by the company
+    #         taxes = line.product_id.taxes_id.filtered(
+    #             lambda r, line=line: not line.company_id
+    #             or r.company_id == line.company_id
+    #         )
+    #         line.tax_id = (
+    #             fpos.map_tax(taxes, line.product_id, line.folio_id.partner_shipping_id)
+    #             if fpos
+    #             else taxes
+    #         )
 
-    def _get_real_price_currency(self, product, rule_id, qty, uom, pricelist_id):
-        """Retrieve the price before applying the pricelist
-        :param obj product: object of current product record
-        :parem float qty: total quentity of product
-        :param tuple price_and_rule: tuple(price, suitable_rule)
-        coming from pricelist computation
-        :param obj uom: unit of measure of current order line
-        :param integer pricelist_id: pricelist id of sale order"""
-        PricelistItem = self.env["product.pricelist.item"]
-        field_name = "lst_price"
-        currency_id = None
-        product_currency = None
-        if rule_id:
-            pricelist_item = PricelistItem.browse(rule_id)
-            if pricelist_item.pricelist_id.discount_policy == "without_discount":
-                while (
-                    pricelist_item.base == "pricelist"
-                    and pricelist_item.base_pricelist_id
-                    and pricelist_item.base_pricelist_id.discount_policy
-                    == "without_discount"
-                ):
-                    price, rule_id = pricelist_item.base_pricelist_id.with_context(
-                        uom=uom.id
-                    )._get_product_price_rule(product, qty, self.folio_id.partner_id)
-                    pricelist_item = PricelistItem.browse(rule_id)
+    # def _get_real_price_currency(self, product, rule_id, qty, uom, pricelist_id):
+    #     """Retrieve the price before applying the pricelist
+    #     :param obj product: object of current product record
+    #     :parem float qty: total quentity of product
+    #     :param tuple price_and_rule: tuple(price, suitable_rule)
+    #     coming from pricelist computation
+    #     :param obj uom: unit of measure of current order line
+    #     :param integer pricelist_id: pricelist id of sale order"""
+    #     PricelistItem = self.env["product.pricelist.item"]
+    #     field_name = "lst_price"
+    #     currency_id = None
+    #     product_currency = None
+    #     if rule_id:
+    #         pricelist_item = PricelistItem.browse(rule_id)
+    #         # TODO: Check this method due to discount_policy not in v18 version.
+    #         # if pricelist_item.pricelist_id.display_discount_policy == "without_discount":
+    #         #     while (
+    #         #         pricelist_item.base == "pricelist"
+    #         #         and pricelist_item.base_pricelist_id
+    #         #         and pricelist_item.base_pricelist_id.display_discount_policy
+    #         #         == "without_discount"
+    #         #     ):
+    #         #         price, rule_id = pricelist_item.base_pricelist_id.with_context(
+    #         #             uom=uom.id
+    #         #         )._get_product_price_rule(product, qty, self.folio_id.partner_id)
+    #         #         pricelist_item = PricelistItem.browse(rule_id)
 
-            if pricelist_item.base == "standard_price":
-                field_name = "standard_price"
-            if pricelist_item.base == "pricelist" and pricelist_item.base_pricelist_id:
-                field_name = "price"
-                product = product.with_context(
-                    pricelist=pricelist_item.base_pricelist_id.id
-                )
-                product_currency = pricelist_item.base_pricelist_id.currency_id
-            currency_id = pricelist_item.pricelist_id.currency_id
+    #         if pricelist_item.base == "standard_price":
+    #             field_name = "standard_price"
+    #         if pricelist_item.base == "pricelist" and pricelist_item.base_pricelist_id:
+    #             field_name = "price"
+    #             product = product.with_context(
+    #                 pricelist=pricelist_item.base_pricelist_id.id
+    #             )
+    #             product_currency = pricelist_item.base_pricelist_id.currency_id
+    #         currency_id = pricelist_item.pricelist_id.currency_id
 
-        product_currency = (
-            product_currency
-            or (product.company_id and product.company_id.currency_id)
-            or self.env.user.company_id.currency_id
-        )
-        if not currency_id:
-            currency_id = product_currency
-            cur_factor = 1.0
-        else:
-            if currency_id.id == product_currency.id:
-                cur_factor = 1.0
-            else:
-                cur_factor = currency_id._get_conversion_rate(
-                    product_currency, currency_id
-                )
+    #     product_currency = (
+    #         product_currency
+    #         or (product.company_id and product.company_id.currency_id)
+    #         or self.env.user.company_id.currency_id
+    #     )
+    #     if not currency_id:
+    #         currency_id = product_currency
+    #         cur_factor = 1.0
+    #     else:
+    #         if currency_id.id == product_currency.id:
+    #             cur_factor = 1.0
+    #         else:
+    #             cur_factor = currency_id._get_conversion_rate(
+    #                 product_currency, currency_id
+    #             )
 
-        product_uom = self.env.context.get("uom") or product.uom_id.id
-        if uom and uom.id != product_uom:
-            # the unit price is in a different uom
-            uom_factor = uom._compute_price(1.0, product.uom_id)
-        else:
-            uom_factor = 1.0
-        return product[field_name] * uom_factor * cur_factor, currency_id.id
+    #     product_uom = self.env.context.get("uom") or product.uom_id.id
+    #     if uom and uom.id != product_uom:
+    #         # the unit price is in a different uom
+    #         uom_factor = uom._compute_price(1.0, product.uom_id)
+    #     else:
+    #         uom_factor = 1.0
+    #     return product[field_name] * uom_factor * cur_factor, currency_id.id
 
-    def _get_display_price(self, product):
-        # TO DO: move me in master/saas-16 on sale.order
-        if self.folio_id.pricelist_id.discount_policy == "with_discount":
-            return product.with_context(
-                pricelist=self.folio_id.pricelist_id.id
-            ).lst_price
-        product_context = dict(
-            self.env.context,
-            partner_id=self.folio_id.partner_id.id,
-            date=self.folio_id.date_order,
-            uom=self.product_uom.id,
-        )
-        final_price, rule_id = self.folio_id.pricelist_id.with_context(
-            **product_context
-        )._get_product_price_rule(
-            self.product_id,
-            self.product_uom_qty or 1.0,
-            self.folio_id.partner_id,
-        )
-        base_price, currency_id = self.with_context(
-            **product_context
-        )._get_real_price_currency(
-            product,
-            rule_id,
-            self.product_uom_qty,
-            self.product_uom,
-            self.folio_id.pricelist_id.id,
-        )
-        if currency_id != self.folio_id.pricelist_id.currency_id.id:
-            base_price = (
-                self.env["res.currency"]
-                .browse(currency_id)
-                .with_context(**product_context)
-                .compute(base_price, self.folio_id.pricelist_id.currency_id)
-            )
-        # negative discounts (= surcharge) are included in the display price
-        return max(base_price, final_price)
-
-    @api.onchange("product_id")
-    def _onchange_product_id(self):
+    # Migrated _onchange_product_id method v15 to v18.
+    @api.onchange('product_id')
+    def _onchange_product_id_warning(self):
+        self.ensure_one()
         if not self.product_id:
             return
-        product_tmpl = self.product_id.product_tmpl_id
-        attribute_lines = product_tmpl.valid_product_template_attribute_line_ids
-        valid_values = attribute_lines.product_template_value_ids
-        # remove the is_custom values that don't belong to this template
-        for pacv in self.product_custom_attribute_value_ids:
-            if pacv.custom_product_template_attribute_value_id not in valid_values:
-                self.product_custom_attribute_value_ids -= pacv
-
-        # remove the no_variant attributes that don't belong to this template
-        for ptav in self.product_no_variant_attribute_value_ids:
-            if ptav._origin not in valid_values:
-                self.product_no_variant_attribute_value_ids -= ptav
-
+        product = self.product_id
         vals = {}
-        if not self.product_uom or (self.product_id.uom_id.id != self.product_uom.id):
-            vals["product_uom"] = self.product_id.uom_id
-            vals["product_uom_qty"] = self.product_uom_qty or 1.0
-
-        product = self.product_id.with_context(
-            lang=get_lang(self.env, self.order_id.partner_id.lang).code,
-            partner=self.order_id.partner_id,
-            quantity=vals.get("product_uom_qty") or self.product_uom_qty,
-            date=self.order_id.date_order,
-            pricelist=self.order_id.pricelist_id.id,
-            uom=self.product_uom.id,
-        )
-
         vals.update(
             name=self.service_line_id._get_sale_order_line_multiline_description_sale()
         )
-
-        self._compute_tax_id()
-
-        if self.folio_id.pricelist_id and self.folio_id.partner_id:
-            vals["price_unit"] = self.env[
-                "account.tax"
-            ]._fix_tax_included_price_company(
-                self._get_display_price(product),
-                product.taxes_id,
-                self.tax_id,
-                self.company_id,
-            )
+        # if not self.product_uom or (self.product_id.uom_id.id != self.product_uom.id):
+        vals.update({
+            "product_uom" : self.product_id.uom_id,
+            "product_uom_qty" : self.product_uom_qty,
+            "price_unit" : self.product_id.list_price,
+            "tax_id" : self.product_id.taxes_id,
+        })
         self.update(vals)
-
-        title = False
-        message = False
-        result = {}
-        warning = {}
-        if product.sale_line_warn != "no-message":
-            title = _("Warning for %s", product.name)
-            message = product.sale_line_warn_msg
-            warning["title"] = title
-            warning["message"] = message
-            result = {"warning": warning}
-            if product.sale_line_warn == "block":
+        if product.sale_line_warn != 'no-message':
+            if product.sale_line_warn == 'block':
                 self.product_id = False
-        return result
+
+            return {
+                'warning': {
+                    'title': _("Warning for %s", product.name),
+                    'message': product.sale_line_warn_msg,
+                }
+            }
+    # Comment below method due to onchange method migrate v15 to v18.
+    # def _get_display_price(self, product):
+    #     # TO DO: move me in master/saas-16 on sale.order
+
+    #     # TODO: Check this method due to discount_policy not in v18 version.
+    #     # if self.folio_id.pricelist_id.display_discount_policy == "with_discount":
+    #         # return product.with_context(
+    #             # pricelist=self.folio_id.pricelist_id.id
+    #         # ).lst_price
+    #     product_context = dict(
+    #         self.env.context,
+    #         partner_id=self.folio_id.partner_id.id,
+    #         date=self.folio_id.date_order,
+    #         uom=self.product_uom.id,
+    #     )
+    #     final_price, rule_id = self.folio_id.pricelist_id.with_context(
+    #         **product_context
+    #     )._get_product_price_rule(
+    #         self.product_id,
+    #         self.product_uom_qty or 1.0,
+    #         self.folio_id.partner_id,
+    #     )
+    #     base_price, currency_id = self.with_context(
+    #         **product_context
+    #     )._get_real_price_currency(
+    #         product,
+    #         rule_id,
+    #         self.product_uom_qty,
+    #         self.product_uom,
+    #         self.folio_id.pricelist_id.id,
+    #     )
+    #     if currency_id != self.folio_id.pricelist_id.currency_id.id:
+    #         base_price = (
+    #             self.env["res.currency"]
+    #             .browse(currency_id)
+    #             .with_context(**product_context)
+    #             .compute(base_price, self.folio_id.pricelist_id.currency_id)
+    #         )
+    #     # negative discounts (= surcharge) are included in the display price
+    #     return max(base_price, final_price)
+    # @api.onchange("product_id")
+    # def _onchange_product_id(self):
+    #     if not self.product_id:
+    #         return
+    #     product_tmpl = self.product_id.product_tmpl_id
+    #     attribute_lines = product_tmpl.valid_product_template_attribute_line_ids
+    #     valid_values = attribute_lines.product_template_value_ids
+    #     # remove the is_custom values that don't belong to this template
+    #     for pacv in self.product_custom_attribute_value_ids:
+    #         if pacv.custom_product_template_attribute_value_id not in valid_values:
+    #             self.product_custom_attribute_value_ids -= pacv
+
+    #     # remove the no_variant attributes that don't belong to this template
+    #     for ptav in self.product_no_variant_attribute_value_ids:
+    #         if ptav._origin not in valid_values:
+    #             self.product_no_variant_attribute_value_ids -= ptav
+
+    #     vals = {}
+    #     if not self.product_uom or (self.product_id.uom_id.id != self.product_uom.id):
+    #         vals["product_uom"] = self.product_id.uom_id
+    #         vals["product_uom_qty"] = self.product_uom_qty or 1.0
+
+    #     product = self.product_id.with_context(
+    #         lang=get_lang(self.env, self.order_id.partner_id.lang).code,
+    #         partner=self.order_id.partner_id,
+    #         quantity=vals.get("product_uom_qty") or self.product_uom_qty,
+    #         date=self.order_id.date_order,
+    #         pricelist=self.order_id.pricelist_id.id,
+    #         uom=self.product_uom.id,
+    #     )
+
+    #     vals.update(
+    #         name=self.service_line_id._get_sale_order_line_multiline_description_sale()
+    #     )
+
+    #     self._compute_tax_id()
+
+    #     if self.folio_id.pricelist_id and self.folio_id.partner_id:
+    #         vals["price_unit"] = self.env[
+    #             "account.tax"
+    #         ]._fix_tax_included_price_company(
+    #             self._get_display_price(product),
+    #             product.taxes_id,
+    #             self.tax_id,
+    #             self.company_id,
+    #         )
+    #     self.update(vals)
+
+    #     title = False
+    #     message = False
+    #     result = {}
+    #     warning = {}
+    #     if product.sale_line_warn != "no-message":
+    #         title = _("Warning for %s", product.name)
+    #         message = product.sale_line_warn_msg
+    #         warning["title"] = title
+    #         warning["message"] = message
+    #         result = {"warning": warning}
+    #         if product.sale_line_warn == "block":
+    #             self.product_id = False
+    #     return result
 
     @api.onchange("ser_checkin_date", "ser_checkout_date")
     def _on_change_checkin_checkout_dates(self):
