@@ -1,0 +1,66 @@
+.table_header {
+    text-align: center;
+    min-width: 100px;
+    vertical-align: middle;
+}
+
+.table_reserved {
+    background-color: red;
+    color: white;
+    text-align: center;
+    min-width: 100px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+.table_reserved1 {
+    background-color: blue;
+    color: white;
+    text-align: center;
+    min-width: 100px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+.table_free {
+    background-color: green;
+    color: white;
+    text-align: center;
+    min-width: 100px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+/*$color_1: white;
+$background-color_1: red;
+$background-color_2: blue;
+$background-color_3: green;
+
+.table_header {
+    text-align: center;
+    min-width: 100px;
+    vertical-align: middle;
+}
+.table_reserved {
+    background-color: $background-color_1;
+    color: $color_1;
+    text-align: center;
+    min-width: 100px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+.table_reserved1 {
+    background-color: $background-color_2;
+    color: $color_1;
+    text-align: center;
+    min-width: 100px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+.table_free {
+    background-color: $background-color_3;
+    color: $color_1;
+    text-align: center;
+    min-width: 100px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+*/
