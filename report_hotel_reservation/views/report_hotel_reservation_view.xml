@@ -1,14 +1,15 @@
 <!DOCTYPE xml>
 <odoo>
+
     <!-- State By Reservation -->
     <record id="view_hotel_reservation_status_tree" model="ir.ui.view">
-        <field name="name">report.hotel.reservation.status.tree</field>
+        <field name="name">report.hotel.reservation.status.list</field>
         <field name="model">report.hotel.reservation.status</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="reservation_no" />
                 <field name="state" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -75,7 +76,7 @@
         <field name="name">States By Reservation</field>
         <field name="res_model">report.hotel.reservation.status</field>
         <field name="binding_view_types">form</field>
-        <field name="view_mode">graph,tree</field>
+        <field name="view_mode">graph,list</field>
     </record>
 
     <!-- Action for report hotel restaurant status -->
@@ -86,7 +87,7 @@
         <field name="name">States By Reservation</field>
         <field name="res_model">report.hotel.reservation.status</field>
         <field name="binding_view_types">form</field>
-        <field name="view_mode">pivot,graph,tree</field>
+        <field name="view_mode">pivot,graph,list</field>
         <field name="context">
             {'graph_view_ref':'report_hotel_reservation.view_hotel_reservation_status_graph_bar','tree_view_ref':'report_hotel_reservation.view_hotel_reservation_status_tree'}
         </field>
@@ -105,4 +106,5 @@
         sequence="34"
         parent="menu_hotel_reporting"
     />
+
 </odoo>
