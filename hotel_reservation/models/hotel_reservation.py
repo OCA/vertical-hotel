@@ -144,8 +144,6 @@ class HotelReservation(models.Model):
         """
         ctx = dict(self._context) or {}
         for reservation in self:
-            # Improved the code for the room capacity calculation.
-            # Because There is take only last record room capacity.
             room_cap = []
             for rec in reservation.reservation_line:
                 cap = 0
@@ -218,10 +216,8 @@ class HotelReservation(models.Model):
         @param self: The object pointer
         @param vals: dictionary of fields value.
         """
-        for vals in vals_list:
-            vals["reservation_no"] = (
-                self.env["ir.sequence"].next_by_code("hotel.reservation") or "New"
-            )
+        for vals in vals_list: 
+            vals.update({"reservation_no" : self.env["ir.sequence"].next_by_code("hotel.reservation") or "New"})
         return super().create(vals)
 
     def check_overlap(self, date1, date2):
