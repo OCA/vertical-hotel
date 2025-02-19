@@ -3,13 +3,13 @@
 <odoo>
     <!-- State By restaurant -->
     <record id="view_hotel_restaurant_status_tree" model="ir.ui.view">
-        <field name="name">report.hotel.restaurant.status.tree</field>
+        <field name="name">report.hotel.restaurant.status.list</field>
         <field name="model">report.hotel.restaurant.status</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="reservation_id" />
                 <field name="state" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -76,7 +76,7 @@
         <field name="name">States By Restaurant</field>
         <field name="res_model">report.hotel.restaurant.status</field>
         <field name="binding_view_types">form</field>
-        <field name="view_mode">graph,tree</field>
+        <field name="view_mode">graph,list</field>
     </record>
 
     <!-- Action for report hotel restaurant status -->
@@ -84,7 +84,7 @@
         <field name="name">States By Restaurants</field>
         <field name="res_model">report.hotel.restaurant.status</field>
         <field name="binding_view_types">form</field>
-        <field name="view_mode">pivot,graph,tree</field>
+        <field name="view_mode">pivot,graph,list</field>
         <field
             name="context"
         >{'graph_view_ref':'report_hotel_restaurant.view_hotel_restaurant_status_graph_bar','tree_view_ref':'report_hotel_restaurant.view_hotel_restaurant_status_tree'}
