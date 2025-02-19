@@ -216,8 +216,15 @@ class HotelReservation(models.Model):
         @param self: The object pointer
         @param vals: dictionary of fields value.
         """
-        for vals in vals_list: 
-            vals.update({"reservation_no" : self.env["ir.sequence"].next_by_code("hotel.reservation") or "New"})
+        for vals in vals_list:
+            vals.update(
+                {
+                    "reservation_no": self.env["ir.sequence"].next_by_code(
+                        "hotel.reservation"
+                    )
+                    or "New"
+                }
+            )
         return super().create(vals)
 
     def check_overlap(self, date1, date2):
