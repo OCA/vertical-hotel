@@ -170,18 +170,18 @@ class HotelRestaurantReservation(models.Model):
     )
     is_folio = fields.Boolean("Is a Hotel Guest??")
 
-    @api.model
-    def create(self, vals):
+    @api.model_create_multi
+    def create(self, vals_list):
         """
         Overrides orm create method.
         @param self: The object pointer
         @param vals: dictionary of fields value.
         """
         seq_obj = self.env["ir.sequence"]
-        reserve = seq_obj.next_by_code("hotel.restaurant.reservation") or "New"
-        vals["reservation_id"] = reserve
-        return super().create(vals)
-
+        for vals in vals_list:
+            vals.update({"reservation_id" : seq_obj.next_by_code("hotel.restaurant.reservation") or "New"})
+        return super().create(vals_list)
+ 
     @api.constrains("start_date", "end_date")
     def _check_start_dates(self):
         """
@@ -363,17 +363,17 @@ class HotelRestaurantOrder(models.Model):
         "Rest",
     )
 
-    @api.model
-    def create(self, vals):
+    @api.model_create_multi
+    def create(self, vals_list):
         """
         Overrides orm create method.
         @param self: The object pointer
         @param vals: dictionary of fields value.
         """
         seq_obj = self.env["ir.sequence"]
-        rest_order = seq_obj.next_by_code("hotel.restaurant.order") or "New"
-        vals["order_no"] = rest_order
-        return super().create(vals)
+        for vals in vals_list:
+            vals.update({"order_no" : seq_obj.next_by_code("hotel.restaurant.order") or "New"})
+        return super().create(vals_list)
 
     @api.onchange("folio_id")
     def _onchange_folio_id(self):
@@ -627,7 +627,7 @@ class HotelReservationOrder(models.Model):
         "Is a Hotel Guest??", help="is customer reside in hotel or not"
     )
 
-    @api.model
+    @api.model_create_multi
     def create(self, vals):
         """
         Overrides orm create method.
@@ -635,8 +635,8 @@ class HotelReservationOrder(models.Model):
         @param vals: dictionary of fields value.
         """
         seq_obj = self.env["ir.sequence"]
-        res_oder = seq_obj.next_by_code("hotel.reservation.order") or "New"
-        vals["order_number"] = res_oder
+        for vals in vals_list:
+            vals.update({"order_number" : seq_obj.next_by_code("hotel.reservation.order") or "New"})
         return super().create(vals)
 
 
