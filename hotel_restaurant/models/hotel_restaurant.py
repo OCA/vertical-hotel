@@ -179,9 +179,16 @@ class HotelRestaurantReservation(models.Model):
         """
         seq_obj = self.env["ir.sequence"]
         for vals in vals_list:
-            vals.update({"reservation_id" : seq_obj.next_by_code("hotel.restaurant.reservation") or "New"})
+            vals.update(
+                {
+                    "reservation_id": seq_obj.next_by_code(
+                        "hotel.restaurant.reservation"
+                    )
+                    or "New"
+                }
+            )
         return super().create(vals_list)
- 
+
     @api.constrains("start_date", "end_date")
     def _check_start_dates(self):
         """
@@ -372,7 +379,9 @@ class HotelRestaurantOrder(models.Model):
         """
         seq_obj = self.env["ir.sequence"]
         for vals in vals_list:
-            vals.update({"order_no" : seq_obj.next_by_code("hotel.restaurant.order") or "New"})
+            vals.update(
+                {"order_no": seq_obj.next_by_code("hotel.restaurant.order") or "New"}
+            )
         return super().create(vals_list)
 
     @api.onchange("folio_id")
@@ -628,7 +637,7 @@ class HotelReservationOrder(models.Model):
     )
 
     @api.model_create_multi
-    def create(self, vals):
+    def create(self, vals_list):
         """
         Overrides orm create method.
         @param self: The object pointer
@@ -636,8 +645,13 @@ class HotelReservationOrder(models.Model):
         """
         seq_obj = self.env["ir.sequence"]
         for vals in vals_list:
-            vals.update({"order_number" : seq_obj.next_by_code("hotel.reservation.order") or "New"})
-        return super().create(vals)
+            vals.update(
+                {
+                    "order_number": seq_obj.next_by_code("hotel.reservation.order")
+                    or "New"
+                }
+            )
+        return super().create(vals_list)
 
 
 class HotelRestaurantOrderList(models.Model):

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE xml>
 <odoo noupdate="1">
-
     <!-- Table Data -->
     <record id="hotel_restaurant_tables_table0" model="hotel.restaurant.tables">
         <field eval="2" name="capacity" />
@@ -338,5 +337,4 @@
         <field name="item_qty">3</field>
         <field name="item_rate">50.00</field>
     </record>
-
 </odoo>
