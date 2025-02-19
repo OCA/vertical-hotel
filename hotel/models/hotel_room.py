@@ -50,12 +50,14 @@ class HotelRoom(models.Model):
     )
     product_manager = fields.Many2one("res.users")
 
-    @api.model
-    def create(self, vals):
-        if "room_categ_id" in vals:
-            room_categ = self.env["hotel.room.type"].browse(vals.get("room_categ_id"))
-            vals.update({"categ_id": room_categ.product_categ_id.id})
-        return super().create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            room_type_obj = self.env["hotel.room.type"]
+            if "room_categ_id" in vals:
+                room_categ = room_type_obj.browse(vals.get("room_categ_id"))
+                vals.update({"categ_id": room_categ.product_categ_id.id})
+        return super().create(vals_list)
 
     @api.constrains("capacity")
     def _check_capacity(self):
@@ -122,12 +124,14 @@ class HotelRoomType(models.Model):
         ondelete="restrict",
     )
 
-    @api.model
-    def create(self, vals):
-        if "categ_id" in vals:
-            room_categ = self.env["hotel.room.type"].browse(vals.get("categ_id"))
-            vals.update({"parent_id": room_categ.product_categ_id.id})
-        return super().create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        room_type_obj = self.env["hotel.room.type"]
+        for vals in vals_list:
+            if "categ_id" in vals:
+                room_categ = room_type_obj.browse(vals.get("categ_id"))
+                vals.update({"parent_id": room_categ.product_categ_id.id})
+        return super().create(vals_list)
 
     def write(self, vals):
         if "categ_id" in vals:
@@ -221,14 +225,14 @@ class HotelRoomAmenitiesType(models.Model):
         ondelete="restrict",
     )
 
-    @api.model
-    def create(self, vals):
-        if "amenity_id" in vals:
-            amenity_categ = self.env["hotel.room.amenities.type"].browse(
-                vals.get("amenity_id")
-            )
-            vals.update({"parent_id": amenity_categ.product_categ_id.id})
-        return super().create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        rm_amenity_obj = self.env["hotel.room.amenities.type"]
+        for vals in vals_list:
+            if "amenity_id" in vals:
+                amenity_categ = rm_amenity_obj.browse(vals.get("amenity_id"))
+                vals.update({"parent_id": amenity_categ.product_categ_id.id})
+        return super().create(vals_list)
 
     def write(self, vals):
         if "amenity_id" in vals:
@@ -325,14 +329,14 @@ class HotelRoomAmenities(models.Model):
     )
     product_manager = fields.Many2one("res.users")
 
-    @api.model
-    def create(self, vals):
-        if "amenities_categ_id" in vals:
-            amenities_categ = self.env["hotel.room.amenities.type"].browse(
-                vals.get("amenities_categ_id")
-            )
-            vals.update({"categ_id": amenities_categ.product_categ_id.id})
-        return super().create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        rm_amenity_obj = self.env["hotel.room.amenities.type"]
+        for vals in vals_list:
+            if "amenities_categ_id" in vals:
+                amenities_categ = rm_amenity_obj.browse(vals.get("amenities_categ_id"))
+                vals.update({"categ_id": amenities_categ.product_categ_id.id})
+        return super().create(vals_list)
 
     def write(self, vals):
         """

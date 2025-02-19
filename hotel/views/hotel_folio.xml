@@ -54,12 +54,8 @@
                         <field name="name" colspan="4" readonly="1" />
                     </h1>
                     <group>
-                        <group>    
-                            <field
-                                name="partner_id"
-                                string="Guest Name"
-                                required="1"
-                            />
+                        <group>
+                            <field name="partner_id" string="Guest Name" required="1" />
                             <field
                                 name="partner_invoice_id"
                                 domain="[('parent_id','=',partner_id)]"
@@ -146,7 +142,7 @@
                                         widget="many2many_tags"
                                     />
                                     <field
-                                        groups="product.group_discount_per_so_line"
+                                        groups="sale.group_discount_per_so_line"
                                         name="discount"
                                     />
                                     <!-- TODO: Need to check groups="account.group_show_line_subtotals_tax_excluded" -->
@@ -213,7 +209,7 @@
                                         widget="many2many_tags"
                                     />
                                     <field
-                                        groups="product.group_discount_per_so_line"
+                                        groups="sale.group_discount_per_so_line"
                                         name="discount"
                                     />
                                     <!-- TODO: Need to check groups="account.group_show_line_subtotals_tax_excluded" -->

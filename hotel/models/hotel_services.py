@@ -24,14 +24,14 @@ class HotelServices(models.Model):
     )
     product_manager = fields.Many2one("res.users")
 
-    @api.model
-    def create(self, vals):
-        if "service_categ_id" in vals:
-            service_categ = self.env["hotel.service.type"].browse(
-                vals.get("service_categ_id")
-            )
-            vals.update({"categ_id": service_categ.product_categ_id.id})
-        return super().create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        service_type_obj = self.env["hotel.service.type"]
+        for vals in vals_list:
+            if "service_categ_id" in vals:
+                service_categ = service_type_obj.browse(vals.get("service_categ_id"))
+                vals.update({"categ_id": service_categ.product_categ_id.id})
+        return super().create(vals_list)
 
     def write(self, vals):
         """
@@ -65,14 +65,14 @@ class HotelServiceType(models.Model):
         ondelete="restrict",
     )
 
-    @api.model
-    def create(self, vals):
-        if "service_id" in vals:
-            service_categ = self.env["hotel.service.type"].browse(
-                vals.get("service_id")
-            )
-            vals.update({"parent_id": service_categ.product_categ_id.id})
-        return super().create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        service_type_obj = self.env["hotel.service.type"]
+        for vals in vals_list:
+            if "service_id" in vals:
+                service_categ = service_type_obj.browse(vals.get("service_id"))
+                vals.update({"parent_id": service_categ.product_categ_id.id})
+        return super().create(vals_list)
 
     def write(self, vals):
         if "service_id" in vals:

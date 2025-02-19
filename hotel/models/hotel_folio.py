@@ -7,7 +7,6 @@ from datetime import timedelta
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
-from odoo.tools.misc import get_lang
 
 
 class FolioRoomLine(models.Model):
@@ -36,12 +35,12 @@ class HotelFolio(models.Model):
                 res.append((rec.id, fname))
 
     @api.model
-    def name_search(self, name="", args=None, operator="ilike", limit=100):
+    def _name_search(self, name="", args=None, operator="ilike", limit=100):
         if args is None:
             args = []
         args += [("name", operator, name)]
-        folio = self.search(args, limit=100)
-        return folio.name_get()
+        folio = self._search(args, limit=100)
+        return folio
 
     @api.model
     def _get_checkin_date(self):
@@ -141,39 +140,45 @@ class HotelFolio(models.Model):
         for rec in folio_id:
             product_ids = rec.room_line_ids.mapped("product_id").ids
             rooms = hotel_room_obj.search([("product_id", "in", product_ids)])
-            rooms.write({"isroom": False})
-            vals = {
-                "room_id": rooms.id,
-                "check_in": rec.checkin_date,
-                "check_out": rec.checkout_date,
-                "folio_id": rec.id,
-            }
-            folio_room_line_obj.create(vals)
+            for room in rooms:
+                room.write({"isroom": False})
+                vals = {
+                    "room_id": room.id,
+                    "check_in": rec.checkin_date,
+                    "check_out": rec.checkout_date,
+                    "folio_id": rec.id,
+                }
+                folio_room_line_obj.create(vals)
 
-    @api.model
-    def create(self, vals):
+    @api.model_create_multi
+    def create(self, vals_list):
         """
         Overrides orm create method.
         @param self: The object pointer
         @param vals: dictionary of fields value.
         @return: new record set for hotel folio.
         """
-        if "service_line_ids" not in vals and "folio_id" in vals:
-            tmp_room_lines = vals.get("room_line_ids", [])
-            vals["order_policy"] = vals.get("hotel_policy", "manual")
-            vals.update({"room_line_ids": []})
-            folio_id = super().create(vals)
-            for line in tmp_room_lines:
-                line[2].update({"folio_id": folio_id.id})
-            vals.update({"room_line_ids": tmp_room_lines})
-            folio_id.write(vals)
-        else:
-            if not vals:
-                vals = {}
-            vals["name"] = self.env["ir.sequence"].next_by_code("hotel.folio")
-            vals["duration"] = vals.get("duration", 0.0) or vals.get("duration", 0.0)
-            folio_id = super().create(vals)
-            self._update_folio_line(folio_id)
+        for vals in vals_list:
+            if "service_line_ids" not in vals and "folio_id" in vals:
+                tmp_room_lines = vals.get("room_line_ids", [])
+                vals["order_policy"] = vals.get("hotel_policy", "manual")
+                vals.update({"room_line_ids": []})
+                folio_id = super().create(vals)
+                for line in tmp_room_lines:
+                    line[2].update({"folio_id": folio_id.id})
+                vals.update({"room_line_ids": tmp_room_lines})
+                folio_id.write(vals)
+            else:
+                if not vals:
+                    vals = {}
+                vals.update(
+                    {
+                        "name": self.env["ir.sequence"].next_by_code("hotel.folio"),
+                        "duration": vals.get("duration", 0.0),
+                    }
+                )
+                folio_id = super().create(vals)
+                self._update_folio_line(folio_id)
         return folio_id
 
     def write(self, vals):
@@ -188,9 +193,9 @@ class HotelFolio(models.Model):
         for rec in self:
             rooms_list = [res.product_id.id for res in rec.room_line_ids]
             if vals and vals.get("duration", False):
-                vals["duration"] = vals.get("duration", 0.0)
+                vals.update({"duration": vals.get("duration", 0.0)})
             else:
-                vals["duration"] = rec.duration
+                vals.update({"duration": rec.duration})
             room_lst = [folio_rec.product_id.id for folio_rec in rec.room_line_ids]
             new_rooms = set(room_lst).difference(set(rooms_list))
             if len(list(new_rooms)) != 0:
@@ -257,8 +262,6 @@ class HotelFolio(models.Model):
     def action_confirm(self):
         for order in self.order_id:
             order.state = "sale"
-            # TODO Change the invoice status "invoiced" --> "to invoice" and analytic_account_id --> project_account_id
-            # due to base functionality.
             order.invoice_status = "to invoice"
             if not order.project_account_id:
                 if order.order_line.filtered(
@@ -302,18 +305,20 @@ class HotelFolioLine(models.Model):
     checkout_date = fields.Datetime("Check Out", required=True)
     is_reserved = fields.Boolean(help="True when folio line created from Reservation")
 
-    @api.model
-    def create(self, vals):
+    @api.model_create_multi
+    def create(self, vals_list):
         """
         Overrides orm create method.
         @param self: The object pointer
         @param vals: dictionary of fields value.
         @return: new record set for hotel folio line.
         """
-        if "folio_id" in vals:
-            folio = self.env["hotel.folio"].browse(vals["folio_id"])
-            vals.update({"order_id": folio.order_id.id})
-        return super().create(vals)
+        folio_obj = self.env["hotel.folio"]
+        for vals in vals_list:
+            if "folio_id" in vals:
+                folio = folio_obj.browse(vals.get("folio_id"))
+                vals.update({"order_id": folio.order_id.id})
+        return super().create(vals_list)
 
     @api.constrains("checkin_date", "checkout_date")
     def _check_dates(self):
@@ -323,21 +328,22 @@ class HotelFolioLine(models.Model):
         @param self: object pointer
         @return: raise warning depending on the validation
         """
-        if self.checkin_date >= self.checkout_date:
-            raise ValidationError(
-                _(
-                    """Room line Check In Date Should be """
-                    """less than the Check Out Date!"""
-                )
-            )
-        if self.folio_id.date_order and self.checkin_date:
-            if self.checkin_date.date() < self.folio_id.date_order.date():
+        for rec in self:
+            if rec.checkin_date >= rec.checkout_date:
                 raise ValidationError(
                     _(
-                        """Room line check in date should be """
-                        """greater than the current date."""
+                        """Room line Check In Date Should be """
+                        """less than the Check Out Date!"""
                     )
                 )
+            if rec.folio_id.date_order and rec.checkin_date:
+                if rec.checkin_date.date() < rec.folio_id.date_order.date():
+                    raise ValidationError(
+                        _(
+                            """Room line check in date should be """
+                            """greater than the current date."""
+                        )
+                    )
 
     def unlink(self):
         """
@@ -364,7 +370,7 @@ class HotelFolioLine(models.Model):
         return super().unlink()
 
     # Migrated _onchange_product_id method v15 to v18.
-    @api.onchange('product_id')
+    @api.onchange("product_id")
     def _onchange_product_id_warning(self):
         self.ensure_one()
         if not self.product_id:
@@ -375,21 +381,23 @@ class HotelFolioLine(models.Model):
             name=self.order_line_id._get_sale_order_line_multiline_description_sale()
         )
         # if not self.product_uom or (self.product_id.uom_id.id != self.product_uom.id):
-        vals.update({
-            "product_uom" : self.product_id.uom_id,
-            "product_uom_qty" : self.product_uom_qty,
-            "price_unit" : self.product_id.list_price,
-            "tax_id" : self.product_id.taxes_id,
-        })
+        vals.update(
+            {
+                "product_uom": self.product_id.uom_id,
+                "product_uom_qty": self.product_uom_qty,
+                "price_unit": self.product_id.list_price,
+                "tax_id": self.product_id.taxes_id,
+            }
+        )
         self.update(vals)
-        if product.sale_line_warn != 'no-message':
-            if product.sale_line_warn == 'block':
+        if product.sale_line_warn != "no-message":
+            if product.sale_line_warn == "block":
                 self.product_id = False
 
             return {
-                'warning': {
-                    'title': _("Warning for %s", product.name),
-                    'message': product.sale_line_warn_msg,
+                "warning": {
+                    "title": _("Warning for %s", product.name),
+                    "message": product.sale_line_warn_msg,
                 }
             }
 
@@ -453,18 +461,20 @@ class HotelServiceLine(models.Model):
     ser_checkin_date = fields.Datetime("From Date")
     ser_checkout_date = fields.Datetime("To Date")
 
-    @api.model
-    def create(self, vals):
+    @api.model_create_multi
+    def create(self, vals_list):
         """
         Overrides orm create method.
         @param self: The object pointer
         @param vals: dictionary of fields value.
         @return: new record set for hotel service line.
         """
-        if "folio_id" in vals:
-            folio = self.env["hotel.folio"].browse(vals["folio_id"])
-            vals.update({"order_id": folio.order_id.id})
-        return super().create(vals)
+        folio_obj = self.env["hotel.folio"]
+        for vals in vals_list:
+            if "folio_id" in vals:
+                folio = folio_obj.browse(vals.get("folio_id"))
+                vals.update({"order_id": folio.order_id.id})
+        return super().create(vals_list)
 
     def unlink(self):
         """
@@ -476,7 +486,7 @@ class HotelServiceLine(models.Model):
         return super().unlink()
 
     # Migrated _onchange_product_id method v15 to v18.
-    @api.onchange('product_id')
+    @api.onchange("product_id")
     def _onchange_product_id_warning(self):
         self.ensure_one()
         if not self.product_id:
@@ -487,21 +497,23 @@ class HotelServiceLine(models.Model):
             name=self.service_line_id._get_sale_order_line_multiline_description_sale()
         )
         # if not self.product_uom or (self.product_id.uom_id.id != self.product_uom.id):
-        vals.update({
-            "product_uom" : self.product_id.uom_id,
-            "product_uom_qty" : self.product_uom_qty,
-            "price_unit" : self.product_id.list_price,
-            "tax_id" : self.product_id.taxes_id,
-        })
+        vals.update(
+            {
+                "product_uom": self.product_id.uom_id,
+                "product_uom_qty": self.product_uom_qty,
+                "price_unit": self.product_id.list_price,
+                "tax_id": self.product_id.taxes_id,
+            }
+        )
         self.update(vals)
-        if product.sale_line_warn != 'no-message':
-            if product.sale_line_warn == 'block':
+        if product.sale_line_warn != "no-message":
+            if product.sale_line_warn == "block":
                 self.product_id = False
 
             return {
-                'warning': {
-                    'title': _("Warning for %s", product.name),
-                    'message': product.sale_line_warn_msg,
+                "warning": {
+                    "title": _("Warning for %s", product.name),
+                    "message": product.sale_line_warn_msg,
                 }
             }
 
