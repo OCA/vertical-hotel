@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
+
     <!--Demo data for hotel housekeeping activity type -->
     <record
         id="hotel_housekeeping_activity_type_0"
@@ -54,4 +55,5 @@
         <field name="name">Making the Beds</field>
         <field name="categ_id" search="[('name', '=', 'Bed Activity')]" />
     </record>
+
 </odoo>
