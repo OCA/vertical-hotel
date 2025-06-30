@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <menuitem id="hotel_management_menu" name="Hotel Management" />
+    <menuitem
+        id="hotel_management_menu"
+        name="Hotel Management"
+        web_icon="hotel,static/description/hotel2.png"
+    />
     <menuitem
         id="hotel_configuration_menu"
         name="Configuration"
