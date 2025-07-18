@@ -29,7 +29,7 @@
                             <table t-foreach="GetRest" t-as="info" width="100%">
                                 <table class="table table-bordered">
                                     <tr>
-                                        <td width="40%">
+                                        <td width="40%" style="text-indent: 5px;">
                                             <strong>Folio Number :</strong>
                                         </td>
                                         <td width="60%">
@@ -37,7 +37,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td width="40%">
+                                        <td width="40%" style="text-indent: 5px;">
                                             <strong>Customer Name :</strong>
                                         </td>
                                         <td width="60%">
@@ -50,7 +50,7 @@
                                 <br />
                                 <table class="table table-bordered">
                                     <tr>
-                                        <td>
+                                        <td style="text-indent: 5px;">
                                             <strong>Order Number.</strong>
                                         </td>
                                         <td>
@@ -71,7 +71,7 @@
                                         t-as="infodata"
                                     >
                                         <tr>
-                                            <td>
+                                            <td style="text-indent: 5px;">
                                                 <span
                                                     t-esc="infodata.get('order_no', '')"
                                                 />
@@ -105,10 +105,10 @@
                     <t t-if="data['check'] == False">
                         <table class="table table-bordered">
                             <tr>
-                                <td>
+                                <td style="text-indent: 5px;">
                                     <strong>Folio No.</strong>
                                 </td>
-                                <td>
+                                <td style="text-indent: 5px;">
                                     <strong>Customer Name</strong>
                                 </td>
                                 <td>
@@ -125,7 +125,7 @@
                                 </td>
                             </tr>
                             <tr t-foreach="GetData" t-as="info">
-                                <td>
+                                <td style="text-indent: 5px;">
                                     <span t-esc="info.get('folio_name', '')" />
                                 </td>
                                 <td>
@@ -194,7 +194,7 @@
                             <table t-foreach="GetReserv" t-as="info" width="100%">
                                 <table class="table table-bordered">
                                     <tr>
-                                        <td width="40%">
+                                        <td width="40%" style="text-indent: 5px;">
                                             <strong>Folio Number :</strong>
                                         </td>
                                         <td width="30%">
@@ -202,7 +202,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td width="40%">
+                                        <td width="40%" style="text-indent: 5px;">
                                             <strong>Customer Name :</strong>
                                         </td>
                                         <td width="30%">
@@ -215,7 +215,7 @@
                                 <br />
                                 <table class="table table-bordered">
                                     <tr>
-                                        <td>
+                                        <td style="text-indent: 5px;">
                                             <strong>Order Number.</strong>
                                         </td>
                                         <td>
@@ -242,7 +242,7 @@
                                         t-as="infodata"
                                     >
                                         <tr>
-                                            <td>
+                                            <td style="text-indent: 5px;">
                                                 <span
                                                     t-esc="infodata.get('order_no', '')"
                                                 />

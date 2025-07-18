@@ -26,7 +26,7 @@
                     <table class="table table-condensed container">
                         <thead>
                             <tr>
-                                <th>
+                                <th style="text-indent: 5px;">
                                     <strong>Reservation No</strong>
                                 </th>
                                 <th>
@@ -42,7 +42,7 @@
                         </thead>
                         <tbody>
                             <tr t-foreach="Reservations" t-as="reservations">
-                                <td style="white-space: nowrap;">
+                                <td style="white-space: nowrap; text-indent: 5px;">
                                     <span t-esc="reservations.get('reservation', '')" />
                                 </td>
                                 <td style="white-space: nowrap;">

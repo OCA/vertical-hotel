@@ -107,6 +107,7 @@
                         icon="terp-stock_symbol-selection"
                         context="{'group_by':'capacity'}"
                     />
+
                 </group>
             </search>
         </field>
@@ -189,31 +190,32 @@
                         <field name="reservation_id" colspan="4" />
                     </h1>
                     <group>
-                        <group colspan="2" col="4">
+                        <group>
                             <field name="is_folio" />
                             <newline />
+                            <field name="customer_id" />
+                            <field name="partner_address_id" />
                             <field
                                 name="folio_id"
                                 invisible="not is_folio"
                                 required="is_folio"
                             />
+
+                        </group>
+                        <group>
+                            <field name="start_date" />
+                            <field name="end_date" />
                             <field
                                 name="room_id"
                                 invisible="not is_folio"
                                 required="is_folio"
-                            />
+                        />
                         </group>
-                        <newline />
-                        <group colspan="4" col="4">
-                            <field name="customer_id" />
-                            <field name="partner_address_id" />
-                            <field name="start_date" />
-                            <field name="end_date" />
-                        </group>
-                        <group colspan="4">
-                            <separator colspan='4' string="Table List" />
-                            <field name="table_nos_ids" colspan="2" nolabel='1' />
-                        </group>
+                    </group>
+                    <newline />
+                    <group>
+                        <separator colspan='4' string="Table List" />
+                        <field name="table_nos_ids" colspan="2" nolabel='1' />
                     </group>
                 </sheet>
             </form>
@@ -392,8 +394,8 @@
                         <field name="table_nos_ids" colspan="4" nolabel='1' />
                         <newline />
                         <separator colspan='4' string='Order List' />
-                        <field name="order_list_ids" colspan="4" nolabel='1'>
-                            <list editable="top">
+                        <field name="order_list_ids" colspan="4" nolabel='1' editable="top">
+                            <list>
                                 <field name="menucard_id" />
                                 <field name="item_qty" />
                                 <field name="item_rate" />
@@ -582,8 +584,8 @@
                         <field name="table_nos_ids" colspan="4" nolabel='1' />
                         <newline />
                         <separator colspan='4' string='Order List' />
-                        <field name="order_list_ids" colspan="4" nolabel='1'>
-                            <list editable="top">
+                        <field name="order_list_ids" colspan="4" nolabel='1' editable="top">
+                            <list >
                                 <field name="menucard_id" />
                                 <field name="item_qty" />
                                 <field name="item_rate" />
