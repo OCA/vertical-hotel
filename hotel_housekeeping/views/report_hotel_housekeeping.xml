@@ -38,7 +38,7 @@
                     </div>
                     <table class="table table-condensed">
                         <tr>
-                            <th>
+                            <th style="text-indent: 5px;">
                                 <strong>Date</strong>
                             </th>
                             <th>
@@ -58,7 +58,7 @@
                             </th>
                         </tr>
                         <tr t-foreach="activity_detail" t-as="detail">
-                            <td class="text-right" style="white-space: nowrap;">
+                            <td class="text-right" style="white-space: nowrap;text-indent: 5px;">
                                 <span t-esc="detail.get('current_date','')" />
                             </td>
                             <td class="text-right" style="white-space: nowrap;">
