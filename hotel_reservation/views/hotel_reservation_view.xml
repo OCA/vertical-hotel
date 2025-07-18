@@ -358,7 +358,7 @@
                             <field
                                 name="room_summary"
                                 colspan="4"
-                                widget="Room_Reservation"
+                                widget="room_reservation_summary"
                             />
                             <!-- <widget name="Room_Reservation"></widget> -->
                         </page>

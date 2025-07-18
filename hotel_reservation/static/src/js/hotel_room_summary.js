@@ -1,50 +1,54 @@
 /* @odoo-module */
 
-import {TextField} from "@web/views/fields/text/text_field";
-import {registry} from "@web/core/registry";
-import {useService} from "@web/core/utils/hooks";
-import {useState} from "@odoo/owl";
-// var FormView = require("web.FormView"); // eslint-disable-line no-undef
-var py = window.py;
-const {onWillUpdateProps} = owl;
+import { registry } from "@web/core/registry";
+import { useState , onPatched} from "@odoo/owl";
+import { TextField, textField } from "@web/views/fields/text/text_field";
+import { useService } from "@web/core/utils/hooks";
+import { evaluateExpr } from "@web/core/py_js/py";
 
-export class MyWidget extends TextField {
+export class RoomReservation extends TextField {
+    static template = "hotel_reservation.RoomSummary";
+    static components = { ...TextField.components };
+
     setup() {
         super.setup();
-        console.log(this);
         this.actionService = useService("action");
         this.state = useState({
             date_to: false,
             date_from: false,
-            summary_header: py.eval(this.props.record.data.summary_header),
-            room_summary: py.eval(this.props.record.data.room_summary),
+            summary_header: evaluateExpr(this.props.record.data.summary_header),
+            room_summary: evaluateExpr(this.props.record.data.room_summary),
         });
+        onPatched(()=>{
+            this.state.summary_header = evaluateExpr(this.props.record.data.summary_header)
+            this.state.room_summary = evaluateExpr(this.props.record.data.room_summary)
+        })
+    }
 
-        onWillUpdateProps(() => {
-            this.state.summary_header = py.eval(this.props.record.data.summary_header);
-            this.state.room_summary = py.eval(this.props.record.data.room_summary);
-            console.log(FormView.ReinitializeWidgetMixin);
-        });
-    }
-    resize() {
-        return this;
-    }
-    async load_form(room_id, date) {
+    loadForm(ev,roomId,statusDate){
+        ev.stopPropagation();
+        ev.preventDefault();
+        if (!roomId || !statusDate) {
+            return;
+        }
         this.actionService.doAction({
-            type: "ir.actions.act_window",
+            name: "Room Reservation",
             res_model: "quick.room.reservation",
             views: [[false, "form"]],
+            type: "ir.actions.act_window",
+            view_mode: "form",
             target: "new",
             context: {
-                room_id: room_id,
-                date: date,
+                default_room_id: roomId,
+                default_check_in: statusDate,
                 default_adults: 1,
             },
         });
     }
 }
-
-MyWidget.template = "RoomSummary";
-MyWidget.components = {...TextField.components};
-MyWidget.additionalClasses = [...(TextField.additionalClasses || []), "o_field_text"];
-registry.category("fields").add("Room_Reservation", MyWidget);
+export const myWidgetadditionClasses = {
+    ...textField,
+    component: RoomReservation,
+    additionalClasses: [...(textField.additionalClasses || []), "o_field_text"],
+};
+registry.category("fields").add("room_reservation_summary", myWidgetadditionClasses);
