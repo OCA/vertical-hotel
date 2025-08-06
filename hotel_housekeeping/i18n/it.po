@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-03-19 13:06+0000\n"
+"PO-Revision-Date: 2025-08-06 11:25+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10.2\n"
+"X-Generator: Weblate 5.10.4\n"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__product_variant_count
@@ -439,7 +439,7 @@ msgstr "Rif. cliente"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__taxes_id
 msgid "Customer Taxes"
-msgstr "Tasse cliente"
+msgstr "Imposte cliente"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields.selection,name:hotel_housekeeping.selection__hotel_housekeeping__clean_type__daily
@@ -449,12 +449,12 @@ msgstr "Giornaliera"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__supplier_taxes_id
 msgid "Default taxes used when buying the product."
-msgstr "Tasse predefinite nell'acquisto del prodotto."
+msgstr "Imposte predefinite nell'acquisto del prodotto."
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__taxes_id
 msgid "Default taxes used when selling the product."
-msgstr "Tasse predefinite quando si vende il prodotto."
+msgstr "Imposte predefinite nella vendita del prodotto."
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__uom_id
@@ -1612,7 +1612,7 @@ msgstr "Valori variante"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__supplier_taxes_id
 msgid "Vendor Taxes"
-msgstr "Tasse venditore"
+msgstr "Imposte venditore"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__seller_ids
