@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-06-16 11:26+0000\n"
+"PO-Revision-Date: 2025-08-06 10:26+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -684,7 +684,7 @@ msgstr "Riferimento cliente"
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_form
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_services_form
 msgid "Customer Taxes"
-msgstr "Tasse cliente"
+msgstr "Imposte cliente"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio__signed_on
@@ -696,14 +696,14 @@ msgstr "Data della firma."
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities__supplier_taxes_id
 #: model:ir.model.fields,help:hotel.field_hotel_services__supplier_taxes_id
 msgid "Default taxes used when buying the product."
-msgstr "Tasse predefinite nell'acquisto del prodotto."
+msgstr "Imposte predefinite nell'acquisto del prodotto."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__taxes_id
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities__taxes_id
 #: model:ir.model.fields,help:hotel.field_hotel_services__taxes_id
 msgid "Default taxes used when selling the product."
-msgstr "Tasse predefinite quando si vende il prodotto."
+msgstr "Imposte predefinite nella vendita del prodotto."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__uom_id
