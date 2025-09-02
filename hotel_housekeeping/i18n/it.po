@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-08-06 10:26+0000\n"
+"PO-Revision-Date: 2025-09-02 17:43+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -1255,7 +1255,7 @@ msgstr "Regole riordine"
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_activities__housekeeping_id
 msgid "Reservation"
-msgstr "Prenotazione"
+msgstr "N° prenotazione"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__responsible_id
