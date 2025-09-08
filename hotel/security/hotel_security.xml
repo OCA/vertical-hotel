@@ -14,5 +14,4 @@
             eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
         />
     </record>
-
 </odoo>
