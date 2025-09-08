@@ -271,16 +271,14 @@
                                         string="Available"
                                         name="set_room_status_occupied"
                                         class="oe_kanban_status oe_kanban_status_green "
-                                    >
-                                    </a>
+                                    />
                                     <a
                                         t-if="record.status.raw_value === 'occupied'"
                                         type="object"
                                         string="occupied"
                                         name="set_room_status_available"
                                         class="oe_kanban_status oe_kanban_status_red "
-                                    >
-                                    </a>
+                                    />
                                 </div>
                             </div>
                             <div class="oe_clear" />
