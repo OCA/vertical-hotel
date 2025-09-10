@@ -17,14 +17,14 @@
     </record>
     <!-- hotel_room_amenities_type -->
     <record id="hotel_room_amenities_type_0" model="hotel.room.amenities.type">
-        <field name="name">All Aminities</field>
+        <field name="name">All Amenities</field>
     </record>
     <record id="hotel_room_amenities_type_1" model="hotel.room.amenities.type">
-        <field name="amenity_id" search="[('name', '=', 'All Aminities')]" />
+        <field name="amenity_id" search="[('name', '=', 'All Amenities')]" />
         <field name="name">Beds</field>
     </record>
     <record id="hotel_room_amenities_type_2" model="hotel.room.amenities.type">
-        <field name="amenity_id" search="[('name', '=', 'All Aminities')]" />
+        <field name="amenity_id" search="[('name', '=', 'All Amenities')]" />
         <field name="name">Tables</field>
     </record>
     <record id="hotel_room_amenities_type_3" model="hotel.room.amenities.type">
@@ -143,16 +143,16 @@
     <record id="hotel_room_amenities_1" model="hotel.room.amenities">
         <field name="name">Toiletries</field>
         <field name="iscategid">1</field>
-        <field name="amenities_categ_id" search="[('name', '=', 'All Aminities')]" />
+        <field name="amenities_categ_id" search="[('name', '=', 'All Amenities')]" />
     </record>
     <record id="hotel_room_amenities_2" model="hotel.room.amenities">
         <field name="name">Iron</field>
         <field name="iscategid">1</field>
-        <field name="amenities_categ_id" search="[('name', '=', 'All Aminities')]" />
+        <field name="amenities_categ_id" search="[('name', '=', 'All Amenities')]" />
     </record>
     <record id="hotel_room_amenities_3" model="hotel.room.amenities">
         <field name="name">Irons Boards</field>
         <field name="iscategid">1</field>
-        <field name="amenities_categ_id" search="[('name', '=', 'All Aminities')]" />
+        <field name="amenities_categ_id" search="[('name', '=', 'All Amenities')]" />
     </record>
 </odoo>

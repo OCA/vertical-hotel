@@ -24,14 +24,21 @@ class HotelServices(models.Model):
     )
     product_manager = fields.Many2one("res.users")
 
-    @api.model
-    def create(self, vals):
-        if "service_categ_id" in vals:
-            service_categ = self.env["hotel.service.type"].browse(
-                vals.get("service_categ_id")
-            )
-            vals.update({"categ_id": service_categ.product_categ_id.id})
-        return super().create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        service_type_ids = [
+            v.get("service_categ_id") for v in vals_list if v.get("service_categ_id")
+        ]
+        if service_type_ids:
+            service_types = self.env["hotel.service.type"].browse(service_type_ids)
+            type_to_categ = {
+                t.id: t.product_categ_id.id for t in service_types if t.product_categ_id
+            }
+            for vals in vals_list:
+                service_categ_id = vals.get("service_categ_id")
+                if service_categ_id and service_categ_id in type_to_categ:
+                    vals["categ_id"] = type_to_categ[service_categ_id]
+        return super().create(vals_list)
 
     def write(self, vals):
         """
@@ -65,14 +72,19 @@ class HotelServiceType(models.Model):
         ondelete="restrict",
     )
 
-    @api.model
-    def create(self, vals):
-        if "service_id" in vals:
-            service_categ = self.env["hotel.service.type"].browse(
-                vals.get("service_id")
-            )
-            vals.update({"parent_id": service_categ.product_categ_id.id})
-        return super().create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        service_ids = [v.get("service_id") for v in vals_list if v.get("service_id")]
+        if service_ids:
+            services = self.browse(service_ids)
+            service_to_parent = {
+                s.id: s.product_categ_id.id for s in services if s.product_categ_id
+            }
+            for vals in vals_list:
+                service_id = vals.get("service_id")
+                if service_id and service_id in service_to_parent:
+                    vals["parent_id"] = service_to_parent[service_id]
+        return super().create(vals_list)
 
     def write(self, vals):
         if "service_id" in vals:
