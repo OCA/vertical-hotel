@@ -23,7 +23,7 @@
                     </div>
                     <table class="table table-condensed">
                         <tr>
-                            <td>
+                            <td class="px-2">
                                 <strong>Folio No.</strong>
                             </td>
                             <td>
@@ -40,7 +40,7 @@
                             </td>
                         </tr>
                         <tr t-foreach="folio_data" t-as="folio">
-                            <td>
+                            <td class="px-2">
                                 <span t-esc="folio.get('name', '')" />
                             </td>
                             <td>

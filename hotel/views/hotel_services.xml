@@ -97,14 +97,14 @@
     </record>
     <!-- Tree view of hotel service -->
     <record id="view_hotel_services_tree" model="ir.ui.view">
-        <field name="name">hotel.services.tree</field>
+        <field name="name">hotel.services.list</field>
         <field name="model">hotel.services</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name" />
                 <field name="service_categ_id" string="Service Category" />
                 <field name="list_price" string="Service rate" />
-            </tree>
+            </list>
         </field>
     </record>
 </odoo>

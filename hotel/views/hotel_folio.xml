@@ -18,7 +18,7 @@
                         string="Create Invoice"
                         type="action"
                         class="btn-primary"
-                        invisible="state in ['draft','cancel','done'] or ['invoice_status', 'in', 'invoiced']"
+                        invisible="invoice_status != 'to invoice' or state != 'sale'"
                     />
                     <button
                         name="action_cancel_draft"
@@ -30,14 +30,7 @@
                     <button
                         name="action_cancel"
                         string="Cancel"
-                        invisible="state != 'sale'"
-                        type="object"
-                        class="oe_highlight"
-                    />
-                    <button
-                        name="action_cancel"
-                        string="Cancel"
-                        invisible="state != 'draft'"
+                        invisible="state not in ['draft', 'sale', 'sent']"
                         type="object"
                         class="oe_highlight"
                     />
@@ -53,36 +46,33 @@
                     <h1>
                         <field name="name" colspan="4" readonly="1" />
                     </h1>
-                    <group colspan="4" col="4">
-                        <field name="date_order" readonly="1" />
-                        <field name="warehouse_id" string="Branch" />
-                        <field name="invoice_status" />
-                        <field
-                            name="hotel_invoice_id"
-                            invisible="state not in ['sale','done','cancel']"
-                            readonly="1"
-                        />
+                    <group>
+                        <group>
+                            <field name="partner_id" string="Guest Name" required="1" />
+                            <field
+                                name="partner_invoice_id"
+                                domain="[('parent_id','=',partner_id)]"
+                            />
+                            <field
+                                name="partner_shipping_id"
+                                domain="[('parent_id','=',partner_id)]"
+                            />
+                            <field
+                                name="hotel_invoice_id"
+                                invisible="state not in ['sale','done','cancel']"
+                                readonly="1"
+                            />
+                        </group>
+                        <group>
+                            <field name="date_order" readonly="1" />
+                            <field name="pricelist_id" />
+                            <field name="warehouse_id" string="Branch" />
+                            <field name="invoice_status" />
+                            <field name="company_id" invisible="1" />
+                        </group>
                     </group>
                     <notebook>
                         <page name="folio" string="Folio">
-                            <group colspan="4" col="4">
-                                <field
-                                    name="partner_id"
-                                    string="Guest Name"
-                                    required="1"
-                                />
-                                <field
-                                    name="partner_invoice_id"
-                                    domain="[('parent_id','=',partner_id)]"
-                                />
-                                <field name="pricelist_id" />
-                                <field
-                                    name="partner_shipping_id"
-                                    domain="[('parent_id','=',partner_id)]"
-                                />
-                                <field name="company_id" invisible="1" />
-                            </group>
-                            <newline />
                             <group colspan="4" col="4" invisible="1">
                                 <field
                                     name="checkin_date"
@@ -105,7 +95,7 @@
                                 context="{'default_checkin_date':checkin_date,
                                         'default_checkout_date':checkout_date}"
                             >
-                                <tree editable="bottom">
+                                <list editable="bottom">
                                     <field
                                         name="company_id"
                                         options="{'no_create': True}"
@@ -118,7 +108,7 @@
                                         name="product_id"
                                         string="Room No"
                                         required="1"
-                                        context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'uom':product_uom, 'checkin_date':checkin_date, 'checkout_date':checkout_date}"
+                                        context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'uom':product_uom, 'checkin_date':checkin_date, 'checkout_date':checkout_date, 'from_room':True}"
                                         domain="[('isroom','=',True)]"
                                         options="{'no_open': True}"
                                         groups="uom.group_uom"
@@ -145,7 +135,7 @@
                                         widget="many2many_tags"
                                     />
                                     <field
-                                        groups="product.group_discount_per_so_line"
+                                        groups="sale.group_discount_per_so_line"
                                         name="discount"
                                     />
                                     <!-- TODO: Need to check groups="account.group_show_line_subtotals_tax_excluded" -->
@@ -154,7 +144,7 @@
                                     <field name="price_total" widget="monetary" />
                                     <field name="currency_id" column_invisible="1" />
                                     <field name="state" column_invisible="1" />
-                                </tree>
+                                </list>
                             </field>
                             <separator string="Service Lines" colspan="4" />
                             <field
@@ -163,11 +153,11 @@
                                 readonly="state not in ['draft','sent']"
                                 string="Service Line"
                                 nolabel="1"
-                                context="{'deafult_ser_checkin_date':checkin_date,
-                                'deafult_ser_checkout_date':checkout_date
+                                context="{'default_ser_checkin_date':checkin_date,
+                                'default_ser_checkout_date':checkout_date
                                 }"
                             >
-                                <tree editable="bottom">
+                                <list editable="bottom">
                                     <field
                                         name="product_id"
                                         required="1"
@@ -212,7 +202,7 @@
                                         widget="many2many_tags"
                                     />
                                     <field
-                                        groups="product.group_discount_per_so_line"
+                                        groups="sale.group_discount_per_so_line"
                                         name="discount"
                                     />
                                     <!-- TODO: Need to check groups="account.group_show_line_subtotals_tax_excluded" -->
@@ -221,7 +211,7 @@
                                     <field name="price_total" widget="monetary" />
                                     <field column_invisible="1" name="currency_id" />
                                     <field name="state" column_invisible="1" />
-                                </tree>
+                                </list>
                             </field>
                             <group colspan="2" class="oe_subtotal_footer oe_right">
                                 <field
@@ -263,10 +253,10 @@
     </record>
     <!-- Tree view of hotel folio -->
     <record id="view_hotel_folio_tree" model="ir.ui.view">
-        <field name="name">hotel.folio.tree</field>
+        <field name="name">hotel.folio.list</field>
         <field name="model">hotel.folio</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="checkin_date" />
                 <field name="checkout_date" />
                 <field name="name" />
@@ -274,7 +264,7 @@
                 <field name="date_order" />
                 <field name="state" />
                 <field name="amount_total" sum="Total amount" />
-            </tree>
+            </list>
         </field>
     </record>
     <!-- Calendar view of hotel folio -->

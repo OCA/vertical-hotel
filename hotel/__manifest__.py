@@ -8,7 +8,7 @@
                 Serpent Consulting Services Pvt. Ltd.""",
     "category": "Hotel Management",
     "website": "https://github.com/OCA/vertical-hotel",
-    "depends": ["sale_stock", "account"],
+    "depends": ["sale_stock", "account", "sale_project"],
     "license": "LGPL-3",
     "summary": "Hotel Management to Manage Folio and Hotel Configuration",
     "demo": ["demo/hotel_data.xml"],
