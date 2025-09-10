@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-08-06 11:25+0000\n"
+"PO-Revision-Date: 2025-01-27 21:06+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10.4\n"
+"X-Generator: Weblate 5.6.2\n"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__product_variant_count
@@ -230,7 +230,7 @@ msgstr "Già fatturato"
 #: model:ir.actions.act_window,name:hotel.action_hotel_room_amenities_view_form
 #: model:ir.ui.menu,name:hotel.menu_action_hotel_room_amenities_view_form
 msgid "Amenities"
-msgstr "Dotazioni"
+msgstr "Servizi"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__amenities_categ_id
@@ -238,48 +238,48 @@ msgstr "Dotazioni"
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_amenities_form
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_amenities_list
 msgid "Amenities Category"
-msgstr "Categoria dotazioni"
+msgstr "Categoria servizi"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_type__child_ids
 msgid "Amenities Child Categories"
-msgstr "Categorie dotazioni figlie"
+msgstr "Categorie servizi bambini"
 
 #. module: hotel
 #: model:ir.actions.act_window,name:hotel.action_hotel_room_amenities_type_view_form
 msgid "Amenities Type"
-msgstr "Tipo dotazioni"
+msgstr "Tipo servizi"
 
 #. module: hotel
 #: model:ir.ui.menu,name:hotel.menu_amenity
 msgid "Amenity"
-msgstr "Dotazione"
+msgstr "Servizio"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_amenities_list
 msgid "Amenity Rate"
-msgstr "Tariffa dotazione"
+msgstr "Tariffa servizio"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_amenities_form
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_amenities_type_form
 msgid "Amenity Type"
-msgstr "Tipo dotazione"
+msgstr "Tipo servizio"
 
 #. module: hotel
 #: model:ir.ui.menu,name:hotel.menu_action_hotel_room_amenities_type_view_form
 msgid "Amenity Types"
-msgstr "Tipi dotazione"
+msgstr "Tipi servizi"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_amenities_form
 msgid "Amenity manager"
-msgstr "Responsabile dotazione"
+msgstr "Responsabile servizi"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_aenities_search
 msgid "Amenity rate"
-msgstr "Tariffa dotazione"
+msgstr "Tariffa servizio"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__amount_undiscounted
@@ -745,21 +745,21 @@ msgstr "Riferimento cliente"
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_form
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_services_form
 msgid "Customer Taxes"
-msgstr "Imposte cliente"
+msgstr "Tasse cliente"
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__supplier_taxes_id
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities__supplier_taxes_id
 #: model:ir.model.fields,help:hotel.field_hotel_services__supplier_taxes_id
 msgid "Default taxes used when buying the product."
-msgstr "Imposte predefinite nell'acquisto del prodotto."
+msgstr "Tasse predefinite nell'acquisto del prodotto."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__taxes_id
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities__taxes_id
 #: model:ir.model.fields,help:hotel.field_hotel_services__taxes_id
 msgid "Default taxes used when selling the product."
-msgstr "Imposte predefinite nella vendita del prodotto."
+msgstr "Tasse predefinite quando si vende il prodotto."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__uom_id
@@ -1330,12 +1330,12 @@ msgstr "Camera hotel"
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_aenities_search
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_amenities_form
 msgid "Hotel Room Amenities"
-msgstr "Dotazioni camera hotel"
+msgstr "Servizi camera hotel"
 
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_amenities_type_form
 msgid "Hotel Room Amenities Type"
-msgstr "Tipo dotazioni camera hotel"
+msgstr "Tipo servizi camera hotel"
 
 #. module: hotel
 #: model:ir.model,name:hotel.model_folio_room_line
@@ -1779,7 +1779,7 @@ msgstr "Tempo di esecuzione"
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__room_amenities_ids
 msgid "List of room amenities."
-msgstr "Elenco dotazioni camera."
+msgstr "Elenco servizi camera."
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__location_id
@@ -2276,7 +2276,7 @@ msgstr "Responsabile prodotto"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__packaging_ids
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__packaging_ids
 msgid "Product Packages"
-msgstr "Colli prodotto"
+msgstr "Confezioni prodotto"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities_type__product_properties_definition
@@ -2607,12 +2607,12 @@ msgstr "Camera"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__room_amenities_ids
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_form
 msgid "Room Amenities"
-msgstr "Dotazioni camera"
+msgstr "Servizi camera"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__product_id
 msgid "Room Amenities Product"
-msgstr "Prodotto dotazioni camera"
+msgstr "Prodotto servizi camera"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__room_categ_id
@@ -2672,7 +2672,7 @@ msgstr "Tipi camera"
 #. module: hotel
 #: model:ir.model,name:hotel.model_hotel_room_amenities
 msgid "Room amenities"
-msgstr "Dotazioni camera"
+msgstr "Servizi camera"
 
 #. module: hotel
 #. odoo-python
@@ -3284,9 +3284,9 @@ msgid ""
 "This is the delivery date promised to the customer. If set, the delivery "
 "order will be scheduled based on this date rather than product lead times."
 msgstr ""
-"Questa è la data di consegna promessa al cliente. Se impostata, la data di "
-"consegna dell'ordine verrà programmata in base a questa data invece che ai "
-"tempi di produzione."
+"Questa è la data di consegna promessa al cliente. Se impostata, l'ordine di "
+"consegna verrà pianificato in base a questa data invece che al tempo di "
+"prouzione del prodotto."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_folio__medium_id
@@ -3588,7 +3588,7 @@ msgstr "Valori variante"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__supplier_taxes_id
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__supplier_taxes_id
 msgid "Vendor Taxes"
-msgstr "Imposte venditore"
+msgstr "Tasse venditore"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__seller_ids
@@ -3709,7 +3709,7 @@ msgstr ""
 #. module: hotel
 #: model:ir.model,name:hotel.model_hotel_room_amenities_type
 msgid "amenities Type"
-msgstr "Tipo dotazioni"
+msgstr "Tipo servizi"
 
 #. module: hotel
 #: model:ir.model,name:hotel.model_hotel_service_line
