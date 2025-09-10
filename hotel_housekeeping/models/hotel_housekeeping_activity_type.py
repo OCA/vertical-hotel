@@ -11,16 +11,16 @@ class HotelHousekeepingActivityType(models.Model):
     _rec_name = "name"
 
     name = fields.Char(required=True)
-    activity_id = fields.Many2one("hotel.housekeeping.activity.type", "Activity Type")
+    parent_id = fields.Many2one("hotel.housekeeping.activity.type", "Parent Category")
 
     def _compute_display_name(self):
         def get_names(cat):
-            """Return the list [cat.name, cat.activity_id.name, ...]"""
+            """Return the list [cat.name, cat.parent_id.name, ...]"""
             res = []
             while cat:
                 if cat.name:
                     res.append(cat.name)
-                cat = cat.activity_id
+                cat = cat.parent_id
             return res
 
         for cat in self:
@@ -28,53 +28,25 @@ class HotelHousekeepingActivityType(models.Model):
 
     @api.model
     def _name_search(self, name, domain=None, operator="ilike", limit=None, order=None):
-        if not domain:
-            domain = []
-        if name:
-            # Be sure name_search is symmetric to name_get
-            category_names = name.split(" / ")
-            parents = list(category_names)
-            child = parents.pop()
-            domain = [("name", operator, child)]
-            if parents:
-                names_ids = self.name_search(
-                    " / ".join(parents),
-                    operator="ilike",
-                    limit=limit,
-                )
-                category_ids = [name_id[0] for name_id in names_ids]
-                if operator in expression.NEGATIVE_TERM_OPERATORS:
-                    categories = self.search([("id", "not in", category_ids)])
-                    domain = expression.OR(
-                        [[("activity_id", "in", categories.ids)], domain]
-                    )
-                else:
-                    domain = expression.AND(
-                        [[("activity_id", "in", category_ids)], domain]
-                    )
-                for i in range(1, len(category_names)):
-                    domain = [
-                        [
-                            (
-                                "name",
-                                operator,
-                                " / ".join(category_names[-1 - i :]),
-                            )
-                        ],
-                        domain,
-                    ]
-                    if operator in expression.NEGATIVE_TERM_OPERATORS:
-                        domain = expression.AND(domain)
-                    else:
-                        domain = expression.OR(domain)
-            categories = self._search(
-                expression.AND([domain, domain]), limit=limit, order=order
-            )
-        else:
-            categories = self._search(
-                expression.AND([[("name", operator, name)], domain]),
-                limit=limit,
-                order=order,
-            )
+        domain = domain or []
+        if not name:
+            return self._search(domain, limit=limit, order=order)
+        # Split the input name into hierarchy parts
+        name_parts = name.split(" / ")
+        child_name = name_parts[-1]
+        parent_names = name_parts[:-1]
 
-        return categories
+        # Base domain for the child category
+        search_domain = expression.AND([domain, [("name", operator, child_name)]])
+
+        if parent_names:
+            # Search all possible parent categories in one query
+            parent_ids = self.search([("name", "in", parent_names)]).ids
+            if parent_ids:
+                search_domain = expression.AND(
+                    [search_domain, [("parent_id", "in", parent_ids)]]
+                )
+
+        # Perform final search
+        category_ids = self._search(search_domain, limit=limit, order=order)
+        return category_ids

@@ -38,16 +38,9 @@ class HotelHousekeepingActivities(models.Model):
                 raise ValidationError(_("Start Time Should be less than the End Time!"))
 
     @api.model
-    def default_get(self, fields):
-        """
-        To get default values for the object.
-        @param self: The object pointer.
-        @param fields: List of fields for which we want default values
-        @return: A dictionary which of fields with values.
-        """
-        res = super().default_get(fields)
-        if self._context.get("room_id", False):
-            res.update({"room_id": self._context["room_id"]})
-        if self._context.get("today_date", False):
-            res.update({"today_date": self._context["today_date"]})
+    def default_get(self, fields_list):
+        res = super().default_get(fields_list)
+        context = self._context
+        if context.get("today_date", False):
+            res.update({"today_date": context.get("today_date")})
         return res
