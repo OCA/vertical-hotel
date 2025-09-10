@@ -19,12 +19,12 @@
     </record>
     <!-- Tree view of hotel service type -->
     <record id="view_hotel_service_type_tree" model="ir.ui.view">
-        <field name="name">hotel.service_type.tree</field>
+        <field name="name">hotel.service_type.list</field>
         <field name="model">hotel.service.type</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name" />
-            </tree>
+            </list>
         </field>
     </record>
 </odoo>

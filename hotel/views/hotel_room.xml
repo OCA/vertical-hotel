@@ -17,13 +17,13 @@
     </record>
     <!-- Tree view of hotel floor -->
     <record id="view_hotel_floor_tree" model="ir.ui.view">
-        <field name="name">hotel.floor.tree</field>
+        <field name="name">hotel.floor.list</field>
         <field name="model">hotel.floor</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="sequence" widget="handle" />
                 <field name="name" colspan="1" />
-            </tree>
+            </list>
         </field>
     </record>
     <!-- ====== Rooms ====== -->
@@ -121,13 +121,13 @@
                                         <field name="status" />
                                     </group>
                                 </form>
-                                <tree>
+                                <list>
                                     <field name="room_id" />
                                     <field name="check_in" />
                                     <field name="check_out" />
                                     <field name="folio_id" />
                                     <field name="status" />
-                                </tree>
+                                </list>
                             </field>
                         </page>
                     </notebook>
@@ -161,16 +161,16 @@
     </record>
     <!-- Tree view of hotel room -->
     <record id="view_hotel_room_tree" model="ir.ui.view">
-        <field name="name">hotel.room.tree</field>
+        <field name="name">hotel.room.list</field>
         <field name="model">hotel.room</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name" />
                 <field name="room_categ_id" />
                 <field name="list_price" string="Room rate" />
                 <field name="status" />
                 <field name="capacity" />
-            </tree>
+            </list>
         </field>
     </record>
     <!-- Kanban view of hotel room -->
@@ -186,7 +186,7 @@
                 <field name="id" />
                 <field name="code" />
                 <templates>
-                    <t t-name="kanban-box">
+                    <t t-name="card">
                         <div
                             t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click"
                         >
