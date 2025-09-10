@@ -117,16 +117,15 @@ class HotelHousekeeping(models.Model):
         self.write({"state": "clean", "quality": False})
         self.activity_line_ids.write({"is_clean": True, "is_dirty": False})
 
-    @api.constrains(
-        "activity_line_ids", "activity_line_ids.clean_end_time", "inspect_date_time"
-    )
+    @api.constrains("activity_line_ids", "inspect_date_time")
     def check_end_date_time(self):
         for record in self:
-            for activity_line_ids in record.activity_line_ids:
+            for line in record.activity_line_ids:
                 if (
-                    record.inspect_date_time
-                    and record.inspect_date_time <= activity_line_ids.clean_end_time
+                    line.clean_end_time
+                    and record.inspect_date_time
+                    and line.clean_end_time < record.inspect_date_time
                 ):
                     raise ValidationError(
-                        _("Inspect Date Time must be Greter, then Clean end time")
+                        _("Inspect Date Time must be greater than Clean end time")
                     )

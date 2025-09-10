@@ -12,7 +12,7 @@
         id="hotel_housekeeping_activity_type_1"
         model="hotel.housekeeping.activity.type"
     >
-        <field name="activity_id" search="[('name', '=', 'All Activities')]" />
+        <field name="parent_id" search="[('name', '=', 'All Activities')]" />
         <field name="name">Room Activity</field>
     </record>
 
@@ -20,7 +20,7 @@
         id="hotel_housekeeping_activity_type_2"
         model="hotel.housekeeping.activity.type"
     >
-        <field name="activity_id" search="[('name', '=', 'All Activities')]" />
+        <field name="parent_id" search="[('name', '=', 'All Activities')]" />
         <field name="name">Bed Activity</field>
     </record>
 

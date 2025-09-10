@@ -39,7 +39,7 @@ class TestHousekeeping(common.TransactionCase):
         )
 
         self.hotel_act_type = self.hotel_act_type_obj.create(
-            {"name": "Test Room Activity", "activity_id": self.act_type.id}
+            {"name": "Test Room Activity", "parent_id": self.act_type.id}
         )
 
         self.hotel_activity = self.hotel_act_obj.create(

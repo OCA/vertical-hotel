@@ -27,4 +27,4 @@ class HotelHousekeepingWizard(models.TransientModel):
     def check_date(self):
         for record in self:
             if record.date_start > record.date_end:
-                raise ValidationError(_("End date must be Greater than the Start date"))
+                raise ValidationError(_("End date must be greater than the Start date"))
