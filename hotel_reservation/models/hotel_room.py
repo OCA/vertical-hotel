@@ -11,6 +11,7 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT as dt
 
 _logger = logging.getLogger(__name__)
+
 try:
     import pytz
 except (OSError, ImportError) as err:
@@ -26,22 +27,11 @@ class HotelRoom(models.Model):
     )
 
     def unlink(self):
-        """
-        Overrides orm unlink method.
-        @param self: The object pointer
-        @return: True/False.
-        """
         for room in self:
-            for reserv_line in room.room_reservation_line_ids:
-                if reserv_line.status == "confirm":
-                    raise ValidationError(
-                        _(
-                            """User is not able to delete the """
-                            """room after the room in %s state """
-                            """in reservation"""
-                        )
-                        % (reserv_line.status)
-                    )
+            if any(line.status == "confirm" for line in room.room_reservation_line_ids):
+                raise ValidationError(
+                    _("Cannot delete room with confirmed reservations.")
+                )
         return super().unlink()
 
     @api.model
@@ -56,31 +46,37 @@ class HotelRoom(models.Model):
         """
         reservation_line_obj = self.env["hotel.room.reservation.line"]
         folio_room_line_obj = self.env["folio.room.line"]
-        curr_date = fields.Datetime.now().strftime(dt)
-        for room in self.search([]):
-            reserv_line_ids = room.room_reservation_line_ids.ids
-            reservation_line_ids = reservation_line_obj.search(
-                [
-                    ("id", "in", reserv_line_ids),
-                    ("check_in", "<=", curr_date),
-                    ("check_out", ">=", curr_date),
-                ]
-            )
-            rooms_ids = room.room_line_ids.ids
-            room_line_ids = folio_room_line_obj.search(
-                [
-                    ("id", "in", rooms_ids),
-                    ("check_in", "<=", curr_date),
-                    ("check_out", ">=", curr_date),
-                ]
-            )
-            status = {"isroom": True, "color": 5}
-            if reservation_line_ids:
-                status = {"isroom": False, "color": 2}
-            room.write(status)
-            if room_line_ids:
-                status = {"isroom": False, "color": 2}
-            room.write(status)
+        curr_date = fields.Datetime.now()
+        rooms = self.search([])
+
+        # Batch search for all relevant reservation lines
+        reservation_lines = reservation_line_obj.search(
+            [
+                ("room_id", "in", rooms.ids),
+                ("check_in", "<=", curr_date),
+                ("check_out", ">=", curr_date),
+            ]
+        )
+        res_lines_by_room = {}
+        for line in reservation_lines:
+            res_lines_by_room.setdefault(line.room_id.id, []).append(line.id)
+
+        # Batch search for all relevant folio room lines
+        folio_room_lines = folio_room_line_obj.search(
+            [
+                ("room_id", "in", rooms.ids),
+                ("check_in", "<=", curr_date),
+                ("check_out", ">=", curr_date),
+            ]
+        )
+        folio_lines_by_room = {}
+        for line in folio_room_lines:
+            folio_lines_by_room.setdefault(line.room_id.id, []).append(line.id)
+
+        for room in rooms:
+            reservation_line_ids = res_lines_by_room.get(room.id, [])
+            room_line_ids = folio_lines_by_room.get(room.id, [])
+
             if reservation_line_ids and room_line_ids:
                 raise ValidationError(
                     _(
@@ -88,6 +84,11 @@ class HotelRoom(models.Model):
                         room_name=room.name,
                     )
                 )
+
+            status = {"isroom": True, "color": 5}
+            if reservation_line_ids or room_line_ids:
+                status = {"isroom": False, "color": 2}
+            room.write(status)
         return True
 
 
@@ -111,7 +112,6 @@ class RoomReservationSummary(models.Model):
         return {
             "name": _("Reconcile Write-Off"),
             "context": self._context,
-            "view_type": "form",
             "view_mode": "form",
             "res_model": "hotel.reservation",
             "views": [(resource_id, "form")],
@@ -135,7 +135,7 @@ class RoomReservationSummary(models.Model):
         summary_header_list = ["Rooms"]
         if self.date_from and self.date_to:
             if self.date_from > self.date_to:
-                raise UserError(_("Checkout date should be greater than Checkin date."))
+                raise UserError(_("Checkout date should be later than Checkin date."))
             if self._context.get("tz", False):
                 timezone = pytz.timezone(self._context.get("tz", False))
             else:

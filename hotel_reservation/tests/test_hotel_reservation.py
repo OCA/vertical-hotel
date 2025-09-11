@@ -3,7 +3,6 @@
 
 from datetime import datetime, timedelta
 
-from odoo.exceptions import ValidationError
 from odoo.tests import common
 
 
@@ -27,6 +26,9 @@ class TestReservation(common.TransactionCase):
         self.manager = self.env.ref("base.user_root")
         self.warehouse = self.env.ref("stock.warehouse0")
         cur_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        checkout_date = (datetime.now() + timedelta(days=1)).strftime(
+            "%Y-%m-%d %H:%M:%S"
+        )
 
         self.price_list = self.env["product.pricelist"].create(
             {
@@ -52,7 +54,7 @@ class TestReservation(common.TransactionCase):
                 "partner_id": self.partner.id,
                 "pricelist_id": self.price_list.id,
                 "checkin": cur_date,
-                "checkout": cur_date,
+                "checkout": checkout_date,
                 "adults": 1,
                 "state": "draft",
                 "children": 1,
@@ -67,7 +69,7 @@ class TestReservation(common.TransactionCase):
             {
                 "name": "Room Reservation Summary",
                 "date_from": cur_date,
-                "date_to": cur_date,
+                "date_to": checkout_date,
             }
         )
 
@@ -75,7 +77,7 @@ class TestReservation(common.TransactionCase):
             {
                 "partner_id": self.partner.id,
                 "check_in": cur_date,
-                "check_out": cur_date,
+                "check_out": checkout_date,
                 "room_id": self.room.id,
                 "company_id": self.company.id,
                 "pricelist_id": self.price_list.id,
@@ -90,7 +92,7 @@ class TestReservation(common.TransactionCase):
             {
                 "room_id": self.room.id,
                 "check_in": cur_date,
-                "check_out": cur_date,
+                "check_out": checkout_date,
             }
         )
 
@@ -128,8 +130,8 @@ class TestReservation(common.TransactionCase):
     def test_cron_room_line(self):
         self.hotel_room.cron_room_line()
 
-    def test_quick_room_reserv_on_change_check_out(self):
-        self.quick_room_reserv._on_change_check_out()
+    def test_quick_room_reserv_room_reserve(self):
+        self.quick_room_reserv.room_reserve()
 
     def test_quick_room_reserv_onchange_partner_id_res(self):
         self.quick_room_reserv._onchange_partner_id_res()
@@ -182,8 +184,9 @@ class TestReservation(common.TransactionCase):
         self.hotel_reserv.reservation_reminder_24hrs()
 
     def test_create_folio(self):
-        with self.assertRaises(ValidationError):
-            self.hotel_reserv.create_folio()
+        self.hotel_reserv.create_folio()
+        self.assertEqual(self.hotel_reserv.state, "done")
+        self.assertTrue(self.hotel_reserv.folio_id)
 
     def test_onchange_check_dates(self):
         self.hotel_reserv._onchange_check_dates()

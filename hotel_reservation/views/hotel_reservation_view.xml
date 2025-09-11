@@ -45,7 +45,7 @@
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
-                    <div class="oe_button_box">
+                    <div name="button_box" class="oe_button_box">
                         <button
                             name="open_folio_view"
                             type="object"
@@ -65,21 +65,18 @@
                         <field name="reservation_no" class="oe_inline" />
                     </h1>
                     <group>
-                        <group colspan="4" col="4">
+                        <group>
                             <field name="date_order" />
                             <field name="company_id" />
                         </group>
-                        <separator />
-                        <group colspan="4" col="4">
+                    </group>
+                    <separator string="Booking Details" />
+                    <group>
+                        <group>
                             <field
                                 name="partner_id"
                                 readonly="state != 'draft'"
                                 context="{'default_customer_rank': 1}"
-                            />
-                            <field
-                                readonly="state != 'draft'"
-                                name="pricelist_id"
-                                col="2"
                             />
                             <field
                                 name="partner_order_id"
@@ -97,9 +94,24 @@
                                 domain="[('parent_id','=',partner_id)]"
                             />
                         </group>
-                        <group colspan="4" col="4">
-                            <field name="checkin" readonly="state != 'draft'" />
-                            <field name="checkout" readonly="state != 'draft'" />
+                        <group>
+                            <field
+                                readonly="state != 'draft'"
+                                name="pricelist_id"
+                                col="2"
+                            />
+                            <field
+                                name="checkin"
+                                string="Booking Date"
+                                readonly="state != 'draft'"
+                                widget="daterange"
+                                options="{'end_date_field': 'checkout'}"
+                            />
+                            <field
+                                name="checkout"
+                                readonly="state != 'draft'"
+                                invisible="1"
+                            />
                             <field name="adults" readonly="state != 'draft'" />
                             <field name="children" readonly="state != 'draft'" />
                         </group>
@@ -125,13 +137,13 @@
                                         nolabel="1"
                                     />
                                 </form>
-                                <tree>
+                                <list>
                                     <field
                                         name="reserve"
                                         string="Rooms"
                                         widget="many2many_tags"
                                     />
-                                </tree>
+                                </list>
                             </field>
                         </page>
                         <page name="history" string='History'>
@@ -139,15 +151,16 @@
                         </page>
                     </notebook>
                 </sheet>
+                <chatter />
             </form>
         </field>
     </record>
     <!-- Tree view of hotel reservation -->
     <record id="view_hotel_reservation_tree" model="ir.ui.view">
-        <field name="name">hotel.reservation.tree</field>
+        <field name="name">hotel.reservation.list</field>
         <field name="model">hotel.reservation</field>
         <field name="arch" type="xml">
-            <tree
+            <list
                 decoration-bf="state == 'draft'"
                 decoration-info="state == 'done'"
                 decoration-muted="state=='cancel'"
@@ -157,7 +170,7 @@
                 <field name="checkin" />
                 <field name="checkout" />
                 <field name="state" />
-            </tree>
+            </list>
         </field>
     </record>
     <!-- Search view of hotel reservation -->
@@ -240,7 +253,7 @@
         <field name="name">Reservations</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">hotel.reservation</field>
-        <field name="view_mode">tree,form,calendar</field>
+        <field name="view_mode">list,form,calendar</field>
     </record>
     <menuitem
         id="menu_hotel_reservation"
@@ -279,14 +292,14 @@
                                 <field name="status" />
                             </group>
                         </form>
-                        <tree>
+                        <list>
                             <field name="room_id" />
                             <field name="check_in" />
                             <field name="check_out" />
                             <field name="state" />
                             <field name="reservation_id" />
                             <field name="status" />
-                        </tree>
+                        </list>
                     </field>
                 </page>
             </xpath>
@@ -303,7 +316,7 @@
         </field>
     </record>
     <record id="view_hotel_folio_tree_inherited" model="ir.ui.view">
-        <field name="name">hotel.folio.tree.inherited</field>
+        <field name="name">hotel.folio.list.inherited</field>
         <field name="model">hotel.folio</field>
         <field name="inherit_id" ref="hotel.view_hotel_folio_tree" />
         <field name="arch" type="xml">
@@ -346,7 +359,7 @@
                             <field
                                 name="room_summary"
                                 colspan="4"
-                                widget="Room_Reservation"
+                                widget="room_reservation_summary"
                             />
                             <!-- <widget name="Room_Reservation"></widget> -->
                         </page>
