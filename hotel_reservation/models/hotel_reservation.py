@@ -35,7 +35,7 @@ class HotelReservation(models.Model):
         readonly=True,
         index=True,
         required=True,
-        default=1,
+        default=lambda self: self.env.company,
     )
     partner_id = fields.Many2one(
         "res.partner",
@@ -120,13 +120,8 @@ class HotelReservation(models.Model):
         @param self: The object pointer
         @return: True/False.
         """
-        lines_of_moves_to_post = self.filtered(
-            lambda reserv_rec: reserv_rec.state != "draft"
-        )
-        if lines_of_moves_to_post:
-            raise ValidationError(
-                _("Sorry, you can only delete the reservation when it's draft!")
-            )
+        if any(reserv.state != "draft" for reserv in self):
+            raise ValidationError(_("You can only delete reservations in draft state!"))
         return super().unlink()
 
     def copy(self):
@@ -144,18 +139,20 @@ class HotelReservation(models.Model):
         """
         ctx = dict(self._context) or {}
         for reservation in self:
-            cap = 0
+            room_cap = []
             for rec in reservation.reservation_line:
+                cap = 0
                 if len(rec.reserve) == 0:
                     raise ValidationError(_("Please Select Rooms For Reservation."))
                 cap = sum(room.capacity for room in rec.reserve)
+                room_cap.append(cap)
             if not ctx.get("duplicate"):
-                if (reservation.adults + reservation.children) > cap:
+                if (reservation.adults + reservation.children) > sum(room_cap):
                     raise ValidationError(
                         _(
                             "Room Capacity Exceeded \n"
                             " Please Select Rooms According to"
-                            " Members Accomodation."
+                            " Members Accommodation."
                         )
                     )
             if reservation.adults <= 0:
@@ -164,20 +161,17 @@ class HotelReservation(models.Model):
     @api.constrains("checkin", "checkout")
     def check_in_out_dates(self):
         """
-        When date_order is less then check-in date or
+        When date_order is less than check-in date or
         Checkout date should be greater than the check-in date.
         """
         if self.checkout and self.checkin:
             if self.checkin < self.date_order:
                 raise ValidationError(
-                    _(
-                        """Check-in date should be greater than """
-                        """the current date."""
-                    )
+                    _("Check-in date should be greater than " "the current date.")
                 )
             if self.checkout < self.checkin:
                 raise ValidationError(
-                    _("""Check-out date should be greater """ """than Check-in date.""")
+                    _("Check-out date should be greater than Check-in date.")
                 )
 
     @api.onchange("partner_id")
@@ -207,17 +201,14 @@ class HotelReservation(models.Model):
                 }
             )
 
-    @api.model
-    def create(self, vals):
-        """
-        Overrides orm create method.
-        @param self: The object pointer
-        @param vals: dictionary of fields value.
-        """
-        vals["reservation_no"] = (
-            self.env["ir.sequence"].next_by_code("hotel.reservation") or "New"
-        )
-        return super().create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if not vals.get("reservation_no"):
+                vals["reservation_no"] = (
+                    self.env["ir.sequence"].next_by_code("hotel.reservation") or "New"
+                )
+        return super().create(vals_list)
 
     def check_overlap(self, date1, date2):
         delta = date2 - date1
@@ -231,84 +222,79 @@ class HotelReservation(models.Model):
         @return: new record set for hotel room reservation line.
         """
         reservation_line_obj = self.env["hotel.room.reservation.line"]
-        vals = {}
+        vals_list = []
+
+        # Collect all rooms to check for overlaps
+        all_rooms = self.mapped("reservation_line.reserve")
+
+        # Pre-fetch existing confirmed/done reservations for these rooms
+        existing_reservations = reservation_line_obj.search(
+            [
+                ("status", "in", ("confirm", "done")),
+                ("room_id", "in", all_rooms.ids),
+            ]
+        )
+
+        # Group existing reservations by room_id
+        existing_by_room = {}
+        for res in existing_reservations:
+            existing_by_room.setdefault(res.room_id.id, []).append(res)
+
         for reservation in self:
             reserv_checkin = reservation.checkin
             reserv_checkout = reservation.checkout
-            room_bool = False
-            for line_id in reservation.reservation_line:
-                for room in line_id.reserve:
-                    if room.room_reservation_line_ids:
-                        for reserv in room.room_reservation_line_ids.search(
-                            [
-                                ("status", "in", ("confirm", "done")),
-                                ("room_id", "=", room.id),
-                            ]
-                        ):
-                            check_in = reserv.check_in
-                            check_out = reserv.check_out
-                            if check_in <= reserv_checkin <= check_out:
-                                room_bool = True
-                            if check_in <= reserv_checkout <= check_out:
-                                room_bool = True
-                            if (
+
+            for line in reservation.reservation_line:
+                for room in line.reserve:
+                    room_bool = False
+                    room_reservations = existing_by_room.get(room.id, [])
+
+                    for reserv in room_reservations:
+                        check_in = reserv.check_in
+                        check_out = reserv.check_out
+
+                        # Overlap check logic
+                        if (
+                            (check_in <= reserv_checkin < check_out)
+                            or (check_in < reserv_checkout <= check_out)
+                            or (
                                 reserv_checkin <= check_in
                                 and reserv_checkout >= check_out
-                            ):
-                                room_bool = True
-                            r_checkin = (reservation.checkin).date()
-                            r_checkout = (reservation.checkout).date()
-                            check_intm = (reserv.check_in).date()
-                            check_outtm = (reserv.check_out).date()
-                            range1 = [r_checkin, r_checkout]
-                            range2 = [check_intm, check_outtm]
+                            )
+                        ):
+                            room_bool = True
                             overlap_dates = self.check_overlap(
-                                *range1
-                            ) & self.check_overlap(*range2)
-                            if room_bool:
-                                raise ValidationError(
-                                    _(
-                                        "You tried to Confirm "
-                                        "Reservation with room"
-                                        " those already "
-                                        "reserved in this "
-                                        "Reservation Period. "
-                                        "Overlap Dates are "
-                                        "%s"
-                                    )
-                                    % overlap_dates
+                                reservation.checkin.date(), reservation.checkout.date()
+                            ) & self.check_overlap(
+                                reserv.check_in.date(), reserv.check_out.date()
+                            )
+                            raise ValidationError(
+                                _(
+                                    """You tried to Confirm Reservation with
+                                    room %(room_name)s which is already
+                                    reserved in this period.
+                                    Overlap Dates: %(overlap_dates)s""",
+                                    room_name=room.name,
+                                    overlap_dates=overlap_dates,
                                 )
-                            else:
-                                self.state = "confirm"
-                                vals = {
-                                    "room_id": room.id,
-                                    "check_in": reservation.checkin,
-                                    "check_out": reservation.checkout,
-                                    "state": "assigned",
-                                    "reservation_id": reservation.id,
-                                }
-                                room.write({"isroom": False, "status": "occupied"})
-                        else:
-                            self.state = "confirm"
-                            vals = {
+                            )
+
+                    if not room_bool:
+                        vals_list.append(
+                            {
                                 "room_id": room.id,
                                 "check_in": reservation.checkin,
                                 "check_out": reservation.checkout,
                                 "state": "assigned",
                                 "reservation_id": reservation.id,
                             }
-                            room.write({"isroom": False, "status": "occupied"})
-                    else:
-                        self.state = "confirm"
-                        vals = {
-                            "room_id": room.id,
-                            "check_in": reservation.checkin,
-                            "check_out": reservation.checkout,
-                            "state": "assigned",
-                            "reservation_id": reservation.id,
-                        }
+                        )
                         room.write({"isroom": False, "status": "occupied"})
-                    reservation_line_obj.create(vals)
+
+            reservation.state = "confirm"
+
+        if vals_list:
+            reservation_line_obj.create(vals_list)
         return True
 
     def cancel_reservation(self):
@@ -319,16 +305,18 @@ class HotelReservation(models.Model):
         @return: cancel record set for hotel room reservation line.
         """
         room_res_line_obj = self.env["hotel.room.reservation.line"]
-        hotel_res_line_obj = self.env["hotel.reservation.line"]
         self.state = "cancel"
-        room_reservation_line = room_res_line_obj.search(
+
+        # Batch delete room reservation lines
+        room_reservation_lines = room_res_line_obj.search(
             [("reservation_id", "in", self.ids)]
         )
-        room_reservation_line.write({"state": "unassigned"})
-        room_reservation_line.unlink()
-        reservation_lines = hotel_res_line_obj.search([("line_id", "in", self.ids)])
-        for reservation_line in reservation_lines:
-            reservation_line.reserve.write({"isroom": True, "status": "available"})
+        room_reservation_lines.unlink()
+
+        # Batch update rooms to available
+        rooms = self.mapped("reservation_line.reserve")
+        if rooms:
+            rooms.write({"isroom": True, "status": "available"})
         return True
 
     def set_to_draft_reservation(self):
@@ -435,16 +423,17 @@ class HotelReservation(models.Model):
                                 "name": reservation["reservation_no"],
                                 "price_unit": r.list_price,
                                 "product_uom_qty": duration,
+                                "tax_id": [(6, 0, r.product_id.taxes_id.ids)],
                                 "is_reserved": True,
                             },
                         )
                     )
                     r.write({"status": "occupied", "isroom": False})
-            folio_vals.update({"room_line_ids": folio_lines})
-            folio = hotel_folio_obj.create(folio_vals)
-            for rm_line in folio.room_line_ids:
-                rm_line._onchange_product_id()
-            self.write({"folio_id": [(6, 0, folio.ids)], "state": "done"})
+                folio_vals.update({"room_line_ids": folio_lines})
+                folio = hotel_folio_obj.create(folio_vals)
+                for rm_line in folio.room_line_ids:
+                    rm_line._onchange_product_id_warning()
+                self.write({"folio_id": [(6, 0, folio.ids)], "state": "done"})
         return True
 
     def _onchange_check_dates(
@@ -507,59 +496,67 @@ class HotelReservationLine(models.Model):
         """
         When you change categ_id it check checkin and checkout are
         filled or not if not then raise warning
-        -----------------------------------------------------------
+        ---------------
         @param self: object pointer
         """
-        if not self.line_id.checkin:
+        checkin = self.line_id.checkin
+        checkout = self.line_id.checkout
+        if not checkin or not checkout:
             raise ValidationError(
                 _(
-                    """Before choosing a room,\n You have to """
-                    """select a Check in date or a Check out """
-                    """ date in the reservation form."""
+                    "Before choosing a room,\n You have to "
+                    "select a Check in date and a Check out "
+                    " date in the reservation form."
                 )
             )
-        hotel_room_ids = self.env["hotel.room"].search(
+
+        # Search for all rooms of the selected category
+        rooms = self.env["hotel.room"].search(
             [("room_categ_id", "=", self.categ_id.id)]
         )
-        room_ids = []
-        for room in hotel_room_ids:
-            assigned = False
-            for line in room.room_reservation_line_ids.filtered(
-                lambda x: x.status != "cancel"
-            ):
-                if self.line_id.checkin and line.check_in and self.line_id.checkout:
-                    if (
-                        self.line_id.checkin <= line.check_in <= self.line_id.checkout
-                    ) or (
-                        self.line_id.checkin <= line.check_out <= self.line_id.checkout
-                    ):
-                        assigned = True
-                    elif (line.check_in <= self.line_id.checkin <= line.check_out) or (
-                        line.check_in <= self.line_id.checkout <= line.check_out
-                    ):
-                        assigned = True
-            for rm_line in room.room_line_ids.filtered(lambda x: x.status != "cancel"):
-                if self.line_id.checkin and rm_line.check_in and self.line_id.checkout:
-                    if (
-                        self.line_id.checkin
-                        <= rm_line.check_in
-                        <= self.line_id.checkout
-                    ) or (
-                        self.line_id.checkin
-                        <= rm_line.check_out
-                        <= self.line_id.checkout
-                    ):
-                        assigned = True
-                    elif (
-                        rm_line.check_in <= self.line_id.checkin <= rm_line.check_out
-                    ) or (
-                        rm_line.check_in <= self.line_id.checkout <= rm_line.check_out
-                    ):
-                        assigned = True
-            if not assigned:
-                room_ids.append(room.id)
-        domain = {"reserve": [("id", "in", room_ids)]}
-        return {"domain": domain}
+
+        # Batch search for all overlapping reservation lines
+        overlapping_res = self.env["hotel.room.reservation.line"].search(
+            [
+                ("room_id", "in", rooms.ids),
+                ("status", "!=", "cancel"),
+                "|",
+                "|",
+                "&",
+                ("check_in", "<=", checkin),
+                ("check_out", ">", checkin),
+                "&",
+                ("check_in", "<", checkout),
+                ("check_out", ">=", checkout),
+                "&",
+                ("check_in", ">=", checkin),
+                ("check_out", "<=", checkout),
+            ]
+        )
+        reserved_room_ids = overlapping_res.mapped("room_id").ids
+
+        # Batch search for all overlapping folio room lines
+        overlapping_folio = self.env["folio.room.line"].search(
+            [
+                ("room_id", "in", rooms.ids),
+                ("status", "!=", "cancel"),
+                "|",
+                "|",
+                "&",
+                ("check_in", "<=", checkin),
+                ("check_out", ">", checkin),
+                "&",
+                ("check_in", "<", checkout),
+                ("check_out", ">=", checkout),
+                "&",
+                ("check_in", ">=", checkin),
+                ("check_out", "<=", checkout),
+            ]
+        )
+        reserved_room_ids += overlapping_folio.mapped("room_id").ids
+
+        available_room_idsList = [r.id for r in rooms if r.id not in reserved_room_ids]
+        return {"domain": {"reserve": [("id", "in", available_room_idsList)]}}
 
     def unlink(self):
         """
