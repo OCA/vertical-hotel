@@ -5,6 +5,16 @@
         <t t-call="web.html_container">
             <t t-call="web.external_layout">
                 <div class="page">
+                    <style>
+                        .table-thick-border {
+                            border: 1px solid black;
+                        }
+                        .table-thick-border th,
+                        .table-thick-border td {
+                            border: 1px solid black;
+                            padding: 8px;
+                        }
+                    </style>
                     <br />
                     <br />
                     <div class="mt32 mb32">
@@ -15,33 +25,31 @@
                         </center>
                     </div>
                     <div class="mt32 mb32">
-                        <div class="text-center">
+                        <center>
                             <strong>From:</strong>
                             <span t-esc="data['date_start']" />
                             <strong>To:</strong>
                             <span t-esc="data['date_end']" />
-                        </div>
+                        </center>
                     </div>
-                    <table class="table table-bordered">
+                    <table
+                        class="table table-bordered table-thick-border"
+                        style="border-collapse: collapse; width: 100%;"
+                    >
                         <tr>
-                            <td>
+                            <th class="text-center">
                                 <strong>Room No</strong>
-                            </td>
-                            <td>
+                            </th>
+                            <th class="text-center">
                                 <strong>No of Times used</strong>
-                            </td>
+                            </th>
                         </tr>
-                        <tr
-                            t-foreach="get_room_used_detail"
-                            t-as="line"
-                            class="table table-condensed"
-                        >
-                            <span t-esc="line" />
-                            <td>
-                                <span t-esc="line.get('name','')" />
+                        <tr t-foreach="get_room_used_detail" t-as="line">
+                            <td class="text-center">
+                                <span t-esc="line.get('name', '')" />
                             </td>
-                            <td>
-                                <span t-esc="line.get('no_of_times_used','')" />
+                            <td class="text-center">
+                                <span t-esc="line.get('no_of_times_used', '')" />
                             </td>
                         </tr>
                     </table>

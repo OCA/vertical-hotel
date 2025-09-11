@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates xml:space="preserve">
-    <t t-name="RoomSummary" owl="1">
+    <t t-name="hotel_reservation.RoomSummary" owl="1">
         <div style="overflow:auto;">
             <table border="1" t-ref="textarea">
                 <t
@@ -30,7 +30,7 @@
                                 <td
                                     class="table_free"
                                     t-att-data="status.room_id"
-                                    t-on-click="(ev) => this.load_form(status.room_id,status.date, ev)"
+                                    t-on-click="(ev) => this.loadForm(ev,status.room_id,status.date)"
                                     t-att-date="status.date"
                                     style="text-align:center;"
                                 >

@@ -34,6 +34,6 @@
             "hotel_reservation/static/src/js/hotel_room_summary.js",
         ],
     },
-    "external_dependencies": {"python": ["dateutil"]},
+    "external_dependencies": {"python": ["python-dateutil"]},
     "installable": True,
 }
