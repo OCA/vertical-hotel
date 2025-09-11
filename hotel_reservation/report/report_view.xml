@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <!--Report for hotel check-in details -->
-  <!--   <report
+    <!--   <report
         id="hotel_checkin_details"
         string="CheckIn Detail"
         model="hotel.reservation"
@@ -35,7 +35,7 @@
         <field name="report_name">hotel_reservation.report_room_reservation_qweb</field>
     </record>
     <!--Report for hotel check-out details -->
-  <!--   <report
+    <!--   <report
         id="hotel_checkout_details"
         string="CheckOut Detail"
         model="hotel.reservation"
