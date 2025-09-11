@@ -13,79 +13,88 @@
         <field name="body_html" type="html">
             <div style="margin: 0px; padding: 0px;">
                 <p style="margin: 0px; padding: 0px; font-size: 13px;">
-                    <p>Hello <strong><t
-                                t-out="object.partner_id.name or ''"
-                            /></strong>,
+                    <p>Hello <strong>
+                    <t t-out="object.partner_id.name or ''" />
+                </strong>,
                     </p>
                     <p>This is to confirm your booking for a room at
                         the <strong><t t-out="object.company_id.name" /> Hotel</strong>,
                         <t t-if="object.company_id.partner_id.city">
-                        <strong><t
-                                    t-out="object.company_id.partner_id.city"
-                                /></strong>,
+                        <strong>
+                    <t t-out="object.company_id.partner_id.city" />
+                </strong>,
                         </t>
                         <t t-if="object.company_id.partner_id.country_id">
                         <strong>
-                            <t
-                                    t-out="object.company_id.partner_id.country_id.name"
-                                /></strong>
+                    <t t-out="object.company_id.partner_id.country_id.name" />
+                </strong>
                         .
                         </t>
                         On behalf of the hotel, we would like to express our
                         gratitude to you for choosing our services.
                         Please find all the details regarding the confirmation
                         of the reservation on Date <strong>
-                            <t
-                                t-out="format_datetime(object.date_order,tz=user.tz,dt_format='%Y-%m-%d %H:%M:%S')"
-                            />
-                        </strong> are listed below:
+                    <t
+                        t-out="format_datetime(object.date_order,tz=user.tz,dt_format='%Y-%m-%d %H:%M:%S')"
+                    />
+                </strong> are listed below:
                     </p>
                     <strong>Details :</strong>
                     <br />
                     <p style="border-left: 1px solid #8e0000; margin-left: 30px;">
                         Name Of Guest :
-                        <strong><t t-out="object.partner_id.name" /></strong>
+                        <strong>
+                    <t t-out="object.partner_id.name" />
+                </strong>
                         <br />
                         Date Of Arrival :
                         <strong>
-                            <t
-                                t-out="format_datetime(object.checkin,tz=user.tz, dt_format='%Y-%m-%d %H:%M:%S')"
-                            />
-                        </strong>
+                    <t
+                        t-out="format_datetime(object.checkin,tz=user.tz, dt_format='%Y-%m-%d %H:%M:%S')"
+                    />
+                </strong>
                         <br />
                         Date Of Departure :
                         <strong>
-                            <t
-                                t-out="format_datetime(object.checkout,tz=user.tz, dt_format='%Y-%m-%d %H:%M:%S')"
-                            />
-                        </strong>
+                    <t
+                        t-out="format_datetime(object.checkout,tz=user.tz, dt_format='%Y-%m-%d %H:%M:%S')"
+                    />
+                </strong>
                         <br />
                         Reservation Number :
-                        <strong><t t-out="object.reservation_no" /></strong>
+                        <strong>
+                    <t t-out="object.reservation_no" />
+                </strong>
                         <br />
-                        Number Of Persons : <strong><t
-                                t-out="object.adults"
-                            /></strong> Adults
-                        and <strong><t t-out="object.children" /></strong> Childrens
+                        Number Of Persons : <strong>
+                    <t t-out="object.adults" />
+                </strong> Adults
+                        and <strong>
+                    <t t-out="object.children" />
+                </strong> Childrens
                         <br />
                     </p>
                     <strong>Room Rate Per Night:</strong>
                     <br />
                     <br />
                     <table border="1" cellpadding="4" style="margin-left: 30px;">
-                        <tr>
-                            <th>Room No</th>
-                            <th>Amount</th>
-                        </tr>
-                        <t t-foreach="object.reservation_line" t-as="line">
+                    <tr>
+                        <th>Room No</th>
+                        <th>Amount</th>
+                    </tr>
+                    <t t-foreach="object.reservation_line" t-as="line">
                         <t t-foreach="line.reserve" t-as="line2">
-                        <tr>
-                            <td><t t-out="line2.product_id.name" /></td>
-                            <td><t t-out="line2.product_id.list_price" /></td>
-                        </tr>
+                            <tr>
+                                <td>
+                                    <t t-out="line2.product_id.name" />
+                                </td>
+                                <td>
+                                    <t t-out="line2.product_id.list_price" />
+                                </td>
+                            </tr>
                         </t>
-                        </t>
-                    </table>
+                    </t>
+                </table>
                     <br />
                     <p>We would appreciate it if you could let us know in case
                         there are any changes in your schedule or program.
@@ -106,26 +115,31 @@
                     [<strong><t t-out="object.company_id.name" /> Hotel</strong>]
                     <br />
                     <t t-if="object.company_id.partner_id.street">
-                    <strong><t t-out="object.company_id.partner_id.street" /></strong>
+                    <strong>
+                        <t t-out="object.company_id.partner_id.street" />
+                    </strong>
                     <br />
-                    </t>
+                </t>
                     <t t-if="object.company_id.partner_id.city">
-                    <strong><t t-out="object.company_id.partner_id.city" /></strong>,
+                    <strong>
+                    <t t-out="object.company_id.partner_id.city" />
+                </strong>,
                     <br />
                     </t>
                     <t t-if="object.company_id.partner_id.country_id">
                     <strong>
-                        <t
-                                t-out="object.company_id.partner_id.country_id.name"
-                            /></strong>
+                    <t t-out="object.company_id.partner_id.country_id.name" />
+                </strong>
                     ,
                     <br />
                     </t>
                     <br />
                     <t t-if="object.company_id.partner_id.website">
-                    <strong><t t-out="object.company_id.partner_id.website" /></strong>
+                    <strong>
+                        <t t-out="object.company_id.partner_id.website" />
+                    </strong>
                     <br />
-                    </t>
+                </t>
                 </p>
             </div>
         </field>
@@ -141,39 +155,37 @@
         <field name="model_id" ref="hotel_reservation.model_hotel_reservation" />
         <field name="auto_delete" eval="True" />
         <field name="lang">{{ object.partner_id.lang }}</field>
-      <!--   <field name="user_signature" eval="False" /> -->
+        <!--   <field name="user_signature" eval="False" /> -->
         <field name="body_html" type="html">
             <div style="margin: 0px; padding: 0px;">
                 <p style="margin: 0px; padding: 0px; font-size: 13px;">
                     <p>
-                        <left>Hello <strong><t
-                                    t-out="object.partner_id.name"
-                                /></strong>.
+                    <left>Hello <strong>
+                        <t t-out="object.partner_id.name" />
+                    </strong>.
                         </left>
-                    </p>
+                </p>
                     <p>
-                        <left>Greetings from <strong><t
-                                    t-out="object.company_id.name"
-                                />
+                    <left>Greetings from <strong><t t-out="object.company_id.name" />
                             Hotel</strong>.
                         </left>
-                    </p>
+                </p>
                     <p>This email is for reminding you that the Reservation at
                         the <strong><t t-out="object.company_id.name" /> Hotel</strong>.
                         <t t-if="object.company_id.partner_id.city">
-                        <strong><t
-                                    t-out="object.company_id.partner_id.city"
-                                /></strong>,
+                        <strong>
+                    <t t-out="object.company_id.partner_id.city" />
+                </strong>,
                         </t>
                         <t t-if="object.company_id.partner_id.country_id">
                         <strong>
-                            <t
-                                    t-out="object.company_id.partner_id.country_id.name"
-                                /></strong>
+                    <t t-out="object.company_id.partner_id.country_id.name" />
+                </strong>
                         .
                         </t>
                         Your checkin has been confirmed on Date <strong>
-                            <t t-out="object.date_order" /></strong>.
+                    <t t-out="object.date_order" />
+                </strong>.
                         Please find all the details regarding to the reservation
                         as listed below:
                     </p>
@@ -182,22 +194,28 @@
                     <br />
                     <p style="border-left: 1px solid #8e0000; margin-left: 30px;">
                         &amp;nbsp;&amp;nbsp;Name Of Guest :
-                        <strong><t t-out="object.partner_id.name" /></strong>
+                        <strong>
+                    <t t-out="object.partner_id.name" />
+                </strong>
                         <br />
                         &amp;nbsp;&amp;nbsp;Date Of Arrival :
-                        <strong><t t-out="object.checkin" /></strong>
+                        <strong>
+                    <t t-out="object.checkin" />
+                </strong>
                         <br />
                         &amp;nbsp;&amp;nbsp;Date Of Departure :
-                        <strong><t t-out="object.checkout" /></strong>
+                        <strong>
+                    <t t-out="object.checkout" />
+                </strong>
                         <br />
                         &amp;nbsp;&amp;nbsp;Reservation Number :
                         <strong>$<t t-out="object.reservation_no" /></strong>
                         <br />
                         &amp;nbsp;&amp;nbsp;Number Of Persons : <strong>
-                        <t t-out="object.adults" />
-                    </strong> Adults and <strong><t
-                                t-out="object.children"
-                            /></strong> Childrens
+                    <t t-out="object.adults" />
+                </strong> Adults and <strong>
+                    <t t-out="object.children" />
+                </strong> Childrens
                         <br />
                     </p>
                     &amp;nbsp;&amp;nbsp;
@@ -205,19 +223,23 @@
                     <br />
                     <br />
                     <table border="1" cellpadding="4" style="margin-left: 30px;">
-                        <tr>
-                            <th>Room No</th>
-                            <th>Amount</th>
-                        </tr>
-                        <t t-foreach="object.reservation_line" t-as="line">
+                    <tr>
+                        <th>Room No</th>
+                        <th>Amount</th>
+                    </tr>
+                    <t t-foreach="object.reservation_line" t-as="line">
                         <t t-foreach="line.reserve" t-as="line2">
-                        <tr>
-                            <td><t t-out="line2.product_id.name" /></td>
-                            <td><t t-out="line2.product_id.list_price" /></td>
-                        </tr>
+                            <tr>
+                                <td>
+                                    <t t-out="line2.product_id.name" />
+                                </td>
+                                <td>
+                                    <t t-out="line2.product_id.list_price" />
+                                </td>
+                            </tr>
                         </t>
-                        </t>
-                    </table>
+                    </t>
+                </table>
                     <br />
                     <p>We would appreciate it if you could let us know in case
                         there are any changes in your schedule or program.
@@ -236,26 +258,31 @@
                     [<strong><t t-out="object.company_id.name" /> Hotel</strong>]
                     <br />
                     <t t-if="object.company_id.partner_id.street">
-                    <strong><t t-out="object.company_id.partner_id.street" /></strong>
+                    <strong>
+                        <t t-out="object.company_id.partner_id.street" />
+                    </strong>
                     <br />
-                    </t>
+                </t>
                     <t t-if="object.company_id.partner_id.city">
-                    <strong><t t-out="object.company_id.partner_id.city" /></strong>,
+                    <strong>
+                    <t t-out="object.company_id.partner_id.city" />
+                </strong>,
                     <br />
                     </t>
                     <t t-if="object.company_id.partner_id.country_id">
                     <strong>
-                        <t
-                                t-out="object.company_id.partner_id.country_id.name"
-                            /></strong>
+                    <t t-out="object.company_id.partner_id.country_id.name" />
+                </strong>
                     ,
                     <br />
                     </t>
                     <br />
                     <t t-if="object.company_id.partner_id.website">
-                    <strong><t t-out="object.company_id.partner_id.website" /></strong>
+                    <strong>
+                        <t t-out="object.company_id.partner_id.website" />
+                    </strong>
                     <br />
-                    </t>
+                </t>
                 </p>
             </div>
         </field>

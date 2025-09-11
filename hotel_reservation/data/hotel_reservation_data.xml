@@ -21,7 +21,7 @@
         <field eval="&quot;R/00002&quot;" name="reservation_no" />
         <field eval="1" name="adults" />
         <field eval="1" name="children" />
-       <field
+        <field
             name="reservation_line"
             eval="[(5,0,0),
             (0,0, {
@@ -30,6 +30,5 @@
             }),
         ]"
         />
-
     </record>
 </odoo>
