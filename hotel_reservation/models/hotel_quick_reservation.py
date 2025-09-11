@@ -24,8 +24,8 @@ class QuickRoomReservation(models.TransientModel):
     )
     adults = fields.Integer()
 
-    @api.onchange("check_out", "check_in")
-    def _on_change_check_out(self):
+    @api.constrains("check_in", "check_out")
+    def _check_dates(self):
         """
         When you change checkout or checkin it will check whether
         Checkout date should be greater than Checkin date
@@ -34,10 +34,11 @@ class QuickRoomReservation(models.TransientModel):
         @param self: object pointer
         @return: raise warning depending on the validation
         """
-        if (self.check_out and self.check_in) and (self.check_out < self.check_in):
-            raise ValidationError(
-                _("Checkout date should be greater than Checkin date.")
-            )
+        for rec in self:
+            if rec.check_in and rec.check_out and rec.check_out <= rec.check_in:
+                raise ValidationError(
+                    _("Checkout date should be greater than Checkin date.")
+                )
 
     @api.onchange("partner_id")
     def _onchange_partner_id_res(self):

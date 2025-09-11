@@ -5,6 +5,16 @@
         <t t-call="web.html_container">
             <t t-call="web.external_layout">
                 <div class="page">
+                    <style>
+                        .table-thick-border {
+                            border: 1px solid black;
+                        }
+                        .table-thick-border th,
+                        .table-thick-border td {
+                            border: 1px solid black;
+                            padding: 8px;
+                        }
+                    </style>
                     <br />
                     <br />
                     <div class="mt32 mb32">
@@ -15,66 +25,57 @@
                         </center>
                     </div>
                     <div class="mt32 mb32">
-                        <div class="text-center">
+                        <center>
                             <strong>From:</strong>
                             <span t-esc="data['date_start']" />
                             <strong>To:</strong>
                             <span t-esc="data['date_end']" />
-                        </div>
+                        </center>
                     </div>
-                    <table class="table table-condensed table-sm">
+                    <table
+                        class="table table-bordered table-thick-border"
+                        style="border-collapse: collapse; width: 100%;"
+                    >
                         <tr>
-                            <td>
-                                <strong>#No</strong>
-                            </td>
-                            <td>
+                            <th class="text-center">
+                                <strong>No</strong>
+                            </th>
+                            <th class="text-center">
                                 <strong>Guest Name</strong>
-                            </td>
-                            <td>
+                            </th>
+                            <th class="text-center">
                                 <strong>Check-Out Date</strong>
-                            </td>
-                            <td>
+                            </th>
+                            <th class="text-center">
                                 <strong>Room Type</strong>
-                            </td>
-                            <td>
+                            </th>
+                            <th class="text-center">
                                 <strong>Room No</strong>
-                            </td>
+                            </th>
                         </tr>
                         <tr t-foreach="get_checkout" t-as="info">
-                            <td>
+                            <td class="text-center">
                                 <span t-field="info.reservation_no" />
                             </td>
                             <td>
                                 <span t-field="info.partner_id.name" />
                             </td>
-                            <td>
+                            <td class="text-center">
                                 <span t-field="info.checkout" />
                             </td>
-                            <td>
-                                <table
-                                    class="table-borderless"
-                                    t-foreach="info.reservation_line"
-                                    t-as="line"
-                                >
-                                    <tr>
-                                        <td>
-                                            <span t-field="line.categ_id.name" />
-                                        </td>
-                                    </tr>
-                                </table>
+                            <td class="text-center">
+                                <t t-foreach="info.reservation_line" t-as="line">
+                                    <span t-field="line.categ_id.name" />
+                                    <br t-if="not line_last" />
+                                </t>
                             </td>
-                            <td>
-                                <table
-                                    class="table-borderless"
-                                    t-foreach="info.reservation_line"
-                                    t-as="line"
-                                >
-                                    <tr t-foreach="line.reserve" t-as="o">
-                                        <td>
-                                            <span t-field="o.name" />
-                                        </td>
-                                    </tr>
-                                </table>
+                            <td class="text-center">
+                                <t t-foreach="info.reservation_line" t-as="line">
+                                    <t t-foreach="line.reserve" t-as="o">
+                                        <span t-field="o.name" />
+                                        <br t-if="not o_last" />
+                                    </t>
+                                </t>
                             </td>
                         </tr>
                     </table>
