@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-08-06 11:25+0000\n"
+"PO-Revision-Date: 2023-11-10 09:39+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10.4\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__product_variant_count
@@ -572,7 +572,7 @@ msgstr "Rif. cliente"
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__taxes_id
 #: model_terms:ir.ui.view,arch_db:hotel_restaurant.view_hotel_menucard_form
 msgid "Customer Taxes"
-msgstr "Imposte cliente"
+msgstr "Tasse cliente"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_reservation_order__order_date
@@ -585,12 +585,12 @@ msgstr "Data"
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__supplier_taxes_id
 msgid "Default taxes used when buying the product."
-msgstr "Imposte predefinite nell'acquisto del prodotto."
+msgstr "Tasse predefinite nell'acquisto del prodotto."
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__taxes_id
 msgid "Default taxes used when selling the product."
-msgstr "Imposte predefinite nella vendita del prodotto."
+msgstr "Tasse predefinite quando si vende il prodotto."
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,help:hotel_restaurant.field_hotel_menucard__uom_id
@@ -1557,7 +1557,7 @@ msgstr "Responsabile prodotto"
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__packaging_ids
 msgid "Product Packages"
-msgstr "Colli prodotto"
+msgstr "Confezioni prodotto"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__product_tmpl_id
@@ -2284,7 +2284,7 @@ msgstr "Venditore variante"
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__supplier_taxes_id
 msgid "Vendor Taxes"
-msgstr "Imposte venditore"
+msgstr "Tasse venditore"
 
 #. module: hotel_restaurant
 #: model:ir.model.fields,field_description:hotel_restaurant.field_hotel_menucard__seller_ids

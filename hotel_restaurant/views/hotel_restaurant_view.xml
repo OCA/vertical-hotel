@@ -25,17 +25,17 @@
                         nolabel="1"
                         readonly="1"
                     >
-                        <tree
+                        <list
                             decoration-success="state=='order'"
                             decoration-info="state=='draft'"
                         >
                             <field name="order_number" />
                             <field name="order_date" />
-                            <field name="waitername" />
+                            <field name="waiter_id" />
                             <field name="table_nos_ids" />
                             <field name="state" />
                             <field name="amount_total" sum="Order Total" />
-                        </tree>
+                        </list>
                     </field>
                     <separator string="Restaurant Orders Details" colspan="4" />
                     <field
@@ -44,7 +44,7 @@
                         nolabel="1"
                         readonly="1"
                     >
-                        <tree
+                        <list
                             decoration-success="state=='order'"
                             decoration-info="state=='draft'"
                         >
@@ -54,7 +54,7 @@
                             <field name="table_nos_ids" />
                             <field name="state" />
                             <field name="amount_total" sum="Table Order Total" />
-                        </tree>
+                        </list>
                     </field>
                 </page>
             </xpath>
@@ -81,13 +81,13 @@
 
     <!-- Tree view of hotel restaurant tables -->
     <record id="view_hotel_restaurant_tables_tree" model="ir.ui.view">
-        <field name="name">hotel_restaurant_tables.tree</field>
+        <field name="name">hotel_restaurant_tables.list</field>
         <field name="model">hotel.restaurant.tables</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name" />
                 <field name="capacity" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -119,8 +119,7 @@
     >
         <field name="name">Tables</field>
         <field name="res_model">hotel.restaurant.tables</field>
-        <field name="binding_view_types">form</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem
@@ -189,31 +188,32 @@
                         <field name="reservation_id" colspan="4" />
                     </h1>
                     <group>
-                        <group colspan="2" col="4">
+                        <group>
                             <field name="is_folio" />
-                            <newline />
+
                             <field
                                 name="folio_id"
                                 invisible="not is_folio"
                                 required="is_folio"
                             />
+                            <field name="customer_id" />
+                            <field name="partner_address_id" />
+                        </group>
+                        <group>
+                            <field name="start_date" />
+                            <field name="end_date" />
                             <field
                                 name="room_id"
                                 invisible="not is_folio"
                                 required="is_folio"
+                                domain="[('isroom','=',True)]"
                             />
                         </group>
-                        <newline />
-                        <group colspan="4" col="4">
-                            <field name="customer_id" />
-                            <field name="partner_address_id" />
-                            <field name="start_date" />
-                            <field name="end_date" />
-                        </group>
-                        <group colspan="4">
-                            <separator colspan='4' string="Table List" />
-                            <field name="table_nos_ids" colspan="2" nolabel='1' />
-                        </group>
+                    </group>
+                    <newline />
+                    <group>
+                        <separator colspan='4' string="Table List" />
+                        <field name="table_nos_ids" colspan="2" nolabel='1' />
                     </group>
                 </sheet>
             </form>
@@ -222,10 +222,10 @@
 
     <!-- Tree view of hotel restaurant reservation -->
     <record id="view_hotel_restaurant_reservation_tree" model="ir.ui.view">
-        <field name="name">hotel_restaurant_reservation.tree</field>
+        <field name="name">hotel_restaurant_reservation.list</field>
         <field name="model">hotel.restaurant.reservation</field>
         <field name="arch" type="xml">
-            <tree
+            <list
                 decoration-success="state=='confirm'"
                 decoration-info="state=='draft'"
                 decoration-danger="state=='cancel'"
@@ -240,7 +240,7 @@
                 <field name="partner_address_id" />
                 <field name="table_nos_ids" />
                 <field name="state" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -312,8 +312,7 @@
     >
         <field name="name">Table Booking</field>
         <field name="res_model">hotel.restaurant.reservation</field>
-        <field name="binding_view_types">form</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="view_id" ref="view_hotel_restaurant_reservation_tree" />
     </record>
 
@@ -379,7 +378,8 @@
                         </group>
                         <group colspan="4" col="4">
                             <field name="order_date" />
-                            <field name="waitername" />
+                            <field name="room_id" />
+                            <field name="waiter_id" />
                             <field name="kitchen" invisible="1" />
                             <field
                                 name="rests_ids"
@@ -392,13 +392,21 @@
                         <field name="table_nos_ids" colspan="4" nolabel='1' />
                         <newline />
                         <separator colspan='4' string='Order List' />
-                        <field name="order_list_ids" colspan="4" nolabel='1'>
-                            <tree editable="top">
-                                <field name="menucard_id" />
+                        <field
+                            name="order_list_ids"
+                            colspan="4"
+                            nolabel='1'
+                            editable="top"
+                        >
+                            <list editable="bottom">
+                                <field
+                                    name="menucard_id"
+                                    options="{'no_create': True, 'no_open': True}"
+                                />
                                 <field name="item_qty" />
                                 <field name="item_rate" />
                                 <field name="price_subtotal" />
-                            </tree>
+                            </list>
                         </field>
                         <newline />
                         <group colspan="2" class="oe_subtotal_footer oe_right">
@@ -417,10 +425,10 @@
 
     <!-- Tree view of hotel reservation order -->
     <record id="view_hotel_reservation_order_tree" model="ir.ui.view">
-        <field name="name">hotel_reservation_order.tree</field>
+        <field name="name">hotel_reservation_order.list</field>
         <field name="model">hotel.reservation.order</field>
         <field name="arch" type="xml">
-            <tree
+            <list
                 decoration-success="state=='order'"
                 decoration-info="state=='draft'"
                 decoration-muted="state=='done'"
@@ -428,11 +436,12 @@
                 <field name="order_number" />
                 <field name="reservation_id" />
                 <field name="order_date" />
-                <field name="waitername" />
+                <field name="room_id" />
+                <field name="waiter_id" />
                 <field name="table_nos_ids" />
                 <field name="state" />
                 <field name="amount_total" sum="Order Total" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -450,11 +459,11 @@
                 <field name="reservation_id" />
                 <group expand="0" string="Group By">
                     <filter
-                        name="waitername"
+                        name="waiter_id"
                         string="Waiter Name"
                         icon="terp-personal"
                         domain="[]"
-                        context="{'group_by':'waitername'}"
+                        context="{'group_by':'waiter_id'}"
                     />
                     <filter
                         name="order_date"
@@ -474,8 +483,7 @@
     >
         <field name="name">Order</field>
         <field name="res_model">hotel.reservation.order</field>
-        <!-- <field name="binding_view_types">form</field> -->
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem
@@ -565,6 +573,7 @@
                                 name="room_id"
                                 invisible="not is_folio"
                                 required="is_folio"
+                                domain="[('isroom','=',True)]"
                             />
                         </group>
                         <group colspan="2" col="4">
@@ -582,13 +591,21 @@
                         <field name="table_nos_ids" colspan="4" nolabel='1' />
                         <newline />
                         <separator colspan='4' string='Order List' />
-                        <field name="order_list_ids" colspan="4" nolabel='1'>
-                            <tree editable="top">
-                                <field name="menucard_id" />
+                        <field
+                            name="order_list_ids"
+                            colspan="4"
+                            nolabel='1'
+                            editable="top"
+                        >
+                            <list editable="bottom">
+                                <field
+                                    name="menucard_id"
+                                    options="{'no_create': True, 'no_open': True}"
+                                />
                                 <field name="item_qty" />
                                 <field name="item_rate" />
                                 <field name="price_subtotal" />
-                            </tree>
+                            </list>
                         </field>
                         <newline />
                         <group colspan="2" class="oe_subtotal_footer oe_right">
@@ -607,10 +624,10 @@
 
     <!-- Tree view of hotel restaurant order -->
     <record id="view_hotel_restaurant_order_tree" model="ir.ui.view">
-        <field name="name">hotel_restaurant_order.tree</field>
+        <field name="name">hotel_restaurant_order.list</field>
         <field name="model">hotel.restaurant.order</field>
         <field name="arch" type="xml">
-            <tree
+            <list
                 decoration-success="state=='order'"
                 decoration-info="state=='draft'"
                 decoration-muted="state=='done'"
@@ -622,7 +639,7 @@
                 <field name="waiter_id" />
                 <field name="state" />
                 <field name="amount_total" sum="Table Order Total" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -664,8 +681,7 @@
     >
         <field name="name">Table Order</field>
         <field name="res_model">hotel.restaurant.order</field>
-        <field name="binding_view_types">form</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem
@@ -709,10 +725,10 @@
                                     <field name="item_rate" />
                                 </group>
                             </form>
-                            <tree>
+                            <list>
                                 <field name="menucard_id" />
                                 <field name="item_qty" />
-                            </tree>
+                            </list>
                         </field>
                     </group>
                 </sheet>
@@ -722,10 +738,10 @@
 
     <!-- Tree view of hotel restaurant kitchen order tickets -->
     <record id="view_hotel_restaurant_kitchen_order_tickets_tree" model="ir.ui.view">
-        <field name="name">hotel_restaurant_kitchen_order_tickets.tree</field>
+        <field name="name">hotel_restaurant_kitchen_order_tickets.list</field>
         <field name="model">hotel.restaurant.kitchen.order.tickets</field>
         <field name="arch" type="xml">
-            <tree create="0">
+            <list create="0">
                 <field name="order_number" />
                 <field name="reservation_number" />
                 <field name="kot_date" />
@@ -733,7 +749,7 @@
                 <field name="waiter_name" />
                 <field name="table_nos_ids" />
                 <field name="kot_list_ids" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -776,8 +792,7 @@
     >
         <field name="name">Kitchen Order Tickets</field>
         <field name="res_model">hotel.restaurant.kitchen.order.tickets</field>
-        <field name="binding_view_types">form</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem
@@ -807,13 +822,13 @@
     </record>
 
     <!-- Tree view of hotel menu card type -->
-    <record id="view_hotel_menucard_type_list" model="ir.ui.view">
+    <record id="view_hotel_menucard_type_tree" model="ir.ui.view">
         <field name="name">hotel_menucard_type_list</field>
         <field name="model">hotel.menucard.type</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -821,8 +836,7 @@
     <record id="action_hotel_menucard_type_view_form" model="ir.actions.act_window">
         <field name="name">Food Item Type</field>
         <field name="res_model">hotel.menucard.type</field>
-        <field name="binding_view_types">form</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem
@@ -925,14 +939,14 @@
 
     <!-- Tree view of hotel menu card -->
     <record id="view_hotel_menucard_tree" model="ir.ui.view">
-        <field name="name">hotel.menucard.tree</field>
+        <field name="name">hotel.menucard.list</field>
         <field name="model">hotel.menucard</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name" />
                 <field name="menu_card_categ_id" string="Food Item Type" />
                 <field name="list_price" string="Food Item Rate" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -968,7 +982,7 @@
                 <field name="image_1920" />
                 <field name="lst_price" />
                 <templates>
-                    <t t-name="kanban-box">
+                    <t t-name="card">
                         <div class="oe_kanban_global_click">
                             <div class="o_kanban_image">
                                 <img
@@ -1010,8 +1024,7 @@
     <record id="action_hotel_menucard_form" model="ir.actions.act_window">
         <field name="name">Food Item</field>
         <field name="res_model">hotel.menucard</field>
-        <field name="binding_view_types">form</field>
-        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_mode">kanban,list,form</field>
         <field name="context">{'default_available_in_pos':0}
         </field>
         <field name="search_view_id" ref="view_hotel_menucard_search_new" />
