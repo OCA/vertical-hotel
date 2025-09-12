@@ -172,7 +172,7 @@
                         <table class="table table-condensed">
                             <thead>
                                 <tr>
-                                    <th>
+                                    <th style="text-indent: 5px;">
                                         <strong>Date</strong>
                                     </th>
                                     <th>
@@ -187,7 +187,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <td style="white-space: nowrap;">
+                                <td style="white-space: nowrap;text-indent: 5px;">
                                     <span t-esc="o.order_date" />
                                 </td>
                                 <td style="white-space: nowrap;">
@@ -199,7 +199,7 @@
                                 <td style="white-space: nowrap;">
                                     <span
                                         t-att-style="style"
-                                        t-esc="o.waitername.name"
+                                        t-esc="o.waiter_id.name"
                                     />
                                 </td>
                             </tbody>
@@ -207,14 +207,14 @@
                         <table class="table table-condensed">
                             <thead>
                                 <tr>
-                                    <th>
+                                    <th style="text-indent: 5px;">
                                         <strong>Table Information</strong>
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr t-foreach="o.table_nos_ids" t-as="rec2">
-                                    <td>
+                                    <td style="text-indent: 5px;">
                                         <span t-esc="rec2.name" />
                                     </td>
                                 </tr>
@@ -228,7 +228,7 @@
                         <table class="table table-condensed">
                             <thead>
                                 <tr>
-                                    <th>
+                                    <th style="text-indent: 5px;">
                                         <strong>Food Item</strong>
                                     </th>
                                     <th>
@@ -244,7 +244,7 @@
                             </thead>
                             <tbody>
                                 <tr t-foreach="o.order_list_ids" t-as="rec">
-                                    <td>
+                                    <td style="text-indent: 5px;">
                                         <span t-esc="rec.menucard_id.name" />
                                     </td>
                                     <td>

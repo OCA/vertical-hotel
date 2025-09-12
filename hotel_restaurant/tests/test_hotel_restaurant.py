@@ -21,7 +21,7 @@ class TestRestaurant(common.TransactionCase):
         self.tablelist = self.env.ref("hotel_restaurant.hotel_reservation_order_line_0")
         self.table1 = self.env.ref("hotel_restaurant.hotel_restaurant_tables_table1")
         self.table0 = self.env.ref("hotel_restaurant.hotel_restaurant_tables_table0")
-        self.room1 = self.env.ref("point_of_sale.desk_organizer")
+        self.room1 = self.env["product.product"].create({"name": "Room 101"})
         self.partner = self.env.ref("base.res_partner_4")
         self.waiter = self.env.ref("base.res_partner_3")
         self.menucard_type_1 = self.env["hotel.menucard.type"]
@@ -31,7 +31,7 @@ class TestRestaurant(common.TransactionCase):
             {"name": "Punjabi", "menu_id": self.fooditem_type.id}
         )
 
-        self.menucard_type.name_get()
+        self.menucard_type.mapped("display_name")
         hotel_menucard_type = self.menucard_type.name_search("Punjabi")
         self.assertEqual(
             len(hotel_menucard_type),
@@ -67,7 +67,7 @@ class TestRestaurant(common.TransactionCase):
                 "order_number": "0RR/00001",
                 "reservation_id": self.rest_res.id,
                 "order_date": cur_date,
-                "waitername": self.waiter.id,
+                "waiter_id": self.waiter.id,
                 "amount_subtotal": 500.00,
                 "amount_total": 500.00,
                 "rests_ids": [(6, 0, [self.tablelist.id])],

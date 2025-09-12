@@ -22,31 +22,36 @@ class HotelRestaurantReservation(models.Model):
         """
         This method is for create a new order for hotel restaurant
         reservation .when table is booked and create order button is
-        clicked then this method is called and order is created.you
+        clicked then this method is called and order is created. You
         can see this created order in "Orders"
         ------------------------------------------------------------
         @param self: The object pointer
         @return: new record set for hotel restaurant reservation.
         """
         reservation_order = self.env["hotel.reservation.order"]
+        vals_list = []
         for record in self:
             table_ids = record.table_nos_ids.ids
-            values = {
-                "reservation_id": record.id,
-                "order_date": record.start_date,
-                "folio_id": record.folio_id.id,
-                "table_nos_ids": [(6, 0, table_ids)],
-                "is_folio": record.is_folio,
-            }
-            reservation_order.create(values)
+            vals_list.append(
+                {
+                    "reservation_id": record.id,
+                    "order_date": record.start_date,
+                    "room_id": record.room_id.id,
+                    "folio_id": record.folio_id.id,
+                    "table_nos_ids": [(6, 0, table_ids)],
+                    "is_folio": record.is_folio,
+                }
+            )
+        if vals_list:
+            reservation_order.create(vals_list)
         self.write({"state": "order"})
         return True
 
     @api.onchange("customer_id")
     def _onchange_partner_id(self):
         """
-        When Customer name is changed respective adress will display
-        in Adress field
+        When Customer name is changed respective address will display
+        in address field
         @param self: object pointer
         """
         if not self.customer_id:
@@ -57,14 +62,9 @@ class HotelRestaurantReservation(models.Model):
 
     @api.onchange("folio_id")
     def _onchange_folio_id(self):
-        for rec in self:
-            if rec.folio_id:
-                rec.customer_id = rec.folio_id.partner_id.id
-                if rec.folio_id.room_line_ids:  # Check if room_line_ids is not empty
-                    rec.room_id = rec.folio_id.room_line_ids[0].product_id.id
-                else:
-                    # Handle the case when room_line_ids is empty
-                    rec.room_id = False
+        folio = self.folio_id
+        self.customer_id = folio.partner_id
+        self.room_id = folio.room_line_ids[:1].product_id
 
     def action_set_to_draft(self):
         """
@@ -111,9 +111,9 @@ class HotelRestaurantReservation(models.Model):
             if roomcount:
                 raise ValidationError(
                     _(
-                        """You tried to confirm reservation """
-                        """with table those already reserved """
-                        """in this reservation period"""
+                        "You tried to confirm reservation "
+                        "with tables that are already reserved "
+                        "in this reservation period"
                     )
                 )
             reservation.state = "confirm"
@@ -170,17 +170,24 @@ class HotelRestaurantReservation(models.Model):
     )
     is_folio = fields.Boolean("Is a Hotel Guest??")
 
-    @api.model
-    def create(self, vals):
+    @api.model_create_multi
+    def create(self, vals_list):
         """
         Overrides orm create method.
         @param self: The object pointer
         @param vals: dictionary of fields value.
         """
         seq_obj = self.env["ir.sequence"]
-        reserve = seq_obj.next_by_code("hotel.restaurant.reservation") or "New"
-        vals["reservation_id"] = reserve
-        return super().create(vals)
+        for vals in vals_list:
+            vals.update(
+                {
+                    "reservation_id": seq_obj.next_by_code(
+                        "hotel.restaurant.reservation"
+                    )
+                    or "New"
+                }
+            )
+        return super().create(vals_list)
 
     @api.constrains("start_date", "end_date")
     def _check_start_dates(self):
@@ -279,14 +286,14 @@ class HotelRestaurantOrder(models.Model):
         @param self: The object pointer
         @return: new record set for hotel restaurant order list.
         """
-        res = []
         order_tickets_obj = self.env["hotel.restaurant.kitchen.order.tickets"]
         restaurant_order_list_obj = self.env["hotel.restaurant.order.list"]
         for order in self:
             if not order.order_list_ids:
-                raise ValidationError(_("Please Give an Order"))
+                raise ValidationError(_("Please specify items for the order"))
             if not order.table_nos_ids:
                 raise ValidationError(_("Please Assign a Table"))
+
             table_ids = order.table_nos_ids.ids
             kot_data = order_tickets_obj.create(
                 {
@@ -298,15 +305,22 @@ class HotelRestaurantOrder(models.Model):
                 }
             )
 
+            res = []
+            order_line_vals = []
             for order_line in order.order_list_ids:
-                o_line = {
-                    "kot_order_id": kot_data.id,
-                    "menucard_id": order_line.menucard_id.id,
-                    "item_qty": order_line.item_qty,
-                    "item_rate": order_line.item_rate,
-                }
-                restaurant_order_list_obj.create(o_line)
+                order_line_vals.append(
+                    {
+                        "kot_order_id": kot_data.id,
+                        "menucard_id": order_line.menucard_id.id,
+                        "item_qty": order_line.item_qty,
+                        "item_rate": order_line.item_rate,
+                    }
+                )
                 res.append(order_line.id)
+
+            if order_line_vals:
+                restaurant_order_list_obj.create(order_line_vals)
+
             order.update(
                 {
                     "kitchen": kot_data.id,
@@ -351,7 +365,7 @@ class HotelRestaurantOrder(models.Model):
         default="draft",
     )
     is_folio = fields.Boolean(
-        "Is a Hotel Guest??", help="is customer reside in hotel or not"
+        "Is a Hotel Guest??", help="is customer residing in hotel or not"
     )
     customer_id = fields.Many2one("res.partner", "Customer Name", required=True)
     kitchen = fields.Integer()
@@ -363,17 +377,19 @@ class HotelRestaurantOrder(models.Model):
         "Rest",
     )
 
-    @api.model
-    def create(self, vals):
+    @api.model_create_multi
+    def create(self, vals_list):
         """
         Overrides orm create method.
         @param self: The object pointer
         @param vals: dictionary of fields value.
         """
         seq_obj = self.env["ir.sequence"]
-        rest_order = seq_obj.next_by_code("hotel.restaurant.order") or "New"
-        vals["order_no"] = rest_order
-        return super().create(vals)
+        for vals in vals_list:
+            vals.update(
+                {"order_no": seq_obj.next_by_code("hotel.restaurant.order") or "New"}
+            )
+        return super().create(vals_list)
 
     @api.onchange("folio_id")
     def _onchange_folio_id(self):
@@ -399,25 +415,30 @@ class HotelRestaurantOrder(models.Model):
         for order in self:
             line_data = {
                 "order_number": order.order_no,
-                "kot_date": fields.Datetime.to_string(fields.datetime.now()),
+                "kot_date": fields.Datetime.now(),
                 "room_no": order.room_id.name,
                 "waiter_name": order.waiter_id.name,
                 "table_nos_ids": [(6, 0, order.table_nos_ids.ids)],
             }
-            kot_id = order_tickets_obj.browse(self.kitchen)
+            kot_id = order_tickets_obj.browse(order.kitchen)
             kot_id.write(line_data)
+
+            new_lines_vals = []
             for order_line in order.order_list_ids:
                 if order_line.id not in order.rest_item_id.ids:
                     kot_data = order_tickets_obj.create(line_data)
-                    order.kitchen = kot_data.id
-                    o_line = {
-                        "kot_order_id": kot_data.id,
-                        "menucard_id": order_line.menucard_id.id,
-                        "item_qty": order_line.item_qty,
-                        "item_rate": order_line.item_rate,
-                    }
+                    new_lines_vals.append(
+                        {
+                            "kot_order_id": kot_data.id,
+                            "menucard_id": order_line.menucard_id.id,
+                            "item_qty": order_line.item_qty,
+                            "item_rate": order_line.item_rate,
+                        }
+                    )
                     order.rest_item_id = [(4, order_line.id)]
-                    rest_order_list_obj.create(o_line)
+                    order.kitchen = kot_data.id
+            if new_lines_vals:
+                rest_order_list_obj.create(new_lines_vals)
         return True
 
     def done_order_kot(self):
@@ -430,28 +451,37 @@ class HotelRestaurantOrder(models.Model):
         hsl_obj = self.env["hotel.service.line"]
         so_line_obj = self.env["sale.order.line"]
         for order_obj in self:
+            if not order_obj.folio_id:
+                continue
+
+            sol_vals_list = []
             for order in order_obj.order_list_ids:
-                if order_obj.folio_id:
-                    values = {
+                sol_vals_list.append(
+                    {
                         "order_id": order_obj.folio_id.order_id.id,
                         "name": order.menucard_id.name,
                         "product_id": order.menucard_id.product_id.id,
                         "product_uom": order.menucard_id.uom_id.id,
                         "product_uom_qty": order.item_qty,
                         "price_unit": order.item_rate,
-                        "price_subtotal": order.price_subtotal,
                     }
-                    sol_rec = so_line_obj.create(values)
-                    hsl_obj.create(
+                )
+
+            if sol_vals_list:
+                sol_recs = so_line_obj.create(sol_vals_list)
+                hsl_vals_list = []
+                for sol_rec in sol_recs:
+                    hsl_vals_list.append(
                         {
                             "folio_id": order_obj.folio_id.id,
                             "service_line_id": sol_rec.id,
                         }
                     )
-                    order_obj.folio_id.write(
-                        {"hotel_restaurant_orders_ids": [(4, order_obj.id)]}
-                    )
-            self.write({"state": "done"})
+                hsl_obj.create(hsl_vals_list)
+                order_obj.folio_id.write(
+                    {"hotel_restaurant_orders_ids": [(4, order_obj.id)]}
+                )
+        self.write({"state": "done"})
         return True
 
 
@@ -459,6 +489,8 @@ class HotelReservationOrder(models.Model):
     _name = "hotel.reservation.order"
     _description = "Reservation Order"
     _rec_name = "order_number"
+
+    room_id = fields.Many2one("product.product", "Room No")
 
     @api.depends("order_list_ids")
     def _compute_amount_all_total(self):
@@ -475,45 +507,86 @@ class HotelReservationOrder(models.Model):
                 sale.amount_subtotal + (sale.amount_subtotal * sale.tax) / 100
             )
 
+    @api.onchange("reservation_id")
+    def _onchange_reservation_id(self):
+        if self.reservation_id:
+            self.table_nos_ids = self.reservation_id.table_nos_ids
+            self.folio_id = self.reservation_id.folio_id
+            self.room_id = self.reservation_id.room_id.id
+
+    @api.onchange("folio_id")
+    def _onchange_folio_id(self):
+        if self.folio_id:
+            self.room_id = self.folio_id.room_line_ids[0].product_id.id
+
     def reservation_generate_kot(self):
         """
-        This method create new record for hotel restaurant order list.
+        This method creates or updates a record for hotel restaurant order list.
         --------------------------------------------------------------
         @param self: The object pointer
-        @return: new record set for hotel restaurant order list.
+        @return: updated record set for hotel restaurant order list.
         """
-        res = []
         order_tickets_obj = self.env["hotel.restaurant.kitchen.order.tickets"]
         rest_order_list_obj = self.env["hotel.restaurant.order.list"]
         for order in self:
             if not order.order_list_ids:
-                raise ValidationError(_("Please Give an Order"))
+                raise ValidationError(_("Please specify items for the order"))
+
             table_ids = order.table_nos_ids.ids
             line_data = {
                 "order_number": order.order_number,
                 "reservation_number": order.reservation_id.reservation_id,
                 "kot_date": order.order_date,
-                "waiter_name": order.waitername.name,
+                "room_no": order.room_id.name,
+                "waiter_name": order.waiter_id.name,
                 "table_nos_ids": [(6, 0, table_ids)],
             }
-            kot_data = order_tickets_obj.create(line_data)
+
+            # Check if a KOT already exists for this order
+            existing_kot = order_tickets_obj.search(
+                [
+                    ("order_number", "=", order.order_number),
+                    ("reservation_number", "=", order.reservation_id.reservation_id),
+                ],
+                limit=1,
+            )
+
+            if existing_kot:
+                # Update existing KOT
+                existing_kot.write(line_data)
+                kot_data = existing_kot
+            else:
+                # Create new KOT
+                kot_data = order_tickets_obj.create(line_data)
+
+            # Clear existing order lines
+            kot_data.kot_list_ids.unlink()
+
+            res = []
+            order_line_vals = []
             for order_line in order.order_list_ids:
-                o_line = {
-                    "kot_order_id": kot_data.id,
-                    "menucard_id": order_line.menucard_id.id,
-                    "item_qty": order_line.item_qty,
-                    "item_rate": order_line.item_rate,
-                }
-                rest_order_list_obj.create(o_line)
+                order_line_vals.append(
+                    {
+                        "kot_order_id": kot_data.id,
+                        "menucard_id": order_line.menucard_id.id,
+                        "item_qty": order_line.item_qty,
+                        "item_rate": order_line.item_rate,
+                    }
+                )
                 res.append(order_line.id)
-            order.update(
+
+            if order_line_vals:
+                rest_order_list_obj.create(order_line_vals)
+
+            order.write(
                 {
                     "kitchen": kot_data.id,
                     "rests_ids": [(6, 0, res)],
                     "state": "order",
                 }
             )
-        return res
+
+        return True
 
     def reservation_update_kot(self):
         """
@@ -530,7 +603,7 @@ class HotelReservationOrder(models.Model):
                 "order_number": order.order_number,
                 "reservation_number": order.reservation_id.reservation_id,
                 "kot_date": fields.Datetime.to_string(fields.datetime.now()),
-                "waiter_name": order.waitername.name,
+                "waiter_name": order.waiter_id.name,
                 "table_nos_ids": [(6, 0, table_ids)],
             }
             kot_id = order_tickets_obj.browse(self.kitchen)
@@ -563,26 +636,35 @@ class HotelReservationOrder(models.Model):
         hsl_obj = self.env["hotel.service.line"]
         so_line_obj = self.env["sale.order.line"]
         for res_order in self:
+            if not res_order.folio_id:
+                continue
+
+            sol_vals_list = []
             for order in res_order.order_list_ids:
-                if res_order.folio_id:
-                    values = {
+                sol_vals_list.append(
+                    {
                         "order_id": res_order.folio_id.order_id.id,
                         "name": order.menucard_id.name,
                         "product_id": order.menucard_id.product_id.id,
                         "product_uom_qty": order.item_qty,
                         "price_unit": order.item_rate,
-                        "price_subtotal": order.price_subtotal,
                     }
-                    sol_rec = so_line_obj.create(values)
-                    hsl_obj.create(
+                )
+
+            if sol_vals_list:
+                sol_recs = so_line_obj.create(sol_vals_list)
+                hsl_vals_list = []
+                for sol_rec in sol_recs:
+                    hsl_vals_list.append(
                         {
                             "folio_id": res_order.folio_id.id,
                             "service_line_id": sol_rec.id,
                         }
                     )
-                    res_order.folio_id.write(
-                        {"hotel_reservation_orders_ids": [(4, res_order.id)]}
-                    )
+                hsl_obj.create(hsl_vals_list)
+                res_order.folio_id.write(
+                    {"hotel_reservation_orders_ids": [(4, res_order.id)]}
+                )
             res_order.reservation_id.write({"state": "done"})
         self.write({"state": "done"})
         return True
@@ -592,7 +674,7 @@ class HotelReservationOrder(models.Model):
     order_date = fields.Datetime(
         "Date", required=True, default=lambda self: fields.Datetime.now()
     )
-    waitername = fields.Many2one("res.partner", "Waiter Name")
+    waiter_id = fields.Many2one("res.partner", "Waiter Name")
     table_nos_ids = fields.Many2many(
         "hotel.restaurant.tables",
         "temp_table4",
@@ -624,20 +706,25 @@ class HotelReservationOrder(models.Model):
     )
     folio_id = fields.Many2one("hotel.folio", "Folio No")
     is_folio = fields.Boolean(
-        "Is a Hotel Guest??", help="is customer reside in hotel or not"
+        "Is a Hotel Guest??", help="is customer residing in hotel or not"
     )
 
-    @api.model
-    def create(self, vals):
+    @api.model_create_multi
+    def create(self, vals_list):
         """
         Overrides orm create method.
         @param self: The object pointer
         @param vals: dictionary of fields value.
         """
         seq_obj = self.env["ir.sequence"]
-        res_oder = seq_obj.next_by_code("hotel.reservation.order") or "New"
-        vals["order_number"] = res_oder
-        return super().create(vals)
+        for vals in vals_list:
+            vals.update(
+                {
+                    "order_number": seq_obj.next_by_code("hotel.reservation.order")
+                    or "New"
+                }
+            )
+        return super().create(vals_list)
 
 
 class HotelRestaurantOrderList(models.Model):
