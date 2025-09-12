@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE xml>
 <odoo>
-
     <!--Form view for wizard hotel restaurant -->
     <record id="wizard_hotel_restaurant_form_view" model="ir.ui.view">
         <field name="name">wizard.hotel.restaurant.form</field>
@@ -103,5 +102,4 @@
         parent="hotel.hotel_report_menu"
         sequence="32"
     />
-
 </odoo>
