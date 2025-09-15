@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE xml>
 <odoo>
-
     <!-- State By restaurant -->
     <record id="view_hotel_restaurant_status_tree" model="ir.ui.view">
         <field name="name">report.hotel.restaurant.status.tree</field>
         <field name="model">report.hotel.restaurant.status</field>
         <field name="arch" type="xml">
-        <tree>
-            <field name="reservation_id" />
-            <field name="state" />
-        </tree>
+            <tree>
+                <field name="reservation_id" />
+                <field name="state" />
+            </tree>
         </field>
     </record>
 
@@ -19,12 +18,12 @@
         <field name="name">report.hotel.restaurant.status.form</field>
         <field name="model">report.hotel.restaurant.status</field>
         <field name="arch" type="xml">
-        <form string="States By Restaurant">
-            <sheet>
-                <field name="reservation_id" />
-                <field name="state" />
-            </sheet>
-        </form>
+            <form string="States By Restaurant">
+                <sheet>
+                    <field name="reservation_id" />
+                    <field name="state" />
+                </sheet>
+            </form>
         </field>
     </record>
 
@@ -33,27 +32,27 @@
         <field name="name">report.hotel.restaurant.status.search</field>
         <field name="model">report.hotel.restaurant.status</field>
         <field name="arch" type="xml">
-        <search string="Hotel Restaurant Status">
-            <field name="state" />
-            <filter
+            <search string="Hotel Restaurant Status">
+                <field name="state" />
+                <filter
                     name="Draft"
                     string="Draft"
                     domain="[('state','=', 'draft')]"
                     help="Rooms in draft state"
                 />
-            <filter
+                <filter
                     name="Confirm"
                     string="Confirm"
                     domain="[('state','=', 'confirm')]"
                     help="Rooms in confirm state"
                 />
-            <filter
+                <filter
                     name="done"
                     string="Done"
                     domain="[('state','=', 'done')]"
                     help="Rooms in done state"
                 />
-        </search>
+            </search>
         </field>
     </record>
 
@@ -80,7 +79,7 @@
         <field name="view_mode">graph,tree</field>
     </record>
 
-     <!-- Action for report hotel restaurant status -->
+    <!-- Action for report hotel restaurant status -->
     <record id="action_report_hotel_restaurant_board" model="ir.actions.act_window">
         <field name="name">States By Restaurants</field>
         <field name="res_model">report.hotel.restaurant.status</field>
@@ -99,5 +98,4 @@
         sequence="35"
         parent="report_hotel_reservation.menu_hotel_reporting"
     />
-
 </odoo>
