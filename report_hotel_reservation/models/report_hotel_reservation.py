@@ -1,7 +1,7 @@
 # Copyright (C) 2024-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import fields, models
+from odoo import fields, models, tools
 
 
 class ReportHotelReservationStatus(models.Model):
@@ -23,11 +23,9 @@ class ReportHotelReservationStatus(models.Model):
 
     def init(self):
         """
-        This method is for initialization for report hotel reservation
-        status Module.
-        @param self: The object pointer
-        @param cr: database cursor
+        Initialization for report hotel reservation status module.
         """
+        tools.drop_view_if_exists(self.env.cr, self._table)
         self.env.cr.execute(
             """
             create or replace view report_hotel_reservation_status as (

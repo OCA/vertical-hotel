@@ -1,14 +1,13 @@
-<!DOCTYPE xml>
 <odoo>
     <!-- State By Reservation -->
     <record id="view_hotel_reservation_status_tree" model="ir.ui.view">
-        <field name="name">report.hotel.reservation.status.tree</field>
+        <field name="name">report.hotel.reservation.status.list</field>
         <field name="model">report.hotel.reservation.status</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="reservation_no" />
                 <field name="state" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -37,19 +36,19 @@
                     name="draft"
                     string="Draft"
                     domain="[('state','=', 'draft')]"
-                    help="Rooms in draft state"
+                    help="Reservations in draft state"
                 />
                 <filter
                     name="confirm"
                     string="Confirm"
                     domain="[('state','=', 'confirm')]"
-                    help="Rooms in confirm state"
+                    help="Reservations in confirm state"
                 />
                 <filter
                     name="done"
                     string="Done"
                     domain="[('state','=', 'done')]"
-                    help="Rooms in done state"
+                    help="Reservations in done state"
                 />
             </search>
         </field>
@@ -68,28 +67,10 @@
     </record>
 
     <!-- Action of report hotel reservation status -->
-    <record
-        id="action_report_hotel_reservation_status_tree_graph"
-        model="ir.actions.act_window"
-    >
-        <field name="name">States By Reservation</field>
+    <record id="action_report_hotel_reservation_status" model="ir.actions.act_window">
+        <field name="name">Status By Reservation</field>
         <field name="res_model">report.hotel.reservation.status</field>
-        <field name="binding_view_types">form</field>
-        <field name="view_mode">graph,tree</field>
-    </record>
-
-    <!-- Action for report hotel restaurant status -->
-    <record
-        id="action_report_hotel_reservation_status_tree_graph_bar12"
-        model="ir.actions.act_window"
-    >
-        <field name="name">States By Reservation</field>
-        <field name="res_model">report.hotel.reservation.status</field>
-        <field name="binding_view_types">form</field>
-        <field name="view_mode">pivot,graph,tree</field>
-        <field name="context">
-            {'graph_view_ref':'report_hotel_reservation.view_hotel_reservation_status_graph_bar','tree_view_ref':'report_hotel_reservation.view_hotel_reservation_status_tree'}
-        </field>
+        <field name="view_mode">pivot,graph,list</field>
     </record>
 
     <menuitem
@@ -100,8 +81,8 @@
     />
     <menuitem
         name="States By Reservation"
-        action="action_report_hotel_reservation_status_tree_graph_bar12"
-        id="menu_hotel_reservation_status_tree_graph_bar11"
+        action="action_report_hotel_reservation_status"
+        id="menu_report_hotel_reservation_status"
         sequence="34"
         parent="menu_hotel_reporting"
     />
