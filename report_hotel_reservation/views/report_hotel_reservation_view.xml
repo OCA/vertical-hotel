@@ -1,6 +1,5 @@
 <!DOCTYPE xml>
 <odoo>
-
     <!-- State By Reservation -->
     <record id="view_hotel_reservation_status_tree" model="ir.ui.view">
         <field name="name">report.hotel.reservation.status.tree</field>
@@ -106,5 +105,4 @@
         sequence="34"
         parent="menu_hotel_reporting"
     />
-
 </odoo>
