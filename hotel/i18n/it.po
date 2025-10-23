@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-10-21 13:42+0000\n"
+"PO-Revision-Date: 2025-10-23 09:42+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -1921,14 +1921,14 @@ msgstr "Nome"
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__nbr_moves_in
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__nbr_moves_in
 msgid "Nbr Moves In"
-msgstr "NBR arriva"
+msgstr "Entra NBR"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__nbr_moves_out
 #: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__nbr_moves_out
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__nbr_moves_out
 msgid "Nbr Moves Out"
-msgstr "NBR parte"
+msgstr "Esce NBR"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__activity_date_deadline
