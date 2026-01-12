@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-10-09 10:42+0000\n"
+"PO-Revision-Date: 2026-01-12 17:43+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -1454,7 +1454,7 @@ msgstr ""
 #. module: hotel_housekeeping
 #: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__tax_string
 msgid "Tax String"
-msgstr "Testo tasse"
+msgstr "Testo imposta"
 
 #. module: hotel_housekeeping
 #: model:ir.model.fields,help:hotel_housekeeping.field_hotel_activity__company_currency_id
