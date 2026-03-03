@@ -10,7 +10,6 @@ from odoo.exceptions import ValidationError
 
 
 class HotelReservation(models.Model):
-
     _name = "hotel.reservation"
     _rec_name = "reservation_no"
     _description = "Reservation"
@@ -18,21 +17,23 @@ class HotelReservation(models.Model):
     _inherit = ["mail.thread"]
 
     def _compute_folio_count(self):
-        for res in self:
-            res.update({"no_of_folio": len(res.folio_id.ids)})
+        for reservation in self:
+            reservation.update({"no_of_folio": len(reservation.folio_id.ids)})
 
-    reservation_no = fields.Char(readonly=True, copy=False)
+    reservation_no = fields.Char(
+        readonly=True,
+        copy=False,
+    )
     date_order = fields.Datetime(
-        "Date Ordered",
+        string="Date Ordered",
         readonly=True,
         required=True,
         index=True,
         default=lambda self: fields.Datetime.now(),
     )
-
     company_id = fields.Many2one(
-        "res.company",
-        "Hotel",
+        comodel_name="res.company",
+        string="Hotel",
         readonly=True,
         index=True,
         required=True,
@@ -40,31 +41,31 @@ class HotelReservation(models.Model):
         states={"draft": [("readonly", False)]},
     )
     partner_id = fields.Many2one(
-        "res.partner",
-        "Guest Name",
+        comodel_name="res.partner",
+        string="Guest Name",
         readonly=True,
         index=True,
         required=True,
         states={"draft": [("readonly", False)]},
     )
     pricelist_id = fields.Many2one(
-        "product.pricelist",
-        "Scheme",
+        comodel_name="product.pricelist",
+        string="Scheme",
         required=True,
         readonly=True,
         states={"draft": [("readonly", False)]},
         help="Pricelist for current reservation.",
     )
     partner_invoice_id = fields.Many2one(
-        "res.partner",
-        "Invoice Address",
+        comodel_name="res.partner",
+        string="Invoice Address",
         readonly=True,
         states={"draft": [("readonly", False)]},
         help="Invoice address for " "current reservation.",
     )
     partner_order_id = fields.Many2one(
-        "res.partner",
-        "Ordering Contact",
+        comodel_name="res.partner",
+        string="Ordering Contact",
         readonly=True,
         states={"draft": [("readonly", False)]},
         help="The name and address of the "
@@ -72,20 +73,20 @@ class HotelReservation(models.Model):
         "or quotation.",
     )
     partner_shipping_id = fields.Many2one(
-        "res.partner",
-        "Delivery Address",
+        comodel_name="res.partner",
+        string="Delivery Address",
         readonly=True,
         states={"draft": [("readonly", False)]},
         help="Delivery address" "for current reservation. ",
     )
     checkin = fields.Datetime(
-        "Expected-Date-Arrival",
+        string="Expected-Date-Arrival",
         required=True,
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
     checkout = fields.Datetime(
-        "Expected-Date-Departure",
+        string="Expected-Date-Departure",
         required=True,
         readonly=True,
         states={"draft": [("readonly", False)]},
@@ -101,14 +102,14 @@ class HotelReservation(models.Model):
         help="Number of children there in guest list.",
     )
     reservation_line = fields.One2many(
-        "hotel.reservation.line",
-        "line_id",
+        comodel_name="hotel.reservation.line",
+        inverse_name="line_id",
         help="Hotel room reservation details.",
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
     state = fields.Selection(
-        [
+        selection=[
             ("draft", "Draft"),
             ("confirm", "Confirm"),
             ("cancel", "Cancel"),
@@ -118,20 +119,17 @@ class HotelReservation(models.Model):
         default="draft",
     )
     folio_id = fields.Many2many(
-        "hotel.folio",
-        "hotel_folio_reservation_rel",
-        "order_id",
-        "invoice_id",
-        string="Folio",
+        comodel_name="hotel.folio",
+        relation="hotel_folio_reservation_rel",
+        column1="order_id",
+        column2="invoice_id",
     )
-    no_of_folio = fields.Integer("No. Folio", compute="_compute_folio_count")
+    no_of_folio = fields.Integer(
+        string="No. Folio",
+        compute="_compute_folio_count",
+    )
 
     def unlink(self):
-        """
-        Overrides orm unlink method.
-        @param self: The object pointer
-        @return: True/False.
-        """
         lines_of_moves_to_post = self.filtered(
             lambda reserv_rec: reserv_rec.state != "draft"
         )
@@ -139,7 +137,7 @@ class HotelReservation(models.Model):
             raise ValidationError(
                 _("Sorry, you can only delete the reservation when it's draft!")
             )
-        return super(HotelReservation, self).unlink()
+        return super().unlink()
 
     def copy(self):
         ctx = dict(self._context) or {}
@@ -148,12 +146,6 @@ class HotelReservation(models.Model):
 
     @api.constrains("reservation_line", "adults", "children")
     def _check_reservation_rooms(self):
-        """
-        This method is used to validate the reservation_line.
-        -----------------------------------------------------
-        @param self: object pointer
-        @return: raise a warning depending on the validation
-        """
         ctx = dict(self._context) or {}
         for reservation in self:
             cap = 0
@@ -229,7 +221,7 @@ class HotelReservation(models.Model):
         vals["reservation_no"] = (
             self.env["ir.sequence"].next_by_code("hotel.reservation") or "New"
         )
-        return super(HotelReservation, self).create(vals)
+        return super().create(vals)
 
     def check_overlap(self, date1, date2):
         delta = date2 - date1
@@ -494,116 +486,3 @@ class HotelReservation(models.Model):
         else:
             action = {"type": "ir.actions.act_window_close"}
         return action
-
-
-class HotelReservationLine(models.Model):
-
-    _name = "hotel.reservation.line"
-    _description = "Reservation Line"
-
-    name = fields.Char()
-    line_id = fields.Many2one("hotel.reservation")
-    reserve = fields.Many2many(
-        "hotel.room",
-        "hotel_reservation_line_room_rel",
-        "hotel_reservation_line_id",
-        "room_id",
-        domain="[('isroom','=',True),\
-                               ('categ_id','=',categ_id)]",
-    )
-    categ_id = fields.Many2one("hotel.room.type", "Room Type")
-
-    @api.onchange("categ_id")
-    def on_change_categ(self):
-        """
-        When you change categ_id it check checkin and checkout are
-        filled or not if not then raise warning
-        -----------------------------------------------------------
-        @param self: object pointer
-        """
-        if not self.line_id.checkin:
-            raise ValidationError(
-                _(
-                    """Before choosing a room,\n You have to """
-                    """select a Check in date or a Check out """
-                    """ date in the reservation form."""
-                )
-            )
-        hotel_room_ids = self.env["hotel.room"].search(
-            [("room_categ_id", "=", self.categ_id.id)]
-        )
-        room_ids = []
-        for room in hotel_room_ids:
-            assigned = False
-            for line in room.room_reservation_line_ids.filtered(
-                lambda l: l.status != "cancel"
-            ):
-                if self.line_id.checkin and line.check_in and self.line_id.checkout:
-                    if (
-                        self.line_id.checkin <= line.check_in <= self.line_id.checkout
-                    ) or (
-                        self.line_id.checkin <= line.check_out <= self.line_id.checkout
-                    ):
-                        assigned = True
-                    elif (line.check_in <= self.line_id.checkin <= line.check_out) or (
-                        line.check_in <= self.line_id.checkout <= line.check_out
-                    ):
-                        assigned = True
-            for rm_line in room.room_line_ids.filtered(lambda l: l.status != "cancel"):
-                if self.line_id.checkin and rm_line.check_in and self.line_id.checkout:
-                    if (
-                        self.line_id.checkin
-                        <= rm_line.check_in
-                        <= self.line_id.checkout
-                    ) or (
-                        self.line_id.checkin
-                        <= rm_line.check_out
-                        <= self.line_id.checkout
-                    ):
-                        assigned = True
-                    elif (
-                        rm_line.check_in <= self.line_id.checkin <= rm_line.check_out
-                    ) or (
-                        rm_line.check_in <= self.line_id.checkout <= rm_line.check_out
-                    ):
-                        assigned = True
-            if not assigned:
-                room_ids.append(room.id)
-        domain = {"reserve": [("id", "in", room_ids)]}
-        return {"domain": domain}
-
-    def unlink(self):
-        """
-        Overrides orm unlink method.
-        @param self: The object pointer
-        @return: True/False.
-        """
-        hotel_room_reserv_line_obj = self.env["hotel.room.reservation.line"]
-        for reserv_rec in self:
-            for rec in reserv_rec.reserve:
-                myobj = hotel_room_reserv_line_obj.search(
-                    [
-                        ("room_id", "=", rec.id),
-                        ("reservation_id", "=", reserv_rec.line_id.id),
-                    ]
-                )
-                if myobj:
-                    rec.write({"isroom": True, "status": "available"})
-                    myobj.unlink()
-        return super(HotelReservationLine, self).unlink()
-
-
-class HotelRoomReservationLine(models.Model):
-
-    _name = "hotel.room.reservation.line"
-    _description = "Hotel Room Reservation"
-    _rec_name = "room_id"
-
-    room_id = fields.Many2one("hotel.room")
-    check_in = fields.Datetime("Check In Date", required=True)
-    check_out = fields.Datetime("Check Out Date", required=True)
-    state = fields.Selection(
-        [("assigned", "Assigned"), ("unassigned", "Unassigned")], "Room Status"
-    )
-    reservation_id = fields.Many2one("hotel.reservation", "Reservation")
-    status = fields.Selection(string="state", related="reservation_id.state")

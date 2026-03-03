@@ -9,18 +9,43 @@ class QuickRoomReservation(models.TransientModel):
     _name = "quick.room.reservation"
     _description = "Quick Room Reservation"
 
-    partner_id = fields.Many2one("res.partner", "Customer", required=True)
-    check_in = fields.Datetime(required=True)
-    check_out = fields.Datetime(required=True)
-    room_id = fields.Many2one("hotel.room", required=True)
-    company_id = fields.Many2one("res.company", "Hotel", required=True)
-    pricelist_id = fields.Many2one("product.pricelist", "pricelist")
-    partner_invoice_id = fields.Many2one(
-        "res.partner", "Invoice Address", required=True
+    partner_id = fields.Many2one(
+        comodel_name="res.partner",
+        string="Customer",
+        required=True,
     )
-    partner_order_id = fields.Many2one("res.partner", "Ordering Contact", required=True)
+    check_in = fields.Datetime(
+        required=True,
+    )
+    check_out = fields.Datetime(
+        required=True,
+    )
+    room_id = fields.Many2one(
+        comodel_name="hotel.room",
+        required=True,
+    )
+    company_id = fields.Many2one(
+        comodel_name="res.company",
+        string="Hotel",
+        required=True,
+    )
+    pricelist_id = fields.Many2one(
+        comodel_name="product.pricelist",
+    )
+    partner_invoice_id = fields.Many2one(
+        comodel_name="res.partner",
+        string="Invoice Address",
+        required=True,
+    )
+    partner_order_id = fields.Many2one(
+        comodel_name="res.partner",
+        string="Ordering Contact",
+        required=True,
+    )
     partner_shipping_id = fields.Many2one(
-        "res.partner", "Delivery Address", required=True
+        comodel_name="res.partner",
+        string="Delivery Address",
+        required=True,
     )
     adults = fields.Integer()
 
@@ -68,51 +93,39 @@ class QuickRoomReservation(models.TransientModel):
 
     @api.model
     def default_get(self, fields):
-        """
-        To get default values for the object.
-        @param self: The object pointer.
-        @param fields: List of fields for which we want default values
-        @return: A dictionary which of fields with values.
-        """
-        res = super(QuickRoomReservation, self).default_get(fields)
+        res = super().default_get(fields)
         keys = self._context.keys()
         if "date" in keys:
             res.update({"check_in": self._context["date"]})
         if "room_id" in keys:
-            roomid = self._context["room_id"]
-            res.update({"room_id": int(roomid)})
+            room_id = self._context["room_id"]
+            res.update({"room_id": int(room_id)})
         return res
 
     def room_reserve(self):
-        """
-        This method create a new record for hotel.reservation
-        -----------------------------------------------------
-        @param self: The object pointer
-        @return: new record set for hotel reservation.
-        """
-        hotel_res_obj = self.env["hotel.reservation"]
-        for res in self:
-            rec = hotel_res_obj.create(
+        Reservation = self.env["hotel.reservation"]
+        for reservation in self:
+            res = Reservation.create(
                 {
-                    "partner_id": res.partner_id.id,
-                    "partner_invoice_id": res.partner_invoice_id.id,
-                    "partner_order_id": res.partner_order_id.id,
-                    "partner_shipping_id": res.partner_shipping_id.id,
-                    "checkin": res.check_in,
-                    "checkout": res.check_out,
-                    "company_id": res.company_id.id,
-                    "pricelist_id": res.pricelist_id.id,
-                    "adults": res.adults,
+                    "partner_id": reservation.partner_id.id,
+                    "partner_invoice_id": reservation.partner_invoice_id.id,
+                    "partner_order_id": reservation.partner_order_id.id,
+                    "partner_shipping_id": reservation.partner_shipping_id.id,
+                    "checkin": reservation.check_in,
+                    "checkout": reservation.check_out,
+                    "company_id": reservation.company_id.id,
+                    "pricelist_id": reservation.pricelist_id.id,
+                    "adults": reservation.adults,
                     "reservation_line": [
                         (
                             0,
                             0,
                             {
-                                "reserve": [(6, 0, res.room_id.ids)],
-                                "name": res.room_id.name or " ",
+                                "reserve": [(6, 0, reservation.room_id.ids)],
+                                "name": reservation.room_id.name or " ",
                             },
                         )
                     ],
                 }
             )
-        return rec
+        return res

@@ -44,13 +44,13 @@ repos:
       # update the NOT INSTALLABLE ADDONS section above
       - id: oca-update-pre-commit-excluded-addons
       - id: oca-fix-manifest-website
-        args: ["https://github.com/OCA/vertical-hotel"]
+        args: ["https://github.com/OCA/purchase-workflow"]
       - id: oca-gen-addon-readme
         args:
           - --addons-dir=.
           - --branch=16.0
           - --org-name=OCA
-          - --repo-name=vertical-hotel
+          - --repo-name=purchase-workflow
           - --if-source-changed
           - --keep-source-digest
   - repo: https://github.com/OCA/odoo-pre-commit-hooks

@@ -7,7 +7,7 @@
     "author": "Odoo Community Association (OCA), Serpent Consulting \
                Services Pvt. Ltd., OpenERP SA",
     "category": "Hotel Management",
-    "website": "https://github.com/OCA/vertical-hotel",
+    "website": "https://github.com/OCA/purchase-workflow",
     "depends": ["sale_stock", "account"],
     "license": "LGPL-3",
     "summary": "Hotel Management to Manage Folio and Hotel Configuration",

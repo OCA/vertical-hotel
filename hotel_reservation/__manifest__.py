@@ -3,13 +3,14 @@
 
 {
     "name": "Hotel Reservation Management",
-    "version": "15.0.1.0.0",
+    "version": "16.0.1.0.0",
     "author": "Odoo Community Association (OCA), Serpent Consulting \
                 Services Pvt. Ltd., Odoo S.A.",
+    "maintainers": ["cubells"],
     "category": "Generic Modules/Hotel Reservation",
     "license": "AGPL-3",
     "summary": "Manages Guest Reservation & displays Reservation Summary",
-    "website": "https://github.com/OCA/vertical-hotel",
+    "website": "https://github.com/OCA/purchase-workflow",
     "depends": ["hotel", "stock", "mail"],
     "demo": ["data/hotel_reservation_data.xml"],
     "data": [
@@ -23,7 +24,8 @@
         "report/room_max_report_template.xml",
         "report/hotel_reservation_report_template.xml",
         "report/report_view.xml",
-        "wizards/hotel_reservation_wizard.xml",
+        "wizards/hotel_reservation_wizard_views.xml",
+        "wizards/wizard_make_folio_views.xml",
     ],
     "assets": {
         "web.assets_qweb": [
@@ -31,7 +33,7 @@
         ],
         "web.assets_backend": [
             "hotel_reservation/static/src/css/room_summary.css",
-            "hotel_reservation/static/src/js/hotel_room_summary.js",
+            "hotel_reservation/static/src/js/hotel_room_summary.esm.js",
         ],
     },
     "external_dependencies": {"python": ["dateutil"]},

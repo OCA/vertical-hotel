@@ -6,7 +6,7 @@
     "version": "16.0.1.0.0",
     "author": "Odoo Community Association (OCA), Serpent Consulting \
                Services Pvt. Ltd., Odoo S.A.",
-    "website": "https://github.com/OCA/vertical-hotel",
+    "website": "https://github.com/OCA/purchase-workflow",
     "license": "AGPL-3",
     "summary": "Manages Housekeeping Activities and its Process",
     "category": "Generic Modules/Hotel Housekeeping",
