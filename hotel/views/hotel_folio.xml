@@ -108,14 +108,15 @@
                                         name="product_id"
                                         string="Room No"
                                         required="1"
-                                        context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'uom':product_uom, 'checkin_date':checkin_date, 'checkout_date':checkout_date, 'from_room':True}"
+                                        context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'uom':product_uom_id, 'checkin_date':checkin_date, 'checkout_date':checkout_date, 'from_room':True}"
                                         domain="[('isroom','=',True)]"
                                         options="{'no_open': True}"
                                         groups="uom.group_uom"
                                     />
+                                    <!--  -->
                                     <field name="name" />
                                     <field
-                                        name="product_uom"
+                                        name="product_uom_id"
                                         string="Rent(UOM)"
                                         readonly="state in ['sale','done', 'cancel']"
                                         context="{'company_id': parent.company_id}"
@@ -123,17 +124,17 @@
                                         groups="uom.group_uom"
                                     />
                                     <field name="product_uom_qty" string="Duration" />
-                                    <field
+                                    <!-- <field
                                         name="product_uom_category_id"
                                         column_invisible="1"
-                                    />
+                                    /> -->
                                     <field name="price_unit" />
-                                    <field
+                                    <!-- <field
                                         domain="[('type_tax_use','=','sale'),('company_id','=',parent.company_id)]"
                                         name="tax_id"
                                         options="{'no_create': True}"
                                         widget="many2many_tags"
-                                    />
+                                    /> -->
                                     <field
                                         groups="sale.group_discount_per_so_line"
                                         name="discount"
@@ -162,10 +163,10 @@
                                         name="product_id"
                                         required="1"
                                         domain="[('isservice','=',True)]"
-                                        context="{'partner_id':parent.partner_id,'quantity':product_uom_qty,'pricelist':parent.pricelist_id,'hotel':parent.warehouse_id,'uom':product_uom}"
                                         options="{'no_open': True}"
                                         groups="uom.group_uom"
                                     />
+
                                     <field
                                         name="ser_checkout_date"
                                         column_invisible="1"
@@ -182,12 +183,12 @@
                                         column_invisible="1"
                                     />
                                     <field name="product_uom_qty" string="Duration" />
-                                    <field
+                                    <!-- <field
                                         name="product_uom_category_id"
                                         column_invisible="1"
-                                    />
+                                    /> -->
                                     <field
-                                        name="product_uom"
+                                        name="product_uom_id"
                                         string="Rent(UOM)"
                                         readonly="state in ['sale','done', 'cancel']"
                                         context="{'company_id': parent.company_id}"
@@ -195,12 +196,12 @@
                                         groups="uom.group_uom"
                                     />
                                     <field name="price_unit" />
-                                    <field
+                                    <!-- <field
                                         domain="[('type_tax_use','=','sale'),('company_id','=',parent.company_id)]"
                                         name="tax_id"
                                         options="{'no_create': True}"
                                         widget="many2many_tags"
-                                    />
+                                    /> -->
                                     <field
                                         groups="sale.group_discount_per_so_line"
                                         name="discount"
@@ -289,24 +290,24 @@
         <field name="name">hotel.folio.search</field>
         <field name="model">hotel.folio</field>
         <field name="arch" type="xml">
-            <search string="Tables Detail">
+            <search string="Hotel Folio">
                 <field name="partner_id" />
-                <field name="name" filter_domain="[('name', 'ilike', self)]" />
+                <field name="name" filter_domain="[('name', 'ilike', value)]" />
                 <filter
-                    name="checkout_date"
+                    name="current_booking"
                     string="Current Booking"
-                    domain="[('checkout_date','&gt;=',datetime.datetime.now().replace(hour=0, minute=0, second=0)),('checkin_date','&lt;=',datetime.datetime.now().replace(hour=23, minute=59, second=59))]"
+                    domain="[('checkin_date', '&lt;=', today), ('checkout_date', '&gt;=', today)]"
                 />
-                <group expand="0" string="Group By">
+                <group>
                     <filter
                         name="date_order"
                         string="Order By Month"
-                        context="{'group_by':'date_order'}"
+                        context="{'group_by': 'date_order'}"
                     />
                     <filter
                         name="partner_id"
                         string="Customer"
-                        context="{'group_by':'partner_id'}"
+                        context="{'group_by': 'partner_id'}"
                     />
                 </group>
             </search>

@@ -1,9 +1,9 @@
 # Copyright (C) 2024-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
-from odoo.osv import expression
+from odoo.fields import Domain
 
 
 class HotelFloor(models.Model):
@@ -18,12 +18,12 @@ class HotelFloor(models.Model):
 class HotelRoom(models.Model):
     _name = "hotel.room"
     _description = "Hotel Room"
+    _inherits = {"product.product": "product_id"}
 
     product_id = fields.Many2one(
         "product.product",
         "Product_id",
         required=True,
-        delegate=True,
         ondelete="cascade",
     )
     floor_id = fields.Many2one(
@@ -63,7 +63,7 @@ class HotelRoom(models.Model):
     def _check_capacity(self):
         for room in self:
             if room.capacity <= 0:
-                raise ValidationError(_("Room capacity must be more than 0"))
+                raise ValidationError(room.env._("Room capacity must be more than 0"))
 
     @api.onchange("isroom")
     def _onchange_isroom(self):
@@ -111,6 +111,7 @@ class HotelRoom(models.Model):
 class HotelRoomType(models.Model):
     _name = "hotel.room.type"
     _description = "Room Type"
+    _inherits = {"product.category": "product_categ_id"}
     _rec_name = "name"
 
     categ_id = fields.Many2one("hotel.room.type", "Category")
@@ -118,7 +119,6 @@ class HotelRoomType(models.Model):
     product_categ_id = fields.Many2one(
         "product.category",
         "Product Category",
-        delegate=True,
         required=True,
         copy=False,
         ondelete="restrict",
@@ -154,62 +154,47 @@ class HotelRoomType(models.Model):
 
     @api.model
     def _name_search(self, name, domain=None, operator="ilike", limit=None, order=None):
-        if not domain:
-            domain = []
+        domain = domain or []
         if name:
             # Be sure name_search is symetric to name_get
             category_names = name.split(" / ")
             parents = list(category_names)
             child = parents.pop()
-            domain = [("name", operator, child)]
+            domain = Domain.AND([domain, [("name", operator, child)]])
             if parents:
-                names_ids = self.name_search(
+                category_ids = self.name_search(
                     " / ".join(parents),
                     domain=domain,
                     operator="ilike",
                     limit=limit,
                 )
-                category_ids = [name_id[0] for name_id in names_ids]
-                if operator in expression.NEGATIVE_TERM_OPERATORS:
+                if operator in Domain.NEGATIVE_TERM_OPERATORS:
                     categories = self.search([("id", "not in", category_ids)])
-                    domain = expression.OR(
-                        [[("categ_id", "in", categories.ids)], domain]
+                    domain = Domain.OR(
+                        [[("categ_id", "not in", categories.ids)], domain]
                     )
                 else:
-                    domain = expression.AND(
-                        [[("categ_id", "in", category_ids)], domain]
-                    )
+                    domain = Domain.AND([[("categ_id", "in", category_ids)], domain])
                 for i in range(1, len(category_names)):
-                    domain = [
-                        [
-                            (
-                                "name",
-                                operator,
-                                " / ".join(category_names[-1 - i :]),
-                            )
-                        ],
-                        domain,
+                    new_domain = [
+                        (
+                            "name",
+                            operator,
+                            " / ".join(category_names[-1 - i :]),
+                        )
                     ]
-                    if operator in expression.NEGATIVE_TERM_OPERATORS:
-                        domain = expression.AND(domain)
+                    if operator in Domain.NEGATIVE_TERM_OPERATORS:
+                        domain = Domain.AND([domain, new_domain])
                     else:
-                        domain = expression.OR(domain)
-            categories = self._search(
-                expression.AND([domain, domain]), limit=limit, order=order
-            )
-        else:
-            categories = self._search(
-                expression.AND([[("name", operator, name)], domain]),
-                limit=limit,
-                order=order,
-            )
+                        domain = Domain.OR([domain, new_domain])
 
-        return categories
+        return self._search(domain, limit=limit, order=order)
 
 
 class HotelRoomAmenitiesType(models.Model):
     _name = "hotel.room.amenities.type"
     _description = "amenities Type"
+    _inherits = {"product.category": "product_categ_id"}
     _order = "name"
 
     amenity_id = fields.Many2one("hotel.room.amenities.type", "Category")
@@ -219,7 +204,6 @@ class HotelRoomAmenitiesType(models.Model):
     product_categ_id = fields.Many2one(
         "product.category",
         "Product Category",
-        delegate=True,
         required=True,
         copy=False,
         ondelete="restrict",
@@ -257,68 +241,52 @@ class HotelRoomAmenitiesType(models.Model):
 
     @api.model
     def _name_search(self, name, domain=None, operator="ilike", limit=None, order=None):
-        if not domain:
-            domain = []
+        domain = domain or []
         if name:
             # Be sure name_search is symetric to name_get
             category_names = name.split(" / ")
             parents = list(category_names)
             child = parents.pop()
-            domain = [("name", operator, child)]
+            domain = Domain.AND([domain, [("name", operator, child)]])
             if parents:
-                names_ids = self.name_search(
+                category_ids = self.name_search(
                     " / ".join(parents),
                     domain=domain,
                     operator="ilike",
                     limit=limit,
                 )
-                category_ids = [name_id[0] for name_id in names_ids]
-                if operator in expression.NEGATIVE_TERM_OPERATORS:
+                if operator in Domain.NEGATIVE_TERM_OPERATORS:
                     categories = self.search([("id", "not in", category_ids)])
-                    domain = expression.OR(
-                        [[("amenity_id", "in", categories.ids)], domain]
+                    domain = Domain.OR(
+                        [[("amenity_id", "not in", categories.ids)], domain]
                     )
                 else:
-                    domain = expression.AND(
-                        [[("amenity_id", "in", category_ids)], domain]
-                    )
+                    domain = Domain.AND([[("amenity_id", "in", category_ids)], domain])
                 for i in range(1, len(category_names)):
-                    domain = [
-                        [
-                            (
-                                "name",
-                                operator,
-                                " / ".join(category_names[-1 - i :]),
-                            )
-                        ],
-                        domain,
+                    new_domain = [
+                        (
+                            "name",
+                            operator,
+                            " / ".join(category_names[-1 - i :]),
+                        )
                     ]
-                    if operator in expression.NEGATIVE_TERM_OPERATORS:
-                        domain = expression.AND(domain)
+                    if operator in Domain.NEGATIVE_TERM_OPERATORS:
+                        domain = Domain.AND([domain, new_domain])
                     else:
-                        domain = expression.OR(domain)
-            categories = self._search(
-                expression.AND([domain, domain]), limit=limit, order=order
-            )
-        else:
-            categories = self._search(
-                expression.AND([[("name", operator, name)], domain]),
-                limit=limit,
-                order=order,
-            )
+                        domain = Domain.OR([domain, new_domain])
 
-        return categories
+        return self._search(domain, limit=limit, order=order)
 
 
 class HotelRoomAmenities(models.Model):
     _name = "hotel.room.amenities"
     _description = "Room amenities"
+    _inherits = {"product.product": "product_id"}
 
     product_id = fields.Many2one(
         "product.product",
         "Room Amenities Product",
         required=True,
-        delegate=True,
         ondelete="cascade",
     )
     amenities_categ_id = fields.Many2one(

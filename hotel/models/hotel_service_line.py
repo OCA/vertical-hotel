@@ -3,7 +3,7 @@
 
 import time
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
@@ -11,8 +11,8 @@ from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 class HotelServiceLine(models.Model):
     _name = "hotel.service.line"
     _description = "Hotel service line"
+    _inherits = {"sale.order.line": "service_line_id"}
 
-    @api.returns("self", lambda value: value.id)
     def copy(self, default=None):
         """
         @param self: object pointer
@@ -24,7 +24,6 @@ class HotelServiceLine(models.Model):
         "sale.order.line",
         "Service Line",
         required=True,
-        delegate=True,
         ondelete="cascade",
     )
     folio_id = fields.Many2one("hotel.folio", "Folio", ondelete="cascade")
@@ -85,7 +84,7 @@ class HotelServiceLine(models.Model):
 
             return {
                 "warning": {
-                    "title": _("Warning for %s", product.name),
+                    "title": self.env._("Warning for %s", product.name),
                     "message": product.sale_line_warn_msg,
                 }
             }
@@ -104,7 +103,9 @@ class HotelServiceLine(models.Model):
         if not self.ser_checkout_date:
             self.ser_checkout_date = time_a
         if self.ser_checkout_date < self.ser_checkin_date:
-            raise ValidationError(_("Checkout must be greater or equal checkin date"))
+            raise ValidationError(
+                self.env._("Checkout must be greater or equal checkin date")
+            )
         if self.ser_checkin_date and self.ser_checkout_date:
             diffDate = self.ser_checkout_date - self.ser_checkin_date
             qty = diffDate.days + 1

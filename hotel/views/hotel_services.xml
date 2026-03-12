@@ -32,7 +32,6 @@
                                     />
                                     <field name="uom_id" />
                                     <field name="default_code" />
-                                    <field name="uom_po_id" />
                                     <field
                                         name="supplier_taxes_id"
                                         widget="many2many_tags"

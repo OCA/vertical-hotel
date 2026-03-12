@@ -2,19 +2,19 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 
 class HotelFolioLine(models.Model):
     _name = "hotel.folio.line"
     _description = "Hotel Folio Line"
+    _inherits = {"sale.order.line": "order_line_id"}
 
     order_line_id = fields.Many2one(
         "sale.order.line",
         "Order Line",
         required=True,
-        delegate=True,
         ondelete="cascade",
     )
     folio_id = fields.Many2one("hotel.folio", "Folio", ondelete="cascade")
@@ -97,7 +97,7 @@ class HotelFolioLine(models.Model):
         for rec in self:
             if rec.checkin_date >= rec.checkout_date:
                 raise ValidationError(
-                    _(
+                    rec.env._(
                         """Room line Check In Date Should be """
                         """less than the Check Out Date!"""
                     )
@@ -105,7 +105,7 @@ class HotelFolioLine(models.Model):
             if rec.folio_id.date_order and rec.checkin_date:
                 if rec.checkin_date.date() < rec.folio_id.date_order.date():
                     raise ValidationError(
-                        _(
+                        rec.env._(
                             """Room line check in date should be """
                             """greater than the current date."""
                         )
@@ -170,7 +170,7 @@ class HotelFolioLine(models.Model):
 
             return {
                 "warning": {
-                    "title": _("Warning for %s", product.name),
+                    "title": self.env._("Warning for %s", product.name),
                     "message": product.sale_line_warn_msg,
                 }
             }
