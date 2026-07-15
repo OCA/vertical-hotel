@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-07-15 08:46+0000\n"
+"PO-Revision-Date: 2026-07-15 12:46+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -264,7 +264,7 @@ msgstr "Tariffa servizio"
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_amenities_form
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_room_amenities_type_form
 msgid "Amenity Type"
-msgstr "Tipo servizio"
+msgstr "Tipo dotazione"
 
 #. module: hotel
 #: model:ir.ui.menu,name:hotel.menu_action_hotel_room_amenities_type_view_form
