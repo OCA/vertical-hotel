@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-10-14 09:42+0000\n"
+"PO-Revision-Date: 2026-07-16 08:46+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10.4\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__product_variant_count
@@ -3326,7 +3326,7 @@ msgstr "Da pesare con la bilancia"
 #: model:hotel.room.amenities,name:hotel.hotel_room_amenities_1
 #: model:product.product,name:hotel.hotel_room_amenities_1_product_product
 msgid "Toiletries"
-msgstr "Toiletteria"
+msgstr "Articoli da toeletta"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__amount_total
