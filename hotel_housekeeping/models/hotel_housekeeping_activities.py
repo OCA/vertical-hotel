@@ -42,7 +42,7 @@ class HotelHousekeepingActivities(models.Model):
     @api.model
     def default_get(self, fields_list):
         res = super().default_get(fields_list)
-        context = self._context
+        context = self.env.context
         if context.get("today_date", False):
             res.update({"today_date": context.get("today_date")})
         return res

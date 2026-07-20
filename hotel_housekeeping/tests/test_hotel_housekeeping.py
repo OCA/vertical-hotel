@@ -15,13 +15,28 @@ class TestHousekeeping(common.TransactionCase):
         self.hotel_act_obj = self.env["hotel.housekeeping.activities"]
         self.hotel_act_type_obj = self.env["hotel.housekeeping.activity.type"]
         self.housekeeper_id = self.env.ref("base.user_root")
-        self.inspector_id = self.env.ref("base.user_demo")
-        self.act_type = self.env.ref(
-            "hotel_housekeeping.hotel_housekeeping_activity_type_1"
+        self.inspector_id = self.env["res.users"].create(
+            {
+                "name": "Test Inspector",
+                "login": "test_inspector",
+                "group_ids": [(6, 0, [self.env.ref("base.group_user").id])],
+            }
         )
-        self.room = self.env.ref("hotel.hotel_room_0")
-        self.activity = self.env.ref("hotel_housekeeping.hotel_room_activities_1")
-        self.activity_type = self.env["hotel.housekeeping.activity.type"]
+        self.root_act_type = self.hotel_act_type_obj.create({"name": "All Activities"})
+        self.act_type = self.hotel_act_type_obj.create(
+            {"name": "Room Activity", "parent_id": self.root_act_type.id}
+        )
+        self.room_type = self.env["hotel.room.type"].create({"name": "Test Room Type"})
+        self.room = self.env["hotel.room"].create(
+            {
+                "name": "Test Room 101",
+                "room_categ_id": self.room_type.id,
+                "capacity": 2,
+            }
+        )
+        self.activity = self.env["hotel.activity"].create(
+            {"name": "Room Cleaning", "categ_id": self.act_type.id}
+        )
 
         cur_date = datetime.now().strftime("%Y-%m-21 %H:%M:%S")
         cur_date1 = datetime.now().strftime("%Y-%m-23 %H:%M:%S")
@@ -62,13 +77,19 @@ class TestHousekeeping(common.TransactionCase):
         )
 
     def test_name_search(self):
-        self.activity_type = self.env["hotel.housekeeping.activity.type"].create(
+        self.activity_type = self.hotel_act_type_obj.create(
             {
                 "name": "Test",
             }
         )
-        self.env["hotel.housekeeping.activity.type"]._name_search(
-            "All Activities / Test Room Activity", [], "not like", None
+        # A category can be found through its full "Parent / Child" path
+        result = self.hotel_act_type_obj.name_search(
+            "All Activities / Room Activity / Test Room Activity"
+        )
+        self.assertEqual(
+            [record[0] for record in result],
+            self.hotel_act_type.ids,
+            "Hierarchical name_search did not match the expected category",
         )
 
     def test_activity_check_clean_start_time(self):

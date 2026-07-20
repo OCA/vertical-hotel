@@ -155,40 +155,29 @@
         <field name="model">hotel.housekeeping</field>
         <field name="arch" type="xml">
             <search string="Housekeeping">
-                <group string='Filters'>
-                    <filter
-                        domain="[('state','=','dirty')]"
-                        string="Dirty"
-                        name="dirty"
-                    />
-                    <filter
-                        domain="[('state','=','clean')]"
-                        string="Clean"
-                        name="clean"
-                    />
-                    <filter
-                        domain="[('state','=','inspect')]"
-                        string="Inspect"
-                        name="inspect"
-                    />
-                    <filter
-                        domain="[('state','=','cancel')]"
-                        string="Cancel"
-                        name="cancel"
-                    />
-                    <filter domain="[('state','=','done')]" string="Done" name="done" />
-                </group>
+                <field name="room_id" />
                 <field name="inspector_id" />
                 <field name="quality" />
                 <field name="state" />
-                <newline />
-                <group expand="0" string="Group By">
+                <separator />
+                <filter string="Dirty" name="dirty" domain="[('state','=','dirty')]" />
+                <filter string="Clean" name="clean" domain="[('state','=','clean')]" />
+                <filter
+                    string="Inspect"
+                    name="inspect"
+                    domain="[('state','=','inspect')]"
+                />
+                <filter
+                    string="Cancel"
+                    name="cancel"
+                    domain="[('state','=','cancel')]"
+                />
+                <filter string="Done" name="done" domain="[('state','=','done')]" />
+                <group>
                     <filter
-                        name="inspector_id"
-                        string="Inspector Name"
-                        icon="terp-personal"
-                        domain="[]"
-                        context="{'group_by':'inspector_id'}"
+                        string="Inspector"
+                        name="groupby_inspector"
+                        context="{'group_by': 'inspector_id'}"
                     />
                 </group>
             </search>
@@ -201,6 +190,7 @@
         <field name="res_model">hotel.housekeeping</field>
         <field name="view_mode">list,form</field>
         <field name="view_id" ref="view_hotel_housekeeping_tree" />
+        <field name="search_view_id" ref="view_hotel_housekeeping_search" />
     </record>
     <menuitem
         id="menu_housekeeping"
@@ -292,14 +282,11 @@
             <search string="Housekeeping Activity">
                 <field name="name" />
                 <field name="categ_id" />
-                <newline />
-                <group expand="0" string="Group By...">
+                <group>
                     <filter
-                        name="categ_id"
+                        name="groupby_categ"
                         string="Category"
-                        icon="terp-stock_symbol-selection"
-                        domain="[]"
-                        context="{'group_by':'categ_id'}"
+                        context="{'group_by': 'categ_id'}"
                     />
                 </group>
             </search>
