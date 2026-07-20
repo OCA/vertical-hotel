@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models
-from odoo.osv import expression
+from odoo.fields import Domain
 
 
 class ProductProduct(models.Model):
@@ -34,6 +34,7 @@ class ProductProduct(models.Model):
             if checkin_date and checkout_date:
                 HotelRoom = self.env["hotel.room"].sudo()
                 avail_prod_ids = []
+                # pylint: disable=no-search-all
                 rooms = HotelRoom.search([])
 
                 for room in rooms:
@@ -52,7 +53,7 @@ class ProductProduct(models.Model):
                     if not assigned:
                         avail_prod_ids.append(room.product_id.id)
 
-                domain = expression.AND([domain, [("id", "in", avail_prod_ids)]])
+                domain = Domain.AND([domain, [("id", "in", avail_prod_ids)]])
 
         return super().search_fetch(
             domain, field_names, offset=offset, limit=limit, order=order

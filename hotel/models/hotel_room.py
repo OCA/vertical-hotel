@@ -1,9 +1,9 @@
 # Copyright (C) 2024-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
-from odoo.osv import expression
+from odoo.fields import Domain
 
 
 class HotelFloor(models.Model):
@@ -18,12 +18,12 @@ class HotelFloor(models.Model):
 class HotelRoom(models.Model):
     _name = "hotel.room"
     _description = "Hotel Room"
+    _inherits = {"product.product": "product_id"}
 
     product_id = fields.Many2one(
         "product.product",
         "Product_id",
         required=True,
-        delegate=True,
         ondelete="cascade",
     )
     floor_id = fields.Many2one(
@@ -52,25 +52,18 @@ class HotelRoom(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        room_type_ids = [
-            v.get("room_categ_id") for v in vals_list if v.get("room_categ_id")
-        ]
-        if room_type_ids:
-            room_types = self.env["hotel.room.type"].browse(room_type_ids)
-            type_to_categ = {
-                t.id: t.product_categ_id.id for t in room_types if t.product_categ_id
-            }
-            for vals in vals_list:
-                room_categ_id = vals.get("room_categ_id")
-                if room_categ_id and room_categ_id in type_to_categ:
-                    vals["categ_id"] = type_to_categ[room_categ_id]
+        for vals in vals_list:
+            room_type_obj = self.env["hotel.room.type"]
+            if "room_categ_id" in vals:
+                room_categ = room_type_obj.browse(vals.get("room_categ_id"))
+                vals.update({"categ_id": room_categ.product_categ_id.id})
         return super().create(vals_list)
 
     @api.constrains("capacity")
     def _check_capacity(self):
         for room in self:
-            if room.capacity < 1:
-                raise ValidationError(_("Room capacity must be more than 0"))
+            if room.capacity <= 0:
+                raise ValidationError(room.env._("Room capacity must be more than 0"))
 
     @api.onchange("isroom")
     def _onchange_isroom(self):
@@ -90,13 +83,10 @@ class HotelRoom(models.Model):
         if "room_categ_id" in vals:
             room_categ = self.env["hotel.room.type"].browse(vals.get("room_categ_id"))
             vals.update({"categ_id": room_categ.product_categ_id.id})
-        if "isroom" in vals:
-            vals.update(
-                {
-                    "color": 5 if vals["isroom"] else 2,
-                    "status": "available" if vals["isroom"] else "occupied",
-                }
-            )
+        if "isroom" in vals and vals["isroom"] is False:
+            vals.update({"color": 2, "status": "occupied"})
+        if "isroom" in vals and vals["isroom"] is True:
+            vals.update({"color": 5, "status": "available"})
         return super().write(vals)
 
     def set_room_status_occupied(self):
@@ -121,6 +111,7 @@ class HotelRoom(models.Model):
 class HotelRoomType(models.Model):
     _name = "hotel.room.type"
     _description = "Room Type"
+    _inherits = {"product.category": "product_categ_id"}
     _rec_name = "name"
 
     categ_id = fields.Many2one("hotel.room.type", "Category")
@@ -128,7 +119,6 @@ class HotelRoomType(models.Model):
     product_categ_id = fields.Many2one(
         "product.category",
         "Product Category",
-        delegate=True,
         required=True,
         copy=False,
         ondelete="restrict",
@@ -136,16 +126,11 @@ class HotelRoomType(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        type_ids = [v.get("categ_id") for v in vals_list if v.get("categ_id")]
-        if type_ids:
-            types = self.browse(type_ids)
-            type_to_parent = {
-                t.id: t.product_categ_id.id for t in types if t.product_categ_id
-            }
-            for vals in vals_list:
-                categ_id = vals.get("categ_id")
-                if categ_id and categ_id in type_to_parent:
-                    vals["parent_id"] = type_to_parent[categ_id]
+        room_type_obj = self.env["hotel.room.type"]
+        for vals in vals_list:
+            if "categ_id" in vals:
+                room_categ = room_type_obj.browse(vals.get("categ_id"))
+                vals.update({"parent_id": room_categ.product_categ_id.id})
         return super().create(vals_list)
 
     def write(self, vals):
@@ -169,62 +154,47 @@ class HotelRoomType(models.Model):
 
     @api.model
     def _name_search(self, name, domain=None, operator="ilike", limit=None, order=None):
-        if not domain:
-            domain = []
+        domain = domain or []
         if name:
             # Be sure name_search is symetric to name_get
             category_names = name.split(" / ")
             parents = list(category_names)
             child = parents.pop()
-            domain = [("name", operator, child)]
+            domain = Domain.AND([domain, [("name", operator, child)]])
             if parents:
-                names_ids = self.name_search(
+                category_ids = self.name_search(
                     " / ".join(parents),
                     domain=domain,
                     operator="ilike",
                     limit=limit,
                 )
-                category_ids = [name_id[0] for name_id in names_ids]
-                if operator in expression.NEGATIVE_TERM_OPERATORS:
+                if operator in Domain.NEGATIVE_TERM_OPERATORS:
                     categories = self.search([("id", "not in", category_ids)])
-                    domain = expression.OR(
-                        [[("categ_id", "in", categories.ids)], domain]
+                    domain = Domain.OR(
+                        [[("categ_id", "not in", categories.ids)], domain]
                     )
                 else:
-                    domain = expression.AND(
-                        [[("categ_id", "in", category_ids)], domain]
-                    )
+                    domain = Domain.AND([[("categ_id", "in", category_ids)], domain])
                 for i in range(1, len(category_names)):
-                    domain = [
-                        [
-                            (
-                                "name",
-                                operator,
-                                " / ".join(category_names[-1 - i :]),
-                            )
-                        ],
-                        domain,
+                    new_domain = [
+                        (
+                            "name",
+                            operator,
+                            " / ".join(category_names[-1 - i :]),
+                        )
                     ]
-                    if operator in expression.NEGATIVE_TERM_OPERATORS:
-                        domain = expression.AND(domain)
+                    if operator in Domain.NEGATIVE_TERM_OPERATORS:
+                        domain = Domain.AND([domain, new_domain])
                     else:
-                        domain = expression.OR(domain)
-            categories = self._search(
-                expression.AND([domain, domain]), limit=limit, order=order
-            )
-        else:
-            categories = self._search(
-                expression.AND([[("name", operator, name)], domain]),
-                limit=limit,
-                order=order,
-            )
+                        domain = Domain.OR([domain, new_domain])
 
-        return categories
+        return self._search(domain, limit=limit, order=order)
 
 
 class HotelRoomAmenitiesType(models.Model):
     _name = "hotel.room.amenities.type"
     _description = "amenities Type"
+    _inherits = {"product.category": "product_categ_id"}
     _order = "name"
 
     amenity_id = fields.Many2one("hotel.room.amenities.type", "Category")
@@ -234,7 +204,6 @@ class HotelRoomAmenitiesType(models.Model):
     product_categ_id = fields.Many2one(
         "product.category",
         "Product Category",
-        delegate=True,
         required=True,
         copy=False,
         ondelete="restrict",
@@ -242,16 +211,11 @@ class HotelRoomAmenitiesType(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        amenity_ids = [v.get("amenity_id") for v in vals_list if v.get("amenity_id")]
-        if amenity_ids:
-            amenities = self.browse(amenity_ids)
-            amenity_to_parent = {
-                a.id: a.product_categ_id.id for a in amenities if a.product_categ_id
-            }
-            for vals in vals_list:
-                amenity_id = vals.get("amenity_id")
-                if amenity_id and amenity_id in amenity_to_parent:
-                    vals["parent_id"] = amenity_to_parent[amenity_id]
+        rm_amenity_obj = self.env["hotel.room.amenities.type"]
+        for vals in vals_list:
+            if "amenity_id" in vals:
+                amenity_categ = rm_amenity_obj.browse(vals.get("amenity_id"))
+                vals.update({"parent_id": amenity_categ.product_categ_id.id})
         return super().create(vals_list)
 
     def write(self, vals):
@@ -277,68 +241,52 @@ class HotelRoomAmenitiesType(models.Model):
 
     @api.model
     def _name_search(self, name, domain=None, operator="ilike", limit=None, order=None):
-        if not domain:
-            domain = []
+        domain = domain or []
         if name:
             # Be sure name_search is symetric to name_get
             category_names = name.split(" / ")
             parents = list(category_names)
             child = parents.pop()
-            domain = [("name", operator, child)]
+            domain = Domain.AND([domain, [("name", operator, child)]])
             if parents:
-                names_ids = self.name_search(
+                category_ids = self.name_search(
                     " / ".join(parents),
                     domain=domain,
                     operator="ilike",
                     limit=limit,
                 )
-                category_ids = [name_id[0] for name_id in names_ids]
-                if operator in expression.NEGATIVE_TERM_OPERATORS:
+                if operator in Domain.NEGATIVE_TERM_OPERATORS:
                     categories = self.search([("id", "not in", category_ids)])
-                    domain = expression.OR(
-                        [[("amenity_id", "in", categories.ids)], domain]
+                    domain = Domain.OR(
+                        [[("amenity_id", "not in", categories.ids)], domain]
                     )
                 else:
-                    domain = expression.AND(
-                        [[("amenity_id", "in", category_ids)], domain]
-                    )
+                    domain = Domain.AND([[("amenity_id", "in", category_ids)], domain])
                 for i in range(1, len(category_names)):
-                    domain = [
-                        [
-                            (
-                                "name",
-                                operator,
-                                " / ".join(category_names[-1 - i :]),
-                            )
-                        ],
-                        domain,
+                    new_domain = [
+                        (
+                            "name",
+                            operator,
+                            " / ".join(category_names[-1 - i :]),
+                        )
                     ]
-                    if operator in expression.NEGATIVE_TERM_OPERATORS:
-                        domain = expression.AND(domain)
+                    if operator in Domain.NEGATIVE_TERM_OPERATORS:
+                        domain = Domain.AND([domain, new_domain])
                     else:
-                        domain = expression.OR(domain)
-            categories = self._search(
-                expression.AND([domain, domain]), limit=limit, order=order
-            )
-        else:
-            categories = self._search(
-                expression.AND([[("name", operator, name)], domain]),
-                limit=limit,
-                order=order,
-            )
+                        domain = Domain.OR([domain, new_domain])
 
-        return categories
+        return self._search(domain, limit=limit, order=order)
 
 
 class HotelRoomAmenities(models.Model):
     _name = "hotel.room.amenities"
     _description = "Room amenities"
+    _inherits = {"product.product": "product_id"}
 
     product_id = fields.Many2one(
         "product.product",
         "Room Amenities Product",
         required=True,
-        delegate=True,
         ondelete="cascade",
     )
     amenities_categ_id = fields.Many2one(
@@ -351,22 +299,11 @@ class HotelRoomAmenities(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        amenity_type_ids = [
-            v.get("amenities_categ_id")
-            for v in vals_list
-            if v.get("amenities_categ_id")
-        ]
-        if amenity_type_ids:
-            amenity_types = self.env["hotel.room.amenities.type"].browse(
-                amenity_type_ids
-            )
-            type_to_categ = {
-                t.id: t.product_categ_id.id for t in amenity_types if t.product_categ_id
-            }
-            for vals in vals_list:
-                amenities_categ_id = vals.get("amenities_categ_id")
-                if amenities_categ_id and amenities_categ_id in type_to_categ:
-                    vals["categ_id"] = type_to_categ[amenities_categ_id]
+        rm_amenity_obj = self.env["hotel.room.amenities.type"]
+        for vals in vals_list:
+            if "amenities_categ_id" in vals:
+                amenities_categ = rm_amenity_obj.browse(vals.get("amenities_categ_id"))
+                vals.update({"categ_id": amenities_categ.product_categ_id.id})
         return super().create(vals_list)
 
     def write(self, vals):

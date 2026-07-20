@@ -3,7 +3,7 @@
 
 import time
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
@@ -11,8 +11,8 @@ from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 class HotelServiceLine(models.Model):
     _name = "hotel.service.line"
     _description = "Hotel service line"
+    _inherits = {"sale.order.line": "service_line_id"}
 
-    @api.returns("self", lambda value: value.id)
     def copy(self, default=None):
         """
         @param self: object pointer
@@ -24,7 +24,6 @@ class HotelServiceLine(models.Model):
         "sale.order.line",
         "Service Line",
         required=True,
-        delegate=True,
         ondelete="cascade",
     )
     folio_id = fields.Many2one("hotel.folio", "Folio", ondelete="cascade")
@@ -39,16 +38,11 @@ class HotelServiceLine(models.Model):
         @param vals: dictionary of fields value.
         @return: new record set for hotel service line.
         """
-        folio_ids = [v.get("folio_id") for v in vals_list if v.get("folio_id")]
-        if folio_ids:
-            folios = self.env["hotel.folio"].browse(folio_ids)
-            folio_to_order = {
-                folio.id: folio.order_id.id for folio in folios if folio.order_id
-            }
-            for vals in vals_list:
-                folio_id = vals.get("folio_id")
-                if folio_id and folio_id in folio_to_order:
-                    vals["order_id"] = folio_to_order[folio_id]
+        folio_obj = self.env["hotel.folio"]
+        for vals in vals_list:
+            if "folio_id" in vals:
+                folio = folio_obj.browse(vals.get("folio_id"))
+                vals.update({"order_id": folio.order_id.id})
         return super().create(vals_list)
 
     def unlink(self):
@@ -57,7 +51,14 @@ class HotelServiceLine(models.Model):
         @param self: The object pointer
         @return: True/False.
         """
-        return super().unlink()
+        service_line_ids = self.mapped("service_line_id")
+
+        res = super().unlink()
+
+        if service_line_ids:
+            service_line_ids.unlink()
+
+        return res
 
     # Migrated _onchange_product_id method v15 to v18.
     @api.onchange("product_id")
@@ -83,7 +84,7 @@ class HotelServiceLine(models.Model):
 
             return {
                 "warning": {
-                    "title": _("Warning for %s", product.name),
+                    "title": self.env._("Warning for %s", product.name),
                     "message": product.sale_line_warn_msg,
                 }
             }
@@ -102,7 +103,9 @@ class HotelServiceLine(models.Model):
         if not self.ser_checkout_date:
             self.ser_checkout_date = time_a
         if self.ser_checkout_date < self.ser_checkin_date:
-            raise ValidationError(_("Checkout must be greater or equal checkin date"))
+            raise ValidationError(
+                self.env._("Checkout must be greater or equal checkin date")
+            )
         if self.ser_checkin_date and self.ser_checkout_date:
             diffDate = self.ser_checkout_date - self.ser_checkin_date
             qty = diffDate.days + 1
