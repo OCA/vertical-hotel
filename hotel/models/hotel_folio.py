@@ -4,7 +4,7 @@
 from collections import defaultdict
 from datetime import timedelta
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
 
@@ -23,6 +23,7 @@ class FolioRoomLine(models.Model):
 class HotelFolio(models.Model):
     _name = "hotel.folio"
     _description = "hotel folio"
+    _inherits = {"sale.order": "order_id"}
     _rec_name = "order_id"
 
     def _compute_display_name(self):
@@ -39,32 +40,30 @@ class HotelFolio(models.Model):
 
     @api.model
     def _get_checkin_date(self):
-        self._context.get("tz") or self.env.user.partner_id.tz or "UTC"
+        self.env.context.get("tz") or self.env.user.partner_id.tz or "UTC"
         checkin_date = fields.Datetime.context_timestamp(self, fields.Datetime.now())
         return fields.Datetime.to_string(checkin_date)
 
     @api.model
     def _get_checkout_date(self):
-        self._context.get("tz") or self.env.user.partner_id.tz or "UTC"
+        self.env.context.get("tz") or self.env.user.partner_id.tz or "UTC"
         checkout_date = fields.Datetime.context_timestamp(
             self, fields.Datetime.now() + timedelta(days=1)
         )
         return fields.Datetime.to_string(checkout_date)
 
     name = fields.Char("Folio Number", index=True, default="New")
-    order_id = fields.Many2one(
-        "sale.order", "Order", delegate=True, required=True, ondelete="cascade"
-    )
+    order_id = fields.Many2one("sale.order", "Order", required=True, ondelete="cascade")
     checkin_date = fields.Datetime(
         "Check In",
         required=True,
-        default=_get_checkin_date,
+        default=lambda self: self._get_checkin_date(),
     )
     checkout_date = fields.Datetime(
         "Check Out",
         readonly=True,
         required=True,
-        default=_get_checkout_date,
+        default=lambda self: self._get_checkout_date(),
     )
     room_line_ids = fields.One2many(
         "hotel.folio.line",
@@ -120,12 +119,12 @@ class HotelFolio(models.Model):
                 for current, nxt in zip(sorted_lines, sorted_lines[1:], strict=False):
                     if current.checkout_date > nxt.checkin_date:
                         raise ValidationError(
-                            _(
-                                "Room Duplicate Exceeded! "
-                                """You cannot book the same room '%s'
-                                twice with overlapping dates."""
+                            self.env._(
+                                """Room Duplicate Exceeded!
+                                You cannot book the same room '%s'
+                                twice with overlapping dates.""",
+                                current.product_id.display_name,
                             )
-                            % current.product_id.display_name
                         )
 
     @api.model_create_multi
@@ -159,7 +158,7 @@ class HotelFolio(models.Model):
         hotel_room_obj = self.env["hotel.room"]
         for rec in self:
             if not rec.order_id:
-                raise UserError(_("Order id is not available"))
+                raise UserError(rec.env._("Order id is not available"))
 
             products = rec.room_line_ids.mapped("product_id")
             if products:

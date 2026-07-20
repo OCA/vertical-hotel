@@ -13,8 +13,7 @@ class TestHotel(common.TransactionCase):
         self.hotel_folio_obj = self.env["hotel.folio"]
         self.hotel_folio_line = self.env["hotel.folio.line"]
         self.warehouse = self.env.ref("stock.warehouse0")
-        self.partner = self.env.ref("base.res_partner_2")
-        self.room = self.env.ref("hotel.hotel_room_0")
+        self.partner = self.env["res.partner"].create({"name": "Test Partner"})
         cur_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         self.price_list = self.env["product.pricelist"].create(

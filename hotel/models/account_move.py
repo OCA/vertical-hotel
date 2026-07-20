@@ -13,9 +13,10 @@ class AccountMove(models.Model):
         to link the account move with a hotel folio.
         """
         rec = super().create(vals_list)
-        active_id = self.env.context.get("folio_id")
-        if active_id:
-            folio = self.env["hotel.folio"].browse(active_id)
-            for res in rec:
+        folio_obj = self.env["hotel.folio"]
+        active_id = self._context.get("folio_id")
+        for res in rec:
+            if active_id:
+                folio = folio_obj.browse(active_id)
                 folio.write({"hotel_invoice_id": res.id, "invoice_status": "invoiced"})
         return rec
