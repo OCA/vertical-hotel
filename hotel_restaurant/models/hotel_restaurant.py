@@ -1,7 +1,7 @@
 # Copyright (C) 2024-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -85,7 +85,9 @@ class HotelRestaurantReservation(models.Model):
 
         for reservation in self:
             if not reservation.table_nos_ids:
-                raise ValidationError(_("Please Select Tables For Reservation"))
+                raise ValidationError(
+                    self.env._("Please Select Tables For Reservation")
+                )
             reservation._cr.execute(
                 "select count(*) from "
                 "hotel_restaurant_reservation as hrr "
@@ -110,7 +112,7 @@ class HotelRestaurantReservation(models.Model):
             roomcount = res and res[0] or 0.0
             if roomcount:
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "You tried to confirm reservation "
                         "with tables that are already reserved "
                         "in this reservation period"
@@ -198,19 +200,23 @@ class HotelRestaurantReservation(models.Model):
         @return: raise a warning depending on the validation
         """
         if self.start_date >= self.end_date:
-            raise ValidationError(_("Start Date Should be less than the End Date!"))
+            raise ValidationError(
+                self.env._("Start Date Should be less than the End Date!")
+            )
         if self.is_folio:
             for line in self.folio_id.room_line_ids:
                 if self.start_date < line.checkin_date:
                     raise ValidationError(
-                        _(
+                        self.env._(
                             """Start Date Should be greater """
                             """than the Folio Check-in Date!"""
                         )
                     )
                 if self.end_date > line.checkout_date:
                     raise ValidationError(
-                        _("End Date Should be less than the Folio Check-out Date!")
+                        self.env._(
+                            "End Date Should be less than the Folio Check-out Date!"
+                        )
                     )
 
 
@@ -290,9 +296,9 @@ class HotelRestaurantOrder(models.Model):
         restaurant_order_list_obj = self.env["hotel.restaurant.order.list"]
         for order in self:
             if not order.order_list_ids:
-                raise ValidationError(_("Please specify items for the order"))
+                raise ValidationError(self.env._("Please specify items for the order"))
             if not order.table_nos_ids:
-                raise ValidationError(_("Please Assign a Table"))
+                raise ValidationError(self.env._("Please Assign a Table"))
 
             table_ids = order.table_nos_ids.ids
             kot_data = order_tickets_obj.create(
@@ -530,7 +536,7 @@ class HotelReservationOrder(models.Model):
         rest_order_list_obj = self.env["hotel.restaurant.order.list"]
         for order in self:
             if not order.order_list_ids:
-                raise ValidationError(_("Please specify items for the order"))
+                raise ValidationError(self.env._("Please specify items for the order"))
 
             table_ids = order.table_nos_ids.ids
             line_data = {
