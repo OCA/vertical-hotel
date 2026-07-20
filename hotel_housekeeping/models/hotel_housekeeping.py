@@ -1,7 +1,7 @@
 # Copyright (C) 2024-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -95,7 +95,7 @@ class HotelHousekeeping(models.Model):
         @param self: object pointer
         """
         if not self.quality:
-            raise ValidationError(_("Please update quality of work!"))
+            raise ValidationError(self.env._("Please update quality of work!"))
         self.write({"state": "done"})
 
     def room_inspect(self):
@@ -127,5 +127,7 @@ class HotelHousekeeping(models.Model):
                     and line.clean_end_time < record.inspect_date_time
                 ):
                     raise ValidationError(
-                        _("Inspect Date Time must be greater than Clean end time")
+                        self.env._(
+                            "Inspect Date Time must be greater than Clean end time"
+                        )
                     )

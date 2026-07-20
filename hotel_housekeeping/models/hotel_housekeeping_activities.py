@@ -1,7 +1,7 @@
 # Copyright (C) 2024-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -17,11 +17,11 @@ class HotelHousekeepingActivities(models.Model):
     clean_end_time = fields.Datetime(required=True)
     is_dirty = fields.Boolean(
         "Dirty",
-        help="Checked if the housekeeping activity" "results as Dirty.",
+        help="Checked if the housekeeping activityresults as Dirty.",
     )
     is_clean = fields.Boolean(
         "Clean",
-        help="Checked if the housekeeping" "activity results as Clean.",
+        help="Checked if the housekeepingactivity results as Clean.",
     )
 
     @api.constrains("clean_start_time", "clean_end_time")
@@ -35,7 +35,9 @@ class HotelHousekeepingActivities(models.Model):
         """
         for activity in self:
             if activity.clean_start_time >= activity.clean_end_time:
-                raise ValidationError(_("Start Time Should be less than the End Time!"))
+                raise ValidationError(
+                    self.env._("Start Time Should be less than the End Time!")
+                )
 
     @api.model
     def default_get(self, fields_list):
