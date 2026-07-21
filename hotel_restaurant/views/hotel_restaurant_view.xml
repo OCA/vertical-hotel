@@ -99,13 +99,11 @@
             <search string="Tables Detail">
                 <field name="name" />
                 <field name="capacity" />
-                <newline />
-                <group expand="0" string="Group By">
+                <group>
                     <filter
-                        name="capacity"
+                        name="group_by_capacity"
                         string="Capacity"
-                        icon="terp-stock_symbol-selection"
-                        context="{'group_by':'capacity'}"
+                        context="{'group_by': 'capacity'}"
                     />
                 </group>
             </search>
@@ -262,43 +260,32 @@
                     string="Today's Booking"
                 />
                 <separator />
-                <group string="States">
-                    <filter
-                        icon="terp-check"
-                        domain="[('state','=','draft')]"
-                        string="Draft"
-                        name="draft"
-                    />
-                    <filter
-                        domain="[('state','=','confirm')]"
-                        string="Confirm"
-                        name="confirm"
-                    />
-                    <filter
-                        domain="[('state','=','cancel')]"
-                        string="Cancel"
-                        name="cancel"
-                    />
-                    <filter domain="[('state','=','done')]" string="Done" name="done" />
-                </group>
+                <filter domain="[('state','=','draft')]" string="Draft" name="draft" />
+                <filter
+                    domain="[('state','=','confirm')]"
+                    string="Confirm"
+                    name="confirm"
+                />
+                <filter
+                    domain="[('state','=','cancel')]"
+                    string="Cancel"
+                    name="cancel"
+                />
+                <filter domain="[('state','=','done')]" string="Done" name="done" />
                 <field name="room_id" />
                 <field name="start_date" />
                 <field name="end_date" />
                 <field name="customer_id" />
-                <newline />
-                <group expand="0" string="Group By">
+                <group>
                     <filter
-                        name="room_id"
+                        name="group_by_room_id"
                         string="Room Number"
-                        icon="terp-personal"
-                        domain="[]"
-                        context="{'group_by':'room_id'}"
+                        context="{'group_by': 'room_id'}"
                     />
                     <filter
-                        name="customer_id"
+                        name="group_by_customer_id"
                         string="Customer Name"
-                        domain="[]"
-                        context="{'group_by':'customer_id'}"
+                        context="{'group_by': 'customer_id'}"
                     />
                 </group>
             </search>
@@ -457,19 +444,16 @@
                     string="Today's Orders"
                 />
                 <field name="reservation_id" />
-                <group expand="0" string="Group By">
+                <group>
                     <filter
-                        name="waiter_id"
+                        name="group_by_waiter_id"
                         string="Waiter Name"
-                        icon="terp-personal"
-                        domain="[]"
-                        context="{'group_by':'waiter_id'}"
+                        context="{'group_by': 'waiter_id'}"
                     />
                     <filter
-                        name="order_date"
+                        name="group_by_order_date"
                         string="Date"
-                        domain="[]"
-                        context="{'group_by':'order_date'}"
+                        context="{'group_by': 'order_date'}"
                     />
                 </group>
             </search>
@@ -655,19 +639,16 @@
                     string="Today's Orders"
                 />
                 <field name="order_no" />
-                <group expand="0" string="Group By">
+                <group>
                     <filter
-                        name="waiter_id"
-                        string="waiter name"
-                        icon="terp-personal"
-                        domain="[]"
-                        context="{'group_by':'waiter_id'}"
+                        name="group_by_waiter_id"
+                        string="Waiter Name"
+                        context="{'group_by': 'waiter_id'}"
                     />
                     <filter
-                        name="o_date"
-                        string="date"
-                        domain="[]"
-                        context="{'group_by':'o_date'}"
+                        name="group_by_o_date"
+                        string="Date"
+                        context="{'group_by': 'o_date'}"
                     />
                 </group>
             </search>
@@ -766,19 +747,16 @@
                     string="Today's Orders"
                 />
                 <field name="order_number" />
-                <group expand="0" string="Group By">
+                <group>
                     <filter
-                        name="waiter_name"
+                        name="group_by_waiter_name"
                         string="Waiter Name"
-                        icon="terp-personal"
-                        domain="[]"
-                        context="{'group_by':'waiter_name'}"
+                        context="{'group_by': 'waiter_name'}"
                     />
                     <filter
-                        name="kot_date"
+                        name="group_by_kot_date"
                         string="Date"
-                        domain="[]"
-                        context="{'group_by':'kot_date'}"
+                        context="{'group_by': 'kot_date'}"
                     />
                 </group>
             </search>
@@ -873,18 +851,16 @@
                         <page name="information" string="Information">
                             <group colspan="4" col="2">
                                 <group colspan="4" col="4">
-                                    <field name="type" select="2" string="Food Type" />
+                                    <field name="type" string="Food Type" />
                                     <field
                                         name="menu_card_categ_id"
                                         string="Food Item Type"
                                     />
                                     <field
                                         name="product_manager_id"
-                                        select="2"
                                         string="Food Manager"
                                     />
                                     <field name="uom_id" />
-                                    <field name="uom_po_id" />
                                 </group>
                             </group>
                             <newline />
@@ -904,19 +880,13 @@
                         </page>
                         <page name="procurement" string="Procurement">
                             <group colspan="4" col="4">
-                                <field name="cost_method" />
-                                <field name="active" select="2" />
+                                <field name="active" />
                                 <field name="list_price" />
-                                <field name="sale_ok" select="2" />
+                                <field name="sale_ok" />
                                 <field name="standard_price" />
                                 <field name="price_extra" />
                                 <separator string="Suppliers" colspan='4' />
-                                <field
-                                    name="seller_ids"
-                                    colspan="4"
-                                    nolabel="1"
-                                    widget="one2many_list"
-                                />
+                                <field name="seller_ids" colspan="4" nolabel="1" />
                             </group>
                         </page>
                         <page name="description" string="Descriptions">
@@ -960,12 +930,11 @@
                 <field name="menu_card_categ_id" string="Food Item Type" />
                 <field name="list_price" />
                 <separator />
-                <group expand="0" string="Group By">
+                <group>
                     <filter
-                        name="category"
-                        string="Categoty"
-                        domain="[]"
-                        context="{'group_by':'menu_card_categ_id'}"
+                        name="group_by_category"
+                        string="Category"
+                        context="{'group_by': 'menu_card_categ_id'}"
                     />
                 </group>
             </search>
@@ -978,42 +947,34 @@
         <field name="model">hotel.menucard</field>
         <field name="arch" type="xml">
             <kanban>
-                <field name="id" />
-                <field name="image_1920" />
-                <field name="lst_price" />
                 <templates>
-                    <t t-name="card">
-                        <div class="oe_kanban_global_click">
-                            <div class="o_kanban_image">
-                                <img
-                                    alt="hotel menucard"
-                                    t-att-src="kanban_image('hotel.menucard', 'image_1920', record.id.raw_value)"
-                                />
+                    <t t-name="card" class="row g-0">
+                        <aside class="col-2">
+                            <field
+                                name="image_128"
+                                widget="image"
+                                options="{'img_class': 'o_image_64_contain mw-100'}"
+                                alt="Food Item"
+                            />
+                        </aside>
+                        <main class="col-10 ps-2">
+                            <div class="h5 mb-1">
+                                <span t-if="record.default_code.value">
+                                    [
+                                    <field name="default_code" />
+                                    ]
+                                </span>
+                                <field name="name" />
                             </div>
-                            <div class="oe_kanban_details">
-                                <h4>
-                                    <a type="open">
-                                        <t t-if="record.code.raw_value">
-                                            [
-                                            <field name="code" />
-                                            ]
-                                        </t>
-                                        <field name="name" />
-                                    </a>
-                                </h4>
-                                <div name="tags" />
-                                <ul>
-                                    <li>
-                                        Price:
-                                        <field name="lst_price" />
-                                    </li>
-                                    <li>
-                                        Category:
-                                        <field name="menu_card_categ_id" />
-                                    </li>
-                                </ul>
+                            <div>
+                                Price:
+                                <field name="lst_price" />
                             </div>
-                        </div>
+                            <div>
+                                Category:
+                                <field name="menu_card_categ_id" />
+                            </div>
+                        </main>
                     </t>
                 </templates>
             </kanban>

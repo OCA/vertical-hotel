@@ -1,7 +1,7 @@
 # Copyright (C) 2024-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from odoo.tests import common
 
@@ -15,17 +15,47 @@ class TestRestaurant(common.TransactionCase):
         self.rest_order_obj = self.env["hotel.restaurant.order.list"]
         self.hotel_rest_order_obj = self.env["hotel.restaurant.order"]
         self.hotel_reserv_order_obj = self.env["hotel.reservation.order"]
-        self.fooditem = self.env.ref("hotel_restaurant.hotel_fooditem_5")
-        self.fooditem_type = self.env.ref("hotel_restaurant.hotel_menucard_type_1")
-        self.rest_res = self.env.ref("hotel_restaurant.hotel_restaurant_reservation_1")
-        self.tablelist = self.env.ref("hotel_restaurant.hotel_reservation_order_line_0")
-        self.table1 = self.env.ref("hotel_restaurant.hotel_restaurant_tables_table1")
-        self.table0 = self.env.ref("hotel_restaurant.hotel_restaurant_tables_table0")
+        self.root_fooditem_type = self.menucard_type_obj.create(
+            {"name": "All FoodItems"}
+        )
+        self.fooditem_type = self.menucard_type_obj.create(
+            {"name": "Punjabi", "menu_id": self.root_fooditem_type.id}
+        )
+        self.fooditem = self.env["hotel.menucard"].create(
+            {
+                "name": "Malai Kofta",
+                "list_price": 1000.00,
+                "menu_card_categ_id": self.fooditem_type.id,
+            }
+        )
+        self.table0 = self.env["hotel.restaurant.tables"].create(
+            {"name": "Table-1", "capacity": 2}
+        )
+        self.table1 = self.env["hotel.restaurant.tables"].create(
+            {"name": "Table-2", "capacity": 4}
+        )
         self.room1 = self.env["product.product"].create({"name": "Room 101"})
-        self.partner = self.env.ref("base.res_partner_4")
-        self.waiter = self.env.ref("base.res_partner_3")
+        self.partner = self.env["res.partner"].create({"name": "Test Customer"})
+        self.waiter = self.env["res.partner"].create({"name": "Test Waiter"})
         self.menucard_type_1 = self.env["hotel.menucard.type"]
         cur_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        self.rest_res = self.hotel_rest_reserv_obj.create(
+            {
+                "customer_id": self.partner.id,
+                "room_id": self.room1.id,
+                "start_date": datetime.now(),
+                "end_date": datetime.now() + timedelta(days=1),
+                "table_nos_ids": [(6, 0, [self.table1.id, self.table0.id])],
+            }
+        )
+        self.tablelist = self.rest_order_obj.create(
+            {
+                "menucard_id": self.fooditem.id,
+                "item_qty": 1,
+                "item_rate": 1000.00,
+            }
+        )
 
         self.menucard_type = self.menucard_type_obj.create(
             {"name": "Punjabi", "menu_id": self.fooditem_type.id}

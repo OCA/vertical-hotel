@@ -88,7 +88,7 @@ class HotelRestaurantReservation(models.Model):
                 raise ValidationError(
                     self.env._("Please Select Tables For Reservation")
                 )
-            reservation._cr.execute(
+            self.env.cr.execute(
                 "select count(*) from "
                 "hotel_restaurant_reservation as hrr "
                 "inner join reservation_table as rt on \
@@ -108,7 +108,7 @@ class HotelRestaurantReservation(models.Model):
                     reservation.id,
                 ),
             )
-            res = self._cr.fetchone()
+            res = self.env.cr.fetchone()
             roomcount = res and res[0] or 0.0
             if roomcount:
                 raise ValidationError(
@@ -467,7 +467,7 @@ class HotelRestaurantOrder(models.Model):
                         "order_id": order_obj.folio_id.order_id.id,
                         "name": order.menucard_id.name,
                         "product_id": order.menucard_id.product_id.id,
-                        "product_uom": order.menucard_id.uom_id.id,
+                        "product_uom_id": order.menucard_id.uom_id.id,
                         "product_uom_qty": order.item_qty,
                         "price_unit": order.item_rate,
                     }
@@ -608,7 +608,7 @@ class HotelReservationOrder(models.Model):
             line_data = {
                 "order_number": order.order_number,
                 "reservation_number": order.reservation_id.reservation_id,
-                "kot_date": fields.Datetime.to_string(fields.datetime.now()),
+                "kot_date": fields.Datetime.now(),
                 "waiter_name": order.waiter_id.name,
                 "table_nos_ids": [(6, 0, table_ids)],
             }

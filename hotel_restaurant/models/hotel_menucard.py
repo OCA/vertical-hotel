@@ -2,7 +2,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models
-from odoo.osv import expression
+from odoo.fields import Domain
+from odoo.orm.domains import NEGATIVE_CONDITION_OPERATORS
 
 
 class HotelMenucardType(models.Model):
@@ -12,7 +13,10 @@ class HotelMenucardType(models.Model):
     name = fields.Char(required=True)
     child_ids = fields.One2many("hotel.menucard.type", "menu_id", "Child Categories")
     menu_id = fields.Many2one("hotel.menucard.type", "Food Item Type")
+    # the compute walks up the menu_id chain, so the dependency is recursive
+    display_name = fields.Char(compute="_compute_display_name", recursive=True)
 
+    @api.depends("name", "menu_id.display_name")
     def _compute_display_name(self):
         def get_names(cat):
             """Return the list [cat.name, cat.menu_id.name, ...]"""
@@ -28,59 +32,43 @@ class HotelMenucardType(models.Model):
 
     @api.model
     def _name_search(self, name, domain=None, operator="ilike", limit=None, order=None):
-        if not domain:
-            domain = []
-        if name:
-            # Be sure name_search is symetric to name_get
-            category_names = name.split(" / ")
-            parents = list(category_names)
-            child = parents.pop()
-            domain = [("name", operator, child)]
-            if parents:
-                names_ids = self.name_search(
-                    " / ".join(parents),
-                    domain=domain,
-                    operator="ilike",
-                    limit=limit,
-                )
-                category_ids = [name_id[0] for name_id in names_ids]
-                if operator in expression.NEGATIVE_TERM_OPERATORS:
-                    categories = self.search([("id", "not in", category_ids)])
-                    domain = expression.OR(
-                        [[("menu_id", "in", categories.ids)], domain]
-                    )
-                else:
-                    domain = expression.AND([[("menu_id", "in", category_ids)], domain])
-                for i in range(1, len(category_names)):
-                    domain = [
-                        [
-                            (
-                                "name",
-                                operator,
-                                " / ".join(category_names[-1 - i :]),
-                            )
-                        ],
-                        domain,
-                    ]
-                    if operator in expression.NEGATIVE_TERM_OPERATORS:
-                        domain = expression.AND(domain)
-                    else:
-                        domain = expression.OR(domain)
-            categories = self._search(
-                expression.AND([domain, domain]), limit=limit, order=order
+        domain = Domain(domain or Domain.TRUE)
+        if not name:
+            return self._search(
+                Domain("name", operator, name) & domain, limit=limit, order=order
             )
-        else:
-            categories = self._search(
-                expression.AND([[("name", operator, name)], domain]),
+        # Be sure name_search is symetric to _compute_display_name
+        category_names = name.split(" / ")
+        parents = list(category_names)
+        child = parents.pop()
+        name_domain = Domain("name", operator, child)
+        if parents:
+            names_ids = self.name_search(
+                " / ".join(parents),
+                domain=domain,
+                operator="ilike",
                 limit=limit,
-                order=order,
             )
-
-        return categories
+            category_ids = [name_id[0] for name_id in names_ids]
+            if operator in NEGATIVE_CONDITION_OPERATORS:
+                categories = self.search([("id", "not in", category_ids)])
+                name_domain = Domain("menu_id", "in", categories.ids) | name_domain
+            else:
+                name_domain = Domain("menu_id", "in", category_ids) & name_domain
+            for i in range(1, len(category_names)):
+                parent_domain = Domain(
+                    "name", operator, " / ".join(category_names[-1 - i :])
+                )
+                if operator in NEGATIVE_CONDITION_OPERATORS:
+                    name_domain = parent_domain & name_domain
+                else:
+                    name_domain = parent_domain | name_domain
+        return self._search(name_domain & domain, limit=limit, order=order)
 
 
 class HotelMenucard(models.Model):
     _name = "hotel.menucard"
+    _inherits = {"product.product": "product_id"}
     _description = "Hotel Menucard"
 
     product_id = fields.Many2one(
