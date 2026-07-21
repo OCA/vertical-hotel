@@ -1,7 +1,7 @@
 # Copyright (C) 2024-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -37,7 +37,7 @@ class QuickRoomReservation(models.TransientModel):
         for rec in self:
             if rec.check_in and rec.check_out and rec.check_out <= rec.check_in:
                 raise ValidationError(
-                    _("Checkout date should be greater than Checkin date.")
+                    self.env._("Checkout date should be greater than Checkin date.")
                 )
 
     @api.onchange("partner_id")

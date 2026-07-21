@@ -137,24 +137,22 @@ class ReportTestMaxroom(models.AbstractModel):
     def _get_room_used_detail(self, date_start, date_end):
         room_used_details = []
         hotel_room_obj = self.env["hotel.room"]
-        for room in hotel_room_obj.search([]):
-            counter = 0
-            details = {}
-            if room.room_reservation_line_ids:
-                end_date = datetime.strptime(date_end, DEFAULT_SERVER_DATETIME_FORMAT)
-                start_date = datetime.strptime(
-                    date_start, DEFAULT_SERVER_DATETIME_FORMAT
-                )
-                counter = len(
-                    room.room_reservation_line_ids.filtered(
-                        lambda x, start_date=start_date, end_date=end_date: start_date
-                        <= x.check_in
-                        <= end_date
-                    )
-                )
-            if counter >= 1:
-                details.update({"name": room.name or "", "no_of_times_used": counter})
-                room_used_details.append(details)
+        start_date = datetime.strptime(date_start, DEFAULT_SERVER_DATETIME_FORMAT)
+        end_date = datetime.strptime(date_end, DEFAULT_SERVER_DATETIME_FORMAT)
+        # Only the rooms reserved within the period are reported, so they are
+        # looked up from the reservation lines instead of browsing every room.
+        reservation_lines = self.env["hotel.room.reservation.line"].search(
+            [("check_in", ">=", start_date), ("check_in", "<=", end_date)]
+        )
+        counter_by_room = {}
+        for line in reservation_lines:
+            counter_by_room[line.room_id.id] = (
+                counter_by_room.get(line.room_id.id, 0) + 1
+            )
+        for room in hotel_room_obj.search([("id", "in", list(counter_by_room))]):
+            room_used_details.append(
+                {"name": room.name or "", "no_of_times_used": counter_by_room[room.id]}
+            )
         return room_used_details
 
     @api.model

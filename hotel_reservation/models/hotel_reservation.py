@@ -5,7 +5,7 @@ from datetime import timedelta
 
 from dateutil.relativedelta import relativedelta
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -54,7 +54,7 @@ class HotelReservation(models.Model):
     partner_invoice_id = fields.Many2one(
         "res.partner",
         "Invoice Address",
-        help="Invoice address for " "current reservation.",
+        help="Invoice address for current reservation.",
     )
     partner_order_id = fields.Many2one(
         "res.partner",
@@ -68,7 +68,7 @@ class HotelReservation(models.Model):
         "res.partner",
         "Delivery Address",
         readonly=True,
-        help="Delivery address" "for current reservation. ",
+        help="Delivery addressfor current reservation. ",
     )
     checkin = fields.Datetime(
         "Expected-Date-Arrival",
@@ -114,15 +114,12 @@ class HotelReservation(models.Model):
     )
     no_of_folio = fields.Integer("No. Folio", compute="_compute_folio_count")
 
-    def unlink(self):
-        """
-        Overrides orm unlink method.
-        @param self: The object pointer
-        @return: True/False.
-        """
+    @api.ondelete(at_uninstall=False)
+    def _unlink_except_non_draft(self):
         if any(reserv.state != "draft" for reserv in self):
-            raise ValidationError(_("You can only delete reservations in draft state!"))
-        return super().unlink()
+            raise ValidationError(
+                self.env._("You can only delete reservations in draft state!")
+            )
 
     def copy(self):
         ctx = dict(self._context) or {}
@@ -143,20 +140,22 @@ class HotelReservation(models.Model):
             for rec in reservation.reservation_line:
                 cap = 0
                 if len(rec.reserve) == 0:
-                    raise ValidationError(_("Please Select Rooms For Reservation."))
+                    raise ValidationError(
+                        self.env._("Please Select Rooms For Reservation.")
+                    )
                 cap = sum(room.capacity for room in rec.reserve)
                 room_cap.append(cap)
             if not ctx.get("duplicate"):
                 if (reservation.adults + reservation.children) > sum(room_cap):
                     raise ValidationError(
-                        _(
+                        self.env._(
                             "Room Capacity Exceeded \n"
                             " Please Select Rooms According to"
                             " Members Accommodation."
                         )
                     )
             if reservation.adults <= 0:
-                raise ValidationError(_("Adults must be more than 0"))
+                raise ValidationError(self.env._("Adults must be more than 0"))
 
     @api.constrains("checkin", "checkout")
     def check_in_out_dates(self):
@@ -167,11 +166,11 @@ class HotelReservation(models.Model):
         if self.checkout and self.checkin:
             if self.checkin < self.date_order:
                 raise ValidationError(
-                    _("Check-in date should be greater than " "the current date.")
+                    self.env._("Check-in date should be greater than the current date.")
                 )
             if self.checkout < self.checkin:
                 raise ValidationError(
-                    _("Check-out date should be greater than Check-in date.")
+                    self.env._("Check-out date should be greater than Check-in date.")
                 )
 
     @api.onchange("partner_id")
@@ -269,7 +268,7 @@ class HotelReservation(models.Model):
                                 reserv.check_in.date(), reserv.check_out.date()
                             )
                             raise ValidationError(
-                                _(
+                                self.env._(
                                     """You tried to Confirm Reservation with
                                     room %(room_name)s which is already
                                     reserved in this period.
@@ -503,7 +502,7 @@ class HotelReservationLine(models.Model):
         checkout = self.line_id.checkout
         if not checkin or not checkout:
             raise ValidationError(
-                _(
+                self.env._(
                     "Before choosing a room,\n You have to "
                     "select a Check in date and a Check out "
                     " date in the reservation form."
