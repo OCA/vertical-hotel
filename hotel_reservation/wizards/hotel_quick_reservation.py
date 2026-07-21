@@ -76,12 +76,11 @@ class QuickRoomReservation(models.TransientModel):
         @return: A dictionary which of fields with values.
         """
         res = super().default_get(fields)
-        keys = self._context.keys()
-        if "date" in keys:
-            res.update({"check_in": self._context["date"]})
-        if "room_id" in keys:
-            roomid = self._context["room_id"]
-            res.update({"room_id": int(roomid)})
+        context = self.env.context
+        if "date" in context:
+            res.update({"check_in": context["date"]})
+        if "room_id" in context:
+            res.update({"room_id": int(context["room_id"])})
         return res
 
     def room_reserve(self):

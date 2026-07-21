@@ -92,7 +92,7 @@ class RoomReservationSummary(models.Model):
         resource_id = self.env.ref("hotel_reservation.view_hotel_reservation_form").id
         return {
             "name": self.env._("Reconcile Write-Off"),
-            "context": self._context,
+            "context": dict(self.env.context),
             "view_mode": "form",
             "res_model": "hotel.reservation",
             "views": [(resource_id, "form")],
@@ -110,7 +110,6 @@ class RoomReservationSummary(models.Model):
         room_obj = self.env["hotel.room"]
         reservation_line_obj = self.env["hotel.room.reservation.line"]
         folio_room_line_obj = self.env["folio.room.line"]
-        user_obj = self.env["res.users"]
         date_range_list = []
         main_header = []
         summary_header_list = ["Rooms"]
@@ -119,10 +118,7 @@ class RoomReservationSummary(models.Model):
                 raise UserError(
                     self.env._("Checkout date should be later than Checkin date.")
                 )
-            if self._context.get("tz", False):
-                timezone = pytz.timezone(self._context.get("tz", False))
-            else:
-                timezone = pytz.timezone("UTC")
+            timezone = pytz.timezone(self.env.context.get("tz") or "UTC")
             d_frm_obj = (
                 (self.date_from)
                 .replace(tzinfo=pytz.timezone("UTC"))
@@ -209,8 +205,7 @@ class RoomReservationSummary(models.Model):
                                         if ci and co and rm and st:
                                             count += 1
                                     if count - dur.days == 0:
-                                        c_id1 = user_obj.browse(self._uid)
-                                        c_id = c_id1.company_id
+                                        c_id = self.env.company
                                         con_add = 0
                                         amin = 0.0
                                         # When configured_addition_hours is

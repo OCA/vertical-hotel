@@ -17,12 +17,7 @@ class TestReservation(common.TransactionCase):
         self.reserv_summary_obj = self.env["room.reservation.summary"]
         self.quick_room_reserv_obj = self.env["quick.room.reservation"]
         self.hotel_folio_obj = self.env["hotel.folio"]
-        self.reserv_line = self.env.ref("hotel_reservation.hotel_reservation_0")
-        self.room_type = self.env.ref("hotel.hotel_room_type_1")
-        self.room = self.env.ref("hotel.hotel_room_0")
         self.company = self.env.ref("base.main_company")
-        self.partner = self.env.ref("base.res_partner_2")
-        self.floor = self.env.ref("hotel.hotel_floor_ground0")
         self.manager = self.env.ref("base.user_root")
         self.warehouse = self.env.ref("stock.warehouse0")
         cur_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -30,10 +25,65 @@ class TestReservation(common.TransactionCase):
             "%Y-%m-%d %H:%M:%S"
         )
 
+        # Since 19.0 demo data is opt-in (--with-demo), so the tests build
+        # their own records instead of relying on the demo ones.
+        self.partner = self.env["res.partner"].create(
+            {"name": "Test Guest", "email": "test.guest@example.com"}
+        )
+        self.floor = self.env["hotel.floor"].create({"name": "Test Ground Floor"})
+        self.parent_room_type = self.env["hotel.room.type"].create(
+            {"name": "All Test Rooms"}
+        )
+        self.room_type = self.env["hotel.room.type"].create(
+            {"name": "Test Single", "categ_id": self.parent_room_type.id}
+        )
+        self.room = self.hotel_room_obj.create(
+            {
+                "name": "Test Single-101",
+                "isroom": True,
+                "list_price": 100.0,
+                "capacity": 4,
+                "floor_id": self.floor.id,
+                "max_adult": 2,
+                "max_child": 2,
+                "room_categ_id": self.room_type.id,
+                "product_manager": self.manager.id,
+            }
+        )
+
         self.price_list = self.env["product.pricelist"].create(
             {
                 "name": "Test Pricelist",
                 "currency_id": self.env.ref("base.USD").id,
+            }
+        )
+
+        self.reserv_line = self.hotel_reserv_obj.create(
+            {
+                "reservation_no": "R/00000",
+                "date_order": cur_date,
+                "company_id": self.company.id,
+                "partner_id": self.partner.id,
+                "pricelist_id": self.price_list.id,
+                "checkin": cur_date,
+                "checkout": checkout_date,
+                "adults": 1,
+                "state": "draft",
+                "children": 1,
+                "partner_invoice_id": self.partner.id,
+                "partner_order_id": self.partner.id,
+                "partner_shipping_id": self.partner.id,
+                "reservation_line": [
+                    (
+                        0,
+                        0,
+                        {
+                            "name": "R/00000",
+                            "categ_id": self.room_type.id,
+                            "reserve": [(6, 0, [self.room.id])],
+                        },
+                    )
+                ],
             }
         )
 
@@ -61,7 +111,17 @@ class TestReservation(common.TransactionCase):
                 "partner_invoice_id": self.partner.id,
                 "partner_order_id": self.partner.id,
                 "partner_shipping_id": self.partner.id,
-                "reservation_line": [(6, 0, [self.room.id])],
+                "reservation_line": [
+                    (
+                        0,
+                        0,
+                        {
+                            "name": "R/00002",
+                            "categ_id": self.room_type.id,
+                            "reserve": [(6, 0, [self.room.id])],
+                        },
+                    )
+                ],
             }
         )
 

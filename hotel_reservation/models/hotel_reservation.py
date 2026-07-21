@@ -122,9 +122,7 @@ class HotelReservation(models.Model):
             )
 
     def copy(self):
-        ctx = dict(self._context) or {}
-        ctx.update({"duplicate": True})
-        return super(HotelReservation, self.with_context(**ctx)).copy()
+        return super(HotelReservation, self.with_context(duplicate=True)).copy()
 
     @api.constrains("reservation_line", "adults", "children")
     def _check_reservation_rooms(self):
@@ -134,7 +132,6 @@ class HotelReservation(models.Model):
         @param self: object pointer
         @return: raise a warning depending on the validation
         """
-        ctx = dict(self._context) or {}
         for reservation in self:
             room_cap = []
             for rec in reservation.reservation_line:
@@ -145,7 +142,7 @@ class HotelReservation(models.Model):
                     )
                 cap = sum(room.capacity for room in rec.reserve)
                 room_cap.append(cap)
-            if not ctx.get("duplicate"):
+            if not self.env.context.get("duplicate"):
                 if (reservation.adults + reservation.children) > sum(room_cap):
                     raise ValidationError(
                         self.env._(
@@ -164,7 +161,9 @@ class HotelReservation(models.Model):
         Checkout date should be greater than the check-in date.
         """
         if self.checkout and self.checkin:
-            if self.checkin < self.date_order:
+            # Compare days, not exact timestamps: date_order is stamped at
+            # creation time, so a same-day check-in is valid (walk-in guest).
+            if self.checkin.date() < self.date_order.date():
                 raise ValidationError(
                     self.env._("Check-in date should be greater than the current date.")
                 )
@@ -422,7 +421,6 @@ class HotelReservation(models.Model):
                                 "name": reservation["reservation_no"],
                                 "price_unit": r.list_price,
                                 "product_uom_qty": duration,
-                                "tax_id": [(6, 0, r.product_id.taxes_id.ids)],
                                 "is_reserved": True,
                             },
                         )
