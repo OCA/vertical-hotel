@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-09-02 17:43+0000\n"
+"PO-Revision-Date: 2026-07-22 08:46+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10.4\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: report_hotel_reservation
 #: model:ir.model.fields.selection,name:report_hotel_reservation.selection__report_hotel_reservation_status__state__confirm
@@ -62,7 +62,7 @@ msgstr "Resoconti"
 #. module: report_hotel_reservation
 #: model:ir.model.fields,field_description:report_hotel_reservation.field_report_hotel_reservation_status__no_of_reservation
 msgid "Reservation"
-msgstr "N° prenotazione"
+msgstr "Prenotazione"
 
 #. module: report_hotel_reservation
 #: model:ir.model,name:report_hotel_reservation.model_report_hotel_reservation_status
