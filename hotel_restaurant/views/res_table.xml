@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE xml>
+<odoo>
+    <!--Template for Hotel Restaurant -->
+    <template id="report_res_table">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <style>
+                        .table-thick-border {
+                            border: 1px solid black;
+                        }
+                        .table-thick-border th,
+                        .table-thick-border td {
+                            border: 1px solid black;
+                            padding: 8px;
+                        }
+                    </style>
+                    <br />
+                    <br />
+                    <div class="row">
+                        <h2>
+                            <span>
+                                <center>Table Reservation List</center>
+                            </span>
+                        </h2>
+                    </div>
+                    <div class="row mt32 mb32">
+                        <center>
+                            <strong>From:</strong>
+                            <span t-esc="data['date_start']" />
+                            <strong>To:</strong>
+                            <span t-esc="data['date_end']" />
+                        </center>
+                    </div>
+                    <table
+                        class="table table-bordered table-thick-border"
+                        style="border-collapse: collapse; width: 100%;"
+                    >
+                        <thead>
+                            <tr>
+                                <th style="text-indent: 5px;">
+                                    <strong>Reservation No</strong>
+                                </th>
+                                <th>
+                                    <strong>Customer Name</strong>
+                                </th>
+                                <th>
+                                    <strong>Start Date</strong>
+                                </th>
+                                <th>
+                                    <strong>End Date</strong>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="Reservations" t-as="reservations">
+                                <td style="white-space: nowrap; text-indent: 5px;">
+                                    <span t-esc="reservations.get('reservation', '')" />
+                                </td>
+                                <td style="white-space: nowrap;">
+                                    <span t-esc="reservations.get('name', '')" />
+                                </td>
+                                <td style="white-space: nowrap;">
+                                    <span t-esc="reservations.get('start_date', '')" />
+                                </td>
+                                <td style="white-space: nowrap;">
+                                    <span t-esc="reservations.get('end_date', '')" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
