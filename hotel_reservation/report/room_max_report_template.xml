@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--Template for Hotel Reservation -->
+    <template id="report_maxroom_qweb">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <style>
+                        .table-thick-border {
+                            border: 1px solid black;
+                        }
+                        .table-thick-border th,
+                        .table-thick-border td {
+                            border: 1px solid black;
+                            padding: 8px;
+                        }
+                    </style>
+                    <br />
+                    <br />
+                    <div class="mt32 mb32">
+                        <br />
+                        <br />
+                        <center>
+                            <h2>Max Room Used List</h2>
+                        </center>
+                    </div>
+                    <div class="mt32 mb32">
+                        <center>
+                            <strong>From:</strong>
+                            <span t-esc="data['date_start']" />
+                            <strong>To:</strong>
+                            <span t-esc="data['date_end']" />
+                        </center>
+                    </div>
+                    <table
+                        class="table table-bordered table-thick-border"
+                        style="border-collapse: collapse; width: 100%;"
+                    >
+                        <tr>
+                            <th class="text-center">
+                                <strong>Room No</strong>
+                            </th>
+                            <th class="text-center">
+                                <strong>No of Times used</strong>
+                            </th>
+                        </tr>
+                        <tr t-foreach="get_room_used_detail" t-as="line">
+                            <td class="text-center">
+                                <span t-esc="line.get('name', '')" />
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="line.get('no_of_times_used', '')" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
