@@ -23,6 +23,7 @@ addon | version | maintainers | summary
 --- | --- | --- | ---
 [hotel](hotel/) | 18.0.1.0.0 |  | Hotel Management to Manage Folio and Hotel Configuration
 [hotel_housekeeping](hotel_housekeeping/) | 18.0.1.1.0 |  | Manages Housekeeping Activities and its Process
+[hotel_reservation](hotel_reservation/) | 18.0.1.0.0 |  | Manages Guest Reservation & displays Reservation Summary
 
 [//]: # (end addons)
 
