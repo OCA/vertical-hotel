@@ -17,11 +17,7 @@ vertical-hotel
 
 [//]: # (addons)
 
-Available addons
-----------------
-addon | version | maintainers | summary
---- | --- | --- | ---
-[hotel](hotel/) | 19.0.1.0.0 |  | Hotel Management to Manage Folio and Hotel Configuration
+This part will be replaced when running the oca-gen-addons-table script from OCA/maintainer-tools.
 
 [//]: # (end addons)
 
