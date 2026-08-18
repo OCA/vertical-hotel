@@ -1,0 +1,14 @@
+[project]
+name = "odoo-addons-oca-vertical-hotel"
+version = "18.0.20260817.2"
+dependencies = [
+    "odoo-addon-hotel==18.0.*",
+    "odoo-addon-hotel_housekeeping==18.0.*",
+    "odoo-addon-hotel_reservation==18.0.*",
+    "odoo-addon-hotel_restaurant==18.0.*",
+]
+classifiers=[
+    "Programming Language :: Python",
+    "Framework :: Odoo",
+    "Framework :: Odoo :: 18.0",
+]
