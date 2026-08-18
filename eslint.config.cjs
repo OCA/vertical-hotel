@@ -2,7 +2,7 @@ jsdoc = require("eslint-plugin-jsdoc");
 
 const config = [{
     plugins: {
-      jsdoc,
+        jsdoc,
     },
 
     languageOptions: {
@@ -152,7 +152,9 @@ const config = [{
         strict: ["error", "function"],
         "use-isnan": "error",
 
-        "jsdoc/check-tag-names": "warn",
+        "jsdoc/check-tag-names": ["warn", {
+            definedTags: ["odoo-module"],
+        }],
         "jsdoc/check-types": "warn",
         "jsdoc/require-param-description": "off",
         "jsdoc/require-return": "off",
@@ -191,7 +193,7 @@ const config = [{
     },
 
 }, {
-    files: ["**/*.esm.js"],
+    files: ["**/*.esm.js", "**/static/src/**/*.js"],
 
     languageOptions: {
         ecmaVersion: 2024,

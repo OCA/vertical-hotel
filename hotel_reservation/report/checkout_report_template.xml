@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--Template for Hotel Reservation -->
+    <template id="report_checkout_qweb">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <style>
+                        .table-thick-border {
+                            border: 1px solid black;
+                        }
+                        .table-thick-border th,
+                        .table-thick-border td {
+                            border: 1px solid black;
+                            padding: 8px;
+                        }
+                    </style>
+                    <br />
+                    <br />
+                    <div class="mt32 mb32">
+                        <center>
+                            <h2>
+                                <u>Check-Out Guest List</u>
+                            </h2>
+                        </center>
+                    </div>
+                    <div class="mt32 mb32">
+                        <center>
+                            <strong>From:</strong>
+                            <span t-esc="data['date_start']" />
+                            <strong>To:</strong>
+                            <span t-esc="data['date_end']" />
+                        </center>
+                    </div>
+                    <table
+                        class="table table-bordered table-thick-border"
+                        style="border-collapse: collapse; width: 100%;"
+                    >
+                        <tr>
+                            <th class="text-center">
+                                <strong>No</strong>
+                            </th>
+                            <th class="text-center">
+                                <strong>Guest Name</strong>
+                            </th>
+                            <th class="text-center">
+                                <strong>Check-Out Date</strong>
+                            </th>
+                            <th class="text-center">
+                                <strong>Room Type</strong>
+                            </th>
+                            <th class="text-center">
+                                <strong>Room No</strong>
+                            </th>
+                        </tr>
+                        <tr t-foreach="get_checkout" t-as="info">
+                            <td class="text-center">
+                                <span t-field="info.reservation_no" />
+                            </td>
+                            <td>
+                                <span t-field="info.partner_id.name" />
+                            </td>
+                            <td class="text-center">
+                                <span t-field="info.checkout" />
+                            </td>
+                            <td class="text-center">
+                                <t t-foreach="info.reservation_line" t-as="line">
+                                    <span t-field="line.categ_id.name" />
+                                    <br t-if="not line_last" />
+                                </t>
+                            </td>
+                            <td class="text-center">
+                                <t t-foreach="info.reservation_line" t-as="line">
+                                    <t t-foreach="line.reserve" t-as="o">
+                                        <span t-field="o.name" />
+                                        <br t-if="not o_last" />
+                                    </t>
+                                </t>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
