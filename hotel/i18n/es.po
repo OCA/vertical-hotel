@@ -389,6 +389,14 @@ msgid "Available"
 msgstr "Disponible"
 
 #. module: hotel
+#: model:ir.model.fields,field_description:hotel.field_hotel_room__available_in_pos
+#: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__available_in_pos
+#: model:ir.model.fields,field_description:hotel.field_hotel_services__available_in_pos
+#, fuzzy
+msgid "Available in POS"
+msgstr "Variable"
+
+#. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__free_qty
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities__free_qty
 #: model:ir.model.fields,help:hotel.field_hotel_services__free_qty
@@ -491,6 +499,13 @@ msgid "Category Routes"
 msgstr "Rutas por Categorías"
 
 #. module: hotel
+#: model:ir.model.fields,help:hotel.field_hotel_room__pos_categ_ids
+#: model:ir.model.fields,help:hotel.field_hotel_room_amenities__pos_categ_ids
+#: model:ir.model.fields,help:hotel.field_hotel_services__pos_categ_ids
+msgid "Category used in the Point of Sale."
+msgstr ""
+
+#. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__checkin_date
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_line__checkin_date
 msgid "Check In"
@@ -511,6 +526,21 @@ msgstr "Hora de salida"
 #: model:ir.model.fields,field_description:hotel.field_folio_room_line__check_out
 msgid "Check Out Date"
 msgstr "Fecha de salida"
+
+#. module: hotel
+#: model:ir.model.fields,help:hotel.field_hotel_room__to_weight
+#: model:ir.model.fields,help:hotel.field_hotel_room_amenities__to_weight
+#: model:ir.model.fields,help:hotel.field_hotel_services__to_weight
+msgid ""
+"Check if the product should be weighted using the hardware scale integration."
+msgstr ""
+
+#. module: hotel
+#: model:ir.model.fields,help:hotel.field_hotel_room__available_in_pos
+#: model:ir.model.fields,help:hotel.field_hotel_room_amenities__available_in_pos
+#: model:ir.model.fields,help:hotel.field_hotel_services__available_in_pos
+msgid "Check if you want this product to appear in the Point of Sale."
+msgstr ""
 
 #. module: hotel
 #. odoo-python
@@ -941,6 +971,13 @@ msgstr "Descripción sobre las Recepciones"
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_services_form
 msgid "Descriptions"
 msgstr "Descripciones"
+
+#. module: hotel
+#: model:ir.model.fields,help:hotel.field_hotel_room__pos_sequence
+#: model:ir.model.fields,help:hotel.field_hotel_room_amenities__pos_sequence
+#: model:ir.model.fields,help:hotel.field_hotel_services__pos_sequence
+msgid "Determine the display order in the POS Terminal"
+msgstr ""
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_line__discount
@@ -2244,6 +2281,15 @@ msgid ""
 msgstr ""
 
 #. module: hotel
+#: model:ir.model.fields,help:hotel.field_hotel_room__pos_optional_product_ids
+#: model:ir.model.fields,help:hotel.field_hotel_room_amenities__pos_optional_product_ids
+#: model:ir.model.fields,help:hotel.field_hotel_services__pos_optional_product_ids
+msgid ""
+"Optional products are suggested when customers add items to their cart "
+"(e.g., adding a burger suggests cold drinks or fries)."
+msgstr ""
+
+#. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__order_id
 msgid "Order"
 msgstr "Orden"
@@ -2308,6 +2354,20 @@ msgstr "Otros datos"
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__outgoing_qty
 msgid "Outgoing"
 msgstr "Saliente"
+
+#. module: hotel
+#: model:ir.model.fields,field_description:hotel.field_hotel_room__pos_optional_product_ids
+#: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__pos_optional_product_ids
+#: model:ir.model.fields,field_description:hotel.field_hotel_services__pos_optional_product_ids
+msgid "POS Optional Products"
+msgstr ""
+
+#. module: hotel
+#: model:ir.model.fields,field_description:hotel.field_hotel_room__pos_sequence
+#: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__pos_sequence
+#: model:ir.model.fields,field_description:hotel.field_hotel_services__pos_sequence
+msgid "POS Sequence"
+msgstr ""
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__uom_ids
@@ -2389,6 +2449,14 @@ msgid ""
 "inventory when a product is billed or invoiced.\n"
 "        "
 msgstr ""
+
+#. module: hotel
+#: model:ir.model.fields,field_description:hotel.field_hotel_room__pos_categ_ids
+#: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__pos_categ_ids
+#: model:ir.model.fields,field_description:hotel.field_hotel_services__pos_categ_ids
+#, fuzzy
+msgid "Point of Sale Category"
+msgstr "Categoría de Producto"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__access_url
@@ -2493,6 +2561,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:hotel.field_hotel_services__categ_id
 msgid "Product Category"
 msgstr "Categoría de Producto"
+
+#. module: hotel
+#: model:ir.model.fields,field_description:hotel.field_hotel_room__public_description
+#: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__public_description
+#: model:ir.model.fields,field_description:hotel.field_hotel_services__public_description
+msgid "Product Description"
+msgstr ""
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_room__product_manager
@@ -3642,6 +3717,13 @@ msgid "To Date"
 msgstr "Hasta la Fecha"
 
 #. module: hotel
+#: model:ir.model.fields,field_description:hotel.field_hotel_room__to_weight
+#: model:ir.model.fields,field_description:hotel.field_hotel_room_amenities__to_weight
+#: model:ir.model.fields,field_description:hotel.field_hotel_services__to_weight
+msgid "To Weigh With Scale"
+msgstr ""
+
+#. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__amount_total
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio_line__price_total
 #: model:ir.model.fields,field_description:hotel.field_hotel_service_line__price_total
@@ -4549,10 +4631,6 @@ msgstr ""
 #~ msgstr "Contador de Mensajes no leídos"
 
 #, fuzzy
-#~ msgid "Available in POS"
-#~ msgstr "Variable"
-
-#, fuzzy
 #~ msgid "Cancel Folio"
 #~ msgstr "Hotel Folio"
 
@@ -4587,10 +4665,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "List of supplier taxes related to the service provided by hotel."
 #~ msgstr "List of supplier taxes related to the service provided by hotel. "
-
-#, fuzzy
-#~ msgid "Point of Sale Category"
-#~ msgstr "Categoría de Producto"
 
 #, fuzzy
 #~ msgid "Room id"
