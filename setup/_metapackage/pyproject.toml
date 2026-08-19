@@ -1,11 +1,12 @@
 [project]
 name = "odoo-addons-oca-vertical-hotel"
-version = "18.0.20260817.2"
+version = "18.0.20260818.0"
 dependencies = [
     "odoo-addon-hotel==18.0.*",
     "odoo-addon-hotel_housekeeping==18.0.*",
     "odoo-addon-hotel_reservation==18.0.*",
     "odoo-addon-hotel_restaurant==18.0.*",
+    "odoo-addon-report_hotel_reservation==18.0.*",
 ]
 classifiers=[
     "Programming Language :: Python",
