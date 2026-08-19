@@ -54,7 +54,7 @@ class HotelReservation(models.Model):
     partner_invoice_id = fields.Many2one(
         "res.partner",
         "Invoice Address",
-        help="Invoice address for " "current reservation.",
+        help="Invoice address for current reservation.",
     )
     partner_order_id = fields.Many2one(
         "res.partner",
@@ -68,7 +68,7 @@ class HotelReservation(models.Model):
         "res.partner",
         "Delivery Address",
         readonly=True,
-        help="Delivery address" "for current reservation. ",
+        help="Delivery address for current reservation. ",
     )
     checkin = fields.Datetime(
         "Expected-Date-Arrival",
@@ -167,7 +167,7 @@ class HotelReservation(models.Model):
         if self.checkout and self.checkin:
             if self.checkin < self.date_order:
                 raise ValidationError(
-                    _("Check-in date should be greater than " "the current date.")
+                    _("Check-in date should be greater than the current date.")
                 )
             if self.checkout < self.checkin:
                 raise ValidationError(
