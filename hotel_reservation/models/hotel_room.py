@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 
 from dateutil.relativedelta import relativedelta
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT as dt
 
@@ -26,13 +26,13 @@ class HotelRoom(models.Model):
         "hotel.room.reservation.line", "room_id", string="Room Reserve Line"
     )
 
-    def unlink(self):
+    @api.ondelete(at_uninstall=False)
+    def _unlink_except_confirmed_reservation(self):
         for room in self:
             if any(line.status == "confirm" for line in room.room_reservation_line_ids):
                 raise ValidationError(
-                    _("Cannot delete room with confirmed reservations.")
+                    self.env._("Cannot delete room with confirmed reservations.")
                 )
-        return super().unlink()
 
     @api.model
     def cron_room_line(self):
@@ -47,48 +47,29 @@ class HotelRoom(models.Model):
         reservation_line_obj = self.env["hotel.room.reservation.line"]
         folio_room_line_obj = self.env["folio.room.line"]
         curr_date = fields.Datetime.now()
-        rooms = self.search([])
+        current_domain = [
+            ("check_in", "<=", curr_date),
+            ("check_out", ">=", curr_date),
+        ]
 
-        # Batch search for all relevant reservation lines
-        reservation_lines = reservation_line_obj.search(
-            [
-                ("room_id", "in", rooms.ids),
-                ("check_in", "<=", curr_date),
-                ("check_out", ">=", curr_date),
-            ]
-        )
-        res_lines_by_room = {}
-        for line in reservation_lines:
-            res_lines_by_room.setdefault(line.room_id.id, []).append(line.id)
+        # Rooms currently booked through a reservation
+        reserved_rooms = reservation_line_obj.search(current_domain).room_id
+        # Rooms currently booked through a folio
+        folio_rooms = folio_room_line_obj.search(current_domain).room_id
 
-        # Batch search for all relevant folio room lines
-        folio_room_lines = folio_room_line_obj.search(
-            [
-                ("room_id", "in", rooms.ids),
-                ("check_in", "<=", curr_date),
-                ("check_out", ">=", curr_date),
-            ]
-        )
-        folio_lines_by_room = {}
-        for line in folio_room_lines:
-            folio_lines_by_room.setdefault(line.room_id.id, []).append(line.id)
-
-        for room in rooms:
-            reservation_line_ids = res_lines_by_room.get(room.id, [])
-            room_line_ids = folio_lines_by_room.get(room.id, [])
-
-            if reservation_line_ids and room_line_ids:
-                raise ValidationError(
-                    _(
-                        "Please Check Rooms Status for %(room_name)s.",
-                        room_name=room.name,
-                    )
+        conflicting_rooms = reserved_rooms & folio_rooms
+        if conflicting_rooms:
+            raise ValidationError(
+                self.env._(
+                    "Please Check Rooms Status for %(room_name)s.",
+                    room_name=conflicting_rooms[0].name,
                 )
+            )
 
-            status = {"isroom": True, "color": 5}
-            if reservation_line_ids or room_line_ids:
-                status = {"isroom": False, "color": 2}
-            room.write(status)
+        occupied_rooms = reserved_rooms | folio_rooms
+        occupied_rooms.write({"isroom": False, "color": 2})
+        free_rooms = self.search([("id", "not in", occupied_rooms.ids)])
+        free_rooms.write({"isroom": True, "color": 5})
         return True
 
 
@@ -110,8 +91,8 @@ class RoomReservationSummary(models.Model):
         """
         resource_id = self.env.ref("hotel_reservation.view_hotel_reservation_form").id
         return {
-            "name": _("Reconcile Write-Off"),
-            "context": self._context,
+            "name": self.env._("Reconcile Write-Off"),
+            "context": dict(self.env.context),
             "view_mode": "form",
             "res_model": "hotel.reservation",
             "views": [(resource_id, "form")],
@@ -129,17 +110,15 @@ class RoomReservationSummary(models.Model):
         room_obj = self.env["hotel.room"]
         reservation_line_obj = self.env["hotel.room.reservation.line"]
         folio_room_line_obj = self.env["folio.room.line"]
-        user_obj = self.env["res.users"]
         date_range_list = []
         main_header = []
         summary_header_list = ["Rooms"]
         if self.date_from and self.date_to:
             if self.date_from > self.date_to:
-                raise UserError(_("Checkout date should be later than Checkin date."))
-            if self._context.get("tz", False):
-                timezone = pytz.timezone(self._context.get("tz", False))
-            else:
-                timezone = pytz.timezone("UTC")
+                raise UserError(
+                    self.env._("Checkout date should be later than Checkin date.")
+                )
+            timezone = pytz.timezone(self.env.context.get("tz") or "UTC")
             d_frm_obj = (
                 (self.date_from)
                 .replace(tzinfo=pytz.timezone("UTC"))
@@ -162,6 +141,7 @@ class RoomReservationSummary(models.Model):
                 date_range_list.append(temp_date.strftime(dt))
                 temp_date = temp_date + timedelta(days=1)
             all_detail.append(summary_header_list)
+            # pylint: disable=no-search-all
             room_ids = room_obj.search([])
             all_room_detail = []
             for room in room_ids:
@@ -225,8 +205,7 @@ class RoomReservationSummary(models.Model):
                                         if ci and co and rm and st:
                                             count += 1
                                     if count - dur.days == 0:
-                                        c_id1 = user_obj.browse(self._uid)
-                                        c_id = c_id1.company_id
+                                        c_id = self.env.company
                                         con_add = 0
                                         amin = 0.0
                                         # When configured_addition_hours is

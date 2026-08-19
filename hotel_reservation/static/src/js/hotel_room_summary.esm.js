@@ -1,5 +1,3 @@
-/** @odoo-module **/
-
 import {TextField, textField} from "@web/views/fields/text/text_field";
 import {onPatched, useState} from "@odoo/owl";
 import {evaluateExpr} from "@web/core/py_js/py";

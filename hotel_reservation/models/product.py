@@ -1,5 +1,5 @@
 from odoo import api, fields, models
-from odoo.osv import expression
+from odoo.fields import Domain
 
 
 class ProductProduct(models.Model):
@@ -12,9 +12,8 @@ class ProductProduct(models.Model):
           - When called with context["from_room"],
             restricts to available rooms for given dates.
         """
-        context = self._context or {}
+        context = self.env.context
         if context.get("folio"):
-            domain = domain.copy()
             checkin_date = context.get("checkin_date")
             checkout_date = context.get("checkout_date")
 
@@ -33,7 +32,7 @@ class ProductProduct(models.Model):
                     ]
                 )
                 product_ids = rooms.mapped("reservation_line.reserve.product_id")
-                domain = expression.AND([domain, [("id", "not in", product_ids.ids)]])
+                domain = Domain(domain) & Domain("id", "not in", product_ids.ids)
 
         return super().search_fetch(
             domain, field_names, offset=offset, limit=limit, order=order
