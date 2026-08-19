@@ -157,17 +157,14 @@ class HotelFolioLine(models.Model):
         # if not self.product_uom or (self.product_id.uom_id.id != self.product_uom.id):
         vals = {
             "name": self.product_id.name,
-            "product_uom": self.product_id.uom_id,
+            "product_uom_id": self.product_id.uom_id,
             "product_uom_qty": self.product_uom_qty,
             "price_unit": self.product_id.list_price,
-            "tax_id": self.product_id.taxes_id,
+            "tax_ids": self.product_id.taxes_id,
         }
         self.update(vals)
 
-        if product.sale_line_warn != "no-message":
-            if product.sale_line_warn == "block":
-                self.product_id = False
-
+        if product.sale_line_warn_msg:
             return {
                 "warning": {
                     "title": self.env._("Warning for %s", product.name),

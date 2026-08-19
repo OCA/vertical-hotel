@@ -19,10 +19,9 @@ class ProductProduct(models.Model):
           - When called with context["from_room"],
             restricts to available rooms for given dates.
         """
-        context = self._context or {}
+        context = self.env.context or {}
 
         if context.get("from_room"):
-            domain = domain.copy()
             checkin_date = context.get("checkin_date")
             checkout_date = context.get("checkout_date")
 
