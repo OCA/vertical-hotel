@@ -1,7 +1,7 @@
 # Copyright (C) 2024-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -37,7 +37,7 @@ class QuickRoomReservation(models.TransientModel):
         for rec in self:
             if rec.check_in and rec.check_out and rec.check_out <= rec.check_in:
                 raise ValidationError(
-                    _("Checkout date should be greater than Checkin date.")
+                    self.env._("Checkout date should be greater than Checkin date.")
                 )
 
     @api.onchange("partner_id")
@@ -76,12 +76,11 @@ class QuickRoomReservation(models.TransientModel):
         @return: A dictionary which of fields with values.
         """
         res = super().default_get(fields)
-        keys = self._context.keys()
-        if "date" in keys:
-            res.update({"check_in": self._context["date"]})
-        if "room_id" in keys:
-            roomid = self._context["room_id"]
-            res.update({"room_id": int(roomid)})
+        context = self.env.context
+        if "date" in context:
+            res.update({"check_in": context["date"]})
+        if "room_id" in context:
+            res.update({"room_id": int(context["room_id"])})
         return res
 
     def room_reserve(self):
