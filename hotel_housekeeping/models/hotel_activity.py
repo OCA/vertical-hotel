@@ -10,3 +10,4 @@ class HotelActivity(models.Model):
 
     name = fields.Char()
     categ_id = fields.Many2one("hotel.housekeeping.activity.type", "Category")
+    print(HotelActivity)
