@@ -25,6 +25,7 @@ addon | version | maintainers | summary
 [hotel_housekeeping](hotel_housekeeping/) | 19.0.1.0.0 |  | Manages Housekeeping Activities and its Process
 [hotel_reservation](hotel_reservation/) | 19.0.1.0.0 |  | Manages Guest Reservation & displays Reservation Summary
 [hotel_restaurant](hotel_restaurant/) | 19.0.1.0.0 |  | Table booking facilities and Managing customers orders
+[report_hotel_reservation](report_hotel_reservation/) | 19.0.1.0.0 |  | Hotel Reservation Management - Reporting
 
 [//]: # (end addons)
 
