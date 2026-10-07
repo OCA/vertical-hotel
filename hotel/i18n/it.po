@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-10-01 08:46+0000\n"
+"PO-Revision-Date: 2026-10-07 08:46+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -455,7 +455,7 @@ msgstr "Il codice a barre è un EAN valido"
 #. module: hotel
 #: model_terms:ir.ui.view,arch_db:hotel.view_hotel_folio_form
 msgid "Branch"
-msgstr "Ramo"
+msgstr "Sezione"
 
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__campaign_id
