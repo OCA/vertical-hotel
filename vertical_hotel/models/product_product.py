@@ -13,47 +13,52 @@ class ProductProduct(models.Model):
     isservice = fields.Boolean("Is Service")
 
     @api.model
-    def search_fetch(self, domain, field_names, offset=0, limit=None, order=None):
-        """
-        Custom search_fetch override:
-          - When called with context["from_room"],
-            restricts to available rooms for given dates.
-        """
-        context = self.env.context or {}
+    def _get_available_room_domain(self, checkin_date, checkout_date):
+        """Domain on product.product matching the rooms that have no
+        booking overlapping [checkin_date, checkout_date).
 
+        Two stays overlap when one starts before the other ends; a stay
+        ending exactly when the next one starts does not block it (same
+        rule as hotel.folio's double-booking constraint)."""
+        busy_rooms = (
+            self.env["folio.room.line"]
+            .sudo()
+            .search(
+                [
+                    ("check_in", "<", checkout_date),
+                    ("check_out", ">", checkin_date),
+                    ("folio_id.state", "!=", "cancel"),
+                ]
+            )
+            .room_id
+        )
+        free_rooms = (
+            self.env["hotel.room"]
+            .sudo()
+            .with_context(active_test=False)
+            .search([("id", "not in", busy_rooms.ids)])
+        )
+        return [("id", "in", free_rooms.product_id.ids)]
+
+    @api.model
+    def search_fetch(self, domain, field_names=None, offset=0, limit=None, order=None):
+        """With context["from_room"] and check-in/out dates, only return the
+        rooms that are free on those dates."""
+        context = self.env.context
         if context.get("from_room"):
             checkin_date = context.get("checkin_date")
             checkout_date = context.get("checkout_date")
-
             if isinstance(checkin_date, str):
                 checkin_date = fields.Datetime.from_string(checkin_date)
             if isinstance(checkout_date, str):
                 checkout_date = fields.Datetime.from_string(checkout_date)
-
             if checkin_date and checkout_date:
-                HotelRoom = self.env["hotel.room"].sudo()
-                avail_prod_ids = []
-                # pylint: disable=no-search-all
-                rooms = HotelRoom.search([])
-
-                for room in rooms:
-                    assigned = False
-                    for rm_line in room.room_line_ids.filtered(
-                        lambda line: line.status != "cancel"
-                    ):
-                        if (
-                            (checkin_date <= rm_line.check_in <= checkout_date)
-                            or (checkin_date <= rm_line.check_out <= checkout_date)
-                            or (rm_line.check_in <= checkin_date <= rm_line.check_out)
-                            or (rm_line.check_in <= checkout_date <= rm_line.check_out)
-                        ):
-                            assigned = True
-                            break
-                    if not assigned:
-                        avail_prod_ids.append(room.product_id.id)
-
-                domain = Domain.AND([domain, [("id", "in", avail_prod_ids)]])
-
+                domain = Domain.AND(
+                    [
+                        domain,
+                        self._get_available_room_domain(checkin_date, checkout_date),
+                    ]
+                )
         return super().search_fetch(
             domain, field_names, offset=offset, limit=limit, order=order
         )

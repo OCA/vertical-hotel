@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <!--======== Floor ======== -->
     <!-- Form view of hotel floor -->
@@ -22,7 +23,7 @@
         <field name="arch" type="xml">
             <list>
                 <field name="sequence" widget="handle" />
-                <field name="name" colspan="1" />
+                <field name="name" />
             </list>
         </field>
     </record>
@@ -45,75 +46,62 @@
                         <h1>
                             <field name="name" />
                         </h1>
-                        <label for="status" string="Status" />
-                        <h2>
-                            <field name="status" readonly="1" />
-                        </h2>
-                        <h2>
-                            <field name="isroom" />
-                        </h2>
                     </div>
+                    <group>
+                        <group>
+                            <field name="status" readonly="1" />
+                            <field name="isroom" string="Available" />
+                        </group>
+                    </group>
                     <notebook>
                         <page name="information_hotel_room" string="Information">
-                            <group colspan="4" col="4">
-                                <field name="floor_id" string="Floor" />
-                                <field name="room_categ_id" select="1" />
-                                <field
-                                    name="product_manager"
-                                    select="2"
-                                    string="Room Manager"
-                                />
-                                <field name="capacity" />
-                                <field name="uom_id" invisible="1" />
-                                <field
-                                    name="supplier_taxes_id"
-                                    widget="many2many_tags"
-                                    string="Supplier Taxes"
-                                />
-                                <field
-                                    name="taxes_id"
-                                    widget="many2many_tags"
-                                    string="Customer Taxes"
-                                />
-                            </group>
-                        </page>
-                        <page string="Room Amenities">
-                            <separator string=" Room Amenities" />
-                            <field name="room_amenities_ids" colspan="4" nolabel="1" />
-                        </page>
-                        <page string="Procurement">
-                            <group colspan="4" col="4">
-                                <field name="active" select="2" />
-                                <field name="list_price" />
-                                <!--commented as rental field is removed from odoo14-->
-                                <!-- <field name="rental" select="2" /> -->
-                                <field name="standard_price" />
-                                <field name="cost_method" string="Cost Method" />
-                                <newline />
-                            </group>
-                            <newline />
                             <group>
-                                <separator string="Suppliers" />
-                                <field
-                                    name="seller_ids"
-                                    colspan="4"
-                                    nolabel="1"
-                                    widget="one2many_list"
-                                />
+                                <group>
+                                    <field name="floor_id" string="Floor" />
+                                    <field name="room_categ_id" />
+                                    <field
+                                        name="product_manager"
+                                        string="Room Manager"
+                                    />
+                                    <field name="capacity" />
+                                </group>
+                                <group>
+                                    <field name="uom_id" invisible="1" />
+                                    <field
+                                        name="taxes_id"
+                                        widget="many2many_tags"
+                                        string="Customer Taxes"
+                                    />
+                                    <field
+                                        name="supplier_taxes_id"
+                                        widget="many2many_tags"
+                                        string="Supplier Taxes"
+                                    />
+                                </group>
                             </group>
                         </page>
-                        <page string="Descriptions">
-                            <separator string="Description" />
-                            <field name="description" colspan="4" nolabel="1" />
+                        <page name="amenities" string="Room Amenities">
+                            <field name="room_amenities_ids" nolabel="1" />
                         </page>
-                        <page string="Folio Room Reservations">
-                            <separator
-                                colspan='4'
-                                string="Folio Room Reservation Line"
-                            />
-                            <field name="room_line_ids" colspan="4" nolabel='1'>
-                                <form string=" Room line">
-                                    <group colspan='4' col='4'>
+                        <page name="procurement" string="Procurement">
+                            <group>
+                                <group>
+                                    <field name="active" />
+                                    <field name="list_price" />
+                                    <field name="standard_price" />
+                                    <field name="cost_method" string="Cost Method" />
+                                </group>
+                            </group>
+                            <separator string="Suppliers" />
+                            <field name="seller_ids" nolabel="1" />
+                        </page>
+                        <page name="description" string="Descriptions">
+                            <field name="description" nolabel="1" />
+                        </page>
+                        <page name="reservations" string="Folio Room Reservations">
+                            <field name="room_line_ids" nolabel="1">
+                                <form string="Room line">
+                                    <group>
                                         <field name="room_id" />
                                         <field name="check_in" />
                                         <field name="check_out" />
@@ -145,7 +133,6 @@
                 <field name="room_categ_id" />
                 <field name="list_price" string="Room rate" />
                 <field name="status" string="Status" />
-                <newline />
                 <filter
                     name="available"
                     string="Available"
@@ -178,111 +165,78 @@
         <field name="name">hotel.room.kanban</field>
         <field name="model">hotel.room</field>
         <field name="arch" type="xml">
-            <kanban default_group_by="status">
-                <field name="name" />
+            <kanban default_group_by="status" highlight_color="color">
                 <field name="status" />
                 <field name="color" />
-                <field name="lst_price" />
-                <field name="id" />
-                <field name="code" />
                 <templates>
-                    <t t-name="card">
-                        <div
-                            t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click"
-                        >
-                            <div
-                                class="o_dropdown_kanban dropdown"
-                                groups="base.group_user"
-                            >
-                                <a
-                                    role="button"
-                                    class="dropdown-toggle btn"
-                                    data-toggle="dropdown"
-                                    href="#"
-                                >
-                                    <span title="fa_icon" class="fa fa-bars fa-lg" />
-                                </a>
-                                <ul
-                                    class="dropdown-menu"
-                                    role="menu"
-                                    aria-labelledby="dLabel"
-                                >
-                                    <t t-if="widget.editable">
-                                        <li>
-                                            <a type="edit">Edit</a>
-                                        </li>
-                                    </t>
-                                    <t t-if="widget.deletable">
-                                        <li>
-                                            <a type="delete">Delete</a>
-                                        </li>
-                                    </t>
-                                    <li>
-                                        <ul
-                                            class="oe_kanban_colorpicker"
-                                            data-field="color"
-                                        />
-                                    </li>
-                                </ul>
+                    <t t-name="menu">
+                        <a
+                            t-if="widget.editable"
+                            class="dropdown-item"
+                            type="open"
+                        >Edit</a>
+                        <a
+                            t-if="widget.deletable"
+                            class="dropdown-item"
+                            type="delete"
+                        >Delete</a>
+                        <field name="color" widget="kanban_color_picker" />
+                    </t>
+                    <t t-name="card" class="flex-row">
+                        <aside class="me-2">
+                            <field
+                                name="image_128"
+                                widget="image"
+                                alt="Room"
+                                options="{'size': [64, 64], 'img_class': 'object-fit-cover rounded'}"
+                            />
+                        </aside>
+                        <main class="flex-grow-1">
+                            <div class="d-flex align-items-baseline gap-1">
+                                <span t-if="record.code.raw_value" class="text-muted">
+                                    [<field name="code" />]
+                                </span>
+                                <field name="name" class="fw-bold fs-5" />
                             </div>
-                            <div class="oe_kanban_details" style='margin-top: -5px;'>
-                                <div class="oe_kanban_content">
-                                    <div class="oe_kanban_project_list">
-                                        <H3>
-                                            <a type="open">
-                                                <img
-                                                    alt="room_image"
-                                                    t-att-src="kanban_image('hotel.room', 'image_medium', record.id.value)"
-                                                    style="height:70px;width:70px"
-                                                    class="oe_avatar oe_kanban_avatar_smallbox"
-                                                />
-                                                <t
-                                                    t-if="record.code.raw_value"
-                                                    style="margin-right: 10px"
-                                                >
-                                                    [
-                                                    <field name="code" />
-                                                    ]
-                                                </t>
-                                                <field name="name" />
-                                            </a>
-                                        </H3>
-                                    </div>
-                                    <div name="tags" />
-                                    <ul>
-                                        <li>
-                                            Status:
-                                            <field name="status" />
-                                        </li>
-                                        <li>
-                                            Rate:
-                                            <field name="lst_price" />
-                                        </li>
-                                        <li>
-                                            Capacity:
-                                            <field name="capacity" />
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="oe_kanban_bottom_right">
-                                    <a
+                            <field name="room_categ_id" class="text-muted" />
+                            <div class="d-flex flex-wrap gap-3 small mt-1">
+                                <span t-if="record.floor_id.raw_value">
+                                    Floor: <field name="floor_id" />
+                                </span>
+                                <span>Capacity: <field name="capacity" /></span>
+                                <span>Rate: <field
+                                    name="lst_price"
+                                    widget="monetary"
+                                /></span>
+                                <field name="currency_id" invisible="1" />
+                            </div>
+                            <footer class="pt-1">
+                                <field
+                                    name="status"
+                                    widget="badge"
+                                    decoration-success="status == 'available'"
+                                    decoration-danger="status == 'occupied'"
+                                />
+                                <div class="ms-auto">
+                                    <button
                                         t-if="record.status.raw_value === 'available'"
-                                        type="object"
-                                        string="Available"
+                                        class="btn btn-sm btn-secondary"
                                         name="set_room_status_occupied"
-                                        class="oe_kanban_status oe_kanban_status_green "
-                                    />
-                                    <a
-                                        t-if="record.status.raw_value === 'occupied'"
                                         type="object"
-                                        string="occupied"
+                                        string="Set Occupied"
+                                        groups="vertical_hotel.group_hotel_user"
+                                    />
+                                    <button
+                                        t-if="record.status.raw_value === 'occupied'"
+                                        class="btn btn-sm btn-secondary"
                                         name="set_room_status_available"
-                                        class="oe_kanban_status oe_kanban_status_red "
+                                        type="object"
+                                        string="Set Available"
+                                        groups="vertical_hotel.group_hotel_user"
                                     />
                                 </div>
-                            </div>
-                            <div class="oe_clear" />
-                        </div>
+                            </footer>
+                        </main>
                     </t>
                 </templates>
             </kanban>

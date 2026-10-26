@@ -1,32 +1,23 @@
 # Copyright (C) 2024-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import time
+from typing import ClassVar
 
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
-from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 
 class HotelServiceLine(models.Model):
     _name = "hotel.service.line"
     _description = "Hotel service line"
-    _inherits = {"sale.order.line": "service_line_id"}
-
-    def copy(self, default=None):
-        """
-        @param self: object pointer
-        @param default: dict of default values to be set
-        """
-        return super().copy(default=default)
+    _inherits: ClassVar[dict] = {"sale.order.line": "service_line_id"}
 
     service_line_id = fields.Many2one(
         "sale.order.line",
-        "Service Line",
         required=True,
         ondelete="cascade",
     )
-    folio_id = fields.Many2one("hotel.folio", "Folio", ondelete="cascade")
+    folio_id = fields.Many2one("hotel.folio", ondelete="cascade")
     ser_checkin_date = fields.Datetime("From Date")
     ser_checkout_date = fields.Datetime("To Date")
 
@@ -67,17 +58,17 @@ class HotelServiceLine(models.Model):
         if not self.product_id or not self.service_line_id:
             return
         product = self.product_id
-
-        # if not self.product_uom or (self.product_id.uom_id.id != self.product_uom.id):
-        vals = {
-            "name": self.product_id.name,
-            "product_uom_id": self.product_id.uom_id,
-            "product_uom_qty": self.product_uom_qty,
-            "price_unit": self.product_id.list_price,
-            "tax_ids": self.product_id.taxes_id,
-        }
-
-        self.update(vals)
+        company = self.company_id or self.order_id.company_id or self.env.company
+        taxes = product.taxes_id._filter_taxes_by_company(company)
+        self.update(
+            {
+                "name": product.name,
+                "product_uom_id": product.uom_id,
+                "product_uom_qty": self.product_uom_qty,
+                "price_unit": product.list_price,
+                "tax_ids": self.order_id.fiscal_position_id.map_tax(taxes),
+            }
+        )
         if product.sale_line_warn_msg:
             return {
                 "warning": {
@@ -94,11 +85,11 @@ class HotelServiceLine(models.Model):
         -----------------------------------------------------------------
         @param self: object pointer
         """
+        now = fields.Datetime.now()
         if not self.ser_checkin_date:
-            time_a = time.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
-            self.ser_checkin_date = time_a
+            self.ser_checkin_date = now
         if not self.ser_checkout_date:
-            self.ser_checkout_date = time_a
+            self.ser_checkout_date = self.ser_checkin_date
         if self.ser_checkout_date < self.ser_checkin_date:
             raise ValidationError(
                 self.env._("Checkout must be greater or equal checkin date")

@@ -2,7 +2,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import time
-from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
 
@@ -10,33 +9,33 @@ from odoo import api, fields, models
 
 
 class FolioReport(models.AbstractModel):
-    _name = "report.hotel.report_hotel_folio"
+    _name = "report.vertical_hotel.report_hotel_folio"
     _description = "Auxiliar to get the report"
 
     def _get_folio_data(self, date_start, date_end):
         total_amount = 0.0
         data_folio = []
-        folio_obj = self.env["hotel.folio"]
-        act_domain = [
-            ("checkin_date", ">=", date_start),
-            ("checkout_date", "<=", date_end),
-        ]
-        tids = folio_obj.search(act_domain)
-        for data in tids:
-            hotel_folio_lines = data.room_line_ids
-            for hotel_folio_line in hotel_folio_lines:
-                checkin = hotel_folio_line.checkin_date
-                checkout = hotel_folio_line.checkout_date
+        folios = self.env["hotel.folio"].search(
+            [
+                ("checkin_date", ">=", date_start),
+                ("checkout_date", "<=", date_end),
+            ],
+            order="checkin_date, id",
+        )
+        for folio in folios:
+            room_lines = folio.room_line_ids
             data_folio.append(
                 {
-                    "name": data.name,
-                    "partner": data.partner_id.name,
-                    "checkin": checkin,
-                    "checkout": checkout,
-                    "amount": data.amount_total,
+                    "name": folio.name,
+                    "partner": folio.partner_id.name,
+                    "checkin": min(room_lines.mapped("checkin_date"), default=None)
+                    or folio.checkin_date,
+                    "checkout": max(room_lines.mapped("checkout_date"), default=None)
+                    or folio.checkout_date,
+                    "amount": folio.amount_total,
                 }
             )
-            total_amount += data.amount_total
+            total_amount += folio.amount_total
         data_folio.append({"total_amount": total_amount})
         return data_folio
 
@@ -51,7 +50,7 @@ class FolioReport(models.AbstractModel):
         date_start = data["form"].get("date_start", fields.Date.today())
         date_end = data["form"].get(
             "date_end",
-            str(datetime.now() + relativedelta(months=+1, day=1, days=-1))[:10],
+            str(fields.Datetime.now() + relativedelta(months=+1, day=1, days=-1))[:10],
         )
         return {
             "doc_ids": docids,

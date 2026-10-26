@@ -9,14 +9,10 @@ class AccountMove(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        """Overrides orm create method
-        to link the account move with a hotel folio.
-        """
-        rec = super().create(vals_list)
-        folio_obj = self.env["hotel.folio"]
-        active_id = self._context.get("folio_id")
-        for res in rec:
-            if active_id:
-                folio = folio_obj.browse(active_id)
-                folio.write({"hotel_invoice_id": res.id, "invoice_status": "invoiced"})
-        return rec
+        """Link the invoice created from a folio's "Create Invoice" wizard
+        (context key ``folio_id``) to that folio."""
+        moves = super().create(vals_list)
+        folio_id = self.env.context.get("folio_id")
+        if folio_id and moves:
+            self.env["hotel.folio"].browse(folio_id).hotel_invoice_id = moves[-1]
+        return moves

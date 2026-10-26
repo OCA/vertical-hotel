@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <!--Form view for folio report wizard -->
     <record id="view_hotel_folio_wizard" model="ir.ui.view">
@@ -5,7 +6,7 @@
         <field name="model">folio.report.wizard</field>
         <field name="arch" type="xml">
             <form string="Folio Report">
-                <group col="4">
+                <group>
                     <field name="date_start" required="1" />
                     <field name="date_end" required="1" />
                 </group>
@@ -13,15 +14,15 @@
                     <button
                         name="print_report"
                         string="Print Folio"
-                        icon="fa-print"
                         type="object"
-                        class="oe_highlight"
+                        class="btn-primary"
+                        data-hotkey="q"
                     />
                     <button
                         string="Cancel"
-                        icon="fa-close"
-                        class="btn btn-primary"
+                        class="btn-secondary"
                         special="cancel"
+                        data-hotkey="x"
                     />
                 </footer>
             </form>
@@ -35,9 +36,9 @@
         <field name="target">new</field>
     </record>
     <menuitem
+        id="wizard_hotel_menu"
         name="Hotel Folio Report"
         action="hotel_folio_wizard"
-        id="wizard_hotel_menu"
         parent="hotel_report_menu"
         sequence="31"
     />
