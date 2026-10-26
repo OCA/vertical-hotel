@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_hotel_v19_import_wizard" model="ir.ui.view">
+        <field name="name">hotel.v19.import.wizard.form</field>
+        <field name="model">hotel.v19.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import from Odoo 19">
+                <div class="alert alert-info" role="alert" invisible="result">
+                    Copies floors, room / amenity / service types, amenities,
+                    services, rooms and folios (with their customers) from an
+                    Odoo 19 database. The Odoo 19 database is only read, never
+                    changed. Running the import again only adds what is missing.
+                    Invoices and payments are not copied; their numbers are
+                    noted on each order.
+                </div>
+                <group invisible="result">
+                    <group>
+                        <field name="source_db" />
+                        <field name="source_host" />
+                        <field name="source_port" />
+                    </group>
+                    <group>
+                        <field name="source_user" />
+                        <field name="source_password" password="True" />
+                        <field name="source_filestore" />
+                    </group>
+                </group>
+                <field name="result" invisible="not result" nolabel="1" />
+                <footer>
+                    <button
+                        name="action_import"
+                        string="Import"
+                        type="object"
+                        class="btn-primary"
+                        invisible="result"
+                        data-hotkey="q"
+                    />
+                    <button
+                        string="Close"
+                        class="btn-secondary"
+                        special="cancel"
+                        data-hotkey="x"
+                    />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hotel_v19_import_wizard" model="ir.actions.act_window">
+        <field name="name">Import from Odoo 19</field>
+        <field name="res_model">hotel.v19.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+        id="menu_hotel_v19_import"
+        name="Import from Odoo 19"
+        action="action_hotel_v19_import_wizard"
+        parent="hotel_configuration_menu"
+        groups="base.group_system"
+        sequence="99"
+    />
+</odoo>

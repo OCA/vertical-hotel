@@ -2,6 +2,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
+from typing import ClassVar
+
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
@@ -9,15 +11,14 @@ from odoo.exceptions import ValidationError
 class HotelFolioLine(models.Model):
     _name = "hotel.folio.line"
     _description = "Hotel Folio Line"
-    _inherits = {"sale.order.line": "order_line_id"}
+    _inherits: ClassVar[dict] = {"sale.order.line": "order_line_id"}
 
     order_line_id = fields.Many2one(
         "sale.order.line",
-        "Order Line",
         required=True,
         ondelete="cascade",
     )
-    folio_id = fields.Many2one("hotel.folio", "Folio", ondelete="cascade")
+    folio_id = fields.Many2one("hotel.folio", ondelete="cascade")
     checkin_date = fields.Datetime("Check In", required=True)
     checkout_date = fields.Datetime("Check Out", required=True)
     is_reserved = fields.Boolean(help="True when folio line created from Reservation")
@@ -86,6 +87,12 @@ class HotelFolioLine(models.Model):
             line._update_folio_line(line)
         return lines
 
+    @api.constrains("product_id", "checkin_date", "checkout_date")
+    def _check_folio_double_booking(self):
+        if self.env.context.get("hotel_v19_import"):
+            return
+        self.folio_id._check_duplicate_folio_room_line()
+
     @api.constrains("checkin_date", "checkout_date")
     def _check_dates(self):
         """
@@ -94,6 +101,8 @@ class HotelFolioLine(models.Model):
         @param self: object pointer
         @return: raise warning depending on the validation
         """
+        if self.env.context.get("hotel_v19_import"):
+            return
         for rec in self:
             if rec.checkin_date >= rec.checkout_date:
                 raise ValidationError(
@@ -102,14 +111,17 @@ class HotelFolioLine(models.Model):
                         """less than the Check Out Date!"""
                     )
                 )
-            if rec.folio_id.date_order and rec.checkin_date:
-                if rec.checkin_date.date() < rec.folio_id.date_order.date():
-                    raise ValidationError(
-                        rec.env._(
-                            """Room line check in date should be """
-                            """greater than the current date."""
-                        )
+            if (
+                rec.folio_id.date_order
+                and rec.checkin_date
+                and rec.checkin_date.date() < rec.folio_id.date_order.date()
+            ):
+                raise ValidationError(
+                    rec.env._(
+                        """Room line check in date should be """
+                        """greater than the current date."""
                     )
+                )
 
     def unlink(self):
         """
@@ -154,16 +166,17 @@ class HotelFolioLine(models.Model):
         if not self.product_id or not self.order_line_id:
             return
         product = self.product_id
-        # if not self.product_uom or (self.product_id.uom_id.id != self.product_uom.id):
-        vals = {
-            "name": self.product_id.name,
-            "product_uom_id": self.product_id.uom_id,
-            "product_uom_qty": self.product_uom_qty,
-            "price_unit": self.product_id.list_price,
-            "tax_ids": self.product_id.taxes_id,
-        }
-        self.update(vals)
-
+        company = self.company_id or self.order_id.company_id or self.env.company
+        taxes = product.taxes_id._filter_taxes_by_company(company)
+        self.update(
+            {
+                "name": product.name,
+                "product_uom_id": product.uom_id,
+                "product_uom_qty": self.product_uom_qty,
+                "price_unit": product.list_price,
+                "tax_ids": self.order_id.fiscal_position_id.map_tax(taxes),
+            }
+        )
         if product.sale_line_warn_msg:
             return {
                 "warning": {

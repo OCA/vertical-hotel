@@ -1,14 +1,17 @@
 # Copyright (C) 2024-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from typing import ClassVar
+
 from odoo import api, fields, models
-from odoo.fields import Domain
+
+from .hotel_room import hierarchical_name_domain, is_hierarchical_search
 
 
 class HotelServices(models.Model):
     _name = "hotel.services"
     _description = "Hotel Services and its charges"
-    _inherits = {"product.product": "product_id"}
+    _inherits: ClassVar[dict] = {"product.product": "product_id"}
 
     product_id = fields.Many2one(
         "product.product",
@@ -28,6 +31,9 @@ class HotelServices(models.Model):
     def create(self, vals_list):
         service_type_obj = self.env["hotel.service.type"]
         for vals in vals_list:
+            if not vals.get("product_id"):
+                # sold, never delivered: no delivery order on confirmation
+                vals.setdefault("type", "service")
             if "service_categ_id" in vals:
                 service_categ = service_type_obj.browse(vals.get("service_categ_id"))
                 vals.update({"categ_id": service_categ.product_categ_id.id})
@@ -50,7 +56,7 @@ class HotelServices(models.Model):
 class HotelServiceType(models.Model):
     _name = "hotel.service.type"
     _description = "Service Type"
-    _inherits = {"product.category": "product_categ_id"}
+    _inherits: ClassVar[dict] = {"product.category": "product_categ_id"}
     _rec_name = "name"
 
     service_id = fields.Many2one("hotel.service.type", "Service Category")
@@ -96,39 +102,7 @@ class HotelServiceType(models.Model):
             cat.display_name = " / ".join(reversed(get_names(cat))) or ""
 
     @api.model
-    def _name_search(self, name, domain=None, operator="ilike", limit=None, order=None):
-        domain = domain or []
-        if name:
-            # Be sure name_search is symetric to name_get
-            category_names = name.split(" / ")
-            parents = list(category_names)
-            child = parents.pop()
-            domain = Domain.AND([domain, [("name", operator, child)]])
-            if parents:
-                category_ids = self.name_search(
-                    " / ".join(parents),
-                    domain=domain,
-                    operator="ilike",
-                    limit=limit,
-                )
-                if operator in Domain.NEGATIVE_TERM_OPERATORS:
-                    categories = self.search([("id", "not in", category_ids)])
-                    domain = Domain.OR(
-                        [[("service_id", "not in", categories.ids)], domain]
-                    )
-                else:
-                    domain = Domain.AND([[("service_id", "in", category_ids)], domain])
-                for i in range(1, len(category_names)):
-                    new_domain = [
-                        (
-                            "name",
-                            operator,
-                            " / ".join(category_names[-1 - i :]),
-                        )
-                    ]
-                    if operator in Domain.NEGATIVE_TERM_OPERATORS:
-                        domain = Domain.AND([domain, new_domain])
-                    else:
-                        domain = Domain.OR([domain, new_domain])
-
-        return self._search(domain, limit=limit, order=order)
+    def _search_display_name(self, operator, value):
+        if is_hierarchical_search(operator, value):
+            return hierarchical_name_domain("service_id", operator, value)
+        return super()._search_display_name(operator, value)

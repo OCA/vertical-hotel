@@ -1,14 +1,31 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-    <!--Group for hotel user -->
-    <record id="group_hotel_user" model="res.groups">
-        <field name="name">Hotel Management / User</field>
-        <field eval="[(4, ref('base.user_root'))]" name="implied_ids" />
+    <record id="res_groups_privilege_hotel" model="res.groups.privilege">
+        <field name="name">Hotel</field>
+        <field name="category_id" ref="base.module_category_services" />
     </record>
 
-    <!--Group for hotel manager -->
+    <record id="group_hotel_user" model="res.groups">
+        <field name="name">User</field>
+        <field name="sequence" eval="10" />
+        <field name="privilege_id" ref="res_groups_privilege_hotel" />
+        <!-- a folio is a sales order: front desk sees and edits all of them -->
+        <field
+            name="implied_ids"
+            eval="[(4, ref('sales_team.group_sale_salesman_all_leads'))]"
+        />
+        <field name="comment">Manage folios and see the hotel configuration.</field>
+    </record>
+
     <record id="group_hotel_manager" model="res.groups">
-        <field name="name">Hotel Management / Manager</field>
-        <field eval="[(4, ref('hotel.group_hotel_user'))]" name="implied_ids" />
+        <field name="name">Manager</field>
+        <field name="sequence" eval="20" />
+        <field name="privilege_id" ref="res_groups_privilege_hotel" />
+        <field name="implied_ids" eval="[(4, ref('group_hotel_user'))]" />
+        <field
+            name="user_ids"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+        <field name="comment">Also configure rooms, amenities and services.</field>
     </record>
 </odoo>

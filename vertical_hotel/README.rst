@@ -21,13 +21,13 @@ Hotel Management
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fvertical--hotel-lightgray.png?logo=github
-    :target: https://github.com/OCA/vertical-hotel/tree/19.0/hotel
+    :target: https://github.com/OCA/vertical-hotel/tree/20.0/vertical_hotel
     :alt: OCA/vertical-hotel
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/vertical-hotel-19-0/vertical-hotel-19-0-hotel
+    :target: https://translation.odoo-community.org/projects/vertical-hotel-20-0/vertical-hotel-20-0-vertical_hotel
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/vertical-hotel&target_branch=19.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/vertical-hotel&target_branch=20.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
@@ -48,13 +48,121 @@ You can manage:
 .. contents::
    :local:
 
+Usage
+=====
+
+Bring the data of an Odoo 19 database
+-------------------------------------
+
+The hotel data of an Odoo 19 database (module ``hotel`` or
+``vertical_hotel``) can be copied into a new Odoo 20 database. The Odoo
+19 database is only read, never changed.
+
+**At installation**: name the Odoo 19 database in the Odoo configuration
+file of the Odoo 20 server, then install *Hotel Management*:
+
+.. code:: ini
+
+   [options]
+   vertical_hotel_import_db = customer-19
+   ; only when different from this server's own connection:
+   vertical_hotel_import_host = localhost
+   vertical_hotel_import_port = 5432
+   vertical_hotel_import_user = odoo
+   vertical_hotel_import_password = secret
+   ; folder with the Odoo 19 files, for room and service images:
+   vertical_hotel_import_filestore = /var/lib/odoo/filestore/customer-19
+
+**Afterwards**: *Hotel Management > Configuration > Import from Odoo 19*
+(Settings / Administration rights), fill in the database and click
+*Import*.
+
+Copied: floors, room / amenity / service types, amenities, services,
+rooms (images, taxes, amenities, status), the customers and salespersons
+of the folios, the folios with their room lines, service lines, other
+order lines, room occupancy and state, and the company's extra-hours
+setting. Taxes, units, pricelists, warehouses, countries and users are
+matched with the ones of this database (by amount and type, name, code,
+login).
+
+Not copied: invoices and payments (each order gets a note with the Odoo
+19 invoice numbers), taxes of other companies. Every record is copied
+into the current company.
+
+The import can be run again: it only adds what is not there yet.
+
+Changelog
+=========
+
+20.0.1.0.0
+----------
+
+- Migration to Odoo 20.0: access rights in ``security/ir.access.csv``,
+  groups under a "Hotel" privilege (Services), no ``report_file`` on the
+  report.
+- After installation, Administrator is a Hotel Manager. Hotel users are
+  also "Sales: All Documents" users: a folio is a sales order.
+- Confirming a folio runs the standard sales confirmation. Rooms and
+  hotel services are service products, so no delivery order is created
+  (the migration converts existing room/service products without stock
+  moves).
+- "Set to Draft" uses the standard quotation reset; cancelling a folio
+  no longer cancels posted invoices (only draft ones, as in Sales).
+- New room board (kanban grouped by status), now the default Rooms view.
+- Faster room availability search; a stay ending when the next one
+  starts no longer blocks the room. Double bookings inside a folio are
+  also checked when a line is added directly.
+- Taxes on folio and service lines are limited to the folio's company
+  and mapped by its fiscal position.
+- "Parent / Child" search on room types, amenity types and service
+  types.
+- Folio report: correct check-in/out per folio, no error on a folio
+  without room lines.
+- New: copy the hotel data of an Odoo 19 database into an Odoo 20
+  database, automatically at installation or from *Configuration >
+  Import from Odoo 19* (see Usage).
+- Upgrading from 19.0: the database must be migrated to 20.0 first (Odoo
+  upgrade or OpenUpgrade). If it still has the module under its old name
+  ``hotel``, run
+  ``vertical_hotel/scripts/rename_hotel_to_vertical_hotel.py`` before
+  upgrading (see 19.0.1.1.0).
+
+19.0.1.1.0
+----------
+
+- The module was renamed from ``hotel`` to ``vertical_hotel``. Models
+  (``hotel.folio``, ``hotel.room``, ...) are unchanged; only the module
+  name and its XML-ID namespace (``hotel.xxx`` becomes
+  ``vertical_hotel.xxx``) changed.
+
+  **Upgrading a database where ``hotel`` is installed** (always on a
+  backup, with Odoo stopped, before starting Odoo on the new code):
+
+  .. code:: bash
+
+     python3 vertical_hotel/scripts/rename_hotel_to_vertical_hotel.py -d <db> --dry-run
+     python3 vertical_hotel/scripts/rename_hotel_to_vertical_hotel.py -d <db>
+     odoo-bin -d <db> -u vertical_hotel --stop-after-init
+
+  Use the Python of the Odoo environment (it needs ``psycopg2``) and add
+  ``--db_host``, ``--db_port``, ``-r <user>`` and ``-w`` as needed. When
+  migrating from 18.0 with OpenUpgrade, the rename is done by
+  OpenUpgrade instead.
+
+  Custom modules must replace ``"hotel"`` by ``"vertical_hotel"`` in
+  their ``depends`` and every ``hotel.<xmlid>`` reference (``ref=``,
+  ``parent=``, ``groups=``, ``inherit_id``, ``env.ref()``,
+  ``ir.model.access.csv``) by ``vertical_hotel.<xmlid>``. Python
+  installs from PyPI use ``odoo-addon-vertical_hotel`` instead of
+  ``odoo-addon-hotel``.
+
 Bug Tracker
 ===========
 
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/vertical-hotel/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/vertical-hotel/issues/new?body=module:%20hotel%0Aversion:%2019.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/vertical-hotel/issues/new?body=module:%20vertical_hotel%0Aversion:%2020.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -87,6 +195,6 @@ OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
 
-This module is part of the `OCA/vertical-hotel <https://github.com/OCA/vertical-hotel/tree/19.0/hotel>`_ project on GitHub.
+This module is part of the `OCA/vertical-hotel <https://github.com/OCA/vertical-hotel/tree/20.0/vertical_hotel>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.

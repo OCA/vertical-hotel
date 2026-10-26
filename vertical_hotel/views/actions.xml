@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <!-- Action of hotel floor -->
     <record id="open_hotel_floor_form_tree" model="ir.actions.act_window">
@@ -28,19 +28,14 @@
         <field name="name">Amenities</field>
         <field name="res_model">hotel.room.amenities</field>
         <field name="view_mode">list,form</field>
-        <field name="context">{'default_iscategid':1,'default_available_in_pos':0}
-        </field>
+        <field name="context">{'default_iscategid': 1}</field>
         <field name="view_id" ref="view_hotel_room_amenities_list" />
     </record>
     <!-- Action for hotel room -->
     <record id="action_hotel_room_form" model="ir.actions.act_window">
         <field name="name">Room</field>
         <field name="res_model">hotel.room</field>
-        <field
-            name="context"
-        >{'default_isroom':1,'default_rental':1,'default_available_in_pos':0}
-        </field>
-        <field name="view_id" ref="view_hotel_room_tree" />
+        <field name="context">{'default_isroom': 1}</field>
         <field name="view_mode">kanban,list,form</field>
     </record>
     <!-- Action for hotel folio -->
@@ -60,8 +55,7 @@
     <record id="action_hotel_services_form" model="ir.actions.act_window">
         <field name="name">Services</field>
         <field name="res_model">hotel.services</field>
-        <field name="context">{'default_isservice':1,'default_available_in_pos':0}
-        </field>
+        <field name="context">{'default_isservice': 1}</field>
         <field name="view_mode">list,form</field>
     </record>
 </odoo>

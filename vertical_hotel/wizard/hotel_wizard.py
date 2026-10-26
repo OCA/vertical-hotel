@@ -19,15 +19,18 @@ class FolioReportWizard(models.TransientModel):
             "model": "hotel.folio",
             "form": self.read(["date_start", "date_end"])[0],
         }
-        return self.env.ref("hotel.report_hotel_management").report_action(
+        return self.env.ref("vertical_hotel.report_hotel_management").report_action(
             self, data=data
         )
 
-    @api.model
     @api.constrains("date_start", "date_end")
     def check_date(self):
         for record in self:
-            if record.date_start > record.date_end:
+            if (
+                record.date_start
+                and record.date_end
+                and record.date_start > record.date_end
+            ):
                 raise ValidationError(
                     record.env._("End date must be Greater than the Start date")
                 )

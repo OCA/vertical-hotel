@@ -3,10 +3,10 @@
 
 {
     "name": "Hotel Management",
-    "version": "19.0.1.0.0",
+    "version": "20.0.1.0.0",
     "author": """Odoo Community Association (OCA),
                 Serpent Consulting Services Pvt. Ltd.""",
-    "category": "Hotel Management",
+    "category": "Services/Hotel",
     "website": "https://github.com/OCA/vertical-hotel",
     "depends": ["sale_stock", "account", "sale_project"],
     "license": "LGPL-3",
@@ -14,7 +14,7 @@
     "demo": ["demo/hotel_data.xml"],
     "data": [
         "security/hotel_security.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "data/hotel_sequence.xml",
         "report/report_view.xml",
         "report/hotel_folio_report_template.xml",
@@ -29,11 +29,9 @@
         "views/actions.xml",
         "views/menus.xml",
         "wizard/hotel_wizard.xml",
+        "wizard/hotel_v19_import_views.xml",
     ],
-    "assets": {
-        "web.assets_backend": ["hotel/static/src/css/room_kanban.css"],
-    },
-    "external_dependencies": {"python": ["python-dateutil"]},
+    "post_init_hook": "post_init_hook",
     "images": ["static/description/Hotel.png"],
     "application": True,
 }

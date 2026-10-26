@@ -3,6 +3,8 @@
 
 from collections import defaultdict
 from datetime import timedelta
+from itertools import pairwise
+from typing import ClassVar
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
@@ -23,47 +25,29 @@ class FolioRoomLine(models.Model):
 class HotelFolio(models.Model):
     _name = "hotel.folio"
     _description = "hotel folio"
-    _inherits = {"sale.order": "order_id"}
+    _inherits: ClassVar[dict] = {"sale.order": "order_id"}
     _rec_name = "order_id"
+    _rec_names_search = ("name", "order_id.name")
 
     def _compute_display_name(self):
         for rec in self:
             rec.display_name = rec.order_id.name or rec.name or ""
 
-    @api.model
-    def _name_search(self, name="", args=None, operator="ilike", limit=100):
-        if args is None:
-            args = []
-        args += [("name", operator, name)]
-        folio = self._search(args, limit=100)
-        return folio
-
-    @api.model
-    def _get_checkin_date(self):
-        self.env.context.get("tz") or self.env.user.partner_id.tz or "UTC"
-        checkin_date = fields.Datetime.context_timestamp(self, fields.Datetime.now())
-        return fields.Datetime.to_string(checkin_date)
-
-    @api.model
-    def _get_checkout_date(self):
-        self.env.context.get("tz") or self.env.user.partner_id.tz or "UTC"
-        checkout_date = fields.Datetime.context_timestamp(
-            self, fields.Datetime.now() + timedelta(days=1)
-        )
-        return fields.Datetime.to_string(checkout_date)
+    def _default_checkout_date(self):
+        return fields.Datetime.now() + timedelta(days=1)
 
     name = fields.Char("Folio Number", index=True, default="New")
-    order_id = fields.Many2one("sale.order", "Order", required=True, ondelete="cascade")
+    order_id = fields.Many2one("sale.order", required=True, ondelete="cascade")
     checkin_date = fields.Datetime(
         "Check In",
         required=True,
-        default=lambda self: self._get_checkin_date(),
+        default=fields.Datetime.now,
     )
     checkout_date = fields.Datetime(
         "Check Out",
         readonly=True,
         required=True,
-        default=lambda self: self._get_checkout_date(),
+        default=lambda self: self._default_checkout_date(),
     )
     room_line_ids = fields.One2many(
         "hotel.folio.line",
@@ -102,6 +86,8 @@ class HotelFolio(models.Model):
         """
         Prevent duplicate room bookings for the same product within overlapping dates.
         """
+        if self.env.context.get("hotel_v19_import"):
+            return
         for rec in self:
             room_lines = rec.room_line_ids.filtered(lambda line: line.state != "cancel")
             if not room_lines:
@@ -116,7 +102,7 @@ class HotelFolio(models.Model):
             for product_lines in grouped.values():
                 sorted_lines = sorted(product_lines, key=lambda line: line.checkin_date)
 
-                for current, nxt in zip(sorted_lines, sorted_lines[1:], strict=False):
+                for current, nxt in pairwise(sorted_lines):
                     if current.checkout_date > nxt.checkin_date:
                         raise ValidationError(
                             self.env._(
@@ -152,48 +138,37 @@ class HotelFolio(models.Model):
             )
 
     def action_cancel(self):
-        """
-        @param self: object pointer
-        """
-        hotel_room_obj = self.env["hotel.room"]
+        """Cancel the sales orders (and their draft invoices) and free the
+        rooms booked on the folios."""
         for rec in self:
             if not rec.order_id:
                 raise UserError(rec.env._("Order id is not available"))
-
-            products = rec.room_line_ids.mapped("product_id")
-            if products:
-                rooms = hotel_room_obj.search([("product_id", "in", products.ids)])
-                if rooms:
-                    rooms.write({"isroom": True, "status": "available"})
-
-            rec.invoice_ids.button_cancel()
-        return self.mapped("order_id").action_cancel()
+        products = self.room_line_ids.product_id
+        if products:
+            rooms = self.env["hotel.room"].search([("product_id", "in", products.ids)])
+            rooms.write({"isroom": True, "status": "available"})
+        return self.order_id.action_cancel()
 
     def action_confirm(self):
-        for order in self.order_id:
-            order.state = "sale"
-            order.invoice_status = "to invoice"
-            if not order.project_account_id:
-                if order.order_line.filtered(
-                    lambda line: line.product_id.invoice_policy == "cost"
-                ):
-                    order._create_analytic_account()
-            config_parameter_obj = self.env["ir.config_parameter"]
-            if config_parameter_obj.sudo().get_param("sale.auto_done_setting"):
-                self.order_id.action_done()
+        """Confirm through the standard sale flow (deliveries, locking,
+        project/analytic generation, confirmation date)."""
+        return self.order_id.action_confirm()
+
+    def action_create_invoice(self):
+        """Open the standard "Create invoice" wizard on the folios' orders;
+        the invoice is linked back to the folio (see account.move)."""
+        self.room_line_ids.product_id.write({"isroom": True})
+        action = self.env["ir.actions.actions"]._for_xml_id(
+            "sale.action_view_sale_advance_payment_inv"
+        )
+        action["context"] = {
+            "active_model": "sale.order",
+            "active_ids": self.order_id.ids,
+            "active_id": self.order_id[:1].id,
+            "folio_id": self[:1].id,
+        }
+        return action
 
     def action_cancel_draft(self):
-        """
-        @param self: object pointer
-        """
-        order_line_recs = self.env["sale.order.line"].search(
-            [("order_id", "in", self.ids), ("state", "=", "cancel")]
-        )
-        self.write({"state": "draft", "invoice_ids": []})
-        order_line_recs.write(
-            {
-                "invoiced": False,
-                "state": "draft",
-                "invoice_lines": [(6, 0, [])],
-            }
-        )
+        """Reset cancelled folios to quotation."""
+        return self.order_id.action_draft()
