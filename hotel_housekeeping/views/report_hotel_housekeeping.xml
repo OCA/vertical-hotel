@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--Template for Hotel Housekeeping -->
+    <template id="housekeeping_report">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2 class="text-center mt-4 mb-4">Room Activities Report</h2>
+                    <div t-foreach="sections" t-as="section" class="mb-5">
+                        <div class="text-center mb-3">
+                            <div>
+                                <strong>For Room:</strong>
+                                <span t-out="section['room'].name" />
+                            </div>
+                            <div t-if="section['date_start']">
+                                <strong>From:</strong>
+                                <span
+                                    t-out="section['date_start']"
+                                    t-options="{'widget': 'datetime'}"
+                                />
+                                <strong>To:</strong>
+                                <span
+                                    t-out="section['date_end']"
+                                    t-options="{'widget': 'datetime'}"
+                                />
+                            </div>
+                        </div>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Activities</th>
+                                    <th>Housekeeper Name</th>
+                                    <th class="text-end">Clean Start Time</th>
+                                    <th class="text-end">Clean End Time</th>
+                                    <th class="text-end">Duration</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="section['lines']" t-as="line">
+                                    <td class="text-nowrap">
+                                        <span t-field="line.today_date" />
+                                    </td>
+                                    <td>
+                                        <span t-field="line.activity_id" />
+                                    </td>
+                                    <td>
+                                        <span t-field="line.housekeeper_id" />
+                                    </td>
+                                    <td class="text-end text-nowrap">
+                                        <span t-field="line.clean_start_time" />
+                                    </td>
+                                    <td class="text-end text-nowrap">
+                                        <span t-field="line.clean_end_time" />
+                                    </td>
+                                    <td class="text-end text-nowrap">
+                                        <span
+                                            t-out="duration_hours(line)"
+                                            t-options="{'widget': 'float_time'}"
+                                        />
+                                    </td>
+                                </tr>
+                                <tr t-if="not section['lines']">
+                                    <td colspan="6" class="text-center text-muted">
+                                        No activity in this period.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

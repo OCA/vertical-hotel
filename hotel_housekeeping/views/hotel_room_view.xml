@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Housekeeping status and jobs on the room form -->
+    <record id="view_hotel_room_form_housekeeping" model="ir.ui.view">
+        <field name="name">hotel.room.form.housekeeping</field>
+        <field name="model">hotel.room</field>
+        <field name="inherit_id" ref="vertical_hotel.view_hotel_room_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/field[@name='image_1920']" position="before">
+                <div class="oe_button_box" name="button_box">
+                    <button
+                        name="action_view_housekeeping"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="bed"
+                    >
+                        <field
+                            name="housekeeping_count"
+                            widget="statinfo"
+                            string="Housekeeping"
+                        />
+                    </button>
+                </div>
+            </xpath>
+            <field name="status" position="after">
+                <field
+                    name="housekeeping_state"
+                    widget="badge"
+                    decoration-danger="housekeeping_state == 'needs_cleaning'"
+                    decoration-warning="housekeeping_state == 'to_inspect'"
+                    decoration-success="housekeeping_state == 'ready'"
+                />
+            </field>
+        </field>
+    </record>
+
+    <!-- Housekeeping status badge on the room board -->
+    <record id="view_hotel_room_kanban_housekeeping" model="ir.ui.view">
+        <field name="name">hotel.room.kanban.housekeeping</field>
+        <field name="model">hotel.room</field>
+        <field name="inherit_id" ref="vertical_hotel.view_hotel_room_kanban" />
+        <field name="arch" type="xml">
+            <xpath expr="//footer/field[@name='status']" position="after">
+                <field
+                    name="housekeeping_state"
+                    widget="badge"
+                    class="ms-1"
+                    decoration-danger="housekeeping_state == 'needs_cleaning'"
+                    decoration-warning="housekeeping_state == 'to_inspect'"
+                    decoration-success="housekeeping_state == 'ready'"
+                />
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Housekeeping column in the room list -->
+    <record id="view_hotel_room_tree_housekeeping" model="ir.ui.view">
+        <field name="name">hotel.room.list.housekeeping</field>
+        <field name="model">hotel.room</field>
+        <field name="inherit_id" ref="vertical_hotel.view_hotel_room_tree" />
+        <field name="arch" type="xml">
+            <field name="status" position="after">
+                <field
+                    name="housekeeping_state"
+                    widget="badge"
+                    optional="show"
+                    decoration-danger="housekeeping_state == 'needs_cleaning'"
+                    decoration-warning="housekeeping_state == 'to_inspect'"
+                    decoration-success="housekeeping_state == 'ready'"
+                />
+            </field>
+        </field>
+    </record>
+
+    <!-- Housekeeping filters on rooms -->
+    <record id="view_hotel_room_search_housekeeping" model="ir.ui.view">
+        <field name="name">hotel.room.search.housekeeping</field>
+        <field name="model">hotel.room</field>
+        <field name="inherit_id" ref="vertical_hotel.view_hotel_room_search" />
+        <field name="arch" type="xml">
+            <filter name="reserved" position="after">
+                <separator />
+                <filter
+                    name="needs_cleaning"
+                    string="Needs Cleaning"
+                    domain="[('housekeeping_state', '=', 'needs_cleaning')]"
+                />
+                <filter
+                    name="to_inspect"
+                    string="To Inspect"
+                    domain="[('housekeeping_state', '=', 'to_inspect')]"
+                />
+                <filter
+                    name="housekeeping_ready"
+                    string="Ready"
+                    domain="[('housekeeping_state', '=', 'ready')]"
+                />
+                <filter
+                    name="groupby_housekeeping_state"
+                    string="Housekeeping Status"
+                    context="{'group_by': 'housekeeping_state'}"
+                />
+            </filter>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,466 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* hotel_housekeeping
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: hotel_housekeeping
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_hotel_housekeeping_form
+msgid ""
+"<i class=\"fa fa-check\"/>\n"
+"                        Done"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_hotel_housekeeping_form
+msgid ""
+"<i class=\"fa fa-paint-brush\"/>\n"
+"                        Clean"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_hotel_housekeeping_form
+msgid ""
+"<i class=\"fa fa-pencil-square-o\"/>\n"
+"                        Dirty"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_hotel_housekeeping_form
+msgid ""
+"<i class=\"fa fa-search\"/>\n"
+"                        Inspect"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.housekeeping_report
+msgid "<strong>Activities</strong>"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.housekeeping_report
+msgid "<strong>Clean End Time</strong>"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.housekeeping_report
+msgid "<strong>Clean Start Time</strong>"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.housekeeping_report
+msgid "<strong>Date</strong>"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.housekeeping_report
+msgid "<strong>Duration</strong>"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.housekeeping_report
+msgid "<strong>For Room:-</strong>"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.housekeeping_report
+msgid "<strong>From:</strong>"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.housekeeping_report
+msgid "<strong>Housekeeper Name</strong>"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.housekeeping_report
+msgid "<strong>To:</strong>"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.housekeeping_report
+msgid "<u>Room Activities Report</u>"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.actions.act_window,name:hotel_housekeeping.action_h_activity_form
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping__activity_line_ids
+#: model:ir.ui.menu,name:hotel_housekeeping.menu_open_h_activity_form
+msgid "Activities"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.ui.menu,name:hotel_housekeeping.menu_hotel_activity
+msgid "Activity"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.actions.report,name:hotel_housekeeping.report_hotel_housekeeping
+msgid "Activity Detail"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_wizard__date_end
+msgid "Activity End Date"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_hotel_housekeeping_form
+msgid "Activity Lines"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_h_activity_form
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_hotel_housekeeping_activity_type_form
+msgid "Activity Name"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.actions.act_window,name:hotel_housekeeping.action_hotel_housekeeping_wizard
+#: model:ir.ui.menu,name:hotel_housekeeping.wizard_activity_menu
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.hotel_housekeeping_wizard_form_view
+msgid "Activity Report"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_wizard__date_start
+msgid "Activity Start Date"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model,name:hotel_housekeeping.model_hotel_housekeeping_activity_type
+msgid "Activity Type"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.actions.act_window,name:hotel_housekeeping.action_hotel_housekeeping_activity_type_view_form
+#: model:ir.ui.menu,name:hotel_housekeeping.menu_action_hotel_housekeeping_activity_type_view_form
+msgid "Activity Types"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields.selection,name:hotel_housekeeping.selection__hotel_housekeeping__quality__average
+msgid "Average"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields.selection,name:hotel_housekeeping.selection__hotel_housekeeping__quality__bad
+msgid "Bad"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.hotel_housekeeping_wizard_form_view
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_hotel_housekeeping_form
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_hotel_housekeeping_search
+msgid "Cancel"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields.selection,name:hotel_housekeeping.selection__hotel_housekeeping__state__cancel
+msgid "Cancelled"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__categ_id
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_h_activity_search
+msgid "Category"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields.selection,name:hotel_housekeeping.selection__hotel_housekeeping__clean_type__checkin
+msgid "Check-In"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields.selection,name:hotel_housekeeping.selection__hotel_housekeeping__clean_type__checkout
+msgid "Check-Out"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,help:hotel_housekeeping.field_hotel_housekeeping_activities__is_dirty
+msgid "Checked if the housekeeping activityresults as Dirty."
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,help:hotel_housekeeping.field_hotel_housekeeping_activities__is_clean
+msgid "Checked if the housekeepingactivity results as Clean."
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_activities__is_clean
+#: model:ir.model.fields.selection,name:hotel_housekeeping.selection__hotel_housekeeping__state__clean
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_hotel_housekeeping_form
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_hotel_housekeeping_search
+msgid "Clean"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_activities__clean_end_time
+msgid "Clean End Time"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_activities__clean_start_time
+msgid "Clean Start Time"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping__clean_type
+msgid "Clean Type"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__create_uid
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping__create_uid
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_activities__create_uid
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_activity_type__create_uid
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_wizard__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__create_date
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping__create_date
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_activities__create_date
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_activity_type__create_date
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_wizard__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields.selection,name:hotel_housekeeping.selection__hotel_housekeeping__clean_type__daily
+msgid "Daily"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,help:hotel_housekeeping.field_hotel_housekeeping__activity_line_ids
+msgid "Detail of housekeeping activities"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_activities__is_dirty
+#: model:ir.model.fields.selection,name:hotel_housekeeping.selection__hotel_housekeeping__state__dirty
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_hotel_housekeeping_form
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_hotel_housekeeping_search
+msgid "Dirty"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__display_name
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping__display_name
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_activities__display_name
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_activity_type__display_name
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_wizard__display_name
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_report_hotel_housekeeping_housekeeping_report__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields.selection,name:hotel_housekeeping.selection__hotel_housekeeping__state__done
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_hotel_housekeeping_form
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_hotel_housekeeping_search
+msgid "Done"
+msgstr ""
+
+#. module: hotel_housekeeping
+#. odoo-python
+#: code:addons/hotel_housekeeping/wizard/housekeeping_wizard.py:0
+msgid "End date must be greater than the Start date"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields.selection,name:hotel_housekeeping.selection__hotel_housekeeping__quality__excellent
+msgid "Excellent"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields.selection,name:hotel_housekeeping.selection__hotel_housekeeping__quality__good
+msgid "Good"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model,name:hotel_housekeeping.model_hotel_housekeeping
+msgid "Hotel Housekeeping"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model,name:hotel_housekeeping.model_report_hotel_housekeeping_housekeeping_report
+msgid "Hotel Housekeeping Report"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model,name:hotel_housekeeping.model_hotel_housekeeping_wizard
+msgid "Hotel Housekeeping Wizard"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_activities__housekeeper_id
+msgid "Housekeeper"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_hotel_housekeeping_form
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_hotel_housekeeping_search
+msgid "Housekeeping"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model,name:hotel_housekeeping.model_hotel_housekeeping_activities
+msgid "Housekeeping Activities"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model,name:hotel_housekeeping.model_hotel_activity
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_activities__activity_id
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_h_activity_form
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_h_activity_search
+msgid "Housekeeping Activity"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_hotel_housekeeping_activity_type_form
+msgid "Housekeeping Activity Types"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.actions.act_window,name:hotel_housekeeping.open_hotel_housekeeping_form_tree
+#: model:ir.ui.menu,name:hotel_housekeeping.menu_housekeeping
+#: model:ir.ui.menu,name:hotel_housekeeping.menu_open_hotel_housekeeping_form_tree
+msgid "Housekeeping Services"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__id
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping__id
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_activities__id
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_activity_type__id
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_wizard__id
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_report_hotel_housekeeping_housekeeping_report__id
+msgid "ID"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields.selection,name:hotel_housekeeping.selection__hotel_housekeeping__state__inspect
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_hotel_housekeeping_form
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_hotel_housekeeping_search
+msgid "Inspect"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping__inspect_date_time
+msgid "Inspect Date Time"
+msgstr ""
+
+#. module: hotel_housekeeping
+#. odoo-python
+#: code:addons/hotel_housekeeping/models/hotel_housekeeping.py:0
+msgid "Inspect Date Time must be greater than Clean end time"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping__inspector_id
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_hotel_housekeeping_search
+msgid "Inspector"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,help:hotel_housekeeping.field_hotel_housekeeping__quality
+msgid ""
+"Inspector inspect the room and markas Excellent, Average, Bad, Good or Ok. "
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_hotel_housekeeping_form
+msgid "Is Clean?"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model_terms:ir.ui.view,arch_db:hotel_housekeeping.view_hotel_housekeeping_form
+msgid "Is Dirty?"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__write_uid
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping__write_uid
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_activities__write_uid
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_activity_type__write_uid
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_wizard__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__write_date
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping__write_date
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_activities__write_date
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_activity_type__write_date
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_wizard__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_activity__name
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_activity_type__name
+msgid "Name"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields.selection,name:hotel_housekeeping.selection__hotel_housekeeping__quality__ok
+msgid "Ok"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_activity_type__parent_id
+msgid "Parent Category"
+msgstr ""
+
+#. module: hotel_housekeeping
+#. odoo-python
+#: code:addons/hotel_housekeeping/models/hotel_housekeeping.py:0
+msgid "Please update quality of work!"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping__quality
+msgid "Quality"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_activities__housekeeping_id
+msgid "Reservation"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping__room_id
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_wizard__room_id
+msgid "Room No"
+msgstr ""
+
+#. module: hotel_housekeeping
+#. odoo-python
+#: code:addons/hotel_housekeeping/models/hotel_housekeeping_activities.py:0
+msgid "Start Time Should be less than the End Time!"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping__state
+msgid "State"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping_activities__today_date
+msgid "Today Date"
+msgstr ""
+
+#. module: hotel_housekeeping
+#: model:ir.model.fields,field_description:hotel_housekeeping.field_hotel_housekeeping__current_date
+msgid "Today's Date"
+msgstr ""

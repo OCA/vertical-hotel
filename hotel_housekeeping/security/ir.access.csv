@@ -1,0 +1,9 @@
+id,name,model_id,group_id/id,operation,domain
+access_hotel_housekeeping_activity_type_user,hotel.housekeeping.activity.type.user,hotel.housekeeping.activity.type,vertical_hotel.group_hotel_user,cru,
+access_hotel_housekeeping_activity_type_manager,hotel.housekeeping.activity.type.manager,hotel.housekeeping.activity.type,vertical_hotel.group_hotel_manager,crud,
+access_h_activity_user,h.activity.user,hotel.activity,vertical_hotel.group_hotel_user,cru,
+access_h_activity_manager,h.activity.manager,hotel.activity,vertical_hotel.group_hotel_manager,crud,
+access_hotel_housekeeping_user,hotel.housekeeping.user,hotel.housekeeping,vertical_hotel.group_hotel_user,cru,
+access_hotel_housekeeping_manager,hotel.housekeeping.manager,hotel.housekeeping,vertical_hotel.group_hotel_manager,crud,
+access_hotel_housekeeping_activities_user,hotel.housekeeping.activities.user,hotel.housekeeping.activities,vertical_hotel.group_hotel_user,crud,
+access_hotel_housekeeping_wizard,access_hotel_housekeeping_wizard,hotel.housekeeping.wizard,base.group_user,cru,
