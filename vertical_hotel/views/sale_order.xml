@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--
+        A folio's sales order is confirmed from the folio, never from here.
+        The flag only shows up on the orders it actually applies to.
+    -->
+    <record id="view_order_form_inherit_hotel" model="ir.ui.view">
+        <field name="name">sale.order.form.hotel.folio</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='order_details']" position="inside">
+                <field name="is_folio_order" invisible="True" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

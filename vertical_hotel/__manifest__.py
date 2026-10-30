@@ -19,6 +19,7 @@
         "report/report_view.xml",
         "report/hotel_folio_report_template.xml",
         "views/hotel_folio.xml",
+        "views/sale_order.xml",
         "views/hotel_room.xml",
         "views/hotel_room_amenities.xml",
         "views/hotel_room_type.xml",
