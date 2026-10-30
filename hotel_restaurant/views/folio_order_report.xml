@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Restaurant orders per folio: set title before calling -->
+    <template id="report_folio_orders_body">
+        <t t-set="currency" t-value="folios.env.company.currency_id" />
+        <div class="page">
+            <t t-call="hotel_restaurant.report_restaurant_period_header" />
+            <table class="table table-sm table-bordered">
+                <thead>
+                    <tr>
+                        <th>Folio Number</th>
+                        <th>Customer Name</th>
+                        <th>Check-In</th>
+                        <th>Check-Out</th>
+                        <th class="text-end">Orders</th>
+                        <th class="text-end">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="folios" t-as="folio">
+                        <t t-set="orders" t-value="folio[orders_field]" />
+                        <tr>
+                            <td>
+                                <span t-field="folio.display_name" />
+                            </td>
+                            <td>
+                                <span t-field="folio.partner_id" />
+                            </td>
+                            <td class="text-nowrap">
+                                <span t-field="folio.checkin_date" />
+                            </td>
+                            <td class="text-nowrap">
+                                <span t-field="folio.checkout_date" />
+                            </td>
+                            <td class="text-end">
+                                <span t-out="len(orders)" />
+                            </td>
+                            <td class="text-end">
+                                <span
+                                    t-out="sum(orders.mapped('amount_total'))"
+                                    t-options="{'widget': 'monetary', 'display_currency': currency}"
+                                />
+                            </td>
+                        </tr>
+                        <tr t-if="with_details" t-foreach="orders" t-as="order">
+                            <td />
+                            <td>
+                                <span t-field="order.display_name" />
+                            </td>
+                            <td class="text-nowrap">
+                                <span
+                                    t-out="order_date(order)"
+                                    t-options="{'widget': 'datetime'}"
+                                />
+                            </td>
+                            <td>
+                                <span t-field="order.state" />
+                            </td>
+                            <td class="text-end">
+                                <span t-out="len(order.order_list_ids)" /> items
+                            </td>
+                            <td class="text-end">
+                                <span
+                                    t-out="order.amount_total"
+                                    t-options="{'widget': 'monetary', 'display_currency': currency}"
+                                />
+                            </td>
+                        </tr>
+                    </t>
+                    <tr t-if="not folios">
+                        <td colspan="6" class="text-center text-muted">
+                            No restaurant order in this period.
+                        </td>
+                    </tr>
+                    <tr t-else="">
+                        <td colspan="5" class="text-end">
+                            <strong>Total</strong>
+                        </td>
+                        <td class="text-end">
+                            <strong
+                                t-out="grand_total"
+                                t-options="{'widget': 'monetary', 'display_currency': currency}"
+                            />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </template>
+
+    <!-- Orders of table bookings per folio -->
+    <template id="report_rest_order">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <t t-set="title">Restaurant Reservation Orders</t>
+                <t t-call="hotel_restaurant.report_folio_orders_body" />
+            </t>
+        </t>
+    </template>
+
+    <!-- Table orders per folio -->
+    <template id="report_reserv_order">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <t t-set="title">Restaurant Orders</t>
+                <t t-call="hotel_restaurant.report_folio_orders_body" />
+            </t>
+        </t>
+    </template>
+</odoo>

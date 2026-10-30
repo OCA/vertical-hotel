@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Body of the customer bills: set o, date and number before calling -->
+    <template id="report_order_bill_body">
+        <t t-set="currency" t-value="o.env.company.currency_id" />
+        <div class="page">
+            <h2 class="mt-3">Customer Bill</h2>
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Order Number</th>
+                        <th t-if="o.folio_id">Folio Number</th>
+                        <th t-if="o.room_id">Room Number</th>
+                        <th>Waiter Name</th>
+                        <th>Tables</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-nowrap">
+                            <span t-out="date" t-options="{'widget': 'datetime'}" />
+                        </td>
+                        <td>
+                            <span t-out="number" />
+                        </td>
+                        <td t-if="o.folio_id">
+                            <span t-field="o.folio_id" />
+                        </td>
+                        <td t-if="o.room_id">
+                            <span t-field="o.room_id" />
+                        </td>
+                        <td>
+                            <span t-field="o.waiter_id" />
+                        </td>
+                        <td>
+                            <span t-out="', '.join(o.table_nos_ids.mapped('name'))" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <h3>Order List</h3>
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th>Food Item</th>
+                        <th class="text-end">Quantity</th>
+                        <th class="text-end">Rate</th>
+                        <th class="text-end">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="o.order_list_ids" t-as="line">
+                        <td>
+                            <span t-field="line.menucard_id" />
+                        </td>
+                        <td class="text-end">
+                            <span t-field="line.item_qty" />
+                        </td>
+                        <td class="text-end">
+                            <span
+                                t-out="line.item_rate"
+                                t-options="{'widget': 'monetary', 'display_currency': currency}"
+                            />
+                        </td>
+                        <td class="text-end">
+                            <span
+                                t-out="line.price_subtotal"
+                                t-options="{'widget': 'monetary', 'display_currency': currency}"
+                            />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row justify-content-end">
+                <div class="col-5">
+                    <table class="table table-sm">
+                        <tr>
+                            <td>
+                                <strong>Subtotal</strong>
+                            </td>
+                            <td class="text-end">
+                                <span
+                                    t-out="o.amount_subtotal"
+                                    t-options="{'widget': 'monetary', 'display_currency': currency}"
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Tax (%)</td>
+                            <td class="text-end">
+                                <span t-field="o.tax" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Total</strong>
+                            </td>
+                            <td class="text-end">
+                                <strong
+                                    t-out="o.amount_total"
+                                    t-options="{'widget': 'monetary', 'display_currency': currency}"
+                                />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!--Bill of a table order -->
+    <template id="report_order_bill">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <t t-set="date" t-value="o.o_date" />
+                    <t t-set="number" t-value="o.order_no" />
+                    <t t-call="hotel_restaurant.report_order_bill_body" />
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!--Bill of a table booking order -->
+    <template id="report_res_order_bill">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <t t-set="date" t-value="o.order_date" />
+                    <t t-set="number" t-value="o.order_number" />
+                    <t t-call="hotel_restaurant.report_order_bill_body" />
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

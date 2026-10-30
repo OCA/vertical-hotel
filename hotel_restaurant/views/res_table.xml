@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Title and period of the restaurant reports: set title before calling -->
+    <template id="report_restaurant_period_header">
+        <h2 class="text-center mt-4" t-out="title" />
+        <div class="text-center mb-4">
+            <strong>From:</strong>
+            <span t-out="data['date_start']" t-options="{'widget': 'datetime'}" />
+            <strong>To:</strong>
+            <span t-out="data['date_end']" t-options="{'widget': 'datetime'}" />
+        </div>
+    </template>
+
+    <!--Template for table reservation list -->
+    <template id="report_res_table">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <t t-set="title">Table Reservation List</t>
+                    <t t-call="hotel_restaurant.report_restaurant_period_header" />
+                    <table class="table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Reservation No</th>
+                                <th>Customer Name</th>
+                                <th>Tables</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="Reservations" t-as="reservation">
+                                <td>
+                                    <span t-field="reservation.reservation_id" />
+                                </td>
+                                <td>
+                                    <span t-field="reservation.customer_id" />
+                                </td>
+                                <td>
+                                    <span
+                                        t-out="', '.join(reservation.table_nos_ids.mapped('name'))"
+                                    />
+                                </td>
+                                <td class="text-nowrap">
+                                    <span t-field="reservation.start_date" />
+                                </td>
+                                <td class="text-nowrap">
+                                    <span t-field="reservation.end_date" />
+                                </td>
+                            </tr>
+                            <tr t-if="not Reservations">
+                                <td colspan="5" class="text-center text-muted">
+                                    No reservation in this period.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
