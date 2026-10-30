@@ -1,0 +1,2 @@
+id,name,model_id,group_id/id,operation,domain
+access_report_hotel_restaurant_status,hotel.report.restaurant.status,report.hotel.restaurant.status,vertical_hotel.group_hotel_user,r,
