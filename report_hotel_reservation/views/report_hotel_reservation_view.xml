@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- List view of the reservation analysis -->
+    <record id="view_hotel_reservation_status_tree" model="ir.ui.view">
+        <field name="name">report.hotel.reservation.status.list</field>
+        <field name="model">report.hotel.reservation.status</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="reservation_no" />
+                <field name="partner_id" />
+                <field name="checkin" />
+                <field name="checkout" />
+                <field name="room_type_id" />
+                <field name="room_id" />
+                <field name="room_nights" sum="Room Nights" />
+                <field name="guests" sum="Guests" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field
+                    name="state"
+                    widget="badge"
+                    decoration-info="state == 'draft'"
+                    decoration-success="state == 'confirm'"
+                    decoration-muted="state in ['done', 'cancel']"
+                />
+            </list>
+        </field>
+    </record>
+
+    <!-- Form view of the reservation analysis -->
+    <record id="view_hotel_reservation_status_form" model="ir.ui.view">
+        <field name="name">report.hotel.reservation.status.form</field>
+        <field name="model">report.hotel.reservation.status</field>
+        <field name="arch" type="xml">
+            <form string="Reservation Analysis">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="reservation_id" />
+                            <field name="partner_id" />
+                            <field name="state" />
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
+                        </group>
+                        <group>
+                            <field name="checkin" />
+                            <field name="checkout" />
+                            <field name="room_type_id" />
+                            <field name="room_id" />
+                            <field name="room_nights" />
+                            <field name="guests" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search view of the reservation analysis -->
+    <record id="report_hotel_reservation_status_search" model="ir.ui.view">
+        <field name="name">report.hotel.reservation.status.search</field>
+        <field name="model">report.hotel.reservation.status</field>
+        <field name="arch" type="xml">
+            <search string="Reservation Analysis">
+                <field name="reservation_no" />
+                <field name="partner_id" />
+                <field name="room_id" />
+                <field name="room_type_id" />
+                <field name="state" />
+                <filter
+                    name="draft"
+                    string="Draft"
+                    domain="[('state','=', 'draft')]"
+                    help="Reservations in draft state"
+                />
+                <filter
+                    name="confirm"
+                    string="Confirm"
+                    domain="[('state','=', 'confirm')]"
+                    help="Reservations in confirm state"
+                />
+                <filter
+                    name="done"
+                    string="Done"
+                    domain="[('state','=', 'done')]"
+                    help="Reservations in done state"
+                />
+                <filter
+                    name="cancel"
+                    string="Cancel"
+                    domain="[('state','=', 'cancel')]"
+                    help="Cancelled reservations"
+                />
+                <filter
+                    name="not_cancelled"
+                    string="Not Cancelled"
+                    domain="[('state','!=', 'cancel')]"
+                />
+                <separator />
+                <filter name="filter_checkin" string="Check-In" date="checkin" />
+                <group>
+                    <filter
+                        name="groupby_state"
+                        string="State"
+                        context="{'group_by': 'state'}"
+                    />
+                    <filter
+                        name="groupby_room_type"
+                        string="Room Type"
+                        context="{'group_by': 'room_type_id'}"
+                    />
+                    <filter
+                        name="groupby_room"
+                        string="Room"
+                        context="{'group_by': 'room_id'}"
+                    />
+                    <filter
+                        name="groupby_partner"
+                        string="Guest"
+                        context="{'group_by': 'partner_id'}"
+                    />
+                    <filter
+                        name="groupby_checkin"
+                        string="Check-In Month"
+                        context="{'group_by': 'checkin:month'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Pivot view of the reservation analysis -->
+    <record id="view_hotel_reservation_status_pivot" model="ir.ui.view">
+        <field name="name">report.hotel.reservation.status.pivot</field>
+        <field name="model">report.hotel.reservation.status</field>
+        <field name="arch" type="xml">
+            <pivot string="Reservation Analysis" sample="1">
+                <field name="checkin" interval="month" type="row" />
+                <field name="room_type_id" type="col" />
+                <field name="room_nights" type="measure" />
+                <field name="no_of_reservation" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Graph view of the reservation analysis -->
+    <record id="view_hotel_reservation_status_graph" model="ir.ui.view">
+        <field name="name">report.hotel.reservation.status.graph</field>
+        <field name="model">report.hotel.reservation.status</field>
+        <field name="arch" type="xml">
+            <graph string="Reservation Analysis" type="bar" sample="1">
+                <field name="checkin" interval="month" />
+                <field name="state" />
+                <field name="room_nights" type="measure" />
+            </graph>
+        </field>
+    </record>
+
+    <!-- Action of the reservation analysis -->
+    <record id="action_report_hotel_reservation_status" model="ir.actions.act_window">
+        <field name="name">Reservation Analysis</field>
+        <field name="res_model">report.hotel.reservation.status</field>
+        <field name="view_mode">pivot,graph,list,form</field>
+        <field name="context">{'search_default_not_cancelled': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_empty_folder">No reservation yet</p>
+            <p>Room nights and guests of the reservations, by month, room type
+                and state.</p>
+        </field>
+    </record>
+
+    <!-- report_hotel_restaurant also puts its report in this menu -->
+    <menuitem
+        id="menu_hotel_reporting"
+        name="Reports"
+        parent="vertical_hotel.hotel_management_menu"
+        sequence="7"
+    />
+    <menuitem
+        id="menu_report_hotel_reservation_status"
+        name="Reservation Analysis"
+        action="action_report_hotel_reservation_status"
+        sequence="34"
+        parent="menu_hotel_reporting"
+    />
+</odoo>
