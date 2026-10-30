@@ -38,8 +38,11 @@ class TestReservationAnalysis(TransactionCase):
             "pricelist_id": self.pricelist.id,
             "checkin": self.base,
             "checkout": self.base + timedelta(days=nights),
-            "adults": 2,
-            "children": 1,
+            # main guest + one adult + one child: 2 adults, 1 child
+            "guest_ids": [
+                Command.create({"name": "Analysis Adult", "guest_type": "adult"}),
+                Command.create({"name": "Analysis Child", "guest_type": "child"}),
+            ],
             "reservation_line": [
                 Command.create(
                     {
