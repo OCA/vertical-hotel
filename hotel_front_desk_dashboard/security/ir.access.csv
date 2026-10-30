@@ -1,0 +1,2 @@
+id,name,model_id,group_id/id,operation,domain
+access_hotel_dashboard_user,hotel.dashboard.user,hotel.dashboard,vertical_hotel.group_hotel_user,r,

@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="hotel_front_desk_dashboard.Dashboard" owl="1">
+        <div class="o_hotel_front_desk_dashboard p-4">
+            <div
+                class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4"
+            >
+                <h2 class="mb-0">Front Desk Dashboard</h2>
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                    <div class="o_hfd_search position-relative">
+                        <input
+                            type="text"
+                            class="form-control form-control-sm"
+                            placeholder="Find guest, room or folio..."
+                            t-att-value="this.state.search"
+                            t-on-input="this.onSearchInput"
+                        />
+                        <button
+                            t-if="this.state.search"
+                            class="btn btn-sm o_hfd_search_clear"
+                            title="Clear search"
+                            t-on-click="this.clearSearch"
+                        >
+                            &#215;
+                        </button>
+                        <div
+                            t-if="this.state.results"
+                            class="o_hfd_search_results card shadow-sm"
+                        >
+                            <div
+                                t-if="this.state.searching"
+                                class="p-2 text-muted small"
+                            >Searching...</div>
+                            <div
+                                t-elif="!this.state.results.length"
+                                class="p-2 text-muted small"
+                            >No match.</div>
+                            <t t-else="">
+                                <div
+                                    t-foreach="this.state.results"
+                                    t-as="hit"
+                                    t-key="hit.folio_id"
+                                    class="o_hfd_search_hit p-2"
+                                    t-on-click="() => this.openFolio(hit.folio_id)"
+                                >
+                                    <div class="d-flex justify-content-between gap-2">
+                                        <strong>
+                                            <t t-out="hit.guest" />
+                                        </strong>
+                                        <span
+                                            t-if="hit.in_house"
+                                            class="badge bg-success"
+                                        >In house</span>
+                                    </div>
+                                    <div class="text-muted small">
+                                        <t t-out="hit.folio" />
+                                        <t t-if="hit.rooms"> &#183; Room <t
+                                            t-out="hit.rooms"
+                                        /></t>
+                                        &#183;
+                                        <t t-out="hit.checkin" />
+                                        &#8594;
+                                        <t t-out="hit.checkout" />
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                    <span t-if="this.state.data" class="text-muted small">Updated <t
+                        t-out="this.state.data.generated_at"
+                    /></span>
+                    <div class="form-check form-switch mb-0">
+                        <input
+                            id="o_hfd_auto"
+                            class="form-check-input"
+                            type="checkbox"
+                            t-att-checked="this.state.autoRefresh"
+                            t-on-change="this.toggleAutoRefresh"
+                        />
+                        <label
+                            class="form-check-label text-muted small"
+                            for="o_hfd_auto"
+                        >Auto</label>
+                    </div>
+                    <button
+                        class="btn btn-secondary btn-sm"
+                        t-on-click="this.onRefresh"
+                    >Refresh</button>
+                </div>
+            </div>
+
+            <t t-if="this.state.error">
+                <div class="alert alert-danger">
+                    Could not load dashboard data. Try refreshing.
+                </div>
+            </t>
+
+            <t t-if="this.state.loading">
+                <p class="text-muted">Loading...</p>
+            </t>
+
+            <t t-if="!this.state.loading and !this.state.error and this.state.data">
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3">
+                        <div
+                            class="card p-3 text-center h-100 o_hfd_tile"
+                            role="button"
+                            tabindex="0"
+                            title="Show the rooms that are currently occupied"
+                            t-on-click="() => this.openTile('occupancy')"
+                            t-on-keydown="(ev) => this.onTileKeydown(ev, 'occupancy')"
+                        >
+                            <div class="text-muted small">Occupancy</div>
+                            <div class="fs-3">
+                                <t t-out="this.state.data.rooms.occupancy_pct" />%
+                            </div>
+                            <div class="text-muted small">
+                                <t t-out="this.state.data.rooms.occupied" /> /
+                                <t t-out="this.state.data.rooms.total" /> rooms occupied
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div
+                            class="card p-3 text-center h-100 o_hfd_tile"
+                            role="button"
+                            tabindex="0"
+                            title="Show the stays currently in house"
+                            t-on-click="() => this.openTile('in_house')"
+                            t-on-keydown="(ev) => this.onTileKeydown(ev, 'in_house')"
+                        >
+                            <div class="text-muted small">In-house guests</div>
+                            <div class="fs-3">
+                                <t t-out="this.state.data.in_house_guests" />
+                            </div>
+                            <div class="text-muted small">
+                                <t
+                                    t-out="'right now, across ' + this.state.data.in_house_stays + (this.state.data.in_house_stays == 1 ? ' stay' : ' stays')"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div
+                            class="card p-3 text-center h-100 o_hfd_tile"
+                            role="button"
+                            tabindex="0"
+                            title="Show the rooms that are ready to sell"
+                            t-on-click="() => this.openTile('rooms_ready')"
+                            t-on-keydown="(ev) => this.onTileKeydown(ev, 'rooms_ready')"
+                        >
+                            <div class="text-muted small">Rooms ready to sell</div>
+                            <div class="fs-3">
+                                <t t-out="this.state.data.rooms.ready" />
+                            </div>
+                            <div class="text-muted small">
+                                <span
+                                    class="o_hfd_sublink"
+                                    role="button"
+                                    tabindex="0"
+                                    title="Show the rooms housekeeping has flagged dirty or awaiting inspection"
+                                    t-on-click="(ev) => this.openSubTile(ev, 'rooms_not_ready')"
+                                    t-on-keydown="(ev) => this.onSubTileKeydown(ev, 'rooms_not_ready')"
+                                >
+                                    <t
+                                    t-out="this.state.data.rooms.not_ready"
+                                /> need housekeeping
+                                </span>
+                                <t t-if="this.state.data.rooms.stale">
+                                    , <span
+                                    class="o_hfd_sublink text-warning"
+                                    role="button"
+                                    tabindex="0"
+                                    title="Clean was logged before the last guest left - nobody has confirmed these rooms since"
+                                    t-on-click="(ev) => this.openSubTile(ev, 'rooms_stale')"
+                                    t-on-keydown="(ev) => this.onSubTileKeydown(ev, 'rooms_stale')"
+                                >
+                                        <t
+                                    t-out="this.state.data.rooms.stale"
+                                /> unconfirmed
+                                    </span>
+                                </t>
+                                <t t-if="this.state.data.rooms.unknown">
+                                    , <span
+                                    class="o_hfd_sublink"
+                                    role="button"
+                                    tabindex="0"
+                                    title="Show the rooms with no housekeeping record"
+                                    t-on-click="(ev) => this.openSubTile(ev, 'rooms_unknown')"
+                                    t-on-keydown="(ev) => this.onSubTileKeydown(ev, 'rooms_unknown')"
+                                >
+                                        <t
+                                    t-out="this.state.data.rooms.unknown"
+                                /> untracked
+                                    </span>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div
+                            class="card p-3 text-center h-100 o_hfd_tile"
+                            role="button"
+                            tabindex="0"
+                            title="Show the folios checking out today that are not invoiced"
+                            t-on-click="() => this.openTile('unpaid_departures')"
+                            t-on-keydown="(ev) => this.onTileKeydown(ev, 'unpaid_departures')"
+                        >
+                            <div class="text-muted small">Unpaid check-outs today</div>
+                            <div class="fs-3">
+                                <t t-out="this.state.data.unpaid_departures.count" />
+                            </div>
+                            <div class="text-muted small">
+                                <t
+                                t-out="this.formatAmount(this.state.data.unpaid_departures.amount)"
+                            /> outstanding
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Second row: what is actually still to do this shift. -->
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3">
+                        <div
+                            class="card p-3 text-center h-100 o_hfd_tile"
+                            role="button"
+                            tabindex="0"
+                            title="Show today's arrivals"
+                            t-on-click="() => this.openTile('arrivals')"
+                            t-on-keydown="(ev) => this.onTileKeydown(ev, 'arrivals')"
+                        >
+                            <div class="text-muted small">Still to arrive</div>
+                            <div
+                                t-att-class="this.state.data.arrivals_pending ? 'fs-3 text-primary' : 'fs-3'"
+                            >
+                                <t t-out="this.state.data.arrivals_pending" />
+                            </div>
+                            <div class="text-muted small">
+                                of <t
+                                t-out="this.state.data.arrivals.length"
+                            /> arrivals today
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div
+                            class="card p-3 text-center h-100 o_hfd_tile"
+                            role="button"
+                            tabindex="0"
+                            title="Show today's departures"
+                            t-on-click="() => this.openTile('departures')"
+                            t-on-keydown="(ev) => this.onTileKeydown(ev, 'departures')"
+                        >
+                            <div class="text-muted small">Still to depart</div>
+                            <div
+                                t-att-class="this.state.data.departures_overdue ? 'fs-3 text-danger' : 'fs-3'"
+                            >
+                                <t t-out="this.state.data.departures_pending" />
+                            </div>
+                            <div class="text-muted small">
+                                <t
+                                    t-if="this.state.data.departures_overdue"
+                                    t-out="this.state.data.departures_overdue + ' overdue'"
+                                />
+                                <t
+                                    t-else=""
+                                    t-out="'of ' + this.state.data.departures.length + ' departures today'"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div
+                            class="card p-3 text-center h-100 o_hfd_tile"
+                            role="button"
+                            tabindex="0"
+                            title="Show the rooms turning over today"
+                            t-on-click="() => this.openTile('turnovers')"
+                            t-on-keydown="(ev) => this.onTileKeydown(ev, 'turnovers')"
+                        >
+                            <div class="text-muted small">Turnovers today</div>
+                            <div
+                                t-att-class="this.state.data.turnovers_at_risk ? 'fs-3 text-danger' : 'fs-3'"
+                            >
+                                <t t-out="this.state.data.turnovers.length" />
+                            </div>
+                            <div class="text-muted small">
+                                <t
+                                    t-if="this.state.data.turnovers_at_risk"
+                                    t-out="this.state.data.turnovers_at_risk + ' not ready yet'"
+                                />
+                                <t t-else="">all ready</t>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div
+                            class="card p-3 text-center h-100 o_hfd_tile"
+                            role="button"
+                            tabindex="0"
+                            title="Show restaurant charges on folios checking out today"
+                            t-on-click="() => this.openTile('restaurant_charges')"
+                            t-on-keydown="(ev) => this.onTileKeydown(ev, 'restaurant_charges')"
+                        >
+                            <div
+                                class="text-muted small"
+                            >Restaurant charges to post</div>
+                            <div class="fs-3">
+                                <t t-out="this.state.data.restaurant_charges.count" />
+                            </div>
+                            <div class="text-muted small">
+                                <t
+                                t-out="this.formatAmount(this.state.data.restaurant_charges.amount)"
+                            /> on today's check-outs
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    t-if="this.state.data.unassigned_reservations"
+                    class="alert alert-warning d-flex justify-content-between align-items-center"
+                >
+                    <span>
+                        <strong>
+                        <t t-out="this.state.data.unassigned_reservations" />
+                    </strong>
+                        confirmed
+                        <t
+                        t-out="this.state.data.unassigned_reservations == 1 ? 'reservation has' : 'reservations have'"
+                    />
+                        no folio yet - nobody has been given a room.
+                    </span>
+                    <button
+                        class="btn btn-sm btn-warning"
+                        t-on-click="() => this.openTile('unassigned_reservations')"
+                    >Review</button>
+                </div>
+
+                <!-- Turnovers: the rooms that can actually fail today. -->
+                <div t-if="this.state.data.turnovers.length" class="mb-4">
+                    <h5>
+                        <span
+                            class="o_hfd_sublink"
+                            role="button"
+                            tabindex="0"
+                            title="Open the turnover rooms as a list"
+                            t-on-click="() => this.openTile('turnovers')"
+                            t-on-keydown="(ev) => this.onTileKeydown(ev, 'turnovers')"
+                        >
+                            Turnovers today (<t
+                            t-out="this.state.data.turnovers.length"
+                        />)
+                        </span>
+                    </h5>
+                    <table class="table table-sm table-hover">
+                        <thead>
+                            <tr>
+                                <th>Room</th>
+                                <th>Out</th>
+                                <th>In</th>
+                                <th>Deadline</th>
+                                <th>Housekeeping</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                t-foreach="this.state.data.turnovers"
+                                t-as="turn"
+                                t-key="turn.room_id"
+                                t-att-class="turn.readiness == 'ready' ? '' : 'table-warning'"
+                                style="cursor:pointer"
+                                t-on-click="() => this.openRoom(turn.room_id)"
+                            >
+                                <td>
+                                    <strong>
+                                        <t t-out="turn.room" />
+                                    </strong>
+                                </td>
+                                <td>
+                                    <t t-out="turn.out_guest" />
+                                    <span class="text-muted small">
+                                        <t t-out="turn.out_time" />
+                                    </span>
+                                </td>
+                                <td>
+                                    <t t-out="turn.in_guest" />
+                                </td>
+                                <td>
+                                    <strong>
+                                        <t t-out="turn.in_time" />
+                                    </strong>
+                                </td>
+                                <td>
+                                    <span
+                                        t-att-class="'badge ' + this.turnoverBadge(turn.readiness).class"
+                                        t-out="this.turnoverBadge(turn.readiness).label"
+                                    />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <h5>
+                            <span
+                                class="o_hfd_sublink"
+                                role="button"
+                                tabindex="0"
+                                title="Open today's arrivals as a list"
+                                t-on-click="() => this.openTile('arrivals')"
+                                t-on-keydown="(ev) => this.onTileKeydown(ev, 'arrivals')"
+                            >
+                                Arrivals today (<t
+                                t-out="this.state.data.arrivals.length"
+                            />)
+                            </span>
+                        </h5>
+                        <table class="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Guest</th>
+                                    <th>Room</th>
+                                    <th>Time</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    t-foreach="this.state.data.arrivals"
+                                    t-as="line"
+                                    t-key="line.folio + line.room + line.time"
+                                    style="cursor:pointer"
+                                    t-on-click="() => this.openFolio(line.folio_id)"
+                                >
+                                    <td>
+                                        <t t-out="line.guest" />
+                                    </td>
+                                    <td>
+                                        <t t-out="line.room" />
+                                    </td>
+                                    <td>
+                                        <t t-out="line.time" />
+                                    </td>
+                                    <td>
+                                        <span
+                                            t-if="line.done"
+                                            class="badge bg-success"
+                                        >Checked in</span>
+                                        <span
+                                            t-else=""
+                                            class="badge bg-warning text-dark"
+                                        >Expected</span>
+                                    </td>
+                                </tr>
+                                <tr t-if="!this.state.data.arrivals.length">
+                                    <td colspan="4" class="text-muted">
+                                        No arrivals scheduled today.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="col-md-6">
+                        <h5>
+                            <span
+                                class="o_hfd_sublink"
+                                role="button"
+                                tabindex="0"
+                                title="Open today's departures as a list"
+                                t-on-click="() => this.openTile('departures')"
+                                t-on-keydown="(ev) => this.onTileKeydown(ev, 'departures')"
+                            >
+                                Departures today (<t
+                                t-out="this.state.data.departures.length"
+                            />)
+                            </span>
+                        </h5>
+                        <table class="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Guest</th>
+                                    <th>Room</th>
+                                    <th>Time</th>
+                                    <th class="text-end">Balance</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    t-foreach="this.state.data.departures"
+                                    t-as="line"
+                                    t-key="line.folio + line.room + line.time"
+                                    style="cursor:pointer"
+                                    t-on-click="() => this.openFolio(line.folio_id)"
+                                >
+                                    <td>
+                                        <t t-out="line.guest" />
+                                    </td>
+                                    <td>
+                                        <t t-out="line.room" />
+                                    </td>
+                                    <td>
+                                        <t t-out="line.time" />
+                                    </td>
+                                    <td class="text-end">
+                                        <span
+                                            t-if="line.balance"
+                                            class="text-danger fw-bold"
+                                            t-out="this.formatAmount(line.balance)"
+                                        />
+                                        <span
+                                            t-else=""
+                                            class="text-muted"
+                                        >Settled</span>
+                                    </td>
+                                    <td>
+                                        <span
+                                            t-if="line.done"
+                                            class="badge bg-secondary"
+                                        >Checked out</span>
+                                        <span
+                                            t-elif="line.overdue"
+                                            class="badge bg-danger"
+                                        >Overdue</span>
+                                        <span
+                                            t-else=""
+                                            class="badge bg-info text-dark"
+                                        >Pending</span>
+                                    </td>
+                                </tr>
+                                <tr t-if="!this.state.data.departures.length">
+                                    <td colspan="5" class="text-muted">
+                                        No departures scheduled today.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>

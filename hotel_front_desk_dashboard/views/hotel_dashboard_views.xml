@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--
+        folio.room.line has no list view anywhere in vertical-hotel, so the
+        arrivals / departures drill-downs would otherwise fall back to an
+        auto-generated one.
+    -->
+    <record id="view_folio_room_line_tree" model="ir.ui.view">
+        <field name="name">folio.room.line.list</field>
+        <field name="model">folio.room.line</field>
+        <field name="arch" type="xml">
+            <list string="Room Stays" create="false">
+                <field name="room_id" />
+                <field name="folio_id" />
+                <field name="check_in" />
+                <field name="check_out" />
+                <field name="status" />
+            </list>
+        </field>
+    </record>
+
+    <record id="action_hotel_front_desk_dashboard" model="ir.actions.client">
+        <field name="name">Front Desk Dashboard</field>
+        <field name="tag">hotel_front_desk_dashboard_action</field>
+    </record>
+
+    <menuitem
+        id="menu_hotel_front_desk_dashboard"
+        name="Dashboard"
+        action="action_hotel_front_desk_dashboard"
+        parent="vertical_hotel.hotel_management_menu"
+        sequence="0"
+        groups="vertical_hotel.group_hotel_user"
+    />
+</odoo>
