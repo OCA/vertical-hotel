@@ -80,6 +80,33 @@ class HotelFolio(models.Model):
     )
     hotel_invoice_id = fields.Many2one("account.move", "Invoice", copy=False)
     duration_dummy = fields.Float()
+    guest_ids = fields.One2many(
+        "hotel.guest",
+        "folio_id",
+        string="Accompanying Guests",
+        help="Everyone staying besides the main guest. Each one is filed "
+        "as a child contact of the main guest.",
+    )
+    adults = fields.Integer(
+        compute="_compute_guest_counts",
+        store=True,
+        help="Main guest plus every accompanying guest marked as an adult.",
+    )
+    children = fields.Integer(
+        compute="_compute_guest_counts",
+        store=True,
+        help="Accompanying guests marked as children.",
+    )
+    total_guest = fields.Integer(
+        compute="_compute_guest_counts",
+        store=True,
+        string="Total Guests",
+    )
+    room_capacity = fields.Integer(
+        compute="_compute_room_capacity",
+        string="Total Room Capacity",
+        help="Combined capacity of every room on this folio.",
+    )
 
     @api.constrains("room_line_ids")
     def _check_duplicate_folio_room_line(self):
@@ -149,10 +176,63 @@ class HotelFolio(models.Model):
             rooms.write({"isroom": True, "status": "available"})
         return self.order_id.action_cancel()
 
+    @api.depends("guest_ids", "guest_ids.guest_type")
+    def _compute_guest_counts(self):
+        for rec in self:
+            # The main guest occupies a bed too, and always counts as an
+            # adult - guest_ids holds only the people accompanying them.
+            adults = 1 + len(rec.guest_ids.filtered(lambda g: g.guest_type == "adult"))
+            children = len(rec.guest_ids.filtered(lambda g: g.guest_type == "child"))
+            rec.adults = adults
+            rec.children = children
+            rec.total_guest = adults + children
+
+    @api.depends("room_line_ids", "room_line_ids.product_id")
+    def _compute_room_capacity(self):
+        hotel_room_obj = self.env["hotel.room"]
+        for rec in self:
+            products = rec.room_line_ids.product_id
+            rooms = (
+                hotel_room_obj.search([("product_id", "in", products.ids)])
+                if products
+                else hotel_room_obj
+            )
+            rec.room_capacity = sum(rooms.mapped("capacity"))
+
+    def _check_guest_capacity(self):
+        """Refuse to confirm a folio that puts more people in the rooms
+        than the rooms hold."""
+        for rec in self:
+            if not rec.room_line_ids:
+                continue
+            if rec.total_guest > rec.room_capacity:
+                raise ValidationError(
+                    rec.env._(
+                        "Room Capacity Exceeded\n"
+                        "%(guests)s guest(s) are listed on this folio but the "
+                        "selected room(s) hold only %(capacity)s. Add a bigger "
+                        "room, add another room, or remove guests.",
+                        guests=rec.total_guest,
+                        capacity=rec.room_capacity,
+                    )
+                )
+
+    def write(self, vals):
+        res = super().write(vals)
+        if vals.get("partner_id"):
+            # Guests are filed under whoever is booking; if that changes,
+            # the contacts have to move with it or they stay attached to
+            # the previous guest.
+            for rec in self:
+                rec.guest_ids.partner_id.write({"parent_id": rec.partner_id.id})
+        return res
+
     def action_confirm(self):
         """Confirm through the standard sale flow (deliveries, locking,
-        project/analytic generation, confirmation date)."""
-        return self.order_id.action_confirm()
+        project/analytic generation, confirmation date), once the guests fit
+        in the rooms."""
+        self._check_guest_capacity()
+        return self.order_id.with_context(hotel_folio_confirm=True).action_confirm()
 
     def action_create_invoice(self):
         """Open the standard "Create invoice" wizard on the folios' orders;

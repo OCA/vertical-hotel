@@ -193,6 +193,31 @@
                                 <field name="amount_total" widget="monetary" />
                             </group>
                         </page>
+                        <page name="guests" string="Guests">
+                            <group>
+                                <group>
+                                    <field name="total_guest" />
+                                    <field name="adults" />
+                                    <field name="children" />
+                                </group>
+                                <group>
+                                    <field name="room_capacity" />
+                                </group>
+                            </group>
+                            <field name="guest_ids" nolabel="1">
+                                <list editable="bottom">
+                                    <field name="name" string="Guest Name" />
+                                    <field name="guest_type" />
+                                    <field name="phone" />
+                                    <field name="email" />
+                                </list>
+                            </field>
+                            <p class="text-muted">
+                                The main guest is counted automatically - list
+                                only the people staying with them. Each guest is
+                                saved as a child contact of the main guest.
+                            </p>
+                        </page>
                         <page name="other_data" string="Other data">
                             <group>
                                 <field name="user_id" />

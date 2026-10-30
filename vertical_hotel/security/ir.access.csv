@@ -29,3 +29,4 @@ access_hotel_order_line_user,hotel.order.line.user,sale.order.line,vertical_hote
 access_folio_room_line_user,hotel.folio_room_line.user,folio.room.line,vertical_hotel.group_hotel_user,crud,
 access_folio_report_wizard,access_folio_report_wizard,folio.report.wizard,base.group_user,crud,
 access_hotel_v19_import_wizard,hotel.v19.import.wizard,hotel.v19.import.wizard,base.group_system,crud,
+access_hotel_guest_user,hotel.guest.user,hotel.guest,vertical_hotel.group_hotel_user,crud,
