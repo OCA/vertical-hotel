@@ -24,8 +24,10 @@
         <field name="partner_invoice_id" ref="base.res_partner_2" />
         <field name="partner_shipping_id" ref="base.res_partner_2" />
         <field eval="&quot;R/00002&quot;" name="reservation_no" />
-        <field eval="1" name="adults" />
-        <field eval="1" name="children" />
+        <field
+            name="guest_ids"
+            eval="[(0, 0, {'name': 'Demo Child Guest', 'guest_type': 'child'})]"
+        />
         <field
             name="reservation_line"
             eval="[(5,0,0),

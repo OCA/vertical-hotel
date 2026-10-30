@@ -107,8 +107,9 @@
                                 readonly="state != 'draft'"
                                 invisible="1"
                             />
-                            <field name="adults" readonly="state != 'draft'" />
-                            <field name="children" readonly="state != 'draft'" />
+                            <field name="total_guest" />
+                            <field name="adults" />
+                            <field name="children" />
                         </group>
                     </group>
                     <notebook>
@@ -141,6 +142,25 @@
                                     </group>
                                 </form>
                             </field>
+                        </page>
+                        <page name="guests" string="Guests">
+                            <field
+                                name="guest_ids"
+                                nolabel="1"
+                                readonly="state != 'draft'"
+                            >
+                                <list editable="bottom">
+                                    <field name="name" string="Guest Name" />
+                                    <field name="guest_type" />
+                                    <field name="phone" />
+                                    <field name="email" />
+                                </list>
+                            </field>
+                            <p class="text-muted">
+                                The main guest is counted automatically - list
+                                only the people staying with them. Each guest is
+                                saved as a child contact of the main guest.
+                            </p>
                         </page>
                         <page name="history" string="History">
                             <field name="folio_id" readonly="1" />
@@ -378,7 +398,6 @@
                         <field name="room_id" readonly="1" force_save="1" />
                         <field name="check_in" />
                         <field name="check_out" />
-                        <field name="adults" />
                     </group>
                     <group>
                         <field name="partner_id" />

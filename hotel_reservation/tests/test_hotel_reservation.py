@@ -278,10 +278,15 @@ class TestReservation(common.TransactionCase):
     # Constraints, onchanges, misc
 
     def test_check_reservation_rooms(self):
+        # the main guest + 2 accompanying adults do not fit in a 2-bed room
+        guests = [
+            Command.create({"name": name, "guest_type": "adult"})
+            for name in ("Guest A", "Guest B")
+        ]
         with self.assertRaises(ValidationError):
-            self._reservation(adults=3)
-        with self.assertRaises(ValidationError):
-            self._reservation(adults=0)
+            self._reservation(guest_ids=guests)
+        # the main guest always counts as an adult
+        self.assertEqual(self._reservation().adults, 1)
 
     def test_check_in_out_dates(self):
         with self.assertRaises(ValidationError):
@@ -291,8 +296,8 @@ class TestReservation(common.TransactionCase):
 
     def test_copy(self):
         reservation = self._reservation()
-        copy = reservation.copy({"adults": 2})
-        self.assertEqual(copy.adults, 2)
+        copy = reservation.copy({"date_order": reservation.date_order})
+        self.assertEqual(copy.adults, 1)
         self.assertNotEqual(copy.reservation_no, reservation.reservation_no)
 
     def test_check_overlap(self):
@@ -376,15 +381,17 @@ class TestReservation(common.TransactionCase):
         defaults = wizard_obj.default_get(["check_in", "check_out", "room_id"])
         self.assertEqual(defaults["check_in"], self.base)
         self.assertEqual(defaults["check_out"], self.base + timedelta(days=1))
-        wizard = wizard_obj.create({"partner_id": self.partner.id, "adults": 2})
+        wizard = wizard_obj.create({"partner_id": self.partner.id})
         wizard._onchange_partner_id_res()
         action = wizard.room_reserve()
         reservation = self.env["hotel.reservation"].browse(action["res_id"])
         self.assertEqual(action["res_model"], "hotel.reservation")
         self.assertEqual(reservation.reservation_line.reserve, self.room)
         self.assertEqual(reservation.reservation_line.categ_id, self.room_type)
-        # the reservation gets the adults entered in the wizard
-        self.assertEqual(reservation.adults, 2)
+        # the main guest; the others are added on the reservation it opens
+        self.assertEqual(reservation.adults, 1)
+        reservation.write({"guest_ids": [Command.create({"name": "Second Adult"})]})
+        self.assertEqual((reservation.adults, reservation.total_guest), (2, 2))
 
     def test_summary(self):
         reservation = self._reservation()

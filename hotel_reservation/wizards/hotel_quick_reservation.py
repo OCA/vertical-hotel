@@ -28,7 +28,6 @@ class QuickRoomReservation(models.TransientModel):
     partner_invoice_id = fields.Many2one("res.partner", "Invoice Address")
     partner_order_id = fields.Many2one("res.partner", "Ordering Contact")
     partner_shipping_id = fields.Many2one("res.partner", "Delivery Address")
-    adults = fields.Integer(default=1)
 
     @api.constrains("check_in", "check_out")
     def _check_dates(self):
@@ -124,6 +123,10 @@ class QuickRoomReservation(models.TransientModel):
         -----------------------------------------------------
         @param self: The object pointer
         @return: action opening the new hotel reservation.
+
+        The guests are counted from the reservation's guest list (the main
+        guest plus the accompanying guests): they are added on the
+        reservation this opens.
         """
         reservations = self.env["hotel.reservation"]
         for res in self:
@@ -139,7 +142,6 @@ class QuickRoomReservation(models.TransientModel):
                     "checkout": res.check_out,
                     "company_id": res.company_id.id,
                     "pricelist_id": res._get_pricelist().id,
-                    "adults": res.adults,
                     "reservation_line": [
                         Command.create(
                             {

@@ -1,4 +1,5 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from . import test_hotel_reservation
+from . import test_guest_contacts
 from . import test_ui

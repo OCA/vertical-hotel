@@ -1,1 +1,1 @@
-odoo-addon-vertical_hotel @ git+https://github.com/OCA/vertical-hotel.git@refs/pull/250/head#subdirectory=vertical_hotel
+odoo-addon-vertical_hotel @ git+https://github.com/OCA/vertical-hotel.git@refs/pull/261/head#subdirectory=vertical_hotel

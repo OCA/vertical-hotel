@@ -75,14 +75,29 @@ class HotelReservation(models.Model):
         required=True,
         readonly=True,
     )
+    guest_ids = fields.One2many(
+        "hotel.guest",
+        "reservation_id",
+        string="Accompanying Guests",
+        help="Everyone staying besides the main guest. Each one is filed "
+        "as a child contact of the main guest.",
+    )
     adults = fields.Integer(
+        compute="_compute_guest_counts",
+        store=True,
         readonly=True,
-        required=True,
-        help="List of adults there in guest list. ",
+        help="Main guest plus every accompanying guest marked as an adult.",
     )
     children = fields.Integer(
+        compute="_compute_guest_counts",
+        store=True,
         readonly=True,
-        help="Number of children there in guest list.",
+        help="Accompanying guests marked as children.",
+    )
+    total_guest = fields.Integer(
+        compute="_compute_guest_counts",
+        store=True,
+        string="Total Guests",
     )
     reservation_line = fields.One2many(
         "hotel.reservation.line",
@@ -120,6 +135,29 @@ class HotelReservation(models.Model):
             raise ValidationError(
                 self.env._("You can only delete reservations in draft state!")
             )
+
+    @api.depends("guest_ids", "guest_ids.guest_type")
+    def _compute_guest_counts(self):
+        for rec in self:
+            # The main guest occupies a bed too, and always counts as an
+            # adult - guest_ids holds only the people accompanying them.
+            adults = 1 + len(rec.guest_ids.filtered(lambda g: g.guest_type == "adult"))
+            children = len(rec.guest_ids.filtered(lambda g: g.guest_type == "child"))
+            rec.adults = adults
+            rec.children = children
+            rec.total_guest = adults + children
+
+    def write(self, vals):
+        res = super().write(vals)
+        if vals.get("partner_id"):
+            # Guests are filed under whoever is booking; if that changes,
+            # the contacts have to move with it or they stay attached to
+            # the previous guest.
+            for rec in self:
+                # the module keeps the guest contacts: front desk users need
+                # no contact rights for it (see hotel.guest)
+                rec.guest_ids.partner_id.sudo().write({"parent_id": rec.partner_id.id})
+        return res
 
     def copy(self, default=None):
         return super(HotelReservation, self.with_context(duplicate=True)).copy(
@@ -368,6 +406,19 @@ class HotelReservation(models.Model):
                     "checkout_date": reservation.checkout,
                     "duration": duration,
                     "reservation_id": reservation.id,
+                    # Link the folio to the contacts the reservation already
+                    # created. Copying name/email/phone into new guest lines
+                    # would create each guest's contact a second time, since
+                    # every hotel.guest delegates to its own res.partner.
+                    "guest_ids": [
+                        Command.create(
+                            {
+                                "partner_id": guest.partner_id.id,
+                                "guest_type": guest.guest_type,
+                            }
+                        )
+                        for guest in reservation.guest_ids
+                    ],
                     "room_line_ids": [
                         Command.create(
                             {
