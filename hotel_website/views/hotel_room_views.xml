@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_hotel_room_form_website" model="ir.ui.view">
+        <field name="name">hotel.room.form.website</field>
+        <field name="model">hotel.room</field>
+        <field name="inherit_id" ref="vertical_hotel.view_hotel_room_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="website_booking" string="Website">
+                    <group>
+                        <field
+                            name="website_booking_published"
+                            widget="boolean_toggle"
+                        />
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

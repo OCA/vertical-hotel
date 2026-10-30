@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form_hotel_website" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.hotel.website</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="website.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='website_info_settings']" position="inside">
+                <setting
+                    id="hotel_website_stay_times"
+                    string="Online booking times"
+                    help="Arrival and departure times given to rooms booked on this website"
+                >
+                    <div class="content-group">
+                        <div class="row mt-2">
+                            <label
+                                for="hotel_checkin_hour"
+                                string="Check-in"
+                                class="col-lg-4 o_light_label"
+                            />
+                            <field
+                                name="hotel_checkin_hour"
+                                widget="float_time"
+                                class="col-lg-3"
+                            />
+                        </div>
+                        <div class="row">
+                            <label
+                                for="hotel_checkout_hour"
+                                string="Check-out"
+                                class="col-lg-4 o_light_label"
+                            />
+                            <field
+                                name="hotel_checkout_hour"
+                                widget="float_time"
+                                class="col-lg-3"
+                            />
+                        </div>
+                    </div>
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>

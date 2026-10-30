@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo noupdate="1">
+    <record id="menu_hotel_rooms" model="website.menu">
+        <field name="name">Rooms</field>
+        <field name="url">/rooms</field>
+        <field name="parent_id" ref="website.main_menu" />
+        <field name="sequence" type="int">25</field>
+    </record>
+    <record id="menu_hotel_gallery" model="website.menu">
+        <field name="name">Gallery</field>
+        <field name="url">/hotel/gallery</field>
+        <field name="parent_id" ref="website.main_menu" />
+        <field name="sequence" type="int">30</field>
+    </record>
+</odoo>

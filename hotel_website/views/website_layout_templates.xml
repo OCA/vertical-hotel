@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- The hotel's name on the website is always the company's name. -->
+
+    <template
+        id="layout_title_company_name"
+        inherit_id="website.layout"
+        priority="60"
+        name="Hotel: company name in page titles"
+    >
+        <xpath expr="//t[@t-set='default_title']" position="attributes">
+            <attribute
+                name="t-value"
+            >(additional_title + ' | ' if additional_title else '') + res_company.name</attribute>
+        </xpath>
+    </template>
+
+    <template
+        id="header_brand_company_name"
+        inherit_id="website.option_header_brand_logo"
+        name="Hotel: company name as header brand"
+    >
+        <xpath expr="//span[@t-field='website.logo']" position="attributes">
+            <attribute name="t-if">website.logo or editable</attribute>
+        </xpath>
+        <xpath expr="//span[@t-field='website.logo']" position="after">
+            <span t-else="" class="o_hotel_brand_name" t-out="res_company.name" />
+        </xpath>
+    </template>
+
+    <template
+        id="footer_copyright_company_name"
+        inherit_id="website.layout"
+        priority="99"
+        name="Hotel: company name in footer copyright"
+    >
+        <xpath
+            expr="//footer//span[hasclass('o_footer_copyright_name')]"
+            position="replace"
+        >
+            <span class="o_footer_copyright_name me-2 small">Copyright &amp;copy; <t
+                t-out="res_company.name"
+            /></span>
+        </xpath>
+    </template>
+</odoo>

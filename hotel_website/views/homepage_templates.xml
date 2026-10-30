@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--
+        Hotel homepage. The hotel's name is always the company's name, and
+        the sections sit in the page's editable structure so the texts and
+        pictures can be changed with the website builder.
+    -->
+    <template id="homepage_hotel" name="Hotel Homepage" inherit_id="website.homepage">
+        <xpath expr="//t[@t-call='website.layout']" position="before">
+            <t t-set="head">
+                <t t-call="hotel_website.fonts" />
+            </t>
+        </xpath>
+        <xpath expr="//t[@t-call='website.layout']" position="attributes">
+            <attribute name="head">head</attribute>
+        </xpath>
+        <xpath expr="//div[@id='wrap']" position="attributes">
+            <attribute name="class" add="o_hotel_site" separator=" " />
+        </xpath>
+        <xpath expr="//div[@id='wrap']" position="inside">
+            <t t-set="room_types" t-value="website.hotel_room_types()" />
+            <section class="o_hotel_hero">
+                <img
+                    class="o_hotel_hero_img o_hotel_img_muted"
+                    src="/hotel_website/static/src/image/banner-03.jpg"
+                    alt=""
+                />
+                <div class="o_hotel_hero_shade" />
+                <div class="container o_hotel_hero_content">
+                    <p class="o_hotel_eyebrow o_hotel_eyebrow_light">Welcome to</p>
+                    <h1 class="o_hotel_hero_title" t-out="res_company.name" />
+                    <p
+                        class="o_hotel_hero_text"
+                    >Unhurried days, attentive service and rooms designed for deep rest.</p>
+                    <a
+                        href="/rooms"
+                        class="btn o_hotel_btn o_hotel_btn_light"
+                    >Explore rooms &amp; suites</a>
+                </div>
+            </section>
+            <section class="o_hotel_booking_bar_wrap o_hotel_booking_bar_overlap">
+                <div class="container">
+                    <t t-call="hotel_website.booking_bar" />
+                </div>
+            </section>
+
+            <section class="o_hotel_section">
+                <div class="container">
+                    <div class="row g-5 align-items-end">
+                        <div class="col-12 col-lg-5">
+                            <p class="o_hotel_eyebrow">The hotel</p>
+                            <h2 class="o_hotel_display">A stay shaped around you</h2>
+                        </div>
+                        <div class="col-12 col-lg-6 offset-lg-1">
+                            <p class="o_hotel_lead">
+                                At <t
+                                t-out="res_company.name"
+                            />, every detail is considered - from the
+                                quiet of your room to the welcome at the door. Stay for a night or
+                                settle in for longer; our team is here to make it effortless.
+                            </p>
+                            <a
+                                href="/hotel/gallery"
+                                class="o_hotel_link"
+                            >Discover the hotel</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section t-if="room_types" class="o_hotel_section o_hotel_section_tint">
+                <div class="container">
+                    <div class="o_hotel_section_head">
+                        <div>
+                            <p class="o_hotel_eyebrow">Accommodation</p>
+                            <h2 class="o_hotel_display mb-0">Rooms &amp; Suites</h2>
+                        </div>
+                        <a href="/rooms" class="o_hotel_link">View all</a>
+                    </div>
+                    <div class="row g-4">
+                        <div
+                            t-foreach="room_types[:3]"
+                            t-as="home_type"
+                            class="col-12 col-md-6 col-lg-4"
+                        >
+                            <t
+                                t-call="hotel_website.room_type_card"
+                                card="website.hotel_room_type_card(home_type)"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="o_hotel_section">
+                <div class="container">
+                    <div class="o_hotel_section_head">
+                        <div>
+                            <p class="o_hotel_eyebrow">Experiences</p>
+                            <h2 class="o_hotel_display mb-0">Beyond the room</h2>
+                        </div>
+                    </div>
+                    <div class="row g-4">
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <figure class="o_hotel_tile">
+                                <img
+                                    class="o_hotel_img_muted"
+                                    src="/hotel_website/static/src/image/hotel-1.jpg"
+                                    alt=""
+                                    loading="lazy"
+                                />
+                                <figcaption>
+                                    <span
+                                        class="o_hotel_eyebrow o_hotel_eyebrow_light"
+                                    >Leisure</span>
+                                    <strong>Pool</strong>
+                                </figcaption>
+                            </figure>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <figure class="o_hotel_tile">
+                                <img
+                                    class="o_hotel_img_muted"
+                                    src="/hotel_website/static/src/image/hotel-2.jpg"
+                                    alt=""
+                                    loading="lazy"
+                                />
+                                <figcaption>
+                                    <span
+                                        class="o_hotel_eyebrow o_hotel_eyebrow_light"
+                                    >Evenings</span>
+                                    <strong>Bar &amp; lounge</strong>
+                                </figcaption>
+                            </figure>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <figure class="o_hotel_tile">
+                                <img
+                                    class="o_hotel_img_muted"
+                                    src="/hotel_website/static/src/image/hotel-3.jpg"
+                                    alt=""
+                                    loading="lazy"
+                                />
+                                <figcaption>
+                                    <span
+                                        class="o_hotel_eyebrow o_hotel_eyebrow_light"
+                                    >Wellbeing</span>
+                                    <strong>Fitness</strong>
+                                </figcaption>
+                            </figure>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <figure class="o_hotel_tile">
+                                <img
+                                    class="o_hotel_img_muted"
+                                    src="/hotel_website/static/src/image/hotel-4.jpg"
+                                    alt=""
+                                    loading="lazy"
+                                />
+                                <figcaption>
+                                    <span
+                                        class="o_hotel_eyebrow o_hotel_eyebrow_light"
+                                    >Taste</span>
+                                    <strong>In-room dining</strong>
+                                </figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="o_hotel_section o_hotel_section_tint">
+                <div class="container">
+                    <div class="row g-5 align-items-center">
+                        <div class="col-12 col-lg-6">
+                            <img
+                                class="o_hotel_split_img o_hotel_img_muted"
+                                src="/hotel_website/static/src/image/rsz_hotel-5.jpg"
+                                alt=""
+                                loading="lazy"
+                            />
+                        </div>
+                        <div class="col-12 col-lg-5 offset-lg-1">
+                            <p class="o_hotel_eyebrow">Book direct</p>
+                            <h2 class="o_hotel_display">Reserve with us, personally</h2>
+                            <ul class="o_hotel_benefits">
+                                <li>
+                                    <strong>Our best available rate</strong>
+                                    <span>The price you see is the hotel's own.</span>
+                                </li>
+                                <li>
+                                    <strong>A person, not a robot</strong>
+                                    <span
+                                    >Our reservations team confirms every request.</span>
+                                </li>
+                                <li>
+                                    <strong>Nothing to pay online</strong>
+                                    <span
+                                    >Settle your bill at the hotel during your stay.</span>
+                                </li>
+                            </ul>
+                            <a
+                                href="/rooms"
+                                class="btn o_hotel_btn"
+                            >Check availability</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="o_hotel_cta">
+                <div class="container text-center">
+                    <p class="o_hotel_eyebrow o_hotel_eyebrow_light">Plan your stay</p>
+                    <h2
+                        class="o_hotel_display text-white"
+                    >We look forward to welcoming you to <t
+                        t-out="res_company.name"
+                    /></h2>
+                    <a
+                        href="/rooms"
+                        class="btn o_hotel_btn o_hotel_btn_light mt-3"
+                    >Reserve now</a>
+                </div>
+            </section>
+        </xpath>
+    </template>
+</odoo>

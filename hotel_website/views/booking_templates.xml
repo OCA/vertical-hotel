@@ -1,0 +1,1341 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- ================================================================
+         Shared pieces
+         ================================================================ -->
+
+    <template id="fonts" name="Hotel Website Fonts">
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&amp;family=Jost:wght@300;400;500&amp;display=swap"
+        />
+    </template>
+
+    <template id="notice_alert" name="Hotel Booking Notice">
+        <div t-if="notice" class="o_hotel_notice" role="status">
+            <i class="fa fa-info-circle me-2" />
+            <t t-out="notice" />
+        </div>
+    </template>
+
+    <template id="capacity_label" name="Hotel Capacity Label">
+        <t t-if="card['capacity'] == card['max_capacity']" t-out="card['capacity']" />
+        <t t-else=""><t t-out="card['capacity']" />–<t
+            t-out="card['max_capacity']"
+        /></t>
+    </template>
+
+    <template id="booking_bar" name="Hotel Booking Bar">
+        <form
+            action="/rooms"
+            method="get"
+            class="o_hotel_booking_bar o_hotel_stay_dates"
+        >
+            <div class="o_hotel_booking_field">
+                <label for="hotel_bar_checkin">Arrival</label>
+                <input
+                    type="date"
+                    id="hotel_bar_checkin"
+                    name="checkin"
+                    required="required"
+                    t-att-min="today"
+                    t-att-value="checkin"
+                />
+            </div>
+            <div class="o_hotel_booking_field">
+                <label for="hotel_bar_checkout">Departure</label>
+                <input
+                    type="date"
+                    id="hotel_bar_checkout"
+                    name="checkout"
+                    required="required"
+                    t-att-min="today"
+                    t-att-value="checkout"
+                />
+            </div>
+            <div t-if="room_types" class="o_hotel_booking_field">
+                <label for="hotel_bar_type">Room type</label>
+                <select id="hotel_bar_type" name="room_type">
+                    <option value="">All rooms &amp; suites</option>
+                    <option
+                        t-foreach="room_types"
+                        t-as="bar_type"
+                        t-att-value="bar_type.id"
+                        t-att-selected="bar_type == selected_type or None"
+                        t-out="bar_type.name"
+                    />
+                </select>
+            </div>
+            <button type="submit" class="btn o_hotel_btn o_hotel_booking_submit">
+                Check availability
+            </button>
+        </form>
+    </template>
+
+    <template id="page_header" name="Hotel Page Header">
+        <section
+            t-attf-class="o_hotel_page_header #{'o_hotel_page_header_bar' if header_with_bar else ''}"
+        >
+            <div class="container">
+                <p class="o_hotel_eyebrow" t-out="header_eyebrow" />
+                <h1 class="o_hotel_display" t-out="header_title" />
+                <p t-if="header_text" class="o_hotel_lead mb-0" t-out="header_text" />
+            </div>
+        </section>
+    </template>
+
+    <template id="room_type_card" name="Hotel Room Type Card">
+        <article class="o_hotel_card">
+            <a t-attf-href="/rooms/#{card['room_type'].id}" class="o_hotel_card_media">
+                <img
+                    t-att-src="card['image']"
+                    t-att-alt="card['room_type'].name"
+                    loading="lazy"
+                />
+            </a>
+            <div class="o_hotel_card_body">
+                <p class="o_hotel_eyebrow mb-2">
+                    Sleeps <t t-call="hotel_website.capacity_label" />
+                </p>
+                <h3 class="o_hotel_card_title">
+                    <a
+                        t-attf-href="/rooms/#{card['room_type'].id}"
+                        t-out="card['room_type'].name"
+                    />
+                </h3>
+                <p
+                    t-if="card['excerpt']"
+                    class="o_hotel_card_text"
+                    t-out="card['excerpt']"
+                />
+                <p
+                    t-else=""
+                    class="o_hotel_card_text"
+                >Quietly elegant and thoughtfully prepared for a restful stay.</p>
+                <div class="o_hotel_card_footer">
+                    <span class="o_hotel_price_small">
+                        From
+                        <strong
+                        t-out="card['price_from']"
+                        t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"
+                    />
+                        / night
+                    </span>
+                    <a
+                        t-attf-href="/rooms/#{card['room_type'].id}"
+                        class="o_hotel_link"
+                    >Discover</a>
+                </div>
+            </div>
+        </article>
+    </template>
+
+    <template id="reserve_form" name="Hotel Reserve Form">
+        <form action="/rooms/cart/add" method="post" class="o_hotel_reserve_form">
+            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+            <input type="hidden" name="room_type_id" t-att-value="reserve_type.id" />
+            <input type="hidden" name="checkin" t-att-value="checkin" />
+            <input type="hidden" name="checkout" t-att-value="checkout" />
+            <select
+                name="qty"
+                class="form-select"
+                t-attf-aria-label="Number of #{reserve_type.name} rooms"
+            >
+                <t
+                    t-foreach="range(1, min(reserve_free, max_per_type) + 1)"
+                    t-as="qty_option"
+                >
+                    <option
+                        t-att-value="qty_option"
+                        t-att-selected="qty_option == reserve_in_stay or None"
+                    >
+                        <t t-out="qty_option" />
+                        <t t-if="qty_option == 1">room</t>
+                        <t t-else="">rooms</t>
+                    </option>
+                </t>
+            </select>
+            <button type="submit" class="btn o_hotel_btn">
+                <t t-if="reserve_in_stay">Update stay</t>
+                <t t-else="">Reserve</t>
+            </button>
+        </form>
+    </template>
+
+    <template id="availability_status" name="Hotel Availability Status">
+        <p t-if="not status_free" class="o_hotel_status o_hotel_status_none">
+            <i class="fa fa-calendar-times-o me-2" />Not available for these dates
+        </p>
+        <p t-elif="status_free == 1" class="o_hotel_status o_hotel_status_low">
+            <i class="fa fa-circle me-2" />Last room available
+        </p>
+        <p t-elif="status_free &lt;= 3" class="o_hotel_status o_hotel_status_low">
+            <i class="fa fa-circle me-2" />Only <t t-out="status_free" /> rooms left
+        </p>
+        <p t-else="" class="o_hotel_status o_hotel_status_ok">
+            <i class="fa fa-check me-2" />Available
+        </p>
+    </template>
+
+    <template id="room_type_row" name="Hotel Room Type Row">
+        <t t-set="row_type" t-value="card['room_type']" />
+        <t t-set="row_free" t-value="availability.get(row_type.id, 0)" />
+        <t t-set="row_in_stay" t-value="stay_type_qty.get(row_type.id, 0)" />
+        <article class="o_hotel_type_row">
+            <a
+                t-attf-href="/rooms/#{row_type.id}?#{keep_query('checkin', 'checkout')}"
+                class="o_hotel_type_media"
+            >
+                <img
+                    t-att-src="card['image']"
+                    t-att-alt="row_type.name"
+                    loading="lazy"
+                />
+            </a>
+            <div class="o_hotel_type_body">
+                <p class="o_hotel_eyebrow mb-2">
+                    Sleeps <t t-call="hotel_website.capacity_label" />
+                    <t t-if="card['max_child']"> · Children welcome</t>
+                </p>
+                <h2 class="o_hotel_type_title">
+                    <a
+                        t-attf-href="/rooms/#{row_type.id}?#{keep_query('checkin', 'checkout')}"
+                        t-out="row_type.name"
+                    />
+                </h2>
+                <p
+                    t-if="card['excerpt']"
+                    class="o_hotel_type_text"
+                    t-out="card['excerpt']"
+                />
+                <p t-else="" class="o_hotel_type_text">
+                    Quietly elegant and thoughtfully prepared, for a restful stay at
+                    <t t-out="res_company.name" />.
+                </p>
+                <ul t-if="card['amenities']" class="o_hotel_chips">
+                    <li
+                        t-foreach="card['amenities'][:5]"
+                        t-as="amenity"
+                        t-out="amenity.name"
+                    />
+                </ul>
+                <div class="o_hotel_type_footer">
+                    <div class="o_hotel_price">
+                        <span class="o_hotel_price_label">From</span>
+                        <span
+                            class="o_hotel_price_amount"
+                            t-out="card['price_from']"
+                            t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"
+                        />
+                        <span class="o_hotel_price_label">per night</span>
+                    </div>
+                    <div t-if="searched" class="o_hotel_type_actions">
+                        <t
+                            t-call="hotel_website.availability_status"
+                            status_free="row_free"
+                        />
+                        <t
+                            t-if="row_free"
+                            t-call="hotel_website.reserve_form"
+                            reserve_type="row_type"
+                            reserve_free="row_free"
+                            reserve_in_stay="row_in_stay"
+                        />
+                    </div>
+                    <a
+                        t-else=""
+                        class="btn o_hotel_btn_outline"
+                        t-attf-href="/rooms/#{row_type.id}"
+                    >View details</a>
+                </div>
+            </div>
+        </article>
+    </template>
+
+    <template id="stay_panel" name="Hotel Stay Panel">
+        <div t-if="stay" class="o_hotel_panel">
+            <p class="o_hotel_eyebrow">Your stay</p>
+            <div class="o_hotel_panel_dates">
+                <div>
+                    <span class="o_hotel_label">Arrival</span>
+                    <strong t-out="stay['checkin_label']" />
+                    <span class="o_hotel_muted">from <t
+                        t-out="stay['checkin_time']"
+                    /></span>
+                </div>
+                <div>
+                    <span class="o_hotel_label">Departure</span>
+                    <strong t-out="stay['checkout_label']" />
+                    <span class="o_hotel_muted">until <t
+                        t-out="stay['checkout_time']"
+                    /></span>
+                </div>
+            </div>
+            <ul class="o_hotel_panel_lines">
+                <li t-foreach="stay['quote']['lines']" t-as="panel_line">
+                    <span><t t-out="panel_line['qty']" /> × <t
+                        t-out="panel_line['room_type'].name"
+                    /></span>
+                    <span
+                        t-out="panel_line['total']"
+                        t-options="{'widget': 'monetary', 'display_currency': stay['quote']['currency']}"
+                    />
+                </li>
+            </ul>
+            <div class="o_hotel_panel_total">
+                <span>Estimated total</span>
+                <strong
+                    t-out="stay['quote']['total']"
+                    t-options="{'widget': 'monetary', 'display_currency': stay['quote']['currency']}"
+                />
+            </div>
+            <p class="o_hotel_muted small mb-0">
+                <t
+                t-out="stay['quote']['nights']"
+            /> night(s) · taxes included · pay at the hotel
+            </p>
+            <div t-if="not hide_stay_actions" class="d-grid gap-2 mt-4">
+                <a
+                    href="/rooms/checkout"
+                    class="btn o_hotel_btn"
+                >Continue to guest details</a>
+                <a href="/rooms/cart" class="btn o_hotel_btn_link">Review your stay</a>
+            </div>
+        </div>
+    </template>
+
+    <template id="stars" name="Hotel Rating Stars">
+        <span
+            class="o_hotel_stars"
+            role="img"
+            t-att-aria-label="'%s / 5' % stars_value"
+        >
+            <t t-foreach="range(1, 6)" t-as="star">
+                <i
+                    t-attf-class="fa #{'fa-star' if star &lt;= stars_value else 'fa-star-o'}"
+                />
+            </t>
+        </span>
+    </template>
+
+    <!-- ================================================================
+         Rooms & suites
+         ================================================================ -->
+
+    <template id="rooms_page" name="Hotel Rooms &amp; Suites">
+        <t t-set="head">
+            <t t-call="hotel_website.fonts" />
+        </t>
+        <t t-set="additional_title">Rooms &amp; Suites</t>
+        <t t-call="website.layout" head="head">
+            <div id="wrap" class="o_hotel_site">
+                <t
+                    t-call="hotel_website.page_header"
+                    header_eyebrow.translate="Accommodation"
+                    header_title.translate="Rooms &amp; Suites"
+                    header_text.translate="Choose your dates to see which rooms are free, then request your stay in a few steps."
+                    header_with_bar="True"
+                />
+                <section class="o_hotel_booking_bar_wrap">
+                    <div class="container">
+                        <t t-call="hotel_website.booking_bar" />
+                    </div>
+                </section>
+                <section class="o_hotel_section pt-5">
+                    <div class="container">
+                        <t t-call="hotel_website.notice_alert" />
+                        <div
+                            t-if="search_error"
+                            class="o_hotel_notice o_hotel_notice_warning"
+                            role="alert"
+                        >
+                            <i class="fa fa-exclamation-circle me-2" />
+                            <t t-out="search_error" />
+                        </div>
+                        <div t-if="dates_differ" class="o_hotel_notice">
+                            <i class="fa fa-info-circle me-2" />Your stay is for
+                            <t t-out="stay['checkin_label']" /> to <t
+                            t-out="stay['checkout_label']"
+                        />.
+                            Reserving for these other dates starts a new stay.
+                        </div>
+                        <div class="row g-5">
+                            <div t-attf-class="col-12 #{'col-lg-8' if stay else ''}">
+                                <p t-if="searched" class="o_hotel_results_meta">
+                                    <t t-out="checkin_label" /> – <t
+                                    t-out="checkout_label"
+                                /> ·
+                                    <t t-out="nights" /> night(s)
+                                </p>
+                                <t t-foreach="cards" t-as="card">
+                                    <t t-call="hotel_website.room_type_row" />
+                                </t>
+                                <div t-if="not cards" class="o_hotel_empty">
+                                    <p
+                                        class="o_hotel_display_sm"
+                                    >No rooms can be booked online yet.</p>
+                                    <p
+                                        class="o_hotel_muted mb-0"
+                                    >Please contact us for your stay.</p>
+                                </div>
+                            </div>
+                            <aside t-if="stay" class="col-12 col-lg-4">
+                                <div class="o_hotel_sticky">
+                                    <t t-call="hotel_website.stay_panel" />
+                                </div>
+                            </aside>
+                        </div>
+                    </div>
+                </section>
+                <div id="oe_structure_hotel_rooms_bottom" class="oe_structure" />
+            </div>
+        </t>
+    </template>
+
+    <template id="room_type_page" name="Hotel Room Type">
+        <t t-set="head">
+            <t t-call="hotel_website.fonts" />
+        </t>
+        <t t-call="website.layout" head="head" additional_title="room_type.name">
+            <div id="wrap" class="o_hotel_site">
+                <section class="o_hotel_type_hero">
+                    <img
+                        class="o_hotel_type_hero_img"
+                        t-att-src="images[0]"
+                        t-att-alt="room_type.name"
+                    />
+                    <div class="o_hotel_hero_shade" />
+                    <div class="container o_hotel_type_hero_content">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb o_hotel_breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="/rooms">Rooms &amp; Suites</a>
+                                </li>
+                                <li
+                                    class="breadcrumb-item active"
+                                    aria-current="page"
+                                    t-out="room_type.name"
+                                />
+                            </ol>
+                        </nav>
+                        <h1 class="o_hotel_hero_title" t-out="room_type.name" />
+                    </div>
+                </section>
+                <section class="o_hotel_section">
+                    <div class="container">
+                        <div class="row g-5">
+                            <div class="col-12 col-lg-7">
+                                <p class="o_hotel_eyebrow">
+                                    <t t-out="res_company.name" />
+                                </p>
+                                <div
+                                    t-if="room_type.website_description"
+                                    class="o_hotel_prose"
+                                    t-out="room_type.website_description"
+                                />
+                                <p t-else="" class="o_hotel_lead">
+                                    A calm, well-appointed <t
+                                    t-out="room_type.name"
+                                /> room, prepared
+                                    for a restful stay at <t
+                                    t-out="res_company.name"
+                                />.
+                                </p>
+                                <div class="o_hotel_facts">
+                                    <div>
+                                        <span class="o_hotel_label">Sleeps</span>
+                                        <strong>
+                                            <t t-call="hotel_website.capacity_label" />
+                                        </strong>
+                                    </div>
+                                    <div t-if="card['max_adult']">
+                                        <span class="o_hotel_label">Adults</span>
+                                        <strong>up to <t
+                                            t-out="card['max_adult']"
+                                        /></strong>
+                                    </div>
+                                    <div t-if="card['max_child']">
+                                        <span class="o_hotel_label">Children</span>
+                                        <strong>up to <t
+                                            t-out="card['max_child']"
+                                        /></strong>
+                                    </div>
+                                    <div>
+                                        <span class="o_hotel_label">From</span>
+                                        <strong
+                                            t-out="card['price_from']"
+                                            t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"
+                                        />
+                                    </div>
+                                </div>
+                                <div t-if="card['amenities']" class="o_hotel_block">
+                                    <h2 class="o_hotel_display_sm">In your room</h2>
+                                    <ul class="o_hotel_amenities">
+                                        <li
+                                            t-foreach="card['amenities']"
+                                            t-as="amenity"
+                                        >
+                                            <i class="fa fa-check me-2" />
+                                            <t t-out="amenity.name" />
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div t-if="len(images) &gt; 1" class="o_hotel_block">
+                                    <h2 class="o_hotel_display_sm">Gallery</h2>
+                                    <div class="o_hotel_thumbs">
+                                        <img
+                                            t-foreach="images"
+                                            t-as="image_src"
+                                            t-att-src="image_src"
+                                            t-att-alt="room_type.name"
+                                            loading="lazy"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <aside class="col-12 col-lg-5">
+                                <div class="o_hotel_sticky d-flex flex-column gap-4">
+                                    <div class="o_hotel_panel">
+                                        <p
+                                            class="o_hotel_eyebrow"
+                                        >Check availability</p>
+                                        <div class="o_hotel_price mb-3">
+                                            <span
+                                                class="o_hotel_price_label"
+                                            >From</span>
+                                            <span
+                                                class="o_hotel_price_amount"
+                                                t-out="card['price_from']"
+                                                t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"
+                                            />
+                                            <span
+                                                class="o_hotel_price_label"
+                                            >per night</span>
+                                        </div>
+                                        <form
+                                            t-attf-action="/rooms/#{room_type.id}"
+                                            method="get"
+                                            class="o_hotel_stay_dates o_hotel_dates_form"
+                                        >
+                                            <div class="o_hotel_booking_field">
+                                                <label
+                                                    for="type_checkin"
+                                                >Arrival</label>
+                                                <input
+                                                    type="date"
+                                                    id="type_checkin"
+                                                    name="checkin"
+                                                    required="required"
+                                                    t-att-min="today"
+                                                    t-att-value="checkin"
+                                                />
+                                            </div>
+                                            <div class="o_hotel_booking_field">
+                                                <label
+                                                    for="type_checkout"
+                                                >Departure</label>
+                                                <input
+                                                    type="date"
+                                                    id="type_checkout"
+                                                    name="checkout"
+                                                    required="required"
+                                                    t-att-min="today"
+                                                    t-att-value="checkout"
+                                                />
+                                            </div>
+                                            <button
+                                                type="submit"
+                                                class="btn o_hotel_btn_outline w-100"
+                                            >Check these dates</button>
+                                        </form>
+                                        <div
+                                            t-if="search_error"
+                                            class="o_hotel_notice o_hotel_notice_warning mt-3 mb-0"
+                                            t-out="search_error"
+                                        />
+                                        <div t-if="free_count is not None" class="mt-4">
+                                            <t
+                                                t-call="hotel_website.availability_status"
+                                                status_free="free_count"
+                                            />
+                                            <p
+                                                t-if="free_count"
+                                                class="o_hotel_muted small"
+                                            >
+                                                <t
+                                                t-out="nights"
+                                            /> night(s) · your room is assigned when we confirm your request
+                                            </p>
+                                            <t
+                                                t-if="free_count"
+                                                t-call="hotel_website.reserve_form"
+                                                reserve_type="room_type"
+                                                reserve_free="free_count"
+                                                reserve_in_stay="in_stay_qty"
+                                            />
+                                            <a
+                                                t-if="not free_count"
+                                                class="o_hotel_link"
+                                                t-attf-href="/rooms?#{keep_query('checkin', 'checkout')}"
+                                            >See other rooms</a>
+                                        </div>
+                                    </div>
+                                    <t t-call="hotel_website.stay_panel" />
+                                </div>
+                            </aside>
+                        </div>
+
+                        <section id="reviews" class="o_hotel_block o_hotel_reviews">
+                            <div
+                                class="d-flex flex-wrap align-items-baseline gap-3 mb-4"
+                            >
+                                <h2 class="o_hotel_display_sm mb-0">Guest reviews</h2>
+                                <span
+                                    t-if="room_type.website_review_count"
+                                    class="o_hotel_muted"
+                                >
+                                    <t
+                                    t-call="hotel_website.stars"
+                                    stars_value="round(room_type.website_review_avg)"
+                                />
+                                    <t
+                                    t-out="'%.1f' % room_type.website_review_avg"
+                                /> ·
+                                    <t
+                                    t-out="room_type.website_review_count"
+                                /> review(s)
+                                </span>
+                            </div>
+                            <p
+                                t-if="not reviews"
+                                class="o_hotel_muted"
+                            >No reviews yet.</p>
+                            <div class="row g-4">
+                                <div
+                                    t-foreach="reviews"
+                                    t-as="review"
+                                    class="col-12 col-md-6"
+                                >
+                                    <blockquote class="o_hotel_review">
+                                        <t
+                                            t-call="hotel_website.stars"
+                                            stars_value="review.rating"
+                                        />
+                                        <p
+                                            t-if="review.comment"
+                                            class="mt-2"
+                                            t-out="review.comment"
+                                        />
+                                        <footer class="o_hotel_muted small">
+                                            <t t-out="review.name" /> · <t
+                                            t-out="review_dates[review.id]"
+                                        />
+                                        </footer>
+                                    </blockquote>
+                                </div>
+                            </div>
+                            <form
+                                t-if="not is_public"
+                                class="o_hotel_panel mt-4"
+                                t-attf-action="/rooms/#{room_type.id}/review"
+                                method="post"
+                            >
+                                <input
+                                    type="hidden"
+                                    name="csrf_token"
+                                    t-att-value="request.csrf_token()"
+                                />
+                                <p class="o_hotel_eyebrow">Share your experience</p>
+                                <div class="row g-3">
+                                    <div class="col-12 col-md-4">
+                                        <label
+                                            class="o_hotel_label"
+                                            for="review_rating"
+                                        >Rating</label>
+                                        <select
+                                            id="review_rating"
+                                            class="form-select"
+                                            name="rating"
+                                        >
+                                            <option value="5">5 · Exceptional</option>
+                                            <option value="4">4 · Very good</option>
+                                            <option value="3">3 · Good</option>
+                                            <option value="2">2 · Fair</option>
+                                            <option value="1">1 · Poor</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12">
+                                        <label
+                                            class="o_hotel_label"
+                                            for="review_comment"
+                                        >Your review</label>
+                                        <textarea
+                                            id="review_comment"
+                                            class="form-control"
+                                            name="comment"
+                                            rows="4"
+                                            maxlength="2000"
+                                        >
+                                            <t t-out="''" />
+                                        </textarea>
+                                    </div>
+                                </div>
+                                <button
+                                    type="submit"
+                                    class="btn o_hotel_btn mt-3"
+                                >Post review</button>
+                            </form>
+                            <p t-else="" class="mt-3">
+                                <a
+                                class="o_hotel_link"
+                                t-attf-href="/web/login?redirect=/rooms/#{room_type.id}"
+                            >Sign in</a>
+                                to write a review.
+                            </p>
+                        </section>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <!-- ================================================================
+         Stay, guest details, request received
+         ================================================================ -->
+
+    <template id="cart_page" name="Hotel Stay">
+        <t t-set="head">
+            <t t-call="hotel_website.fonts" />
+        </t>
+        <t t-set="additional_title">Your stay</t>
+        <t t-call="website.layout" head="head">
+            <div id="wrap" class="o_hotel_site">
+                <t
+                    t-call="hotel_website.page_header"
+                    header_eyebrow.translate="Reservation"
+                    header_title.translate="Your stay"
+                />
+                <section class="o_hotel_section pt-5">
+                    <div class="container">
+                        <t t-call="hotel_website.notice_alert" />
+                        <div t-if="not stay" class="o_hotel_empty">
+                            <p
+                                class="o_hotel_display_sm"
+                            >You have not chosen a room yet.</p>
+                            <a
+                                href="/rooms"
+                                class="btn o_hotel_btn mt-2"
+                            >Explore rooms &amp; suites</a>
+                        </div>
+                        <div t-else="" class="row g-5">
+                            <div class="col-12 col-lg-8">
+                                <div
+                                    t-foreach="stay['quote']['lines']"
+                                    t-as="line"
+                                    class="o_hotel_stay_line"
+                                >
+                                    <t
+                                        t-set="line_card"
+                                        t-value="website.hotel_room_type_card(line['room_type'])"
+                                    />
+                                    <img
+                                        t-att-src="line_card['image']"
+                                        t-att-alt="line['room_type'].name"
+                                    />
+                                    <div class="flex-grow-1">
+                                        <p class="o_hotel_eyebrow mb-1"><t
+                                            t-out="line['qty']"
+                                        /> <t t-if="line['qty'] == 1">room</t><t
+                                            t-else=""
+                                        >rooms</t> · <t
+                                            t-out="line['nights']"
+                                        /> night(s)</p>
+                                        <h2 class="o_hotel_type_title mb-1">
+                                            <a
+                                                t-attf-href="/rooms/#{line['room_type'].id}"
+                                                t-out="line['room_type'].name"
+                                            />
+                                        </h2>
+                                        <p
+                                            class="o_hotel_muted small mb-0"
+                                        >Room assigned by our team when your request is confirmed</p>
+                                    </div>
+                                    <div class="text-end">
+                                        <strong
+                                            class="d-block"
+                                            t-out="line['total']"
+                                            t-options="{'widget': 'monetary', 'display_currency': stay['quote']['currency']}"
+                                        />
+                                        <form action="/rooms/cart/remove" method="post">
+                                            <input
+                                                type="hidden"
+                                                name="csrf_token"
+                                                t-att-value="request.csrf_token()"
+                                            />
+                                            <input
+                                                type="hidden"
+                                                name="room_type_id"
+                                                t-att-value="line['room_type'].id"
+                                            />
+                                            <button
+                                                type="submit"
+                                                class="btn o_hotel_btn_link p-0 mt-2"
+                                            >Remove</button>
+                                        </form>
+                                    </div>
+                                </div>
+                                <a
+                                    t-attf-href="/rooms?checkin=#{stay['checkin']}&amp;checkout=#{stay['checkout']}"
+                                    class="o_hotel_link d-inline-block mt-4"
+                                >Add another room</a>
+                            </div>
+                            <aside class="col-12 col-lg-4">
+                                <div class="o_hotel_sticky">
+                                    <div class="o_hotel_panel">
+                                        <p class="o_hotel_eyebrow">Summary</p>
+                                        <div class="o_hotel_panel_dates">
+                                            <div>
+                                                <span
+                                                    class="o_hotel_label"
+                                                >Arrival</span>
+                                                <strong t-out="stay['checkin_label']" />
+                                                <span class="o_hotel_muted">from <t
+                                                    t-out="stay['checkin_time']"
+                                                /></span>
+                                            </div>
+                                            <div>
+                                                <span
+                                                    class="o_hotel_label"
+                                                >Departure</span>
+                                                <strong
+                                                    t-out="stay['checkout_label']"
+                                                />
+                                                <span class="o_hotel_muted">until <t
+                                                    t-out="stay['checkout_time']"
+                                                /></span>
+                                            </div>
+                                        </div>
+                                        <ul class="o_hotel_panel_lines">
+                                            <li>
+                                                <span>Subtotal</span>
+                                                <span
+                                                    t-out="stay['quote']['untaxed']"
+                                                    t-options="{'widget': 'monetary', 'display_currency': stay['quote']['currency']}"
+                                                />
+                                            </li>
+                                            <li>
+                                                <span>Taxes</span>
+                                                <span
+                                                    t-out="stay['quote']['tax']"
+                                                    t-options="{'widget': 'monetary', 'display_currency': stay['quote']['currency']}"
+                                                />
+                                            </li>
+                                            <li>
+                                                <span>Sleeps up to</span>
+                                                <span><t
+                                                    t-out="stay['quote']['capacity']"
+                                                /> guests</span>
+                                            </li>
+                                        </ul>
+                                        <div class="o_hotel_panel_total">
+                                            <span>Estimated total</span>
+                                            <strong
+                                                t-out="stay['quote']['total']"
+                                                t-options="{'widget': 'monetary', 'display_currency': stay['quote']['currency']}"
+                                            />
+                                        </div>
+                                        <p
+                                            class="o_hotel_muted small"
+                                        >Nothing is charged online. Your bill is prepared and settled at the hotel.</p>
+                                        <a
+                                            href="/rooms/checkout"
+                                            class="btn o_hotel_btn w-100"
+                                        >Continue to guest details</a>
+                                    </div>
+                                </div>
+                            </aside>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <template id="guest_row" name="Hotel Accompanying Guest Row">
+        <div
+            t-attf-class="o_hotel_guest_row #{'d-none o_hotel_guest_row_template' if template_row else ''}"
+        >
+            <input
+                type="text"
+                name="guest_name"
+                maxlength="128"
+                class="form-control"
+                placeholder="Guest name"
+                aria-label="Guest name"
+                t-att-value="guest.get('name')"
+                t-att-disabled="template_row or None"
+            />
+            <select
+                name="guest_type"
+                class="form-select"
+                aria-label="Guest type"
+                t-att-disabled="template_row or None"
+            >
+                <option value="adult">Adult</option>
+                <option
+                    value="child"
+                    t-att-selected="guest.get('guest_type') == 'child' or None"
+                >Child</option>
+            </select>
+            <button
+                type="button"
+                class="btn o_hotel_btn_link o_hotel_remove_guest"
+                title="Remove guest"
+                aria-label="Remove guest"
+            >
+                <i class="fa fa-times" />
+            </button>
+        </div>
+    </template>
+
+    <template id="field_error" name="Hotel Field Error">
+        <div
+            t-if="errors.get(field_name)"
+            class="invalid-feedback d-block"
+            t-out="errors[field_name]"
+        />
+    </template>
+
+    <template id="checkout_page" name="Hotel Guest Details">
+        <t t-set="head">
+            <t t-call="hotel_website.fonts" />
+        </t>
+        <t t-set="additional_title">Guest details</t>
+        <t t-call="website.layout" head="head">
+            <div id="wrap" class="o_hotel_site">
+                <t
+                    t-call="hotel_website.page_header"
+                    header_eyebrow.translate="Reservation"
+                    header_title.translate="Guest details"
+                />
+                <section class="o_hotel_section pt-5">
+                    <div class="container">
+                        <div
+                            t-if="errors.get('booking')"
+                            class="o_hotel_notice o_hotel_notice_warning"
+                            role="alert"
+                        >
+                            <i class="fa fa-exclamation-circle me-2" />
+                            <t t-out="errors['booking']" />
+                        </div>
+                        <div class="row g-5">
+                            <div class="col-12 col-lg-8">
+                                <form action="/rooms/checkout" method="post">
+                                    <input
+                                        type="hidden"
+                                        name="csrf_token"
+                                        t-att-value="request.csrf_token()"
+                                    />
+                                    <div class="o_hotel_form_block">
+                                        <h2 class="o_hotel_display_sm">Main guest</h2>
+                                        <div t-if="is_public" class="row g-4">
+                                            <div class="col-md-6">
+                                                <label
+                                                    class="o_hotel_label"
+                                                    for="hotel_guest_name"
+                                                >Full name *</label>
+                                                <input
+                                                    id="hotel_guest_name"
+                                                    t-attf-class="form-control #{'is-invalid' if errors.get('name') else ''}"
+                                                    type="text"
+                                                    name="name"
+                                                    maxlength="128"
+                                                    required="required"
+                                                    t-att-value="form.get('name')"
+                                                />
+                                                <t
+                                                    t-call="hotel_website.field_error"
+                                                    field_name.f="name"
+                                                />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label
+                                                    class="o_hotel_label"
+                                                    for="hotel_guest_email"
+                                                >Email *</label>
+                                                <input
+                                                    id="hotel_guest_email"
+                                                    t-attf-class="form-control #{'is-invalid' if errors.get('email') else ''}"
+                                                    type="email"
+                                                    name="email"
+                                                    required="required"
+                                                    t-att-value="form.get('email')"
+                                                />
+                                                <t
+                                                    t-call="hotel_website.field_error"
+                                                    field_name.f="email"
+                                                />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label
+                                                    class="o_hotel_label"
+                                                    for="hotel_guest_phone"
+                                                >Phone *</label>
+                                                <input
+                                                    id="hotel_guest_phone"
+                                                    t-attf-class="form-control #{'is-invalid' if errors.get('phone') else ''}"
+                                                    type="tel"
+                                                    name="phone"
+                                                    maxlength="64"
+                                                    required="required"
+                                                    t-att-value="form.get('phone')"
+                                                />
+                                                <t
+                                                    t-call="hotel_website.field_error"
+                                                    field_name.f="phone"
+                                                />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label
+                                                    class="o_hotel_label"
+                                                    for="hotel_guest_country"
+                                                >Country</label>
+                                                <select
+                                                    id="hotel_guest_country"
+                                                    class="form-select"
+                                                    name="country_id"
+                                                >
+                                                    <option
+                                                        value=""
+                                                    >Select a country</option>
+                                                    <option
+                                                        t-foreach="countries"
+                                                        t-as="country"
+                                                        t-att-value="country.id"
+                                                        t-att-selected="str(country.id) == form.get('country_id') or None"
+                                                        t-out="country.name"
+                                                    />
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label
+                                                    class="o_hotel_label"
+                                                    for="hotel_guest_street"
+                                                >Address</label>
+                                                <input
+                                                    id="hotel_guest_street"
+                                                    class="form-control"
+                                                    type="text"
+                                                    name="street"
+                                                    maxlength="128"
+                                                    t-att-value="form.get('street')"
+                                                />
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label
+                                                    class="o_hotel_label"
+                                                    for="hotel_guest_city"
+                                                >City</label>
+                                                <input
+                                                    id="hotel_guest_city"
+                                                    class="form-control"
+                                                    type="text"
+                                                    name="city"
+                                                    maxlength="64"
+                                                    t-att-value="form.get('city')"
+                                                />
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label
+                                                    class="o_hotel_label"
+                                                    for="hotel_guest_zip"
+                                                >ZIP</label>
+                                                <input
+                                                    id="hotel_guest_zip"
+                                                    class="form-control"
+                                                    type="text"
+                                                    name="zip"
+                                                    maxlength="24"
+                                                    t-att-value="form.get('zip')"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div t-else="">
+                                            <p class="mb-1">
+                                                <strong t-out="partner.name" />
+                                            </p>
+                                            <p class="o_hotel_muted mb-0">
+                                                <t t-out="partner.email" />
+                                                <t t-if="partner.phone"> · <t
+                                                    t-out="partner.phone"
+                                                /></t>
+                                            </p>
+                                            <a
+                                                href="/my/account"
+                                                class="o_hotel_link small"
+                                            >Update your details</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="o_hotel_form_block o_hotel_guests">
+                                        <h2
+                                            class="o_hotel_display_sm"
+                                        >Travelling with</h2>
+                                        <p class="o_hotel_muted">
+                                            You are counted automatically. Add everyone else staying
+                                            with you; your rooms sleep
+                                            <strong
+                                            t-out="stay['quote']['capacity']"
+                                        /> guests in total.
+                                        </p>
+                                        <div
+                                            t-if="errors.get('guests')"
+                                            class="o_hotel_notice o_hotel_notice_warning"
+                                            role="alert"
+                                            t-out="errors['guests']"
+                                        />
+                                        <div class="o_hotel_guest_rows">
+                                            <t t-foreach="guest_rows" t-as="guest">
+                                                <t t-call="hotel_website.guest_row" />
+                                            </t>
+                                        </div>
+                                        <t
+                                            t-call="hotel_website.guest_row"
+                                            guest="{}"
+                                            template_row="True"
+                                        />
+                                        <button
+                                            type="button"
+                                            class="btn o_hotel_btn_link o_hotel_add_guest"
+                                        >
+                                            <i class="fa fa-plus me-2" />Add a guest
+                                        </button>
+                                    </div>
+
+                                    <div class="o_hotel_form_block">
+                                        <h2
+                                            class="o_hotel_display_sm"
+                                        >Special requests</h2>
+                                        <textarea
+                                            name="notes"
+                                            class="form-control"
+                                            rows="3"
+                                            maxlength="2000"
+                                            placeholder="Arrival time, dietary needs, celebrations..."
+                                            aria-label="Special requests"
+                                        >
+                                            <t t-out="form.get('notes') or ''" />
+                                        </textarea>
+                                    </div>
+
+                                    <div class="o_hotel_notice">
+                                        <i class="fa fa-info-circle me-2" />
+                                        This sends a reservation request. Our reservations team confirms it
+                                        and assigns your room; no payment is taken online.
+                                    </div>
+                                    <button
+                                        type="submit"
+                                        class="btn o_hotel_btn o_hotel_btn_lg"
+                                    >Send reservation request</button>
+                                </form>
+                            </div>
+                            <aside class="col-12 col-lg-4">
+                                <div class="o_hotel_sticky">
+                                    <t
+                                        t-call="hotel_website.stay_panel"
+                                        hide_stay_actions="True"
+                                    />
+                                </div>
+                            </aside>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <template id="reservation_state_badge" name="Hotel Reservation Status">
+        <span
+            t-if="badge_reservation.state == 'confirm'"
+            class="o_hotel_badge o_hotel_badge_ok"
+        >Confirmed</span>
+        <span
+            t-elif="badge_reservation.state == 'done'"
+            class="o_hotel_badge o_hotel_badge_ok"
+        >Checked in</span>
+        <span
+            t-elif="badge_reservation.state == 'cancel'"
+            class="o_hotel_badge"
+        >Cancelled</span>
+        <span
+            t-else=""
+            class="o_hotel_badge o_hotel_badge_pending"
+        >Awaiting confirmation</span>
+    </template>
+
+    <template id="reservation_summary_card" name="Hotel Reservation Summary">
+        <div class="o_hotel_panel">
+            <div class="o_hotel_panel_dates">
+                <div>
+                    <span class="o_hotel_label">Arrival</span>
+                    <strong t-out="summary['checkin_label']" />
+                    <span class="o_hotel_muted">from <t
+                        t-out="summary['checkin_time']"
+                    /></span>
+                </div>
+                <div>
+                    <span class="o_hotel_label">Departure</span>
+                    <strong t-out="summary['checkout_label']" />
+                    <span class="o_hotel_muted">until <t
+                        t-out="summary['checkout_time']"
+                    /></span>
+                </div>
+            </div>
+            <p class="o_hotel_label mt-4">Rooms</p>
+            <ul class="o_hotel_panel_lines">
+                <li t-foreach="summary['quote']['lines']" t-as="summary_line">
+                    <span>
+                        <t t-out="summary_line['qty']" /> × <t
+                        t-out="summary_line['room_type'].name"
+                    />
+                        <span
+                        t-if="summary_line['rooms']"
+                        class="o_hotel_muted d-block small"
+                    >
+                            Room <t
+                        t-out="', '.join(summary_line['rooms'].mapped('name'))"
+                    />
+                        </span>
+                        <span
+                        t-elif="summary['awaiting_confirmation']"
+                        class="o_hotel_muted d-block small"
+                    >Room assigned on confirmation</span>
+                    </span>
+                    <span
+                        t-out="summary_line['total']"
+                        t-options="{'widget': 'monetary', 'display_currency': summary['quote']['currency']}"
+                    />
+                </li>
+            </ul>
+            <p class="o_hotel_label mt-4">Guests</p>
+            <ul class="list-unstyled mb-0">
+                <li>
+                    <t t-out="reservation.partner_id.name" />
+                    <span class="o_hotel_muted">(main guest)</span>
+                </li>
+                <li t-foreach="summary['guests']" t-as="guest_line">
+                    <t t-out="guest_line[0]" />
+                    <span class="o_hotel_muted">(<t t-out="guest_line[1]" />)</span>
+                </li>
+            </ul>
+            <div class="o_hotel_panel_total">
+                <span>Estimated total</span>
+                <strong
+                    t-out="summary['quote']['total']"
+                    t-options="{'widget': 'monetary', 'display_currency': summary['quote']['currency']}"
+                />
+            </div>
+        </div>
+    </template>
+
+    <template id="booking_requested_page" name="Hotel Reservation Request Received">
+        <t t-set="head">
+            <t t-call="hotel_website.fonts" />
+        </t>
+        <t t-set="additional_title">Request received</t>
+        <t t-call="website.layout" head="head">
+            <div id="wrap" class="o_hotel_site">
+                <section class="o_hotel_section">
+                    <div class="container o_hotel_narrow">
+                        <div class="text-center mb-5">
+                            <p class="o_hotel_eyebrow">Reservation request <t
+                                t-out="reservation.reservation_no"
+                            /></p>
+                            <h1 class="o_hotel_display">Thank you, <t
+                                t-out="reservation.partner_id.name"
+                            /></h1>
+                            <p class="o_hotel_lead">
+                                We have received your request for <t
+                                t-out="res_company.name"
+                            />.
+                                <t
+                                t-if="reservation.partner_id.email"
+                            >A summary is on its way to <t
+                                t-out="reservation.partner_id.email"
+                            />.</t>
+                            </p>
+                        </div>
+                        <ol class="o_hotel_steps">
+                            <li>
+                                <strong>We review your request</strong>
+                                <span
+                                >Our reservations team checks your dates and room types.</span>
+                            </li>
+                            <li>
+                                <strong>We confirm your room</strong>
+                                <span
+                                >A room of your chosen type is assigned and your stay is confirmed.</span>
+                            </li>
+                            <li>
+                                <strong>You arrive and relax</strong>
+                                <span
+                                >Your bill is prepared at the hotel; nothing is charged online.</span>
+                            </li>
+                        </ol>
+                        <t t-call="hotel_website.reservation_summary_card" />
+                        <div class="text-center mt-5">
+                            <a
+                                t-if="not is_public"
+                                class="btn o_hotel_btn_outline me-2"
+                                href="/my/reservations"
+                            >My reservations</a>
+                            <a href="/" class="btn o_hotel_btn_link">Back to home</a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <template id="gallery_page" name="Hotel Gallery">
+        <t t-set="head">
+            <t t-call="hotel_website.fonts" />
+        </t>
+        <t t-set="additional_title">Gallery</t>
+        <t t-call="website.layout" head="head">
+            <div id="wrap" class="o_hotel_site">
+                <t
+                    t-call="hotel_website.page_header"
+                    header_eyebrow="res_company.name"
+                    header_title.translate="Gallery"
+                />
+                <div id="oe_structure_hotel_gallery" class="oe_structure">
+                    <section class="o_hotel_section pt-5">
+                        <div class="container">
+                            <div class="o_hotel_mosaic">
+                                <t
+                                    t-foreach="['banner-03.jpg', 'room-detail1.png', 'room-detail2.png', 'stay-03.jpg', 'hotel-1.jpg', 'room-detail4.png', 'stay-04.jpg', 'stay-05.jpg', '16.jpg', '18.jpg']"
+                                    t-as="gallery_image"
+                                >
+                                    <a
+                                        t-attf-href="/hotel_website/static/src/image/#{gallery_image}"
+                                        target="_blank"
+                                        t-attf-class="o_hotel_mosaic_item #{'o_hotel_mosaic_wide' if gallery_image_index in (0, 5) else ''}"
+                                    >
+                                        <img
+                                            t-attf-src="/hotel_website/static/src/image/#{gallery_image}"
+                                            alt="Hotel photograph"
+                                            loading="lazy"
+                                        />
+                                    </a>
+                                </t>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

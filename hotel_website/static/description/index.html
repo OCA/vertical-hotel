@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Hotel Management-Website Booking</title>
+
+
+    <meta name="title" content="Hotel Management-Website Booking">
+    <meta property="og:title" content="Hotel Management-Website Booking">
+
+
+    <meta name="description"
+        content="The Hotel Website Booking Engine provides a seamless online reservation experience directly from the hotel website. Guests can check real-time room">
+    <meta property="og:description"
+        content="The Hotel Website Booking Engine provides a seamless online reservation experience directly from the hotel website. Guests can check real-time room">
+
+
+    <meta name="keywords"
+        content="Website Booking Engine, Hotel Website Booking, Hotel Management-Website Booking, Hotel Website, seamless online reservation, online reservation experience, reservation experience directly, Booking Engine, Hotel Management-Website, Website Booking">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://www.serpentcs.com/",
+      "@type": "SoftwareApplication",
+      "name": "Hotel Management-Website Booking",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Odoo",
+      "description": "The Hotel Website Booking Engine provides a seamless online reservation experience directly from the hotel website. Guests can check real-time room",
+      "brand": {
+        "@type": "Brand",
+        "name": "Serpent Consulting Services Pvt. Ltd."
+      },
+      "keywords": "Website Booking Engine, Hotel Website Booking, Hotel Management-Website Booking, Hotel Website, seamless online reservation, online reservation experience, reservation experience directly, Booking Engine, Hotel Management-Website, Website Booking"
+    }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 900;
+        }
+        .nav-pills .nav-item.show .nav-link,
+        .nav-pills .nav-link.active {
+            color: var(--text-color);
+            font-family: Montserrat;
+            font-size: 16px !important;
+            font-weight: 500 !important;
+            border-radius: 30px;
+            line-height: normal;
+            text-transform: capitalize;
+            background-color: #F5F5F5;
+            border: none;
+            margin-bottom: 0;
+            padding: 12px 24px;
+        }
+        .nav-pills .nav-link:focus,
+        .nav-pills .nav-link:hover {
+            border-color: transparent;
+            isolation: isolate;
+        }
+        .nav-pills .nav-link:focus-visible {
+            border-color: transparent;
+            box-shadow: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" style="background-color: #ffffff;">
+        <div class="row">
+            <div class="col-md-12 col-lg-6 d-flex flex-wrap my-2">
+                
+                <a href="https://www.serpentcs.com" target="_blank">
+                    <img src="hotel_management_website_booking_product_icon.png" alt="Product Logo" class="product-logo"
+                        style="height: 51px;" />
+                </a>
+                
+            </div>
+            <div class="col-md-12 col-lg-6 d-flex flex-wrap my-2 justify-content-end">
+                <a href="https://www.serpentcs.com" target="_blank">
+                    <img src="images/header-logo.png" alt="SerpentCS Logo" class="serpentcs-logo"
+                        style="height: 40px;" />
+                </a>
+            </div>
+        </div>
+
+        <div class="row justify-content-center " style="margin-bottom:0px;">
+            <div class="d-flex justify-content-center align-items-center flex-wrap my-2">
+                <a href="https://www.serpentcs.com/" target="_blank" class="text-center">
+                    <img src="https://solufyerp.com/wp-content/odoo-app-store/sales-odoo-app-store.jpg" alt=""
+                        class="img-desktop d-none d-md-block img-fluid">
+                    <img src="https://solufyerp.com/wp-content/odoo-app-store/sales-mobile-odoo-app-store.jpg" alt=""
+                        class="img-mobile d-block d-md-none img-fluid">
+                </a>
+            </div>
+        </div>
+
+        <div class="card" style="background-color: #ffffff; margin: 2%; margin-top: 2%;  border-radius: 15px;">
+
+            <div class="row justify-content-center " style="margin-top:10px;">
+                <div class="d-flex justify-content-center align-items-center flex-wrap my-3">
+                    <a href="https://www.serpentcs.com/" target="_blank" class="text-center">
+                        <img src="https://solufyerp.com/wp-content/odoo-app-store/Serpent_Odoo_ERP_Solutions_Partner_in_India.jpg" alt=""
+                            class="img-desktop d-none d-md-block img-fluid"
+                            style="border-radius:0px; width:100%; max-height:220px; object-fit:cover;">
+                    </a>
+                </div>
+            </div>
+
+            <section class="oe_container hero-section">
+                <div class="o_equal_col_sm  position-relative overflow-hidden shadow"
+                    style="margin:0 auto; padding-bottom:0; border-radius: 20px;">
+                    <div class="container position-relative hero-content"
+                        style="margin:0; text-align:center; color:#000;">
+                        <div class="row">
+                            <div class="col-12 d-flex flex-column align-items-center p-4 mt25 mb20">
+                                <div class="text-center">
+                                    <h2 class="hero-title"
+                                        style="color:#C3282D; font-weight: bold; text-transform: uppercase;">Hotel Management-Website Booking</h2>
+                                    <div class="hero-divider"></div>
+
+                                    <span class="o_gradient"
+                                        style="width: 72px; height: 3px; max-width:1000px; margin: 10px auto 18px; background-color:#000000!important; display:flex; border-radius:2px; margin-top:px;"></span>
+
+                                    <div
+                                        style="font-weight: normal; color: #000000; font-size: 0.9rem; margin-top: 0px; font-family: 'Poppins', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+                                        <h6>
+                                        <p><p>The Hotel Website Booking Engine provides a seamless online reservation experience directly from the hotel website. Guests can check real-time room availability, select their preferred room types, and customize bookings with additional services or amenities. The system also streamlines the checkout process with automatic pricing, tax calculation, and instant reservation confirmation.</p>
+                                        </p>
+                                        </h6>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+
+        <div style="margin-bottom: 10px;">
+            <ul role="tablist" class="nav nav-pills justify-content-center" data-tabs="tabs"
+                style="border:none;background-color: inherit !important;">
+                <li style="background-color:#f5f3f3; margin-right:30px; padding-bottom:2px; padding:0px !important; border-radius: 10px;"
+                    class="nav-item ">
+                    <a href="#features" data-bs-toggle="pill" aria-expanded="true" class="nav-link active"
+                        style="font-family:Roboto; text-transform:uppercase; font-weight:600; font-size:15px; letter-spacing:1px; padding:13px 20px; color:#282828">
+                        <img src="images/feature.png" style="width:30px; margin-top:-4px; margin-right:6px">Features
+                    </a>
+                </li>
+
+                <li style="background-color:#f5f3f3; margin-right:30px; padding-bottom:2px; padding:0px !important; border-radius: 10px;"
+                    class="nav-item">
+                    <a href="#ss" data-bs-toggle="pill" aria-expanded="true" class="nav-link"
+                        style="font-family:Roboto; text-transform:uppercase; font-weight:600; font-size:15px; letter-spacing:1px; padding:14px 20px; color:#282828">
+                        <img src="images/capture.png" style="width:30px; margin-top:-4px; margin-right:6px">Screenshots
+                    </a>
+                </li>
+                
+                
+                <li style="background-color:#f5f3f3; margin-right:30px; padding-bottom:2px; padding:0px !important; border-radius: 10px;"
+                    class="nav-item">
+                    <a href="#faq" data-bs-toggle="pill" aria-expanded="true" class="nav-link"
+                        style="font-family: Roboto;text-transform: uppercase;font-weight: 600;font-size: 15px;letter-spacing: 1px;padding: 14px 20px;color:#282828;">
+                        <img src="images/faq.png" style="width:30px; margin-top:-4px; margin-right:6px">FAQs
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+
+
+        <div class="tab-content" id="pills-tabContent" style="margin-top: 10px;">
+            <div class="tab-pane fade show active" id="features" role="tabpanel" aria-labelledby="pills-features-tab">
+            <section class="mt16 mb32">
+            
+                
+                <div style="margin-top: 20px;">
+                    <h3 style="
+                        text-align: center;
+                        padding:1rem;
+                        letter-spacing: 2px;
+                        font-weight: 800;
+                        color: black;
+                        text-transform: uppercase;
+                        font-family: Poppins, Helvetica, sans-serif;">
+                        Highlighted Features
+                    </h3>
+                </div>
+
+                
+                
+
+                <div class="row justify-content-between d-inline-flex ms-3 ms-md-0" style="width: 100%;">
+
+                    
+                    
+
+                    <div class="col-lg-6 col-sm-12 p-0 bg-white shadow-lg row"
+                        style="margin-top: 5%; border-radius: 15vw;">
+
+                        <!-- LEFT COLOR BOX -->
+                        <div class="shadow-lg col-2 d-flex align-items-center justify-content-center gx-0"
+                            style="
+                                background-color:#E91E63;
+                                border-top-left-radius: 25px;
+                                border-bottom-left-radius: 25px;
+                            ">
+                            <img src="hotel_management_website_booking_1.png" style="width: 60%;">
+                        </div>
+
+                        <!-- SMALL COLOR STRIP -->
+                        <div class="col-1 p-0 shadow-lg"
+                            style="
+                                background-color:#B0174B ;
+                                width: 3%;
+                            ">
+                        </div>
+
+                        <!-- TEXT AREA -->
+                        <div class="col-6 d-grid align-items-center"
+                            style="padding: 10px; width: 63%;">
+                            <h2 style="color: #2A2C32; margin: 0; font-size: 1.4em;">
+                                <p>Real-Time Availability and Dynamic Pricing Search</p>
+                            </h2>
+                            <p style="margin: 10px 0 0 0; color: #666; font-size: 1em;">
+                                <p>The initial screen clearly features a search form allowing guests to input <b>Check-in/Check-out Dates</b> and specify the desired <b>Room Type</b>. This functionality is critical as it connects directly to the hotel's inventory (PMS), guaranteeing the rates and room availability shown are accurate and up-to-the-minute, which prevents overbooking and builds customer trust.</p>
+                            </p>
+                        </div>
+
+                    </div>
+                    
+                    
+                    
+
+                    <div class="col-lg-6 col-sm-12 p-0 bg-white shadow-lg row"
+                        style="margin-top: 5%; border-radius: 15vw;">
+
+                        <!-- LEFT COLOR BOX -->
+                        <div class="shadow-lg col-2 d-flex align-items-center justify-content-center gx-0"
+                            style="
+                                background-color:#2196F3;
+                                border-top-left-radius: 25px;
+                                border-bottom-left-radius: 25px;
+                            ">
+                            <img src="hotel_management_website_booking_2.png" style="width: 60%;">
+                        </div>
+
+                        <!-- SMALL COLOR STRIP -->
+                        <div class="col-1 p-0 shadow-lg"
+                            style="
+                                background-color:#3A7EB6 ;
+                                width: 3%;
+                            ">
+                        </div>
+
+                        <!-- TEXT AREA -->
+                        <div class="col-6 d-grid align-items-center"
+                            style="padding: 10px; width: 63%;">
+                            <h2 style="color: #2A2C32; margin: 0; font-size: 1.4em;">
+                                <p>Transparent Total Price Calculation</p>
+                            </h2>
+                            <p style="margin: 10px 0 0 0; color: #666; font-size: 1em;">
+                                <p>The "Room Cart" prominently displays a clear breakdown of the total cost before payment. It separates the initial room rate (<b>Gross Total</b>), provides a dedicated section for adding <b>Extra Services</b> (upselling), and clearly itemizes the final mandatory charges (<b>Tax</b>) to calculate the <b>Sub Total</b>. This transparency minimizes booking abandonment due to unexpected fees.</p>
+                            </p>
+                        </div>
+
+                    </div>
+                    
+                    
+                </div>
+
+                
+
+                <div class="row justify-content-between d-inline-flex ms-3 ms-md-0" style="width: 100%;">
+
+                    
+                    
+
+                    <div class="col-lg-6 col-sm-12 p-0 bg-white shadow-lg row"
+                        style="margin-top: 5%; border-radius: 15vw;">
+
+                        <!-- LEFT COLOR BOX -->
+                        <div class="shadow-lg col-2 d-flex align-items-center justify-content-center gx-0"
+                            style="
+                                background-color:#673AB7;
+                                border-top-left-radius: 25px;
+                                border-bottom-left-radius: 25px;
+                            ">
+                            <img src="hotel_management_website_booking_3.png" style="width: 60%;">
+                        </div>
+
+                        <!-- SMALL COLOR STRIP -->
+                        <div class="col-1 p-0 shadow-lg"
+                            style="
+                                background-color:#512DA8 ;
+                                width: 3%;
+                            ">
+                        </div>
+
+                        <!-- TEXT AREA -->
+                        <div class="col-6 d-grid align-items-center"
+                            style="padding: 10px; width: 63%;">
+                            <h2 style="color: #2A2C32; margin: 0; font-size: 1.4em;">
+                                <p>Integrated Ancillary Service Upselling</p>
+                            </h2>
+                            <p style="margin: 10px 0 0 0; color: #666; font-size: 1em;">
+                                <p>he system doesn't just sell rooms; it features a dedicated section to add value-added services, labeled as <b>Extra Services/Amenities</b>. This built-in upselling capability allows the hotel to generate additional revenue (e.g., for breakfast, airport transfers, spa credits) and enables the guest to customize their stay experience directly during the booking process.</p>
+                            </p>
+                        </div>
+
+                    </div>
+                    
+                    
+                    
+                    
+                </div>
+
+                
+            </section>
+
+        
+        
+                
+        <section class="mt80 mb-4">
+            <div class="tab-content-inner" style="background-color:#ffffff;border-radius: 24px;">
+
+            <section class="mt32">
+                <div style="margin-top: 80px;">
+                    <h3
+                        style="text-align: center;padding:1rem; letter-spacing: 2px; font-weight: 800; color: black; text-transform: uppercase; font-family: Poppins, Helvetica, sans-serif;">
+                        Detailed Features
+                    </h3>
+                </div>
+
+                
+                
+
+                <div class="d-flex flex-wrap justify-content-center align-items-stretch">
+
+                    
+                    
+                
+                    <div class="col-12 col-md-4 d-flex">
+                        <div class="card" style="
+                            border-radius: 20px;
+                            margin: 20px;
+                            background: ;
+                            padding: 20px;
+                            box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 50px -12px,
+                                        rgba(0, 0, 0, 0.3) 0px 18px 26px -18px;
+                            transition: all 0.3s ease;"
+                            onmouseover="this.style.transform='translateY(-8px)';
+                                        this.style.boxShadow='rgba(50, 50, 93, 0.35) 0px 40px 60px -10px,
+                                                            rgba(0, 0, 0, 0.4) 0px 22px 30px -15px';
+                                        this.style.border='1px solid #c3c3c3';"
+                            onmouseout="this.style.transform='none';
+                                        this.style.boxShadow='rgba(50, 50, 93, 0.25) 0px 30px 50px -12px,
+                                                            rgba(0, 0, 0, 0.3) 0px 18px 26px -18px';
+                                        this.style.border='none';">
+
+                            <div class="card-title"
+                                style="font-family:'Montserrat',  sans-serif; font-weight: bold; text-align:center;">
+                                <p><p>Real-Time&nbsp;Availability Search</p></p>
+                            </div>
+
+                            <div class="card-text"
+                                style="font-size: 17px; font-family: 'Montserrat', sans-serif; text-align:left;">
+                                <p><p>Unlike static website displays, this directly queries the Hotel Management System (HMS). If a room is not available for the selected dates, it will not appear, or the system will suggest alternative dates/room types. This prevents the frustration of booking a room that is already sold, ensuring a seamless and accurate start to the booking process.</p></p>
+                            </div>
+
+                        </div>
+                    </div>
+                    
+                    
+                    
+                
+                    <div class="col-12 col-md-4 d-flex">
+                        <div class="card" style="
+                            border-radius: 20px;
+                            margin: 20px;
+                            background: ;
+                            padding: 20px;
+                            box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 50px -12px,
+                                        rgba(0, 0, 0, 0.3) 0px 18px 26px -18px;
+                            transition: all 0.3s ease;"
+                            onmouseover="this.style.transform='translateY(-8px)';
+                                        this.style.boxShadow='rgba(50, 50, 93, 0.35) 0px 40px 60px -10px,
+                                                            rgba(0, 0, 0, 0.4) 0px 22px 30px -15px';
+                                        this.style.border='1px solid #c3c3c3';"
+                            onmouseout="this.style.transform='none';
+                                        this.style.boxShadow='rgba(50, 50, 93, 0.25) 0px 30px 50px -12px,
+                                                            rgba(0, 0, 0, 0.3) 0px 18px 26px -18px';
+                                        this.style.border='none';">
+
+                            <div class="card-title"
+                                style="font-family:'Montserrat',  sans-serif; font-weight: bold; text-align:center;">
+                                <p><p>Transparent and Customizable Cart/Checkout Process</p></p>
+                            </div>
+
+                            <div class="card-text"
+                                style="font-size: 17px; font-family: 'Montserrat', sans-serif; text-align:left;">
+                                <p><p>This process is highly transparent; it itemizes all charges, including applicable <b>Tax</b>, to arrive at the <b>Sub Total</b> before the payment gateway. The ability to add extras directly in the cart serves as a powerful revenue-generation tool for the hotel and allows guests to fully customize their booking in one transaction.</p></p>
+                            </div>
+
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    
+                </div>
+
+                
+            </section>
+        </div>
+    </section>
+        
+        
+            </div>
+
+            <div aria-labelledby="feature-tab" class="tab-pane fade show py-1" id="ss" role="tabpanel"
+                style="background-color:azure;">
+
+                <div class="container shadow-sm px-3">
+                    <h3
+                        style="text-align: center;padding:1rem; letter-spacing: 2px; font-weight: 800; color: black; text-transform: uppercase; font-family: Poppins, Helvetica, sans-serif;">
+                        Screenshots
+                    </h3>
+                    
+                    <section class="oe_container my-4">
+                        <div class="panel panel-primary">
+                            <!-- Screenshot Title -->
+                            <div class="panel-heading" style="font-size:16px; line-height:20px;">
+                                <div style="
+                                    text-align:center; 
+                                    margin:2rem; 
+                                    letter-spacing:2px; 
+                                    font-weight:800; 
+                                    color:black; 
+                                    text-transform:uppercase; 
+                                    font-family: Poppins,Helvetica,sans-serif;">
+                                    <p>Website Booking&nbsp;- Check Room Availability</p>
+                                </div>
+                            </div>
+                            <!-- Screenshot Body -->
+                            <div class="panel-body" style="text-align:left;">
+                                <!-- Screenshot Image -->
+                                <img src="hotel_management_website_booking_51.png" style="width:100%;" class="img-responsive border">
+                                <!-- Screenshot Description -->
+                                <div style="
+                                    font-family:'Montserrat',sans-serif; 
+                                    font-weight:normal; 
+                                    font-size:18px; 
+                                    color:#091E42; 
+                                    margin-top:16px;
+                                    text-align:left;">
+                                    <p>Customers may select and review their chosen check-in and check-out dates along with their preferred types of accommodations.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <section class="oe_container my-4">
+                        <div class="panel panel-primary">
+                            <!-- Screenshot Title -->
+                            <div class="panel-heading" style="font-size:16px; line-height:20px;">
+                                <div style="
+                                    text-align:center; 
+                                    margin:2rem; 
+                                    letter-spacing:2px; 
+                                    font-weight:800; 
+                                    color:black; 
+                                    text-transform:uppercase; 
+                                    font-family: Poppins,Helvetica,sans-serif;">
+                                    <p>Online Room Booking &amp; Reservation</p>
+                                </div>
+                            </div>
+                            <!-- Screenshot Body -->
+                            <div class="panel-body" style="text-align:left;">
+                                <!-- Screenshot Image -->
+                                <img src="hotel_management_website_booking_52.png" style="width:100%;" class="img-responsive border">
+                                <!-- Screenshot Description -->
+                                <div style="
+                                    font-family:'Montserrat',sans-serif; 
+                                    font-weight:normal; 
+                                    font-size:18px; 
+                                    color:#091E42; 
+                                    margin-top:16px;
+                                    text-align:left;">
+                                    <p>Allows guests to check room availability, explore room details, and instantly create reservations through the hotel website using the “Book Now” and “View Details” options. The system provides a smooth booking experience with room pricing, stay duration, and cart summary for quick and convenient online reservations.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <section class="oe_container my-4">
+                        <div class="panel panel-primary">
+                            <!-- Screenshot Title -->
+                            <div class="panel-heading" style="font-size:16px; line-height:20px;">
+                                <div style="
+                                    text-align:center; 
+                                    margin:2rem; 
+                                    letter-spacing:2px; 
+                                    font-weight:800; 
+                                    color:black; 
+                                    text-transform:uppercase; 
+                                    font-family: Poppins,Helvetica,sans-serif;">
+                                    <p>Room Detail &amp; Review Management</p>
+                                </div>
+                            </div>
+                            <!-- Screenshot Body -->
+                            <div class="panel-body" style="text-align:left;">
+                                <!-- Screenshot Image -->
+                                <img src="hotel_management_website_booking_53.png" style="width:100%;" class="img-responsive border">
+                                <!-- Screenshot Description -->
+                                <div style="
+                                    font-family:'Montserrat',sans-serif; 
+                                    font-weight:normal; 
+                                    font-size:18px; 
+                                    color:#091E42; 
+                                    margin-top:16px;
+                                    text-align:left;">
+                                    <p>Provides guests with complete room information including pricing, capacity, and occupancy details before booking. The page also allows guests to view ratings and reviews, as well as submit their own feedback and experience directly through the hotel website.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <section class="oe_container my-4">
+                        <div class="panel panel-primary">
+                            <!-- Screenshot Title -->
+                            <div class="panel-heading" style="font-size:16px; line-height:20px;">
+                                <div style="
+                                    text-align:center; 
+                                    margin:2rem; 
+                                    letter-spacing:2px; 
+                                    font-weight:800; 
+                                    color:black; 
+                                    text-transform:uppercase; 
+                                    font-family: Poppins,Helvetica,sans-serif;">
+                                    <p>Reservation Cart &amp; Checkout Management</p>
+                                </div>
+                            </div>
+                            <!-- Screenshot Body -->
+                            <div class="panel-body" style="text-align:left;">
+                                <!-- Screenshot Image -->
+                                <img src="hotel_management_website_booking_54.png" style="width:100%;" class="img-responsive border">
+                                <!-- Screenshot Description -->
+                                <div style="
+                                    font-family:'Montserrat',sans-serif; 
+                                    font-weight:normal; 
+                                    font-size:18px; 
+                                    color:#091E42; 
+                                    margin-top:16px;
+                                    text-align:left;">
+                                    <p>Provides guests with a complete reservation summary including room details, stay duration, pricing, taxes, and grand total before checkout. Guests can also add extra services and amenities such as internet, taxi, or laundry, creating a smooth and personalized online booking experience.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                </div>
+            </div>
+    
+        <div class="tab-pane fade" id="user_guide" role="tabpanel" aria-labelledby="pills-userguide-tab">
+            <div class="container py-4">
+                <h3 style="text-align: center;padding:1rem; letter-spacing: 2px; font-weight: 800; 
+                        color: black; text-transform: uppercase; font-family: Poppins, Helvetica, sans-serif;">
+                    User Guide
+                </h3>
+                
+                
+            </div>
+        </div>
+
+
+        
+        <div aria-labelledby="faq-tab" class="tab-pane fade show" id="faq" role="tabpanel"
+            style="background-color:#fff !important; padding: 2rem 0;">
+            <div class="row">
+                <div class="col-lg-12 d-flex flex-column align-items-center">
+                    <h3 style="text-align: center;padding:1rem; letter-spacing: 2px; font-weight: 800;
+                        color: black; text-transform: uppercase; font-family: Poppins, Helvetica, sans-serif;">
+                        FAQ
+                    </h3>
+                </div>
+        
+                <div class="col-md-12" aria-labelledby="faq-tab" id="faqAccordion" role="tabpanel">
+                    <div class="accordion mb-4" id="accordion_faq" style="background-color:#fff;">
+                        
+                        <div style="margin:1rem 0;">
+                            <!-- Header -->
+                            <div class="card-header collapsed"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#faq_1"
+                                aria-controls="faq_1"
+                                style="cursor: pointer; background-color:#f8f8f8; border:none;
+                                border-top-right-radius:10px; border-top-left-radius:10px; padding:12px 24px;">
+                                <a class="card-title text-decoration-none"
+                                    style="font-size:18px; line-height:30px; font-weight:500;
+                                    color:#040f3a; display:flex; justify-content:space-between;
+                                    align-items:center; width:100%;">
+                                    <span><p>May I install the app on my Odoo Online (SaaS) database?</p></span>
+                                    <img src="images/down (1).svg" style="width:24px; height:24px; object-fit:contain;">
+                                </a>
+                            </div>
+        
+                            <!-- Answer -->
+                            <div class="accordion-collapse collapse show"
+                                id="faq_1"
+                                data-bs-parent="#accordion_faq"
+                                style="box-shadow:rgba(0, 0, 0, 0.05) 0px 6px 24px 0px;
+                                border:1px solid #f8f8f8; border-bottom-right-radius:10px;
+                                border-bottom-left-radius:10px;">
+                                <p style="padding:0.75rem 1.25rem; font-size:16px; line-height:27px;
+                                    color:#888; font-weight:normal; border-bottom-right-radius:10px;
+                                    border-bottom-left-radius:10px;">
+                                    <p>No, third-party apps can not be used on Odoo Online. Unfortunately, Odoo SaaS blocks such a possibility.</p>
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div style="margin:1rem 0;">
+                            <!-- Header -->
+                            <div class="card-header collapsed"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#faq_2"
+                                aria-controls="faq_2"
+                                style="cursor: pointer; background-color:#f8f8f8; border:none;
+                                border-top-right-radius:10px; border-top-left-radius:10px; padding:12px 24px;">
+                                <a class="card-title text-decoration-none"
+                                    style="font-size:18px; line-height:30px; font-weight:500;
+                                    color:#040f3a; display:flex; justify-content:space-between;
+                                    align-items:center; width:100%;">
+                                    <span><p>Can I try the app before purchasing?</p></span>
+                                    <img src="images/down (1).svg" style="width:24px; height:24px; object-fit:contain;">
+                                </a>
+                            </div>
+        
+                            <!-- Answer -->
+                            <div class="accordion-collapse collapse "
+                                id="faq_2"
+                                data-bs-parent="#accordion_faq"
+                                style="box-shadow:rgba(0, 0, 0, 0.05) 0px 6px 24px 0px;
+                                border:1px solid #f8f8f8; border-bottom-right-radius:10px;
+                                border-bottom-left-radius:10px;">
+                                <p style="padding:0.75rem 1.25rem; font-size:16px; line-height:27px;
+                                    color:#888; font-weight:normal; border-bottom-right-radius:10px;
+                                    border-bottom-left-radius:10px;">
+                                    <p>In many cases, yes. We offer Demo videos, Screenshots, Live demo links (for selected apps) If you need a personalized demo, you can contact our support team.</p>
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div style="margin:1rem 0;">
+                            <!-- Header -->
+                            <div class="card-header collapsed"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#faq_3"
+                                aria-controls="faq_3"
+                                style="cursor: pointer; background-color:#f8f8f8; border:none;
+                                border-top-right-radius:10px; border-top-left-radius:10px; padding:12px 24px;">
+                                <a class="card-title text-decoration-none"
+                                    style="font-size:18px; line-height:30px; font-weight:500;
+                                    color:#040f3a; display:flex; justify-content:space-between;
+                                    align-items:center; width:100%;">
+                                    <span><p>What if I need any additional customization or extra feature with this addon?</p></span>
+                                    <img src="images/down (1).svg" style="width:24px; height:24px; object-fit:contain;">
+                                </a>
+                            </div>
+        
+                            <!-- Answer -->
+                            <div class="accordion-collapse collapse "
+                                id="faq_3"
+                                data-bs-parent="#accordion_faq"
+                                style="box-shadow:rgba(0, 0, 0, 0.05) 0px 6px 24px 0px;
+                                border:1px solid #f8f8f8; border-bottom-right-radius:10px;
+                                border-bottom-left-radius:10px;">
+                                <p style="padding:0.75rem 1.25rem; font-size:16px; line-height:27px;
+                                    color:#888; font-weight:normal; border-bottom-right-radius:10px;
+                                    border-bottom-left-radius:10px;">
+                                    <p>We request you contact our team via contact@serpentcs.com to discuss the features and customization required so that we can provide you assistance with your request.</p>
+                                </p>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+    <section class="oe_container ">
+        <div class="content">
+            <div style="margin-top: 10px;">
+                <h3 style="text-align:center;padding:1rem;letter-spacing:2px;font-weight:800;color:#000;font-family:Poppins,Helvetica;">
+                    Suggested Products
+                </h3>
+            </div>
+            <div class="row gx-3 gy-4 justify-content-center">
+                
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex"
+                    style="border:2px solid #fcedee; border-radius:8px;">
+                    <div class="w-100 d-flex flex-column p-3 suggested-card">  
+                        <div class="card-img"
+                            style="background-color:#ffcaa6;border-radius:0.5rem;height:160px;">
+                            <img src="banner_odoo_office365_contacts.png" class="img-fluid shadow-sm" style="height:100%;width:100%;">
+                        </div>
+                        <div class="card-info text-center py-3">
+                            <p class="text-title fw-normal fs-5 mb-0">ODOO - Office365 Contacts Integration</p>
+                        </div>
+                        <div class="text-center mt-auto pb-3">
+                            <a href="https://apps.odoo.com/apps/modules/18.0/odoo_office365_contacts" target="_blank"
+                                class="s_figure_link"
+                                style="font-size:15px;font-weight:bold;padding:8px 12px;background-color:#C3282D;color:#fff;border-radius:7px;text-decoration:none;display:inline-block;font-family:'Montserrat';">
+                                
+                                <img src="images/add_cart.png" width="22" height="22" style="margin-right:6px;">
+                                Go to store
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex"
+                    style="border:2px solid #fcedee; border-radius:8px;">
+                    <div class="w-100 d-flex flex-column p-3 suggested-card">  
+                        <div class="card-img"
+                            style="background-color:#ffcaa6;border-radius:0.5rem;height:160px;">
+                            <img src="banner_scs_sale_purchase.png" class="img-fluid shadow-sm" style="height:100%;width:100%;">
+                        </div>
+                        <div class="card-info text-center py-3">
+                            <p class="text-title fw-normal fs-5 mb-0">Instant Purchase Order From Sale Order</p>
+                        </div>
+                        <div class="text-center mt-auto pb-3">
+                            <a href="https://apps.odoo.com/apps/modules/18.0/scs_sale_purchase" target="_blank"
+                                class="s_figure_link"
+                                style="font-size:15px;font-weight:bold;padding:8px 12px;background-color:#C3282D;color:#fff;border-radius:7px;text-decoration:none;display:inline-block;font-family:'Montserrat';">
+                                
+                                <img src="images/add_cart.png" width="22" height="22" style="margin-right:6px;">
+                                Go to store
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex"
+                    style="border:2px solid #fcedee; border-radius:8px;">
+                    <div class="w-100 d-flex flex-column p-3 suggested-card">  
+                        <div class="card-img"
+                            style="background-color:#ffcaa6;border-radius:0.5rem;height:160px;">
+                            <img src="banner_product_pricelist_report_xls.png" class="img-fluid shadow-sm" style="height:100%;width:100%;">
+                        </div>
+                        <div class="card-info text-center py-3">
+                            <p class="text-title fw-normal fs-5 mb-0">Pricelist - Product Catalog XLS Report</p>
+                        </div>
+                        <div class="text-center mt-auto pb-3">
+                            <a href="https://apps.odoo.com/apps/modules/18.0/product_pricelist_report_xls" target="_blank"
+                                class="s_figure_link"
+                                style="font-size:15px;font-weight:bold;padding:8px 12px;background-color:#C3282D;color:#fff;border-radius:7px;text-decoration:none;display:inline-block;font-family:'Montserrat';">
+                                
+                                <img src="images/add_cart.png" width="22" height="22" style="margin-right:6px;">
+                                Go to store
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex"
+                    style="border:2px solid #fcedee; border-radius:8px;">
+                    <div class="w-100 d-flex flex-column p-3 suggested-card">  
+                        <div class="card-img"
+                            style="background-color:#ffcaa6;border-radius:0.5rem;height:160px;">
+                            <img src="banner_scs_product_alias.png" class="img-fluid shadow-sm" style="height:100%;width:100%;">
+                        </div>
+                        <div class="card-info text-center py-3">
+                            <p class="text-title fw-normal fs-5 mb-0">Product Alias</p>
+                        </div>
+                        <div class="text-center mt-auto pb-3">
+                            <a href="https://apps.odoo.com/apps/modules/18.0/scs_product_alias" target="_blank"
+                                class="s_figure_link"
+                                style="font-size:15px;font-weight:bold;padding:8px 12px;background-color:#C3282D;color:#fff;border-radius:7px;text-decoration:none;display:inline-block;font-family:'Montserrat';">
+                                
+                                <img src="images/add_cart.png" width="22" height="22" style="margin-right:6px;">
+                                Go to store
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex"
+                    style="border:2px solid #fcedee; border-radius:8px;">
+                    <div class="w-100 d-flex flex-column p-3 suggested-card">  
+                        <div class="card-img"
+                            style="background-color:#ffcaa6;border-radius:0.5rem;height:160px;">
+                            <img src="banner_scs_qrcode_generator.png" class="img-fluid shadow-sm" style="height:100%;width:100%;">
+                        </div>
+                        <div class="card-info text-center py-3">
+                            <p class="text-title fw-normal fs-5 mb-0">SCS QR Code Generator</p>
+                        </div>
+                        <div class="text-center mt-auto pb-3">
+                            <a href="https://apps.odoo.com/apps/modules/18.0/scs_qrcode_generator" target="_blank"
+                                class="s_figure_link"
+                                style="font-size:15px;font-weight:bold;padding:8px 12px;background-color:#C3282D;color:#fff;border-radius:7px;text-decoration:none;display:inline-block;font-family:'Montserrat';">
+                                
+                                <img src="images/add_cart.png" width="22" height="22" style="margin-right:6px;">
+                                Go to store
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex"
+                    style="border:2px solid #fcedee; border-radius:8px;">
+                    <div class="w-100 d-flex flex-column p-3 suggested-card">  
+                        <div class="card-img"
+                            style="background-color:#ffcaa6;border-radius:0.5rem;height:160px;">
+                            <img src="banner_scs_sales_margin_with_cost.png" class="img-fluid shadow-sm" style="height:100%;width:100%;">
+                        </div>
+                        <div class="card-info text-center py-3">
+                            <p class="text-title fw-normal fs-5 mb-0">Sales Analysis with Cost & Margin</p>
+                        </div>
+                        <div class="text-center mt-auto pb-3">
+                            <a href="https://apps.odoo.com/apps/modules/18.0/scs_sales_margin_with_cost" target="_blank"
+                                class="s_figure_link"
+                                style="font-size:15px;font-weight:bold;padding:8px 12px;background-color:#C3282D;color:#fff;border-radius:7px;text-decoration:none;display:inline-block;font-family:'Montserrat';">
+                                
+                                <img src="images/add_cart.png" width="22" height="22" style="margin-right:6px;">
+                                Go to store
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex"
+                    style="border:2px solid #fcedee; border-radius:8px;">
+                    <div class="w-100 d-flex flex-column p-3 suggested-card">  
+                        <div class="card-img"
+                            style="background-color:#ffcaa6;border-radius:0.5rem;height:160px;">
+                            <img src="banner_scs_cost_sales_price_impact_analysis.png" class="img-fluid shadow-sm" style="height:100%;width:100%;">
+                        </div>
+                        <div class="card-info text-center py-3">
+                            <p class="text-title fw-normal fs-5 mb-0">Sales and Cost price impact analysis</p>
+                        </div>
+                        <div class="text-center mt-auto pb-3">
+                            <a href="https://apps.odoo.com/apps/modules/18.0/scs_cost_sales_price_impact_analysis" target="_blank"
+                                class="s_figure_link"
+                                style="font-size:15px;font-weight:bold;padding:8px 12px;background-color:#C3282D;color:#fff;border-radius:7px;text-decoration:none;display:inline-block;font-family:'Montserrat';">
+                                
+                                <img src="images/add_cart.png" width="22" height="22" style="margin-right:6px;">
+                                Go to store
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex"
+                    style="border:2px solid #fcedee; border-radius:8px;">
+                    <div class="w-100 d-flex flex-column p-3 suggested-card">  
+                        <div class="card-img"
+                            style="background-color:#ffcaa6;border-radius:0.5rem;height:160px;">
+                            <img src="banner_servisa.png" class="img-fluid shadow-sm" style="height:100%;width:100%;">
+                        </div>
+                        <div class="card-info text-center py-3">
+                            <p class="text-title fw-normal fs-5 mb-0">Servisa - Visa Management for Agents</p>
+                        </div>
+                        <div class="text-center mt-auto pb-3">
+                            <a href="https://apps.odoo.com/apps/modules/18.0/servisa" target="_blank"
+                                class="s_figure_link"
+                                style="font-size:15px;font-weight:bold;padding:8px 12px;background-color:#C3282D;color:#fff;border-radius:7px;text-decoration:none;display:inline-block;font-family:'Montserrat';">
+                                
+                                <img src="images/add_cart.png" width="22" height="22" style="margin-right:6px;">
+                                Go to store
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex"
+                    style="border:2px solid #fcedee; border-radius:8px;">
+                    <div class="w-100 d-flex flex-column p-3 suggested-card">  
+                        <div class="card-img"
+                            style="background-color:#ffcaa6;border-radius:0.5rem;height:160px;">
+                            <img src="banner_servisa_dashboard.png" class="img-fluid shadow-sm" style="height:100%;width:100%;">
+                        </div>
+                        <div class="card-info text-center py-3">
+                            <p class="text-title fw-normal fs-5 mb-0">Servisa Dashboard</p>
+                        </div>
+                        <div class="text-center mt-auto pb-3">
+                            <a href="https://apps.odoo.com/apps/modules/18.0/servisa_dashboard" target="_blank"
+                                class="s_figure_link"
+                                style="font-size:15px;font-weight:bold;padding:8px 12px;background-color:#C3282D;color:#fff;border-radius:7px;text-decoration:none;display:inline-block;font-family:'Montserrat';">
+                                
+                                <img src="images/add_cart.png" width="22" height="22" style="margin-right:6px;">
+                                Go to store
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+
+        <section class="oe_container mt32 mb-4 ">
+            <div class="row o_equal_col_sm position-relative overflow-hidden" style="margin:0 auto;padding-bottom:0;">
+                <div class="container position-relative" style="display:block;margin:0 auto;text-align:center;">
+                    <div style="margin-top: 10px;">
+                        <h2
+                            style="text-align:center; margin:3rem;letter-spacing:2px;font-weight:800; color:#000000; text-transform:uppercase;font-family: Poppins,Helvetica,sans-serif;">
+                            Business Solutions
+                        </h2>
+                    </div>
+                    <div class="col-12 mb32">
+                        <div class="position-relative">
+                            <div class="row">
+                                <div class="col mb16">
+                                    <div class="text-center pt16 pb16 business-tile">
+                                        <a href="https://apps.odoo.com/apps/modules/17.0/eduerp_base" target="_blank"
+                                            style="font-family:'Montserrat', sans-serif;text-decoration: none;">
+                                            <img src="images/icons/eduerp_base.png" alt="Education Management"
+                                                width="120" height="120" />
+                                            <h3 class="mt16"
+                                                style="color:black;font-weight:bold;font-size:16px;font-family:'Montserrat', sans-serif">
+                                                Education Management
+                                            </h3>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="col mb16">
+                                    <div class="text-center pt16 pb16 business-tile">
+                                        <a href="https://apps.odoo.com/apps/modules/18.0/property" target="_blank"
+                                            style="font-family:'Montserrat', sans-serif;text-decoration: none;">
+                                            <img src="images/icons/property.png" alt="Property Management" width="120"
+                                                height="120" />
+                                            <h3 class="mt16"
+                                                style="color:black;font-weight:bold;font-size:16px;font-family:'Montserrat', sans-serif">
+                                                Property Management
+                                            </h3>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="col mb16">
+                                    <div class="text-center pt16 pb16 business-tile">
+                                        <a href="https://apps.odoo.com/apps/modules/browse?search=Singapore&author=Serpent+Consulting+Services+Pvt.+Ltd."
+                                            target="_blank"
+                                            style="font-family:'Montserrat', sans-serif;text-decoration: none;">
+                                            <img src="images/icons/singapore_localization.png"
+                                                alt="Singapore Localization" width="120" height="120" />
+                                            <h3 class="mt16"
+                                                style="color:black;font-weight:bold;font-size:16px;font-family:'Montserrat', sans-serif">
+                                                Singapore Localization
+                                            </h3>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="col mb16">
+                                    <div class="text-center pt16 pb16 business-tile">
+                                        <a href="https://apps.odoo.com/apps/modules/18.0/gym_management_system"
+                                            target="_blank"
+                                            style="font-family:'Montserrat', sans-serif;text-decoration: none;">
+                                            <img src="images/icons/gym_management_system.png" alt="Gym Management"
+                                                width="120" height="120" />
+                                            <h3 class="mt16"
+                                                style="color:black;font-weight:bold;font-size:16px;font-family:'Montserrat', sans-serif">
+                                                Gym Management
+                                            </h3>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="col mb16">
+                                    <div class="text-center pt16 pb16 business-tile">
+                                        <a href="https://apps.odoo.com/apps/modules/18.0/servisa" target="_blank"
+                                            style="font-family:'Montserrat', sans-serif;text-decoration: none;">
+                                            <img src="images/icons/servisa.png" alt="Visa Management" width="120"
+                                                height="120" />
+                                            <h3 class="mt16"
+                                                style="color:black;font-weight:bold;font-size:16px;font-family:'Montserrat', sans-serif">
+                                                Visa Management
+                                            </h3>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="col mb16">
+                                    <div class="text-center pt16 pb16 business-tile">
+                                        <a href="https://www.youtube.com/watch?v=eTETD5lma3w&t=97s" target="_blank"
+                                            style="font-family:'Montserrat', sans-serif;text-decoration: none;">
+                                            <img src="images/icons/biometrics.png" alt="Biometrics" width="120"
+                                                height="120" />
+                                            <h3 class="mt16"
+                                                style="color:black;font-weight:bold;font-size:16px;font-family:'Montserrat', sans-serif">
+                                                Biometrics
+                                            </h3>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col mb16">
+                                    <div class="text-center pt16 pb16 business-tile">
+                                        <a href="https://apps.odoo.com/apps/modules/browse?search=employee&author=Serpent+Consulting+Services+Pvt.+Ltd"
+                                            target="_blank"
+                                            style="font-family:'Montserrat', sans-serif;text-decoration: none;">
+                                            <img src="images/icons/scs_hr_interview.png" alt="HR Management" width="120"
+                                                height="120" />
+                                            <h3 class="mt16"
+                                                style="color:black;font-weight:bold;font-size:16px;font-family:'Montserrat', sans-serif">
+                                                HR Management
+                                            </h3>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="col mb16">
+                                    <div class="text-center pt16 pb16 business-tile">
+                                        <a href="https://apps.odoo.com/apps/modules/13.0/spa_salon_portal"
+                                            target="_blank"
+                                            style="font-family:'Montserrat', sans-serif;text-decoration: none;">
+                                            <img src="images/icons/spa_salon_portal.png" alt="Salon and Spa Management"
+                                                width="120" height="120" />
+                                            <h3 class="mt16"
+                                                style="color:black;font-weight:bold;font-size:16px;font-family:'Montserrat', sans-serif">
+                                                Salon and Spa Management
+                                            </h3>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="col mb16">
+                                    <div class="text-center pt16 pb16 business-tile">
+                                        <a href="https://apps.odoo.com/apps/modules/browse?search=Fleet&author=Serpent+Consulting+Services+Pvt.+Ltd"
+                                            target="_blank"
+                                            style="font-family:'Montserrat', sans-serif;text-decoration: none;">
+                                            <img src="images/icons/fleet_operations.png" alt="Fleet Management"
+                                                width="120" height="120" />
+                                            <h3 class="mt16"
+                                                style="color:black;font-weight:bold;font-size:16px;font-family:'Montserrat', sans-serif">
+                                                Fleet Management
+                                            </h3>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="col mb16">
+                                    <div class="text-center pt16 pb16 business-tile">
+                                        <a href="https://apps.odoo.com/apps/modules/browse?search=hotel&author=Serpent+Consulting+Services+Pvt.+Ltd."
+                                            target="_blank"
+                                            style="font-family:'Montserrat', sans-serif;text-decoration: none;">
+                                            <img src="images/icons/hotel.png" alt="Hotel Management" width="120"
+                                                height="120" />
+                                            <h3 class="mt16"
+                                                style="color:black;font-weight:bold;font-size:16px;font-family:'Montserrat', sans-serif">
+                                                Hotel Management
+                                            </h3>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="col mb16">
+                                    <div class="text-center pt16 pb16 business-tile">
+                                        <a href="https://apps.odoo.com/apps/modules/19.0/ringcentral" target="_blank"
+                                            style="font-family:'Montserrat', sans-serif;text-decoration: none;">
+                                            <img src="images/icons/ringcentral.png" alt="Ring Central" width="120"
+                                                height="120" />
+                                            <h3 class="mt16"
+                                                style="color:black;font-weight:bold;font-size:16px;font-family:'Montserrat', sans-serif">
+                                                Ring Central
+                                            </h3>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="col mb16">
+                                    <div class="text-center pt16 pb16 business-tile">
+                                        <a href="https://apps.odoo.com/apps/modules/browse?series=&order=Relevance&author=Serpent+Consulting+Services+Pvt.+Ltd.&search=Payment+Gateway"
+                                            target="_blank"
+                                            style="font-family:'Montserrat', sans-serif;text-decoration: none;">
+                                            <img src="images/icons/payment_provider.png" alt="Payment Provider"
+                                                width="120" height="120" />
+                                            <h3 class="mt16"
+                                                style="color:black;font-weight:bold;font-size:16px;font-family:'Montserrat', sans-serif">
+                                                Payment Provider
+                                            </h3>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="oe_container mt32 mb-4 ">
+            <div class="row o_equal_col_sm position-relative overflow-hidden" style="margin:0 auto;padding-bottom:0;">
+                <div class="container position-relative" style="display:block; margin:0 auto;">
+                    <div class="mt32 mb32">
+                        <div style="margin-top: 10px;">
+                            <h2
+                                style=" text-align:center; margin:3rem;letter-spacing:2px;font-weight:800; color:#000000; text-transform:uppercase;font-family: Poppins,Helvetica,sans-serif;">
+                                Our Odoo Services
+                            </h2>
+                        </div>
+                        <div class="col-12 mb32">
+                            <div class="position-relative">
+                                <div class="row">
+                                    <div class="col mb16">
+                                        <div class="text-center pt16 pb16 service-tile">
+                                            <img src="images/services/odoo_consulting.png" alt="Odoo Customization"
+                                                width="120" height="120">
+                                            <h3 class="mt16"
+                                                style="font-weight:bold;font-size:17px;font-family:'Montserrat', sans-serif">
+                                                Odoo Consulting
+                                            </h3>
+                                        </div>
+                                    </div>
+                                    <div class="col mb16">
+                                        <div class="text-center pt16 pb16 service-tile">
+                                            <img src="images/services/odoo_implementation.png" alt="Odoo Customization"
+                                                width="120" height="120">
+                                            <h3 class="mt16"
+                                                style="font-weight:bold;font-size:17px;font-family:'Montserrat', sans-serif">
+                                                Odoo Implementation
+                                            </h3>
+                                        </div>
+                                    </div>
+                                    <div class="col mb16">
+                                        <div class="text-center pt16 pb16 service-tile">
+                                            <img src="images/services/odoo_development.png" alt="Odoo Customization"
+                                                width="120" height="120">
+                                            <h3 class="mt16"
+                                                style="font-weight:bold;font-size:17px;font-family:'Montserrat', sans-serif">
+                                                Odoo Development
+                                            </h3>
+                                        </div>
+                                    </div>
+                                    <div class="col mb16">
+                                        <div class="text-center pt16 pb16 service-tile">
+                                            <img src="images/services/odoo_testing.png" alt="Odoo Implementation"
+                                                width="120" height="120">
+                                            <h3 class="mt16"
+                                                style="font-weight:bold;font-size:17px;font-family:'Montserrat', sans-serif">
+                                                Odoo Testing
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col mb16">
+                                        <div class="text-center pt16 pb16 service-tile">
+                                            <img src="images/services/odoo_migration.png" alt="Odoo Integration"
+                                                width="120" height="120">
+                                            <h3 class="mt16"
+                                                style="font-weight:bold;font-size:17px;font-family:'Montserrat', sans-serif">
+                                                Odoo Data Migration
+                                            </h3>
+                                        </div>
+                                    </div>
+                                    <div class="col mb16">
+                                        <div class="text-center pt16 pb16 service-tile">
+                                            <img src="images/services/odoo_training.png" alt="Odoo Support" width="120"
+                                                height="120">
+                                            <h3 class="mt16"
+                                                style="font-weight:bold;font-size:17px;font-family:'Montserrat', sans-serif">
+                                                Odoo Training
+                                            </h3>
+                                        </div>
+                                    </div>
+                                    <div class="col mb16">
+                                        <div class="text-center pt16 pb16 service-tile">
+                                            <img src="images/services/odoo_support.png" alt="Odoo Support" width="120"
+                                                height="120">
+                                            <h3 class="mt16"
+                                                style="font-weight:bold;font-size:17px;font-family:'Montserrat', sans-serif">
+                                                Odoo Support
+                                            </h3>
+                                        </div>
+                                    </div>
+                                    <div class="col mb16">
+                                        <div class="text-center pt16 pb16 service-tile">
+                                            <img src="images/services/odoo_implementation.png" alt="Hire Odoo Developer"
+                                                width="120" height="120">
+                                            <h3 class="mt16"
+                                                style="font-weight:bold;font-size:17px;font-family:'Montserrat', sans-serif">
+                                                Hire Odoo Developers
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="oe_container mt32 mb-4 ">
+            <div class="row o_equal_col_sm position-relative overflow-hidden shadow help-support"
+                style="margin:0 auto;padding-bottom:0;">
+                <div class="container position-relative" style="display:block;margin:0 auto;text-align:center;">
+                    <div style="margin-top: 10px;">
+                        <h2
+                            style=" text-align:center; margin:3rem;letter-spacing:2px;font-weight:800; color:#000000; text-transform:uppercase;font-family: Poppins,Helvetica,sans-serif;">
+                            Help And Support
+                        </h2>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 align-items-top d-inline-flex align-items-top px-5 mt32 mb32">
+                            <div class="text-center" style="width:100%;">
+                                <div class="row">
+                                    <div class="col-md-4 mt16">
+                                        <a class="s_figure_link"
+                                            style="text-decoration: none; font-size:16px;font-weight:bold;padding:8px 16px;display:inline-block;background-color: #C3282D;color:#fff;border-radius:7px;margin:14px 0px;font-family:'Montserrat', sans-serif;"
+                                            href="mailto:contact@serpentcs.com">
+                                            <img src="images/contact_query.png" alt="Ask for Query" width="25"
+                                                height="25">
+                                            For any Query
+                                        </a>
+                                    </div>
+                                    <div class="col-md-4 mt16 mt16">
+                                        <a class="s_figure_link"
+                                            style="text-decoration: none; font-size: 16px;font-weight:bold;padding:8px 16px;display:inline-block;
+                                        background-color: #C3282D;color:#fff;border-radius:7px;margin:14px 0px;font-family:'Montserrat', sans-serif;"
+                                            href="https://apps.odoo.com/apps/modules/browse?author=Serpent%20Consulting%20Services%20Pvt.%20Ltd."
+                                            target="_blank">
+                                            <img src="images/apps.png" alt="Apps" width="25" height="25">
+                                            Checkout our Apps
+                                        </a>
+                                    </div>
+                                    <div class="col-md-4 mt16 mt16">
+                                        <a class="s_figure_link"
+                                            style="text-decoration: none; font-size:16px;font-weight:bold;padding:8px 16px;display:inline-block;
+                                       background-color: #C3282D;color:#fff;border-radius:7px;margin:14px 0px;font-family:'Montserrat', sans-serif;"
+                                            href="https://www.youtube.com/channel/UCendM9esn5UiKhgHMO5IS9A/videos"
+                                            target="_blank">
+                                            <img src="images/demo.png" alt="Odoo Demo" width="25" height="25">
+                                            Check App Demo
+                                        </a>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-12" style="padding-left:0;">
+                                    <hr style="border-color:gray;" />
+                                </div>
+                                <div class="row">
+                                    <div
+                                        style="width:280px; margin:24px auto; padding:20px; border:1px solid #e5e7eb; border-radius:16px; text-align:center; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,'Noto Sans',sans-serif">
+                                        <div
+                                            style="font-size:26px; font-weight:800; color:#25D366; letter-spacing:.4px; margin-bottom:12px">
+                                            <img class="mb-1" style="width:25px; height:25px" src="images/whatsapp.png"
+                                                alt="rec">
+                                            &nbsp;WhatsApp
+                                        </div>
+                                        <img style="width:200px; height:250px" src="images/serpent_contact_whatsapp_image.png" alt="rec">
+                                        <a href="tel:919879354457"
+                                            style="font-size:18px; font-weight:600; color:#5e99e7">
+                                            (+91) 74860-40227
+                                        </a>
+                                    </div>
+                                    <div
+                                        style="width:280px; margin:24px auto; padding:20px; border:1px solid #e5e7eb; border-radius:16px; text-align:center; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,'Noto Sans',sans-serif">
+                                        <div
+                                            style="font-size:26px; font-weight:800; color:#5e99e7; letter-spacing:.4px; margin-bottom:12px">
+                                            <img class="mb-1" style="width:25px; height:25px" src="images/mail.png"
+                                                alt="rec">
+                                            &nbsp;Email
+                                        </div>
+                                        <img style="width:200px; height:250px" src="images/serpent_contact_email_image.png" alt="rec">
+                                        <a href="mailto:contact@serpentcs.com"
+                                            style="font-size:18px; font-weight:600; color:#5e99e7">
+                                            contact@serpentcs.com
+                                        </a>
+                                    </div>
+                                    <div
+                                        style="width:280px; margin:24px auto; padding:20px; border:1px solid #e5e7eb; border-radius:16px; text-align:center; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,'Noto Sans',sans-serif">
+                                        <div
+                                            style="font-size:26px; font-weight:800; color:#5e99e7; letter-spacing:.4px; margin-bottom:12px">
+                                            <img class="mb-1" style="width:25px; height:25px" src="images/serpent_website.png"
+                                                alt="rec">
+                                            &nbsp;Website
+                                        </div>
+                                        <img style="width:200px; height:250px" src="images/serpent_contact_website_image.png" alt="rec">
+                                        <a href="https://www.serpentcs.com/"
+                                            style="font-size:18px; font-weight:600; color:#5e99e7">
+                                            www.serpentcs.com   
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var animatedElements = document.querySelectorAll(
+                '.oe_container,' +
+                '.card,' +
+                '.nav-pills .nav-link,' +
+                '.suggested-card,' +
+                '.accordion-item,' +
+                '.help-support'
+            );
+
+            var observer = new IntersectionObserver(function (entries, obs) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('in-view');
+                        obs.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            animatedElements.forEach(function (el) {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+
+</html>
