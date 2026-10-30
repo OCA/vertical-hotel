@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--Template for Hotel Reservation -->
+    <template id="report_checkout_qweb">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <t t-set="title">Check-Out Guest List</t>
+                    <t t-call="hotel_reservation.report_reservation_header" />
+                    <table class="table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Guest Name</th>
+                                <th>Check-Out Date</th>
+                                <th>Room Type</th>
+                                <th>Room No</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="reservations" t-as="info">
+                                <td>
+                                    <span t-field="info.reservation_no" />
+                                </td>
+                                <td>
+                                    <span t-field="info.partner_id" />
+                                </td>
+                                <td class="text-nowrap">
+                                    <span t-field="info.checkout" />
+                                </td>
+                                <t
+                                    t-call="hotel_reservation.report_reservation_rooms"
+                                />
+                            </tr>
+                            <tr t-if="not reservations">
+                                <td colspan="5" class="text-center text-muted">
+                                    No reservation in this period.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

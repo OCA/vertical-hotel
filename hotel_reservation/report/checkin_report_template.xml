@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Title and period of the reservation reports -->
+    <template id="report_reservation_header">
+        <h2 class="text-center mt-4" t-out="title" />
+        <div class="text-center mb-4">
+            <strong>From:</strong>
+            <span t-out="data['date_start']" t-options="{'widget': 'datetime'}" />
+            <strong>To:</strong>
+            <span t-out="data['date_end']" t-options="{'widget': 'datetime'}" />
+        </div>
+    </template>
+
+    <!-- Room types and room numbers of a reservation -->
+    <template id="report_reservation_rooms">
+        <td>
+            <t t-foreach="info.reservation_line" t-as="line">
+                <span t-field="line.categ_id" />
+                <br t-if="not line_last" />
+            </t>
+        </td>
+        <td>
+            <span t-out="', '.join(info.reservation_line.reserve.mapped('name'))" />
+        </td>
+    </template>
+
+    <!--Template for Hotel Reservation -->
+    <template id="report_checkin_qweb">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <t t-set="title">Check-In Guest List</t>
+                    <t t-call="hotel_reservation.report_reservation_header" />
+                    <table class="table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Guest Name</th>
+                                <th>Check-In Date</th>
+                                <th>Room Type</th>
+                                <th>Room No</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="reservations" t-as="info">
+                                <td>
+                                    <span t-field="info.reservation_no" />
+                                </td>
+                                <td>
+                                    <span t-field="info.partner_id" />
+                                </td>
+                                <td class="text-nowrap">
+                                    <span t-field="info.checkin" />
+                                </td>
+                                <t
+                                    t-call="hotel_reservation.report_reservation_rooms"
+                                />
+                            </tr>
+                            <tr t-if="not reservations">
+                                <td colspan="5" class="text-center text-muted">
+                                    No reservation in this period.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

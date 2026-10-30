@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--Template for Hotel Reservation -->
+    <template id="report_maxroom_qweb">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <t t-set="title">Max Room Used List</t>
+                    <t t-call="hotel_reservation.report_reservation_header" />
+                    <table class="table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Room No</th>
+                                <th class="text-end">No of Times used</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="get_room_used_detail" t-as="line">
+                                <td>
+                                    <span t-out="line['name']" />
+                                </td>
+                                <td class="text-end">
+                                    <span t-out="line['no_of_times_used']" />
+                                </td>
+                            </tr>
+                            <tr t-if="not get_room_used_detail">
+                                <td colspan="2" class="text-center text-muted">
+                                    No room booked in this period.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

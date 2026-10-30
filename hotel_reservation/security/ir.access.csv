@@ -1,0 +1,8 @@
+id,name,model_id,group_id/id,operation,domain
+access_hotel_reservation_user,hotel.reservation.user,hotel.reservation,vertical_hotel.group_hotel_user,cru,
+access_hotel_reservation_manager,hotel.reservation.manager,hotel.reservation,vertical_hotel.group_hotel_manager,crud,
+access_hotel_reservation_line_user,hotel.reservation.line.user,hotel.reservation.line,vertical_hotel.group_hotel_user,crud,
+access_hotel_room_reservation_line_user,hotel.room.reservation.line.user,hotel.room.reservation.line,vertical_hotel.group_hotel_user,crud,
+access_room_reservation_summary_user,room.reservation.summary.user,room.reservation.summary,vertical_hotel.group_hotel_user,crud,
+access_hotel_reservation_wizard,access_hotel_reservation_wizard,hotel.reservation.wizard,base.group_user,crud,
+access_quick_room_reservation,access_quick_room_reservation,quick.room.reservation,vertical_hotel.group_hotel_user,crud,
