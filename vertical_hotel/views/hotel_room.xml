@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--======== Floor ======== -->
+    <!-- Form view of hotel floor -->
+    <record id="view_hotel_floor_form" model="ir.ui.view">
+        <field name="name">hotel.floor.form</field>
+        <field name="model">hotel.floor</field>
+        <field name="arch" type="xml">
+            <form string=" Hotel Floor">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="sequence" invisible="1" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Tree view of hotel floor -->
+    <record id="view_hotel_floor_tree" model="ir.ui.view">
+        <field name="name">hotel.floor.list</field>
+        <field name="model">hotel.floor</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle" />
+                <field name="name" />
+            </list>
+        </field>
+    </record>
+    <!-- ====== Rooms ====== -->
+    <!-- Form view of hotel room -->
+    <record id="view_hotel_room_form" model="ir.ui.view">
+        <field name="name">hotel.room.form</field>
+        <field name="model">hotel.room</field>
+        <field name="arch" type="xml">
+            <form string="Hotel Room">
+                <sheet>
+                    <field
+                        name="image_1920"
+                        widget="image"
+                        class="oe_avatar"
+                        options="{'preview_image': 'image_128'}"
+                    />
+                    <div class="oe_title">
+                        <label for="name" string="Name" />
+                        <h1>
+                            <field name="name" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="status" readonly="1" />
+                            <field name="isroom" string="Available" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="information_hotel_room" string="Information">
+                            <group>
+                                <group>
+                                    <field name="floor_id" string="Floor" />
+                                    <field name="room_categ_id" />
+                                    <field
+                                        name="product_manager"
+                                        string="Room Manager"
+                                    />
+                                    <field name="capacity" />
+                                </group>
+                                <group>
+                                    <field name="uom_id" invisible="1" />
+                                    <field
+                                        name="taxes_id"
+                                        widget="many2many_tags"
+                                        string="Customer Taxes"
+                                    />
+                                    <field
+                                        name="supplier_taxes_id"
+                                        widget="many2many_tags"
+                                        string="Supplier Taxes"
+                                    />
+                                </group>
+                            </group>
+                        </page>
+                        <page name="amenities" string="Room Amenities">
+                            <field name="room_amenities_ids" nolabel="1" />
+                        </page>
+                        <page name="procurement" string="Procurement">
+                            <group>
+                                <group>
+                                    <field name="active" />
+                                    <field name="list_price" />
+                                    <field name="standard_price" />
+                                    <field name="cost_method" string="Cost Method" />
+                                </group>
+                            </group>
+                            <separator string="Suppliers" />
+                            <field name="seller_ids" nolabel="1" />
+                        </page>
+                        <page name="description" string="Descriptions">
+                            <field name="description" nolabel="1" />
+                        </page>
+                        <page name="reservations" string="Folio Room Reservations">
+                            <field name="room_line_ids" nolabel="1">
+                                <form string="Room line">
+                                    <group>
+                                        <field name="room_id" />
+                                        <field name="check_in" />
+                                        <field name="check_out" />
+                                        <field name="folio_id" />
+                                        <field name="status" />
+                                    </group>
+                                </form>
+                                <list>
+                                    <field name="room_id" />
+                                    <field name="check_in" />
+                                    <field name="check_out" />
+                                    <field name="folio_id" />
+                                    <field name="status" />
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Search view of hotel room -->
+    <record id="view_hotel_room_search" model="ir.ui.view">
+        <field name="name">hotel.room.search</field>
+        <field name="model">hotel.room</field>
+        <field name="arch" type="xml">
+            <search string="Hotel Room">
+                <field name="name" filter_domain="[('name', 'ilike', self)]" />
+                <field name="room_categ_id" />
+                <field name="list_price" string="Room rate" />
+                <field name="status" string="Status" />
+                <filter
+                    name="available"
+                    string="Available"
+                    domain="[('status','=', 'available')]"
+                />
+                <filter
+                    name="reserved"
+                    string="Reserved"
+                    domain="[('status','=', 'occupied')]"
+                />
+            </search>
+        </field>
+    </record>
+    <!-- Tree view of hotel room -->
+    <record id="view_hotel_room_tree" model="ir.ui.view">
+        <field name="name">hotel.room.list</field>
+        <field name="model">hotel.room</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" />
+                <field name="room_categ_id" />
+                <field name="list_price" string="Room rate" />
+                <field name="status" />
+                <field name="capacity" />
+            </list>
+        </field>
+    </record>
+    <!-- Kanban view of hotel room -->
+    <record id="view_hotel_room_kanban" model="ir.ui.view">
+        <field name="name">hotel.room.kanban</field>
+        <field name="model">hotel.room</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="status" highlight_color="color">
+                <field name="status" />
+                <field name="color" />
+                <templates>
+                    <t t-name="menu">
+                        <a
+                            t-if="widget.editable"
+                            class="dropdown-item"
+                            type="open"
+                        >Edit</a>
+                        <a
+                            t-if="widget.deletable"
+                            class="dropdown-item"
+                            type="delete"
+                        >Delete</a>
+                        <field name="color" widget="kanban_color_picker" />
+                    </t>
+                    <t t-name="card" class="flex-row">
+                        <aside class="me-2">
+                            <field
+                                name="image_128"
+                                widget="image"
+                                alt="Room"
+                                options="{'size': [64, 64], 'img_class': 'object-fit-cover rounded'}"
+                            />
+                        </aside>
+                        <main class="flex-grow-1">
+                            <div class="d-flex align-items-baseline gap-1">
+                                <span t-if="record.code.raw_value" class="text-muted">
+                                    [<field name="code" />]
+                                </span>
+                                <field name="name" class="fw-bold fs-5" />
+                            </div>
+                            <field name="room_categ_id" class="text-muted" />
+                            <div class="d-flex flex-wrap gap-3 small mt-1">
+                                <span t-if="record.floor_id.raw_value">
+                                    Floor: <field name="floor_id" />
+                                </span>
+                                <span>Capacity: <field name="capacity" /></span>
+                                <span>Rate: <field
+                                    name="lst_price"
+                                    widget="monetary"
+                                /></span>
+                                <field name="currency_id" invisible="1" />
+                            </div>
+                            <footer class="pt-1">
+                                <field
+                                    name="status"
+                                    widget="badge"
+                                    decoration-success="status == 'available'"
+                                    decoration-danger="status == 'occupied'"
+                                />
+                                <div class="ms-auto">
+                                    <button
+                                        t-if="record.status.raw_value === 'available'"
+                                        class="btn btn-sm btn-secondary"
+                                        name="set_room_status_occupied"
+                                        type="object"
+                                        string="Set Occupied"
+                                        groups="vertical_hotel.group_hotel_user"
+                                    />
+                                    <button
+                                        t-if="record.status.raw_value === 'occupied'"
+                                        class="btn btn-sm btn-secondary"
+                                        name="set_room_status_available"
+                                        type="object"
+                                        string="Set Available"
+                                        groups="vertical_hotel.group_hotel_user"
+                                    />
+                                </div>
+                            </footer>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+</odoo>
