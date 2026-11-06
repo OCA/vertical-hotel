@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-10-07 08:46+0000\n"
+"PO-Revision-Date: 2026-11-06 14:46+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -1224,7 +1224,7 @@ msgstr "Genera foglio"
 #: model:ir.model.fields,help:hotel.field_hotel_room_amenities__packaging_ids
 #: model:ir.model.fields,help:hotel.field_hotel_services__packaging_ids
 msgid "Gives the different ways to package the same product."
-msgstr "Consente di creare colli in modi diversi lo stesso prodotto."
+msgstr "Consente di creare in modi diversi colli dello stesso prodotto."
 
 #. module: hotel
 #: model:ir.model.fields,help:hotel.field_hotel_room__sequence
