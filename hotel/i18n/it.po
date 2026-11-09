@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-11-06 14:46+0000\n"
+"PO-Revision-Date: 2026-11-09 13:46+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -307,7 +307,7 @@ msgstr "Valori attributo"
 #. module: hotel
 #: model:ir.model.fields,field_description:hotel.field_hotel_folio__authorized_transaction_ids
 msgid "Authorized Transactions"
-msgstr "Transizioni autorizzate"
+msgstr "Transazioni autorizzate"
 
 #. module: hotel
 #: model:ir.model,name:hotel.model_report_hotel_report_hotel_folio
@@ -1524,7 +1524,7 @@ msgid ""
 "used in international transactions."
 msgstr ""
 "I termini commerciali internazionali (Incoterms) sono una serie di termini "
-"commerciali predefiniti utilizzati nelle transizioni internazionali."
+"commerciali predefiniti utilizzati nelle transazioni internazionali."
 
 #. module: hotel
 #: model:hotel.services,name:hotel.hotel_service_6
