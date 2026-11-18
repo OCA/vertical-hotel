@@ -3,7 +3,7 @@
 
 {
     "name": "Hotel Management",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "author": """Odoo Community Association (OCA),
                 Serpent Consulting Services Pvt. Ltd.""",
     "category": "Hotel Management",

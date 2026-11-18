@@ -60,6 +60,16 @@ class HotelServiceLine(models.Model):
 
         return res
 
+    def _get_product_taxes(self):
+        """Return the product taxes of the folio company, mapped through
+        the folio fiscal position. The product taxes contain the taxes of
+        every company, and writing taxes of another company fails on the
+        multi-company record rule."""
+        self.ensure_one()
+        company = self.folio_id.company_id or self.env.company
+        taxes = self.product_id.taxes_id._filter_taxes_by_company(company)
+        return self.folio_id.fiscal_position_id.map_tax(taxes)
+
     # Migrated _onchange_product_id method v15 to v18.
     @api.onchange("product_id")
     def _onchange_product_id_warning(self):
@@ -74,7 +84,7 @@ class HotelServiceLine(models.Model):
             "product_uom_id": self.product_id.uom_id,
             "product_uom_qty": self.product_uom_qty,
             "price_unit": self.product_id.list_price,
-            "tax_ids": self.product_id.taxes_id,
+            "tax_ids": self._get_product_taxes(),
         }
 
         self.update(vals)
