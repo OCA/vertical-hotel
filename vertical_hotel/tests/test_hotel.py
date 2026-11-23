@@ -4,8 +4,10 @@
 from datetime import timedelta
 
 from odoo import fields
-from odoo.exceptions import AccessError, ValidationError
+from odoo.exceptions import AccessError, UserError, ValidationError
 from odoo.tests import Form, TransactionCase, new_test_user, tagged
+
+from ..hooks import pre_init_hook
 
 
 @tagged("post_install", "-at_install")
@@ -393,3 +395,17 @@ class TestHotelSecurity(TransactionCase):
     def test_internal_user_has_no_hotel_access(self):
         with self.assertRaises(AccessError):
             self.env["hotel.folio"].with_user(self.internal_user).search([])
+
+
+@tagged("post_install", "-at_install")
+class TestPreInitHook(TransactionCase):
+    def test_refuses_install_next_to_old_hotel_module(self):
+        pre_init_hook(self.env)  # no module called "hotel": fine
+        old = self.env["ir.module.module"].create(
+            {"name": "hotel", "state": "uninstalled"}
+        )
+        pre_init_hook(self.env)  # only known, not installed: fine
+        old.state = "installed"
+        old.flush_recordset()
+        with self.assertRaisesRegex(UserError, "rename_hotel_to_vertical_hotel"):
+            pre_init_hook(self.env)

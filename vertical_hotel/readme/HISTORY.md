@@ -21,7 +21,8 @@
 - Upgrading from 19.0: the database must be migrated to 20.0 first (Odoo
   upgrade or OpenUpgrade). If it still has the module under its old name
   `hotel`, run `vertical_hotel/scripts/rename_hotel_to_vertical_hotel.py`
-  before upgrading (see 19.0.1.1.0).
+  before upgrading (see 19.0.1.1.0). Installing `vertical_hotel` on a
+  database where `hotel` is still installed is refused.
 
 ## 19.0.1.1.0
 

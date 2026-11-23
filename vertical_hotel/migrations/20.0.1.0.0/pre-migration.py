@@ -133,23 +133,11 @@ def migrate(cr, version):
     ``vertical_hotel/scripts/rename_hotel_to_vertical_hotel.py`` or by
     OpenUpgrade (``renamed_modules``). This handles what depends on the
     module name besides the XML-ID namespace. Every step is idempotent.
+    Installing next to a still installed ``hotel`` is refused by
+    ``hooks.pre_init_hook``.
     """
     if not version:
         return
-    cr.execute(
-        "SELECT state FROM ir_module_module WHERE name = %s",
-        (OLD,),
-    )
-    row = cr.fetchone()
-    if row and row[0] in ("installed", "to upgrade", "to remove"):
-        _logger.warning(
-            "Module %r is still registered as %s next to %r. Run "
-            "vertical_hotel/scripts/rename_hotel_to_vertical_hotel.py on a "
-            "backup of the database before upgrading.",
-            OLD,
-            row[0],
-            NEW,
-        )
     _rename_view_keys(cr)
     _rename_report_actions(cr)
     _rename_report_model(cr)

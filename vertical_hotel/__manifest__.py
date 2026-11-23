@@ -30,6 +30,7 @@
         "views/menus.xml",
         "wizard/hotel_wizard.xml",
     ],
+    "pre_init_hook": "pre_init_hook",
     "images": ["static/description/Hotel.png"],
     "application": True,
 }
