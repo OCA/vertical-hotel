@@ -2,3 +2,4 @@
 
 from . import test_hotel
 from . import test_ui
+from . import test_import_v19

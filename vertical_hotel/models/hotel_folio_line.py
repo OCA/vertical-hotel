@@ -91,6 +91,8 @@ class HotelFolioLine(models.Model):
 
     @api.constrains("product_id", "checkin_date", "checkout_date")
     def _check_folio_double_booking(self):
+        if self.env.context.get("hotel_v19_import"):
+            return
         self.folio_id._check_duplicate_folio_room_line()
 
     @api.constrains("checkin_date", "checkout_date")
@@ -101,6 +103,8 @@ class HotelFolioLine(models.Model):
         @param self: object pointer
         @return: raise warning depending on the validation
         """
+        if self.env.context.get("hotel_v19_import"):
+            return
         for rec in self:
             if rec.checkin_date >= rec.checkout_date:
                 raise ValidationError(

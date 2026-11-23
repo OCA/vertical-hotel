@@ -86,6 +86,8 @@ class HotelFolio(models.Model):
         """
         Prevent duplicate room bookings for the same product within overlapping dates.
         """
+        if self.env.context.get("hotel_v19_import"):
+            return
         for rec in self:
             room_lines = rec.room_line_ids.filtered(lambda line: line.state != "cancel")
             if not room_lines:
