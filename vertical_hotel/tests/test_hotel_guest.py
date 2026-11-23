@@ -61,13 +61,41 @@ class TestHotelGuest(TransactionCase):
         folio.action_confirm()
         self.assertEqual(folio.state, "sale")
 
-    def test_order_confirmed_from_folio_only(self):
-        folio = self._folio()
-        self.assertTrue(folio.order_id.is_folio_order)
+    def test_capacity_checked_when_order_confirmed_directly(self):
+        """The order can be confirmed outside the folio (Sales, online
+        payment, portal signature): the capacity is checked there too,
+        without blocking those flows."""
+        folio = self._folio([("Priya", "adult"), ("Aarav", "child")])
+        order = folio.order_id
+        # what sale's payment.transaction._check_amount_and_confirm_order() does
         with self.assertRaises(ValidationError):
-            folio.order_id.action_confirm()
-        folio.action_confirm()
-        self.assertEqual(folio.order_id.state, "sale")
+            order.with_context(
+                send_email=True, sale_include_signature=True
+            ).action_confirm()
+        folio.guest_ids.filtered(lambda g: g.name == "Aarav").unlink()
+        order.with_context(
+            send_email=True, sale_include_signature=True
+        ).action_confirm()
+        self.assertEqual(folio.state, "sale")
+
+    def test_portal_signature_confirms_folio_order(self):
+        folio = self._folio([("Priya", "adult")])
+        folio.order_id._validate_order()
+        self.assertEqual(folio.state, "sale")
+
+    def test_plain_sale_order_unaffected(self):
+        order = self.env["sale.order"].create(
+            {
+                "partner_id": self.booker.id,
+                "order_line": [
+                    Command.create(
+                        {"product_id": self.room.product_id.id, "product_uom_qty": 1}
+                    )
+                ],
+            }
+        )
+        order.action_confirm()
+        self.assertEqual(order.state, "sale")
 
     def test_booker_change_moves_guests(self):
         folio = self._folio([("Priya", "adult")])

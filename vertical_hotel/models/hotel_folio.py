@@ -227,10 +227,9 @@ class HotelFolio(models.Model):
 
     def action_confirm(self):
         """Confirm through the standard sale flow (deliveries, locking,
-        project/analytic generation, confirmation date), once the guests fit
-        in the rooms."""
-        self._check_guest_capacity()
-        return self.order_id.with_context(hotel_folio_confirm=True).action_confirm()
+        project/analytic generation, confirmation date); the guests are
+        checked against the room capacity there (see sale.order)."""
+        return self.order_id.action_confirm()
 
     def action_create_invoice(self):
         """Open the standard "Create invoice" wizard on the folios' orders;
