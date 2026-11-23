@@ -64,7 +64,9 @@ class HotelFolioLine(models.Model):
                 )
 
         if rooms_to_update:
-            rooms_to_update.write({"isroom": False})
+            # Room occupancy is kept by the module: front desk users have
+            # no write access on the room products (product.template).
+            rooms_to_update.sudo().write({"isroom": False})
         if vals_list:
             FolioRoomLine.create(vals_list)
 
@@ -147,7 +149,7 @@ class HotelFolioLine(models.Model):
                     folio_room_lines.unlink()
 
                 if rooms:
-                    rooms.write({"isroom": True, "status": "available"})
+                    rooms.sudo().write({"isroom": True, "status": "available"})
 
         res = super().unlink()
 

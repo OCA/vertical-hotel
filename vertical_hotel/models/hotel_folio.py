@@ -144,7 +144,7 @@ class HotelFolio(models.Model):
         products = self.room_line_ids.product_id
         if products:
             rooms = self.env["hotel.room"].search([("product_id", "in", products.ids)])
-            rooms.write({"isroom": True, "status": "available"})
+            rooms.sudo().write({"isroom": True, "status": "available"})
         return self.order_id.action_cancel()
 
     def action_confirm(self):
@@ -155,7 +155,7 @@ class HotelFolio(models.Model):
     def action_create_invoice(self):
         """Open the standard "Create invoice" wizard on the folios' orders;
         the invoice is linked back to the folio (see account.move)."""
-        self.room_line_ids.product_id.write({"isroom": True})
+        self.room_line_ids.product_id.sudo().write({"isroom": True})
         action = self.env["ir.actions.actions"]._for_xml_id(
             "sale.action_view_sale_advance_payment_inv"
         )

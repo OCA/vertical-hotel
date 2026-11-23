@@ -121,7 +121,8 @@ class HotelRoom(models.Model):
         ---------------------------------------
         @param self: object pointer
         """
-        return self.write({"isroom": False, "color": 2})
+        # front desk button: no write access on the room product itself
+        return self.sudo().write({"isroom": False, "color": 2})
 
     def set_room_status_available(self):
         """
@@ -130,7 +131,7 @@ class HotelRoom(models.Model):
         ---------------------------------------
         @param self: object pointer
         """
-        return self.write({"isroom": True, "color": 5})
+        return self.sudo().write({"isroom": True, "color": 5})
 
 
 class HotelRoomType(models.Model):

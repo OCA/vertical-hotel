@@ -338,6 +338,58 @@ class TestHotelSecurity(TransactionCase):
         with self.assertRaises(AccessError):
             folio.unlink()
 
+    def test_hotel_user_books_and_frees_rooms(self):
+        """Front desk books, cancels and frees rooms without write access on
+        product.template (the rooms' isroom/status flags are kept by the
+        module, not by the user)."""
+        room_type = self.env["hotel.room.type"].create({"name": "Security Type"})
+        room = self.env["hotel.room"].create(
+            {
+                "name": "Security Room",
+                "list_price": 100.0,
+                "capacity": 2,
+                "isroom": True,
+                "room_categ_id": room_type.id,
+            }
+        )
+        checkin = fields.Datetime.now().replace(microsecond=0) + timedelta(days=1)
+        checkout = checkin + timedelta(days=2)
+        partner = self.env["res.partner"].create({"name": "Front Desk Guest"})
+        env = self.env(user=self.hotel_user)
+
+        def book():
+            folio = env["hotel.folio"].create({"partner_id": partner.id})
+            env["hotel.folio.line"].create(
+                {
+                    "folio_id": folio.id,
+                    "product_id": room.product_id.id,
+                    "checkin_date": checkin,
+                    "checkout_date": checkout,
+                    "product_uom_qty": 2.0,
+                }
+            )
+            self.assertEqual(room.status, "occupied")
+            return folio
+
+        # booked, then the folio cancelled
+        folio = book()
+        folio.action_cancel()
+        self.assertEqual(room.status, "available")
+        # booked, confirmed and sent to invoicing
+        folio = book()
+        folio.action_confirm()
+        self.assertEqual(folio.state, "sale")
+        folio.action_create_invoice()
+        self.assertTrue(room.product_id.isroom)
+        # room board buttons
+        room.with_user(self.hotel_user).set_room_status_occupied()
+        self.assertEqual(room.status, "occupied")
+        room.with_user(self.hotel_user).set_room_status_available()
+        self.assertEqual(room.status, "available")
+        # still no direct write on the products themselves
+        with self.assertRaises(AccessError):
+            room.with_user(self.hotel_user).write({"list_price": 1.0})
+
     def test_internal_user_has_no_hotel_access(self):
         with self.assertRaises(AccessError):
             self.env["hotel.folio"].with_user(self.internal_user).search([])
