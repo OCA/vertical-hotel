@@ -23,6 +23,11 @@ class HotelGuest(models.Model):
     _description = "Hotel Guest"
     _inherits: ClassVar[dict] = {"res.partner": "partner_id"}
     _rec_name = "partner_id"
+    # Access to a guest is decided by its own access rights, not by the
+    # rights on contacts (as for hr.employee): the front desk registers
+    # guests without "Contacts / Creation". The contact itself is then
+    # created and updated by the module (see create/write/unlink).
+    _check_inherits_access = False
 
     partner_id = fields.Many2one(
         "res.partner",
@@ -67,7 +72,15 @@ class HotelGuest(models.Model):
             # Standard shape for a child contact, so the guest appears in
             # the booker's contact hierarchy rather than as a loose partner.
             vals.setdefault("type", "contact")
-        return super().create(vals_list)
+        # A guest is a contact, but the front desk needs no contact rights
+        # ("Contacts / Creation") to register one: check the access to the
+        # guest itself and let the module handle the contact behind it.
+        self.check_access("create")
+        return super(HotelGuest, self.sudo()).create(vals_list).sudo(False)
+
+    def write(self, vals):
+        self.check_access("write")
+        return super(HotelGuest, self.sudo()).write(vals)
 
     def unlink(self):
         """Take the delegated contact down with the guest line.
@@ -79,7 +92,7 @@ class HotelGuest(models.Model):
 
         A reservation and the folio made from it share the same contacts,
         so a contact is only removed once no guest line uses it any more."""
-        partners = self.partner_id
+        partners = self.partner_id.sudo()
         res = super().unlink()
         still_used = self.search([("partner_id", "in", partners.ids)]).partner_id
         for partner in partners - still_used:

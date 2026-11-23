@@ -222,7 +222,7 @@ class HotelFolio(models.Model):
             # the contacts have to move with it or they stay attached to
             # the previous guest.
             for rec in self:
-                rec.guest_ids.partner_id.write({"parent_id": rec.partner_id.id})
+                rec.guest_ids.partner_id.sudo().write({"parent_id": rec.partner_id.id})
         return res
 
     def action_confirm(self):

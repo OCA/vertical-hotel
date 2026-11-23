@@ -4,9 +4,9 @@
 from datetime import timedelta
 
 from odoo import fields
-from odoo.exceptions import ValidationError
+from odoo.exceptions import AccessError, ValidationError
 from odoo.fields import Command
-from odoo.tests import TransactionCase, tagged
+from odoo.tests import TransactionCase, new_test_user, tagged
 
 
 @tagged("post_install", "-at_install")
@@ -109,3 +109,30 @@ class TestHotelGuest(TransactionCase):
         folio.guest_ids.unlink()
         self.assertFalse(contact.exists())
         self.assertEqual(folio.adults, 1)
+
+    def test_hotel_user_registers_guests(self):
+        user = new_test_user(
+            self.env, login="guest_desk", groups="vertical_hotel.group_hotel_user"
+        )
+        folio = self._folio().with_user(user)
+        folio.write({"guest_ids": [Command.create({"name": "Desk Guest"})]})
+        self.assertEqual(folio.guest_ids.partner_id.parent_id, self.booker)
+        guest = folio.guest_ids
+        guest.write({"name": "Desk Guest Renamed", "guest_type": "child"})
+        self.assertEqual(folio.children, 1)
+        # booker changed: the guests move along
+        folio.partner_id = self.env["res.partner"].create({"name": "Other Booker"})
+        self.assertEqual(guest.partner_id.parent_id, folio.partner_id)
+        contact = guest.partner_id
+        guest.unlink()
+        self.assertFalse(contact.exists())
+        folio.action_confirm()
+        self.assertEqual(folio.state, "sale")
+
+    def test_other_users_cannot_register_guests(self):
+        user = new_test_user(self.env, login="no_hotel", groups="base.group_user")
+        folio = self._folio()
+        with self.assertRaises(AccessError):
+            self.env["hotel.guest"].with_user(user).create(
+                {"name": "Intruder", "folio_id": folio.id}
+            )
