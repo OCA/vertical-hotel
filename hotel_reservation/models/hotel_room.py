@@ -86,10 +86,12 @@ class HotelRoom(models.Model):
         in_house = self._get_booked_rooms(now, now + timedelta(seconds=1))
         to_occupy = self.filtered(lambda r: r in in_house and r.status != "occupied")
         to_free = self.filtered(lambda r: r not in in_house and r.status != "available")
+        # The room status is kept by the module: front desk users have no
+        # write access on the room products (product.template).
         if to_occupy:
-            to_occupy.write({"isroom": False})
+            to_occupy.sudo().write({"isroom": False})
         if to_free:
-            to_free.write({"isroom": True})
+            to_free.sudo().write({"isroom": True})
 
     @api.model
     def cron_room_line(self):

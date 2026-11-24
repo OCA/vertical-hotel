@@ -135,6 +135,36 @@ class TestReservation(common.TransactionCase):
         reservation.cancel_reservation()
         self.assertEqual(self.room.status, "available")
 
+    def test_hotel_user_front_desk(self):
+        """Front desk books stays already in progress (the room status
+        changes) without write access on the room products."""
+        env = self.env(user=self.hotel_user)
+        now = fields.Datetime.now()
+        wizard = env["quick.room.reservation"].create(
+            {
+                "partner_id": self.partner.id,
+                "room_id": self.room.id,
+                "check_in": now - timedelta(hours=1),
+                "check_out": now + timedelta(days=1),
+            }
+        )
+        reservation = env["hotel.reservation"].browse(wizard.room_reserve()["res_id"])
+        reservation.confirmed_reservation()
+        self.assertEqual(self.room.status, "occupied")
+        reservation.create_folio()
+        self.assertEqual(reservation.state, "done")
+        self.assertTrue(reservation.folio_id)
+        # another one, cancelled: its room is free again
+        other = self._reservation(
+            self.room2,
+            checkin=now - timedelta(hours=1),
+            checkout=now + timedelta(days=1),
+        ).with_user(self.hotel_user)
+        other.confirmed_reservation()
+        self.assertEqual(self.room2.status, "occupied")
+        other.cancel_reservation()
+        self.assertEqual(self.room2.status, "available")
+
     def test_cancel(self):
         draft = self._reservation()
         draft.cancel_reservation()
@@ -317,9 +347,15 @@ class TestReservation(common.TransactionCase):
         later = self._reservation(start=5)
         later.confirmed_reservation()
         self.env["hotel.reservation"].reservation_reminder_24hrs()
-        mails = self.env["mail.mail"].search([("model", "=", "hotel.reservation")])
+        # only look at this test's reservations: the database may hold other
+        # confirmed reservations for tomorrow
+        mails = self.env["mail.mail"].search(
+            [
+                ("model", "=", "hotel.reservation"),
+                ("res_id", "in", (due | draft | later).ids),
+            ]
+        )
         self.assertEqual(mails.mapped("res_id"), due.ids)
-        self.assertNotIn(draft.id, mails.mapped("res_id"))
 
     # Room status cron
 
@@ -340,14 +376,15 @@ class TestReservation(common.TransactionCase):
         defaults = wizard_obj.default_get(["check_in", "check_out", "room_id"])
         self.assertEqual(defaults["check_in"], self.base)
         self.assertEqual(defaults["check_out"], self.base + timedelta(days=1))
-        wizard = wizard_obj.create({"partner_id": self.partner.id})
+        wizard = wizard_obj.create({"partner_id": self.partner.id, "adults": 2})
         wizard._onchange_partner_id_res()
         action = wizard.room_reserve()
         reservation = self.env["hotel.reservation"].browse(action["res_id"])
         self.assertEqual(action["res_model"], "hotel.reservation")
         self.assertEqual(reservation.reservation_line.reserve, self.room)
         self.assertEqual(reservation.reservation_line.categ_id, self.room_type)
-        self.assertEqual(reservation.adults, 1)
+        # the reservation gets the adults entered in the wizard
+        self.assertEqual(reservation.adults, 2)
 
     def test_summary(self):
         reservation = self._reservation()
