@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--Form view for hotel reservation wizard -->
+    <record id="hotel_reservation_wizard_form_view" model="ir.ui.view">
+        <field name="name">hotel.reservation.wizard.form</field>
+        <field name="model">hotel.reservation.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Reservation List">
+                <group>
+                    <group>
+                        <field name="date_start" />
+                    </group>
+                    <group>
+                        <field name="date_end" />
+                    </group>
+                </group>
+                <footer>
+                    <button
+                        name="report_checkin_detail"
+                        string="CheckIn List"
+                        type="object"
+                        class="btn-primary"
+                    />
+                    <button
+                        name="report_checkout_detail"
+                        string="CheckOut List"
+                        type="object"
+                        class="btn-primary"
+                    />
+                    <button
+                        name="report_reservation_detail"
+                        type="object"
+                        string="Reservation List"
+                        class="btn-primary"
+                    />
+                    <button
+                        name="report_maxroom_detail"
+                        string="Room Used Maximum"
+                        type="object"
+                        class="btn-primary"
+                    />
+                    <button
+                        special="cancel"
+                        string="Discard"
+                        class="btn-secondary"
+                        data-hotkey="x"
+                    />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <!--Action for hotel reservation wizard -->
+    <record id="action_hotel_reservation_wizard" model="ir.actions.act_window">
+        <field name="name">Hotel Reservation Report</field>
+        <field name="res_model">hotel.reservation.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+        id="wizard_res_menu"
+        name="Hotel Reservation Report"
+        action="action_hotel_reservation_wizard"
+        parent="vertical_hotel.hotel_report_menu"
+        sequence="28"
+    />
+</odoo>

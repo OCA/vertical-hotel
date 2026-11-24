@@ -1,0 +1,28 @@
+.o_room_summary .o_room_summary_room {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background-color: var(--body-bg, #fff);
+}
+
+.o_room_summary .o_room_summary_cell {
+    min-width: 6rem;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.o_room_summary .o_room_summary_free {
+    background-color: rgba(25, 135, 84, 0.15);
+}
+
+.o_room_summary .o_room_summary_reserved {
+    background-color: rgba(220, 53, 69, 0.25);
+}
+
+.o_room_summary .o_room_summary_folio {
+    background-color: rgba(13, 110, 253, 0.25);
+}
+
+.o_room_summary .o_room_summary_cell:hover {
+    filter: brightness(0.9);
+}

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="hotel_reservation.RoomSummary">
+        <div class="o_room_summary table-responsive">
+            <table class="table table-sm table-bordered mb-0">
+                <thead>
+                    <tr>
+                        <th class="o_room_summary_room">Rooms</th>
+                        <th
+                            t-foreach="this.summary.days"
+                            t-as="day"
+                            t-key="day.date"
+                            class="text-center text-nowrap"
+                            t-out="day.label"
+                        />
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="this.summary.rooms" t-as="room" t-key="room.id">
+                        <th class="o_room_summary_room text-nowrap" t-out="room.name" />
+                        <td
+                            t-foreach="room.cells"
+                            t-as="cell"
+                            t-key="cell.date"
+                            t-att-class="{
+                                'o_room_summary_cell text-center text-nowrap': true,
+                                'o_room_summary_free': cell.state === 'free',
+                                'o_room_summary_reserved': cell.state === 'reserved',
+                                'o_room_summary_folio': cell.state === 'folio',
+                            }"
+                            t-att-data-state="cell.state"
+                            t-att-data-date="cell.date"
+                            t-att-title="this.cellTitle(room, cell)"
+                            t-on-click="() => this.onCellClick(room, cell)"
+                        >
+                            <t t-if="cell.state === 'free'">Free</t>
+                            <t t-else="" t-out="cell.label" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </t>
+</templates>
