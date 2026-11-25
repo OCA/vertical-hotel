@@ -72,6 +72,8 @@ Changelog
   room type, graph by month and state.
 - Users only see the reservations of their companies (the report had no
   company).
+- Room nights are counted on the dates in the company's timezone, not on
+  UTC dates: a late check-in west of Greenwich no longer loses a night.
 - Cancel / not cancelled filters and group-bys; cancelled reservations
   are hidden by default.
 

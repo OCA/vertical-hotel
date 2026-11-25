@@ -111,6 +111,25 @@ class TestReservationAnalysis(TransactionCase):
         )
         self.assertEqual(not_cancelled.reservation_id, same_day)
 
+    def test_room_nights_in_hotel_timezone(self):
+        """A hotel west of Greenwich: a 20:00 check-in is already the next
+        day in UTC, the nights are still counted on the local dates."""
+        self.env.company.partner_id.tz = "America/New_York"
+        day = fields.Date.today() + timedelta(days=30)
+        # 20:00 local (UTC-5 or UTC-4) is past midnight UTC
+        checkin = datetime.combine(day + timedelta(days=1), time(1))
+        # two nights later, 10:00 local
+        checkout = datetime.combine(day + timedelta(days=2), time(15))
+        reservation = self._reservation(
+            [self.room1], checkin=checkin, checkout=checkout
+        )
+        self.assertEqual(self._rows(reservation).room_nights, 2)
+        # in UTC the same stay is one night only
+        self.env.company.partner_id.tz = "UTC"
+        self.env.flush_all()
+        self.env.invalidate_all()
+        self.assertEqual(self._rows(reservation).room_nights, 1)
+
     def test_multi_company(self):
         reservation = self._reservation([self.room1])
         other_company = self.env["res.company"].create({"name": "Other Hotel"})

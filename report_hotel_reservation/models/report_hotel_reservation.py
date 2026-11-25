@@ -10,7 +10,12 @@ class ReportHotelReservationStatus(models.Model):
 
     The reservation counters (reservations, adults, children, guests) are
     only on the first row of each reservation, so their sums are right
-    whatever the number of rooms; room nights are per room."""
+    whatever the number of rooms; room nights are per room.
+
+    Room nights are counted on the hotel's local dates: check-in and
+    check-out are stored in UTC and converted to the timezone of the
+    company (its partner's timezone, UTC when none is set) before the
+    dates are taken."""
 
     _name = "report.hotel.reservation.status"
     _description = "Reservation Analysis"
@@ -76,7 +81,11 @@ class ReportHotelReservationStatus(models.Model):
                     booked.room_id,
                     COALESCE(line.categ_id, room.room_categ_id) AS room_type_id,
                     CASE WHEN booked.room_id IS NULL THEN 0
-                        ELSE GREATEST(r.checkout::date - r.checkin::date, 1)
+                        ELSE GREATEST(
+                            (r.checkout AT TIME ZONE 'UTC' AT TIME ZONE tz.name)::date
+                            - (r.checkin AT TIME ZONE 'UTC' AT TIME ZONE tz.name)::date,
+                            1
+                        )
                     END AS room_nights,
                     CASE WHEN booked.position = 1 THEN 1 ELSE 0 END
                         AS no_of_reservation,
@@ -91,5 +100,11 @@ class ReportHotelReservationStatus(models.Model):
                 JOIN hotel_reservation r ON r.id = booked.reservation_id
                 LEFT JOIN hotel_reservation_line line ON line.id = booked.line_id
                 LEFT JOIN hotel_room room ON room.id = booked.room_id
+                LEFT JOIN res_company company ON company.id = r.company_id
+                LEFT JOIN res_partner company_partner
+                    ON company_partner.id = company.partner_id
+                CROSS JOIN LATERAL (
+                    SELECT COALESCE(NULLIF(company_partner.tz, ''), 'UTC') AS name
+                ) tz
             )"""
         self.env.cr.execute(SQL(query, SQL.identifier(self._table)))
