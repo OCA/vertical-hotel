@@ -13,3 +13,12 @@ class ResConfigSettings(models.TransientModel):
     hotel_checkout_hour = fields.Float(
         related="website_id.hotel_checkout_hour", readonly=False
     )
+    hotel_layout = fields.Boolean(related="website_id.hotel_layout", readonly=False)
+    hotel_request_expiry_days = fields.Integer(
+        "Request Expiry (Days)",
+        config_parameter="hotel_website.request_expiry_days",
+        default=3,
+        help="Website requests the front desk has not confirmed after this "
+        "many days are cancelled and the guest is told. 0: only when the "
+        "arrival date has passed.",
+    )

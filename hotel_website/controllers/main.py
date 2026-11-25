@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
+from datetime import timedelta
 from urllib.parse import urlencode
 
 from odoo import fields, http
@@ -21,6 +22,18 @@ MAX_ACCOMPANYING_GUESTS = 20
 MAX_ROOMS_PER_TYPE = 5
 MAX_REVIEW_LENGTH = 2000
 MAX_NOTE_LENGTH = 2000
+# Anyone can send a request without an account, and each one creates a
+# contact, a draft reservation and an e-mail: limit how many one visitor
+# can send (on top of the captcha, when the website has one).
+MAX_REQUESTS_PER_IP_PER_DAY = 5
+MAX_OPEN_REQUESTS_PER_EMAIL = 3
+
+
+def sitemap_room_types(env, rule, qs):
+    """Room type pages of the website, for its sitemap."""
+    if not qs or qs.lower() in "/rooms":
+        for room_type in env.website.hotel_room_types():
+            yield {"loc": f"/rooms/{room_type.id}"}
 
 
 class HotelWebsite(http.Controller):
@@ -234,9 +247,11 @@ class HotelWebsite(http.Controller):
         type="http",
         auth="public",
         website=True,
-        sitemap=False,
+        sitemap=sitemap_room_types,
     )
-    def room_type_detail(self, room_type_id, checkin=None, checkout=None, **kwargs):
+    def room_type_detail(
+        self, room_type_id, checkin=None, checkout=None, review=None, **kwargs
+    ):
         website = request.env.website
         room_type = self._bookable_type(room_type_id)
         if not room_type:
@@ -282,6 +297,11 @@ class HotelWebsite(http.Controller):
             "stay": stay,
             "max_per_type": MAX_ROOMS_PER_TYPE,
             "is_public": request.env.user._is_public(),
+            "review_status": not request.env.user._is_public()
+            and request.env["room.review"]._hotel_review_status(
+                request.env.user.partner_id, room_type
+            ),
+            "review_sent": review == "sent",
         }
         return request.render("hotel_website.room_type_page", values)
 
@@ -437,6 +457,48 @@ class HotelWebsite(http.Controller):
                 )
         return guests
 
+    def _too_many_requests(self, details):
+        """Message for a visitor who sent too many requests, or False."""
+        Reservation = request.env["hotel.reservation"].sudo()
+        message = request.env._(
+            "You have already sent several reservation requests. Please wait "
+            "for the hotel to answer them, or contact us."
+        )
+        ip_addr = request.httprequest.remote_addr
+        if (
+            ip_addr
+            and Reservation.search_count(
+                [
+                    ("is_website_booking", "=", True),
+                    ("website_request_ip", "=", ip_addr),
+                    (
+                        "create_date",
+                        ">",
+                        fields.Datetime.now() - timedelta(days=1),
+                    ),
+                ]
+            )
+            >= MAX_REQUESTS_PER_IP_PER_DAY
+        ):
+            return message
+        email = (
+            details.get("email")
+            or details.get("partner", request.env["res.partner"]).email
+        )
+        if (
+            email
+            and Reservation.search_count(
+                [
+                    ("is_website_booking", "=", True),
+                    ("state", "=", "draft"),
+                    ("partner_id.email", "=ilike", email),
+                ]
+            )
+            >= MAX_OPEN_REQUESTS_PER_EMAIL
+        ):
+            return message
+        return False
+
     def _book_stay(self, stay, details, guests):
         """Record the stay as a reservation request.
 
@@ -497,6 +559,7 @@ class HotelWebsite(http.Controller):
                 {
                     "company_id": company.id,
                     "is_website_booking": True,
+                    "website_request_ip": request.httprequest.remote_addr,
                     "partner_id": partner.id,
                     "partner_invoice_id": addresses["invoice"],
                     "partner_shipping_id": addresses["delivery"],
@@ -530,7 +593,7 @@ class HotelWebsite(http.Controller):
                 body=request.env._(
                     "Thank you for your reservation request %(number)s at %(hotel)s, "
                     "from %(checkin)s to %(checkout)s. Our reservations team will "
-                    "confirm your room shortly.",
+                    "confirm your room shortly; until then no room is held for you.",
                     number=reservation.reservation_no,
                     hotel=company.name,
                     checkin=stay["checkin_label"],
@@ -583,6 +646,19 @@ class HotelWebsite(http.Controller):
                 )
             if not errors:
                 try:
+                    # reCAPTCHA or Turnstile, whichever the website uses;
+                    # nothing to check when none is set up
+                    request.env["ir.http"]._verify_request_recaptcha_token(
+                        "hotel_website_booking"
+                    )
+                except (UserError, ValidationError) as exc:
+                    errors["booking"] = exc.args[0] if exc.args else str(exc)
+                else:
+                    errors["booking"] = self._too_many_requests(details)
+                    if not errors["booking"]:
+                        del errors["booking"]
+            if not errors:
+                try:
                     with request.env.cr.savepoint():
                         reservation = self._book_stay(stay, details, guests)
                 except (UserError, ValidationError) as exc:
@@ -604,6 +680,9 @@ class HotelWebsite(http.Controller):
             "partner": request.env.user.partner_id,
             "countries": request.env["res.country"].sudo().search([]),
             "guest_rows": guests + [{}],
+            "expiry_days": request.env[
+                "hotel.reservation"
+            ]._hotel_request_expiry_days(),
         }
         return request.render("hotel_website.checkout_page", values)
 
@@ -627,6 +706,7 @@ class HotelWebsite(http.Controller):
                 "reservation": reservation,
                 "summary": request.env.website._hotel_reservation_summary(reservation),
                 "is_public": request.env.user._is_public(),
+                "expiry_days": reservation._hotel_request_expiry_days(),
             },
         )
 
@@ -650,9 +730,14 @@ class HotelWebsite(http.Controller):
             rating = int(rating)
         except (TypeError, ValueError):
             rating = 0
-        if 1 <= rating <= 5:
-            partner = request.env.user.partner_id
-            request.env["room.review"].sudo().create(
+        partner = request.env.user.partner_id
+        Review = request.env["room.review"]
+        if (
+            1 <= rating <= 5
+            and Review._hotel_review_status(partner, room_type) == "allowed"
+        ):
+            # unpublished: the hotel publishes it from the room type
+            Review.sudo().create(
                 {
                     "room_type_id": room_type.id,
                     "partner_id": partner.id,
@@ -661,4 +746,5 @@ class HotelWebsite(http.Controller):
                     "comment": (comment or "").strip()[:MAX_REVIEW_LENGTH],
                 }
             )
+            return request.redirect(f"/rooms/{room_type.id}?review=sent#reviews")
         return request.redirect(f"/rooms/{room_type.id}#reviews")

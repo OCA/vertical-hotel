@@ -1,13 +1,13 @@
 # Copyright (C) 2019-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import hashlib
 from datetime import UTC, datetime, time, timedelta
 from zoneinfo import ZoneInfo
 
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 from odoo.tools import format_date, html2plaintext
-from odoo.tools.image import image_data_uri
 
 # Longest stay accepted in one online booking. Longer stays are unusual
 # enough that the front desk should arrange them.
@@ -18,6 +18,12 @@ ROOM_TYPE_FALLBACK_IMAGE = "/hotel_website/static/src/image/room-detail1.png"
 class Website(models.Model):
     _inherit = "website"
 
+    hotel_layout = fields.Boolean(
+        "Hotel Website Layout",
+        help="Show this website as the hotel's: hotel homepage, the "
+        "company's name as brand, page title and copyright. The booking "
+        "pages work on every website.",
+    )
     hotel_checkin_hour = fields.Float(
         "Hotel Check-in Time",
         default=14.0,
@@ -171,14 +177,22 @@ class Website(models.Model):
             "excerpt": self._hotel_excerpt(room_type.website_description),
         }
 
-    @api.model
     def _hotel_type_images(self, room_type, rooms, limit=6):
-        images = []
-        if room_type.image_1024:
-            images.append(image_data_uri(room_type.image_1024))
-        images += [image_data_uri(room.image_1024) for room in rooms if room.image_1024]
-        # Rooms of one type often share a photo; show each picture once.
-        images = list(dict.fromkeys(images))[:limit]
+        """URLs of the photos of a room type and its rooms.
+
+        /web/image URLs rather than inlined data, so the browser can cache
+        the pictures (see _can_return_content on room types and rooms)."""
+        self.ensure_one()
+        images, seen = [], set()
+        for record in [room_type.sudo(), *rooms.sudo()]:
+            if not record.image_1024 or len(images) >= limit:
+                continue
+            # Rooms of one type often share a photo; show each picture once.
+            digest = hashlib.sha1(record.image_128 or record.image_1024).hexdigest()
+            if digest in seen:
+                continue
+            seen.add(digest)
+            images.append(self.image_url(record, "image_1024"))
         return images or [ROOM_TYPE_FALLBACK_IMAGE]
 
     @api.model

@@ -14,6 +14,7 @@
     "data": [
         "security/ir.access.csv",
         "data/website_menu.xml",
+        "data/website_data.xml",
         "data/portal_entry_data.xml",
         "views/hotel_room_views.xml",
         "views/hotel_room_type_views.xml",

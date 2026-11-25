@@ -4,15 +4,6 @@
          Shared pieces
          ================================================================ -->
 
-    <template id="fonts" name="Hotel Website Fonts">
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
-        <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&amp;family=Jost:wght@300;400;500&amp;display=swap"
-        />
-    </template>
-
     <template id="notice_alert" name="Hotel Booking Notice">
         <div t-if="notice" class="o_hotel_notice" role="status">
             <i class="fa fa-info-circle me-2" />
@@ -296,6 +287,9 @@
                 t-out="stay['quote']['nights']"
             /> night(s) · taxes included · pay at the hotel
             </p>
+            <p class="o_hotel_muted small mb-0">
+                Availability is not held: the hotel confirms your room after your request.
+            </p>
             <div t-if="not hide_stay_actions" class="d-grid gap-2 mt-4">
                 <a
                     href="/rooms/checkout"
@@ -325,11 +319,8 @@
          ================================================================ -->
 
     <template id="rooms_page" name="Hotel Rooms &amp; Suites">
-        <t t-set="head">
-            <t t-call="hotel_website.fonts" />
-        </t>
         <t t-set="additional_title">Rooms &amp; Suites</t>
-        <t t-call="website.layout" head="head">
+        <t t-call="website.layout">
             <div id="wrap" class="o_hotel_site">
                 <t
                     t-call="hotel_website.page_header"
@@ -395,10 +386,7 @@
     </template>
 
     <template id="room_type_page" name="Hotel Room Type">
-        <t t-set="head">
-            <t t-call="hotel_website.fonts" />
-        </t>
-        <t t-call="website.layout" head="head" additional_title="room_type.name">
+        <t t-call="website.layout" additional_title="room_type.name">
             <div id="wrap" class="o_hotel_site">
                 <section class="o_hotel_type_hero">
                     <img
@@ -636,8 +624,13 @@
                                     </blockquote>
                                 </div>
                             </div>
+                            <div
+                                t-if="review_sent"
+                                class="alert alert-success mt-4"
+                                role="status"
+                            >Thank you for your review. It will appear here once the hotel has published it.</div>
                             <form
-                                t-if="not is_public"
+                                t-if="review_status == 'allowed'"
                                 class="o_hotel_panel mt-4"
                                 t-attf-action="/rooms/#{room_type.id}/review"
                                 method="post"
@@ -687,12 +680,20 @@
                                     class="btn o_hotel_btn mt-3"
                                 >Post review</button>
                             </form>
-                            <p t-else="" class="mt-3">
+                            <p
+                                t-elif="review_status == 'no_stay'"
+                                class="mt-3 text-muted"
+                            >Reviews are written by guests who stayed in this room type.</p>
+                            <p
+                                t-elif="review_status == 'reviewed' and not review_sent"
+                                class="mt-3 text-muted"
+                            >You have already reviewed this room type. Thank you.</p>
+                            <p t-elif="is_public" class="mt-3">
                                 <a
                                 class="o_hotel_link"
                                 t-attf-href="/web/login?redirect=/rooms/#{room_type.id}"
                             >Sign in</a>
-                                to write a review.
+                                to review a room type you stayed in.
                             </p>
                         </section>
                     </div>
@@ -706,11 +707,8 @@
          ================================================================ -->
 
     <template id="cart_page" name="Hotel Stay">
-        <t t-set="head">
-            <t t-call="hotel_website.fonts" />
-        </t>
         <t t-set="additional_title">Your stay</t>
-        <t t-call="website.layout" head="head">
+        <t t-call="website.layout">
             <div id="wrap" class="o_hotel_site">
                 <t
                     t-call="hotel_website.page_header"
@@ -909,11 +907,8 @@
     </template>
 
     <template id="checkout_page" name="Hotel Guest Details">
-        <t t-set="head">
-            <t t-call="hotel_website.fonts" />
-        </t>
         <t t-set="additional_title">Guest details</t>
-        <t t-call="website.layout" head="head">
+        <t t-call="website.layout">
             <div id="wrap" class="o_hotel_site">
                 <t
                     t-call="hotel_website.page_header"
@@ -932,7 +927,11 @@
                         </div>
                         <div class="row g-5">
                             <div class="col-12 col-lg-8">
-                                <form action="/rooms/checkout" method="post">
+                                <form
+                                    action="/rooms/checkout"
+                                    method="post"
+                                    data-captcha="hotel_website_booking"
+                                >
                                     <input
                                         type="hidden"
                                         name="csrf_token"
@@ -1132,8 +1131,14 @@
 
                                     <div class="o_hotel_notice">
                                         <i class="fa fa-info-circle me-2" />
-                                        This sends a reservation request. Our reservations team confirms it
-                                        and assigns your room; no payment is taken online.
+                                        This sends a reservation request, not a booking: no room is held
+                                        for you until our reservations team confirms it and assigns your
+                                        room. No payment is taken online.
+                                        <t
+                                        t-if="expiry_days"
+                                    >A request we cannot confirm within <t
+                                        t-out="expiry_days"
+                                    /> day(s) is cancelled.</t>
                                     </div>
                                     <button
                                         type="submit"
@@ -1241,11 +1246,8 @@
     </template>
 
     <template id="booking_requested_page" name="Hotel Reservation Request Received">
-        <t t-set="head">
-            <t t-call="hotel_website.fonts" />
-        </t>
         <t t-set="additional_title">Request received</t>
-        <t t-call="website.layout" head="head">
+        <t t-call="website.layout">
             <div id="wrap" class="o_hotel_site">
                 <section class="o_hotel_section">
                     <div class="container o_hotel_narrow">
@@ -1259,7 +1261,7 @@
                             <p class="o_hotel_lead">
                                 We have received your request for <t
                                 t-out="res_company.name"
-                            />.
+                            />. No room is held for you until we confirm it.
                                 <t
                                 t-if="reservation.partner_id.email"
                             >A summary is on its way to <t
@@ -1271,7 +1273,11 @@
                             <li>
                                 <strong>We review your request</strong>
                                 <span
-                                >Our reservations team checks your dates and room types.</span>
+                                >Our reservations team checks that a room of your type is still free for your dates.<t
+                                    t-if="expiry_days"
+                                > A request we cannot confirm within <t
+                                    t-out="expiry_days"
+                                /> day(s) is cancelled, and we tell you.</t></span>
                             </li>
                             <li>
                                 <strong>We confirm your room</strong>
@@ -1300,11 +1306,8 @@
     </template>
 
     <template id="gallery_page" name="Hotel Gallery">
-        <t t-set="head">
-            <t t-call="hotel_website.fonts" />
-        </t>
         <t t-set="additional_title">Gallery</t>
-        <t t-call="website.layout" head="head">
+        <t t-call="website.layout">
             <div id="wrap" class="o_hotel_site">
                 <t
                     t-call="hotel_website.page_header"

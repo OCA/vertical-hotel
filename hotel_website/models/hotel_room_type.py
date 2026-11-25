@@ -27,6 +27,25 @@ class HotelRoomType(models.Model):
         digits=(2, 1),
     )
 
+    def _can_return_content(self, field_name=None, access_token=None):
+        """The website shows the photo of the room types it offers: let
+        /web/image serve it to visitors, who cannot read room types."""
+        if (
+            field_name
+            and field_name.startswith("image_")
+            and self.env["hotel.room"]
+            .sudo()
+            .search_count(
+                [
+                    ("room_categ_id", "=", self.id),
+                    ("website_booking_published", "=", True),
+                ],
+                limit=1,
+            )
+        ):
+            return True
+        return super()._can_return_content(field_name, access_token)
+
     @api.depends("room_review_ids.rating", "room_review_ids.is_published")
     def _compute_website_review_stats(self):
         groups = (

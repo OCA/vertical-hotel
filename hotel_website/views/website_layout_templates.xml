@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-    <!-- The hotel's name on the website is always the company's name. -->
+    <!--
+        On a website with the hotel layout (Website settings), the hotel's
+        name is always the company's name. Other websites are left as they
+        are.
+    -->
 
     <template
         id="layout_title_company_name"
@@ -11,7 +15,7 @@
         <xpath expr="//t[@t-set='default_title']" position="attributes">
             <attribute
                 name="t-value"
-            >(additional_title + ' | ' if additional_title else '') + res_company.name</attribute>
+            >(additional_title + ' | ' if additional_title else '') + (res_company.name if website.hotel_layout else website.name)</attribute>
         </xpath>
     </template>
 
@@ -21,7 +25,9 @@
         name="Hotel: company name as header brand"
     >
         <xpath expr="//span[@t-field='website.logo']" position="attributes">
-            <attribute name="t-if">website.logo or editable</attribute>
+            <attribute
+                name="t-if"
+            >not website.hotel_layout or website.logo or editable</attribute>
         </xpath>
         <xpath expr="//span[@t-field='website.logo']" position="after">
             <span t-else="" class="o_hotel_brand_name" t-out="res_company.name" />
@@ -38,9 +44,13 @@
             expr="//footer//span[hasclass('o_footer_copyright_name')]"
             position="replace"
         >
-            <span class="o_footer_copyright_name me-2 small">Copyright &amp;copy; <t
-                t-out="res_company.name"
-            /></span>
+            <span
+                t-if="website.hotel_layout"
+                class="o_footer_copyright_name me-2 small"
+            >Copyright &amp;copy; <t t-out="res_company.name" /></span>
+            <span t-else="" class="o_footer_copyright_name small" t-ignore="true">
+                Copyright &amp;copy; <span t-out="res_company.name" />
+            </span>
         </xpath>
     </template>
 </odoo>

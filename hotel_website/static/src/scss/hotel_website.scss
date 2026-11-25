@@ -11,8 +11,11 @@ $o-hotel-gold: #9c7a45;
 $o-hotel-deep: #141a20;
 $o-hotel-ok: #3d6b4f;
 $o-hotel-alert: #b5543c;
-$o-hotel-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
-$o-hotel-sans: "Jost", "Helvetica Neue", Arial, sans-serif;
+// The website theme's own fonts: nothing is loaded from a third-party font
+// service. Display text uses the theme's heading font, the rest its body
+// font.
+$o-hotel-serif: $headings-font-family;
+$o-hotel-sans: inherit;
 
 .o_hotel_brand_name {
     font-family: $o-hotel-serif;
@@ -24,7 +27,7 @@ $o-hotel-sans: "Jost", "Helvetica Neue", Arial, sans-serif;
 .o_hotel_site {
     font-family: $o-hotel-sans;
     font-weight: 300;
-    // Cormorant's default old-style figures make prices look shrunken.
+    // Old-style figures (some serif fonts) make prices look shrunken.
     font-variant-numeric: lining-nums;
     color: $o-hotel-ink;
     background-color: #fff;

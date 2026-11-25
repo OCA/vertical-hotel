@@ -7,6 +7,24 @@
         <field name="arch" type="xml">
             <xpath expr="//block[@id='website_info_settings']" position="inside">
                 <setting
+                    id="hotel_website_layout"
+                    help="Hotel homepage, and the company's name as brand, page title and copyright on this website"
+                >
+                    <field name="hotel_layout" />
+                </setting>
+                <setting
+                    id="hotel_website_request_expiry"
+                    string="Online request expiry"
+                    help="A website request holds no room: cancel it when the front desk has not confirmed it after this many days"
+                >
+                    <div class="content-group">
+                        <div class="row mt-2">
+                            <field name="hotel_request_expiry_days" class="col-lg-2" />
+                            <span class="col-lg-4 o_light_label">days</span>
+                        </div>
+                    </div>
+                </setting>
+                <setting
                     id="hotel_website_stay_times"
                     string="Online booking times"
                     help="Arrival and departure times given to rooms booked on this website"

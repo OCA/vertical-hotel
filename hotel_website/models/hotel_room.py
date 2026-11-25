@@ -16,6 +16,17 @@ class HotelRoom(models.Model):
         "website, and allow it to be assigned to online requests.",
     )
 
+    def _can_return_content(self, field_name=None, access_token=None):
+        """Photos of the rooms bookable online are shown on the website:
+        let /web/image serve them to visitors."""
+        if (
+            field_name
+            and field_name.startswith("image_")
+            and self.sudo().website_booking_published
+        ):
+            return True
+        return super()._can_return_content(field_name, access_token)
+
     @api.model
     def _hotel_busy_room_ids(self, checkin_dt, checkout_dt, rooms):
         """Ids of ``rooms`` that already have a stay overlapping the period:
