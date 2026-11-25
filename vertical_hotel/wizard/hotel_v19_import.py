@@ -12,7 +12,8 @@ amenities, services, rooms (with images, taxes, amenities, status), the
 customers and salespersons used on folios, folios with their room lines,
 service lines, other order lines and room occupancy. Invoices and payments are
 not copied (accounting history cannot be re-created by copying); the source
-invoice numbers are noted on each order.
+invoice numbers are noted on each order, and orders fully invoiced in 19.0 are
+closed for invoicing here, so they are not invoiced a second time.
 """
 
 import logging
@@ -28,7 +29,6 @@ from odoo.tools import BinaryBytes, config
 _logger = logging.getLogger(__name__)
 
 XMLID_MODULE = "__hotel_v19__"
-CONFIG_PREFIX = "vertical_hotel_import_"
 
 
 class HotelV19Importer:
@@ -514,7 +514,8 @@ class HotelV19Importer:
             f"SELECT {folio_columns}, o.id AS order_id, o.name AS order_name, "
             "o.partner_id, o.partner_invoice_id, o.partner_shipping_id, "
             "o.pricelist_id, o.warehouse_id, o.date_order, o.user_id, "
-            "o.client_order_ref, o.origin, o.note, o.validity_date, o.state "
+            "o.client_order_ref, o.origin, o.note, o.validity_date, o.state, "
+            "o.invoice_status, o.locked "
             "FROM hotel_folio f JOIN sale_order o ON o.id = f.order_id ORDER BY f.id"
         )
         for row in rows:
@@ -644,7 +645,23 @@ class HotelV19Importer:
                 )
 
         order.write({"state": row["state"], "date_order": row["date_order"]})
-        self._post_origin_note(order, row)
+        invoices = self._source_invoices(row)
+        if row["state"] == "sale" and row["invoice_status"] in (
+            "invoiced",
+            "upselling",
+        ):
+            # Invoiced in Odoo 19, where the invoices stay: nothing is left to
+            # invoice here, the order must not show as "to invoice".
+            order.invoicing_closed = True
+        elif row["state"] == "sale" and invoices:
+            self._note(
+                f"Folio {row['folio_name']} was partly invoiced in Odoo 19 "
+                f"({', '.join(inv['name'] for inv in invoices)}): invoice only "
+                "the rest."
+            )
+        if row["locked"]:
+            order.locked = True
+        self._post_origin_note(order, row, invoices)
         self._remember(folio, "hotel_folio", row["id"])
 
     def _line_vals(self, line):
@@ -663,7 +680,18 @@ class HotelV19Importer:
             vals["product_uom_id"] = uom.id
         return vals
 
-    def _post_origin_note(self, order, row):
+    def _source_invoices(self, row):
+        """Invoices of the order in the source database (not cancelled)."""
+        return self._rows(
+            "SELECT DISTINCT m.name, m.state FROM account_move m "
+            "JOIN account_move_line ml ON ml.move_id = m.id "
+            "JOIN sale_order_line_invoice_rel r ON r.invoice_line_id = ml.id "
+            "JOIN sale_order_line sl ON sl.id = r.order_line_id "
+            "WHERE sl.order_id = %s AND m.state != 'cancel' ORDER BY m.name",
+            (row["order_id"],),
+        )
+
+    def _post_origin_note(self, order, row, invoices):
         details = [
             f"Imported from Odoo 19 (folio id {row['id']}, order {row['order_name']})."
         ]
@@ -678,18 +706,17 @@ class HotelV19Importer:
         ]
         if guests:
             details.append(", ".join(guests))
-        invoices = self._rows(
-            "SELECT DISTINCT m.name, m.state FROM account_move m "
-            "JOIN account_move_line ml ON ml.move_id = m.id "
-            "JOIN sale_order_line_invoice_rel r ON r.invoice_line_id = ml.id "
-            "JOIN sale_order_line sl ON sl.id = r.order_line_id "
-            "WHERE sl.order_id = %s ORDER BY m.name",
-            (row["order_id"],),
-        )
         if invoices:
             details.append(
                 "Invoices in Odoo 19 (not copied): "
                 + ", ".join(f"{inv['name']} ({inv['state']})" for inv in invoices)
+            )
+        if order.invoicing_closed:
+            details.append("Fully invoiced in Odoo 19: closed for invoicing here.")
+        elif invoices and order.state == "sale":
+            details.append(
+                "Partly invoiced in Odoo 19: invoice only what is not on the "
+                "invoices above."
             )
         order.message_post(
             body="\n".join(details),
@@ -739,11 +766,17 @@ class HotelV19Importer:
 
 
 def connect_source(dbname, host=None, port=None, user=None, password=None):
-    """Read-only connection: the 19.0 database is never modified."""
+    """Read-only connection: the 19.0 database is never modified.
+
+    What is not given is taken from this server's own database connection
+    (Odoo configuration), the usual case when both databases are on the
+    same PostgreSQL server: no password has to be typed then."""
+    if not user:
+        user, password = config["db_user"], password or config["db_password"]
     return psycopg2.connect(
         dbname=dbname,
-        host=host or None,
-        port=port or None,
+        host=host or config["db_host"] or None,
+        port=port or config["db_port"] or None,
         user=user or None,
         password=password or None,
         options="-c default_transaction_read_only=on",
@@ -768,9 +801,13 @@ class HotelV19ImportWizard(models.TransientModel):
     _description = "Import hotel data from an Odoo 19 database"
 
     source_db = fields.Char("Odoo 19 database", required=True)
-    source_host = fields.Char("Host", help="Empty: local socket")
-    source_port = fields.Integer("Port", default=5432)
-    source_user = fields.Char("User")
+    source_host = fields.Char("Host", help="Empty: same as this server's database.")
+    source_port = fields.Integer("Port", help="Empty: same as this server's database.")
+    source_user = fields.Char(
+        "User",
+        help="Empty: the user (and password) this server connects to its own "
+        "database with.",
+    )
     source_password = fields.Char("Password")
     source_filestore = fields.Char(
         "Filestore folder",
@@ -806,35 +843,3 @@ class HotelV19ImportWizard(models.TransientModel):
             "view_mode": "form",
             "target": "new",
         }
-
-
-def post_init_hook(env):
-    """Run the import at installation when the Odoo configuration file names
-    the 19.0 database, e.g.::
-
-        [options]
-        vertical_hotel_import_db = customer-19
-        vertical_hotel_import_port = 5432
-    """
-    dbname = config.get(CONFIG_PREFIX + "db")
-    if not dbname:
-        return
-    _logger.info("Importing hotel data from Odoo 19 database %s", dbname)
-    try:
-        with env.cr.savepoint():
-            log = import_from_v19(
-                env,
-                dbname,
-                config.get(CONFIG_PREFIX + "host"),
-                config.get(CONFIG_PREFIX + "port"),
-                config.get(CONFIG_PREFIX + "user"),
-                config.get(CONFIG_PREFIX + "password"),
-                config.get(CONFIG_PREFIX + "filestore"),
-            )
-        _logger.info("Hotel import from %s done (%s steps logged)", dbname, len(log))
-    except Exception:
-        _logger.exception(
-            "Hotel import from %s failed; the module is installed, run the import "
-            "again from Hotel Management > Configuration > Import from Odoo 19.",
-            dbname,
-        )

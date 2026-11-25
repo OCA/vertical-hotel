@@ -11,7 +11,9 @@
                     Odoo 19 database. The Odoo 19 database is only read, never
                     changed. Running the import again only adds what is missing.
                     Invoices and payments are not copied; their numbers are
-                    noted on each order.
+                    noted on each order, and orders fully invoiced in Odoo 19
+                    are closed for invoicing. Leave host, user and password
+                    empty when the Odoo 19 database is on the same server.
                 </div>
                 <group invisible="result">
                     <group>

@@ -32,7 +32,6 @@
         "wizard/hotel_v19_import_views.xml",
     ],
     "pre_init_hook": "pre_init_hook",
-    "post_init_hook": "post_init_hook",
     "images": ["static/description/Hotel.png"],
     "application": True,
 }

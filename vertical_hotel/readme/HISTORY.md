@@ -19,8 +19,7 @@
 - Folio report: correct check-in/out per folio, no error on a folio without
   room lines.
 - New: copy the hotel data of an Odoo 19 database into an Odoo 20 database,
-  automatically at installation or from *Configuration > Import from Odoo
-  19* (see Usage).
+  from *Configuration > Import from Odoo 19* (see Usage).
 - Upgrading from 19.0: the database must be migrated to 20.0 first (Odoo
   upgrade or OpenUpgrade). If it still has the module under its old name
   `hotel`, run `vertical_hotel/scripts/rename_hotel_to_vertical_hotel.py`
