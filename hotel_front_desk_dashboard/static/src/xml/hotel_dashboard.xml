@@ -134,9 +134,7 @@
                                 <t t-out="this.state.data.in_house_guests" />
                             </div>
                             <div class="text-muted small">
-                                <t
-                                    t-out="'right now, across ' + this.state.data.in_house_stays + (this.state.data.in_house_stays == 1 ? ' stay' : ' stays')"
-                                />
+                                <t t-out="this.inHouseStaysText()" />
                             </div>
                         </div>
                     </div>
@@ -261,12 +259,9 @@
                             <div class="text-muted small">
                                 <t
                                     t-if="this.state.data.departures_overdue"
-                                    t-out="this.state.data.departures_overdue + ' overdue'"
+                                    t-out="this.departuresOverdueText()"
                                 />
-                                <t
-                                    t-else=""
-                                    t-out="'of ' + this.state.data.departures.length + ' departures today'"
-                                />
+                                <t t-else="" t-out="this.departuresTodayText()" />
                             </div>
                         </div>
                     </div>
@@ -288,7 +283,7 @@
                             <div class="text-muted small">
                                 <t
                                     t-if="this.state.data.turnovers_at_risk"
-                                    t-out="this.state.data.turnovers_at_risk + ' not ready yet'"
+                                    t-out="this.turnoversNotReadyText()"
                                 />
                                 <t t-else="">all ready</t>
                             </div>
@@ -322,16 +317,7 @@
                     t-if="this.state.data.unassigned_reservations"
                     class="alert alert-warning d-flex justify-content-between align-items-center"
                 >
-                    <span>
-                        <strong>
-                        <t t-out="this.state.data.unassigned_reservations" />
-                    </strong>
-                        confirmed
-                        <t
-                        t-out="this.state.data.unassigned_reservations == 1 ? 'reservation has' : 'reservations have'"
-                    />
-                        no folio yet - nobody has been given a room.
-                    </span>
+                    <span t-out="this.unassignedReservationsText()" />
                     <button
                         class="btn btn-sm btn-warning"
                         t-on-click="() => this.openTile('unassigned_reservations')"

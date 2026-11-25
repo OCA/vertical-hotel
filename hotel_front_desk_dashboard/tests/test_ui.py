@@ -3,8 +3,9 @@
 
 import json
 from datetime import timedelta
+from unittest.mock import patch
 
-from odoo import fields
+from odoo import api, fields
 from odoo.fields import Command
 from odoo.tests import HttpCase, tagged
 
@@ -127,3 +128,34 @@ class TestFrontDeskDashboardUi(HttpCase):
             failIfError();
             """
         )
+
+    def test_search_waits_for_typing(self):
+        """Typing a name letter by letter searches once, for the whole
+        name, not once per key."""
+        Dashboard = type(self.env["hotel.dashboard"])
+        original = Dashboard.search_guests
+        searched = []
+
+        @api.model
+        def search_guests(model, query):
+            searched.append(query)
+            return original(model, query)
+
+        with patch.object(Dashboard, "search_guests", search_guests):
+            self._run(
+                """
+                await waitFor(".o_hotel_front_desk_dashboard .o_hfd_tile");
+                const search = document.querySelector(".o_hfd_search input");
+                let typed = "";
+                for (const letter of "UI Desk Guest") {
+                    typed += letter;
+                    search.value = typed;
+                    search.dispatchEvent(new Event("input", {bubbles: true}));
+                    await sleep(20);
+                }
+                await waitFor(".o_hfd_search_hit");
+                await sleep(500);
+                failIfError();
+                """
+            )
+        self.assertEqual(searched, ["UI Desk Guest"])

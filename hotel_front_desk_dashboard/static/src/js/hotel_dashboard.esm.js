@@ -1,12 +1,24 @@
-import {Component, onWillStart, onWillUnmount, proxy, useProps} from "@odoo/owl";
+import {
+    Component,
+    markup,
+    onWillStart,
+    onWillUnmount,
+    proxy,
+    useProps,
+} from "@odoo/owl";
+import {KeepLast} from "@web/core/utils/concurrency";
+import {_t} from "@web/core/l10n/translation";
 import {formatCurrency} from "@web/core/currency";
 import {registry} from "@web/core/registry";
 import {standardActionServiceProps} from "@web/webclient/actions/action_plugin";
+import {useDebounced} from "@web/core/utils/timing";
 import {useService} from "@web/core/utils/hooks";
 
 // The screen is meant to sit open on the front desk all shift, so it
 // re-reads itself rather than waiting to be told the world moved on.
 const AUTO_REFRESH_MS = 60 * 1000;
+// Wait for the receptionist to stop typing before searching.
+const SEARCH_DELAY_MS = 300;
 
 export class HotelFrontDeskDashboard extends Component {
     static template = "hotel_front_desk_dashboard.Dashboard";
@@ -24,6 +36,10 @@ export class HotelFrontDeskDashboard extends Component {
             searching: false,
             results: null,
         });
+        // Only the answer to the latest search is shown: a slow answer to
+        // an older search must not overwrite a newer one.
+        this.searchKeepLast = new KeepLast();
+        this.debouncedSearch = useDebounced(() => this.runSearch(), SEARCH_DELAY_MS);
         onWillStart(() => this.loadData());
         this.refreshTimer = setInterval(() => this.onAutoRefresh(), AUTO_REFRESH_MS);
         onWillUnmount(() => clearInterval(this.refreshTimer));
@@ -136,34 +152,46 @@ export class HotelFrontDeskDashboard extends Component {
         }
     }
 
-    async onSearchInput(ev) {
+    onSearchInput(ev) {
         this.state.search = ev.target.value;
         if (!this.state.search.trim()) {
+            this.debouncedSearch.cancel();
+            // Drop the answer of a search still running
+            this.searchKeepLast.add(Promise.resolve());
             this.state.results = null;
+            this.state.searching = false;
             return;
         }
         this.state.searching = true;
+        this.debouncedSearch();
+    }
+
+    async runSearch() {
+        let results = [];
         try {
-            this.state.results = await this.orm.call(
-                "hotel.dashboard",
-                "search_guests",
-                [this.state.search]
+            results = await this.searchKeepLast.add(
+                this.orm.call("hotel.dashboard", "search_guests", [this.state.search])
             );
         } catch {
-            this.state.results = [];
-        } finally {
-            this.state.searching = false;
+            // A failed search shows no result; a newer one may still come
         }
+        // KeepLast never resolves a superseded search, so this is the
+        // answer to the text in the box
+        this.state.results = results;
+        this.state.searching = false;
     }
 
     clearSearch() {
+        this.debouncedSearch.cancel();
+        this.searchKeepLast.add(Promise.resolve());
         this.state.search = "";
         this.state.results = null;
+        this.state.searching = false;
     }
 
     openFolio(folioId) {
         this.action.doAction({
-            name: "Folio",
+            name: _t("Folio"),
             res_model: "hotel.folio",
             type: "ir.actions.act_window",
             views: [[false, "form"]],
@@ -173,7 +201,7 @@ export class HotelFrontDeskDashboard extends Component {
 
     openRoom(roomId) {
         this.action.doAction({
-            name: "Room",
+            name: _t("Room"),
             res_model: "hotel.room",
             type: "ir.actions.act_window",
             views: [[false, "form"]],
@@ -188,16 +216,52 @@ export class HotelFrontDeskDashboard extends Component {
     turnoverBadge(readiness) {
         switch (readiness) {
             case "ready":
-                return {class: "bg-success", label: "Ready"};
+                return {class: "bg-success", label: _t("Ready")};
             case "not_ready":
-                return {class: "bg-danger", label: "Needs cleaning"};
+                return {class: "bg-danger", label: _t("Needs cleaning")};
             case "stale":
-                return {class: "bg-warning text-dark", label: "Not confirmed"};
+                return {class: "bg-warning text-dark", label: _t("Not confirmed")};
             case "occupied":
-                return {class: "bg-warning text-dark", label: "Guest still in"};
+                return {class: "bg-warning text-dark", label: _t("Guest still in")};
             default:
-                return {class: "bg-secondary", label: "Not tracked"};
+                return {class: "bg-secondary", label: _t("Not tracked")};
         }
+    }
+
+    // Sentences built from figures: one translatable string each (with the
+    // singular apart), so they can be translated as a whole.
+
+    inHouseStaysText() {
+        const count = this.state.data.in_house_stays;
+        return count === 1
+            ? _t("right now, across %s stay", count)
+            : _t("right now, across %s stays", count);
+    }
+
+    departuresOverdueText() {
+        return _t("%s overdue", this.state.data.departures_overdue);
+    }
+
+    departuresTodayText() {
+        return _t("of %s departures today", this.state.data.departures.length);
+    }
+
+    turnoversNotReadyText() {
+        return _t("%s not ready yet", this.state.data.turnovers_at_risk);
+    }
+
+    unassignedReservationsText() {
+        const count = this.state.data.unassigned_reservations;
+        const values = {count: markup`<strong>${count}</strong>`};
+        return count === 1
+            ? _t(
+                  "%(count)s confirmed reservation has no folio yet - nobody has been given a room.",
+                  values
+              )
+            : _t(
+                  "%(count)s confirmed reservations have no folio yet - nobody has been given a room.",
+                  values
+              );
     }
 }
 
