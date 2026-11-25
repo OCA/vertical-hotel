@@ -1,0 +1,3 @@
+odoo-addon-vertical_hotel @ git+https://github.com/OCA/vertical-hotel.git@refs/pull/250/head#subdirectory=vertical_hotel
+odoo-addon-hotel_housekeeping @ git+https://github.com/OCA/vertical-hotel.git@refs/pull/251/head#subdirectory=hotel_housekeeping
+odoo-addon-hotel_reservation @ git+https://github.com/OCA/vertical-hotel.git@refs/pull/252/head#subdirectory=hotel_reservation

@@ -1,0 +1,67 @@
+.o_hotel_front_desk_dashboard {
+    .o_hfd_tile {
+        cursor: pointer;
+        transition:
+            box-shadow 0.15s ease-in-out,
+            transform 0.15s ease-in-out;
+
+        &:hover,
+        &:focus-visible {
+            box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.12);
+            transform: translateY(-2px);
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--primary, #714b67);
+            outline-offset: 2px;
+        }
+    }
+
+    .o_hfd_sublink {
+        cursor: pointer;
+        text-decoration: underline dotted;
+        text-underline-offset: 2px;
+
+        &:hover,
+        &:focus-visible {
+            color: var(--primary, #714b67);
+            text-decoration: underline;
+        }
+    }
+
+    .o_hfd_search {
+        min-width: 16rem;
+
+        .o_hfd_search_clear {
+            position: absolute;
+            top: 0;
+            right: 0;
+            line-height: 1;
+            padding: 0.25rem 0.5rem;
+            color: var(--600, #6c757d);
+        }
+
+        .o_hfd_search_results {
+            position: absolute;
+            z-index: 1000;
+            top: calc(100% + 0.25rem);
+            left: 0;
+            right: 0;
+            max-height: 20rem;
+            overflow-y: auto;
+        }
+
+        .o_hfd_search_hit {
+            cursor: pointer;
+            border-bottom: 1px solid var(--200, #dee2e6);
+
+            &:last-child {
+                border-bottom: 0;
+            }
+
+            &:hover {
+                background-color: var(--100, #f8f9fa);
+            }
+        }
+    }
+}
