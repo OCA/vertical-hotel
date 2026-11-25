@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Form view of hotel folio -->
+    <record id="view_hotel_folio_form" model="ir.ui.view">
+        <field name="name">hotel.folio.form</field>
+        <field name="model">hotel.folio</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        name="action_confirm"
+                        invisible="state not in ('draft', 'sent')"
+                        string="Confirm Sale"
+                        class="btn-primary"
+                        type="object"
+                        data-hotkey="q"
+                    />
+                    <button
+                        name="action_create_invoice"
+                        string="Create Invoice"
+                        type="object"
+                        class="btn-primary"
+                        invisible="invoice_status != 'to invoice' or state != 'sale'"
+                        data-hotkey="i"
+                    />
+                    <button
+                        name="action_cancel_draft"
+                        invisible="state != 'cancel'"
+                        string="Set to Draft"
+                        type="object"
+                        class="btn-secondary"
+                    />
+                    <button
+                        name="action_cancel"
+                        string="Cancel"
+                        invisible="state not in ('draft', 'sent', 'sale')"
+                        type="object"
+                        class="btn-secondary"
+                        data-hotkey="x"
+                    />
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_visible="draft,sent,sale"
+                    />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Folio Number" />
+                        <h1>
+                            <field name="name" readonly="1" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id" string="Guest Name" required="1" />
+                            <field
+                                name="partner_invoice_id"
+                                domain="[('parent_id', '=', partner_id)]"
+                            />
+                            <field
+                                name="partner_shipping_id"
+                                domain="[('parent_id', '=', partner_id)]"
+                            />
+                            <field
+                                name="hotel_invoice_id"
+                                invisible="state not in ('sale', 'cancel')"
+                                readonly="1"
+                            />
+                        </group>
+                        <group>
+                            <field name="date_order" readonly="1" />
+                            <field name="pricelist_id" />
+                            <field name="warehouse_id" string="Branch" />
+                            <field name="invoice_status" />
+                            <field name="company_id" invisible="1" />
+                            <field name="checkin_date" invisible="1" />
+                            <field name="checkout_date" invisible="1" />
+                            <field name="duration" invisible="1" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="folio" string="Folio">
+                            <separator string="Room Lines" />
+                            <field
+                                name="room_line_ids"
+                                readonly="state not in ('draft', 'sent')"
+                                nolabel="1"
+                                context="{'default_checkin_date': checkin_date,
+                                        'default_checkout_date': checkout_date}"
+                            >
+                                <list editable="bottom">
+                                    <field
+                                        name="company_id"
+                                        options="{'no_create': True}"
+                                        groups="base.group_multi_company"
+                                        column_invisible="1"
+                                    />
+                                    <field name="checkin_date" />
+                                    <field name="checkout_date" />
+                                    <field
+                                        name="product_id"
+                                        string="Room No"
+                                        required="1"
+                                        context="{'partner_id': parent.partner_id, 'quantity': product_uom_qty, 'pricelist': parent.pricelist_id, 'uom': product_uom_id, 'checkin_date': checkin_date, 'checkout_date': checkout_date, 'from_room': True}"
+                                        domain="[('isroom', '=', True)]"
+                                        options="{'no_open': True}"
+                                    />
+                                    <field name="name" />
+                                    <field
+                                        name="product_uom_id"
+                                        string="Rent(UOM)"
+                                        readonly="state == 'cancel' or state == 'sale'"
+                                        options="{'no_open': True}"
+                                        groups="uom.group_uom"
+                                    />
+                                    <field name="product_uom_qty" string="Duration" />
+                                    <field name="price_unit" />
+                                    <field
+                                        name="tax_ids"
+                                        widget="many2many_tags"
+                                        options="{'no_create': True}"
+                                        optional="hide"
+                                    />
+                                    <field
+                                        groups="sale.group_discount_per_so_line"
+                                        name="discount"
+                                    />
+                                    <field name="price_subtotal" widget="monetary" />
+                                    <field name="price_total" widget="monetary" />
+                                    <field name="currency_id" column_invisible="1" />
+                                    <field name="state" column_invisible="1" />
+                                </list>
+                            </field>
+                            <separator string="Service Lines" />
+                            <field
+                                name="service_line_ids"
+                                readonly="state not in ('draft', 'sent')"
+                                nolabel="1"
+                                context="{'default_ser_checkin_date': checkin_date,
+                                        'default_ser_checkout_date': checkout_date}"
+                            >
+                                <list editable="bottom">
+                                    <field
+                                        name="product_id"
+                                        required="1"
+                                        domain="[('isservice', '=', True)]"
+                                        options="{'no_open': True}"
+                                    />
+                                    <field
+                                        name="ser_checkout_date"
+                                        column_invisible="1"
+                                    />
+                                    <field
+                                        name="ser_checkin_date"
+                                        column_invisible="1"
+                                    />
+                                    <field name="name" />
+                                    <field
+                                        name="company_id"
+                                        options="{'no_create': True}"
+                                        groups="base.group_multi_company"
+                                        column_invisible="1"
+                                    />
+                                    <field name="product_uom_qty" string="Duration" />
+                                    <field
+                                        name="product_uom_id"
+                                        string="Rent(UOM)"
+                                        readonly="state == 'cancel' or state == 'sale'"
+                                        options="{'no_open': True}"
+                                        groups="uom.group_uom"
+                                    />
+                                    <field name="price_unit" />
+                                    <field
+                                        name="tax_ids"
+                                        widget="many2many_tags"
+                                        options="{'no_create': True}"
+                                        optional="hide"
+                                    />
+                                    <field
+                                        groups="sale.group_discount_per_so_line"
+                                        name="discount"
+                                    />
+                                    <field name="price_subtotal" widget="monetary" />
+                                    <field name="price_total" widget="monetary" />
+                                    <field column_invisible="1" name="currency_id" />
+                                    <field name="state" column_invisible="1" />
+                                </list>
+                            </field>
+                            <group class="oe_subtotal_footer">
+                                <field name="amount_untaxed" widget="monetary" />
+                                <field name="amount_tax" widget="monetary" />
+                                <field name="amount_total" widget="monetary" />
+                            </group>
+                        </page>
+                        <page name="guests" string="Guests">
+                            <group>
+                                <group>
+                                    <field name="total_guest" />
+                                    <field name="adults" />
+                                    <field name="children" />
+                                </group>
+                                <group>
+                                    <field name="room_capacity" />
+                                </group>
+                            </group>
+                            <field name="guest_ids" nolabel="1">
+                                <list editable="bottom">
+                                    <field name="name" string="Guest Name" />
+                                    <field name="guest_type" />
+                                    <field name="phone" />
+                                    <field name="email" />
+                                </list>
+                            </field>
+                            <p class="text-muted">
+                                The main guest is counted automatically - list
+                                only the people staying with them. Each guest is
+                                saved as a child contact of the main guest.
+                            </p>
+                        </page>
+                        <page name="other_data" string="Other data">
+                            <group>
+                                <field name="user_id" />
+                                <field
+                                    name="hotel_policy"
+                                    readonly="state != 'draft'"
+                                />
+                                <field name="client_order_ref" />
+                            </group>
+                        </page>
+                        <page name="invoice_history" string="History">
+                            <field name="invoice_ids" nolabel="1" />
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Tree view of hotel folio -->
+    <record id="view_hotel_folio_tree" model="ir.ui.view">
+        <field name="name">hotel.folio.list</field>
+        <field name="model">hotel.folio</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="checkin_date" />
+                <field name="checkout_date" />
+                <field name="name" />
+                <field name="partner_id" />
+                <field name="date_order" />
+                <field name="state" />
+                <field name="amount_total" sum="Total amount" />
+            </list>
+        </field>
+    </record>
+    <!-- Calendar view of hotel folio -->
+    <record id="hotel_folio_calendar_view" model="ir.ui.view">
+        <field name="name">Hotel- Folios Calendar</field>
+        <field name="model">hotel.folio</field>
+        <field name="arch" type="xml">
+            <calendar
+                string="Folios"
+                date_start="checkin_date"
+                color="user_id"
+                date_stop="checkout_date"
+            >
+                <field name="name" />
+                <field name="partner_id" />
+                <field name="duration" />
+            </calendar>
+        </field>
+    </record>
+    <!-- Search view of hotel folio -->
+    <record id="view_hotel_folio_search" model="ir.ui.view">
+        <field name="name">hotel.folio.search</field>
+        <field name="model">hotel.folio</field>
+        <field name="arch" type="xml">
+            <search string="Hotel Folio">
+                <field name="partner_id" />
+                <field name="name" filter_domain="[('name', 'ilike', value)]" />
+                <filter
+                    name="current_booking"
+                    string="Current Booking"
+                    domain="[('checkin_date', '&lt;=', today), ('checkout_date', '&gt;=', today)]"
+                />
+                <group>
+                    <filter
+                        name="date_order"
+                        string="Order By Month"
+                        context="{'group_by': 'date_order'}"
+                    />
+                    <filter
+                        name="partner_id"
+                        string="Customer"
+                        context="{'group_by': 'partner_id'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+    <!--graph view of hotel folio -->
+    <record id="view_hotel_folio_graph" model="ir.ui.view">
+        <field name="name">view.hotel.folio.graph</field>
+        <field name="model">hotel.folio</field>
+        <field name="arch" type="xml">
+            <graph type="bar">
+                <field name="date_order" type="row" />
+                <field name="amount_total" type="measure" />
+            </graph>
+        </field>
+    </record>
+</odoo>

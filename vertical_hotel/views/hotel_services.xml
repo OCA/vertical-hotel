@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--============ Hotel Service ============ -->
+    <!-- Form view of hotel service -->
+    <record id="view_hotel_services_form" model="ir.ui.view">
+        <field name="name">.hotel.services.form</field>
+        <field name="model">hotel.services</field>
+        <field name="arch" type="xml">
+            <form string="Hotel Services">
+                <sheet>
+                    <label for="name" string="Name" />
+                    <h1>
+                        <field name="name" />
+                    </h1>
+                    <notebook>
+                        <page string="Information">
+                            <group>
+                                <group>
+                                    <field name="type" string="Service Type" />
+                                    <field
+                                        name="service_categ_id"
+                                        string="Service Category"
+                                    />
+                                    <field
+                                        name="product_manager"
+                                        string="Service Manager"
+                                    />
+                                    <field name="uom_id" />
+                                    <field name="default_code" />
+                                    <field
+                                        name="supplier_taxes_id"
+                                        widget="many2many_tags"
+                                        string="Supplier Taxes"
+                                    />
+                                    <field
+                                        name="taxes_id"
+                                        widget="many2many_tags"
+                                        string="Customer Taxes"
+                                    />
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Procurement">
+                            <group>
+                                <field name="active" />
+                                <field name="list_price" />
+                                <field name="cost_method" string="Cost Method" />
+                                <field name="sale_ok" />
+                                <field name="standard_price" />
+                            </group>
+                            <group>
+                                <separator string="Suplliers" />
+                                <field name="seller_ids" nolabel="1" />
+                            </group>
+                        </page>
+                        <page string="Descriptions">
+                            <separator string="Description" />
+                            <field name="description" nolabel="1" />
+                            <separator string="Sale Description" />
+                            <field name="description_sale" nolabel="1" />
+                            <separator string="Purchase Description" />
+                            <field name="description_purchase" nolabel="1" />
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Search view of hotel service -->
+    <record id="view_hotel_services_search" model="ir.ui.view">
+        <field name="name">hotel.services.search</field>
+        <field name="model">hotel.services</field>
+        <field name="arch" type="xml">
+            <search string="Hotel Services">
+                <field name="name" />
+                <field name="service_categ_id" string="Service Category" />
+                <field name="list_price" string="Service rate" />
+            </search>
+        </field>
+    </record>
+    <!-- Tree view of hotel service -->
+    <record id="view_hotel_services_tree" model="ir.ui.view">
+        <field name="name">hotel.services.list</field>
+        <field name="model">hotel.services</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" />
+                <field name="service_categ_id" string="Service Category" />
+                <field name="list_price" string="Service rate" />
+            </list>
+        </field>
+    </record>
+</odoo>
