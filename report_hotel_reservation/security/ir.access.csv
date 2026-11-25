@@ -1,0 +1,3 @@
+id,name,model_id,group_id/id,operation,domain
+access_report_hotel_reservation_status,hotel.report.reservation.status,report.hotel.reservation.status,vertical_hotel.group_hotel_user,r,
+report_hotel_reservation_status_comp_rule,Reservation analysis multi-company,report.hotel.reservation.status,,r,"[('company_id', 'in', company_ids)]"
