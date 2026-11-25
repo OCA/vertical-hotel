@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Card of the portal home page (/my) -->
+    <record id="portal_hotel_reservations" model="portal.entry">
+        <field name="name">Hotel Reservations</field>
+        <field name="description">Your upcoming and past stays</field>
+        <field name="url">/my/reservations</field>
+        <field
+            name="image"
+            type="bytes"
+            file="hotel_website/static/src/image/hotel-icons/room3.jpeg"
+        />
+        <field name="placeholder_count">hotel_reservation_count</field>
+        <field name="category">client_category</field>
+        <field name="sequence" eval="60" />
+    </record>
+</odoo>

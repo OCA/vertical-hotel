@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo noupdate="1">
+    <!-- The hotel's look on the first website; others keep their own. -->
+    <record id="base.default_website" model="website">
+        <field name="hotel_layout" eval="True" />
+    </record>
+
+    <!-- Website requests hold no room: cancel those nobody confirmed. -->
+    <record id="ir_cron_expire_website_requests" model="ir.cron">
+        <field name="name">Hotel Website: cancel unconfirmed requests</field>
+        <field name="model_id" ref="hotel_reservation.model_hotel_reservation" />
+        <field name="state">code</field>
+        <field name="code">model._cron_expire_website_requests()</field>
+        <field name="interval_number" eval="1" />
+        <field name="interval_type">days</field>
+    </record>
+</odoo>

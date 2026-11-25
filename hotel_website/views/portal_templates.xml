@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template
+        id="portal_breadcrumbs_hotel"
+        name="Hotel Reservations Breadcrumbs"
+        inherit_id="portal.portal_breadcrumbs"
+        priority="40"
+    >
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <t t-if="page_name == 'hotel_reservation'">
+                <li
+                    t-if="not reservation"
+                    class="breadcrumb-item"
+                >Hotel Reservations</li>
+                <t t-else="">
+                    <li class="breadcrumb-item">
+                        <a href="/my/reservations">Hotel Reservations</a>
+                    </li>
+                    <li
+                        class="breadcrumb-item active"
+                        t-out="reservation.reservation_no"
+                    />
+                </t>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_my_reservations" name="My Hotel Reservations">
+        <t t-call="portal.portal_layout" breadcrumbs_searchbar="True">
+            <t t-call="portal.portal_searchbar" title.translate="Hotel Reservations" />
+            <div t-if="not reservations" class="alert alert-info mt-3">
+                You have no hotel reservations yet. <a href="/rooms">Book a room</a>
+            </div>
+            <t t-if="reservations" t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">
+                        <th>Reservation #</th>
+                        <th>Arrival</th>
+                        <th>Departure</th>
+                        <th>Rooms</th>
+                        <th class="text-end">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="reservations" t-as="reservation_row">
+                        <t
+                            t-set="row_summary"
+                            t-value="summaries[reservation_row.id]"
+                        />
+                        <td>
+                            <a
+                                t-attf-href="/my/reservations/#{reservation_row.id}"
+                                t-out="reservation_row.reservation_no"
+                            />
+                        </td>
+                        <td t-out="row_summary['checkin_label']" />
+                        <td t-out="row_summary['checkout_label']" />
+                        <td>
+                            <t
+                                t-foreach="row_summary['quote']['lines']"
+                                t-as="row_line"
+                            >
+                                <span class="d-block"><t t-out="row_line['qty']" /> × <t
+                                    t-out="row_line['room_type'].name"
+                                /></span>
+                            </t>
+                        </td>
+                        <td class="text-end">
+                            <t
+                                t-call="hotel_website.reservation_state_badge"
+                                badge_reservation="reservation_row"
+                            />
+                        </td>
+                    </tr>
+                </tbody>
+            </t>
+        </t>
+    </template>
+
+    <template id="portal_hotel_reservation_page" name="Hotel Reservation">
+        <t t-call="portal.portal_layout">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h2 class="h3 mb-0">
+                    Reservation <t t-out="reservation.reservation_no" />
+                </h2>
+                <t
+                    t-call="hotel_website.reservation_state_badge"
+                    badge_reservation="reservation"
+                />
+            </div>
+            <div class="o_hotel_site">
+                <t t-call="hotel_website.reservation_summary_card" />
+            </div>
+            <p class="small text-muted mt-3">
+                Need to change or cancel this stay? Please contact the hotel<t
+                t-if="reservation.company_id.phone"
+            > at <t t-out="reservation.company_id.phone" /></t><t
+                t-if="reservation.company_id.email"
+            > or <t t-out="reservation.company_id.email" /></t>.
+            </p>
+        </t>
+    </template>
+</odoo>

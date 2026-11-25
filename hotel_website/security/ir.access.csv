@@ -1,0 +1,3 @@
+id,name,model_id,group_id/id,operation,domain
+access_room_review_user,room.review.user,room.review,vertical_hotel.group_hotel_user,cru,
+access_room_review_manager,room.review.manager,room.review,vertical_hotel.group_hotel_manager,crud,

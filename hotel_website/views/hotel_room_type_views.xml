@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_hotel_room_type_form_website" model="ir.ui.view">
+        <field name="name">hotel.room.type.form.website</field>
+        <field name="model">hotel.room.type</field>
+        <field name="inherit_id" ref="vertical_hotel.view_hotel_room_type_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/group" position="before">
+                <field
+                    name="image_1920"
+                    widget="image"
+                    class="oe_avatar"
+                    options="{'preview_image': 'image_128'}"
+                />
+            </xpath>
+            <xpath expr="//sheet/group" position="after">
+                <notebook>
+                    <page name="website" string="Website">
+                        <group>
+                            <group>
+                                <field name="website_sequence" />
+                            </group>
+                            <group>
+                                <field
+                                    name="website_review_count"
+                                    string="Published Reviews"
+                                />
+                                <field
+                                    name="website_review_avg"
+                                    invisible="not website_review_count"
+                                />
+                            </group>
+                        </group>
+                        <field
+                            name="website_description"
+                            placeholder="Describe this room type for guests: the view, the bed, the bathroom..."
+                        />
+                    </page>
+                    <page name="reviews" string="Reviews">
+                        <field name="room_review_ids" nolabel="1">
+                            <list editable="bottom" create="false">
+                                <field name="create_date" string="Date" readonly="1" />
+                                <field name="name" readonly="1" />
+                                <field name="rating" readonly="1" />
+                                <field name="comment" readonly="1" />
+                                <field name="is_published" widget="boolean_toggle" />
+                            </list>
+                        </field>
+                    </page>
+                </notebook>
+            </xpath>
+        </field>
+    </record>
+</odoo>

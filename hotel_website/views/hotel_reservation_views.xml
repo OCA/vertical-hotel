@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_hotel_reservation_form_website" model="ir.ui.view">
+        <field name="name">hotel.reservation.form.website</field>
+        <field name="model">hotel.reservation</field>
+        <field name="inherit_id" ref="hotel_reservation.view_hotel_reservation_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="after">
+                <field name="is_website_booking" invisible="1" />
+                <div
+                    class="alert alert-info"
+                    role="alert"
+                    invisible="not is_website_booking or state != 'draft'"
+                >
+                    Online reservation request. Lines without a room get a free room of
+                    their room type automatically when you confirm.
+                </div>
+            </xpath>
+            <xpath
+                expr="//field[@name='reservation_line']/list/field[@name='reserve']"
+                position="before"
+            >
+                <field name="categ_id" string="Room Type" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_hotel_reservation_tree_website" model="ir.ui.view">
+        <field name="name">hotel.reservation.list.website</field>
+        <field name="model">hotel.reservation</field>
+        <field name="inherit_id" ref="hotel_reservation.view_hotel_reservation_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state']" position="before">
+                <field name="is_website_booking" optional="show" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
