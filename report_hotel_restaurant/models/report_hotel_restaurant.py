@@ -11,8 +11,14 @@ class ReportHotelRestaurantStatus(models.Model):
     (hotel.reservation.order). Kitchen order ticket lines are copies and
     are left out.
 
-    The order counter is only on the first row of each order, so its sum
-    is the number of orders; an order without lines keeps one row."""
+    "Orders" holds a key of the order (table and booking orders have their
+    own ids, hence the parity) and is aggregated with count_distinct, so it
+    is exact whatever the filter or grouping (by food item, category...);
+    an order without lines keeps one row.
+
+    The restaurant orders have no company of their own: the company is the
+    one of the folio the order is charged to. Orders without a folio have
+    no company and are seen by every company."""
 
     _name = "report.hotel.restaurant.status"
     _description = "Restaurant Sales Analysis"
@@ -29,6 +35,7 @@ class ReportHotelRestaurantStatus(models.Model):
     customer_id = fields.Many2one("res.partner", readonly=True)
     waiter_id = fields.Many2one("res.partner", readonly=True)
     folio_id = fields.Many2one("hotel.folio", readonly=True)
+    company_id = fields.Many2one("res.company", readonly=True)
     is_folio = fields.Boolean("Hotel Guest", readonly=True)
     state = fields.Selection(
         [
@@ -45,7 +52,12 @@ class ReportHotelRestaurantStatus(models.Model):
     )
     quantity = fields.Integer(readonly=True)
     amount = fields.Float(readonly=True)
-    no_of_reservation_order = fields.Integer("Orders", readonly=True)
+    no_of_reservation_order = fields.Integer(
+        "Orders",
+        aggregator="count_distinct",
+        readonly=True,
+        help="Number of different orders.",
+    )
 
     def init(self):
         """
@@ -106,16 +118,19 @@ class ReportHotelRestaurantStatus(models.Model):
                     ol.customer_id,
                     ol.waiter_id,
                     ol.folio_id,
+                    folio_order.company_id,
                     COALESCE(ol.is_folio, false) AS is_folio,
                     ol.state,
                     ol.menucard_id,
                     menu.menu_card_categ_id AS menu_categ_id,
                     COALESCE(ol.item_qty, 0) AS quantity,
                     COALESCE(ol.item_qty, 0) * COALESCE(ol.item_rate, 0) AS amount,
-                    CASE WHEN row_number() OVER (
-                        PARTITION BY ol.order_kind, ol.order_id ORDER BY ol.line_id
-                    ) = 1 THEN 1 ELSE 0 END AS no_of_reservation_order
+                    ol.order_id * 2
+                        + CASE WHEN ol.order_kind = 'booking' THEN 1 ELSE 0 END
+                        AS no_of_reservation_order
                 FROM order_lines ol
                 LEFT JOIN hotel_menucard menu ON menu.id = ol.menucard_id
+                LEFT JOIN hotel_folio folio ON folio.id = ol.folio_id
+                LEFT JOIN sale_order folio_order ON folio_order.id = folio.order_id
             )"""
         self.env.cr.execute(SQL(query, SQL.identifier(self._table)))

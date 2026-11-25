@@ -1,11 +1,11 @@
 # Copyright (C) 2024-TODAY Serpent Consulting Services Pvt. Ltd. (<http://www.serpentcs.com>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from datetime import timedelta
+from datetime import datetime, time, timedelta
 
 from odoo import fields
 from odoo.fields import Command
-from odoo.tests import TransactionCase, tagged
+from odoo.tests import TransactionCase, new_test_user, tagged
 
 
 @tagged("post_install", "-at_install")
@@ -68,6 +68,18 @@ class TestRestaurantSalesAnalysis(TransactionCase):
         self.env.flush_all()
         return self.Report.search([("order_number", "in", numbers)])
 
+    def _orders(self, numbers, groupby):
+        """Number of orders per group, as the pivot shows it."""
+        self.env.flush_all()
+        groups = self.Report._read_group(
+            [("order_number", "in", numbers)],
+            groupby,
+            ["no_of_reservation_order:count_distinct"],
+        )
+        if not groupby:
+            return groups[0][0]
+        return dict(groups)
+
     def test_table_order_lines(self):
         order = self._table_order((self.dish, 2, 50.0), (self.drink, 3, 10.0))
         rows = self._rows([order.order_no])
@@ -77,7 +89,7 @@ class TestRestaurantSalesAnalysis(TransactionCase):
         self.assertEqual(sum(rows.mapped("quantity")), 5)
         self.assertEqual(sum(rows.mapped("amount")), 130.0)
         # the order is counted once, whatever the number of lines
-        self.assertEqual(sum(rows.mapped("no_of_reservation_order")), 1)
+        self.assertEqual(self._orders([order.order_no], []), 1)
         dish_row = rows.filtered(lambda r: r.menucard_id == self.dish)
         self.assertEqual(dish_row.menu_categ_id, self.category)
         self.assertEqual(dish_row.customer_id, self.customer)
@@ -105,10 +117,8 @@ class TestRestaurantSalesAnalysis(TransactionCase):
         cancelled.done_cancel()
         rows = self._rows([empty.order_no, cancelled.order_no])
         empty_row = rows.filtered(lambda r: r.order_number == empty.order_no)
-        self.assertEqual(
-            (empty_row.quantity, empty_row.amount, empty_row.no_of_reservation_order),
-            (0, 0.0, 1),
-        )
+        self.assertEqual((empty_row.quantity, empty_row.amount), (0.0, 0.0))
+        self.assertEqual(self._orders([empty.order_no], []), 1)
         not_cancelled = self.Report.search(
             [
                 ("order_number", "in", [empty.order_no, cancelled.order_no]),
@@ -130,3 +140,46 @@ class TestRestaurantSalesAnalysis(TransactionCase):
             )
         }
         self.assertEqual(groups[self.category], (3, 150.0))
+
+    def test_orders_by_food_item(self):
+        """Each order counts once in every group it has a line in, not only
+        in the group of its first line."""
+        first = self._table_order((self.dish, 1, 50.0), (self.drink, 1, 10.0))
+        second = self._table_order((self.drink, 2, 10.0))
+        booking = self._booking_order((self.drink, 1, 10.0), (self.dish, 1, 50.0))
+        numbers = [first.order_no, second.order_no, booking.order_number]
+        self.assertEqual(
+            self._orders(numbers, ["menucard_id"]),
+            {self.dish: 2, self.drink: 3},
+        )
+        self.assertEqual(self._orders(numbers, []), 3)
+
+    def test_company_from_folio(self):
+        other_company = self.env["res.company"].create({"name": "Other Hotel"})
+        start = datetime.combine(fields.Date.today() + timedelta(days=5), time(12))
+        folio = self.env["hotel.folio"].create(
+            {
+                "partner_id": self.customer.id,
+                "company_id": other_company.id,
+                "checkin_date": start,
+                "checkout_date": start + timedelta(days=2),
+            }
+        )
+        on_folio = self._table_order((self.dish, 1, 50.0))
+        on_folio.write({"folio_id": folio.id, "is_folio": True})
+        walk_in = self._table_order((self.drink, 1, 10.0))
+        rows = self._rows([on_folio.order_no, walk_in.order_no])
+        by_number = {row.order_number: row.company_id for row in rows}
+        self.assertEqual(by_number[on_folio.order_no], other_company)
+        # an order not charged to a folio has no company
+        self.assertFalse(by_number[walk_in.order_no])
+        user = new_test_user(
+            self.env,
+            login="restaurant_analysis_user",
+            groups="base.group_user,vertical_hotel.group_hotel_user",
+        )
+        seen = self.Report.with_user(user).search(
+            [("order_number", "in", [on_folio.order_no, walk_in.order_no])]
+        )
+        # the user is not in the folio's company: only the walk-in order
+        self.assertEqual(seen.mapped("order_number"), [walk_in.order_no])

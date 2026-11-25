@@ -16,6 +16,7 @@
                 <field name="menu_categ_id" optional="show" />
                 <field name="quantity" sum="Quantity" />
                 <field name="amount" sum="Amount" />
+                <field name="company_id" groups="base.group_multi_company" />
                 <field
                     name="state"
                     widget="badge"
@@ -42,6 +43,10 @@
                             <field name="order_date" />
                             <field name="reservation_id" />
                             <field name="state" />
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
                         </group>
                         <group>
                             <field name="customer_id" />
@@ -71,6 +76,7 @@
                 <field name="menucard_id" />
                 <field name="menu_categ_id" />
                 <field name="folio_id" />
+                <field name="company_id" groups="base.group_multi_company" />
                 <filter
                     name="table_orders"
                     string="Table Orders"
@@ -141,6 +147,12 @@
                         name="groupby_state"
                         string="State"
                         context="{'group_by': 'state'}"
+                    />
+                    <filter
+                        name="groupby_company"
+                        string="Company"
+                        context="{'group_by': 'company_id'}"
+                        groups="base.group_multi_company"
                     />
                     <filter
                         name="groupby_month"
